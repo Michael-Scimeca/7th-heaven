@@ -129,14 +129,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   }, []);
 
   const updateSetting = <K extends keyof TransitionSettings>(key: K, val: TransitionSettings[K]) => {
-    setSettings((prev) => {
-      const next = { ...prev, [key]: val };
-      settingsRef.current = next;
-      try {
-        localStorage.setItem("7h_page_transition_settings_v2", JSON.stringify(next));
-      } catch {}
-      return next;
-    });
+    const next = { ...settings, [key]: val };
+    setSettings(next);
+    settingsRef.current = next;
+    try {
+      localStorage.setItem("7h_page_transition_settings_v2", JSON.stringify(next));
+    } catch {}
   };
 
   const resetDefaults = () => {
@@ -510,245 +508,207 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         </div>
 
         {showControls && (
-          <div className="flex flex-col gap-3 pt-1">
-            {/* Tab Selector */}
-            <div className="grid grid-cols-3 gap-1 bg-white/5 p-1 rounded-lg border border-white/10">
-              <button
-                onClick={() => setActiveTab("speed")}
-                className={`py-1 rounded text-[10px] font-bold uppercase transition ${
-                  activeTab === "speed"
-                    ? "bg-purple-600 text-white shadow"
-                    : "text-white/60 hover:text-white"
-                }`}
-              >
-                ⚡ Speed
-              </button>
-              <button
-                onClick={() => setActiveTab("reveal")}
-                className={`py-1 rounded text-[10px] font-bold uppercase transition ${
-                  activeTab === "reveal"
-                    ? "bg-cyan-600 text-white shadow"
-                    : "text-white/60 hover:text-white"
-                }`}
-              >
-                ✨ Reveal
-              </button>
-              <button
-                onClick={() => setActiveTab("exit")}
-                className={`py-1 rounded text-[10px] font-bold uppercase transition ${
-                  activeTab === "exit"
-                    ? "bg-fuchsia-600 text-white shadow"
-                    : "text-white/60 hover:text-white"
-                }`}
-              >
-                💥 Exit
-              </button>
+          <div className="flex flex-col gap-4 pt-1">
+            {/* ── NEW PAGE REVEAL SECTION ── */}
+            <div className="flex flex-col gap-2.5 rounded-xl border border-cyan-500/20 bg-cyan-950/20 p-3">
+              <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-cyan-400">
+                New Page Reveal
+              </p>
+
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-white/70">Reveal speed <span className="text-white/40">(exit + 0.25s)</span></span>
+                <span className="font-mono text-cyan-300 font-bold">{revealDuration.toFixed(2)}s</span>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-white/70">Reveal scale</span>
+                <span className="font-mono text-cyan-300">{settings.revealScale.toFixed(2)}x</span>
+              </div>
+              <input
+                type="range"
+                min={1}
+                max={2}
+                step={0.05}
+                value={settings.revealScale}
+                onChange={(e) => updateSetting("revealScale", parseFloat(e.target.value))}
+                className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+              />
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="reveal-ease-select" className="text-[11px] text-white/70">
+                  Reveal easing
+                </label>
+                <select
+                  id="reveal-ease-select"
+                  value={settings.revealEase}
+                  onChange={(e) => updateSetting("revealEase", e.target.value)}
+                  className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-cyan-400"
+                >
+                  {EASE_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value} className="bg-black text-white">
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-white/70">Slant ratio</span>
+                <span className="font-mono text-cyan-300">{settings.revealSlantRatio.toFixed(3)}</span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={0.3}
+                step={0.005}
+                value={settings.revealSlantRatio}
+                onChange={(e) => updateSetting("revealSlantRatio", parseFloat(e.target.value))}
+                className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+              />
+
+              <label className="flex items-center gap-2 text-[11px] text-white/80 cursor-pointer pt-0.5 select-none">
+                <input
+                  type="checkbox"
+                  checked={settings.revealFlipSlant}
+                  onChange={(e) => updateSetting("revealFlipSlant", e.target.checked)}
+                  className="accent-cyan-400 rounded"
+                />
+                <span>Flip slant direction {settings.revealFlipSlant ? "(left leads)" : "(right leads)"}</span>
+              </label>
             </div>
 
-            {/* TAB 1: SPEED MULTIPLIER & MOTION */}
-            {activeTab === "speed" && (
-              <div className="flex flex-col gap-2.5">
-                <div className="flex items-center justify-between text-[11px] font-mono">
-                  <span className="text-white/70">Slow-Mo Multiplier</span>
-                  <strong className="text-purple-300 font-bold">{settings.speedMult}x</strong>
-                </div>
+            {/* ── OLD PAGE EXIT SECTION ── */}
+            <div className="flex flex-col gap-2.5 rounded-xl border border-fuchsia-500/20 bg-fuchsia-950/20 p-3">
+              <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-fuchsia-400">
+                Old Page Exit
+              </p>
 
-                <div className="flex items-center gap-1">
-                  {[1, 2.5, 5, 10].map((m) => (
-                    <button
-                      key={m}
-                      onClick={() => updateSetting("speedMult", m)}
-                      className={`flex-1 py-1 rounded text-[10px] font-bold font-mono transition ${
-                        settings.speedMult === m
-                          ? "bg-purple-600 text-white shadow ring-1 ring-purple-300"
-                          : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
-                      }`}
-                    >
-                      {m}x
-                    </button>
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-white/70">Exit speed</span>
+                <span className="font-mono text-fuchsia-300 font-bold">{exitDuration.toFixed(2)}s</span>
+              </div>
+              <input
+                type="range"
+                min={0.2}
+                max={1.5}
+                step={0.05}
+                value={settings.exitSpeed}
+                onChange={(e) => updateSetting("exitSpeed", parseFloat(e.target.value))}
+                className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+              />
+
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-white/70">Exit scale</span>
+                <span className="font-mono text-fuchsia-300">{settings.exitScale.toFixed(2)}x</span>
+              </div>
+              <input
+                type="range"
+                min={1}
+                max={2}
+                step={0.05}
+                value={settings.exitScale}
+                onChange={(e) => updateSetting("exitScale", parseFloat(e.target.value))}
+                className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+              />
+
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-white/70">Exit rotation</span>
+                <span className="font-mono text-fuchsia-300">{settings.exitRotation}°</span>
+              </div>
+              <input
+                type="range"
+                min={-45}
+                max={45}
+                step={1}
+                value={settings.exitRotation}
+                onChange={(e) => updateSetting("exitRotation", parseFloat(e.target.value))}
+                className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+              />
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="exit-ease-select" className="text-[11px] text-white/70">
+                  Exit easing
+                </label>
+                <select
+                  id="exit-ease-select"
+                  value={settings.exitEase}
+                  onChange={(e) => updateSetting("exitEase", e.target.value)}
+                  className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-fuchsia-400"
+                >
+                  {EASE_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value} className="bg-black text-white">
+                      {o.label}
+                    </option>
                   ))}
-                </div>
-
-                <input
-                  type="range"
-                  min={0.5}
-                  max={15}
-                  step={0.5}
-                  value={settings.speedMult}
-                  onChange={(e) => updateSetting("speedMult", parseFloat(e.target.value))}
-                  className="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/20 rounded-lg"
-                />
-
-                <div className="flex justify-between text-[10px] text-white/50 font-mono pt-1">
-                  <span>Reveal Total: <strong className="text-cyan-300">{revealDuration.toFixed(2)}s</strong></span>
-                  <span>Exit Total: <strong className="text-fuchsia-300">{exitDuration.toFixed(2)}s</strong></span>
-                </div>
+                </select>
               </div>
-            )}
 
-            {/* TAB 2: NEW PAGE REVEAL SETTINGS */}
-            {activeTab === "reveal" && (
-              <div className="flex flex-col gap-2.5">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-white/70">Reveal speed <span className="text-white/40">(exit + 0.25s)</span></span>
-                  <span className="font-mono text-cyan-300 font-bold">{revealDuration.toFixed(2)}s</span>
-                </div>
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-white/70">Exit slant ratio</span>
+                <span className="font-mono text-fuchsia-300">{settings.exitSlantRatio.toFixed(3)}</span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={0.3}
+                step={0.005}
+                value={settings.exitSlantRatio}
+                onChange={(e) => updateSetting("exitSlantRatio", parseFloat(e.target.value))}
+                className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+              />
 
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-white/70">Reveal scale</span>
-                  <span className="font-mono text-cyan-300">{settings.revealScale.toFixed(2)}x</span>
-                </div>
+              <label className="flex items-center gap-2 text-[11px] text-white/80 cursor-pointer pt-0.5 select-none">
                 <input
-                  type="range"
-                  min={1}
-                  max={2}
-                  step={0.05}
-                  value={settings.revealScale}
-                  onChange={(e) => updateSetting("revealScale", parseFloat(e.target.value))}
-                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+                  type="checkbox"
+                  checked={settings.exitFlipSlant}
+                  onChange={(e) => updateSetting("exitFlipSlant", e.target.checked)}
+                  className="accent-fuchsia-400 rounded"
                 />
+                <span>Flip slant direction {settings.exitFlipSlant ? "(left leads)" : "(right leads)"}</span>
+              </label>
+            </div>
 
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="reveal-ease-select" className="text-[11px] text-white/70">
-                    Reveal easing
-                  </label>
-                  <select
-                    id="reveal-ease-select"
-                    value={settings.revealEase}
-                    onChange={(e) => updateSetting("revealEase", e.target.value)}
-                    className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-cyan-400"
+            {/* ── SLOW-MO SPEED & REPLAY SECTION ── */}
+            <div className="flex flex-col gap-2 rounded-xl border border-purple-500/20 bg-purple-950/20 p-3">
+              <div className="flex items-center justify-between text-[11px] font-mono">
+                <span className="text-white/70 font-bold uppercase tracking-wider text-[10px] text-purple-400">Slow-Mo Speed</span>
+                <strong className="text-purple-300 font-bold">{settings.speedMult}x</strong>
+              </div>
+
+              <div className="flex items-center gap-1">
+                {[1, 2.5, 5, 10].map((m) => (
+                  <button
+                    key={m}
+                    onClick={() => updateSetting("speedMult", m)}
+                    className={`flex-1 py-1 rounded text-[10px] font-bold font-mono transition ${
+                      settings.speedMult === m
+                        ? "bg-purple-600 text-white shadow ring-1 ring-purple-300"
+                        : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
+                    }`}
                   >
-                    {EASE_OPTIONS.map((o) => (
-                      <option key={o.value} value={o.value} className="bg-black text-white">
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-white/70">Slant ratio</span>
-                  <span className="font-mono text-cyan-300">{settings.revealSlantRatio.toFixed(3)}</span>
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={0.3}
-                  step={0.005}
-                  value={settings.revealSlantRatio}
-                  onChange={(e) => updateSetting("revealSlantRatio", parseFloat(e.target.value))}
-                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
-                />
-
-                <label className="flex items-center gap-2 text-[11px] text-white/80 cursor-pointer pt-1">
-                  <input
-                    type="checkbox"
-                    checked={settings.revealFlipSlant}
-                    onChange={(e) => updateSetting("revealFlipSlant", e.target.checked)}
-                    className="accent-cyan-400 rounded"
-                  />
-                  <span>Flip slant direction {settings.revealFlipSlant ? "(left leads)" : "(right leads)"}</span>
-                </label>
+                    {m}x
+                  </button>
+                ))}
               </div>
-            )}
 
-            {/* TAB 3: OLD PAGE EXIT SETTINGS */}
-            {activeTab === "exit" && (
-              <div className="flex flex-col gap-2.5">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-white/70">Exit speed</span>
-                  <span className="font-mono text-fuchsia-300 font-bold">{settings.exitSpeed.toFixed(2)}s</span>
-                </div>
-                <input
-                  type="range"
-                  min={0.2}
-                  max={1.5}
-                  step={0.05}
-                  value={settings.exitSpeed}
-                  onChange={(e) => updateSetting("exitSpeed", parseFloat(e.target.value))}
-                  className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
-                />
+              <input
+                type="range"
+                min={0.5}
+                max={15}
+                step={0.5}
+                value={settings.speedMult}
+                onChange={(e) => updateSetting("speedMult", parseFloat(e.target.value))}
+                className="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+              />
 
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-white/70">Exit scale</span>
-                  <span className="font-mono text-fuchsia-300">{settings.exitScale.toFixed(2)}x</span>
-                </div>
-                <input
-                  type="range"
-                  min={1}
-                  max={2}
-                  step={0.05}
-                  value={settings.exitScale}
-                  onChange={(e) => updateSetting("exitScale", parseFloat(e.target.value))}
-                  className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
-                />
-
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-white/70">Exit rotation</span>
-                  <span className="font-mono text-fuchsia-300">{settings.exitRotation}°</span>
-                </div>
-                <input
-                  type="range"
-                  min={-45}
-                  max={45}
-                  step={1}
-                  value={settings.exitRotation}
-                  onChange={(e) => updateSetting("exitRotation", parseFloat(e.target.value))}
-                  className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
-                />
-
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="exit-ease-select" className="text-[11px] text-white/70">
-                    Exit easing
-                  </label>
-                  <select
-                    id="exit-ease-select"
-                    value={settings.exitEase}
-                    onChange={(e) => updateSetting("exitEase", e.target.value)}
-                    className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-fuchsia-400"
-                  >
-                    {EASE_OPTIONS.map((o) => (
-                      <option key={o.value} value={o.value} className="bg-black text-white">
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-white/70">Exit slant ratio</span>
-                  <span className="font-mono text-fuchsia-300">{settings.exitSlantRatio.toFixed(3)}</span>
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={0.3}
-                  step={0.005}
-                  value={settings.exitSlantRatio}
-                  onChange={(e) => updateSetting("exitSlantRatio", parseFloat(e.target.value))}
-                  className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
-                />
-
-                <label className="flex items-center gap-2 text-[11px] text-white/80 cursor-pointer pt-1">
-                  <input
-                    type="checkbox"
-                    checked={settings.exitFlipSlant}
-                    onChange={(e) => updateSetting("exitFlipSlant", e.target.checked)}
-                    className="accent-fuchsia-400 rounded"
-                  />
-                  <span>Flip slant direction {settings.exitFlipSlant ? "(left leads)" : "(right leads)"}</span>
-                </label>
-              </div>
-            )}
-
-            {/* Replay Slide-Up Button */}
-            <button
-              onClick={() => requestTransition(pathname)}
-              disabled={mode !== "idle"}
-              className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-[11px] uppercase tracking-wider shadow-lg transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
-            >
-              <span>🎬 Replay Transition ({settings.speedMult}x)</span>
-            </button>
+              <button
+                onClick={() => requestTransition(pathname)}
+                disabled={mode !== "idle"}
+                className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-[11px] uppercase tracking-wider shadow-lg transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
+              >
+                <span>🎬 Replay Transition ({settings.speedMult}x)</span>
+              </button>
+            </div>
           </div>
         )}
       </div>
