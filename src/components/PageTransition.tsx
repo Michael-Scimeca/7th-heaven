@@ -74,7 +74,7 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   clipExitPath: true,
   clipRevealPath: true,
   revealX: 0,
-  revealY: 100,
+  revealY: 20,
   revealScale: 1.00,
   revealRotation: -2,
   revealOrigin: "center center",
@@ -169,7 +169,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("7h_page_transition_settings_v12");
+      const saved = localStorage.getItem("7h_page_transition_settings_v11");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
@@ -203,7 +203,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v12", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v11", JSON.stringify(next));
     } catch { }
   };
 
@@ -211,7 +211,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(DEFAULT_SETTINGS);
     settingsRef.current = DEFAULT_SETTINGS;
     try {
-      localStorage.setItem("7h_page_transition_settings_v12", JSON.stringify(DEFAULT_SETTINGS));
+      localStorage.setItem("7h_page_transition_settings_v11", JSON.stringify(DEFAULT_SETTINGS));
     } catch { }
   };
 
@@ -361,7 +361,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       gsap.set(contentRef.current, {
         opacity: 1,
         x: s.revealX || 0,
-        y: s.revealY ?? 100,
+        y: s.revealY ?? 20,
         scale: s.revealScale,
         rotation: s.revealRotation ?? -2,
         transformOrigin: revealOrigin,
@@ -452,14 +452,14 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       0
     );
 
-    // 2. New page reveal — subtle motion (-2deg rotation + 100px upward move to 0).
+    // 2. New page reveal — subtle motion (-2deg rotation + 20px upward move to 0).
     if (contentRef.current) {
       masterTl.fromTo(
         contentRef.current,
         {
           opacity: 1,
           x: s.revealX || 0,
-          y: s.revealY ?? 100,
+          y: s.revealY ?? 20,
           scale: s.revealScale,
           rotation: s.revealRotation ?? -2,
           transformOrigin: revealOrigin,
@@ -667,8 +667,8 @@ function TransitionTunerPanel({
             <button
               onClick={() => setActiveTab("master")}
               className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${activeTab === "master"
-                ? "bg-purple-600 text-white shadow"
-                : "text-white/60 hover:text-white hover:bg-white/5"
+                  ? "bg-purple-600 text-white shadow"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
                 }`}
             >
               ⚡ Master
@@ -676,8 +676,8 @@ function TransitionTunerPanel({
             <button
               onClick={() => setActiveTab("exit")}
               className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${activeTab === "exit"
-                ? "bg-fuchsia-600 text-white shadow"
-                : "text-white/60 hover:text-white hover:bg-white/5"
+                  ? "bg-fuchsia-600 text-white shadow"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
                 }`}
             >
               📤 Exit Path
@@ -685,8 +685,8 @@ function TransitionTunerPanel({
             <button
               onClick={() => setActiveTab("reveal")}
               className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${activeTab === "reveal"
-                ? "bg-cyan-600 text-white shadow"
-                : "text-white/60 hover:text-white hover:bg-white/5"
+                  ? "bg-cyan-600 text-white shadow"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
                 }`}
             >
               📥 Reveal Path
@@ -721,8 +721,8 @@ function TransitionTunerPanel({
                   key={m}
                   onClick={() => handleSpeedPreset(m)}
                   className={`flex-1 py-1 rounded text-[10px] font-bold font-mono transition ${settings.speedMult === m
-                    ? "bg-purple-600 text-white shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black font-extrabold"
-                    : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
+                      ? "bg-purple-600 text-white shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black font-extrabold"
+                      : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
                     }`}
                 >
                   {m}x
