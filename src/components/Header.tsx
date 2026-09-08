@@ -450,9 +450,21 @@ export function Header() {
                 ? `/cruise/${member?.username || "dashboard"}`
                 : `/fans/${member?.username || "me"}`;
 
-  const isAvatarUrl =
+  const avatarSrc =
     member?.avatar &&
-    (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"));
+    (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"))
+      ? member.avatar
+      : displayRole === "crew" || isCrewRoute
+        ? "/images/members/mark.webp"
+        : displayRole === "admin" || isAdminRoute
+          ? "/images/members/adam.webp"
+          : displayRole === "cruise" || isDemoCruisePage
+            ? "/images/members/dicky.webp"
+            : displayRole === "planner" || isDemoPlannerPage
+              ? "/images/members/frankie.webp"
+              : "/images/members/mark.webp";
+
+  const isAvatarUrl = Boolean(avatarSrc);
 
   const badgeText =
     displayRole === "admin"
@@ -621,7 +633,7 @@ export function Header() {
                     title={displayName}
                   >
                     {isAvatarUrl ? (
-                      <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
+                      <Image width={200} height={200} unoptimized src={avatarSrc} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
                     ) : (
                       <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white font-bold text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
                         {initials}
@@ -644,10 +656,10 @@ export function Header() {
                 </div>
                 <button
                   onClick={() => { logout(); requestTransition('/'); }}
-                  className="hidden lg:inline-flex items-center gap-2 text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-2"
+                  className="flex items-center gap-1.5 text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-1 sm:ml-2"
                   title="Sign Out"
                 >
-                  <span>Sign Out</span>
+                  <span>SIGN OUT</span>
                   {mode !== "idle" && pendingHref === "/" && (
                     <span className="w-4 h-4 rounded-full border-[3px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.8)] shrink-0" />
                   )}
@@ -866,17 +878,46 @@ export function Header() {
                     <a href="https://www.youtube.com/user/7thheavenband" target="_blank" rel="noopener noreferrer" className="hidden sm:inline !text-white hover:!text-[#c084fc] transition-colors">YouTube</a>
                   </div>
 
-                  {!showUserAuth && (
-                    <button
-                      aria-label="Sign in to account"
+                  {showUserAuth ? (
+                    <div className="flex items-center gap-2">
+                      <div className="relative shrink-0 aspect-square flex items-center justify-center">
+                        <TransitionLink
+                          href={dashboardHref}
+                          showSpinner={false}
+                          onClick={() => setMobileOpen(false)}
+                          className="relative flex items-center justify-center text-white font-bold shrink-0 aspect-square w-8 h-8 min-w-8 min-h-8"
+                          style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}
+                        >
+                          {isAvatarUrl ? (
+                            <Image width={100} height={100} unoptimized src={avatarSrc} alt={displayName} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full bg-black/60 border border-white/20 flex items-center justify-center text-white font-bold text-xs">
+                              {initials}
+                            </div>
+                          )}
+                        </TransitionLink>
+                        <span className={`absolute -bottom-0.5 -right-2 px-1.5 py-0.5 h-4 text-[9px] font-extrabold uppercase text-white flex items-center justify-center ${badgeBg}`} style={{ borderRadius: "9999px" }}>
+                          {badgeText}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => { setMobileOpen(false); logout(); requestTransition('/'); }}
+                        className="text-[12px] font-bold uppercase text-purple-400 hover:text-white transition-colors cursor-pointer ml-1"
+                      >
+                        SIGN OUT
+                      </button>
+                    </div>
+                  ) : (
+                    <CosmicRadialButton
+                      icon={false}
                       onClick={() => {
                         setMobileOpen(false);
                         openModal("login");
                       }}
-                      className="text-[11px] font-bold uppercase tracking-[0.15em] text-white hover:text-[#c084fc] transition-colors cursor-pointer"
+                      className="px-3.5 py-1.5 text-xs font-bold rounded-lg shrink-0"
                     >
-                      Sign In
-                    </button>
+                      SIGN IN
+                    </CosmicRadialButton>
                   )}
                 </div>
               </div>
