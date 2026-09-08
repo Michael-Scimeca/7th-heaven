@@ -1723,6 +1723,22 @@ select::placeholder,
   padding-bottom: 60px;
 }
 
+/* ─── Global gradient passthrough ─────────────────────────────────────────
+   The HomeShaderGradient canvas is position:fixed at z-index:0 behind
+   everything. Page wrappers and the first child div of each page must be
+   transparent so the gradient shows through instead of being covered by
+   solid or gradient background-colors on individual pages.
+   Inline bg-* classes on page roots should be removed; use bg-transparent.
+   ────────────────────────────────────────────────────────────────────────── */
+.exoape-page-inner > *:first-child {
+  /* The direct first child of the content wrapper (page root div) should
+     never cover the gradient with a solid background. Pages that genuinely
+     need a section-level background should scope it to that section, not
+     the page root. */
+  background-color: transparent;
+  background-image: none;
+}
+
 /* ═══════════════════════════════════════════════════════
    TYPOGRAPHY UTILITIES
    ═══════════════════════════════════════════════════════ */
