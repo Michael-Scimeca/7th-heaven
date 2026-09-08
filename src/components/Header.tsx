@@ -628,8 +628,8 @@ export function Header() {
                       </div>
                     )}
                     {mode !== "idle" && (pendingHref === dashboardHref || (pendingHref && pendingHref.startsWith(dashboardHref))) && (
-                      <div className="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center rounded-full z-20">
-                        <Loader2 className="w-4 h-4 animate-spin text-[#9333ea]" />
+                      <div className="absolute inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center rounded-full z-20">
+                        <span className="w-5 h-5 rounded-full border-[3.5px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_12px_rgba(217,70,239,0.9)]" />
                       </div>
                     )}
                   </TransitionLink>
@@ -644,25 +644,25 @@ export function Header() {
                 </div>
                 <button
                   onClick={() => { logout(); requestTransition('/'); }}
-                  className="hidden lg:inline-flex items-center gap-1.5 text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-2"
+                  className="hidden lg:inline-flex items-center gap-2 text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-2"
                   title="Sign Out"
                 >
                   <span>Sign Out</span>
                   {mode !== "idle" && pendingHref === "/" && (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-400 shrink-0" />
+                    <span className="w-4 h-4 rounded-full border-[3px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.8)] shrink-0" />
                   )}
                 </button>
               </div>
             ) : (
               <CosmicRadialButton
-                icon={isModalOpen ? <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-300" /> : false}
+                icon={false}
                 onClick={() => openModal("login")}
-                className="px-3.5 py-1.5 font-bold rounded-lg shrink-0 flex items-center gap-1.5"
+                className="px-4 py-2 font-bold rounded-lg shrink-0 flex items-center gap-2"
                 id="header-sign-in"
               >
                 <span>SIGN IN</span>
                 {isModalOpen && (
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-white shrink-0 ml-1" />
+                  <span className="w-4.5 h-4.5 rounded-full border-[3.5px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.9)] shrink-0 ml-0.5" />
                 )}
               </CosmicRadialButton>
             )}

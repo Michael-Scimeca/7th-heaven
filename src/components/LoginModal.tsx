@@ -1034,7 +1034,7 @@ function LoginModalBodyContent(props: any) {
             >
               {loading ? (
                 <span className="inline-flex items-center gap-2 justify-center">
-                  <Loader2 className="w-4 h-4 animate-spin text-white shrink-0" />
+                  <span className="w-4.5 h-4.5 rounded-full border-[3.5px] border-white border-t-transparent animate-spin shrink-0" />
                   <span>Processing...</span>
                 </span>
               ) : (
