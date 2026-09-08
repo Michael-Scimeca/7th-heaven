@@ -214,7 +214,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       inset: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 9991;
+      z-index: 900;
       pointer-events: none;
       overflow: hidden;
       background-color: ${CURTAIN_BG};
@@ -284,7 +284,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (outerRef.current) {
       outerRef.current.style.position = "fixed";
       outerRef.current.style.inset = "0";
-      outerRef.current.style.zIndex = "9992";
+      outerRef.current.style.zIndex = "905";
       outerRef.current.style.overflow = "hidden";
       outerRef.current.style.willChange = "clip-path";
       outerRef.current.style.clipPath = buildIncomingRevealClipPath(0, WIPE_SLANT_RATIO);
@@ -402,7 +402,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       if (outerRef.current) {
         outerRef.current.style.position = "fixed";
         outerRef.current.style.inset = "0";
-        outerRef.current.style.zIndex = "9992";
+        outerRef.current.style.zIndex = "905";
         outerRef.current.style.overflow = "hidden";
         outerRef.current.style.willChange = "clip-path";
       }
@@ -592,7 +592,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           style={{
             position: "fixed",
             inset: 0,
-            zIndex: 9991,
+            zIndex: 900,
             backgroundColor: CURTAIN_BG,
             pointerEvents: "none",
           }}
