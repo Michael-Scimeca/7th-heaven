@@ -16,6 +16,7 @@ import InputField from "@/components/InputField";
 import SquishyToggle from "@/components/SquishyToggle";
 import Dropdown from "@/components/Dropdown";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import LazyMount from "@/components/LazyMount";
 
 import CruiseHeroSection from "./components/CruiseHeroSection";
 import CruiseCabinsPricingSection from "./components/CruiseCabinsPricingSection";
@@ -292,7 +293,7 @@ export default function CruisePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-950/40 via-[#05030a] to-black text-white pt-[100px]">
+    <div className="min-h-screen bg-transparent text-white pt-[100px]">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
         heroVideoRef={heroVideoRef}
@@ -332,13 +333,19 @@ export default function CruisePage() {
           />
 
           {/* SECTION 3: PORTS OF CALL */}
-          <CruisePortsCatalogSection />
+          <LazyMount minHeight="600px" rootMargin="300px 0px">
+            <CruisePortsCatalogSection />
+          </LazyMount>
 
           {/* SECTION 4: SHIP EXPLORER */}
-          <CruiseShipExplorerSection />
+          <LazyMount minHeight="600px" rootMargin="300px 0px">
+            <CruiseShipExplorerSection />
+          </LazyMount>
 
           {/* SECTION 5: FAQS */}
-          <CruiseFaqSection />
+          <LazyMount minHeight="600px" rootMargin="300px 0px">
+            <CruiseFaqSection />
+          </LazyMount>
         </>
       )}
     </div>
