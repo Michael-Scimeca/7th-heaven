@@ -62,7 +62,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
               <h3 className="font-bold mb-4 group-hover: transition-colors">
                 {featured.title}
               </h3>
-              <p className="leading-relaxed font-normal">
+              <p className="   font-normal">
                 {featured.content}
               </p>
             </div>
@@ -87,7 +87,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                 <h4 className="font-bold group-hover: transition-colors line-clamp-1">
                   {item.title}
                 </h4>
-                <p className="leading-relaxed line-clamp-2 mt-1">
+                <p className="   line-clamp-2 mt-1">
                   {item.content}
                 </p>
               </button>
@@ -118,7 +118,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
             <h3 className="font-bold mb-4 ">
               {selectedArticle.title}
             </h3>
-            <p className="leading-relaxed whitespace-pre-line">
+            <p className="   whitespace-pre-line">
               {selectedArticle.content}
             </p>
           </div>

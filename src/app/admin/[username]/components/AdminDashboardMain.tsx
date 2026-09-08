@@ -7308,7 +7308,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
             <div className="mt-4 p-3 bg-white/[0.02] border border-white/10 rounded-lg flex items-start gap-3">
               <span className="text-purple-300 mt-0.5"></span>
-              <p className="leading-relaxed">
+              <p className="  ">
                 A crew account will be created with the credentials above. Share the login details securely with the crew member. Only admins can create crew accounts.
               </p>
             </div>
@@ -7456,7 +7456,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             <div className="mt-4 p-3 bg-white/[0.02] border border-white/10 rounded-lg flex items-start gap-3">
               <span className="text-purple-300 mt-0.5"></span>
-              <p className="leading-relaxed">
+              <p className="  ">
                 A secure temporary password will be auto-generated and emailed to the new admin. They can log in immediately with those credentials. Only grant admin access to trusted individuals — admin accounts have full platform access.
               </p>
             </div>
@@ -9588,7 +9588,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="font-bold text-pink-300">
                       Shift: {coEditorConflictAlert.shiftTitle}
                     </div>
-                    <p className="leading-relaxed bg-[#00000029] p-2.5 rounded border border-white/5">
+                    <p className="   bg-[#00000029] p-2.5 rounded border border-white/5">
                       {coEditorConflictAlert.changeDesc}
                     </p>
                   </div>
@@ -11612,7 +11612,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className={`w-3.5 h-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color}`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="leading-relaxed mb-1">{entry.text}</p>
+                      <p className="   mb-1">{entry.text}</p>
 
                       {entry.details && (
                         <div className="mt-1 mb-2">

@@ -258,7 +258,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
         {locked ? (
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center shrink-0">🔒</div>
+            <div className=" w-11 h-11  rounded-lg bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
               <p className="font-bold truncate">Exclusive Fan Drop</p>
               <button aria-label="Action button" type="button" onClick={() => openModal('login')} className=" font-bold text-[var(--color-accent)] hover:text-white uppercase transition-colors cursor-pointer mt-0.5">Login to unlock</button>
@@ -268,7 +268,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
           <>
             <div className="flex items-center gap-2.5">
               {/* Mini vinyl */}
-              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative w-10 h-10 shrink-0 rounded-lg border border-white/10 flex items-center justify-center cursor-pointer group overflow-hidden">
+              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative  w-11 h-11  shrink-0 rounded-lg border border-white/10 flex items-center justify-center cursor-pointer group overflow-hidden">
                 <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
                 <div className="relative z-10 w-4 h-4 rounded-lg bg-black/80 flex items-center justify-center">
                   {isPlaying ? (
@@ -344,8 +344,8 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                         setIsPlaying(true);
                       }}
                       className={`w-full flex items-center justify-between p-1.5 rounded text-left transition-colors cursor-pointer ${isActive ? 'bg-[var(--color-accent)]/15 text-white'
- : 'text-white/40 hover:bg-white/[0.02] hover:text-white/70'
- }`}
+                        : 'text-white/40 hover:bg-white/[0.02] hover:text-white/70'
+                        }`}
                     >
                       <span className=" font-bold truncate pr-2">
                         {String(idx + 1).padStart(2, '0')}. {song.title}
@@ -397,7 +397,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               <h3 className="font-bold uppercase er text-white mb-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                 Exclusive Fan Release
               </h3>
-              <p className="leading-relaxed max-w-md mx-auto mb-8">
+              <p className="   max-w-md mx-auto mb-8">
                 The band dropped an exclusive new song or soundtrack just for our registered fans. Sign in or sign up free to unlock listening!
               </p>
               <div className="flex justify-center gap-4">
@@ -452,8 +452,8 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     <div
                       key={i}
                       className={`w-[3px] rounded-lg transition-colors duration-300 ${isCompressorActive ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]'
- : 'bg-[var(--color-accent)]/80'
- }`}
+                        : 'bg-[var(--color-accent)]/80'
+                        }`}
                       style={{
                         animationName: isPlaying ? 'eqBarShort' : 'none',
                         animationDuration: `${isCompressorActive ? MAIN_EQ_ACTIVE[i % MAIN_EQ_ACTIVE.length] : MAIN_EQ_NORMAL[i % MAIN_EQ_NORMAL.length]}s`,
@@ -525,8 +525,8 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     type="button"
                     onClick={toggleCompressor}
                     className={`text-[0.65rem] uppercase font-bold flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
- : 'bg-white/[0.02] border-white/10 text-white/40 hover:text-white/70 hover:border-white/10'
- }`}
+                      : 'bg-white/[0.02] border-white/10 text-white/40 hover:text-white/70 hover:border-white/10'
+                      }`}
                     title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response"
                   >
                     <span className={`w-1.5 h-1.5 rounded-lg ${isCompressorActive ? 'bg-cyan-400 animate-pulse' : 'bg-white/20'}`} />
@@ -580,8 +580,8 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                             setIsPlaying(true);
                           }}
                           className={`w-full text-left flex items-center justify-between p-3 border cursor-pointer select-none transition-colors duration-300 ${isActive ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 text-white shadow-[0_0_15px_rgba(255,10,61,0.08)]'
- : 'bg-transparent border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
- }`}
+                            : 'bg-transparent border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
+                            }`}
                         >
                           <div className="flex items-center gap-3.5 min-w-0">
                             <span className={` font-bold w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>

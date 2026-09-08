@@ -146,7 +146,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
     <div className="bg-white border border-black/15 p-6 relative overflow-hidden text-black font-sans">
       <div className="flex items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)] font-bold">
+          <div className=" w-11 h-11  rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)] font-bold">
             <Camera className="w-4 h-4 text-purple-600" />
           </div>
           <div>
@@ -240,7 +240,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
       {message && (
         <div className={`mt-3 px-4 py-2 rounded-lg font-bold flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
- }`}>
+          }`}>
           <span>{message.text}</span>
           <button aria-label="Action button" onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer font-bold">×</button>
         </div>

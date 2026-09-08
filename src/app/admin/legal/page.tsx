@@ -421,7 +421,7 @@ export default function AdminLegalPage() {
             {/* Legal Disclaimer Box */}
             <div className="mt-8 p-5 bg-white/[0.02] border border-white/10 rounded-lg ">
               <span className=" text-[0.9rem] font-bold uppercase text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
-              <p className="leading-relaxed">
+              <p className="  ">
                 This dashboard verifies technical and regulatory rules across 7thheavenband.com. All backend webhooks, cookie policies, terms of service, and accessibility features have been configured to adhere to current federal and state web standards.
               </p>
             </div>
@@ -454,7 +454,7 @@ export default function AdminLegalPage() {
               <span className="font-bold uppercase text-purple-300 block mb-2">
                 📜 Regulatory Context & Legal Mandate
               </span>
-              <p className="leading-relaxed">{active.explanation}</p>
+              <p className="  ">{active.explanation}</p>
             </div>
 
             {/* Requirement Checklist Items */}
@@ -472,8 +472,8 @@ export default function AdminLegalPage() {
                   <div
                     key={req.id}
                     className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02] border-white/10 '
- : 'bg-rose-950/10 border-rose-500/30'
- }`}
+                      : 'bg-rose-950/10 border-rose-500/30'
+                      }`}
                   >
                     <div className="flex items-start justify-between gap-4 mb-2">
                       <div className="flex items-start gap-3">
@@ -504,7 +504,7 @@ export default function AdminLegalPage() {
                     <div className="mt-4 pt-3.5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div className="flex items-start gap-2">
                         <span className="text-emerald-400 font-bold shrink-0">🛠️ DEV ACTION:</span>
-                        <p className="leading-relaxed">{req.actionItem}</p>
+                        <p className="  ">{req.actionItem}</p>
                       </div>
 
                       {req.verifiedProof && (

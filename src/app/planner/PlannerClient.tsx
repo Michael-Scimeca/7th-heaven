@@ -163,7 +163,7 @@ export default function PlannerClient() {
               <h1 className="text-3xl sm:text-5xl font-bold text-white">
                 Planner <span className="text-[#c27aff]">Portal</span>
               </h1>
-              <p className="leading-relaxed">
+              <p className="  ">
                 Manage your event bookings, view contracts, coordinate load-in setup times, and communicate directly with 7th Heaven management.
               </p>
               <div className="pt-4 flex items-center justify-center gap-4 flex-wrap">
@@ -193,9 +193,9 @@ export default function PlannerClient() {
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item) => (
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg ">
-                <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg- purple-white/20 border border-purple-500/30 flex items-center justify-center font-bold text-[#c27aff]">{item.step}</div>
+                <div className=" w-11 h-11  mx-auto mb-3 rounded-lg bg- purple-white/20 border border-purple-500/30 flex items-center justify-center font-bold text-[#c27aff]">{item.step}</div>
                 <h4 className="font-bold mb-1 text-white">{item.title}</h4>
-                <p className="leading-relaxed">{item.desc}</p>
+                <p className="  ">{item.desc}</p>
               </div>
             ))}
           </div>

@@ -142,11 +142,11 @@ export default function AwardPicksPanel() {
               key={pick.id}
               onClick={() => setSelectedPick(pick.id)}
               className={`p-3 border text-center transition-colors cursor-pointer rounded-lg ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]"
- : " border-white/10 bg-white/[0.02] hover: border-white/10 "
- }`}
+                : " border-white/10 bg-white/[0.02] hover: border-white/10 "
+                }`}
             >
               <div
-                className="w-10 h-10 mx-auto mb-1.5 rounded-lg flex items-center justify-center text-lg font-bold"
+                className=" w-11 h-11  mx-auto mb-1.5 rounded-lg flex items-center justify-center text-lg font-bold"
                 style={{ background: `${pick.color}20`, color: pick.color, border: `1px solid ${pick.color}40` }}
               >
                 7H
@@ -169,8 +169,8 @@ export default function AwardPicksPanel() {
               key={r.id}
               onClick={() => setSelectedReason(r.id)}
               className={`px-3 py-2 text-left border transition-colors cursor-pointer rounded-lg ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
- : " border-white/10 bg-white/[0.02] hover: border-white/10 "
- }`}
+                : " border-white/10 bg-white/[0.02] hover: border-white/10 "
+                }`}
             >
               <span className="">{r.label}</span>
             </button>
@@ -200,8 +200,8 @@ export default function AwardPicksPanel() {
                 key={fan.id}
                 onClick={() => setSelectedFan(fan)}
                 className={`w-full text-left px-4 py-2.5 border-b border-white/10 last:border-0 transition-colors cursor-pointer ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10 text-white"
- : "hover:bg-white/[0.03] text-white "
- }`}
+                  : "hover:bg-white/[0.03] text-white "
+                  }`}
               >
                 <span className="font-bold">{fan.full_name || "Unnamed"}</span>
                 <span className="text-white/30 ml-2">{fan.email}</span>

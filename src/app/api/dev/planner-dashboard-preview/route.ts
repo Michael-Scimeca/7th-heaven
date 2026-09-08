@@ -17,7 +17,7 @@ export async function GET() {
         {/* Top Navbar Header */}
         <div class="bg-[#0c0c16] border border-purple-500/30 rounded-lg p-4 flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-purple-600/30 border-2 border-purple-400 flex items-center justify-center font-bold text-purple-300 text-lg">
+            <div class=" w-11 h-11  rounded-lg bg-purple-600/30 border-2 border-purple-400 flex items-center justify-center font-bold text-purple-300 text-lg">
               MR
             </div>
             <div>

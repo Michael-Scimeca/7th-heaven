@@ -374,7 +374,7 @@ export default function LiveHubPage() {
                         }}
                       >
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold shrink-0" style={{ background: fan.color }}>
+                          <div className=" w-11 h-11  rounded-lg flex items-center justify-center text-white font-bold shrink-0" style={{ background: fan.color }}>
                             {fan.avatar}
                           </div>
                           <div className="min-w-0">
@@ -522,7 +522,7 @@ export default function LiveHubPage() {
             <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-[45px] text-white">
               {/* Avatar badge */}
               <div
-                className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white/20 "
+                className="absolute -top-5 right-6  w-11 h-11  rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white/20 "
                 style={{ background: room.gradient }}
               >
                 {room.member}

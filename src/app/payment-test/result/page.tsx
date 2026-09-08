@@ -79,7 +79,7 @@ function NorthResultContent() {
               <h1 className="text-xl font-bold uppercase text-white mb-2">
                 Couldn&apos;t Load Result
               </h1>
-              <p className="leading-relaxed">
+              <p className="  ">
                 {fetchError ||
                   "We couldn't find a record of this transaction. If a charge went through, check your bank statement and contact us."}
               </p>
@@ -90,8 +90,8 @@ function NorthResultContent() {
             <>
               <div
                 className={`w-16 h-16 mx-auto mb-4 rounded-lg flex items-center justify-center border-2 ${succeeded ? "bg-emerald-500/10 border-emerald-500/30"
- : "bg-rose-500/10 border-rose-500/30"
- }`}
+                  : "bg-rose-500/10 border-rose-500/30"
+                  }`}
               >
                 <span className="text-2xl">{succeeded ? "✅" : "❌"}</span>
               </div>

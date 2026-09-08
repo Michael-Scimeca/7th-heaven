@@ -541,7 +541,7 @@ export default function CruiseChat({
             <h3 className="font-bold text-white uppercase ">
               Join the Live Chat
             </h3>
-            <p className="leading-relaxed font-medium">
+            <p className="   font-medium">
               Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
             </p>
           </div>

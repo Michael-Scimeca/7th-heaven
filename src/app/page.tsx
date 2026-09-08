@@ -4,7 +4,6 @@ import { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
 const LogoTicker = nextDynamic(() => import("@/components/LogoTicker"));
 
 const HeroVideoPlayer = nextDynamic(() => import("@/components/HeroVideoPlayer"));
-const HeroLiveThumbs = nextDynamic(() => import("@/components/HeroLiveThumbs"));
 const BioParallaxSlider = nextDynamic(() => import("@/components/BioParallaxSlider"));
 const HomeVideoShowcase = nextDynamic(() => import("@/components/HomeVideoShowcase"));
 const SlideupSection = nextDynamic(() => import("@/components/SlideupSection"));
@@ -13,7 +12,6 @@ const HomeNewsSection = nextDynamic(() => import("@/components/HomeNewsSection")
 const HomeDataLoader = nextDynamic(() => import("@/components/HomeDataLoader"));
 
 import LazySection from "@/components/LazySection";
-import LiveStatusSign from "@/components/LiveStatusSign";
 
 // Fully static page — no server-side data fetching
 // All dynamic data (shows, announcements) is loaded client-side by HomeDataLoader
@@ -28,8 +26,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div id="home-page">
-      <LiveStatusSign />
-
       {/* ====== HERO (Full 100vh Viewport Height) ====== */}
       <section
         className="relative w-full h-[100dvh] max-h-[100dvh] p-0 m-0 overflow-hidden morph-pick"
@@ -43,9 +39,7 @@ export default function Home() {
       >
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
         <div id="hero-card" className="relative w-full h-full max-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
-          <HeroVideoPlayer>
-            <HeroLiveThumbs />
-          </HeroVideoPlayer>
+          <HeroVideoPlayer />
         </div>
       </section>
 

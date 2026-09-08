@@ -174,7 +174,7 @@ export default function HomeMerch() {
                     <Image src={imageUrl} alt={product.title} fill sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <ShoppingCart className="w-10 h-10 text-white/20" />
+                      <ShoppingCart className=" w-11 h-11  text-white/20" />
                     </div>
                   )}
                   {soldOut && (

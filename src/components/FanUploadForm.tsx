@@ -269,7 +269,7 @@ export default function FanUploadForm() {
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
                 className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 hover: bg-[#00000029] "
- }`}
+                  }`}
               >
                 {previews.length > 0 ? (
                   <div className="absolute inset-0 p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 overflow-y-auto bg-black/90 z-20">
@@ -316,7 +316,7 @@ export default function FanUploadForm() {
                 )}
                 {isScanning && (
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
-                    <div className="w-10 h-10 border-2 border-white/10 border-t-emerald-500 rounded-lg animate-spin mb-3" />
+                    <div className=" w-11 h-11  border-2 border-white/10 border-t-emerald-500 rounded-lg animate-spin mb-3" />
                     <p className="font-bold uppercase ">Safety Scan</p>
                     <p className="text-emerald-400 uppercase mt-1">{scanStatus}</p>
                   </div>

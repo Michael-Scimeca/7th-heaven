@@ -158,8 +158,8 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               key={tab.id}
               onClick={() => setActiveSection(tab.id)}
               className={`flex-1 px-4 py-2.5 font-bold uppercase transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${activeSection === tab.id ? ' text-[var(--color-accent)] bg-[var(--color-accent)]/5 border-b-2 border-[var(--color-accent)]'
- : 'text-white/25 hover:text-white/50 hover:bg-white/[0.02]'
- }`}
+                : 'text-white/25 hover:text-white/50 hover:bg-white/[0.02]'
+                }`}
             >
               <TabIcon className="w-3.5 h-3.5" />
               {tab.label}
@@ -296,7 +296,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {data.notes.map((note) => (
                   <div key={note.text} className="px-3 py-2.5 bg-white/[0.02] border border-white/10 rounded-lg">
-                    <p className="leading-relaxed">{note.text}</p>
+                    <p className="  ">{note.text}</p>
                     <div className="flex items-center gap-2 mt-1.5">
                       <span className="text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)]/50">{note.author}</span>
                       <span className="text-[var(--font-size-2xs)] text-white/15">·</span>

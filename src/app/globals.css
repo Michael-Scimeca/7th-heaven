@@ -1078,7 +1078,7 @@ select::placeholder,
   /* H5–H6 */
   --leading-body: 1.5;
   /* body copy — 4px grid snap */
-  --leading-relaxed: 1.75;
+  --: 1.75;
   /* editorial / long-form */
   --leading-tight: 1.25;
   /* compact UI labels */
@@ -1769,7 +1769,7 @@ select::placeholder,
   font-size: 1.0625rem;
   /* 17px — slightly larger for reading comfort */
   font-weight: 400;
-  line-height: var(--leading-relaxed, 1.75);
+  line-height: var(--, 1.75);
   color: var(--color-text-muted);
   max-width: 68ch;
   /* optimal reading line length */

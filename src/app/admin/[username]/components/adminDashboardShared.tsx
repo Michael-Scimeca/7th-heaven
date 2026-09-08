@@ -59,14 +59,14 @@ export const CrewAvatar = React.memo(({ member }: { member: any }) => {
         src={avatarUrl}
         alt={name}
         onError={() => setImgError(true)}
-        className="w-9 h-9 rounded-full object-cover border border-white/10 shrink-0 "
+        className=" w-11 h-11  rounded-full object-cover border border-white/10 shrink-0 "
       />
     );
   }
 
   return (
     <div
-      className="w-9 h-9 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center font-bold shrink-0 text-white select-none border border-white/10"
+      className=" w-11 h-11  bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center font-bold shrink-0 text-white select-none border border-white/10"
       style={{ color: '#ffffff' }}
     >
       {initials}
@@ -92,10 +92,10 @@ export const SidebarDateButton = React.memo(({
       type="button"
       onClick={() => show.date && onClick(show.date)}
       className={`w-full text-left px-2 py-1.5 flex items-center border-b border-white/10 gap-2 cursor-pointer transition-colors duration-150 group ${isSelected ? ' bg-[#00000029] !rounded-none'
- : isActiveWeek
- ? ' bg-[#00000029] '
- : 'bg-transparent'
- }`}
+        : isActiveWeek
+          ? ' bg-[#00000029] '
+          : 'bg-transparent'
+        }`}
     >
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
         <span className=" text-[9px] font-bold text-white/40 uppercase ">{show.dayLabel}</span>

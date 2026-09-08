@@ -8,11 +8,12 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+import { Suspense } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import ProgressiveBlur from "@/components/ProgressiveBlur";
 import Providers from "@/components/Providers";
-import { draftMode } from "next/headers";
+import DraftModeExtras from "@/components/DraftModeExtras";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
 import { GrainOverlay } from "@/components/GrainOverlay";
@@ -26,8 +27,6 @@ const HomeShaderGradient = dynamic(() => import("@/components/HomeShaderGradient
 const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"));
 const PageNav = dynamic(() => import("@/components/PageNav").then((m) => m.PageNav));
 const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"));
-const SanityLive = dynamic(() => import("@/sanity/live").then((m) => m.SanityLive));
-const VisualEditing = dynamic(() => import("next-sanity/visual-editing").then((m) => m.VisualEditing));
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
@@ -146,13 +145,11 @@ const BAND_LD = {
   ]
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { isEnabled: isDraftMode } = await draftMode();
-
   return (
     <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
       <head>
@@ -190,7 +187,8 @@ export default async function RootLayout({
         />
       </head>
       <body style={{ fontFamily: "var(--font-family-sans, 'Switzer', sans-serif)", letterSpacing: "0" }} suppressHydrationWarning>
-        <HomeShaderGradient />
+        {/* TEMP DISABLED for main-thread bisection test */}
+        {/* <HomeShaderGradient /> */}
         <Preloader />
         {/* <GrainOverlay /> */}
         {process.env.NEXT_PUBLIC_GA_ID && (
@@ -235,8 +233,9 @@ export default async function RootLayout({
                     </PageTransition>
                   </div>
                   <Footer />
-                  {isDraftMode && <SanityLive />}
-                  {isDraftMode && <VisualEditing />}
+                  <Suspense fallback={null}>
+                    <DraftModeExtras />
+                  </Suspense>
                   <PageNav />
                   <ClientOnlyExtras />
                 </div>

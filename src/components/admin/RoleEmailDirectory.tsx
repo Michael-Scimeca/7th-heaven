@@ -279,14 +279,14 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                           <img
                             src={avatarSrc}
                             alt={user.name}
-                            className="w-9 h-9 rounded-full object-cover shrink-0 border border-white/10 shadow-x"
+                            className=" w-11 h-11  rounded-full object-cover shrink-0 border border-white/10 shadow-x"
                             onError={(e) => {
                               (e.currentTarget as HTMLElement).style.display = 'none';
                             }}
                           />
                         ) : (
                           <div
-                            className={`w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans border border-white/20`}
+                            className={` w-11 h-11  rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans border border-white/20`}
                           >
                             {getInitials(user.name)}
                           </div>

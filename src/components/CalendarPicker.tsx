@@ -326,7 +326,7 @@ export function CalendarPicker({
                     onClick={() => onSelectType && onSelectType(type.id)}
                     className="w-full !justify-start text-left px-5 py-4 !h-auto flex gap-4 items-center group cursor-pointer !rounded-full"
                   >
-                    <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
+                    <div className={` w-11 h-11  rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
                       <TypeIcon className="w-5 h-5" />
                     </div>
                     <div>

@@ -149,9 +149,9 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 key={pick.id}
                 onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
                 className={`relative p-3 border text-center transition-colors ${pick.owned > 0 ? selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
- : "border-black/10 bg-gray-50 hover:border-black/25 hover:scale-[1.02] cursor-pointer"
- : "border-black/10 bg-gray-100/50 opacity-40 grayscale cursor-default"
- }`}
+                  : "border-black/10 bg-gray-50 hover:border-black/25 hover:scale-[1.02] cursor-pointer"
+                  : "border-black/10 bg-gray-100/50 opacity-40 grayscale cursor-default"
+                  }`}
               >
                 <div className="relative mx-auto w-16 h-16 mb-2">
                   <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-full h-full object-contain" />
@@ -180,7 +180,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               <div className="mb-6 p-4 border border-white/10 bg-[var(--color-accent)]/5 rounded-lg animate-[fadeIn_0.2s_ease]">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-10 h-10 object-contain" />
+                    <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className=" w-11 h-11  object-contain" />
                     <div>
                       <h3 className="font-bold text-black">{pick.name}</h3>
                       <p className={`font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
@@ -237,10 +237,10 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                   <div
                     key={lottery.id}
                     className={`p-4 border rounded-lg transition-colors ${lottery.isEntered ? "border-emerald-500/30 bg-emerald-500/5"
- : lottery.isEligible
- ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
- : "border-black/10 bg-gray-50"
- }`}
+                      : lottery.isEligible
+                        ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
+                        : "border-black/10 bg-gray-50"
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div>

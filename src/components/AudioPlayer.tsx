@@ -1079,7 +1079,7 @@ export default function AudioPlayerSection() {
                   Object.entries(songLyrics.lyrics).map(([section, text]: [string, string]) => (
                     <div key={section} className="mb-6">
                       <span className="font-bold uppercase text-[var(--color-accent)]/60 mb-2 block">{section.replace(/_/g, ' ').replace(/\d+$/, '')}</span>
-                      <p className="leading-relaxed whitespace-pre-line">{text}</p>
+                      <p className="   whitespace-pre-line">{text}</p>
                     </div>
                   ))
                 ) : null}

@@ -463,7 +463,7 @@ export default function ShowPageClient({
                     Missed this show?
                   </span>
                   <h3 className="font-bold text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
-                  <p className="leading-relaxed mb-6">
+                  <p className="   mb-6">
                     Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className=" text-white ">{show.venue_name}</strong>.
                   </p>
                 </div>
@@ -572,7 +572,7 @@ export default function ShowPageClient({
                       key={f}
                       onClick={() => setGoingFilter(f)}
                       className={`px-4 py-1.5 font-bold uppercase transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover: text-white "
- }`}
+                        }`}
                     >
                       {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}
                     </button>

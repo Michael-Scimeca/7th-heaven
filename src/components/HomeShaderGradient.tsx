@@ -126,6 +126,7 @@ function HomeShaderGradientComponent() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const positionLayerRef = useRef<HTMLDivElement>(null);
   const grainCanvasRef = useRef<HTMLCanvasElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -368,6 +369,53 @@ function HomeShaderGradientComponent() {
     return cleanupWebGL;
   }, []);
 
+  // Pause the gradient while a page transition is covering the screen --
+  // it's fully hidden behind the curtain the whole time anyway, so letting
+  // its WebGL render loop (and the CSS position-layer loop below) keep
+  // running is pure wasted GPU/CPU work competing with the transition's own
+  // GSAP tweens for the same frame budget, right when smoothness matters
+  // most.
+  //
+  // Deliberately NOT `display: none`. NeatGradient owns a ResizeObserver on
+  // this canvas (confirmed by reading its bundled source) that debounces
+  // ~100ms and calls setSize() on any contentRect change -- display:none
+  // collapses the canvas to 0x0, so that debounced resize would eventually
+  // fire *while hidden* and zero out the actual WebGL backbuffer. Coming
+  // back from that takes another ~100ms (the next debounced resize) before
+  // the canvas is drawing at the right size again -- a real risk of
+  // reintroducing a version of the "gradient missing" bug already fixed
+  // once this session, right as a new page appears.
+  //
+  // Pushing the wrapper off-screen via `transform` instead avoids that
+  // entirely: transforms don't affect layout size, so `contentRect` never
+  // changes and the ResizeObserver never fires. What DOES change is
+  // whether the canvas geometrically intersects the viewport -- which is
+  // exactly what NeatGradient's own internal IntersectionObserver (and our
+  // `isVisible` below, watching the same canvas) already uses to decide
+  // whether to keep scheduling its next animation frame. So this reuses
+  // the library's own trusted pause/resume path instead of reaching into
+  // its private internals.
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    const OFFSCREEN = "translateX(-100000px)";
+
+    const sync = () => {
+      // TEMP DISABLED for bisection test
+      // wrapper.style.transform = document.documentElement.classList.contains("is-page-transitioning")
+      //   ? OFFSCREEN
+      //   : "";
+    };
+
+    sync();
+
+    const observer = new MutationObserver(sync);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+    return () => observer.disconnect();
+  }, []);
+
   // Static Film Grain & Real-time Canvas Studio Sync
   useEffect(() => {
     const feTurb = document.querySelector("#globalGrainFilter feTurbulence");
@@ -422,7 +470,7 @@ function HomeShaderGradientComponent() {
   return (
     <>
       {/* Background Shader Canvas Container */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-transparent">
+      <div ref={wrapperRef} className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-transparent">
         <canvas ref={canvasRef} className="fixed inset-0 w-full h-full block pointer-events-none" />
         <div ref={positionLayerRef} className="fixed inset-0 z-0 pointer-events-none" />
       </div>

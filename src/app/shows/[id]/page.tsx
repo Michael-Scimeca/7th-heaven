@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { createClient } from "@supabase/supabase-js";
 import ShowPageClient from "./ShowPageClient";
 import { notFound } from "next/navigation";
@@ -26,7 +27,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   };
 }
 
-export default async function ShowPage({ params }: { params: Promise<{ id: string }> }) {
+// Pulled the actual data reads (both uncached Supabase calls, keyed off
+// the dynamic `id` param) out of the page body and into their own async
+// component wrapped in Suspense below. Cache Components requires any
+// uncached dynamic read in a Server Component to be inside a Suspense
+// boundary (or a "use cache" function) -- these two queries are per-show
+// and change on writes (RSVPs/check-ins), so they stay live reads rather
+// than becoming cached.
+async function ShowPageContent({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   // Fetch show details
@@ -57,4 +65,20 @@ export default async function ShowPage({ params }: { params: Promise<{ id: strin
     .order("created_at", { ascending: false });
 
   return <ShowPageClient show={show} initialAttendees={(attendees || []) as any} />;
+}
+
+function ShowPageFallback() {
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="animate-pulse text-sm text-white/50">Loading show…</div>
+    </div>
+  );
+}
+
+export default function ShowPage({ params }: { params: Promise<{ id: string }> }) {
+  return (
+    <Suspense fallback={<ShowPageFallback />}>
+      <ShowPageContent params={params} />
+    </Suspense>
+  );
 }

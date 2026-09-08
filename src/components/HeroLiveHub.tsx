@@ -216,7 +216,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                     <span className="font-semibold text-white/80">{selectedMedia.member_name}</span>
                     <span className="text-white/30">{timeAgo(selectedMedia.created_at)}</span>
                   </div>
-                  <p className="leading-relaxed">{selectedMedia.content}</p>
+                  <p className="  ">{selectedMedia.content}</p>
                 </div>
               </div>
             ) : (
@@ -256,7 +256,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                     key={post.id}
                     onClick={() => setSelectedMedia(post)}
                     className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06] hover: border-white/10 "
- }`}
+                      }`}
                   >
                     {thumbSrc && <Image width={200} height={200} unoptimized src={thumbSrc} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
                     {isVideo && (

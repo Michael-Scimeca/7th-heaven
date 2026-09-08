@@ -432,6 +432,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             avatar={effectiveMember?.avatar || member?.avatar}
             badgeLabel={effectiveMember?.role === 'admin' ? 'ADMIN' : effectiveMember?.role === 'crew' ? 'CREW' : 'FAN'}
             badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
+            subtitle="Access your fan profile, exclusive content, merch, show history, and cruise updates all in one place."
           />
         </div>
 
@@ -556,17 +557,17 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         {['JD', 'SL', 'MT', 'AB', 'RC', 'KW'].map((initials, i) => {
                           const colors = ['bg-rose-500/20 text-rose-300', 'bg- purple-white/20 text-purple-300', 'bg-cyan-500/20 text-cyan-300', 'bg-amber-500/20 text-amber-300', 'bg-emerald-500/20 text-emerald-300', 'bg-indigo-500/20 text-indigo-300'];
                           return (
-                            <div key={`fan-avatar-${i}-${initials}`} className={`w-10 h-10 rounded-lg border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
+                            <div key={`fan-avatar-${i}-${initials}`} className={` w-11 h-11  rounded-lg border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
                               <span className="font-bold">{initials}</span>
                             </div>
                           );
                         })}
-                        <div className="w-10 h-10 rounded-lg border-2 border-[var(--color-bg-surface)] bg-[var(--color-accent)]/20 flex items-center justify-center text-[var(--color-accent)] font-bold">
+                        <div className=" w-11 h-11  rounded-lg border-2 border-[var(--color-bg-surface)] bg-[var(--color-accent)]/20 flex items-center justify-center text-[var(--color-accent)] font-bold">
                           +406
                         </div>
                       </div>
                     </div>
-                    <p className="leading-relaxed relative z-10 border-t border-white/10 pt-4">
+                    <p className="   relative z-10 border-t border-white/10 pt-4">
                       Join the official 7th Heaven cruise community. See who else is sailing, coordinate shore excursions, and make new friends!
                     </p>
                   </div>
@@ -768,7 +769,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <span className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-none tracking-tight">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-black  text-white truncate leading-tight mb-1">{show.venue}</p>
+                        <p className="font-black  text-white truncate    mb-1">{show.venue}</p>
                         {(show.city || show.state) && (
                           <p className="  font-semibold text-white/80 mt-1 sm:mt-1.5">
                             {show.city ? `${show.city}${show.state ? `, ${show.state}` : ''}` : show.state}
@@ -825,7 +826,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
                                           </button>
                                         </div>
-                                        <p className="leading-relaxed whitespace-pre-wrap text-sm">{show.notes}</p>
+                                        <p className="   whitespace-pre-wrap text-sm">{show.notes}</p>
                                       </div>
                                     )}
                                   </div>
@@ -849,7 +850,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
                                           </button>
                                         </div>
-                                        <p className="leading-relaxed whitespace-pre-wrap text-sm">{show.notes}</p>
+                                        <p className="   whitespace-pre-wrap text-sm">{show.notes}</p>
                                       </div>
                                     )}
                                   </div>
@@ -1099,7 +1100,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           </div>
                           <div>
                             <p className={`font-bold transition-colors ${msg.color === 'yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>
-                            <p className="leading-relaxed mt-1">{msg.desc}</p>
+                            <p className="   mt-1">{msg.desc}</p>
                             <p className={`font-bold uppercase mt-2 ${msg.isNew ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>{msg.time}</p>
                           </div>
                         </div>

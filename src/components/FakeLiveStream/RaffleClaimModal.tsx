@@ -53,7 +53,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
         {!claimMethod ? (
           <>
             <div className="text-center mb-5 flex flex-col items-center">
-              <Trophy className="w-10 h-10 text-yellow-500 mb-2" />
+              <Trophy className=" w-11 h-11  text-yellow-500 mb-2" />
               <h3 className="font-bold text-black uppercase tracking-wider">You Won!</h3>
               {raffleState.prizes?.[winnerIdx]?.name && (
                 <p className="font-bold mt-1 uppercase ">{raffleState.prizes[winnerIdx].name}</p>

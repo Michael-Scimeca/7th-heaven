@@ -585,71 +585,35 @@ export default function PlannerDashboard() {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div>
             <h3 className="font-bold text-white uppercase">7th Heaven Band & Event Contacts</h3>
-            <p className="uppercase tracking-[0.15em] font-bold mt-0.5">Direct contacts for booking, production, hospitality & press</p>
+            <p className=" mt-0.5">Direct contacts for booking, production, hospitality & press</p>
           </div>
 
-          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 w-full sm:w-auto">
-            <SectionBadge
-              isActive={activeContactFilter === "all"}
-              onClick={() => setActiveContactFilter("all")}
-              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
-            >
-              ALL
-            </SectionBadge>
-            <SectionBadge
-              isActive={activeContactFilter === "booking"}
-              onClick={() => setActiveContactFilter("booking")}
-              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
-            >
-              BOOKING & MANAGEMENT
-            </SectionBadge>
-            <SectionBadge
-              isActive={activeContactFilter === "tech"}
-              onClick={() => setActiveContactFilter("tech")}
-              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
-            >
-              TECHNICAL ADVANCE
-            </SectionBadge>
-            <SectionBadge
-              isActive={activeContactFilter === "non-tech"}
-              onClick={() => setActiveContactFilter("non-tech")}
-              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
-            >
-              NON-TECH ADVANCE
-            </SectionBadge>
-            <SectionBadge
-              isActive={activeContactFilter === "press"}
-              onClick={() => setActiveContactFilter("press")}
-              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
-            >
-              PRESS & MEDIA
-            </SectionBadge>
-          </div>
+
         </div>
 
-        <div className="flex flex-wrap justify-center items-start gap-8 sm:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 w-full">
           {(activeContactFilter === "all" || activeContactFilter === "booking") && (
-            <div className="w-full max-w-[320px] sm:w-[320px] flex flex-col items-center text-center">
-              <div className="mb-3">
-                <SectionBadge label="BOOKING & MANAGEMENT" isActive={activeContactFilter === "booking"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
-              </div>
+            <div className="w-full flex flex-col items-center text-center">
               <div
-                className="relative w-full h-64 sm:h-72 overflow-hidden flex items-end justify-center"
+                className="relative w-full h-[320px] sm:h-[380px] overflow-hidden flex items-end justify-center"
                 style={{
-                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
-                  maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
                 }}
               >
                 <Image
-                  width={320}
-                  height={320}
+                  width={400}
+                  height={400}
                   unoptimized
                   src="/images/contact/Dickie-contact.png"
                   alt="Richard Hofherr"
-                  className="w-full h-full object-contain object-bottom"
+                  className="w-full h-full object-contain object-bottom origin-bottom"
                 />
               </div>
               <div className="flex flex-col items-center text-center mt-2 w-full">
+                <div className="mb-2">
+                  <SectionBadge label="BOOKING & MANAGEMENT" isActive={activeContactFilter === "booking"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
+                </div>
                 <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
                   Richard Hofherr
                 </h3>
@@ -665,27 +629,27 @@ export default function PlannerDashboard() {
           )}
 
           {(activeContactFilter === "all" || activeContactFilter === "tech") && (
-            <div className="w-full max-w-[320px] sm:w-[320px] flex flex-col items-center text-center">
-              <div className="mb-3">
-                <SectionBadge label="TECHNICAL ADVANCE" isActive={activeContactFilter === "tech"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
-              </div>
+            <div className="w-full flex flex-col items-center text-center">
               <div
-                className="relative w-full h-64 sm:h-72 overflow-hidden flex items-end justify-center"
+                className="relative w-full h-[320px] sm:h-[380px] overflow-hidden flex items-end justify-center"
                 style={{
-                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
-                  maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
                 }}
               >
                 <Image
-                  width={320}
-                  height={320}
+                  width={400}
+                  height={400}
                   unoptimized
                   src="/images/contact/Jeff-contact.png"
                   alt="Jeff Dobbs"
-                  className="w-full h-full object-contain object-bottom"
+                  className="w-full h-full object-contain object-bottom  origin-bottom"
                 />
               </div>
               <div className="flex flex-col items-center text-center mt-2 w-full">
+                <div className="mb-2">
+                  <SectionBadge label="TECHNICAL ADVANCE" isActive={activeContactFilter === "tech"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
+                </div>
                 <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
                   Jeff Dobbs
                 </h3>
@@ -701,27 +665,27 @@ export default function PlannerDashboard() {
           )}
 
           {(activeContactFilter === "all" || activeContactFilter === "non-tech") && (
-            <div className="w-full max-w-[320px] sm:w-[320px] flex flex-col items-center text-center">
-              <div className="mb-3">
-                <SectionBadge label="NON-TECH ADVANCE" isActive={activeContactFilter === "non-tech"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
-              </div>
+            <div className="w-full flex flex-col items-center text-center">
               <div
-                className="relative w-full h-64 sm:h-72 overflow-hidden flex items-end justify-center"
+                className="relative w-full h-[320px] sm:h-[380px] overflow-hidden flex items-end justify-center"
                 style={{
-                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
-                  maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
                 }}
               >
                 <Image
-                  width={320}
-                  height={320}
+                  width={400}
+                  height={400}
                   unoptimized
                   src="/images/contact/Alan-contact.png"
                   alt="Alan McRae"
-                  className="w-full h-full object-contain object-bottom"
+                  className="w-full h-full object-contain object-bottom  origin-bottom"
                 />
               </div>
               <div className="flex flex-col items-center text-center mt-2 w-full">
+                <div className="mb-2">
+                  <SectionBadge label="NON-TECH ADVANCE" isActive={activeContactFilter === "non-tech"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
+                </div>
                 <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
                   Alan McRae
                 </h3>
@@ -737,27 +701,27 @@ export default function PlannerDashboard() {
           )}
 
           {(activeContactFilter === "all" || activeContactFilter === "press") && (
-            <div className="w-full max-w-[320px] sm:w-[320px] flex flex-col items-center text-center">
-              <div className="mb-3">
-                <SectionBadge label="PRESS & MEDIA" isActive={activeContactFilter === "press"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
-              </div>
+            <div className="w-full flex flex-col items-center text-center">
               <div
-                className="relative w-full h-64 sm:h-72 overflow-hidden flex items-end justify-center"
+                className="relative w-full h-[320px] sm:h-[380px] overflow-hidden flex items-end justify-center"
                 style={{
-                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
-                  maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
                 }}
               >
                 <Image
-                  width={320}
-                  height={320}
+                  width={400}
+                  height={400}
                   unoptimized
                   src="/images/contact/Lenny-contact.png"
                   alt="Lenny Rago"
-                  className="w-full h-full object-contain object-bottom"
+                  className="w-full h-full object-contain object-bottom origin-bottom"
                 />
               </div>
               <div className="flex flex-col items-center text-center mt-2 w-full">
+                <div className="mb-2">
+                  <SectionBadge label="PRESS & MEDIA" isActive={activeContactFilter === "press"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
+                </div>
                 <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
                   Lenny Rago
                 </h3>
@@ -802,7 +766,7 @@ export default function PlannerDashboard() {
                   <div key={b.id} className="flex gap-4 relative">
                     {/* Timeline dot */}
                     <div className="shrink-0 mt-5 z-10">
-                      <div className={`w-3 h-3 rounded-full ${sc.dot} ring-4 ring-[#05030a]`} />
+                      <div className={`w-3 h-3 rounded-full ${sc.dot} ring-4 ring-[#e1e6ff29]`} />
                     </div>
 
                     {/* Card */}

@@ -228,7 +228,7 @@ export default function LiveShowFeed() {
                 <span className="font-semibold text-white/80">{selectedMedia.member_name}</span>
                 <span className="text-white/30">{timeAgo(selectedMedia.created_at)}</span>
               </div>
-              <p className="leading-relaxed">{selectedMedia.content}</p>
+              <p className="  ">{selectedMedia.content}</p>
             </div>
           </div>
         ) : (
@@ -254,10 +254,10 @@ export default function LiveShowFeed() {
                 key={post.id}
                 onClick={() => setSelectedMedia(post)}
                 className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
- : isNew
- ? "border-red-500/50"
- : "border-white/[0.06] hover: border-white/10 "
- }`}
+                  : isNew
+                    ? "border-red-500/50"
+                    : "border-white/[0.06] hover: border-white/10 "
+                  }`}
                 style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}
               >
                 {thumbSrc && (
@@ -312,7 +312,7 @@ export default function LiveShowFeed() {
                     <span className="font-semibold text-white/70">{post.member_name}</span>
                     <span className="text-white/20">{timeAgo(post.created_at)}</span>
                   </div>
-                  <p className="leading-relaxed truncate">{post.content}</p>
+                  <p className="   truncate">{post.content}</p>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   {Object.entries(post.reactions).slice(0, 2).map(([emoji, count]) => (

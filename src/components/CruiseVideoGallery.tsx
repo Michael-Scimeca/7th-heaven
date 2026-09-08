@@ -273,7 +273,7 @@ export default function CruiseVideoGallery() {
                     {vid.title}
                   </h3>
                   {vid.description && (
-                    <p className="leading-relaxed mt-2 line-clamp-2">
+                    <p className="   mt-2 line-clamp-2">
                       {vid.description}
                     </p>
                   )}

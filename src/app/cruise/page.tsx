@@ -988,7 +988,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <p className="font-bold text-purple-400 uppercase mb-4">
                     Book through us to participate &amp; lock in best rates
                   </p>
-                  <p className="leading-relaxed mb-4">
+                  <p className="   mb-4">
                     To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.
                   </p>
                   <ul className="space-y-2.5 text-white/80 mb-6">
@@ -1373,7 +1373,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             onClick={() => setStateroomTab(tab.id as any)}
                             className="w-full !justify-start text-left px-5 py-4 !h-auto flex flex-col items-start gap-1 cursor-pointer"
                           >
-                            <span className="block font-bold uppercase tracking-wider leading-tight">{tab.label}</span>
+                            <span className="block font-bold uppercase tracking-wider   ">{tab.label}</span>
                             <span className="block font-medium text-white/70 normal-case leading-snug">{tab.desc}</span>
                           </FoolishShrimpButton>
                         ))}
@@ -1874,7 +1874,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                 email={coord.email}
                                 badgeLabel={coord.role}
                                 badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
-                                nameClassName="text-base font-bold text-white leading-tight"
+                                nameClassName="text-base font-bold text-white   "
                                 subtitle={coord.phone}
                               />
                             </div>
@@ -2087,7 +2087,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="pt-4 flex-1 flex flex-col justify-between">
                           <div>
                             <h4 className="font-bold uppercase text-white mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
-                            <p className="leading-relaxed font-semibold">{port.desc}</p>
+                            <p className="   font-semibold">{port.desc}</p>
 
                             {/* Port Highlights */}
                             {port.highlights && (
@@ -2137,7 +2137,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <h3 className="font-bold uppercase text-white mb-3" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                           {PORTS_DATA[activeSpotlightPort].name}
                         </h3>
-                        <p className="leading-relaxed mb-4">
+                        <p className="   mb-4">
                           {PORTS_DATA[activeSpotlightPort].desc}
                         </p>
 
@@ -2215,7 +2215,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10 rounded-lg bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className=" w-11 h-11  rounded-lg bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ◀
                       </button>
@@ -2224,7 +2224,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className=" w-11 h-11  rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ▶
                       </button>
@@ -2249,7 +2249,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           </div>
                           <div className="p-6 relative z-20 -mt-8">
                             <h4 className="font-bold text-white uppercase mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
-                            <p className="leading-relaxed">{port.desc}</p>
+                            <p className="  ">{port.desc}</p>
 
                             {/* Highlights */}
                             {port.highlights && (
@@ -2283,7 +2283,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="flex items-center gap-3 mb-1">
                             <h4 className="font-bold uppercase text-white ">{port.name}</h4>
                           </div>
-                          <p className="leading-relaxed">{port.desc}</p>
+                          <p className="  ">{port.desc}</p>
 
                           {/* Highlights */}
                           {port.highlights && (

@@ -134,8 +134,8 @@ export default function NotificationsPage() {
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
               className={`px-5 py-2.5 rounded-lg font-bold uppercase transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white "
- : " bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:border-white/30"
- }`}
+                : " bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:border-white/30"
+                }`}
             >
               {tab.label}
             </button>
@@ -247,7 +247,7 @@ export default function NotificationsPage() {
 
       {/* How it works */}
       <div className="max-w-3xl mx-auto mt-10 text-center">
-        <p className="leading-relaxed">
+        <p className="  ">
           Under the hood this uses ntfy, a free open-source push service &mdash; the site
           publishes a message to a private channel name and anyone subscribed to that
           exact name gets it, with no accounts, ads, or per-message cost on either end.

@@ -503,7 +503,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           loop
           playsInline
           className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
- }`}
+            }`}
           style={{
             WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
             maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
@@ -557,7 +557,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           {!isCustomizerOpen ? (
             <button aria-label="Action button"
               onClick={() => setIsCustomizerOpen(true)}
-              className="w-10 h-10 rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+              className=" w-11 h-11  rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
               title="Open Video Tint Customizer"
             >
               <svg
@@ -667,8 +667,8 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       key={mode}
                       onClick={() => updateBlend(mode)}
                       className={`px-1 py-1 font-bold uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)] font-bold "
- : " bg-[#00000029] border-white/10 text-white hover:bg-white/10 hover:border-white/10"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:bg-white/10 hover:border-white/10"
+                        }`}
                     >
                       {mode}
                     </button>

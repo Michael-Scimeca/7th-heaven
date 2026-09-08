@@ -19,6 +19,7 @@ import CosmicRadialButton from '@/components/CosmicRadialButton';
 import FoolishShrimpButton from '@/components/FoolishShrimpButton';
 import { useTransition } from '@/context/TransitionContext';
 import MemberHeaderBadge from '@/components/MemberHeaderBadge';
+import SectionBadge from '@/components/SectionBadge';
 
 // ── Constants & types extracted from this file ──
 import {
@@ -37,7 +38,7 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
   return (
     <div key={req.id} className="p-4 bg-[#00000029] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover: border-white/10 transition-colors">
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-lg bg-purple-600/10 border border-white/10 flex flex-col items-center justify-center text-center shrink-0">
+        <div className=" w-11 h-11  rounded-lg bg-purple-600/10 border border-white/10 flex flex-col items-center justify-center text-center shrink-0">
           <span className=" text-[9px] text-rose-400 font-bold uppercase tracking-wider">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {MONTH_SHORT_FORMATTER.format(reqDate).toUpperCase()}
@@ -2676,7 +2677,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           <MemberHeaderBadge
             name={displayName ? displayName.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : 'Michael Scimeca'}
             email={email || 'michael@7thheaven.com'}
-            badgeLabel="CREW"
+            badgeLabel="ADMIN"
             badgeColorClass="bg-purple-600/80 border-purple-400/50 text-purple-100"
             statusBadge="GOD MODE"
             subtitle="Manage setlists, live feeds, community updates, and crew tools."
@@ -3066,6 +3067,69 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </div>
               </div>
 
+              {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
+              <div className="mt-6 text-white bg-[#00000029] border border-white/10 p-6">
+                <div className="mb-6 pb-4 border-b border-white/10 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <h3 className="font-bold tracking-wide text-white text-lg uppercase">Live Stream Performance & Chat Analytics</h3>
+                      <p className=" mt-0.5">Real-time Sales and Engagement Metrics</p>
+                    </div>
+                  </div>
+                  {isLive && (
+                    <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded-lg font-bold uppercase animate-pulse text-xs">
+                      ● Live Tracking
+                    </span>
+                  )}
+                </div>
+
+                <div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                    {/* store sales card */}
+                    <div className="p-4 bg-white/[0.03] border border-white/10 flex flex-col justify-between">
+                      <p className="font-bold uppercase text-xs text-white/70">Store Sales Revenue</p>
+                      <p className="font-bold text-2xl text-white mt-2">
+                        ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                      </p>
+                      <p className="text-[10px] font-bold uppercase text-purple-300 mt-2">
+                        {orders.filter(o => o.source === 'Store').length} purchases
+                      </p>
+                    </div>
+
+                    {/* flash drop sales card */}
+                    <div className="p-4 bg-white/[0.03] border border-white/10 flex flex-col justify-between">
+                      <p className="font-bold uppercase text-xs text-white/70">Flash Drop Sales</p>
+                      <p className="font-bold text-2xl text-white mt-2">
+                        ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                      </p>
+                      <p className="text-[10px] font-bold uppercase text-purple-300 mt-2">
+                        {orders.filter(o => o.source === 'Flash Drop').length} purchases during live drops
+                      </p>
+                    </div>
+
+                    {/* raffle claims card */}
+                    <div className="p-4 bg-white/[0.03] border border-white/10 flex flex-col justify-between">
+                      <p className="font-bold uppercase text-xs text-white/70">Raffle Claims</p>
+                      <p className="font-bold text-2xl text-white mt-2">
+                        {orders.filter(o => o.source === 'Raffle').length}
+                      </p>
+                      <p className="text-[10px] font-bold uppercase text-purple-300 mt-2">prizes claimed by fans</p>
+                    </div>
+
+                    {/* viewers card */}
+                    <div className="p-4 bg-white/[0.03] border border-white/10 flex flex-col justify-between">
+                      <p className="font-bold uppercase text-xs text-white/70 flex items-center gap-1.5">
+                        <Users className="w-3.5 h-3.5 text-white/70 inline" /> Live Viewers
+                      </p>
+                      <p className="font-bold text-2xl text-white mt-2">{viewerCount}</p>
+                      <p className="text-[10px] font-bold uppercase text-purple-300 mt-2">{isLive ? "Watching live right now" : "Offline"}</p>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
               {/* ─── BOTTOM RIGHT CARDS (Merch & Raffle) ─── */}
               <div className="grid grid-cols-1 xl:grid-cols-2 w-full gap-6 mt-6">
 
@@ -3074,7 +3138,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className="flex items-center gap-3 mb-4">
                     <div>
                       <h3 className="font-bold tracking-wide text-white">Flash Merch Drop</h3>
-                      <p className="font-bold uppercase ">Limited time, limited stock</p>
+                      <p className="">Limited time, limited stock</p>
                     </div>
                   </div>
                   <div>
@@ -3108,7 +3172,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <p className="font-bold uppercase">Active Products</p>
                           {activeDrop.products.map(p => (
                             <div key={p.id} className="flex gap-3 p-2.5 bg-[#00000029] border border-white/10 items-center justify-between">
-                              <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                              <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className=" w-11 h-11  rounded object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                               <div className="flex-1 min-w-0">
                                 <p className="font-bold truncate" title={p.title}>{p.title}</p>
                                 <p className="mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
@@ -3292,7 +3356,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="flex items-center gap-3">
                       <div>
                         <h3 className="font-bold tracking-wide text-white">Live Event Raffle</h3>
-                        <p className="font-bold uppercase ">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
+                        <p className=" ">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
                       </div>
                     </div>
                     {raffleStatus !== 'idle' && (
@@ -3493,17 +3557,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <div className="mb-4 flex items-center gap-3">
                   <div>
                     <h3 className="font-bold tracking-wide text-white">Chat Moderation & Policies</h3>
-                    <p className="font-bold uppercase ">Custom Flagged Keywords & Filters</p>
+                    <p className="">
+                      Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
+                    </p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="max-w-[600px] w-full space-y-2">
-                      <h4 className="font-bold uppercase ">Custom Flagged Keywords</h4>
-                      <p className="leading-relaxed font-sans font-semibold">
-                        Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
-                      </p>
+
 
                       <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-[340px] mt-2 no-glow">
                         <div className="input-glow-border flex-1">
@@ -3555,69 +3618,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   </div>
                 </div>
               </div>
-
-              {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
-              <div className="mt-6 text-white">
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div>
-                      <h3 className="font-bold tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
-                      <p className="font-bold uppercase ">Real-time Sales and Engagement Metrics</p>
-                    </div>
-                  </div>
-                  {isLive && (
-                    <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded-lg font-bold uppercase animate-pulse">
-                      ● Live Tracking
-                    </span>
-                  )}
-                </div>
-
-                <div className="">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-                    {/* store sales card */}
-                    <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="font-bold uppercase ">Store Sales Revenue</p>
-                      <p className="font-bold mt-1 ">
-                        ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
-                      </p>
-                      <p className="text-3xs font-bold uppercase mt-1">
-                        {orders.filter(o => o.source === 'Store').length} purchases
-                      </p>
-                    </div>
-
-                    {/* flash drop sales card */}
-                    <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="font-bold uppercase ">Flash Drop Sales</p>
-                      <p className="font-bold mt-1 ">
-                        ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
-                      </p>
-                      <p className="text-3xs font-bold uppercase mt-1">
-                        {orders.filter(o => o.source === 'Flash Drop').length} purchases during live drops
-                      </p>
-                    </div>
-
-                    {/* raffle claims card */}
-                    <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="font-bold uppercase ">Raffle Claims</p>
-                      <p className="font-bold mt-1 ">
-                        {orders.filter(o => o.source === 'Raffle').length}
-                      </p>
-                      <p className="text-3xs font-bold uppercase mt-1">prizes claimed by fans</p>
-                    </div>
-
-                    {/* viewers card */}
-                    <div className="p-0 bg-transparent border-none relative overflow-hidden">
-                      <p className="font-bold uppercase flex items-center gap-1.5">
-                        <Users className="w-3.5 h-3.5 text-white inline" /> Live Viewers
-                      </p>
-                      <p className="font-bold mt-1 ">{viewerCount}</p>
-                      <p className="text-3xs font-bold uppercase mt-1">{isLive ? "Watching live right now" : "Offline"}</p>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
             </div>
           )}
         </div>
@@ -3634,7 +3634,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               <div>
                 <h3 className="font-bold tracking-wide text-white">Live Setlist & Fan Likes</h3>
-                <p className="font-bold ">
+                <p className="">
                   Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                 </p>
               </div>
@@ -3787,7 +3787,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     >
                       <div>
                         <h3 className="font-bold tracking-wide text-white">Your Work Schedule</h3>
-                        <p className="font-bold">Assigned shifts, locations & responsibilities</p>
+                        <p className="">Assigned shifts, locations & responsibilities</p>
                       </div>
                     </button>
                     <div className="flex items-center gap-2">
@@ -3908,7 +3908,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 >
                                   {/* Date & Time Column */}
                                   <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
-                                    <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${shift.approvalStatus === 'pending'
+                                    <div className={` w-11 h-11  rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${shift.approvalStatus === 'pending'
                                       ? 'bg-yellow-500/10 border-yellow-500/30'
                                       : 'bg-purple-600/10 border-white/20'
                                       }`}>
@@ -3924,9 +3924,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   {/* Role & Location Column */}
                                   <div className="flex-1 min-w-[160px]">
                                     <div className="flex items-center gap-2 flex-wrap">
-                                      <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] text-[12px] font-bold uppercase rounded">
-                                        {shift.role}
-                                      </span>
+                                      <SectionBadge label={shift.role} />
                                       {(() => {
                                         const matchingVenue = venues.find(v => v.name.toLowerCase() === shift.location.toLowerCase());
                                         if (matchingVenue) {
@@ -4144,7 +4142,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                 >
                                   {/* Date Column */}
                                   <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
-                                    <div className={`w-9 h-9 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${userShift ? 'bg-purple-600/10 border-purple-500/30'
+                                    <div className={` w-11 h-11  rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${userShift ? 'bg-purple-600/10 border-purple-500/30'
                                       : ' bg-[#00000029] border-white/10 '
                                       }`}>
                                       <span className={`text-[8px] font-bold uppercase leading-none ${userShift ? 'text-purple-300' : 'text-white/50'}`}>{month}</span>
@@ -4202,9 +4200,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                   <div className="shrink-0 text-left md:text-right flex items-center md:justify-end gap-2 flex-wrap">
                                     {userShift ? (
                                       <div className="flex items-center gap-1.5">
-                                        <span className="px-1.5 py-0.5 bg-[var(--color-accent)]/10 border border-white/10 text-[var(--color-accent)] text-[12px] font-bold uppercase rounded leading-none">
-                                          🛡️ {userShift.role}
-                                        </span>
+                                        <SectionBadge label={`🛡️ ${userShift.role}`} />
                                         {userShift.approvalStatus === 'approved' ? (
                                           <span className="px-1.5 py-0.5 rounded border text-[12px] font-bold uppercase shrink-0 bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]">
                                             ✓ Confirmed
@@ -4315,7 +4311,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   <div className="bg-white border border-black/10 overflow-hidden mt-6">
                     <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-white/10 flex items-center justify-center text-xl">🚨</div>
+                        <div className=" w-11 h-11  bg-[var(--color-accent)]/20 border border-white/10 flex items-center justify-center text-xl">🚨</div>
                         <div>
                           <h3 className="font-bold tracking-widetext-black">Available Shift Coverage Requests</h3>
                           <p className="font-bold text-black/40 uppercase ">First qualified crew member to claim gets it</p>
@@ -4352,9 +4348,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             {/* Role & Location */}
                             <div className="flex-1 min-w-[200px]">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="px-2 py-0.5 bg-purple-600/15 border border-purple-500/30 text-purple-300 font-bold uppercase rounded">
-                                  {shift.role}
-                                </span>
+                                <SectionBadge label={shift.role} />
                                 {(() => {
                                   const matchingVenue = venues.find(v => v.name.toLowerCase() === shift.location.toLowerCase());
                                   if (matchingVenue) {

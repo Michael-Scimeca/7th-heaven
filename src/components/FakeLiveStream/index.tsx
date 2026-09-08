@@ -1336,7 +1336,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             >
               <div className="relative shrink-0">
                 <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center font-bold shrink-0 bg-gradient-to-br from-purple-500/30 to-purple-800/20 border border-white/10 text-white"
+                  className=" w-11 h-11  rounded-full flex items-center justify-center font-bold shrink-0 bg-gradient-to-br from-purple-500/30 to-purple-800/20 border border-white/10 text-white"
 
                 >
                   {activeFeedCrew.avatar}
@@ -1591,7 +1591,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                       {raffleState.status === 'countdown' && (
                         <div className="py-8 text-center flex flex-col items-center gap-3">
-                          <Ticket className="w-10 h-10 text-yellow-400" />
+                          <Ticket className=" w-11 h-11  text-yellow-400" />
                           <p className="text-yellow-300 font-bold uppercase tracking-wider">Drawing Coming Up!</p>
                           <p className="text-black/40">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entries locked in</p>
                           {hasEnteredRaffle && (
@@ -1604,7 +1604,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                       {raffleState.status === 'drawing' && (
                         <div className="py-8 text-center flex flex-col items-center justify-center">
-                          <Ticket className="w-10 h-10 text-yellow-400 animate-spin mb-4" />
+                          <Ticket className=" w-11 h-11  text-yellow-400 animate-spin mb-4" />
                           <p className="text-purple-300 font-bold uppercase animate-pulse">Drawing Winner...</p>
                         </div>
                       )}
@@ -1764,7 +1764,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   }}
                 >
                   <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center text-black font-bold shrink-0"
+                    className=" w-11 h-11  rounded-lg flex items-center justify-center text-black font-bold shrink-0"
                     style={{ background: spotlight.account.color }}
                   >
                     {spotlight.account.avatar}
@@ -2497,7 +2497,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <h3 className="font-bold text-white uppercase ">
                       Join the Live Chat
                     </h3>
-                    <p className="leading-relaxed font-medium">
+                    <p className="   font-medium">
                       Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
                     </p>
                   </div>
@@ -2532,14 +2532,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('order')}
                         className={`px-2 py-1 rounded text-3xs font-bold uppercase transition-colors ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover: text-white '
- }`}
+                          }`}
                       >
                         Setlist Order
                       </button>
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('likes')}
                         className={`px-2 py-1 rounded text-3xs font-bold uppercase transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30 hover: text-white border border-transparent'
- }`}
+                          }`}
                       >
                         Most Liked
                       </button>
@@ -2562,8 +2562,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <div
                             key={song.id}
                             className={`p-3 flex items-center justify-between gap-3 transition-colors ${song.isPlaying ? 'bg-purple-950/40 shadow-[0_0_15px_rgba(192,132,252,0.15)]'
- : 'hover:bg-white/[0.03]'
- }`}
+                              : 'hover:bg-white/[0.03]'
+                              }`}
                             style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}
                           >
                             <div className="min-w-0 flex-1">
@@ -2585,8 +2585,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 onClick={() => likeSong(song.id)}
                                 disabled={hasLiked}
                                 className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${hasLiked ? 'bg-red-500/10 text-red-500 cursor-not-allowed'
- : 'bg-white/10 border border-white/10 hover:border-white/25 text-white/70 hover:text-white active:scale-95'
- }`}
+                                  : 'bg-white/10 border border-white/10 hover:border-white/25 text-white/70 hover:text-white active:scale-95'
+                                  }`}
                                 title={hasLiked ? 'Already Liked!' : 'Like this song'}
                               >
                                 <Heart className={`w-3.5 h-3.5 ${hasLiked ? 'text-red-500 fill-current' : ' text-white '}`} />
@@ -2892,9 +2892,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('merch_table')}
                             className={`py-2.5 px-3 border font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'merch_table'
- ? 'bg-white text-black border-white'
- : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
- }`}
+                              ? 'bg-white text-black border-white'
+                              : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
+                              }`}
                           >
                             <span className="flex items-center gap-1"><ShoppingBag className="w-3.5 h-3.5 text-purple-600" /> Pickup</span>
                             <span className=" opacity-60 normal-case font-normal font-sans">Merch Table</span>
@@ -2903,9 +2903,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('shipping')}
                             className={`py-2.5 px-3 border font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'shipping'
- ? 'bg-white text-black border-white'
- : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
- }`}
+                              ? 'bg-white text-black border-white'
+                              : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
+                              }`}
                           >
                             <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5 text-purple-600" /> Ship Home</span>
                             <span className=" opacity-60 normal-case font-normal font-sans">Standard Delivery</span>
@@ -2932,8 +2932,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   type="button"
                                   onClick={() => setCheckoutSelectedSize(size)}
                                   className={`px-3 py-1.5 rounded-lg border font-bold uppercase transition-colors cursor-pointer ${checkoutSelectedSize === size ? 'bg-white text-black border-white'
- : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
- }`}
+                                    : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
+                                    }`}
                                 >
                                   {size}
                                 </button>
@@ -2966,8 +2966,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   type="button"
                                   onClick={() => setCheckoutSelectedColor(c.name)}
                                   className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border font-bold uppercase transition-colors cursor-pointer ${checkoutSelectedColor === c.name ? 'bg-gray-100 text-black border-white'
- : 'bg-transparent text-black/50 border-black/10 hover:border-black/15'
- }`}
+                                    : 'bg-transparent text-black/50 border-black/10 hover:border-black/15'
+                                    }`}
                                 >
                                   <span
                                     className="w-3.5 h-3.5 rounded-lg shrink-0 border"

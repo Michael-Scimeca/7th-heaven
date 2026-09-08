@@ -13,18 +13,37 @@ import { useTransition } from "@/context/TransitionContext";
 // ported over once they felt right:
 //  - WIPE_SLANT_RATIO: bumped from the raw exoape-measured 0.095 to 0.18
 //    for a clearly visible diagonal instead of a subtle one.
-//  - TRANSITION_DURATION: dropped from 0.5s to 0.3s -- independently
-//    corroborated by timing exoape.com's own News -> Studio transition,
-//    which completes in roughly 0.3-0.5s.
+//  - EXIT_DURATION / REVEAL_DURATION: the old page's exit and the new
+//    page's reveal now start at the exact same moment (Phase 1 fires the
+//    exit immediately; Phase 2 starts the reveal the instant the route
+//    commits -- see the Phase 2 comment below for why it can't literally
+//    be frame 0), but the reveal always runs a fixed 0.25s SLOWER than
+//    the exit, so the new page visibly "chases" and covers the old one
+//    instead of the two just swapping. Settled on 0.55s exit / 0.80s
+//    reveal after live A/B'ing speeds in the sandbox -- fast enough to
+//    feel snappy, slow enough that the slant reveal actually reads.
 //  - TRANSITION_EASE: exoape's real EXO_EASE curve
 //    (cubic-bezier(0.496, 0.004, 0, 1)) is extremely front-loaded (~85% of
 //    its progress lands in the first 50% of elapsed time), which squeezed
 //    the whole decaying-slant sweep into an imperceptible sliver of real
-//    time -- it read as a flat pop instead of a slant. Settled on
-//    expo.out after comparing several options live in the sandbox
-//    (power2.out, sine.out, circ.out, etc.) -- a fast initial burst that
-//    decelerates hard into the landing, which read as the snappiest/most
-//    dramatic finish of the set.
+//    time -- it read as a flat pop instead of a slant. Went through
+//    expo.out first, then settled on circ.out after further live sandbox
+//    comparison -- still a hard deceleration into the landing, but with
+//    a rounder, less abrupt initial burst that reads smoother at the
+//    slower 0.55s/0.80s durations above.
+//  - The incoming page no longer scales during its reveal (was 1.3 -> 1,
+//    matching the old page's own exit zoom) -- live sandbox testing
+//    showed the scale mostly disappears under the clip-path mask anyway
+//    (it decays in lockstep with the reveal) and reads as an unwanted
+//    zoom on the rare frames it IS visible. The reveal is now a straight
+//    slide-up + slanted clip-path wipe, no scale. The old page's own
+//    exit keeps its 1.3x zoom-away scale -- that's a different, still-
+//    wanted "flies off camera" effect for the page leaving, not the one
+//    arriving.
+//  - The old page's exit also travels 30px further up (-windowHeight/2 -
+//    30 instead of -windowHeight/2) so it visibly clears the frame
+//    before the reveal catches up, instead of the two potentially still
+//    overlapping right at the handoff.
 //  - Direction: the slant now leads from the LEFT edge instead of the
 //    right (mirrored via the local buildIncomingRevealClipPath /
 //    buildOutgoingExitClipPath below) -- chosen after comparing both
@@ -35,8 +54,12 @@ const WIPE_SLANT_RATIO = 0.18;
 const FAILSAFE_MS = 3000;
 const CURTAIN_BG = "rgb(13, 14, 19)";
 
-const TRANSITION_EASE = "expo.out";
-const TRANSITION_DURATION = 0.3;
+const TRANSITION_EASE = "circ.out";
+const EXIT_DURATION = 0.55;
+// Always a fixed quarter-second slower than the exit -- see the comment
+// block above for why this is what actually makes the new page read as
+// "covering" the old one instead of just replacing it.
+const REVEAL_DURATION = EXIT_DURATION + 0.25;
 
 // Local, flipped mirror of @/lib/curtainClipPath's buildDecayingSlantCoverClipPath
 // (left edge leads instead of right). The verified, measured-from-video
@@ -215,13 +238,28 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (contentRef.current) {
       const clone = contentRef.current.cloneNode(true) as HTMLElement;
       clone.style.transform = "none";
+      // Strip any live iframes (Google Maps' TourMap embed, currently the
+      // only one on the site) out of the clone before it's appended.
+      // cloneNode(true) copies iframe elements' attributes including src,
+      // but an iframe clone does NOT inherit its source document's loaded
+      // state -- the browser treats it as a brand-new browsing context
+      // and starts loading/initializing it independently the moment the
+      // clone is inserted into the DOM. Confirmed live: iframe count on
+      // the page goes 1 -> 2 the instant this snapshot is appended, and
+      // that second Maps instance spinning up is what Chrome's Long Tasks
+      // API was flagging as a ~300-600ms "multiple-contexts" block on
+      // every single navigation away from a page with the map on it --
+      // entirely wasted work, since this snapshot is a frozen visual
+      // that's about to wipe off-screen in well under a second and was
+      // never meant to be a second live, interactive map.
+      clone.querySelectorAll("iframe").forEach((iframe) => iframe.remove());
       snapshotInner.appendChild(clone);
     }
     snapshotOuter.appendChild(snapshotInner);
     snapshotOuter.appendChild(snapshotOverlay);
     document.body.appendChild(snapshotOuter);
 
-    const duration = TRANSITION_DURATION;
+    const duration = EXIT_DURATION;
     const ease = TRANSITION_EASE;
 
     // Fresh navigation -- clear any stale "already revealed" marker from a
@@ -250,13 +288,25 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (contentRef.current) {
       contentRef.current.style.willChange = "transform";
       gsap.set(contentRef.current, {
-        scale: 1.3,
         y: windowHeight / 2,
         transformOrigin: "center center",
       });
     }
 
     // 2. Perform client-side route push
+    //
+    // Tried delaying this until the exit-wipe's own onComplete (so the
+    // expensive React/Next unmount-mount swap wouldn't compete with the
+    // wipe tween's rAF ticks for the main thread). Measured live and
+    // reverted: the stutter wasn't actually caused by that overlap --
+    // live profiling (iframe-count sampling + Long Tasks) showed the same
+    // ~0.8-1.8s of main-thread blocking on EVERY navigation regardless of
+    // when push fired, scaling with the size of the page's DOM tree (a
+    // 603-node page transition blocks for ~0.8s, Home's 2339-node tree
+    // for ~1.5-1.8s) -- i.e. it's inherent React reconciliation cost, not
+    // something ordering push around can dodge. Delaying it only added a
+    // real downside (URL/history updates later, feels less responsive)
+    // with no measured upside, so it's back to firing immediately here.
     // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
     router.push(pendingHref);
     if (typeof window !== "undefined") {
@@ -264,8 +314,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     }
 
     // Outgoing Inner Motion (Module 464 leave):
-    // scale: 1 -> 1.3, y: 0 -> -window.innerHeight / 2 (no rotate -- see
-    // note above)
+    // scale: 1 -> 1.3, y: 0 -> -(window.innerHeight / 2 + 30) (no rotate --
+    // see note above). The extra 30px is so the old page visibly clears
+    // the frame before the incoming reveal catches up to it.
     // Runs immediately -- it's animating a detached snapshot clone, so it
     // never has to wait on the incoming page.
     snapshotInner.style.willChange = "transform";
@@ -274,7 +325,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       { scale: 1, y: 0 },
       {
         scale: 1.3,
-        y: -windowHeight / 2,
+        y: -windowHeight / 2 - 30,
         duration,
         ease,
         // Wipes the outgoing snapshot off along the same decaying-slant
@@ -335,19 +386,19 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     let cancelled = false;
     setMode("uncovering");
 
-    const duration = TRANSITION_DURATION;
+    const duration = REVEAL_DURATION;
     const ease = TRANSITION_EASE;
     const failsafe = new Promise<void>((resolve) => setTimeout(resolve, FAILSAFE_MS));
 
     Promise.race([waitForPageReady(), failsafe]).then(() => {
       if (cancelled) return;
 
-      // Incoming Inner Motion (Module 464 enter):
-      // scale: 1.3 -> 1, y: window.innerHeight / 2 -> 0 (no rotate -- see
-      // note on Phase 1)
+      // Incoming Inner Motion (Module 464 enter, scale removed):
+      // y: window.innerHeight / 2 -> 0, no scale (straight slide-up, see
+      // header comment for why the zoom was dropped) and no rotate (see
+      // note on Phase 1).
       if (contentRef.current) {
         contentTweenRef.current = gsap.to(contentRef.current, {
-          scale: 1,
           y: 0,
           duration,
           ease,
@@ -416,7 +467,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // wedge navigation until the user reloads.
   useEffect(() => {
     if (mode === "idle") return;
-    const watchdogMs = FAILSAFE_MS + TRANSITION_DURATION * 1000 * 2 + 1000;
+    const watchdogMs = FAILSAFE_MS + (EXIT_DURATION + REVEAL_DURATION) * 1000 + 1000;
     const id = setTimeout(() => {
       tweenRef.current?.kill();
       contentTweenRef.current?.kill();
@@ -487,7 +538,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           animated outgoing-snapshot wipe above. Found via screen recording,
           not timing numbers: on a destination page slow to become ready
           (e.g. /book waiting on its availability fetch), the outgoing
-          snapshot still finishes its own fixed TRANSITION_DURATION wipe and
+          snapshot still finishes its own fixed EXIT_DURATION wipe and
           removes itself on schedule, but Phase 2's reveal (gated on
           waitForPageReady()/FAILSAFE_MS, up to 3s) hadn't started yet --
           `outerRef`'s clip-path was still fully closed, so with nothing at

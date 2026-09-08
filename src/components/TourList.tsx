@@ -22,8 +22,8 @@ function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
   return (
     <div
       className={`w-full h-[1px] transition-colors duration-300 ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_8px_rgba(168,85,247,0.5)]"
- : "bg-white/10 group-hover:bg-purple-400/30"
- }`}
+        : "bg-white/10 group-hover:bg-purple-400/30"
+        }`}
       aria-hidden="true"
     />
   );
@@ -1167,8 +1167,8 @@ ${filterLine}
                               disabled={subscribingId === show._id}
                               title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
                               className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
- : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
- }`}
+                                : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
+                                }`}
                             >
                               {subscribingId === show._id ? (
                                 <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-lg animate-spin" />
@@ -1444,7 +1444,7 @@ ${filterLine}
                             onClick={() => handleToggleNotification(show)}
                             disabled={subscribingId === show._id}
                             title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                            className="p-2 w-9 h-9 flex items-center justify-center rounded-lg border shrink-0 bg-purple-600/30 border-purple-400/30 text-white hover:bg-purple-600/60 transition-all active:scale-95"
+                            className="p-2  w-11 h-11  flex items-center justify-center rounded-lg border shrink-0 bg-purple-600/30 border-purple-400/30 text-white hover:bg-purple-600/60 transition-all active:scale-95"
                           >
                             {subscribingId === show._id ? (
                               <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-lg animate-spin" />
@@ -1457,7 +1457,7 @@ ${filterLine}
                         {/* Calendar Add */}
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
-                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-lg bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
+                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className=" w-11 h-11  flex items-center justify-center rounded-lg bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
@@ -1735,7 +1735,7 @@ ${filterLine}
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center">
+                  <div className=" w-11 h-11  bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[var(--color-accent)]" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                     </svg>
@@ -1765,13 +1765,13 @@ ${filterLine}
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
- : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
- }`}
+                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    }`}
                 >
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
- }`}>
+                    }`}>
                     <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
- }`} />
+                      }`} />
                   </span>
                   <div className="text-left">
                     <p className="font-bold flex items-center gap-1.5"><Mic className="w-3.5 h-3.5 text-cyan-400" /> This specific show</p>
@@ -1784,13 +1784,13 @@ ${filterLine}
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
- : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
- }`}
+                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    }`}
                 >
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
- }`}>
+                    }`}>
                     <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
- }`} />
+                      }`} />
                   </span>
                   <div className="text-left">
                     <p className="font-bold flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-cyan-400" /> Shows near me</p>
@@ -1803,13 +1803,13 @@ ${filterLine}
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
- : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
- }`}
+                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    }`}
                 >
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
- }`}>
+                    }`}>
                     <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
- }`} />
+                      }`} />
                   </span>
                   <div className="text-left">
                     <p className="font-bold flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-cyan-400" /> Newsletter & exclusives</p>

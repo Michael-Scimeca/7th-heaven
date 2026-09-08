@@ -273,7 +273,7 @@ export default function CrewFeed() {
                 <article
                   key={post.id}
                   className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""
- }`}
+                    }`}
                   id={`crew-feed-${post.id}`}
                   style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}
                 >
@@ -297,13 +297,13 @@ export default function CrewFeed() {
                   {/* Post Card */}
                   <div
                     className={`border bg-white/[0.02] p-6 transition-colors duration-300 hover: border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"
- }`}
+                      }`}
                   >
                     {/* Header: Avatar + Name + Time */}
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <div
-                          className="w-10 h-10 rounded-lg flex items-center justify-center font-bold border"
+                          className=" w-11 h-11  rounded-lg flex items-center justify-center font-bold border"
                           style={{
                             borderColor: config.color,
                             color: config.color,
@@ -341,7 +341,7 @@ export default function CrewFeed() {
                     </div>
 
                     {/* Content */}
-                    <p className="leading-relaxed mb-4">{post.content}</p>
+                    <p className="   mb-4">{post.content}</p>
 
                     {/* Image attachment */}
                     {post.image_url && (

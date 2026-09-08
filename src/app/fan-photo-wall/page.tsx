@@ -498,7 +498,7 @@ export default function FansPage() {
                     </div>
                     {photo.caption && (
                       <div className="pl-4 sm:pl-8 pr-4 py-3 sm:py-4 bg-black/[0.02] border-t border-white/10 flex-1 flex items-center">
-                        <p className="leading-relaxed font-medium">
+                        <p className="   font-medium">
                           &ldquo;{photo.caption}&rdquo;
                         </p>
                       </div>

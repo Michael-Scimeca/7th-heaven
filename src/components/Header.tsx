@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
 import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
-import { createClient } from "@/lib/supabase/client";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 import { useTransition } from "@/context/TransitionContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
@@ -144,7 +143,6 @@ export function Header() {
   const { mode, pendingHref, requestTransition } = useTransition();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [hasLiveStreams, setHasLiveStreams] = useState(false);
   const { member, isLoggedIn, openModal, logout } = useMember();
   const [cartCount, setCartCount] = useState(0);
 
@@ -350,57 +348,6 @@ export function Header() {
 
   const showUserAuth = isLoggedIn || !!member || isDemoPage;
 
-  const checkLive = useCallback(async () => {
-    if (document.visibilityState !== "visible") return;
-    try {
-      const res = await fetch("/api/live-rooms");
-      if (!res.ok) return;
-      const data = await res.json();
-      const allRooms = data.rooms || [];
-      const validRooms = allRooms.filter((r: any) => r.name?.startsWith("live_"));
-
-      if (validRooms.length > 0) {
-        setHasLiveStreams(true);
-        return;
-      }
-
-      const supabase = createClient();
-      const { data: dbStreams } = await supabase
-        .from("live_streams")
-        .select("id")
-        .eq("status", "live")
-        .limit(1);
-
-      setHasLiveStreams(!!(dbStreams && dbStreams.length > 0));
-    } catch {
-      // Silent catch for background live check to prevent dev overlay popups when offline/restarting
-    }
-  }, []);
-
-  useEffect(() => {
-    checkLive();
-    const interval = setInterval(checkLive, 60000);
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") checkLive();
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    const supabase = createClient();
-    const channel = supabase
-      .channel("header_live_events")
-      .on("broadcast", { event: "stream_state" }, () => checkLive())
-      .subscribe();
-
-    return () => {
-      clearInterval(interval);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      supabase.removeChannel(channel);
-    };
-  }, [checkLive]);
-
-
-
   const isScrolledRef = useRef(false);
 
   useEffect(() => {
@@ -594,12 +541,6 @@ export function Header() {
  : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
  }`}
             >
-              {hasLiveStreams && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-bold uppercase text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-lg whitespace-nowrap font-sans scale-90">
-                  <span className="w-1 h-1 rounded-lg bg-white animate-pulse" />
-                  LIVE
-                </span>
-              )}
               LIVE
             </TransitionLink>
 

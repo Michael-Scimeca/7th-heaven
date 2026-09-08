@@ -163,9 +163,9 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             <button aria-label="Action button"
               onClick={() => setSelectedYear("ALL")}
               className={`px-3 py-1.5 rounded-lg font-bold uppercase transition-colors cursor-pointer ${selectedYear === "All"
- ? "bg-[var(--color-accent)] text-white "
- : " bg-[#00000029] text-white/70 hover:text-white border-0"
- }`}
+                ? "bg-[var(--color-accent)] text-white "
+                : " bg-[#00000029] text-white/70 hover:text-white border-0"
+                }`}
             >
               All Years
             </button>
@@ -177,8 +177,8 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
                 className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${selectedYear === y.year ? "bg-[var(--color-accent)] text-white font-bold "
- : " bg-[#00000029] text-white/70 hover:text-white border-0"
- }`}
+                  : " bg-[#00000029] text-white/70 hover:text-white border-0"
+                  }`}
               >
                 {y.year}
               </button>
@@ -194,7 +194,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-12 text-center my-8">
-          <Music className="w-10 h-10 text-purple-400mx-auto mb-4" />
+          <Music className=" w-11 h-11  text-purple-400mx-auto mb-4" />
           <h3 className="font-bold mb-2">No Past Shows Found</h3>
           <p className="max-w-md mx-auto mb-6">
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.

@@ -295,7 +295,7 @@ a:hover {
             {/* Modal Header */}
             <div className="p-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300">
+                <div className=" w-11 h-11  rounded-lg bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300">
                   <Sliders className="w-5 h-5" />
                 </div>
                 <div>
@@ -345,42 +345,42 @@ a:hover {
               <button
                 onClick={() => setActiveTab("controls")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "controls" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
- }`}
+                  }`}
               >
                 <Sliders className="w-3.5 h-3.5" /> Inputs
               </button>
               <button
                 onClick={() => setActiveTab("search")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "search" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
- }`}
+                  }`}
               >
                 <Search className="w-3.5 h-3.5" /> Search Bar
               </button>
               <button
                 onClick={() => setActiveTab("checkboxes")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "checkboxes" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
- }`}
+                  }`}
               >
                 <CheckSquare className="w-3.5 h-3.5" /> Checkboxes
               </button>
               <button
                 onClick={() => setActiveTab("typography")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "typography" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
- }`}
+                  }`}
               >
                 <Type className="w-3.5 h-3.5" /> Typography & Tags
               </button>
               <button
                 onClick={() => setActiveTab("preview")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "preview" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
- }`}
+                  }`}
               >
                 <Eye className="w-3.5 h-3.5" /> Sandbox
               </button>
               <button
                 onClick={() => setActiveTab("css")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "css" ? "border-cyan-400 text-cyan-300 bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
- }`}
+                  }`}
               >
                 <Layers className="w-3.5 h-3.5" /> CSS
               </button>
@@ -561,7 +561,7 @@ a:hover {
                           type="color"
                           value={settings.searchIconColor?.startsWith("#") ? settings.searchIconColor : "#ffffff"}
                           onChange={(e) => update("searchIconColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -725,7 +725,7 @@ a:hover {
                           type="color"
                           value={settings.checkboxAccentColor.startsWith("#") ? settings.checkboxAccentColor : "#c084fc"}
                           onChange={(e) => update("checkboxAccentColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -794,7 +794,7 @@ a:hover {
                           type="color"
                           value={settings.headingColor.startsWith("#") ? settings.headingColor : "#ffffff"}
                           onChange={(e) => update("headingColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -812,7 +812,7 @@ a:hover {
                           type="color"
                           value={settings.pTextColor.startsWith("#") ? settings.pTextColor : "#ffffff"}
                           onChange={(e) => update("pTextColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -830,7 +830,7 @@ a:hover {
                           type="color"
                           value={settings.linkColor.startsWith("#") ? settings.linkColor : "#c084fc"}
                           onChange={(e) => update("linkColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -848,7 +848,7 @@ a:hover {
                           type="color"
                           value={settings.linkHoverColor.startsWith("#") ? settings.linkHoverColor : "#e879f9"}
                           onChange={(e) => update("linkHoverColor", e.target.value)}
-                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"

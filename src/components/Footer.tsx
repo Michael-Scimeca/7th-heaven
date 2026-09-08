@@ -7,7 +7,8 @@ import TransitionLink from "@/components/TransitionLink";
 import { Smartphone, Check, Bell } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
+import { useSettings } from "@/lib/useSettings";
 import { useTransition } from "@/context/TransitionContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
@@ -89,22 +90,24 @@ export function Footer() {
   const [bookingPhone, setBookingPhone] = useState('847-551-5363');
   const [bookingEmail, setBookingEmail] = useState('Rich@7thheaven.com');
 
-  const loadSettings = useCallback(async () => {
-    try {
-      const res = await fetch('/api/settings');
-      if (!res.ok) return;
-      const data = await res.json();
-      if (!data) return;
-      if (data.endorsements?.length) setEndorsements(data.endorsements);
-      if (data.socialLinks?.length) setSocialLinks(data.socialLinks);
-      if (data.bookingPhone) setBookingPhone(data.bookingPhone);
-      if (data.bookingEmail) setBookingEmail(data.bookingEmail);
-    } catch { }
-  }, []);
+  // Shared with HomeDataLoader (and any other consumer) via useSettings --
+  // one deduplicated /api/settings fetch instead of each component running
+  // its own. See src/lib/useSettings.ts for why this exists.
+  const { settings } = useSettings();
 
   useEffect(() => {
-    loadSettings();
-  }, [loadSettings]);
+    if (!settings) return;
+    const data = settings as {
+      endorsements?: typeof FALLBACK_ENDORSEMENTS;
+      socialLinks?: typeof FALLBACK_SOCIAL_LINKS;
+      bookingPhone?: string;
+      bookingEmail?: string;
+    };
+    if (data.endorsements?.length) setEndorsements(data.endorsements);
+    if (data.socialLinks?.length) setSocialLinks(data.socialLinks);
+    if (data.bookingPhone) setBookingPhone(data.bookingPhone);
+    if (data.bookingEmail) setBookingEmail(data.bookingEmail);
+  }, [settings]);
 
 
 

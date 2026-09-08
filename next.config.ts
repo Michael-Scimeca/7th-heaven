@@ -157,6 +157,11 @@ const nextConfig: NextConfig = {
   images: {
     minimumCacheTTL: 31536000,
     formats: ["image/avif", "image/webp"],
+    // Explicit allowlist required by Next 15.5+ -- without it, any
+    // `quality` prop not in this list (the hero banner uses 30, the
+    // band member photos use 100) falls outside next/image's optimized
+    // path and logs a console warning on every render.
+    qualities: [30, 60, 65, 75, 100],
     imageSizes: [16, 32, 48, 64, 96, 128, 220, 256, 384, 480],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     remotePatterns: [

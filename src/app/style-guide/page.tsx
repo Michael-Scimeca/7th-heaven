@@ -208,8 +208,8 @@ function HoldToActivateButtonDemo() {
           onTouchStart={startHold}
           onTouchEnd={cancelHold}
           className={`relative overflow-hidden px-8 py-3.5 rounded-lg font-bold uppercase transition-all cursor-pointer select-none border ${activated ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.6)]"
- : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
- }`}
+            : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
+            }`}
         >
           {holding && !activated && (
             <div
@@ -375,9 +375,9 @@ function CosmicRadialButtonDemo() {
               type="button"
               onClick={() => setRenderEngine("property")}
               className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer border ${renderEngine === "property"
- ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
- : " bg-[#00000029] text-white border-white/10 hover:bg-white/10"
- }`}
+                ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
+                : " bg-[#00000029] text-white border-white/10 hover:bg-white/10"
+                }`}
             >
               ⚡ CSS @property Engine (Smooth CSS Transition)
             </button>
@@ -385,9 +385,9 @@ function CosmicRadialButtonDemo() {
               type="button"
               onClick={() => setRenderEngine("raf")}
               className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer border ${renderEngine === "raf"
- ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
- : " bg-[#00000029] text-white border-white/10 hover:bg-white/10"
- }`}
+                ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
+                : " bg-[#00000029] text-white border-white/10 hover:bg-white/10"
+                }`}
             >
               🌊 60fps RAF Lerp Loop (Fluid Physics)
             </button>
@@ -464,8 +464,8 @@ function CosmicRadialButtonDemo() {
               type="button"
               onClick={() => setIsAutoDrifting(!isAutoDrifting)}
               className={`px-3.5 py-1.5 font-bold rounded-lg transition-all cursor-pointer border ${isAutoDrifting ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
- : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20"
- }`}
+                : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20"
+                }`}
             >
               {isAutoDrifting ? "🟢 Auto Drift: ON" : "⚪ Auto Drift: OFF"}
             </button>
@@ -548,9 +548,9 @@ function SparkleGenerateButtonDemo() {
           </h3>
           <span
             className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide border ${isActive
- ? "bg-purple-500/20 text-purple-300 border-purple-500/50"
- : "bg-white/5 text-white/50 border-white/10"
- }`}
+              ? "bg-purple-500/20 text-purple-300 border-purple-500/50"
+              : "bg-white/5 text-white/50 border-white/10"
+              }`}
           >
             {isActive ? "ACTIVE (LOCKED)" : "HOVER TRIGGER"}
           </span>
@@ -940,8 +940,8 @@ export default function StyleGuidePage() {
               onClick={() => saveTheme()}
               disabled={isSaving}
               className={`px-5 py-2.5 rounded-lg font-bold uppercase transition flex items-center gap-2 ${hasUnsavedChanges ? "bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)]"
- : "bg-white/10 text-white/50 cursor-default"
- }`}
+                : "bg-white/10 text-white/50 cursor-default"
+                }`}
             >
               {isSaving ? "Saving..." : "Save Theme Tokens"}
             </button>
@@ -959,8 +959,8 @@ export default function StyleGuidePage() {
                 href={`#${sec.id}`}
                 onClick={() => setActiveSection(sec.id)}
                 className={`px-4 py-2.5 rounded-lg font-bold whitespace-nowrap transition flex items-center gap-2 border ${isActive ? "bg-purple-600/30 text-purple-300 border-purple-500/50 "
- : "bg-transparent text-white hover:text-white border-transparent hover:border-white/10"
- }`}
+                  : "bg-transparent text-white hover:text-white border-transparent hover:border-white/10"
+                  }`}
               >
                 <Icon className="w-3.5 h-3.5" />
                 <span>{sec.label}</span>
@@ -1028,8 +1028,8 @@ export default function StyleGuidePage() {
                   <button
                     onClick={handleCopyStudioFormula}
                     className={`px-4 py-2.5 rounded-lg font-bold uppercase transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
- : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
- }`}
+                      : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+                      }`}
                   >
                     {copiedStudioFormula ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copiedStudioFormula ? "Formula Copied!" : "Copy CSS clamp()"}</span>
@@ -1047,8 +1047,8 @@ export default function StyleGuidePage() {
                         key={t}
                         onClick={() => setStudioSelectedTier(t)}
                         className={`px-3 py-1.5 rounded-lg font-bold transition-all ${studioSelectedTier === t ? "bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105"
- : "bg-white/[0.04] text-white hover:text-white hover:bg-white/10 border border-white/10"
- }`}
+                          : "bg-white/[0.04] text-white hover:text-white hover:bg-white/10 border border-white/10"
+                          }`}
                       >
                         .text-{t}
                       </button>
@@ -1191,18 +1191,18 @@ export default function StyleGuidePage() {
                     <button
                       onClick={() => setStudioMode("locked")}
                       className={`px-3 py-1.5 rounded-lg font-bold transition ${studioMode === "locked"
- ? "bg-purple-500 text-white "
- : "text-white/50 hover:text-white"
- }`}
+                        ? "bg-purple-500 text-white "
+                        : "text-white/50 hover:text-white"
+                        }`}
                     >
                       🔒 Lock at {studioMinFs}px
                     </button>
                     <button
                       onClick={() => setStudioMode("chained")}
                       className={`px-3 py-1.5 rounded-lg font-bold transition ${studioMode === "chained"
- ? "bg-purple-500 text-white "
- : "text-white/50 hover:text-white"
- }`}
+                        ? "bg-purple-500 text-white "
+                        : "text-white/50 hover:text-white"
+                        }`}
                     >
                       🔗 Chain to Tablet ({studioMinFs}px $\rightarrow$ 25px)
                     </button>
@@ -2056,10 +2056,10 @@ ${deskRules.join("\n")}
                           onChange={e => handlePinDefaultDigit(i, e.target.value)}
                           onKeyDown={e => handlePinDefaultKeyDown(i, e)}
                           className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20 ${pinDefaultFocusedIndex === i ? 'border-white/40 text-white'
- : digit
- ? 'border-white/30 text-white/70'
- : ' border-white/10 text-white/40 hover:border-white/30'
- }`}
+                            : digit
+                              ? 'border-white/30 text-white/70'
+                              : ' border-white/10 text-white/40 hover:border-white/30'
+                            }`}
                         />
                       </div>
                     );
@@ -2095,10 +2095,10 @@ ${deskRules.join("\n")}
                           onChange={e => handlePinDigit(i, e.target.value)}
                           onKeyDown={e => handlePinKeyDown(i, e)}
                           className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums ${pinFocusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
- : digit
- ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
- : ' border-white/10 text-white/40 hover:border-white/40'
- }`}
+                            : digit
+                              ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
+                              : ' border-white/10 text-white/40 hover:border-white/40'
+                            }`}
                         />
                       </div>
                     );
@@ -2411,8 +2411,8 @@ ${deskRules.join("\n")}
                             type="button"
                             onClick={() => setSignInRole(r as any)}
                             className={`py-1.5 px-1 text-[10px] font-bold uppercase rounded-lg text-center transition-all cursor-pointer ${signInRole === (r as any) ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
- : "text-white/50 hover:text-white/90"
- }`}
+                              : "text-white/50 hover:text-white/90"
+                              }`}
                           >
                             {r}
                           </button>
@@ -2512,8 +2512,8 @@ ${deskRules.join("\n")}
                             type="button"
                             onClick={() => setSignUpRole(r)}
                             className={`py-1.5 px-2 text-[10px] font-bold uppercase rounded-lg text-center transition-all cursor-pointer ${signUpRole === r ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
- : "text-white/50 hover:text-white/90"
- }`}
+                              : "text-white/50 hover:text-white/90"
+                              }`}
                           >
                             {r}
                           </button>
@@ -2856,8 +2856,8 @@ ${deskRules.join("\n")}
                   type="button"
                   onClick={() => setMultiUserColorMode(!multiUserColorMode)}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase transition ${multiUserColorMode ? "bg-emerald-600 text-white "
- : "bg-white/10 text-white/50"
- }`}
+                    : "bg-white/10 text-white/50"
+                    }`}
                 >
                   {multiUserColorMode ? "ON (Unique Per Person)" : "OFF (Single Swatch)"}
                 </button>
@@ -2887,8 +2887,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleRadius(r)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleRadius === r ? "bg-purple-600 border-purple-400 text-white"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {r === 0 ? "0px" : `${r}px`}
                     </button>
@@ -2917,8 +2917,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleBorderWidth(w)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleBorderWidth === w ? "bg-cyan-600 border-cyan-400 text-white"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {w === 0 ? "0px" : `${w}px`}
                     </button>
@@ -2947,8 +2947,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleFontSize(s)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleFontSize === s ? "bg-emerald-600 border-emerald-400 text-white"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {s}px
                     </button>
@@ -2977,8 +2977,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubblePaddingY(py)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingY === py ? "bg-cyan-600 border-cyan-400 text-white"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {py}px
                     </button>
@@ -3007,8 +3007,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubblePaddingX(px)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingX === px ? "bg-purple-600 border-purple-400 text-white"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {px}px
                     </button>
@@ -3037,8 +3037,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setMessageSpacing(sp)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${messageSpacing === sp ? "bg-amber-600 border-amber-400 text-white"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {sp}px
                     </button>
@@ -3067,8 +3067,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleOpacity(o)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleOpacity === o ? "bg-pink-600 border-pink-400 text-white"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {o}%
                     </button>
@@ -3098,8 +3098,8 @@ ${deskRules.join("\n")}
                       style={{ backgroundColor: p.bg }}
                       title={p.label}
                       className={`w-5 h-5 rounded-lg border-2 transition transform hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode ? "border-white ring-2 ring-white/50 scale-110"
- : "border-transparent opacity-80"
- }`}
+                        : "border-transparent opacity-80"
+                        }`}
                     />
                   ))}
                 </div>
@@ -3136,8 +3136,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleBgStyle(bg.val)}
                       className={`py-1 px-1.5 rounded text-[10px] font-bold border truncate transition ${bubbleBgStyle === bg.val ? "bg-purple-600/40 border-purple-400 text-purple-200"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {bg.label}
                     </button>
@@ -3651,8 +3651,8 @@ ${deskRules.join("\n")}
             <button
               onClick={handleCopyCanvasSpec}
               className={`px-4 py-2.5 rounded-lg font-bold uppercase transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
- : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
- }`}
+                : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
+                }`}
             >
               {copiedCanvasSpec ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copiedCanvasSpec ? "Canvas Specs Copied!" : "Copy Canvas & Grain Spec"}</span>
@@ -3690,8 +3690,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainOpacity(op)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainOpacity === op ? "bg-emerald-600 border-emerald-400 text-white"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {op}%
                     </button>
@@ -3721,8 +3721,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainSize(sz)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainSize === sz ? "bg-emerald-600 border-emerald-400 text-white"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {sz}
                     </button>
@@ -3746,8 +3746,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainBlend(mode.val)}
                       className={`py-1.5 px-1 rounded text-[10px] font-bold border truncate transition ${canvasGrainBlend === mode.val ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
- : " bg-[#00000029] border-white/10 text-white hover:text-white"
- }`}
+                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
+                        }`}
                     >
                       {mode.label}
                     </button>
@@ -3812,7 +3812,7 @@ ${deskRules.join("\n")}
                       style={{ backgroundColor: bg.bg }}
                       title={bg.label}
                       className={`w-6 h-6 rounded-lg border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : " border-white/10 "
- }`}
+                        }`}
                     />
                   ))}
                   <input
@@ -3896,8 +3896,8 @@ ${deskRules.join("\n")}
                         type="button"
                         onClick={() => updateToken(item.category, item.token, preset)}
                         className={`px-2 py-1 rounded text-[12px] font-bold border transition ${currentValue === preset ? "bg-pink-600/40 border-pink-400 text-pink-200"
- : " bg-[#00000029] border-white/10 text-white/50 hover:text-white"
- }`}
+                          : " bg-[#00000029] border-white/10 text-white/50 hover:text-white"
+                          }`}
                       >
                         {preset === "transparent" ? "none" : preset.length > 20 ? preset.slice(0, 18) + "…" : preset}
                       </button>
@@ -3956,8 +3956,8 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setStateroomTab(tab.id as any)}
                       className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 text-white"
- : " bg-[#00000029] hover:bg-white/10 text-white/80"
- }`}
+                        : " bg-[#00000029] hover:bg-white/10 text-white/80"
+                        }`}
                     >
                       <h4 className="font-bold text-white uppercase tracking-wider">{tab.label}</h4>
                       <p className="mt-1 ">{tab.desc}</p>
@@ -4019,8 +4019,8 @@ ${deskRules.join("\n")}
                         type="button"
                         onClick={() => setSuiteTab(perk)}
                         className={`px-4 py-2 rounded-lg font-bold uppercase transition-colors cursor-pointer ${suiteTab === perk ? "bg-cyan-600 text-white shadow-cyan-600/30"
- : "bg-transparent text-white hover:text-white"
- }`}
+                          : "bg-transparent text-white hover:text-white"
+                          }`}
                       >
                         {perk} Class
                       </button>
@@ -4160,7 +4160,7 @@ ${deskRules.join("\n")}
                       <div className="px-0 py-5">
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
                           <span className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'
- }`}>{room.label}</span>
+                            }`}>{room.label}</span>
                         </div>
                         <span className="text-[10px] font-bold text-white/50 uppercase block">{room.code} Category</span>
                         <h4 className="font-bold text-white uppercase mt-0.5 text-left">{room.title}</h4>
@@ -4176,8 +4176,8 @@ ${deskRules.join("\n")}
                       <button
                         type="button"
                         className={`mt-4 w-full py-2.5 px-4 rounded-lg font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer border-0 ${isYo ? 'bg-purple-600 hover:bg-purple-500 text-white'
- : 'bg-purple-600 hover:bg-purple-500 text-white'
- }`}
+                          : 'bg-purple-600 hover:bg-purple-500 text-white'
+                          }`}
                       >
                         <span>Select Prevailing Rate</span>
 
@@ -4291,7 +4291,7 @@ ${deskRules.join("\n")}
                 <p className="font-bold text-amber-400 uppercase mb-4">
                   Book through us to participate & lock in best rates
                 </p>
-                <p className="leading-relaxed mb-4">
+                <p className="   mb-4">
                   To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white font-extrabold">must</strong> be placed under our official group booking.
                 </p>
                 <ul className="space-y-3 text-white/80 mb-6">
@@ -4537,8 +4537,8 @@ ${deskRules.join("\n")}
                                 <span
                                   key={preset}
                                   className={`px-2 py-0.5 rounded-lg text-[10.5px] font-bold uppercase border font-sans ${isSelected ? 'bg-purple-600 text-white border-purple-500 '
- : ' bg-[#00000029] border-white/10 text-white/70'
- }`}
+                                    : ' bg-[#00000029] border-white/10 text-white/70'
+                                    }`}
                                 >
                                   {isSelected ? `✓ ${preset}` : preset}
                                 </span>

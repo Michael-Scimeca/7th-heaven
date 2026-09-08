@@ -187,20 +187,20 @@ function PassengersWidget() {
         {topAvatars.map((p) => (
           <div
             key={`avatar-${p.name}-${p.initial}-${p.extra}`}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/40 text-white font-bold text-sm flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer"
+            className=" w-11 h-11  sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/40 text-white font-bold text-sm flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer"
           >
             {p.initial}
           </div>
         ))}
         {extraAvatarsCount > 0 && (
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/60 text-purple-300 font-bold text-xs flex items-center justify-center shadow-sm">
+          <div className=" w-11 h-11  sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/60 text-purple-300 font-bold text-xs flex items-center justify-center shadow-sm">
             +{extraAvatarsCount}
           </div>
         )}
       </div>
 
       {/* Member Names Dot-Separated List */}
-      <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 relative z-10 text-sm sm:text-base leading-relaxed">
+      <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 relative z-10 text-sm sm:text-base   ">
         {passengers.map((p, idx) => (
           <div key={`passenger-${p.name}-${p.extra}-${p.initial}`} className="inline-flex items-center">
             <span className="font-semibold text-white">

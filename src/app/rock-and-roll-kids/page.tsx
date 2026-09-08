@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import TransitionLink from "@/components/TransitionLink";
+import SectionBadge from "@/components/SectionBadge";
 
 const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 
@@ -392,7 +393,7 @@ export default function RockNRollKidsPage() {
           </div>
 
           {/* Character Roster Info Cards Grid under the image */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left pt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left pt-4 mb-12">
             {mainCharacters.map((char) => (
               <div key={char.name} className="flex flex-col justify-between pb-3.5 group ">
                 <div>
@@ -412,7 +413,7 @@ export default function RockNRollKidsPage() {
                     <span className="text-[10px] font-sans text-white uppercase">{char.role}</span>
                   </div>
                   <h4 className="font-bold text-white mb-1">{char.name}</h4>
-                  <p className="leading-relaxed">{char.desc}</p>
+                  <p className="  ">{char.desc}</p>
                 </div>
               </div>
             ))}
@@ -430,7 +431,7 @@ export default function RockNRollKidsPage() {
                 <p className="font-medium text-cyan-100 font-sans py-4">
                   {ABOUT_DATA.paragraph1}
                 </p>
-                <p className="leading-relaxed font-normal">
+                <p className="   font-normal">
                   {ABOUT_DATA.paragraph2}
                 </p>
 
@@ -456,16 +457,16 @@ export default function RockNRollKidsPage() {
                   <iframe src={`https://www.youtube.com/embed/${selectedVideo}`} title="Rock and Roll Kids Player" className="w-full h-full" allowFullScreen sandbox="allow-scripts allow-same-origin allow-presentation" />
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div className="grid grid-rows-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
                   {videosList.map((v) => (
                     <FoolishShrimpButton
                       key={v.id}
                       onClick={() => setSelectedVideo(v.id)}
-                      className={`p-2.5 text-left transition-all ${selectedVideo === v.id ? "scale-105" : ""}`}
+                      className={`!h-auto !py-3 !px-4 !justify-start text-left transition-all ${selectedVideo === v.id ? "scale-[1.02] opacity-100" : "opacity-80 hover:opacity-100"}`}
                     >
-                      <div className="flex flex-col text-left">
-                        <span className="text-[11px] font-sans text-purple-600 font-bold uppercase tracking-wider block">{v.tag}</span>
-                        <span className="font-bold text-white line-clamp-1">{v.title}</span>
+                      <div className="flex flex-col items-start text-left whitespace-normal w-full">
+                        <span className="text-[10px] font-sans text-purple-400 font-bold uppercase tracking-wider block mb-1">{v.tag}</span>
+                        <span className="font-bold text-white text-xs sm:text-sm leading-snug line-clamp-2">{v.title}</span>
                       </div>
                     </FoolishShrimpButton>
                   ))}
@@ -551,19 +552,22 @@ export default function RockNRollKidsPage() {
                   {/* Bottom Gradient Mask Overlay */}
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 pointer-events-none z-10" />
                 </div>
-                <div className="space-y-3">
-                  <h3 className="font-sans text-amber-400 font-bold mb-0">Richard Hofherr</h3>
-                  <span className="font-sans rounded-lg inline-block">
-                    7th heaven · NTD Animation
-                  </span>
-                  <p className="leading-relaxed mb-0">
-                    Founder and songwriter of 7th heaven. Co-creator of 7th Heaven & The Rock &apos;n&apos; Roll Kids animated series, comics, and video games.
+                <div className="flex flex-col items-center text-center mt-4 space-y-2.5 w-full">
+                  <h3 className="font-sans text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">Richard Hofherr</h3>
+                  <div>
+                    <SectionBadge label="Founder and songwriter of 7th heaven" isActive />
+                  </div>
+                  <p className="text-white/80 text-sm leading-relaxed max-w-md mx-auto mb-1">
+                    Co-creator of 7th Heaven & The Rock &apos;n&apos; Roll Kids animated series, comics, and video games.
                   </p>
+                  <a href="tel:8475515363" className="!text-white font-bold text-sm sm:text-base hover:underline block mb-0 mt-1">
+                    (847) 551-5363
+                  </a>
                   <a
                     href="mailto:Rich777@aol.com"
-                    className="py-2.5 font-sans font-bold transition-all flex items-center justify-start gap-2 w-full"
+                    className="text-purple-400 font-bold text-sm sm:text-base hover:underline block"
                   >
-                    <span>Rich777@aol.com</span>
+                    Rich777@aol.com
                   </a>
                 </div>
               </div>
@@ -590,19 +594,20 @@ export default function RockNRollKidsPage() {
                   {/* Bottom Gradient Mask Overlay */}
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 pointer-events-none z-10" />
                 </div>
-                <div className="space-y-3">
-                  <h3 className="font-sans mb-0 text-purple-400 font-bold">Roy Adorjan</h3>
-                  <span className="font-sans rounded-lg inline-block">
-                    RNR Studios
-                  </span>
-                  <p className="leading-relaxed mb-0">
-                    Lead animator and character designer at RNR Studios. Co-creator and art director for 7th Heaven & The Rock &apos;n&apos; Roll Kids.
+                <div className="flex flex-col items-center text-center mt-4 space-y-2.5 w-full">
+                  <h3 className="font-sans text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">Roy Adorjan</h3>
+                  <div>
+                    <SectionBadge label="Lead Animator & Character Designer" isActive />
+                  </div>
+
+                  <p className="text-white/80 text-sm leading-relaxed max-w-md mx-auto mb-1">
+                    Co-creator and art director for 7th Heaven & The Rock &apos;n&apos; Roll Kids.
                   </p>
                   <a
                     href="mailto:info@minimartians.com"
-                    className="py-2.5 font-sans font-bold flex items-center justify-start gap-2 w-full"
+                    className="text-purple-400 font-bold text-sm sm:text-base hover:underline block"
                   >
-                    <span>info@minimartians.com</span>
+                    info@minimartians.com
                   </a>
                 </div>
               </div>

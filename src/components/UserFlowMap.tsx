@@ -589,7 +589,7 @@ export default function UserFlowMap() {
               <span className="text-[10px] font-bold uppercase text-white/40 block">
                 Technical Summary
               </span>
-              <p className="leading-relaxed bg-white/[0.03] p-3 rounded-lg border border-white/10">
+              <p className="   bg-white/[0.03] p-3 rounded-lg border border-white/10">
                 {selectedNode.data.details?.summary || `Interactive ${selectedNode.data.label} node step in the 7th Heaven web app.`}
               </p>
             </div>

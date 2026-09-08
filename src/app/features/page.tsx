@@ -1198,8 +1198,8 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
       <button aria-label="Action button"
         onClick={() => setExpanded(true)}
         className={`relative w-full aspect-video overflow-hidden border-2 transition-colors duration-300 cursor-pointer group ${isPurple ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
- : " border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
- }`}
+          : " border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+          }`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image width={200} height={200} unoptimized
@@ -1213,8 +1213,8 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className={`w-14 h-14 rounded-lg flex items-center justify-center transition-colors duration-300 group-hover:scale-110 ${isPurple ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
- : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
- }`}>
+            : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
+            }`}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -1223,8 +1223,8 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         {/* Label */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
           <span className={`font-bold uppercase tracking-[0.15em] px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
- : "bg-black/50 border-white/10 text-white/80"
- }`}>
+            : "bg-black/50 border-white/10 text-white/80"
+            }`}>
             ▶ Live Preview
           </span>
         </div>
@@ -1298,7 +1298,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         {f.demo && <DemoPreview src={f.demo} title={f.title} isPurple={isPurple} />}
 
         {/* Description */}
-        <p className="leading-relaxed">{f.description}</p>
+        <p className="  ">{f.description}</p>
 
         {/* Why it matters */}
         <div className={`p-4 rounded-lg border text-base ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/20 text-[#c084fc]/80" : "bg-white/[0.03] border-white/[0.07] text-white/40"}`}>
@@ -2262,7 +2262,7 @@ export default function FeaturesPage() {
                       href={page.path.includes("[") ? "#" : page.path}
                       target={page.path.includes("[") ? undefined : "_blank"}
                       className={`flex items-center gap-4 px-5 py-3 transition-colors duration-150 group ${page.access === "dev" ? "bg-white/[0.01]" : "hover:bg-white/[0.04]"
- } ${page.path.includes("[") ? "cursor-default" : "cursor-pointer"}`}
+                        } ${page.path.includes("[") ? "cursor-default" : "cursor-pointer"}`}
                     >
                       <span className={`w-2 h-2 rounded-lg shrink-0 ${accessDot[page.access]}`} />
 
@@ -2347,10 +2347,10 @@ export default function FeaturesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TECH.map((t, i) => (
               <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover: border-white/10 hover:bg-white/[0.04] transition-colors cursor-default">
-                <div className="w-10 h-10 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
+                <div className=" w-11 h-11  rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
                   <div className="text-base font-bold uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
-                  <p className="leading-relaxed mt-0.5">{t.desc}</p>
+                  <p className="   mt-0.5">{t.desc}</p>
                 </div>
               </div>
             ))}
@@ -2499,10 +2499,10 @@ export default function FeaturesPage() {
                       href={page.path.includes("[") ? "#" : page.path}
                       target={page.path.includes("[") ? undefined : "_blank"}
                       className={`flex items-center gap-4 px-5 py-3.5 transition-colors group ${pi !== group.pages.length - 1 ? "border-b border-white/[0.05]" : ""
- } ${page.access === "dev"
- ? " hover:bg-white/[0.02]"
- : "bg-black/10 hover:bg-white/[0.04]"
- }`}
+                        } ${page.access === "dev"
+                          ? " hover:bg-white/[0.02]"
+                          : "bg-black/10 hover:bg-white/[0.04]"
+                        }`}
                     >
                       {/* access dot */}
                       <span className={`w-2 h-2 rounded-lg shrink-0 ${accessDot[page.access]}`} />

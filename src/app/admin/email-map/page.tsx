@@ -196,7 +196,7 @@ export default function EmailMapPage() {
               <span className="w-1.5 h-1.5 rounded-lg bg-blue-500" />
               The API Bridge
             </h3>
-            <p className="leading-relaxed mb-4">
+            <p className="   mb-4">
               To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code className=" text-white ">/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
             </p>
             <div className="bg-black/40 p-4 rounded text-blue-400">
@@ -208,7 +208,7 @@ export default function EmailMapPage() {
               <span className="w-1.5 h-1.5 rounded-lg bg-cyan-500" />
               Token Security
             </h3>
-            <p className="leading-relaxed mb-4">
+            <p className="   mb-4">
               Cancellation and status links use crypographic tokens stored in Supabase. This allows fans to manage their RSVPs or bookings directly from their inbox without requiring a password login every time.
             </p>
             <div className="bg-black/40 p-4 rounded text-cyan-400">

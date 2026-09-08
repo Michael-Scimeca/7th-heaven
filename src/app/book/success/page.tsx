@@ -56,7 +56,7 @@ function SuccessContent() {
             </div>
           )}
 
-          <p className="leading-relaxed mb-2">
+          <p className="   mb-2">
             {sessionId
               ? "Your booking has been confirmed successfully. We'll be in touch within 24–48 hours with details."
               : "We've received your booking request. Check your email for a confirmation."

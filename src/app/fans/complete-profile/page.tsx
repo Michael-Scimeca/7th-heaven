@@ -117,7 +117,7 @@ export default function CompleteProfilePage() {
     return (
       <div className="min-h-screen text-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
+          <div className=" w-11 h-11  border-4 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
           <p className="font-bold uppercase ">Loading your profile...</p>
         </div>
       </div>
@@ -190,8 +190,8 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40'
- : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
- }`}
+                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    }`}
                 >
                   <SquishyToggle
                     id="complete-profile-notifications"
@@ -225,8 +225,8 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40'
- : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
- }`}
+                    : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+                    }`}
                 >
                   <SquishyToggle
                     id="complete-profile-newsletter"
@@ -242,7 +242,7 @@ export default function CompleteProfilePage() {
 
               {/* Info callout */}
               <div className="bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3">
-                <p className="leading-relaxed">
+                <p className="  ">
                   💡 <strong className="text-white/50">Tip:</strong> You can always change these preferences later from your Fan Dashboard settings. You can also follow specific shows to get notified about just the ones you care about.
                 </p>
               </div>

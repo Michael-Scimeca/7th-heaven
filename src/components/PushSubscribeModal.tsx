@@ -197,7 +197,7 @@ export default function PushSubscribeModal({
             </form>
 
             <div className="mt-6 border-t border-white/10 pt-4 text-center">
-              <p className="leading-relaxed">
+              <p className="  ">
                 🔒 100% Free · We value your privacy. Every alert email includes a 1-click unsubscribe link.
               </p>
             </div>

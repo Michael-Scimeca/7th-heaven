@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
+import { useSettings } from "@/lib/useSettings";
 import dynamic from "next/dynamic";
 import LazySection from "@/components/LazySection";
 
@@ -58,6 +59,21 @@ export default function HomeDataLoader() {
   const [announcement, setAnnouncement] = useState<Announcement | null>(null);
   const [loaded, setLoaded] = useState(false);
 
+  // Shared with Footer (and any other consumer) via useSettings -- one
+  // deduplicated /api/settings fetch instead of each component running
+  // its own. See src/lib/useSettings.ts for why this exists.
+  const { settings } = useSettings();
+
+  useEffect(() => {
+    const data = settings as { announcement?: Announcement } | null;
+    if (data?.announcement?.isActive && data.announcement.text) {
+      const exp = data.announcement.expiresAt;
+      if (!exp || new Date(exp) > new Date()) {
+        setAnnouncement(data.announcement);
+      }
+    }
+  }, [settings]);
+
   useEffect(() => {
     // eslint-disable-next-line react-doctor/no-fetch-in-effect
     // Intentional: page is fully static, this effect hydrates data client-side after first paint
@@ -96,19 +112,6 @@ export default function HomeDataLoader() {
       })
       .catch(() => { })
       .finally(() => setLoaded(true));
-
-    // Fetch announcement from settings API
-    fetch("/api/settings")
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data?.announcement?.isActive && data.announcement.text) {
-          const exp = data.announcement.expiresAt;
-          if (!exp || new Date(exp) > new Date()) {
-            setAnnouncement(data.announcement);
-          }
-        }
-      })
-      .catch(() => { });
   }, []);
 
   const nextShow = shows.find(s => s.city) || shows[0];

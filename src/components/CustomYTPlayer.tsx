@@ -281,7 +281,7 @@ export default function CustomYTPlayer({
           {/* Center Play/Pause Indicator */}
           <div
             className={`absolute inset-0 flex items-center justify-center z-10 transition-opacity duration-300 pointer-events-none ${showControls && !isPlaying ? "opacity-100" : "opacity-0"
- }`}
+              }`}
           >
             <CosmicRadialButton
               icon={false}
@@ -296,13 +296,13 @@ export default function CustomYTPlayer({
           {/* Top Gradient */}
           <div
             className={`absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-black/70 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0"
- }`}
+              }`}
           />
 
           {/* Top Bar — Title & Close */}
           <div
             className={`absolute top-0 inset-x-0 z-20 flex items-center justify-between px-5 py-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
- }`}
+              }`}
           >
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-1 h-6 bg-[var(--color-accent)] rounded-lg shrink-0" />
@@ -325,13 +325,13 @@ export default function CustomYTPlayer({
           {/* Bottom Gradient */}
           <div
             className={`absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0"
- }`}
+              }`}
           />
 
           {/* Bottom Controls */}
           <div
             className={`absolute bottom-0 inset-x-0 z-20 px-5 pb-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
- }`}
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Progress Bar */}
@@ -390,7 +390,7 @@ export default function CustomYTPlayer({
                 {/* Play/Pause */}
                 <CosmicRadialButton onClick={togglePlay}
                   icon={false}
-                  className="w-10 h-10 ! rounded-lg !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
+                  className=" w-11 h-11  ! rounded-lg !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? (

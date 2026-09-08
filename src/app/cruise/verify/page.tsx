@@ -122,7 +122,7 @@ function CruiseVerifyContent() {
         {status === "success" ? (
           <div className="py-4">
             <h1 className="text-2xl sm:text-3xl font-bold text-emerald-400 mb-2">Access Granted!</h1>
-            <p className="leading-relaxed mb-6">
+            <p className="   mb-6">
               Your Cruise Member account is confirmed.<br />
               Welcome aboard the 7th Heaven Caribbean Cruise.
             </p>
@@ -165,8 +165,8 @@ function CruiseVerifyContent() {
                     onKeyDown={e => handleKeyDown(i, e)}
                     onPaste={handlePaste}
                     className={`w-full h-12 sm:h-14 text-center text-xl sm:text-2xl font-bold text-white bg-black/60 border rounded-lg outline-none transition-[border-color,background-color,box-shadow] ${d ? "border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)] bg-purple-950/30"
- : " border-white/10 focus:border-purple-400 focus:bg-purple-950/20"
- } ${status === "error" ? "border-rose-500 bg-rose-950/20 animate-shake" : ""}`}
+                      : " border-white/10 focus:border-purple-400 focus:bg-purple-950/20"
+                      } ${status === "error" ? "border-rose-500 bg-rose-950/20 animate-shake" : ""}`}
                   />
                 ))}
               </div>

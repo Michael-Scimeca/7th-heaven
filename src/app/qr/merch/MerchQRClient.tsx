@@ -454,8 +454,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`px-5 py-2.5 font-bold uppercase transition-colors duration-300 shrink-0 cursor-pointer ${activeCategory === cat ? "bg-cyan-500 text-black shadow-[0_0_20px_rgba(6,182,212,0.4)] scale-105"
- : " bg-[#00000029] border border-white/10 text-white hover:text-white hover:bg-white/10"
- }`}
+                : " bg-[#00000029] border border-white/10 text-white hover:text-white hover:bg-white/10"
+                }`}
             >
               {cat === "All" && "🛒 All Merch"}
               {cat === "Apparel" && "👕 Apparel"}
@@ -562,8 +562,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                         type="button"
                         onClick={() => setSelectedSize(size)}
                         className={`w-12 h-10 font-bold transition-colors cursor-pointer ${selectedSize === size ? "bg-cyan-500 text-black border border-cyan-400 font-bold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
- : " bg-[#00000029] border border-white/10 text-white hover:text-white"
- }`}
+                          : " bg-[#00000029] border border-white/10 text-white hover:text-white"
+                          }`}
                       >
                         {size}
                       </button>
@@ -582,9 +582,9 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     type="button"
                     onClick={() => setFulfillmentMethod("pickup")}
                     className={`p-4 border text-left transition-colors cursor-pointer ${fulfillmentMethod === "pickup"
- ? "bg-cyan-500/15 border-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.2)]"
- : " bg-[#00000029] border-white/10 text-white/50 hover:bg-white/10"
- }`}
+                      ? "bg-cyan-500/15 border-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.2)]"
+                      : " bg-[#00000029] border-white/10 text-white/50 hover:bg-white/10"
+                      }`}
                   >
                     <span className="text-xl block mb-1">🎪</span>
                     <span className="font-bold uppercase tracking-wide block text-white">Merch Table Pickup</span>
@@ -596,9 +596,9 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     type="button"
                     onClick={() => setFulfillmentMethod("shipping")}
                     className={`p-4 border text-left transition-colors cursor-pointer ${fulfillmentMethod === "shipping"
- ? "bg-purple-500/15 border-purple-500 text-white shadow-[0_0_20px_rgba(255,10,61,0.2)]"
- : " bg-[#00000029] border-white/10 text-white/50 hover:bg-white/10"
- }`}
+                      ? "bg-purple-500/15 border-purple-500 text-white shadow-[0_0_20px_rgba(255,10,61,0.2)]"
+                      : " bg-[#00000029] border-white/10 text-white/50 hover:bg-white/10"
+                      }`}
                   >
                     <span className="text-xl block mb-1">📦</span>
                     <span className="font-bold uppercase tracking-wide block text-white">Ship to My Address</span>
@@ -711,7 +711,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <button aria-label="Action button" onClick={() => setShowSwitchToShippingModal(false)} className="text-white/40 hover:text-white text-base">✕</button>
             </div>
 
-            <p className="leading-relaxed">
+            <p className="  ">
               No problem! If you couldn't grab <strong className="text-white">{switchOrderTarget.productTitle}</strong> at the merch desk before leaving, enter your mailing address and we'll ship it directly to you.
             </p>
 

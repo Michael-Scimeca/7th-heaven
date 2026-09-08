@@ -41,8 +41,8 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               type="button"
               onClick={() => setActiveLayout(opt.id)}
               className={`px-3 py-1.5 font-bold uppercase transition-colors cursor-pointer border ${activeLayout === opt.id ? "bg-cyan-500 text-black border-cyan-400 font-bold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
- : " bg-[#00000029] border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
- }`}
+                : " bg-[#00000029] border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                }`}
             >
               {opt.name}
             </button>
@@ -64,7 +64,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <h1 className="text-4xl md:text-5xl font-bold uppercase text-white mt-4 mb-4">
                 7th Heaven <br /><span className="text-cyan-400">Band News</span>
               </h1>
-              <p className="leading-relaxed mb-6">
+              <p className="   mb-6">
                 Direct updates from the band — tour announcements, new releases, and live event updates.
               </p>
             </div>
@@ -75,7 +75,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className=" text-white/50">{featured.date}</span>
               </div>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
-              <p className="leading-relaxed">{featured.content}</p>
+              <p className="  ">{featured.content}</p>
             </div>
           </div>
         </section>
@@ -92,7 +92,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <h1 className="text-3xl md:text-4xl font-bold text-white uppercase mt-3 mb-3">
                 Band Bulletins <span className="text-cyan-400">&</span> Updates
               </h1>
-              <p className="leading-relaxed">
+              <p className="  ">
                 Stay tuned for studio news, upcoming summer festival dates, and cruise announcements.
               </p>
             </div>
@@ -107,7 +107,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                   <span className=" text-cyan-300 font-bold">{featured.date}</span>
                 </div>
                 <h2 className="font-bold text-white mb-4">{featured.title}</h2>
-                <p className="leading-relaxed mb-6">{featured.content}</p>
+                <p className="   mb-6">{featured.content}</p>
                 <button aria-label="Action button" type="button" className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase transition-colors cursor-pointer shadow-lg shadow-purple-600/30">
                   Read Full Story →
                 </button>
@@ -130,7 +130,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className=" text-white/50">{featured.date}</span>
               </div>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
-              <p className="leading-relaxed">{featured.content}</p>
+              <p className="  ">{featured.content}</p>
             </div>
 
             {/* Right Branding */}
@@ -169,7 +169,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20 text-[var(--color-accent)] font-bold uppercase">Featured</span>
               </div>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
-              <p className="leading-relaxed">{featured.content}</p>
+              <p className="  ">{featured.content}</p>
             </div>
           </div>
         </section>
@@ -187,7 +187,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <h1 className="text-3xl font-bold uppercase text-white ">
                   Band Updates
                 </h1>
-                <p className="leading-relaxed">
+                <p className="  ">
                   Latest releases, festival schedules, and band announcements.
                 </p>
               </div>
@@ -196,7 +196,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-8 bg-gradient-to-r from-[#120a24] to-[#0a0514] border border-cyan-400/30 p-8 md:p-12">
               <span className=" text-cyan-300 font-bold uppercase block mb-2">{featured.date}</span>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
-              <p className="leading-relaxed">{featured.content}</p>
+              <p className="  ">{featured.content}</p>
             </div>
           </div>
         </section>
@@ -222,7 +222,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="font-bold uppercase text-white/50">Band Announcement</span>
               </div>
               <h2 className="font-bold text-white mb-4">{featured.title}</h2>
-              <p className="leading-relaxed">{featured.content}</p>
+              <p className="  ">{featured.content}</p>
             </div>
           </div>
         </section>

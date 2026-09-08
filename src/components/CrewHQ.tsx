@@ -464,7 +464,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {/* Identity */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-10 h-10 rounded-lg bg-emerald-700 flex items-center justify-center font-bold border border-emerald-500/30">
+              <div className=" w-11 h-11  rounded-lg bg-emerald-700 flex items-center justify-center font-bold border border-emerald-500/30">
                 {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-lg border-2 border-[#030303] ${isLive ? "bg-red-500 shadow-[0_0_6px_#ef4444]" : "bg-slate-600"}`} />
@@ -514,8 +514,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <Link
               href={studioPath}
               className={`flex items-center gap-2 px-5 py-2 font-bold uppercase transition-colors ${isLive ? "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]"
- : "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
- }`}
+                : "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
+                }`}
             >
               <span>{isLive ? "🔴" : "🎥"}</span>
               {isLive ? "Manage Stream" : "Create Live Feed"}
@@ -565,8 +565,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <Link
               href={studioPath}
               className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24 font-bold uppercase text-center transition-colors border ${isLive ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
- : "bg-white/[0.04] border-white/10 text-white hover:bg-white/[0.08] hover:text-white hover: border-white/10 "
- }`}
+                : "bg-white/[0.04] border-white/10 text-white hover:bg-white/[0.08] hover:text-white hover: border-white/10 "
+                }`}
             >
               <span className="text-3xl">{isLive ? "📡" : "🎥"}</span>
               <span className=" ">{isLive ? "Live\nStudio" : "Create\nLive Feed"}</span>
@@ -593,8 +593,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     <button aria-label="Action button"
                       onClick={toggleSimulator}
                       className={`ml-2 px-2.5 py-1 rounded-lg font-bold uppercase transition-colors cursor-pointer border ${simActive ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
- : " bg-[#00000029] border border-white/10 text-white/40 hover: text-white "
- }`}
+                        : " bg-[#00000029] border border-white/10 text-white/40 hover: text-white "
+                        }`}
                     >
                       {simActive ? "⚡ Sim Active" : "Start Sim"}
                     </button>
@@ -627,7 +627,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <button aria-label="Action button"
                     onClick={() => setRoomFilter("all")}
                     className={`px-3 py-1 rounded-lg font-bold uppercase transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover: text-white "
- }`}
+                      }`}
                   >
                     All Rooms ({msgs.length})
                   </button>
@@ -636,8 +636,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       key={room.id}
                       onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
                       className={`flex items-center gap-1 px-3 py-1 rounded-lg font-bold uppercase transition-colors cursor-pointer border ${roomFilter === room.id ? "text-white border-opacity-100"
- : "border-white/[0.08] text-white/30 hover: text-white "
- }`}
+                        : "border-white/[0.08] text-white/30 hover: text-white "
+                        }`}
                       style={roomFilter === room.id ? { borderColor: room.color, background: room.color + "20", color: room.color } : {}}
                     >
                       {room.icon} {room.label} {roomCounts[room.id] ? `(${roomCounts[room.id]})` : ""}
@@ -663,7 +663,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       <div
                         key={msg.id}
                         className={`flex items-start gap-3 px-5 py-3 border-b border-white/[0.03] hover:bg-white/[0.015] transition-colors group ${isFlagged ? "bg-yellow-500/[0.04]" : ""
- } ${isBanned ? "opacity-30" : ""}`}
+                          } ${isBanned ? "opacity-30" : ""}`}
                       >
                         {/* Avatar */}
                         <div
@@ -701,19 +701,19 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                             onClick={() => handleFlag(msg.id)}
                             title="Flag message"
                             className={`px-2 py-1 rounded-lg border transition-colors cursor-pointer ${isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"
- }`}
+                              }`}
                           >🚩</button>
                           <button aria-label="Action button"
                             onClick={() => handleWarn(msg.sender_name, msg.room)}
                             title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
                             className={`px-2 py-1 rounded-lg border transition-colors cursor-pointer ${warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"
- }`}
+                              }`}
                           >⚠️</button>
                           <button aria-label="Action button"
                             onClick={() => handleBan(msg.sender_name, msg.room)}
                             title={isBanned ? "Unban user" : "Ban user"}
                             className={`px-2 py-1 rounded-lg border transition-colors cursor-pointer ${isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"
- }`}
+                              }`}
                           >🚫</button>
                           <button aria-label="Action button"
                             onClick={() => handleKick(msg.id, msg.sender_name, msg.room)}
@@ -746,7 +746,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               {/* Chat Moderation Panel */}
               <div className=" border border-white/[0.07] overflow-hidden">
                 <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
-                  <div className="w-10 h-10 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
+                  <div className=" w-11 h-11  bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                   <div>
                     <h3 className="font-bold tracking-wide text-white">Chat Moderation & Policies</h3>
                     <p className="font-bold uppercase ">Custom Flagged Keywords & Filters</p>
@@ -757,7 +757,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="flex-1 min-w-0 w-full space-y-2">
                       <h4 className="font-bold uppercase ">🔍 Custom Flagged Keywords</h4>
-                      <p className="leading-relaxed font-sans font-semibold">
+                      <p className="">
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>
 
@@ -815,8 +815,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             {/* Live Stream Status Card */}
             <div className={`border overflow-hidden transition-colors ${isLive ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]"
- : "border-white/[0.07] "
- }`}>
+              : "border-white/[0.07] "
+              }`}>
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-base font-bold">🎥 Broadcast Studio</span>
@@ -847,8 +847,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <Link
                   href={studioPath}
                   className={`w-full flex items-center justify-center gap-2 py-3 font-bold uppercase transition-colors ${isLive ? "bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
- : "bg-white text-black hover:bg-white/90"
- }`}
+                    : "bg-white text-black hover:bg-white/90"
+                    }`}
                 >
                   {isLive ? "🔴 Manage Live Stream" : "🎥 Create Live Feed"}
                 </Link>
@@ -893,7 +893,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <button aria-label="Action button"
                   onClick={handleSaveNotes}
                   className={`px-4 py-1.5 rounded-lg font-bold uppercase cursor-pointer transition-colors ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : " bg-[#00000029] text-white/40 border border-white/[0.08] hover:text-white"
- }`}
+                    }`}
                 >
                   {notesSaved ? "✓ Saved" : "Save"}
                 </button>

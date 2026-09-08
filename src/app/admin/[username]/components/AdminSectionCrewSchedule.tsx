@@ -1546,7 +1546,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     <div className="font-bold text-pink-300">
                       Shift: {coEditorConflictAlert.shiftTitle}
                     </div>
-                    <p className="leading-relaxed bg-[#00000029] p-2.5 rounded border border-white/5">
+                    <p className="   bg-[#00000029] p-2.5 rounded border border-white/5">
                       {coEditorConflictAlert.changeDesc}
                     </p>
                   </div>

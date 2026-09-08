@@ -27,7 +27,7 @@ export function MemberHeaderBadge({
   statusColorClass = "bg-rose-950/60 border-rose-500/50 text-rose-300",
   subtitle,
   className = "",
-  nameClassName = "text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight break-words",
+  nameClassName = "text-xl sm:text-2xl lg:text-3xl font-bold text-white    break-words",
   children,
 }: MemberHeaderBadgeProps) {
   const isAvatarUrl =
@@ -36,12 +36,13 @@ export function MemberHeaderBadge({
       avatar.startsWith("/") ||
       avatar.startsWith("data:"));
 
+  const isMichael =
+    (name && name.toLowerCase().includes("michael")) ||
+    (email && email.toLowerCase().includes("michael"));
+
   const effectiveAvatar =
-    (isAvatarUrl ? avatar : undefined) ||
-    ((name && name.toLowerCase().includes("michael")) ||
-    (email && email.toLowerCase().includes("michael"))
-      ? "/michaelscimeca.png"
-      : undefined);
+    (isAvatarUrl ? avatar : undefined) ??
+    (isMichael ? "/michaelscimeca.png" : undefined);
 
   const hasAvatarUrl =
     effectiveAvatar &&
@@ -100,7 +101,7 @@ export function MemberHeaderBadge({
         </div>
         {email && <p className="text-white/70 text-sm font-medium mt-1">{email}</p>}
         {subtitle && (
-          <p className="text-white/80 text-sm sm:text-base font-semibold mt-2 leading-relaxed">
+          <p className="text-white/80 text-sm sm:text-base font-semibold mt-2   ">
             {subtitle}
           </p>
         )}

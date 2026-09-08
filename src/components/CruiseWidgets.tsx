@@ -99,10 +99,10 @@ export function DailyPoll() {
               onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
               className={`w-full relative overflow-hidden border text-left transition-colors ${voted === opt.id ? 'border-emerald-500 bg-emerald-500/10'
- : voted !== null
- ? ' border-white/10 bg-[#00000029] cursor-default'
- : ' border-white/10 bg-black/40 hover:border-emerald-500/40 hover: bg-[#00000029] cursor-pointer'
- }`}
+                : voted !== null
+                  ? ' border-white/10 bg-[#00000029] cursor-default'
+                  : ' border-white/10 bg-black/40 hover:border-emerald-500/40 hover: bg-[#00000029] cursor-pointer'
+                }`}
             >
               {/* Progress bar background (only shows after voting) */}
               {voted !== null && (
@@ -769,7 +769,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
               ✓
             </div>
             <h3 className="font-bold uppercase text-white">Payment Successful</h3>
-            <p className="leading-relaxed">
+            <p className="  ">
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
             <button aria-label="Close"
@@ -797,7 +797,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
 
             {processing ? (
               <div className="py-12 text-center space-y-4">
-                <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-lg animate-spin mx-auto" />
+                <div className=" w-11 h-11  border-2 border-cyan-400 border-t-transparent rounded-lg animate-spin mx-auto" />
                 <p className="font-bold text-purple-400uppercase animate-pulse">Processing Secure Payment...</p>
               </div>
             ) : (
