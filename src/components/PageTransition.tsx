@@ -403,11 +403,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     tweenRef.current = masterTl;
 
     // 1. Old page snapshot exit motion (z-index 900)
-    snapshotInner.style.willChange = "transform";
+    snapshotInner.style.willChange = "transform, opacity";
     masterTl.fromTo(
       snapshotInner,
-      { x: 0, scale: 1, y: -initialScrollY, rotation: 0, transformOrigin: exitOrigin },
+      { opacity: 1, x: 0, scale: 1, y: -initialScrollY, rotation: 0, transformOrigin: exitOrigin },
       {
+        opacity: 0,
         x: s.exitX || 0,
         scale: s.exitScale,
         y: -initialScrollY + (s.exitY || 0),
