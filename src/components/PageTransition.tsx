@@ -85,8 +85,8 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   exitSpeed: 1.35,
   exitX: -150,
   exitY: -75,
-  exitScale: 1.5,
-  exitRotation: -2,
+  exitScale: 1.1,
+  exitRotation: 10,
   exitOrigin: "center center",
   exitEase: "expo.out",
   exitSlantRatio: 0.08,
@@ -169,7 +169,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("7h_page_transition_settings_v9");
+      const saved = localStorage.getItem("7h_page_transition_settings_v10");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
@@ -203,7 +203,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v9", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v10", JSON.stringify(next));
     } catch { }
   };
 
@@ -211,7 +211,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(DEFAULT_SETTINGS);
     settingsRef.current = DEFAULT_SETTINGS;
     try {
-      localStorage.setItem("7h_page_transition_settings_v9", JSON.stringify(DEFAULT_SETTINGS));
+      localStorage.setItem("7h_page_transition_settings_v10", JSON.stringify(DEFAULT_SETTINGS));
     } catch { }
   };
 
