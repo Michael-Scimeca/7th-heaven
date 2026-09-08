@@ -455,7 +455,7 @@ export function Header() {
     (member?.email && member.email.toLowerCase().includes("michael")) ||
     (member?.name && member.name.toLowerCase().includes("michael"));
 
-  const customAvatar = typeof window !== "undefined" ? localStorage.getItem("7h_profile_avatar_v1") : null;
+  const customAvatar = mounted ? localStorage.getItem("7h_profile_avatar_v1") : null;
 
   const avatarSrc =
     member?.avatar &&
