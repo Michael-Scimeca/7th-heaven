@@ -74,9 +74,9 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   clipExitPath: true,
   clipRevealPath: true,
   revealX: 0,
-  revealY: 40,
+  revealY: 20,
   revealScale: 1.00,
-  revealRotation: 1,
+  revealRotation: -2,
   revealOrigin: "center center",
   revealEase: "expo.out",
   revealSlantRatio: 0.08,
@@ -169,7 +169,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("7h_page_transition_settings_v7");
+      const saved = localStorage.getItem("7h_page_transition_settings_v8");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
@@ -203,7 +203,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v7", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v8", JSON.stringify(next));
     } catch { }
   };
 
@@ -211,7 +211,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(DEFAULT_SETTINGS);
     settingsRef.current = DEFAULT_SETTINGS;
     try {
-      localStorage.setItem("7h_page_transition_settings_v7", JSON.stringify(DEFAULT_SETTINGS));
+      localStorage.setItem("7h_page_transition_settings_v8", JSON.stringify(DEFAULT_SETTINGS));
     } catch { }
   };
 
@@ -360,10 +360,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       contentRef.current.style.willChange = "transform";
       gsap.set(contentRef.current, {
         opacity: 1,
-        x: 0,
-        y: 0,
+        x: s.revealX || 0,
+        y: s.revealY ?? 20,
         scale: s.revealScale,
-        rotation: s.revealRotation || 0,
+        rotation: s.revealRotation ?? -2,
         transformOrigin: revealOrigin,
       });
     }
@@ -452,16 +452,16 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       0
     );
 
-    // 2. New page reveal — clip path alone does the wipe. Content stays at y: 0.
+    // 2. New page reveal — subtle motion (-2deg rotation + 20px upward move to 0).
     if (contentRef.current) {
       masterTl.fromTo(
         contentRef.current,
         {
           opacity: 1,
-          x: 0,
-          y: 0,
+          x: s.revealX || 0,
+          y: s.revealY ?? 20,
           scale: s.revealScale,
-          rotation: s.revealRotation || 0,
+          rotation: s.revealRotation ?? -2,
           transformOrigin: revealOrigin,
         },
         {
