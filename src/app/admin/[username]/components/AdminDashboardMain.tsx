@@ -200,7 +200,7 @@ const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
 
 const CrewAvatar = React.memo(({ member }: { member: any }) => {
   const name = member?.name || 'Crew';
-  const avatarUrl = resolveMemberAvatar(name, member?.avatar || member?.avatarUrl);
+  const avatarUrl = resolveMemberAvatar(name, member?.avatar || (member as any)?.avatarUrl);
   const initials = member?.initials || name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
   const [imgError, setImgError] = React.useState(false);
 
@@ -4088,21 +4088,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </p>
                   <p className="mt-1 uppercase font-bold">Store + Flash Drop</p>
                 </div>
-                <div className="bg-black/30 border border-white/10 p-5 hover: border-white/10 transition-colors">
+                <div className="bg-black/30 border border-white/10 p-5   border-white/10 transition-colors">
                   <p className="font-bold uppercase tracking-[0.15em] mb-2">Store Purchases</p>
                   <p className="font-bold ">
                     {simulatedOrders.filter(o => o.source === 'Store').length}
                   </p>
                   <p className="mt-1 uppercase font-bold">Normal store checkout</p>
                 </div>
-                <div className="bg-black/30 border border-white/10 p-5 hover: border-white/10 transition-colors">
+                <div className="bg-black/30 border border-white/10 p-5   border-white/10 transition-colors">
                   <p className="font-bold uppercase tracking-[0.15em] mb-2">Flash Drops</p>
                   <p className="font-bold ">
                     {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
                   </p>
                   <p className="mt-1 uppercase font-bold">Live drop purchases</p>
                 </div>
-                <div className="bg-black/30 border border-white/10 p-5 hover: border-white/10 transition-colors">
+                <div className="bg-black/30 border border-white/10 p-5   border-white/10 transition-colors">
                   <p className="font-bold uppercase tracking-[0.15em] mb-2">Raffle Claims</p>
                   <p className="font-bold ">
                     {simulatedOrders.filter(o => o.source === 'Raffle').length}
@@ -4238,7 +4238,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {renderInfoToggle('bookings')}
             </h3>
           </div>
-          <p className=" font-medium mt-0.5">
+          <p className="   mt-0.5">
             Review and manage incoming client event booking requests, set official load-in/out schedules, and approve or decline reservations.
           </p>
         </div>
@@ -4341,7 +4341,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               title="Click to set official load-in/out time and email planner"
                               className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem] font-bold uppercase px-2.5 py-1 rounded-full transition-all cursor-pointer active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime)
                                 ? "text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 animate-pulse"
-                                : "text-cyan-300 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30"
+                                : " bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30"
                                 }`}
                             >
                               {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) ? (
@@ -4355,7 +4355,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
 
                       {/* Event Type */}
-                      <div className="col-span-2 font-medium capitalize">
+                      <div className="col-span-2   capitalize">
                         {b.eventType?.replace('_', ' ')}
                       </div>
 
@@ -4366,7 +4366,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                       {/* Venue */}
                       <div className="col-span-2 min-w-0">
-                        <div className=" font-medium truncate max-w-[180px]">{b.venueName || '–'}</div>
+                        <div className="   truncate max-w-[180px]">{b.venueName || '–'}</div>
                         <div className=" text-[0.9rem] ">{b.venueCity}, {b.venueState}</div>
                       </div>
 
@@ -4444,14 +4444,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           </div>
                           <div>
                             <p className="uppercase text-black/50 dark:text-white/40 font-bold mb-1">Load-In / Setup Time</p>
-                            <p className="font-semibold text-cyan-400">
+                            <p className="font-semibold">
                               {b.loadInTime || b.load_in_time || 'Unsure — Admin to set & email'}
                             </p>
                           </div>
                           <div>
                             <p className="uppercase text-black/50 dark:text-white/40 font-bold mb-1">Ticket Link</p>
                             {b.ticketLink ? (
-                              <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="font-semibold text-cyan-600 hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
+                              <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="font-semibold    hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
                                 {b.ticketLink}
                               </a>
                             ) : (
@@ -4475,7 +4475,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div className="col-span-2 sm:col-span-4 mt-3 p-4 bg-purple-950/30 border border-purple-500/30 rounded-lg space-y-3">
                             <div className="flex items-center justify-between gap-2 flex-wrap">
                               <p className="uppercase text-purple-300 font-bold flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-cyan-400" /> Official Load-In Setup Manager
+                                <Clock className="w-4 h-4 " /> Official Load-In Setup Manager
                               </p>
                               {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) && (
                                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
@@ -4796,7 +4796,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <div className="font-bold flex items-center gap-2">
                           <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shrink-0" />
                           {feed.isSimulated && feed.route ? (
-                            <Link href={feed.route} className="truncate block hover: text-[var(--color-accent)] transition-colors">{feed.name}</Link>
+                            <Link href={feed.route} className="truncate block   text-[var(--color-accent)] transition-colors">{feed.name}</Link>
                           ) : (
                             <span className="truncate block">{feed.name}</span>
                           )}
@@ -6700,11 +6700,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                 {/* Time Frame, Phone & Email Details */}
                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5 border-t border-white/10 text-[11px] text-white/50 ">
-                                  <div className="flex items-center gap-1 text-cyan-300/80">
+                                  <div className="flex items-center gap-1 ">
                                     <span>⏰</span>
                                     <span>{timeFrameStr}</span>
                                   </div>
-                                  <div className="flex items-center gap-1 text-emerald-300/80">
+                                  <div className="flex items-center gap-1 text-">
                                     <span></span>
                                     <span>{phoneDisplay}</span>
                                   </div>
@@ -6984,7 +6984,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       { name: 'Cruise Community Blast', trigger: 'Sent when cruise admin broadcasts to cruise page chat group.' }
                     ].map((email) => (
                       <div key={email.name} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg p-2.5 hover:border-cyan-500/30 transition-colors">
-                        <h4 className="font-bold text-cyan-200">{email.name}</h4>
+                        <h4 className="font-bold   ">{email.name}</h4>
                         <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
                     ))}
@@ -7126,7 +7126,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               <div className="flex items-center justify-end gap-2">
                                 <button
                                   onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
-                                  className="px-3 py-2 bg-[#00000029] border border-white/10 text-white hover: bg-[#00000029] hover:text-white text-[0.9rem] font-bold uppercase rounded transition-colors"
+                                  className="px-3 py-2 bg-[#00000029] border border-white/10 text-white   bg-[#00000029] hover:text-white text-[0.9rem] font-bold uppercase rounded transition-colors"
                                 >
                                   {viewingUser === user.id ? 'Hide' : 'View'}
                                 </button>
@@ -7539,7 +7539,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               };
                               savePermissionsToBackend(updated);
                             }}
-                            className={`flex items-center justify-between p-2.5 rounded-lg border text-left font-medium transition-colors cursor-pointer ${enabled ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
+                            className={`flex items-center justify-between p-2.5 rounded-lg border text-left   transition-colors cursor-pointer ${enabled ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
                               : 'bg-black/40 border-white/10 text-white/40 hover:border-white/20'
                               }`}
                           >
@@ -7691,7 +7691,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Summary stats bar */}
               <div className="grid grid-cols-4 gap-3 mb-6">
                 <div className="bg-black/30 p-3 border border-white/10 text-center">
-                  <p className="font-bold text-cyan-400">{signups.length}</p>
+                  <p className="font-bold   ">{signups.length}</p>
                   <p className="font-bold uppercase mt-0.5">Bookings</p>
                 </div>
                 <div className="bg-black/30 p-3 border border-white/10 text-center">
@@ -7712,7 +7712,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {signups.length > 0 && (
                 <div className="flex items-center justify-between bg-black/20 px-4 py-3 border-t border-r border-l border-white/5">
                   <div className="flex items-center gap-3">
-                    <button aria-label="Select all passenger emails" onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/25'}`}>
+                    <button aria-label="Select all passenger emails" onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40   ' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/25'}`}>
                       {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                     </button>
                     <span className=" text-[0.9rem] text-white/40 font-bold uppercase ">
@@ -7734,7 +7734,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
                 <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
                   <div className="flex items-center justify-between">
-                    <p className="font-bold uppercase text-cyan-400/60">Compose Cruise Email</p>
+                    <p className="font-bold uppercase   /60">Compose Cruise Email</p>
                     <button aria-label="Close email compose panel" onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer">✕</button>
                   </div>
                   {/* Selected recipients preview */}
@@ -8690,7 +8690,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   const member = crewMembers.find((c: any) => c.id === shift.crewId);
                   const memberName = member?.name || shift.crewName;
                   if (!memberName || shift.crewId === 'openshifts') return null;
-                  const avatarUrl = resolveMemberAvatar(memberName, member?.avatar || member?.avatarUrl);
+                  const avatarUrl = resolveMemberAvatar(memberName, member?.avatar || (member as any)?.avatarUrl);
                   return (
                     <div className="flex items-center gap-1.5 pb-0.5 border-b border-white/15 w-full overflow-hidden">
                       {avatarUrl ? (
@@ -8748,7 +8748,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <span className="text-[12px] bg-yellow-400 text-black px-1 rounded font-bold font-sans">DRAFT</span>
                   )}
                 </div>
-                <div className=" font-medium text-white/80 line-clamp-1 font-sans">
+                <div className="   text-white/80 line-clamp-1 font-sans">
                   {shift.location || 'Venue'}
                 </div>
                 {shift.notes && (
@@ -8995,7 +8995,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 setScheduleSortByDate(prev => prev === day.dateStr ? null : day.dateStr);
                               }}
                               className={`p-0.5 rounded border-none bg-transparent cursor-pointer transition-colors ${scheduleSortByDate === day.dateStr ? 'bg-white/20 text-purple-300 font-extrabold'
-                                : ' hover: '
+                                : '   '
                                 }`}
                               title={scheduleSortByDate === day.dateStr ? "Reset crew sorting" : "Sort working crew to the top"}
                             >
@@ -9678,7 +9678,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       type="button"
                       onClick={handlePrevWeek}
-                      className="p-2 hover: bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                      className="p-2   bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
                       title="Previous Week"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
@@ -9688,7 +9688,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       onClick={() => {
                         document.getElementById('wiw-date-picker')?.click();
                       }}
-                      className="p-2 hover: bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                      className="p-2   bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
                       title="Choose Date"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
@@ -9710,7 +9710,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       type="button"
                       onClick={handleNextWeek}
-                      className="p-2 hover: bg-[#00000029] transition-colors text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
+                      className="p-2   bg-[#00000029] transition-colors text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
                       title="Next Week"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
@@ -9720,7 +9720,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button
                     type="button"
                     onClick={handleGoToToday}
-                    className="px-3 py-1.5 border border-white/10 bg-black/40 hover: bg-[#00000029] font-bold text-white/70 hover:text-white rounded-lg transition-colors cursor-pointer border-solid"
+                    className="px-3 py-1.5 border border-white/10 bg-black/40   bg-[#00000029] font-bold text-white/70 hover:text-white rounded-lg transition-colors cursor-pointer border-solid"
                   >
                     TODAY
                   </button>
@@ -9730,7 +9730,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     onClick={handleGoToMonth}
                     className={`px-3 py-1.5 border font-bold rounded-lg transition-colors cursor-pointer border-solid ${calendarRange === 'month'
                       ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-white/20'
-                      : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
+                      : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
                       }`}
                   >
                     MONTH
@@ -9767,7 +9767,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       type="button"
                       onClick={() => setShowTourDropdown(prev => !prev)}
                       className={`px-3 py-1.5 border font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
-                        : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
+                        : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
                         }`}
                     >
                       SHOWS
@@ -9801,7 +9801,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     }
                                     setShowTourDropdown(false);
                                   }}
-                                  className="w-full text-left px-4 py-2.5 hover: bg-[#00000029] flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
+                                  className="w-full text-left px-4 py-2.5   bg-[#00000029] flex items-center gap-3 border-none bg-transparent cursor-pointer transition-colors group"
                                 >
                                   <span className="font-bold text-purple-300/70 group-hover:text-purple-300 uppercase min-w-[80px]">{dateLabel}</span>
                                   <span className="font-bold text-white/70 group-hover:text-white truncate">{show.venue || show.venue_name}</span>
@@ -9819,7 +9819,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     type="button"
                     onClick={() => setShowTourDatesOnly(prev => !prev)}
                     className={`px-3 py-1.5 border font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
-                      : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
+                      : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
                       }`}
                     title="Show only days with tour shows"
                   >
@@ -9846,7 +9846,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     type="button"
                     onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
                     className={`px-3 py-1.5 border font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 font-bold shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
-                      : ' border-white/10 bg-black/40 hover: bg-[#00000029] text-white/70 hover:text-white'
+                      : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
                       }`}
                     title="Search & advanced filters by person, venue, date range, and event type"
                   >
@@ -10833,7 +10833,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
                     <div>
                       <h3 className="font-bold tracking-wide text-white uppercase font-sans">{alertModal.title || 'Schedule Notice'}</h3>
-                      <p className="mt-2 font-medium font-sans whitespace-pre-line">{alertModal.message}</p>
+                      <p className="mt-2   font-sans whitespace-pre-line">{alertModal.message}</p>
                     </div>
                     <button
                       type="button"
@@ -10918,7 +10918,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   handleAddGroupToDay(dateStr, g);
                                   setCellGroupPopover(null);
                                 }}
-                                className="w-full text-left px-4 py-3.5 rounded-lg hover:bg-white/10 text-white font-bold transition-all cursor-pointer border border-white/10 hover: border-white/10 flex items-center justify-between gap-3 bg-[#00000029] shadow-2xs group"
+                                className="w-full text-left px-4 py-3.5 rounded-lg hover:bg-white/10 text-white font-bold transition-all cursor-pointer border border-white/10   border-white/10 flex items-center justify-between gap-3 bg-[#00000029] shadow-2xs group"
                                 title={`Apply Group: ${g.name}`}
                               >
                                 <div className="flex items-center gap-3 min-w-0">
@@ -10937,7 +10937,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <button
                           type="button"
                           onClick={() => setCellGroupPopover(null)}
-                          className="px-4 py-2 border border-white/10 hover: bg-[#00000029] text-white/70 hover:text-white font-bold uppercase rounded-lg transition-colors cursor-pointer"
+                          className="px-4 py-2 border border-white/10   bg-[#00000029] text-white/70 hover:text-white font-bold uppercase rounded-lg transition-colors cursor-pointer"
                         >
                           Cancel
                         </button>
@@ -11030,7 +11030,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                             return [(
                               <div key={m.id} className="pr-3 pt-3 pb-3 last:border-b-0 transition-colors ">
-                                <label className="flex items-center justify-between gap-3 cursor-pointer select-none py-1 px-1.5 -mx-1.5 rounded-lg hover: transition-colors group">
+                                <label className="flex items-center justify-between gap-3 cursor-pointer select-none py-1 px-1.5 -mx-1.5 rounded-lg   transition-colors group">
                                   {/* Left checkbox and avatar */}
                                   <div className="flex items-center gap-3 min-w-0">
                                     <SquishyToggle
@@ -11056,7 +11056,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         <a
                                           href={`tel:${(m.phone || '(555) 123-4567').replace(/[^\d+]/g, '')}`}
                                           onClick={(e) => e.stopPropagation()}
-                                          className="hover:text-cyan-400 hover:underline transition-colors"
+                                          className="    hover:underline transition-colors"
                                         >
                                           {m.phone || '(555) 123-4567'}
                                         </a>
@@ -11064,7 +11064,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         <a
                                           href={`mailto:${m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}`}
                                           onClick={(e) => e.stopPropagation()}
-                                          className="hover:text-cyan-400 hover:underline transition-colors"
+                                          className="    hover:underline transition-colors"
                                         >
                                           {m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}
                                         </a>
@@ -11230,7 +11230,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
                         }}
-                        className="px-4 py-2 border border-white/10 hover: bg-[#00000029] text-white/70 hover:text-white font-bold uppercase rounded-lg transition-colors cursor-pointer"
+                        className="px-4 py-2 border border-white/10   bg-[#00000029] text-white/70 hover:text-white font-bold uppercase rounded-lg transition-colors cursor-pointer"
                       >
                         Cancel
                       </button>
@@ -11347,7 +11347,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 const color = member?.color || getAvatarColor(shift.crewName);
 
                                 return (
-                                  <div key={shift.id} className="bg-black/20 border border-white/10 p-3 flex items-center justify-between gap-3 hover: border-white/10 transition-colors">
+                                  <div key={shift.id} className="bg-black/20 border border-white/10 p-3 flex items-center justify-between gap-3   border-white/10 transition-colors">
                                     <div className="flex items-center gap-2.5 min-w-0">
                                       {member?.avatar ? (
                                         <img src={member.avatar} alt="7th Heaven Media" className="w-8 h-8 rounded-full object-cover shrink-0" />
@@ -11745,7 +11745,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         value={adminGuidelinesTitle}
                         onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
                         placeholder="Cruise Information & Guidelines"
-                        className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
+                        className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all   text-sm shadow-inner"
                       />
                     </div>
                     <div>
@@ -11757,7 +11757,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           value={adminGuidelinesSubtitle}
                           onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
                           placeholder="Cruiser Welcome Pack"
-                          className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 pr-12 text-cyan-400 placeholder:text-cyan-400/40 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
+                          className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 pr-12    placeholder:  /40 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all   text-sm shadow-inner"
                         />
                         <button
                           type="button"
@@ -11855,7 +11855,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           value={cruiseBlastSubject}
                           onChange={(e) => setCruiseBlastSubject(e.target.value)}
                           placeholder="e.g. TEST, CAPTAIN'S LOG, or Cruise Update..."
-                          className="w-full bg-[#18072b]/90 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all font-medium text-sm shadow-inner"
+                          className="w-full bg-[#18072b]/90 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all   text-sm shadow-inner"
                         />
                       </div>
 
@@ -11935,7 +11935,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
                         <div className="flex items-center gap-2">
                           <span className="text-base"></span>
-                          <h4 className="font-bold uppercase text-cyan-400">Live Dispatch Preview</h4>
+                          <h4 className="font-bold uppercase   ">Live Dispatch Preview</h4>
                         </div>
                         {/* Live Preview Tab Switcher */}
                         <div className="flex items-center gap-2 select-none">
@@ -12126,7 +12126,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           onClick={() => setQrLinkType('product')}
                           className={`px-3 py-2 font-bold uppercase border rounded-lg transition-colors cursor-pointer ${qrLinkType === 'product'
                             ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
-                            : 'bg-black/20 border-white/10 text-white/40 hover: text-white hover:border-white/20'
+                            : 'bg-black/20 border-white/10 text-white/40   text-white hover:border-white/20'
                             }`}
                         >
                           Product Detail Page
@@ -12137,7 +12137,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           disabled={!selectedQrProduct.variants || selectedQrProduct.variants.length === 0}
                           className={`px-3 py-2 font-bold uppercase border rounded-lg transition-colors cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${qrLinkType === 'checkout'
                             ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
-                            : 'bg-black/20 border-white/10 text-white/40 hover: text-white hover:border-white/20'
+                            : 'bg-black/20 border-white/10 text-white/40   text-white hover:border-white/20'
                             }`}
                         >
                           Direct Add to Cart
@@ -12275,7 +12275,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="text-xl"></div>
           <div>
             <p className="font-bold uppercase ">{activeToast.title}</p>
-            <p className="font-medium mt-0.5">{activeToast.message}</p>
+            <p className="  mt-0.5">{activeToast.message}</p>
           </div>
         </div>
       )}
