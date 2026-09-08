@@ -25,7 +25,7 @@ export default function CruiseHeroSection({
   return (
     <section
       id="cruise-hero"
-      className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-8 md:pb-16 text-white min-h-[35vh] md:min-h-[36vh] lg:min-h-[620px] transition-all duration-300 ease-out"
+      className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-8 md:pb-16 text-white min-h-[35vh] md:min-h-[36vh] lg:min-h-[620px]"
       style={{
         marginLeft: "calc(-1 * var(--page-padding-x))",
         marginRight: "calc(-1 * var(--page-padding-x))",
@@ -58,7 +58,7 @@ export default function CruiseHeroSection({
 
       {/* Top Dark Gradient Overlay for Nav Header Legibility */}
       <div
-        className="absolute top-0 left-0 right-0 pointer-events-none z-[1] transition-all duration-150 hero-top-dark-gradient"
+        className="absolute top-0 left-0 right-0 pointer-events-none z-[1] hero-top-dark-gradient"
         style={{
           height: `${heroMaskSettings.topGradientHeight ?? 240}px`,
           background: `linear-gradient(to bottom, rgba(6, 6, 12, ${(heroMaskSettings.topGradientOpacity ?? 85) / 100}) 0%, rgba(6, 6, 12, ${((heroMaskSettings.topGradientOpacity ?? 85) * 0.45) / 100}) 55%, transparent 100%)`,

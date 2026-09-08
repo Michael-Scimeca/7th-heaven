@@ -47,15 +47,11 @@ const HARD_CEILING_MS = 6000;
 export const CURTAIN_BG = "rgb(13, 14, 19)";
 
 function shouldSkip(): boolean {
-  if (typeof window === "undefined") return false;
-  return (
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    window.location.search.includes("bypass=true")
-  );
+  return true;
 }
 
 export default function Preloader() {
-  const [phase, setPhase] = useState<Phase>("loading");
+  const [phase, setPhase] = useState<Phase>(() => (shouldSkip() ? "done" : "loading"));
   const [count, setCount] = useState<number>(0);
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -84,13 +80,9 @@ export default function Preloader() {
       setPhase("done");
     };
 
-    if (!html.classList.contains("is-preloading")) {
+    if (!html.classList.contains("is-preloading") || shouldSkip()) {
+      unlockScroll();
       setPhase("done");
-      return;
-    }
-
-    if (shouldSkip()) {
-      finish();
       return;
     }
 
