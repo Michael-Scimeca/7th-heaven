@@ -376,24 +376,28 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     const masterTl = gsap.timeline({
       onComplete: () => {
-        if (snapshotOuter.parentNode) {
+        if (snapshotOuter && snapshotOuter.parentNode) {
           snapshotOuter.parentNode.removeChild(snapshotOuter);
         }
         document.documentElement.classList.remove("is-page-transitioning");
-        if (outerRef.current) {
-          outerRef.current.style.overflow = "";
-          outerRef.current.style.clipPath = "none";
-          outerRef.current.style.willChange = "";
-        }
-        if (contentRef.current) {
-          gsap.set(contentRef.current, { clearProps: "all" });
-        }
-        if (typeof window !== "undefined" && (window as any).__lenis) {
-          try {
-            (window as any).__lenis.start();
-            (window as any).__lenis.resize();
-          } catch { }
-        }
+
+        requestAnimationFrame(() => {
+          if (outerRef.current) {
+            outerRef.current.style.overflow = "";
+            outerRef.current.style.clipPath = "none";
+            outerRef.current.style.willChange = "";
+          }
+          if (contentRef.current) {
+            gsap.set(contentRef.current, { clearProps: "all" });
+          }
+          if (typeof window !== "undefined" && (window as any).__lenis) {
+            try {
+              (window as any).__lenis.start();
+              (window as any).__lenis.resize();
+            } catch { }
+          }
+        });
+
         revealStartedForRef.current = null;
         clearPendingHref();
         setMode("idle");
