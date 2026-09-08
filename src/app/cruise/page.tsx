@@ -77,6 +77,7 @@ export default function CruisePage() {
 
   const transitionDone = true;
 
+  const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [formData, setFormData] = useState(() => {
     const defaults = {
       name: "", email: "", phone: "", notes: "", anonymous: false,
@@ -131,7 +132,7 @@ export default function CruisePage() {
 
   const handleSelectCabin = (selectVal?: string) => {
     if (selectVal) {
-      setFormData(f => ({ ...f, cabinPreference: selectVal }));
+      setFormData((f: any) => ({ ...f, cabinPreference: selectVal }));
     }
     const target = document.getElementById("signup") || document.getElementById("book-now");
     if (target) {
@@ -194,7 +195,7 @@ export default function CruisePage() {
 
   useEffect(() => {
     if (isLoggedIn && member) {
-      setFormData(prev => ({
+      setFormData((prev: any) => ({
         ...prev,
         name: member.name || prev.name,
         email: member.email || prev.email,
@@ -204,7 +205,7 @@ export default function CruisePage() {
   }, [isLoggedIn, member]);
 
   useEffect(() => {
-    setFormData(prev => {
+    setFormData((prev: any) => {
       const activeCount = 1 + guests.filter(g => g.active).length;
       const totalDeposit = activeCount * 250;
       if (prev.splitPayment && activeCount > 1) {
