@@ -312,9 +312,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     // rotate() on top of that clip-path was what made the transition read
     // as "swinging" left/right instead of sliding straight up.
     if (outerRef.current) {
-      outerRef.current.style.position = "fixed";
-      outerRef.current.style.inset = "0";
-      outerRef.current.style.zIndex = "905";
       outerRef.current.style.overflow = "hidden";
       outerRef.current.style.willChange = "clip-path";
       outerRef.current.style.clipPath = buildIncomingRevealClipPath(0, WIPE_SLANT_RATIO);
@@ -431,53 +428,30 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       const windowHeight = typeof window !== "undefined" ? window.innerHeight : 800;
 
       if (outerRef.current) {
-        outerRef.current.style.position = "fixed";
-        outerRef.current.style.inset = "0";
-        outerRef.current.style.zIndex = "905";
         outerRef.current.style.overflow = "hidden";
         outerRef.current.style.willChange = "clip-path";
       }
 
       const tl = gsap.timeline({
         onComplete: () => {
-          // Deferred two animation frames: at the instant this tween
-          // finishes, the clip-path is ALREADY visually equivalent to
-          // "no clip" (buildIncomingRevealClipPath(1, ratio) resolves to
-          // the full 0,0-100,100 rectangle), so nothing looks different
-          // yet. But stripping position/inset/z-index/willChange, clearing
-          // the slide-up transform, AND restarting Lenis all in this same
-          // synchronous tick forces the browser into one big layout +
-          // composite recalculation on the very frame the reveal visually
-          // completes -- that simultaneous unpin is what reads as a flash/
-          // flicker right as the new page "finishes loading in". Letting
-          // two rAFs pass first means the browser has already painted the
-          // settled, fully-revealed frame on its own compositing layer
-          // before any of this fires, so the cleanup below is invisible.
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              document.documentElement.classList.remove("is-page-transitioning");
-              if (outerRef.current) {
-                outerRef.current.style.position = "";
-                outerRef.current.style.inset = "";
-                outerRef.current.style.zIndex = "";
-                outerRef.current.style.overflow = "";
-                outerRef.current.style.clipPath = "none";
-                outerRef.current.style.willChange = "";
-              }
-              if (contentRef.current) {
-                gsap.set(contentRef.current, { clearProps: "all" });
-              }
-              if (typeof window !== "undefined" && (window as any).__lenis) {
-                try {
-                  (window as any).__lenis.start();
-                  (window as any).__lenis.resize();
-                } catch {}
-              }
-              revealStartedForRef.current = null;
-              clearPendingHref();
-              setMode("idle");
-            });
-          });
+          document.documentElement.classList.remove("is-page-transitioning");
+          if (outerRef.current) {
+            outerRef.current.style.overflow = "";
+            outerRef.current.style.clipPath = "none";
+            outerRef.current.style.willChange = "";
+          }
+          if (contentRef.current) {
+            gsap.set(contentRef.current, { clearProps: "all" });
+          }
+          if (typeof window !== "undefined" && (window as any).__lenis) {
+            try {
+              (window as any).__lenis.start();
+              (window as any).__lenis.resize();
+            } catch {}
+          }
+          revealStartedForRef.current = null;
+          clearPendingHref();
+          setMode("idle");
         },
       });
 
@@ -633,7 +607,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         ref={outerRef}
         className="exoape-page-outer"
         style={{
-          position: mode === "idle" ? "relative" : undefined,
+          position: "relative",
           width: "100%",
           minHeight: "100vh",
         }}
