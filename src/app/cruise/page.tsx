@@ -16,13 +16,15 @@ import InputField from "@/components/InputField";
 import SquishyToggle from "@/components/SquishyToggle";
 import Dropdown from "@/components/Dropdown";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import dynamic from "next/dynamic";
 import LazyMount from "@/components/LazyMount";
 
 import CruiseHeroSection from "./components/CruiseHeroSection";
-import CruiseCabinsPricingSection from "./components/CruiseCabinsPricingSection";
-import CruisePortsCatalogSection from "./components/CruisePortsCatalogSection";
-import CruiseShipExplorerSection from "./components/CruiseShipExplorerSection";
-import CruiseFaqSection from "./components/CruiseFaqSection";
+
+const CruiseCabinsPricingSection = dynamic(() => import("./components/CruiseCabinsPricingSection"), { ssr: false });
+const CruisePortsCatalogSection = dynamic(() => import("./components/CruisePortsCatalogSection"), { ssr: false });
+const CruiseShipExplorerSection = dynamic(() => import("./components/CruiseShipExplorerSection"), { ssr: false });
+const CruiseFaqSection = dynamic(() => import("./components/CruiseFaqSection"), { ssr: false });
 
 export default function CruisePage() {
   const supabase = createClient();
@@ -308,29 +310,31 @@ export default function CruisePage() {
       {transitionDone && (
         <>
           {/* SECTION 2: CABINS & PRICING */}
-          <CruiseCabinsPricingSection
-            handleSelectCabin={handleSelectCabin}
-            handleSignup={handleSignup}
-            formData={formData}
-            setFormData={setFormData}
-            guests={guests}
-            toggleGuestActive={toggleGuestActive}
-            updateGuest={updateGuest}
-            signature={signature}
-            setSignature={setSignature}
-            signatureDate={signatureDate}
-            signupStatus={signupStatus}
-            formError={formError}
-            isPaymentDropdownOpen={isPaymentDropdownOpen}
-            setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
-            signupCount={signupCount}
-            totalGuests={totalGuests}
-            joinedFans={joinedFans}
-            CruiseCard1Section={CruiseCard1Section}
-            CruiseCard2Section={CruiseCard2Section}
-            CruiseNotesAndSignatureSection={CruiseNotesAndSignatureSection}
-            PaymentPortalDropdownPanel={PaymentPortalDropdownPanel}
-          />
+          <LazyMount minHeight="800px" rootMargin="300px 0px">
+            <CruiseCabinsPricingSection
+              handleSelectCabin={handleSelectCabin}
+              handleSignup={handleSignup}
+              formData={formData}
+              setFormData={setFormData}
+              guests={guests}
+              toggleGuestActive={toggleGuestActive}
+              updateGuest={updateGuest}
+              signature={signature}
+              setSignature={setSignature}
+              signatureDate={signatureDate}
+              signupStatus={signupStatus}
+              formError={formError}
+              isPaymentDropdownOpen={isPaymentDropdownOpen}
+              setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
+              signupCount={signupCount}
+              totalGuests={totalGuests}
+              joinedFans={joinedFans}
+              CruiseCard1Section={CruiseCard1Section}
+              CruiseCard2Section={CruiseCard2Section}
+              CruiseNotesAndSignatureSection={CruiseNotesAndSignatureSection}
+              PaymentPortalDropdownPanel={PaymentPortalDropdownPanel}
+            />
+          </LazyMount>
 
           {/* SECTION 3: PORTS OF CALL */}
           <LazyMount minHeight="600px" rootMargin="300px 0px">
