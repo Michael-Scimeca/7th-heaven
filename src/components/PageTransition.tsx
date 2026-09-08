@@ -107,7 +107,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   const outerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const tweenRef = useRef<gsap.core.Tween | gsap.core.Timeline | null>(null);
   const contentTweenRef = useRef<gsap.core.Tween | null>(null);
   // Tracks which pendingHref Phase 2 has already started revealing, so the
   // reveal race is only ever kicked off once per navigation. See the long
@@ -397,31 +397,17 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     Promise.race([waitForPageReady(), failsafe]).then(() => {
       if (cancelled) return;
 
-      // Incoming Inner Motion (Module 464 enter, scale removed):
-      // y: window.innerHeight / 2 -> 0, no scale (straight slide-up, see
-      // header comment for why the zoom was dropped) and no rotate (see
-      // note on Phase 1).
-      if (contentRef.current) {
-        contentTweenRef.current = gsap.to(contentRef.current, {
-          y: 0,
-          duration,
-          ease,
-          clearProps: "all",
-        });
+      const windowHeight = typeof window !== "undefined" ? window.innerHeight : 800;
+
+      if (outerRef.current) {
+        outerRef.current.style.position = "fixed";
+        outerRef.current.style.inset = "0";
+        outerRef.current.style.zIndex = "9992";
+        outerRef.current.style.overflow = "hidden";
+        outerRef.current.style.willChange = "clip-path";
       }
 
-      // Incoming Outer ClipPath Sweep (Module 464 enter clipPath):
-      // polygon(0% 100%, 100% 110%, 100% 100%, 0% 100%) -> polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)
-      const proxy = { p: 0 };
-      tweenRef.current = gsap.to(proxy, {
-        p: 1,
-        duration,
-        ease,
-        onUpdate: () => {
-          if (outerRef.current) {
-            outerRef.current.style.clipPath = buildIncomingRevealClipPath(proxy.p, WIPE_SLANT_RATIO);
-          }
-        },
+      const tl = gsap.timeline({
         onComplete: () => {
           // Deferred two animation frames: at the instant this tween
           // finishes, the clip-path is ALREADY visually equivalent to
@@ -463,6 +449,37 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           });
         },
       });
+
+      tweenRef.current = tl;
+
+      // 1. Content slide-up: explicit fromTo guarantees y animates from
+      // windowHeight / 2 -> 0 even if React re-rendered the container mid-route.
+      if (contentRef.current) {
+        contentRef.current.style.willChange = "transform";
+        tl.fromTo(
+          contentRef.current,
+          { y: windowHeight / 2, transformOrigin: "center center" },
+          { y: 0, duration, ease, clearProps: "all" },
+          0
+        );
+      }
+
+      // 2. Outer clip-path reveal sweep running in lockstep with the slide-up
+      const proxy = { p: 0 };
+      tl.to(
+        proxy,
+        {
+          p: 1,
+          duration,
+          ease,
+          onUpdate: () => {
+            if (outerRef.current) {
+              outerRef.current.style.clipPath = buildIncomingRevealClipPath(proxy.p, WIPE_SLANT_RATIO);
+            }
+          },
+        },
+        0
+      );
     });
 
     return () => {
@@ -582,14 +599,14 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         />
       )}
       <div
-      ref={outerRef}
-      className="exoape-page-outer"
-      style={{
-        position: "relative",
-        width: "100%",
-        minHeight: "100vh",
-      }}
-    >
+        ref={outerRef}
+        className="exoape-page-outer"
+        style={{
+          position: mode === "idle" ? "relative" : undefined,
+          width: "100%",
+          minHeight: "100vh",
+        }}
+      >
       <div
         ref={contentRef}
         className="exoape-page-inner transform-gpu"
