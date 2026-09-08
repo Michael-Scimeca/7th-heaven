@@ -8,79 +8,71 @@ import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
 import { waitForPageReady } from "@/lib/waitForPageReady";
 import { useTransition } from "@/context/TransitionContext";
 
-// Speed / easing / slant-ratio / direction all tuned live on the
-// /preloaders sandbox (dial each knob against an instant replay) and
-// ported over once they felt right:
-//  - WIPE_SLANT_RATIO: bumped from the raw exoape-measured 0.095 to 0.18
-//    for a clearly visible diagonal instead of a subtle one.
-//  - EXIT_DURATION / REVEAL_DURATION: the old page's exit and the new
-//    page's reveal now start at the exact same moment (Phase 1 fires the
-//    exit immediately; Phase 2 starts the reveal the instant the route
-//    commits -- see the Phase 2 comment below for why it can't literally
-//    be frame 0), but the reveal always runs a fixed 0.25s SLOWER than
-//    the exit, so the new page visibly "chases" and covers the old one
-//    instead of the two just swapping. Settled on 0.55s exit / 0.80s
-//    reveal after live A/B'ing speeds in the sandbox -- fast enough to
-//    feel snappy, slow enough that the slant reveal actually reads.
-//  - TRANSITION_EASE: exoape's real EXO_EASE curve
-//    (cubic-bezier(0.496, 0.004, 0, 1)) is extremely front-loaded (~85% of
-//    its progress lands in the first 50% of elapsed time), which squeezed
-//    the whole decaying-slant sweep into an imperceptible sliver of real
-//    time -- it read as a flat pop instead of a slant. Went through
-//    expo.out first, then settled on circ.out after further live sandbox
-//    comparison -- still a hard deceleration into the landing, but with
-//    a rounder, less abrupt initial burst that reads smoother at the
-//    slower 0.55s/0.80s durations above.
-//  - The incoming page no longer scales during its reveal (was 1.3 -> 1,
-//    matching the old page's own exit zoom) -- live sandbox testing
-//    showed the scale mostly disappears under the clip-path mask anyway
-//    (it decays in lockstep with the reveal) and reads as an unwanted
-//    zoom on the rare frames it IS visible. The reveal is now a straight
-//    slide-up + slanted clip-path wipe, no scale. The old page's own
-//    exit keeps its 1.3x zoom-away scale -- that's a different, still-
-//    wanted "flies off camera" effect for the page leaving, not the one
-//    arriving.
-//  - The old page's exit also travels 30px further up (-windowHeight/2 -
-//    30 instead of -windowHeight/2) so it visibly clears the frame
-//    before the reveal catches up, instead of the two potentially still
-//    overlapping right at the handoff.
-//  - Direction: the slant now leads from the LEFT edge instead of the
-//    right (mirrored via the local buildIncomingRevealClipPath /
-//    buildOutgoingExitClipPath below) -- chosen after comparing both
-//    directions live in the sandbox. @/lib/curtainClipPath's
-//    buildDecayingSlantCoverClipPath (right-leads, measured directly off
-//    exoape's footage) is left untouched for reference/rollback.
-const WIPE_SLANT_RATIO = 0.18;
+const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 const FAILSAFE_MS = 3000;
 const CURTAIN_BG = "rgb(13, 14, 19)";
 
-const TRANSITION_EASE = "circ.out";
-const EXIT_DURATION = 0.20;
-const REVEAL_DURATION = EXIT_DURATION + 0.20;
+const EASE_OPTIONS: { label: string; value: string }[] = [
+  { label: "circ.out (default)", value: "circ.out" },
+  { label: "power1.out", value: "power1.out" },
+  { label: "power2.out", value: "power2.out" },
+  { label: "power3.out", value: "power3.out" },
+  { label: "power4.out", value: "power4.out" },
+  { label: "sine.out", value: "sine.out" },
+  { label: "expo.out", value: "expo.out" },
+  { label: "back.out(1.2)", value: "back.out(1.2)" },
+  { label: "power1.inOut", value: "power1.inOut" },
+  { label: "power2.inOut", value: "power2.inOut" },
+  { label: "linear", value: "linear" },
+  { label: "site cubic-bezier (EXO_EASE)", value: EXO_EASE },
+];
 
-// Local, flipped mirror of @/lib/curtainClipPath's buildDecayingSlantCoverClipPath
-// (left edge leads instead of right). The verified, measured-from-video
-// helper is left untouched; this mirrored version -- and its complement
-// below -- are scoped to this component only.
-function buildIncomingRevealClipPath(progress: number, ratio: number, rampFraction = 0.05): string {
+export interface TransitionSettings {
+  speedMult: number;
+  revealScale: number;
+  revealEase: string;
+  revealSlantRatio: number;
+  revealFlipSlant: boolean;
+  exitSpeed: number;
+  exitScale: number;
+  exitRotation: number;
+  exitEase: string;
+  exitSlantRatio: number;
+  exitFlipSlant: boolean;
+}
+
+export const DEFAULT_SETTINGS: TransitionSettings = {
+  speedMult: 1,
+  revealScale: 1.0,
+  revealEase: "circ.out",
+  revealSlantRatio: 0.18,
+  revealFlipSlant: true,
+  exitSpeed: 0.30,
+  exitScale: 1.30,
+  exitRotation: 0,
+  exitEase: "circ.out",
+  exitSlantRatio: 0.18,
+  exitFlipSlant: true,
+};
+
+function buildRevealClipPath(progress: number, ratio: number, flip: boolean, rampFraction = 0.05): string {
   const p = Math.min(1, Math.max(0, progress));
-  const rightY = 100 * (1 - p);
+  const mainY = 100 * (1 - p);
   const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
-  const leftY = rightY / (1 + rampedRatio);
+  const leadY = mainY / (1 + rampedRatio);
+  const leftY = flip ? leadY : mainY;
+  const rightY = flip ? mainY : leadY;
   return `polygon(0% ${leftY}%, 100% ${rightY}%, 100% 100%, 0% 100%)`;
 }
 
-// Complement of buildIncomingRevealClipPath, for the outgoing snapshot's
-// own exit: carves the visible region down from the top instead of
-// revealing it from the bottom, along the exact same diagonal, so both
-// halves of the transition read as one continuous move instead of two
-// unrelated animations.
-function buildOutgoingExitClipPath(progress: number, ratio: number, rampFraction = 0.05): string {
+function buildExitClipPath(progress: number, ratio: number, flip: boolean, rampFraction = 0.05): string {
   const p = Math.min(1, Math.max(0, progress));
-  const lagY = 100 * (1 - p);
+  const mainY = 100 * (1 - p);
   const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
-  const leadY = lagY / (1 + rampedRatio);
-  return `polygon(0% 0%, 100% 0%, 100% ${lagY}%, 0% ${leadY}%)`;
+  const leadY = mainY / (1 + rampedRatio);
+  const leftY = flip ? leadY : mainY;
+  const rightY = flip ? mainY : leadY;
+  return `polygon(0% 0%, 100% 0%, 100% ${rightY}%, 0% ${leftY}%)`;
 }
 
 function shouldSkip(): boolean {
@@ -109,88 +101,57 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const contentRef = useRef<HTMLDivElement>(null);
   const tweenRef = useRef<gsap.core.Tween | gsap.core.Timeline | null>(null);
   const contentTweenRef = useRef<gsap.core.Tween | null>(null);
-  // Tracks which pendingHref Phase 2 has already started revealing, so the
-  // reveal race is only ever kicked off once per navigation. See the long
-  // comment on the Phase 2 effect below for why this can't just be a
-  // mode !== "covered" check in the dependency array.
   const revealStartedForRef = useRef<string | null>(null);
-  // Tracks the outgoing snapshot's own tweens (snapshotInner + overlay),
-  // which are NOT covered by tweenRef/contentTweenRef (those are Phase 2's
-  // reveal tweens). Found the hard way: if a transition never reaches its
-  // own onComplete (rAF starved, tab backgrounded, a slow/first-compile dev
-  // route, anything), these two tweens are orphaned -- GSAP keeps ticking
-  // them forever, which keeps their detached, full-page-clone target nodes
-  // alive and off the DOM but never garbage collected. Every subsequent
-  // navigation piles on two more forever-running tweens plus another full
-  // clone, and GSAP has to walk the whole growing pile every frame -- a
-  // compounding leak. Measured directly: successive navigations in one tab
-  // went from ~1s to ~13s to ~29s before a "renderer may be frozen" CDP
-  // timeout, tracking almost exactly with this pile growing by two tweens
-  // each click. Killed explicitly below (new transition start + watchdog)
-  // instead of trusting onComplete to always fire.
   const outgoingTweensRef = useRef<gsap.core.Tween[]>([]);
 
-  // Slow-motion testing UI & speed multiplier state
-  const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
+  // Live tuning settings & persistence
+  const [settings, setSettings] = useState<TransitionSettings>(DEFAULT_SETTINGS);
+  const [activeTab, setActiveTab] = useState<"speed" | "reveal" | "exit">("speed");
   const [showControls, setShowControls] = useState<boolean>(true);
-  const speedMultiplierRef = useRef<number>(1);
+  const settingsRef = useRef<TransitionSettings>(DEFAULT_SETTINGS);
 
   useEffect(() => {
-    speedMultiplierRef.current = speedMultiplier;
-  }, [speedMultiplier]);
+    settingsRef.current = settings;
+  }, [settings]);
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("7h_transition_speed_mult");
+      const saved = localStorage.getItem("7h_page_transition_settings_v2");
       if (saved) {
-        const parsed = parseFloat(saved);
-        if (parsed > 0 && !isNaN(parsed)) {
-          setSpeedMultiplier(parsed);
-          speedMultiplierRef.current = parsed;
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === "object") {
+          const merged = { ...DEFAULT_SETTINGS, ...parsed };
+          setSettings(merged);
+          settingsRef.current = merged;
         }
       }
     } catch {}
   }, []);
 
-  const changeSpeed = (mult: number) => {
-    setSpeedMultiplier(mult);
-    speedMultiplierRef.current = mult;
+  const updateSetting = <K extends keyof TransitionSettings>(key: K, val: TransitionSettings[K]) => {
+    setSettings((prev) => {
+      const next = { ...prev, [key]: val };
+      settingsRef.current = next;
+      try {
+        localStorage.setItem("7h_page_transition_settings_v2", JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  };
+
+  const resetDefaults = () => {
+    setSettings(DEFAULT_SETTINGS);
+    settingsRef.current = DEFAULT_SETTINGS;
     try {
-      localStorage.setItem("7h_transition_speed_mult", mult.toString());
+      localStorage.setItem("7h_page_transition_settings_v2", JSON.stringify(DEFAULT_SETTINGS));
     } catch {}
   };
 
-  // Line-by-Line 1:1 Implementation of Exo Ape Production Module 464 (6f3a20d.js)
-  //
-  // Two phases, split across two effects, because they're gated on two
-  // different things:
-  //
-  //   Phase 1 ("covering"): fires once per request. Snapshots the outgoing
-  //   page, hides + pre-scales the incoming page so it's invisible from its
-  //   very first frame, fires the real navigation, and flies the outgoing
-  //   snapshot away. Ends by handing off to "covered" -- it does NOT reveal
-  //   anything itself.
-  //
-  //   Phase 2 ("covered" -> "uncovering"): only starts once usePathname()
-  //   actually reflects the destination route. That's the real signal that
-  //   Next has committed the navigation and mounted the new page -- not a
-  //   fixed delay. Revealing before that would mean the reveal animation
-  //   plays *while* React is still mounting the destination page, fighting
-  //   it for main-thread time (visible as stutter), and on a slow route it
-  //   would uncover over content that isn't there yet. waitForPageReady()
-  //   adds a second, finer check on top (fonts + real text painted), bounded
-  //   by FAILSAFE_MS so a route that never settles can't hang the curtain
-  //   open forever.
-  //
-  // Header.tsx and Footer.tsx already key off mode === "covered" (nav
-  // highlight / hiding the footer while fully covered) -- this is what
-  // actually drives mode through that state instead of skipping it.
   useEffect(() => {
     if (mode !== "covering" || !pendingHref) return;
 
     document.documentElement.classList.add("is-page-transitioning");
 
-    // Pause Lenis smooth scroll during transition
     if (typeof window !== "undefined" && (window as any).__lenis) {
       try {
         (window as any).__lenis.stop();
@@ -214,19 +175,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     tweenRef.current?.kill();
     contentTweenRef.current?.kill();
-    // Kill any outgoing-snapshot tweens orphaned by a previous transition
-    // that never reached its own onComplete (see the long comment on
-    // outgoingTweensRef above), then sweep for any leftover snapshot DOM
-    // those orphaned tweens were still targeting. MUST run before the new
-    // snapshot below is created/appended -- this exact ordering bug shipped
-    // once already: putting this sweep AFTER creating this run's own
-    // snapshotOuter meant the querySelectorAll(".exoape-snapshot-outer")
-    // below matched and immediately deleted the snapshot THIS transition
-    // had just appended two lines earlier, since it carries the same class.
-    // Net effect: the outgoing tween still ran, but against a detached node
-    // already off the DOM, so the wipe was invisible and navigation looked
-    // like an instant, unanimated cut -- exactly what happened when this
-    // was tested live after the leak fix shipped.
     outgoingTweensRef.current.forEach((t) => t.kill());
     outgoingTweensRef.current = [];
     document.querySelectorAll(".exoape-snapshot-inner, .exoape-snapshot-overlay").forEach((el) => {
@@ -236,7 +184,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     const windowHeight = typeof window !== "undefined" ? window.innerHeight : 800;
 
-    // 1. Snapshot OUTGOING page outer wrapper (z-index: 9991)
     const snapshotOuter = document.createElement("div");
     snapshotOuter.className = "exoape-snapshot-outer";
     snapshotOuter.style.cssText = `
@@ -272,20 +219,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (contentRef.current) {
       const clone = contentRef.current.cloneNode(true) as HTMLElement;
       clone.style.transform = "none";
-      // Strip any live iframes (Google Maps' TourMap embed, currently the
-      // only one on the site) out of the clone before it's appended.
-      // cloneNode(true) copies iframe elements' attributes including src,
-      // but an iframe clone does NOT inherit its source document's loaded
-      // state -- the browser treats it as a brand-new browsing context
-      // and starts loading/initializing it independently the moment the
-      // clone is inserted into the DOM. Confirmed live: iframe count on
-      // the page goes 1 -> 2 the instant this snapshot is appended, and
-      // that second Maps instance spinning up is what Chrome's Long Tasks
-      // API was flagging as a ~300-600ms "multiple-contexts" block on
-      // every single navigation away from a page with the map on it --
-      // entirely wasted work, since this snapshot is a frozen visual
-      // that's about to wipe off-screen in well under a second and was
-      // never meant to be a second live, interactive map.
       clone.querySelectorAll("iframe").forEach((iframe) => iframe.remove());
       snapshotInner.appendChild(clone);
     }
@@ -293,77 +226,48 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     snapshotOuter.appendChild(snapshotOverlay);
     document.body.appendChild(snapshotOuter);
 
-    const duration = EXIT_DURATION * speedMultiplierRef.current;
-    const ease = TRANSITION_EASE;
+    const s = settingsRef.current;
+    const duration = s.exitSpeed * s.speedMult;
+    const ease = s.exitEase;
 
-    // Fresh navigation -- clear any stale "already revealed" marker from a
-    // previous transition so Phase 2 is free to run again for this href.
     revealStartedForRef.current = null;
 
-    // Hide + pre-position the incoming page BEFORE it exists (synchronously,
-    // no tween) so whatever router.push is about to mount underneath the
-    // outgoing snapshot is invisible from the very first frame, however long
-    // Phase 2 ends up waiting.
-    //
-    // No rotate here: frame-by-frame analysis of the real exoape.com wipe
-    // (both the fixed header and the incoming content itself) shows the
-    // page never actually tilts as a rigid shape -- the diagonal look comes
-    // entirely from the clip-path's own shallow, decaying slant below. A
-    // rotate() on top of that clip-path was what made the transition read
-    // as "swinging" left/right instead of sliding straight up.
     if (outerRef.current) {
       outerRef.current.style.overflow = "hidden";
       outerRef.current.style.willChange = "clip-path";
-      outerRef.current.style.clipPath = buildIncomingRevealClipPath(0, WIPE_SLANT_RATIO);
+      outerRef.current.style.clipPath = buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant);
     }
     if (contentRef.current) {
       contentRef.current.style.willChange = "transform";
       gsap.set(contentRef.current, {
         y: windowHeight / 2,
+        scale: s.revealScale,
         transformOrigin: "center center",
       });
     }
 
-    // 2. Perform client-side route push
-    //
-    // Tried delaying this until the exit-wipe's own onComplete (so the
-    // expensive React/Next unmount-mount swap wouldn't compete with the
-    // wipe tween's rAF ticks for the main thread). Measured live and
-    // reverted: the stutter wasn't actually caused by that overlap --
-    // live profiling (iframe-count sampling + Long Tasks) showed the same
-    // ~0.8-1.8s of main-thread blocking on EVERY navigation regardless of
-    // when push fired, scaling with the size of the page's DOM tree (a
-    // 603-node page transition blocks for ~0.8s, Home's 2339-node tree
-    // for ~1.5-1.8s) -- i.e. it's inherent React reconciliation cost, not
-    // something ordering push around can dodge. Delaying it only added a
-    // real downside (URL/history updates later, feels less responsive)
-    // with no measured upside, so it's back to firing immediately here.
     // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
     router.push(pendingHref);
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
     }
 
-    // Outgoing Inner Motion (Module 464 leave):
-    // scale: 1 -> 1.3, y: 0 -> -(window.innerHeight / 2 + 30) (no rotate --
-    // see note above). The extra 30px is so the old page visibly clears
-    // the frame before the incoming reveal catches up to it.
-    // Runs immediately -- it's animating a detached snapshot clone, so it
-    // never has to wait on the incoming page.
     snapshotInner.style.willChange = "transform";
     const outgoingInnerTween = gsap.fromTo(
       snapshotInner,
-      { scale: 1, y: 0 },
+      { scale: 1, y: 0, rotation: 0 },
       {
-        scale: 1.3,
+        scale: s.exitScale,
         y: -windowHeight / 2 - 30,
+        rotation: s.exitRotation,
         duration,
         ease,
-        // Wipes the outgoing snapshot off along the same decaying-slant
-        // diagonal the incoming reveal uses below, so the whole transition
-        // reads as one continuous move instead of two unrelated animations.
         onUpdate: function () {
-          snapshotInner.style.clipPath = buildOutgoingExitClipPath(this.progress(), WIPE_SLANT_RATIO);
+          snapshotInner.style.clipPath = buildExitClipPath(
+            this.progress(),
+            s.exitSlantRatio,
+            s.exitFlipSlant
+          );
         },
         onComplete: () => {
           if (snapshotOuter.parentNode) {
@@ -373,7 +277,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       }
     );
 
-    // Outgoing Backdrop Overlay (Module 464 leave t.firstChild autoAlpha):
     const outgoingOverlayTween = gsap.fromTo(
       snapshotOverlay,
       { opacity: 0 },
@@ -385,29 +288,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     );
 
     outgoingTweensRef.current = [outgoingInnerTween, outgoingOverlayTween];
-
-    // Hand off to Phase 2 -- it picks up once usePathname() matches pendingHref.
     setMode("covered");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, pendingHref]);
 
-  // Phase 2: reveal only once the destination route has actually been
-  // committed (pathname matches) -- see the long comment above Phase 1.
-  //
-  // Deliberately NOT keyed on `mode` in the dependency array. This effect
-  // calls setMode("uncovering") itself, and that state update -- if `mode`
-  // were a dependency -- would cause React to re-run this very effect
-  // (cleanup then re-fire) as soon as the re-render commits, almost
-  // immediately and well before the async waitForPageReady()/FAILSAFE_MS
-  // race below ever resolves. The cleanup sets `cancelled = true` on the
-  // ORIGINAL closure, so by the time that original race resolved it always
-  // bailed out silently -- the reveal tween never ran, the clip-path stayed
-  // pinned at its fully-covered state, and the page was left permanently
-  // blank under the curtain. (Caught live on /book: the console trace
-  // showed "GATE PASSED" immediately followed by the effect re-running with
-  // mode: "uncovering", then "race resolved { cancelled: true }".)
-  // revealStartedForRef guards against double-starting the reveal for the
-  // same navigation without needing `mode` as a dependency.
   useEffect(() => {
     if (!pendingHref) return;
     if (pathname !== pathOf(pendingHref)) return;
@@ -417,9 +301,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     let cancelled = false;
     setMode("uncovering");
 
-    const duration = REVEAL_DURATION * speedMultiplierRef.current;
-    const ease = TRANSITION_EASE;
-    const failsafeMs = Math.max(FAILSAFE_MS, (EXIT_DURATION + REVEAL_DURATION) * speedMultiplierRef.current * 1000 + 4000);
+    const s = settingsRef.current;
+    const revealDuration = (s.exitSpeed + 0.25) * s.speedMult;
+    const ease = s.revealEase;
+    const failsafeMs = Math.max(FAILSAFE_MS, (s.exitSpeed + revealDuration) * 1000 + 4000);
     const failsafe = new Promise<void>((resolve) => setTimeout(resolve, failsafeMs));
 
     Promise.race([waitForPageReady(), failsafe]).then(() => {
@@ -457,29 +342,30 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
       tweenRef.current = tl;
 
-      // 1. Content slide-up: explicit fromTo guarantees y animates from
-      // windowHeight / 2 -> 0 even if React re-rendered the container mid-route.
       if (contentRef.current) {
         contentRef.current.style.willChange = "transform";
         tl.fromTo(
           contentRef.current,
-          { y: windowHeight / 2, transformOrigin: "center center" },
-          { y: 0, duration, ease, clearProps: "all" },
+          { y: windowHeight / 2, scale: s.revealScale, transformOrigin: "center center" },
+          { y: 0, scale: 1, duration: revealDuration, ease },
           0
         );
       }
 
-      // 2. Outer clip-path reveal sweep running in lockstep with the slide-up
       const proxy = { p: 0 };
       tl.to(
         proxy,
         {
           p: 1,
-          duration,
+          duration: revealDuration,
           ease,
           onUpdate: () => {
             if (outerRef.current) {
-              outerRef.current.style.clipPath = buildIncomingRevealClipPath(proxy.p, WIPE_SLANT_RATIO);
+              outerRef.current.style.clipPath = buildRevealClipPath(
+                proxy.p,
+                s.revealSlantRatio,
+                s.revealFlipSlant
+              );
             }
           },
         },
@@ -493,24 +379,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingHref, pathname]);
 
-  // Watchdog: if a transition doesn't reach "idle" within a generous bound,
-  // something went wrong -- a tween never got a chance to tick (tab was
-  // backgrounded mid-transition), an exception was thrown, or the
-  // destination route never became ready -- and `mode` is stuck somewhere
-  // other than "idle". TransitionContext's requestTransition() no-ops
-  // unless mode === "idle" (by design, to stop two transitions racing),
-  // so a stuck mode silently breaks EVERY future nav-link click with zero
-  // visual feedback: preventDefault() still fires, but nothing after it
-  // ever runs. Reproduced directly: leaving a transition to freeze mid-flight
-  // (GSAP's rAF-driven ticker never advances in a backgrounded tab) left
-  // is-page-transitioning permanently set and every subsequent click a
-  // total no-op, exactly matching "nothing happens on navigation" -- and
-  // only a full page reload (which resets React state) recovered it. This
-  // timer is a last-resort reset so one bad transition can't permanently
-  // wedge navigation until the user reloads.
   useEffect(() => {
     if (mode === "idle") return;
-    const watchdogMs = Math.max(FAILSAFE_MS, (EXIT_DURATION + REVEAL_DURATION) * speedMultiplierRef.current * 1000 + 5000);
+    const s = settingsRef.current;
+    const watchdogMs = Math.max(FAILSAFE_MS, (s.exitSpeed + (s.exitSpeed + 0.25)) * s.speedMult * 1000 + 5000);
     const id = setTimeout(() => {
       tweenRef.current?.kill();
       contentTweenRef.current?.kill();
@@ -546,7 +418,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
-  // Document-wide link interception
   const { requestTransition } = useTransition();
   const requestTransitionRef = useRef(requestTransition);
   useEffect(() => {
@@ -575,22 +446,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const revealDuration = (settings.exitSpeed + 0.25) * settings.speedMult;
+  const exitDuration = settings.exitSpeed * settings.speedMult;
+
   return (
     <>
-      {/* Persistent backdrop for the whole transition, independent of the
-          animated outgoing-snapshot wipe above. Found via screen recording,
-          not timing numbers: on a destination page slow to become ready
-          (e.g. /book waiting on its availability fetch), the outgoing
-          snapshot still finishes its own fixed EXIT_DURATION wipe and
-          removes itself on schedule, but Phase 2's reveal (gated on
-          waitForPageReady()/FAILSAFE_MS, up to 3s) hadn't started yet --
-          `outerRef`'s clip-path was still fully closed, so with nothing at
-          z-index 9991 any more, the clipped-away area fell through to
-          whatever's normally behind the page (the ambient gradient), i.e. a
-          blank flash with zero visual feedback for up to ~2.5s. This sits
-          at the same z-index the outgoing snapshot occupies so there's
-          never a gap between "snapshot gone" and "reveal started," however
-          long the destination page takes. */}
       {mode !== "idle" && (
         <div
           aria-hidden="true"
@@ -612,84 +472,282 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           minHeight: "100vh",
         }}
       >
-      <div
-        ref={contentRef}
-        className="exoape-page-inner transform-gpu"
-        style={{
-          width: "100%",
-          minHeight: "100vh",
-          transformOrigin: "center center",
-        }}
-      >
-        {children}
+        <div
+          ref={contentRef}
+          className="exoape-page-inner transform-gpu"
+          style={{
+            width: "100%",
+            minHeight: "100vh",
+            transformOrigin: "center center",
+          }}
+        >
+          {children}
+        </div>
       </div>
-    </div>
 
-      {/* Floating Slow-Mo Test & Debug UI Control Panel */}
-      <div className="fixed bottom-4 right-4 z-[99999] flex flex-col gap-2 rounded-2xl border border-white/20 bg-black/90 p-3.5 shadow-2xl backdrop-blur-md text-white text-xs select-none pointer-events-auto min-w-[240px]">
-        <div className="flex items-center justify-between gap-3">
+      {/* Floating Transition Tuning Control Panel (Positioned bottom-20 right-4 above sticky notes) */}
+      <div className="fixed bottom-20 right-4 z-[99999] flex flex-col gap-2 rounded-2xl border border-white/20 bg-black/95 p-3.5 shadow-2xl backdrop-blur-md text-white text-xs select-none pointer-events-auto max-w-[320px] w-[320px] max-h-[75vh] overflow-y-auto custom-scrollbar">
+        <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
           <div className="flex items-center gap-1.5 font-bold tracking-wider uppercase text-[11px] text-purple-400">
             <span className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
-            Transition Slow-Mo UI
+            Transition Tuner UI
           </div>
-          <button
-            onClick={() => setShowControls(!showControls)}
-            className="text-white/60 hover:text-white text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-white/20 hover:border-white/40 transition bg-white/5"
-          >
-            {showControls ? "Hide" : "Controls"}
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={resetDefaults}
+              title="Reset all settings to default"
+              className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded border border-white/15 text-white/50 hover:text-white hover:border-white/30 transition bg-white/5"
+            >
+              Reset
+            </button>
+            <button
+              onClick={() => setShowControls(!showControls)}
+              className="text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/30 transition bg-purple-950/40"
+            >
+              {showControls ? "Collapse" : "Expand"}
+            </button>
+          </div>
         </div>
 
         {showControls && (
-          <div className="flex flex-col gap-2.5 pt-1 border-t border-white/10 mt-1">
-            <div className="flex items-center justify-between text-[11px] text-white/80 font-mono">
-              <span>Speed: <strong className="text-purple-300 font-bold">{speedMultiplier}x</strong></span>
-              <span className="text-white/50">
-                Reveal: {(REVEAL_DURATION * speedMultiplier).toFixed(2)}s
-              </span>
+          <div className="flex flex-col gap-3 pt-1">
+            {/* Tab Selector */}
+            <div className="grid grid-cols-3 gap-1 bg-white/5 p-1 rounded-lg border border-white/10">
+              <button
+                onClick={() => setActiveTab("speed")}
+                className={`py-1 rounded text-[10px] font-bold uppercase transition ${
+                  activeTab === "speed"
+                    ? "bg-purple-600 text-white shadow"
+                    : "text-white/60 hover:text-white"
+                }`}
+              >
+                ⚡ Speed
+              </button>
+              <button
+                onClick={() => setActiveTab("reveal")}
+                className={`py-1 rounded text-[10px] font-bold uppercase transition ${
+                  activeTab === "reveal"
+                    ? "bg-cyan-600 text-white shadow"
+                    : "text-white/60 hover:text-white"
+                }`}
+              >
+                ✨ Reveal
+              </button>
+              <button
+                onClick={() => setActiveTab("exit")}
+                className={`py-1 rounded text-[10px] font-bold uppercase transition ${
+                  activeTab === "exit"
+                    ? "bg-fuchsia-600 text-white shadow"
+                    : "text-white/60 hover:text-white"
+                }`}
+              >
+                💥 Exit
+              </button>
             </div>
 
-            {/* Quick Speed Preset Buttons */}
-            <div className="flex items-center gap-1">
-              {[1, 2.5, 5, 10].map((m) => (
-                <button
-                  key={m}
-                  onClick={() => changeSpeed(m)}
-                  className={`flex-1 py-1 rounded text-[10px] font-bold font-mono transition ${
-                    speedMultiplier === m
-                      ? "bg-purple-600 text-white shadow-[#9333ea]/40 shadow-lg ring-1 ring-purple-300"
-                      : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
-                  }`}
-                >
-                  {m}x
-                </button>
-              ))}
-            </div>
+            {/* TAB 1: SPEED MULTIPLIER & MOTION */}
+            {activeTab === "speed" && (
+              <div className="flex flex-col gap-2.5">
+                <div className="flex items-center justify-between text-[11px] font-mono">
+                  <span className="text-white/70">Slow-Mo Multiplier</span>
+                  <strong className="text-purple-300 font-bold">{settings.speedMult}x</strong>
+                </div>
 
-            {/* Custom Speed Slider */}
-            <div className="flex flex-col gap-1">
-              <input
-                type="range"
-                min={0.5}
-                max={15}
-                step={0.5}
-                value={speedMultiplier}
-                onChange={(e) => changeSpeed(parseFloat(e.target.value))}
-                className="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/20 rounded-lg"
-              />
-              <div className="flex justify-between text-[9px] text-white/40 font-mono">
-                <span>0.5x (fast)</span>
-                <span>15x (ultra slow)</span>
+                <div className="flex items-center gap-1">
+                  {[1, 2.5, 5, 10].map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => updateSetting("speedMult", m)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold font-mono transition ${
+                        settings.speedMult === m
+                          ? "bg-purple-600 text-white shadow ring-1 ring-purple-300"
+                          : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
+                      }`}
+                    >
+                      {m}x
+                    </button>
+                  ))}
+                </div>
+
+                <input
+                  type="range"
+                  min={0.5}
+                  max={15}
+                  step={0.5}
+                  value={settings.speedMult}
+                  onChange={(e) => updateSetting("speedMult", parseFloat(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+                />
+
+                <div className="flex justify-between text-[10px] text-white/50 font-mono pt-1">
+                  <span>Reveal Total: <strong className="text-cyan-300">{revealDuration.toFixed(2)}s</strong></span>
+                  <span>Exit Total: <strong className="text-fuchsia-300">{exitDuration.toFixed(2)}s</strong></span>
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* TAB 2: NEW PAGE REVEAL SETTINGS */}
+            {activeTab === "reveal" && (
+              <div className="flex flex-col gap-2.5">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-white/70">Reveal speed <span className="text-white/40">(exit + 0.25s)</span></span>
+                  <span className="font-mono text-cyan-300 font-bold">{revealDuration.toFixed(2)}s</span>
+                </div>
+
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-white/70">Reveal scale</span>
+                  <span className="font-mono text-cyan-300">{settings.revealScale.toFixed(2)}x</span>
+                </div>
+                <input
+                  type="range"
+                  min={1}
+                  max={2}
+                  step={0.05}
+                  value={settings.revealScale}
+                  onChange={(e) => updateSetting("revealScale", parseFloat(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+                />
+
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="reveal-ease-select" className="text-[11px] text-white/70">
+                    Reveal easing
+                  </label>
+                  <select
+                    id="reveal-ease-select"
+                    value={settings.revealEase}
+                    onChange={(e) => updateSetting("revealEase", e.target.value)}
+                    className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-cyan-400"
+                  >
+                    {EASE_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value} className="bg-black text-white">
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-white/70">Slant ratio</span>
+                  <span className="font-mono text-cyan-300">{settings.revealSlantRatio.toFixed(3)}</span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={0.3}
+                  step={0.005}
+                  value={settings.revealSlantRatio}
+                  onChange={(e) => updateSetting("revealSlantRatio", parseFloat(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+                />
+
+                <label className="flex items-center gap-2 text-[11px] text-white/80 cursor-pointer pt-1">
+                  <input
+                    type="checkbox"
+                    checked={settings.revealFlipSlant}
+                    onChange={(e) => updateSetting("revealFlipSlant", e.target.checked)}
+                    className="accent-cyan-400 rounded"
+                  />
+                  <span>Flip slant direction {settings.revealFlipSlant ? "(left leads)" : "(right leads)"}</span>
+                </label>
+              </div>
+            )}
+
+            {/* TAB 3: OLD PAGE EXIT SETTINGS */}
+            {activeTab === "exit" && (
+              <div className="flex flex-col gap-2.5">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-white/70">Exit speed</span>
+                  <span className="font-mono text-fuchsia-300 font-bold">{settings.exitSpeed.toFixed(2)}s</span>
+                </div>
+                <input
+                  type="range"
+                  min={0.2}
+                  max={1.5}
+                  step={0.05}
+                  value={settings.exitSpeed}
+                  onChange={(e) => updateSetting("exitSpeed", parseFloat(e.target.value))}
+                  className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+                />
+
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-white/70">Exit scale</span>
+                  <span className="font-mono text-fuchsia-300">{settings.exitScale.toFixed(2)}x</span>
+                </div>
+                <input
+                  type="range"
+                  min={1}
+                  max={2}
+                  step={0.05}
+                  value={settings.exitScale}
+                  onChange={(e) => updateSetting("exitScale", parseFloat(e.target.value))}
+                  className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+                />
+
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-white/70">Exit rotation</span>
+                  <span className="font-mono text-fuchsia-300">{settings.exitRotation}°</span>
+                </div>
+                <input
+                  type="range"
+                  min={-45}
+                  max={45}
+                  step={1}
+                  value={settings.exitRotation}
+                  onChange={(e) => updateSetting("exitRotation", parseFloat(e.target.value))}
+                  className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+                />
+
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="exit-ease-select" className="text-[11px] text-white/70">
+                    Exit easing
+                  </label>
+                  <select
+                    id="exit-ease-select"
+                    value={settings.exitEase}
+                    onChange={(e) => updateSetting("exitEase", e.target.value)}
+                    className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-fuchsia-400"
+                  >
+                    {EASE_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value} className="bg-black text-white">
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-white/70">Exit slant ratio</span>
+                  <span className="font-mono text-fuchsia-300">{settings.exitSlantRatio.toFixed(3)}</span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={0.3}
+                  step={0.005}
+                  value={settings.exitSlantRatio}
+                  onChange={(e) => updateSetting("exitSlantRatio", parseFloat(e.target.value))}
+                  className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+                />
+
+                <label className="flex items-center gap-2 text-[11px] text-white/80 cursor-pointer pt-1">
+                  <input
+                    type="checkbox"
+                    checked={settings.exitFlipSlant}
+                    onChange={(e) => updateSetting("exitFlipSlant", e.target.checked)}
+                    className="accent-fuchsia-400 rounded"
+                  />
+                  <span>Flip slant direction {settings.exitFlipSlant ? "(left leads)" : "(right leads)"}</span>
+                </label>
+              </div>
+            )}
 
             {/* Replay Slide-Up Button */}
             <button
               onClick={() => requestTransition(pathname)}
               disabled={mode !== "idle"}
-              className="w-full mt-0.5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-[11px] uppercase tracking-wider shadow-lg transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
+              className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-[11px] uppercase tracking-wider shadow-lg transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
             >
-              <span>🎬 Replay Slide-Up ({speedMultiplier}x)</span>
+              <span>🎬 Replay Transition ({settings.speedMult}x)</span>
             </button>
           </div>
         )}
