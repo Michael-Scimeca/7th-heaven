@@ -73,7 +73,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
         )}
       </div>
       <div className="mt-3">
-        <h3 className="font-bold text-white leading-tight line-clamp-2 mb-1 group-hover:text-[var(--color-accent)] transition-colors">{video.title}</h3>
+        <h3 className="font-bold text-white line-clamp-2 mb-1 group-hover:text-[var(--color-accent)] transition-colors">{video.title}</h3>
         <div className="flex flex-col gap-0.5">
           <span className="text-white/40 font-medium">7th Heaven</span>
           <div className="flex items-center gap-1.5 text-white/40">
@@ -132,7 +132,7 @@ export default function VideoSection() {
       {/* Title */}
       <div className="px-8 mb-16">
         <div>
-          <h2 className="font-bold leading-tight tracking-tight">
+          <h2 className="font-bold ">
             Featured <span className="gradient-text">Videos</span>
           </h2>
         </div>
@@ -180,7 +180,7 @@ export default function VideoSection() {
                   )}
                 </div>
                 <div className="mt-4">
-                  <h3 className="font-bold text-white leading-tight mb-2 group-hover:text-[var(--color-accent)] transition-colors uppercase tracking-tight">{latest.title}</h3>
+                  <h3 className="font-bold text-white mb-2 group-hover:text-[var(--color-accent)] transition-colors uppercase ">{latest.title}</h3>
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center font-bold text-white">7H</div>
                     <div className="flex flex-col">
@@ -217,9 +217,9 @@ export default function VideoSection() {
 
       {/* Sticky category nav — Pill Tabs */}
       <div
-        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ? "backdrop-blur-lg border-b  border-white/10  "
-          : ""
-          }`}
+        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ? "backdrop-blur-lg border-b border-white/10 "
+ : ""
+ }`}
         style={navStuck ? { backgroundColor: 'rgba(10, 10, 15, 0.95)' } : undefined}
       >
         <div className="px-8 overflow-x-auto scrollbar-hide">
@@ -240,8 +240,8 @@ export default function VideoSection() {
                   }, 250);
                 }}
                 className={`font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-lg transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black"
-                  : "bg-white/[0.05]  text-white  hover:bg-white/10 hover:text-white"
-                  }`}
+ : "bg-white/[0.05] text-white hover:bg-white/10 hover:text-white"
+ }`}
               >
                 {cat.category}
               </button>
@@ -303,9 +303,9 @@ export default function VideoSection() {
 
               {/* Info below thumbnail */}
               <div className="mt-3 flex gap-3">
-                <div className="w-9 h-9 shrink-0 rounded-lg bg-[var(--color-accent)]/20 border  border-white/10  flex items-center justify-center font-bold text-[var(--color-accent)]">7H</div>
+                <div className="w-9 h-9 shrink-0 rounded-lg bg-[var(--color-accent)]/20 border border-white/10 flex items-center justify-center font-bold text-[var(--color-accent)]">7H</div>
                 <div className="flex flex-col flex-1 overflow-hidden">
-                  <h3 className="font-bold text-white leading-tight line-clamp-2 group-hover: transition-colors mb-1">
+                  <h3 className="font-bold text-white line-clamp-2 group-hover: transition-colors mb-1">
                     {video.title}
                   </h3>
                   <div className="flex flex-col">

@@ -5,9 +5,9 @@
 import Image from 'next/image';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useTransition } from "@/context/TransitionContext";
 import Link from "next/link";
-import { Ship, Waves, Palmtree, Anchor, Wine, Music, PartyPopper, Compass, HelpCircle, CreditCard, Calendar as CalendarIcon, AlertTriangle, Check, Sun, Crown, DoorClosed, TreePine, Sparkles, Phone, Mail, Globe, Map, Video, FileText, Film, Flame } from "lucide-react";
+import { Ship, Waves, Palmtree, Anchor, Wine, Music, PartyPopper, Compass, HelpCircle, CreditCard, Calendar as CalendarIcon, AlertTriangle, Check, Sun, Crown, DoorClosed, TreePine, Sparkles, Phone, Mail, Globe, Map, Video, FileText, Film, Flame, ChevronRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay, isValidEmail } from "@/lib/validation";
@@ -18,6 +18,8 @@ import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import { SectionBadge } from "@/components/SectionBadge";
+import MemberHeaderBadge from "@/components/MemberHeaderBadge";
+import LazyMount from "@/components/LazyMount";
 import InputField from "@/components/InputField";
 import {
   BANDS_DATA,
@@ -178,7 +180,7 @@ const AVATAR_COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#
 
 export default function CruisePage() {
   const supabase = createClient();
-  const router = useRouter();
+  const { requestTransition } = useTransition();
   const { isLoggedIn, member, openModal } = useMember();
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const [heroVideoReady, setHeroVideoReady] = useState(true);
@@ -278,7 +280,6 @@ export default function CruisePage() {
   });
 
   const transitionDone = true;
-  const renderTimeline = true;
 
   const itin2027Mapped = useMemo(() => mapToSnakeItinerary(ITINERARY_2027), []);
   const itin2028Mapped = useMemo(() => mapToSnakeItinerary(ITINERARY_2028), []);
@@ -661,7 +662,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
       // If the API returned pendingVerification, redirect to the PIN entry page
       if (data.pendingVerification && data.email) {
-        router.push(`/cruise/verify?email=${encodeURIComponent(data.email)}`);
+        requestTransition(`/cruise/verify?email=${encodeURIComponent(data.email)}`);
         return;
       }
 
@@ -707,8 +708,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         <div
           className="absolute inset-0 z-0 overflow-hidden bg-transparent"
           style={{
-            maskImage: "linear-gradient(black 0%, black 65%, transparent 87%)",
-            WebkitMaskImage: "linear-gradient(black 0%, black 65%, transparent 87%)",
+            maskImage: "linear-gradient(black 0%, black 82%, transparent 98%)",
+            WebkitMaskImage: "linear-gradient(black 0%, black 82%, transparent 98%)",
           }}
         >
           <video
@@ -723,11 +724,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {...({ fetchPriority: "high" } as any)}
             className="w-full h-full object-cover transition-[opacity,object-position,filter] duration-500 ease-out"
             style={{
-              objectPosition: "center 25%",
+              objectPosition: "center 40%",
               filter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
               WebkitFilter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
               opacity: heroVideoReady ? heroMaskSettings.videoOpacity / 100 : 0,
-              transform: "translateY(-80px)",
+              transform: "translateY(0px)",
             }}
           >
             <source src="/movie/cruise-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
@@ -772,16 +773,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
 
           {/* Main Title: Cruise Name */}
-          <h1 className="font-bold uppercase tracking-tighter text-white  leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          <h1 className="font-bold uppercase er text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             7TH HEAVEN <span className="inline-block pr-[0.15em]">FAN CRUISE</span>
           </h1>
 
           {/* Cruise Ship Names Subtitle */}
           <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 md:text-base font-bold uppercase text-white">
-            <span className="bg-[#e1e6ff29]  border-white/10  border px-2 py-2 !rounded-full text-white font-bold border  border-white/10  backdrop-blur-[45px] flex items-center gap-2.5">
+            <span className="bg-[#e1e6ff29] border-white/10 border px-2 py-2 !rounded-full text-white font-bold border border-white/10 backdrop-blur-[45px] flex items-center gap-2.5">
               Star of the seas <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 !rounded-full font-bold border border-purple-400/40">2027</span>
             </span>
-            <span className="bg-[#e1e6ff29]  border-white/10  border px-2 py-2 !rounded-full text-white font-bold border  border-white/10  backdrop-blur-[45px] flex items-center gap-2.5">
+            <span className="bg-[#e1e6ff29] border-white/10 border px-2 py-2 !rounded-full text-white font-bold border border-white/10 backdrop-blur-[45px] flex items-center gap-2.5">
               Legend of the seas <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 !rounded-full font-bold border border-purple-400/40">2028</span>
             </span>
 
@@ -797,10 +798,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── SECTION 2: CABINS & PRICING ── */}
             <section id="pricing" className="pt-4 sm:pt-8 pb-16 relative z-20">
               <div className="text-left max-w-3xl mb-6">
-                <h2 className="font-bold uppercase tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h2 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
                 </h2>
-                <p className="mt-4 leading-relaxed font-semibold">
+                <p className="mt-4 font-semibold">
                   Browse group rate options, prevailing market rates, suite class inclusions, and booking cancellation terms.
                 </p>
 
@@ -826,87 +827,108 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
 
               {/* Cancellation & Policy Guidelines — 4-Column Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left border-b  border-white/10  py-section-fluid">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left border-b border-white/10 py-section-fluid">
                 {/* Column 1: Ship & Cruise Resource Links (from ship.html) */}
-                <div className="relative text-left rounded-2xl flex flex-col justify-between px-4 sm:px-6 py-2">
+                <div className="relative text-left rounded-2xl flex flex-col justify-between pr-4 sm:pr-6 py-2">
                   <div>
                     <div className="flex items-center gap-3 mb-4">
                       <Ship className="w-6 h-6 text-purple-400 shrink-0" />
                       <h3 className="font-bold uppercase text-white tracking-wide">Ship Resources</h3>
                     </div>
-                    <p className="font-bold text-purple-400 uppercase    mb-4">
+                    <p className="font-bold text-purple-400 uppercase mb-4">
                       Official Links &amp; Media
                     </p>
-                    <ul className="space-y-2 font-bold uppercase  text-white">
+                    <ul className="space-y-2 font-bold uppercase text-white">
                       <li>
-                        <a
-                          href="https://en.wikipedia.org/wiki/Star_of_the_Seas"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg border  border-white/10   bg-[#00000029] transition-all"
+                        <FoolishShrimpButton
+                          type="button"
+                          onClick={(e) => {
+                            (e.currentTarget as HTMLElement).blur();
+                            window.open("https://en.wikipedia.org/wiki/Star_of_the_Seas", "_blank", "noopener,noreferrer");
+                          }}
+                          className="!w-full !justify-start !rounded-full px-4 py-2.5"
                         >
-                          <Globe className="w-4 h-4 text-purple-400 shrink-0" /> <span>WIKI</span>
-                        </a>
+                          <Globe className="w-4 h-4 text-purple-400 shrink-0" />
+                          <span>WIKI</span>
+                        </FoolishShrimpButton>
                       </li>
                       <li>
-                        <a
-                          href="https://www.royalcaribbean.com/cruise-ships/star-of-the-seas"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg  border  border-white/10   bg-[#00000029] transition-all"
+                        <FoolishShrimpButton
+                          type="button"
+                          onClick={(e) => {
+                            (e.currentTarget as HTMLElement).blur();
+                            window.open("https://www.royalcaribbean.com/cruise-ships/star-of-the-seas", "_blank", "noopener,noreferrer");
+                          }}
+                          className="!w-full !justify-start !rounded-full px-4 py-2.5"
                         >
-                          <Ship className="w-4 h-4 text-cyan-400 shrink-0" /> <span>ROYAL CARIBBEAN PAGE</span>
-                        </a>
+                          <Ship className="w-4 h-4 text-cyan-400 shrink-0" />
+                          <span>ROYAL CARIBBEAN PAGE</span>
+                        </FoolishShrimpButton>
                       </li>
                       <li>
-                        <a
-                          href="https://www.chicagomusiccruise.com/assets/staroftheseasdeckplanjan2026.jpg"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg border  border-white/10   bg-[#00000029] transition-all"
+                        <FoolishShrimpButton
+                          type="button"
+                          onClick={(e) => {
+                            (e.currentTarget as HTMLElement).blur();
+                            window.open("https://www.chicagomusiccruise.com/assets/staroftheseasdeckplanjan2026.jpg", "_blank", "noopener,noreferrer");
+                          }}
+                          className="!w-full !justify-start !rounded-full px-4 py-2.5"
                         >
-                          <Map className="w-4 h-4 text-emerald-400 shrink-0" /> <span>DECK PLAN</span>
-                        </a>
+                          <Map className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <span>DECK PLAN</span>
+                        </FoolishShrimpButton>
                       </li>
                       <li>
-                        <a
-                          href="https://youtu.be/SOf67Ysk04U?si=bduc0EEkLhYFD7GH"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg  border  border-white/10   bg-[#00000029] transition-all"
+                        <FoolishShrimpButton
+                          type="button"
+                          onClick={(e) => {
+                            (e.currentTarget as HTMLElement).blur();
+                            window.open("https://youtu.be/SOf67Ysk04U?si=bduc0EEkLhYFD7GH", "_blank", "noopener,noreferrer");
+                          }}
+                          className="!w-full !justify-start !rounded-full px-4 py-2.5"
                         >
-                          <Video className="w-4 h-4 text-rose-400 shrink-0" /> <span>VIDEO OF THE SHIP</span>
-                        </a>
+                          <Video className="w-4 h-4 text-rose-400 shrink-0" />
+                          <span>VIDEO OF THE SHIP</span>
+                        </FoolishShrimpButton>
                       </li>
                       <li>
-                        <a
-                          href="https://www.chicagomusiccruise.com/assets/star-of-the-seas_cruisecompass-basic.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg  border  border-white/10   bg-[#00000029] transition-all"
+                        <FoolishShrimpButton
+                          type="button"
+                          onClick={(e) => {
+                            (e.currentTarget as HTMLElement).blur();
+                            window.open("https://www.chicagomusiccruise.com/assets/star-of-the-seas_cruisecompass-basic.pdf", "_blank", "noopener,noreferrer");
+                          }}
+                          className="!w-full !justify-start !rounded-full px-4 py-2.5"
                         >
-                          <FileText className="w-4 h-4 text-amber-400 shrink-0" /> <span>PAST CRUISE COMPASS</span>
-                        </a>
+                          <FileText className="w-4 h-4 text-amber-400 shrink-0" />
+                          <span>PAST CRUISE COMPASS</span>
+                        </FoolishShrimpButton>
                       </li>
                       <li>
-                        <a
-                          href="https://youtu.be/0LxUHSdFDtY"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg border  border-white/10   bg-[#00000029] transition-all"
+                        <FoolishShrimpButton
+                          type="button"
+                          onClick={(e) => {
+                            (e.currentTarget as HTMLElement).blur();
+                            window.open("https://youtu.be/0LxUHSdFDtY", "_blank", "noopener,noreferrer");
+                          }}
+                          className="!w-full !justify-start !rounded-full px-4 py-2.5"
                         >
-                          <Film className="w-4 h-4 text-indigo-400 shrink-0" /> <span>SHIP TOUR VIDEO</span>
-                        </a>
+                          <Film className="w-4 h-4 text-indigo-400 shrink-0" />
+                          <span>SHIP TOUR VIDEO</span>
+                        </FoolishShrimpButton>
                       </li>
                       <li>
-                        <a
-                          href="https://youtu.be/6xCQ4xE7L38"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg border  border-white/10   bg-[#00000029] transition-all"
+                        <FoolishShrimpButton
+                          type="button"
+                          onClick={(e) => {
+                            (e.currentTarget as HTMLElement).blur();
+                            window.open("https://youtu.be/6xCQ4xE7L38", "_blank", "noopener,noreferrer");
+                          }}
+                          className="!w-full !justify-start !rounded-full px-4 py-2.5"
                         >
-                          <Flame className="w-4 h-4 text-orange-400 shrink-0" /> <span>PROMO VIDEO</span>
-                        </a>
+                          <Flame className="w-4 h-4 text-orange-400 shrink-0" />
+                          <span>PROMO VIDEO</span>
+                        </FoolishShrimpButton>
                       </li>
 
                       <li>
@@ -914,7 +936,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.facebook.com/chicagomusiccruise/"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-3.5 py-1.5 rounded-lg bg-blue-600/40 hover:bg-blue-600 !text-white font-bold uppercase  transition-all flex items-center gap-1 border border-blue-400/40"
+                          className="px-3.5 py-1.5 rounded-full bg-blue-600/40 hover:bg-blue-600 !text-white font-bold uppercase transition-all flex items-center gap-1 border border-blue-400/40"
                           title="Chicago Music Cruise Facebook"
                         >
                           <span className="!text-white">Facebook</span>
@@ -925,7 +947,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.instagram.com/chicagomusiccruise"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-3.5 py-1.5 rounded-lg bg-pink-600/40 hover:bg-pink-600 !text-white font-bold uppercase  transition-all flex items-center gap-1 border border-pink-400/40"
+                          className="px-3.5 py-1.5 rounded-full bg-pink-600/40 hover:bg-pink-600 !text-white font-bold uppercase transition-all flex items-center gap-1 border border-pink-400/40"
                           title="Chicago Music Cruise Instagram"
                         >
                           <span className="!text-white">Instagram</span>
@@ -936,7 +958,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://x.com/CMCNTDV"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-3.5 py-1.5 rounded-lg bg-slate-700/60 hover:bg-black !text-white font-bold uppercase  transition-all flex items-center gap-1 border border-white/10"
+                          className="px-3.5 py-1.5 rounded-full bg-slate-700/60 hover:bg-black !text-white font-bold uppercase transition-all flex items-center gap-1 border border-white/10"
                           title="Chicago Music Cruise X (Twitter)"
                         >
                           <span className="!text-white">X (Twitter)</span>
@@ -963,13 +985,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
                     <h3 className="font-bold uppercase text-white tracking-wide">Booking Policy</h3>
                   </div>
-                  <p className="font-bold text-purple-400 uppercase    mb-4">
+                  <p className="font-bold text-purple-400 uppercase mb-4">
                     Book through us to participate &amp; lock in best rates
                   </p>
                   <p className="leading-relaxed mb-4">
                     To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.
                   </p>
-                  <ul className="space-y-2.5 text-white/80 leading-relaxed mb-6">
+                  <ul className="space-y-2.5 text-white/80 mb-6">
                     <li className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                       <span>Multiple booking options: Group Rate, Prevailing Rate, Sales &amp; Promotions.</span>
@@ -991,7 +1013,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <span><strong>Prevailing Rates:</strong> Gratuities NOT included ($129.50 PP; $147 PP Suites).</span>
                     </li>
                   </ul>
-                  <div className="pt-3 border-t  border-white/10  space-y-1.5">
+                  <div className="pt-3 border-t border-white/10 space-y-1.5">
                     <p className="">
                       <strong>Email:</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a>
                     </p>
@@ -1013,10 +1035,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <Compass className="w-6 h-6 text-purple-400 shrink-0" />
                     <h3 className="font-bold uppercase text-white tracking-wide">Passport Guidelines</h3>
                   </div>
-                  <p className="font-bold text-purple-400 uppercase    mb-4">
+                  <p className="font-bold text-purple-400 uppercase mb-4">
                     Essential travel document guidelines
                   </p>
-                  <div className="space-y-4 text-white/80 leading-relaxed">
+                  <div className="space-y-4 text-white/80 ">
                     <p>
                       A physical passport book valid for 6 months post-cruise is <strong className="text-white font-bold underline inline-block">highly recommended</strong> for all travelers.
                     </p>
@@ -1035,12 +1057,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
                     <h3 className="font-bold uppercase text-white tracking-wide">Cancellation Policy</h3>
                   </div>
-                  <p className="font-bold text-purple-400 uppercase    mb-4">
+                  <p className="font-bold text-purple-400 uppercase mb-4">
                     Refund terms before booking
                   </p>
-                  <div className="space-y-4 text-white/80 leading-relaxed">
+                  <div className="space-y-4 text-white/80 ">
                     <div>
-                      <h4 className="font-bold text-white uppercase  mb-1">Group Rate Rooms:</h4>
+                      <h4 className="font-bold text-white uppercase mb-1">Group Rate Rooms:</h4>
                       {activePriceYear === 2027 ? (
                         <ul className="list-disc pl-4 space-y-1 text-white/80">
                           <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
@@ -1062,7 +1084,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       )}
                     </div>
                     <div>
-                      <h4 className="font-bold text-white uppercase  mb-1">Prevailing Rate:</h4>
+                      <h4 className="font-bold text-white uppercase mb-1">Prevailing Rate:</h4>
                       <p className="">Cancel by {activePriceYear === 2027 ? "Oct 10, 2026" : "Oct 1, 2027"} for no penalty.</p>
                     </div>
                   </div>
@@ -1071,7 +1093,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
               {/* NTD Vacations Official Cruise Support Team Banner */}
               <div className="py-section-fluid text-center">
-                <h2 className="   uppercase  text-purple-300 font-bold mb-1">
+                <h2 className=" uppercase text-purple-300 font-bold mb-1">
                   Official Cruise Concierge &amp; Booking Team
                 </h2>
 
@@ -1082,20 +1104,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Richard Hofherr */}
                   <div className="flex flex-col items-center">
                     <div
-                      className="h-[200px] overflow-hidden mb-3 flex items-end justify-center relative"
+                      className="w-full h-[260px] xs:h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative"
                       style={{
-                        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
-                        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
+                        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
                       }}
                     >
-                      <Image width={200} height={200} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="h-[200px] w-auto object-contain object-bottom" />
+                      <Image width={408} height={408} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="h-full w-auto object-contain object-bottom" />
                     </div>
-                    <h4 className="font-bold text-white uppercase tracking-tight">
+                    <h4 className="font-bold text-white uppercase ">
                       Richard Hofherr
                     </h4>
                     <div className="mt-2 flex flex-col items-center gap-1 w-full">
                       <SectionBadge label="CEO / Booking / Bands" isActive />
-                      <p className="font-medium text-xs text-white/70 mt-0.5">Marketing / Media</p>
+                      <p className="font-medium text-white/70 mt-0.5">Marketing / Media</p>
                     </div>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
                       <a href="tel:8475515363" className="font-bold !text-white hover:text-white/80 transition-colors flex items-center gap-1.5">
@@ -1110,20 +1132,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Mary Grivas */}
                   <div className="flex flex-col items-center">
                     <div
-                      className="h-[200px] overflow-hidden mb-3 flex items-end justify-center relative"
+                      className="w-full h-[260px] xs:h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative"
                       style={{
-                        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
-                        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
+                        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
                       }}
                     >
-                      <Image width={200} height={200} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="h-[200px] w-auto object-contain object-bottom" />
+                      <Image width={408} height={408} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="h-full w-auto object-contain object-bottom" />
                     </div>
-                    <h4 className="font-bold text-white uppercase tracking-tight">
+                    <h4 className="font-bold text-white uppercase ">
                       Mary Grivas
                     </h4>
                     <div className="mt-2 flex flex-col items-center gap-1 w-full">
                       <SectionBadge label="Group Excursions / Group Hotels" isActive />
-                      <p className="font-medium text-xs text-white/70 mt-0.5">Group Air / Charters / Shuttles</p>
+                      <p className="font-medium text-white/70 mt-0.5">Group Air / Charters / Shuttles</p>
                     </div>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
                       <a href="tel:8776839753" className="font-bold !text-white hover:text-white/80 transition-colors flex items-center gap-1.5">
@@ -1138,20 +1160,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Alan McRae */}
                   <div className="flex flex-col items-center">
                     <div
-                      className="h-[200px] overflow-hidden mb-3 flex items-end justify-center relative"
+                      className="w-full h-[260px] xs:h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative"
                       style={{
-                        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
-                        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
+                        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)',
                       }}
                     >
-                      <Image width={200} height={200} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="h-[200px] w-auto object-contain object-bottom" />
+                      <Image width={408} height={408} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="h-full w-auto object-contain object-bottom" />
                     </div>
-                    <h4 className="font-bold text-white uppercase tracking-tight">
+                    <h4 className="font-bold text-white uppercase ">
                       Alan McRae
                     </h4>
                     <div className="mt-2 flex flex-col items-center gap-1 w-full">
                       <SectionBadge label="Schedule" isActive />
-                      <p className="font-medium text-xs text-white/70 mt-0.5">Activities / Logistics</p>
+                      <p className="font-medium text-white/70 mt-0.5">Activities / Logistics</p>
                     </div>
                     <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
                       <a href="tel:6308429129" className="font-bold !text-white hover:text-white/80 transition-colors flex items-center gap-1.5">
@@ -1216,8 +1238,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               {room.icon && <span className="text-xl">{room.icon}</span>}
                               <SectionBadge label={room.badge} />
                             </div>
-                            <span className="font-bold uppercase    block mb-0.5">{room.code} Category</span>
-                            <h4 className="font-bold text-white uppercase tracking-tight text-left">{room.title}</h4>
+                            <span className="font-bold uppercase block mb-0.5">{room.code} Category</span>
+                            <h4 className="font-bold text-white uppercase text-left">{room.title}</h4>
                           </div>
                         </div>
 
@@ -1231,14 +1253,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             </div>
                           )}
                           {room.inclusions && (
-                            <span className="text-purple-400 font-bold uppercase  block mt-1">✓ {room.inclusions}</span>
+                            <span className="text-purple-400 font-bold uppercase block mt-1">✓ {room.inclusions}</span>
                           )}
                           <FoolishShrimpButton
                             onClick={(e) => {
                               e.stopPropagation();
                               handleSelectCabin(room.selectValue);
                             }}
-                            className="mt-3 w-full py-2.5 px-4 font-bold text-xs uppercase tracking-wider"
+                            className="!mt-3 w-full py-2.5 px-4 font-bold text-xs  uppercase tracking-wider"
                           >
                             SELECT & BOOK CABIN
                           </FoolishShrimpButton>
@@ -1290,8 +1312,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   {room.icon && <span className="text-2xl">{room.icon}</span>}
                                   <SectionBadge label={room.label} />
                                 </div>
-                                <span className="font-bold  uppercase block text-left">{room.code} Category</span>
-                                <h4 className="font-bold text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
+                                <span className="font-bold uppercase block text-left">{room.code} Category</span>
+                                <h4 className="font-bold text-white uppercase mt-0.5 text-left">{room.title}</h4>
                               </div>
                             </div>
 
@@ -1300,13 +1322,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                 <span className="text-xl font-bold text-white">{room.price}</span>
                                 <span className="text-[var(--font-size-2xs)] text-white font-bold">USD pp</span>
                               </div>
-                              <span className="  text-white/50 uppercase    font-bold block mt-1">Rates as of June 27, 2026</span>
+                              <span className=" text-white/50 uppercase font-bold block mt-1">Rates as of June 27, 2026</span>
                               <FoolishShrimpButton
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleSelectCabin(room.selectValue);
                                 }}
-                                className="mt-4 w-full py-2.5 px-4 font-bold text-xs uppercase tracking-wider"
+                                className="!mt-4 w-full py-2.5 px-4 font-bold text-xs uppercase tracking-wider"
                               >
                                 Select Prevailing Rate
                               </FoolishShrimpButton>
@@ -1327,7 +1349,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div className="mb-3">
                     <SectionBadge label="Accommodations Guide" />
                   </div>
-                  <h3 className="font-bold uppercase tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h3 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Stateroom Catalog & Suite Perks
                   </h3>
                 </div>
@@ -1336,31 +1358,30 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {/* Stateroom Categories Tab Column — borderless & unpadded */}
                   <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 bg-transparent shadow-none">
                     <div>
-                      <h3 className="font-bold uppercase text-white    mb-4">Stateroom Categories</h3>
+                      <h3 className="font-bold uppercase text-white mb-4">Stateroom Categories</h3>
                       <div className="flex flex-col gap-2.5">
                         {[
                           { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
                           { id: "balcony", label: "Balconies & Infinite", desc: "Private sliding glass doors opening to ocean breeze." },
                           { id: "ocean", label: "Ocean View", desc: "Large windows overlooking port approaches." },
                           { id: "interior", label: "Interior Rooms", desc: "Efficient, comfortable, and budget-friendly." },
-                        ].map(tab => (
-                          <button aria-label="Action button"
+                        ].map((tab) => (
+                          <FoolishShrimpButton
                             key={tab.id}
                             type="button"
+                            isActive={stateroomTab === tab.id}
                             onClick={() => setStateroomTab(tab.id as any)}
-                            className={`w-full p-4 rounded-lg text-left border  border-white/10  transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 text-white"
-                              : " bg-[#00000029]"
-                              }`}
+                            className="w-full !justify-start text-left px-5 py-4 !h-auto flex flex-col items-start gap-1 cursor-pointer"
                           >
-                            <h4 className="font-bold text-white uppercase tracking-wider">{tab.label}</h4>
-                            <p className="mt-1 leading-relaxed">{tab.desc}</p>
-                          </button>
+                            <span className="block font-bold uppercase tracking-wider leading-tight">{tab.label}</span>
+                            <span className="block font-medium text-white/70 normal-case leading-snug">{tab.desc}</span>
+                          </FoolishShrimpButton>
                         ))}
                       </div>
                     </div>
 
                     <div className="mt-8 bg-transparent border-0 p-0">
-                      <h4 className="font-bold uppercase text-white    mb-3">Available layouts:</h4>
+                      <h4 className="font-bold uppercase text-white mb-3">Available layouts:</h4>
                       {stateroomTab === "suites" && (
                         <div key="suites" className="space-y-2 text-white/80 font-medium animate-[fade-in_0.35s_ease-out_both]">
                           <p>• Ultimate Family Townhouse</p>
@@ -1421,7 +1442,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </div>
 
                       {/* Benefits List */}
-                      <div key={`benefits-${suiteTab}`} className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base text-white/90 font-medium leading-relaxed animate-[fade-in_0.35s_ease-out_both]">
+                      <div key={`benefits-${suiteTab}`} className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base text-white/90 font-medium animate-[fade-in_0.35s_ease-out_both]">
                         {suiteTab === "sea" && [
                           "Dedicated check-in line",
                           "Priority boarding",
@@ -1490,7 +1511,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
 
                     {/* Disclaimers & Notes */}
-                    <div key={`disclaimers-${suiteTab}`} className="mt-8 border-t  border-white/10  pt-4 text-white space-y-1.5 leading-relaxed font-semibold animate-[fade-in_0.35s_ease-out_both]">
+                    <div key={`disclaimers-${suiteTab}`} className="mt-8 border-t border-white/10 pt-4 text-white space-y-1.5 font-semibold animate-[fade-in_0.35s_ease-out_both]">
                       {suiteTab === "sea" && (
                         <>
                           <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
@@ -1524,7 +1545,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div>
                   {/* Section Header */}
                   <div className="mb-8 text-left">
-                    <h2 className="font-bold uppercase tracking-tight mb-1 text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                    <h2 className="font-bold uppercase mb-1 text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                       Official <span className="accent-gradient-text">Booking Form</span> & Reservation Portal
                     </h2>
                     <p className="font-semibold">
@@ -1552,28 +1573,28 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                               {/* Name */}
                               <div className="booking-cell border-0 py-3 px-0 col-span-2">
-                                <label htmlFor="guest1-full-name" className="booking-label block font-bold text-purple-400 uppercase  mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                                <label htmlFor="guest1-full-name" className="booking-label block font-bold text-purple-400 uppercase mb-1.5">Full Legal Name (as spelled on passport) *</label>
                                 <div className="input-glow-border rounded-xl">
                                   <input aria-label="Input field" id="guest1-full-name" type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                 </div>
                               </div>
                               {/* Phone */}
                               <div className="booking-cell border-0 py-3 px-0 md:pr-3">
-                                <label htmlFor="guest1-phone" className="booking-label block font-bold text-purple-400 uppercase  mb-1.5">Phone Number *</label>
+                                <label htmlFor="guest1-phone" className="booking-label block font-bold text-purple-400 uppercase mb-1.5">Phone Number *</label>
                                 <div className="input-glow-border rounded-xl">
                                   <input aria-label="Input field" id="guest1-phone" type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({ ...formData, phone: formatPhoneDisplay(e.target.value) })} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                 </div>
                               </div>
                               {/* Email */}
                               <div className="booking-cell border-0 py-3 px-0 md:pl-3 ">
-                                <label htmlFor="guest1-email" className="booking-label block font-bold text-white uppercase  mb-1.5">Email Address *</label>
+                                <label htmlFor="guest1-email" className="booking-label block font-bold text-white uppercase mb-1.5">Email Address *</label>
                                 <div className="input-glow-border rounded-xl">
                                   <input aria-label="Input field" id="guest1-email" type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                 </div>
                               </div>
                               {/* Crown & Anchor */}
                               <div className="booking-cell border-0 py-3 px-0">
-                                <label htmlFor="guest1-crown-anchor" className="booking-label block font-bold text-white uppercase  mb-1.5">Crown & Anchor Number (if applicable)</label>
+                                <label htmlFor="guest1-crown-anchor" className="booking-label block font-bold text-white uppercase mb-1.5">Crown & Anchor Number (if applicable)</label>
                                 <div className="input-glow-border rounded-xl">
                                   <input aria-label="Input field" id="guest1-crown-anchor" type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({ ...formData, crownAnchor1: e.target.value })} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                 </div>
@@ -1589,7 +1610,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   checked={formData.insurance === "yes"}
                                   onChange={(checked) => setFormData((f) => ({ ...f, insurance: checked ? "yes" : "no" }))}
                                 />
-                                <label htmlFor="insurance-toggle" className="font-bold uppercase  text-white cursor-pointer">
+                                <label htmlFor="insurance-toggle" className="font-bold uppercase text-white cursor-pointer">
                                   Travel protection insurance ({formData.insurance === "yes" ? "Protected" : "Declined"})
                                 </label>
                               </div>
@@ -1601,7 +1622,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   checked={formData.prepaidGratuities === "yes"}
                                   onChange={(checked) => setFormData((f) => ({ ...f, prepaidGratuities: checked ? "yes" : "no" }))}
                                 />
-                                <label htmlFor="gratuities-toggle" className="font-bold uppercase  text-white cursor-pointer">
+                                <label htmlFor="gratuities-toggle" className="font-bold uppercase text-white cursor-pointer">
                                   Pre-paid gratuities ({formData.prepaidGratuities === "yes" ? "Included" : "Excluded"})
                                 </label>
                               </div>
@@ -1621,7 +1642,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                     checked={g.active}
                                     onChange={(checked) => toggleGuestActive(i, checked)}
                                   />
-                                  <label htmlFor={`guest-active-${guestNum}`} className="font-bold uppercase  text-white cursor-pointer select-none">
+                                  <label htmlFor={`guest-active-${guestNum}`} className="font-bold uppercase text-white cursor-pointer select-none">
                                     Include Guest {guestNum} in Cabin Reservation
                                   </label>
                                 </div>
@@ -1630,35 +1651,35 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                   <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                                     {/* Name */}
                                     <div className="booking-cell border-0 py-3 px-0 col-span-2">
-                                      <label htmlFor={`guest-name-${guestNum}`} className="booking-label block font-bold text-white uppercase  mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                                      <label htmlFor={`guest-name-${guestNum}`} className="booking-label block font-bold text-white uppercase mb-1.5">Full Legal Name (as spelled on passport) *</label>
                                       <div className="input-glow-border rounded-xl">
                                         <input aria-label="Input field" id={`guest-name-${guestNum}`} type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                       </div>
                                     </div>
                                     {/* Phone */}
                                     <div className="booking-cell border-0 py-3 px-0 md:pr-3">
-                                      <label htmlFor={`guest-phone-${guestNum}`} className="booking-label block font-bold text-white uppercase  mb-1.5">Phone Number (Optional)</label>
+                                      <label htmlFor={`guest-phone-${guestNum}`} className="booking-label block font-bold text-white uppercase mb-1.5">Phone Number (Optional)</label>
                                       <div className="input-glow-border rounded-xl">
                                         <input aria-label="Input field" id={`guest-phone-${guestNum}`} type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                       </div>
                                     </div>
                                     {/* Email */}
                                     <div className="booking-cell border-0 py-3 px-0 md:pl-3">
-                                      <label htmlFor={`guest-email-${guestNum}`} className="booking-label block font-bold text-purple-400 uppercase  mb-1.5">Email Address (Optional)</label>
+                                      <label htmlFor={`guest-email-${guestNum}`} className="booking-label block font-bold text-purple-400 uppercase mb-1.5">Email Address (Optional)</label>
                                       <div className="input-glow-border rounded-xl">
                                         <input aria-label="Input field" id={`guest-email-${guestNum}`} type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                       </div>
                                     </div>
                                     {/* Crown & Anchor */}
                                     <div className="booking-cell border-0 py-3 px-0">
-                                      <label htmlFor={`guest-crown-${guestNum}`} className="booking-label block font-bold text-purple-400 uppercase  mb-1.5">Crown & Anchor Number (if applicable)</label>
+                                      <label htmlFor={`guest-crown-${guestNum}`} className="booking-label block font-bold text-purple-400 uppercase mb-1.5">Crown & Anchor Number (if applicable)</label>
                                       <div className="input-glow-border rounded-xl">
                                         <input aria-label="Input field" id={`guest-crown-${guestNum}`} type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                       </div>
                                     </div>
                                   </div>
                                 ) : (
-                                  <div className="py-4 text-center text-white/50 font-bold uppercase    no-print select-none">
+                                  <div className="py-4 text-center text-white/50 font-bold uppercase no-print select-none">
                                     No Passenger Registered in Slot {guestNum}
                                   </div>
                                 )}
@@ -1669,7 +1690,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {/* CABIN CATEGORY SELECTION */}
                           <div className="booking-section-container border-0 bg-transparent p-0 mt-4">
                             <div className="booking-section-header bg-transparent px-0 py-2 border-0">
-                              <span className="font-bold uppercase  text-white">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
+                              <span className="font-bold uppercase text-white">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
                             </div>
                             <div className="py-2 relative z-20">
                               <Dropdown
@@ -1696,9 +1717,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {/* PAYMENT DETAILS */}
                           <div className="booking-section-container border-0 bg-transparent p-0 mt-4">
                             <div className="booking-section-header bg-transparent px-0 py-2 border-0 flex items-center justify-between">
-                              <span className="font-bold uppercase  text-white">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
+                              <span className="font-bold uppercase text-white">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
                             </div>
-                            <div className="py-2 font-semibold leading-relaxed border-0">
+                            <div className="py-2 font-semibold border-0">
                               A $250.00 per-person deposit (Min $500.00 per cabin) is required to secure your cabin under our group code. Payments are mock-processed for staging.
                             </div>
 
@@ -1707,14 +1728,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                             {/* Card 2 Split Option */}
                             {guests.filter(g => g.active).length > 0 && (
-                              <div className="py-4 border-b  border-white/10  no-print flex items-center gap-3">
+                              <div className="py-4 border-b border-white/10 no-print flex items-center gap-3">
                                 <SquishyToggle
                                   id="split-payment-toggle"
                                   label="Split deposit payment between Card 1 and Card 2"
                                   checked={formData.splitPayment}
                                   onChange={(checked) => setFormData({ ...formData, splitPayment: checked })}
                                 />
-                                <label htmlFor="split-payment-toggle" className="font-bold uppercase    text-purple-400 cursor-pointer select-none">
+                                <label htmlFor="split-payment-toggle" className="font-bold uppercase text-purple-400 cursor-pointer select-none">
                                   Split deposit payment between Card 1 and Card 2
                                 </label>
                               </div>
@@ -1782,28 +1803,26 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           </div>
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                            <CosmicRadialButton
-                              syncId="cruise-booking-form"
-                              icon={false}
+                            <FoolishShrimpButton
                               type="submit"
+                              isActive={true}
                               disabled={signupStatus === "submitting"}
-                              className="w-full !py-4 font-bold uppercase    justify-center    cursor-pointer disabled:opacity-70"
+                              className="w-full !py-4 font-bold uppercase justify-center cursor-pointer disabled:opacity-70"
                             >
-                              {signupStatus === "submitting" ? <span className="w-5 h-5 border-2  border-white/10  border-t-white rounded-lg animate-spin inline-block" /> : "Submit Cruise Booking"}
-                            </CosmicRadialButton>
+                              {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block" /> : "Submit Cruise Booking"}
+                            </FoolishShrimpButton>
 
-                            <CosmicRadialButton
-                              syncId="cruise-booking-form"
-                              icon={false}
+                            <FoolishShrimpButton
                               type="button"
+                              isActive={true}
                               onClick={() => window.print()}
-                              className="w-full !py-4 font-bold uppercase    justify-center    cursor-pointer"
+                              className="w-full !py-4 font-bold uppercase justify-center cursor-pointer"
                             >
                               Print / Save Booking Form
-                            </CosmicRadialButton>
+                            </FoolishShrimpButton>
                           </div>
 
-                          <p className="font-semibold text-center leading-relaxed">
+                          <p className="font-semibold text-center ">
                             By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="text-white font-bold underline hover:text-white/80 transition-colors">Privacy Policy</Link> and <Link href="/terms" className="text-white font-bold underline hover:text-white/80 transition-colors">Terms of Service</Link>. You'll receive a confirmation email.
                           </p>
                           {signupStatus === "error" && <p className="text-rose-400 font-bold text-center">{formError || 'Something went wrong. Try again.'}</p>}
@@ -1828,7 +1847,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </p>
                         <FoolishShrimpButton
                           onClick={() => setIsPaymentDropdownOpen((prev) => !prev)}
-                          className="mt-4 px-6 py-2.5 font-bold uppercase text-xs cursor-pointer flex items-center gap-2"
+                          className="!mt-4 px-6 py-2.5 font-bold uppercase text-xs cursor-pointer flex items-center gap-2"
                         >
                           {isPaymentDropdownOpen ? "CLOSE PAYMENT PORTAL ▲" : "GO TO PAYMENT PORTAL ▼"}
                         </FoolishShrimpButton>
@@ -1842,33 +1861,37 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                       {/* Travel coordinators list */}
                       <div className="p-0 border-0 bg-transparent space-y-2 w-full">
-                        <h3 className="font-bold uppercase  mb-4  text-white border-b  border-white/10  pb-3">Travel Coordinators</h3>
-                        <div className="space-y-2">
+                        <h3 className="font-bold uppercase mb-4 text-white border-b border-white/10 pb-3">Travel Coordinators</h3>
+                        <div className="space-y-5">
                           {[
                             { name: "Richard Hofherr", role: "CEO / Booking & Media", phone: "(877) 683-9753 ext 5", email: "info@NTDVacations.com" },
                             { name: "Mary Grivas", role: "Excursions / Hotels & Air", phone: "(877) 683-9753 ext 5", email: "Mary@NTDVacations.com" },
                             { name: "Alan McRae", role: "Schedules & Logistics", phone: "(877) 683-9753 ext 5", email: "alan@NTDVacations.com" },
-                          ].map((coord, idx) => (
-                            <div key={coord.name} className="leading-normal pb-2 border-b  border-white/10  last:border-0 last:pb-0">
-                              <h4 className="font-bold text-white">{coord.name}</h4>
-                              <p className="font-bold uppercase  mt-0.5">{coord.role}</p>
-                              <p className="   mt-1 font-bold">{coord.phone}</p>
-                              <a href={`mailto:${coord.email}`} className="text-base md:text-lg text-purple-400 font-bold hover:underline block mt-1 tracking-wide">{coord.email}</a>
+                          ].map((coord) => (
+                            <div key={coord.name} className="pb-5 border-b border-white/10 last:border-0 last:pb-0">
+                              <MemberHeaderBadge
+                                name={coord.name}
+                                email={coord.email}
+                                badgeLabel={coord.role}
+                                badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
+                                nameClassName="text-base font-bold text-white leading-tight"
+                                subtitle={coord.phone}
+                              />
                             </div>
                           ))}
                         </div>
                       </div>
                       {/* Voyage Interest Tracker */}
                       <div className="p-0 border-0 bg-transparent space-y-4 w-full">
-                        <h3 className="font-bold uppercase   mb-4  text-white border-b  border-white/10  pb-3">Voyage Tracker</h3>
+                        <h3 className="font-bold uppercase mb-4 text-white border-b border-white/10 pb-3">Voyage Tracker</h3>
                         <div className="grid grid-cols-2 gap-4">
                           <div className=" text-left">
                             <p className="font-bold">{signupCount}</p>
-                            <p className="font-bold uppercase    mt-1">Cabins</p>
+                            <p className="font-bold uppercase mt-1">Cabins</p>
                           </div>
                           <div className="text-left">
                             <p className="font-bold">{totalGuests}</p>
-                            <p className="font-bold uppercase    mt-1">Passengers</p>
+                            <p className="font-bold uppercase mt-1">Passengers</p>
                           </div>
                         </div>
                       </div>
@@ -1876,13 +1899,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {/* Who's Booked */}
                       {joinedFans.length > 0 && (
                         <div className="p-0 border-0 bg-transparent space-y-4 w-full">
-                          <h3 className="font-bold uppercase    text-white border-b  border-white/10  pb-3">Who&apos;s Booked</h3>
+                          <h3 className="font-bold uppercase text-white border-b border-white/10 pb-3">Who&apos;s Booked</h3>
                           <div className="flex items-center mb-4">
                             <div className="flex items-center gap-1.5 flex-wrap">
                               {joinedFans.slice(0, 8).map((fan, i) => (
                                 <div
                                   key={i}
-                                  className="w-8 h-8 border  border-white/10  rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center font-bold text-white shrink-0     transition-transform hover:scale-110"
+                                  className="w-8 h-8 border border-white/10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center font-bold text-white shrink-0 transition-transform hover:scale-110"
 
                                   title={fan.anonymous ? 'Anonymous Fan' : fan.name}
                                 >
@@ -1918,21 +1941,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── FEATURED HEADLINE ARTISTS ── */}
             <section id="artists" className="py-section-fluid">
               <div className="text-left w-full mb-10">
-                <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Headline Musical Acts</span>
-                <h2 className="font-bold uppercase tracking-tight text-white leading-none mt-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h2 className="font-bold uppercase text-white leading-none mt-2" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Featured <span className="accent-gradient-text">Artists</span>
                 </h2>
-                <p className="mt-3 leading-relaxed font-semibold max-w-2xl">
+                <p className="mt-3 font-semibold max-w-2xl">
                   Meet the headlining bands performing live concert sets, acoustic pool jams, and theater shows throughout the voyage.
                 </p>
               </div>
 
               {/* Bands/Artists Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {BANDS_DATA.map((band, idx) => (
-                  <div key={band.name} className="relative overflow-hidden group aspect-[4/5] flex items-center justify-center rounded-2xl">
+                  <div key={band.name} className="relative overflow-hidden group bg-transparent border-0 flex flex-col justify-between">
                     {band.photo ? (
-                      <div className="w-full h-full relative flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_60%,transparent_80%)] [-webkit-mask-image:linear-gradient(to_bottom,black_60%,transparent_80%)]">
+                      <div className="w-full h-[315px] xs:h-[350px] sm:h-[370px] lg:h-[410px] relative flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]">
                         <picture className="w-full h-full block">
                           {band.mobilePhoto && (
                             <source media="(max-width: 768px)" srcSet={band.mobilePhoto} />
@@ -1949,22 +1971,22 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </picture>
                       </div>
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-neutral-900 via-neutral-800 to-black flex items-center justify-center text-5xl">
+                      <div className="w-full h-[315px] sm:h-[370px] bg-transparent flex items-center justify-center text-5xl">
                         {band.logo}
                       </div>
                     )}
 
-                    {/* Bottom Gradient Mask Overlay */}
-                    <div className="absolute inset-0 p-6 flex flex-col justify-end text-left pointer-events-none z-10">
-                      <h3 className="font-bold text-white tracking-tight leading-none">
+                    {/* Bottom Content / Info */}
+                    <div className="relative z-10 pt-3 pb-2 flex flex-col text-left">
+                      <h3 className="font-bold text-white leading-none">
                         {band.name}
                       </h3>
                       {band.role && (
-                        <p className="font-bold tracking-wide mt-1.5 text-white/80">
-                          {band.role}
-                        </p>
+                        <div className="mt-2">
+                          <SectionBadge label={band.role} />
+                        </div>
                       )}
-                      <p className="mt-2 line-clamp-2 leading-relaxed font-medium text-white/70">
+                      <p className="mt-2 line-clamp-2 font-medium text-white/70">
                         {band.desc}
                       </p>
                     </div>
@@ -1998,10 +2020,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* Inner div with site container padding */}
               <div className="w-full mx-auto px-[var(--page-padding-x)] relative z-20">
                 <div className="text-center max-w-3xl mx-auto mb-12 px-4">
-                  <h2 className="font-bold uppercase tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h2 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Day-by-Day <span className="accent-gradient-text">Schedules</span>
                   </h2>
-                  <p className="mt-4 leading-relaxed font-semibold">
+                  <p className="mt-4 font-semibold">
                     Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
                   </p>
 
@@ -2026,11 +2048,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
                 </div>
 
-                {/* 3D Snake Itinerary Timeline Component */}
+                {/* 3D Snake Itinerary Timeline Component -- lazy-mounted,
+                    see the LazyMount definition above ViewportSection for why. */}
                 <div className="w-full">
-                  <React.Suspense fallback={null}>
-                    <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={activeItinYear === 2027 ? itin2027Mapped : itin2028Mapped} />
-                  </React.Suspense>
+                  <LazyMount minHeight="900px" rootMargin="1000px 0px">
+                    <React.Suspense fallback={null}>
+                      <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={activeItinYear === 2027 ? itin2027Mapped : itin2028Mapped} />
+                    </React.Suspense>
+                  </LazyMount>
                 </div>
               </div>
             </div>
@@ -2043,7 +2068,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div>
                 <div className="text-center md:text-left mb-10">
                   <span className="font-bold uppercase tracking-[0.25em] text-purple-400">Destination Explorer</span>
-                  <h3 className="font-bold uppercase italic text-white tracking-tight mt-0.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h3 className="font-bold uppercase italic text-white mt-0.5" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Ports of Call Catalog
                   </h3>
                 </div>
@@ -2061,14 +2086,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                         <div className="pt-4 flex-1 flex flex-col justify-between">
                           <div>
-                            <h4 className="font-bold uppercase tracking-tight text-white mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
+                            <h4 className="font-bold uppercase text-white mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
                             <p className="leading-relaxed font-semibold">{port.desc}</p>
 
                             {/* Port Highlights */}
                             {port.highlights && (
                               <div className="flex flex-wrap gap-1.5 mt-3">
                                 {port.highlights.map(h => (
-                                  <span key={h} className="font-bold   px-2 py-0.5 rounded-lg text-white border  border-white/10  bg-[#00000029]">
+                                  <span key={h} className="font-bold px-2 py-0.5 rounded-lg text-white border border-white/10 bg-[#00000029]">
                                     {h}
                                   </span>
                                 ))}
@@ -2098,7 +2123,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {portLayoutMode === "spotlight" && (
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left animate-fadeIn">
                     {/* Main Featured Hero Card */}
-                    <div className="lg:col-span-2 bg-[#00000029]  border-white/10  backdrop-blur-[16px] rounded-lg overflow-hidden relative shadow-2xl">
+                    <div className="lg:col-span-2 bg-[#00000029] border-white/10 backdrop-blur-[16px] rounded-lg overflow-hidden relative shadow-2xl">
                       <div className="h-72 md:h-96 w-full relative overflow-hidden bg-black">
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/30 to-transparent z-10" />
                         {PORTS_DATA[activeSpotlightPort].image && (
@@ -2109,7 +2134,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                       </div>
                       <div className="p-8 relative z-20 -mt-16">
-                        <h3 className="font-bold uppercase text-white tracking-tight mb-3" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                        <h3 className="font-bold uppercase text-white mb-3" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                           {PORTS_DATA[activeSpotlightPort].name}
                         </h3>
                         <p className="leading-relaxed mb-4">
@@ -2120,7 +2145,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {PORTS_DATA[activeSpotlightPort].highlights && (
                           <div className="flex flex-wrap gap-2 mb-6">
                             {PORTS_DATA[activeSpotlightPort].highlights.map(h => (
-                              <span key={h} className="font-bold uppercase  text-purple-300 bg-purple-900/60 px-3 py-1 rounded-lg border border-purple-500/40">
+                              <span key={h} className="font-bold uppercase text-purple-300 bg-purple-900/60 px-3 py-1 rounded-lg border border-purple-500/40">
                                 ✓ {h}
                               </span>
                             ))}
@@ -2130,10 +2155,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* Gallery Thumbnails */}
                         {PORTS_DATA[activeSpotlightPort].gallery && (
                           <div className="mb-6 pt-4 border-t border-white/10">
-                            <span className="text-[10px]    uppercase    text-purple-300 font-bold block mb-2">Destination Photo Gallery</span>
+                            <span className="text-[10px] uppercase text-purple-300 font-bold block mb-2">Destination Photo Gallery</span>
                             <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2">
                               {PORTS_DATA[activeSpotlightPort].gallery.map((gImg, gIdx) => (
-                                <div key={gIdx} className="w-24 h-16 rounded-lg overflow-hidden shrink-0 border  border-white/10    ">
+                                <div key={gIdx} className="w-24 h-16 rounded-lg overflow-hidden shrink-0 border border-white/10 ">
                                   <Image width={96} height={64} unoptimized src={gImg} alt="Gallery Still" className="w-full h-full object-cover" />
                                 </div>
                               ))}
@@ -2145,7 +2170,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                            className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors cursor-pointer border-none rounded-lg shadow-lg"
+                            className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase transition-colors cursor-pointer border-none rounded-lg shadow-lg"
                           >
                             Book Cruise &amp; Visit {PORTS_DATA[activeSpotlightPort].name.split(',')[0]}
                           </button>
@@ -2155,14 +2180,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                     {/* Sidebar Selectors */}
                     <div className="space-y-3">
-                      <span className="text-[var(--font-size-2xs)] font-bold text-white/40 uppercase    block mb-2">Select Destination to Preview:</span>
+                      <span className="text-[var(--font-size-2xs)] font-bold text-white/40 uppercase block mb-2">Select Destination to Preview:</span>
                       {PORTS_DATA.map((port, idx) => (
                         <button aria-label="Action button"
                           key={`spotlight-${port.name}`}
                           type="button"
                           onClick={() => setActiveSpotlightPort(idx)}
-                          className={`w-full p-4 text-left transition-colors cursor-pointer flex items-center gap-4 rounded-2xl border ${activeSpotlightPort === idx ? "  bg-[#00000029]     border-white/10   backdrop-blur-[16px]"
-                            : "  bg-[#00000029]     border-white/10   backdrop-blur-[16px]"
+                          className={`w-full p-4 text-left transition-colors cursor-pointer flex items-center gap-4 rounded-2xl border ${activeSpotlightPort === idx ? " bg-[#00000029] border-white/10 backdrop-blur-[16px]"
+                            : " bg-[#00000029] border-white/10 backdrop-blur-[16px]"
                             }`}
                         >
                           <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-black border border-white/10">
@@ -2172,7 +2197,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <h4 className={`font-bold uppercase truncate ${activeSpotlightPort === idx ? "text-purple-300" : "text-white"}`}>
                               {port.name}
                             </h4>
-                            <span className="text-white/35   ">Port #{idx + 1}</span>
+                            <span className="text-white/35 ">Port #{idx + 1}</span>
                           </div>
                         </button>
                       ))}
@@ -2190,7 +2215,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10 rounded-lg bg-[#00000029]  border-white/10  backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-10 h-10 rounded-lg bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ◀
                       </button>
@@ -2199,7 +2224,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => {
                           if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
                         }}
-                        className="w-10 h-10 rounded-lg bg-[#00000029] border  border-white/10  backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-10 h-10 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors"
                       >
                         ▶
                       </button>
@@ -2213,24 +2238,24 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {PORTS_DATA.map((port, idx) => (
                         <div
                           key={`carousel-${port.name}`}
-                          className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[#00000029]  border-white/10  backdrop-blur-[16px] rounded-lg overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1"
+                          className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[#00000029] border-white/10 backdrop-blur-[16px] rounded-lg overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1"
                         >
                           <div className="h-52 w-full relative overflow-hidden bg-black/60">
                             <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
                             {port.image && <Image width={400} height={300} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                            <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-[45px] border  border-white/10  rounded-lg   font-bold uppercase    text-purple-300">
+                            <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-[45px] border border-white/10 rounded-lg font-bold uppercase text-purple-300">
                               {idx + 1} / {PORTS_DATA.length}
                             </span>
                           </div>
                           <div className="p-6 relative z-20 -mt-8">
-                            <h4 className="font-bold text-white uppercase tracking-tight mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
+                            <h4 className="font-bold text-white uppercase mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
                             <p className="leading-relaxed">{port.desc}</p>
 
                             {/* Highlights */}
                             {port.highlights && (
                               <div className="flex flex-wrap gap-1.5 mt-3">
                                 {port.highlights.map(h => (
-                                  <span key={h} className="text-[10px] font-bold uppercase  text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-lg border border-purple-500/30">
+                                  <span key={h} className="text-[10px] font-bold uppercase text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-lg border border-purple-500/30">
                                     {h}
                                   </span>
                                 ))}
@@ -2247,16 +2272,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {portLayoutMode === "list" && (
                   <div className="space-y-4 animate-fadeIn text-left max-w-5xl mx-auto">
                     {PORTS_DATA.map((port, idx) => (
-                      <div key={`list-${port.name}`} className="bg-[#00000029]  border-white/10  backdrop-blur-[16px] rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.08]">
+                      <div key={`list-${port.name}`} className="bg-[#00000029] border-white/10 backdrop-blur-[16px] rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.08]">
                         <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden rounded-lg relative shrink-0">
-                          {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover   transition-transform" />}
-                          <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded   font-bold text-purple-300 uppercase border border-white/10">
+                          {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover transition-transform" />}
+                          <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded font-bold text-purple-300 uppercase border border-white/10">
                             Port #{idx + 1}
                           </span>
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-1">
-                            <h4 className="font-bold uppercase text-white tracking-tight">{port.name}</h4>
+                            <h4 className="font-bold uppercase text-white ">{port.name}</h4>
                           </div>
                           <p className="leading-relaxed">{port.desc}</p>
 
@@ -2264,7 +2289,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {port.highlights && (
                             <div className="flex flex-wrap gap-1.5 mt-2">
                               {port.highlights.map(h => (
-                                <span key={h} className="text-[10px] font-bold uppercase  text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-lg border border-purple-500/30">
+                                <span key={h} className="text-[10px] font-bold uppercase text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-lg border border-purple-500/30">
                                   {h}
                                 </span>
                               ))}
@@ -2274,7 +2299,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <button aria-label="Action button"
                           type="button"
                           onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                          className="shrink-0 px-4 py-2 bg-[#00000029]  border-white/10  backdrop-blur-[16px] text-white font-bold uppercase    transition-colors cursor-pointer rounded-xl"
+                          className="shrink-0 px-4 py-2 bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white font-bold uppercase transition-colors cursor-pointer rounded-xl"
                         >
                           Book →
                         </button>
@@ -2290,10 +2315,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── SECTION 4: SHIP EXPLORER ── */}
             <ViewportSection id="ship-explorer" minHeight="800px" className="py-[32px] md:py-20">
               <div className="text-left w-full mb-10">
-                <h2 className="font-bold uppercase tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h2 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
                 </h2>
-                <p className="mt-3 leading-relaxed font-semibold max-w-2xl">
+                <p className="mt-3 font-semibold max-w-2xl">
                   Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.
                 </p>
               </div>
@@ -2307,7 +2332,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   { label: "Decks Tall", value: "20 Decks" },
                 ].map((stat) => (
                   <div key={stat.label} className="bg-transparent border-0 p-0 text-left">
-                    <span className="text-white font-bold uppercase  block">{stat.label}</span>
+                    <span className="text-white font-bold uppercase block">{stat.label}</span>
                     <span className="text-lg md:text-xl font-bold text-white mt-1 block">{stat.value}</span>
                   </div>
                 ))}
@@ -2316,7 +2341,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
               <div className="mb-16">
                 <div className="mb-6 text-left">
-                  <h3 className="font-bold uppercase text-white tracking-tight" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                  <h3 className="font-bold uppercase text-white " style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                     Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
                   </h3>
                   <p className="font-semibold mt-1">
@@ -2446,12 +2471,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* ── BARS & ENTERTAINMENT SEGMENTED TABS SECTION (Option 2) ── */}
               <div className="py-20">
                 {/* Segmented Tab Header — Stacks vertically on mobile & tablet for full text width */}
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-4 border-b  border-white/10  text-left">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-4 border-b border-white/10 text-left">
                   <div className="w-full lg:w-auto">
                     <h3 className="font-bold uppercase text-white">Bars & Entertainment Explorer</h3>
                     <p className="font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
                   </div>
-                  <div className="flex  p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto  gap-2">
+                  <div className="flex p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto gap-2">
                     <FoolishShrimpButton
                       onClick={() => setBarTab("bars")}
                       isActive={barTab === "bars"}
@@ -2521,7 +2546,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   ).map((item) => {
                     const isCyan = barTab === "bars";
                     return (
-                      <div key={item.name} className="relative overflow-hidden rounded-lg group border border-black/10 h-48 md:h-56  ">
+                      <div key={item.name} className="relative overflow-hidden rounded-lg group border border-black/10 h-48 md:h-56 ">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
@@ -2546,10 +2571,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {/* ── SECTION 5: FAQS & HISTORY ── */}
             <ViewportSection id="faqs" minHeight="600px" className="pt-20 pb-10">
               <div className="text-left w-full mb-10">
-                <h2 className="font-bold uppercase tracking-tight text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+                <h2 className="font-bold uppercase text-white leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
                   Frequently Asked <span className="accent-gradient-text">Questions</span>
                 </h2>
-                <p className="mt-3 leading-relaxed font-semibold max-w-2xl">
+                <p className="mt-3 font-semibold max-w-2xl">
                   Find answers to important passport requirements, dining configurations, payment plans, and booking rules.
                 </p>
               </div>
@@ -2557,18 +2582,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               {/* FAQs List */}
               <div className="space-y-3 mb-0 text-left max-w-4xl">
                 {FAQS_EXTENDED.map((faq, i) => (
-                  <div key={faq.q} className="bg-[#59595929] border  border-white/10  backdrop-blur-[16px] rounded-lg overflow-hidden    ">
+                  <div key={faq.q} className="bg-[#59595929] border border-white/10 backdrop-blur-[16px] rounded-lg overflow-hidden ">
                     <button aria-label="Action button"
                       type="button"
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
                       className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/10 transition-colors cursor-pointer rounded-none border-none bg-transparent"
                     >
                       <span className="font-bold text-white pr-4">{faq.q}</span>
-                      <span className={`text-white/70 transition-transform font-bold shrink-0 ${openFaq === i ? 'rotate-45 text-rose-400' : ''}`}>+</span>
+                      <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 shrink-0 ${openFaq === i ? 'rotate-90 text-purple-400' : ''}`}>
+                        <ChevronRight className="w-4 h-4" />
+                      </div>
                     </button>
                     {openFaq === i && (
-                      <div className="px-5 py-4 bg-[#59595929] border  border-white/10  backdrop-blur-[16px]">
-                        <p className="font-medium leading-relaxed">{faq.a}</p>
+                      <div className="px-5 py-4 bg-[#59595929] border border-white/10 backdrop-blur-[16px]">
+                        <p className="font-medium ">{faq.a}</p>
                       </div>
                     )}
                   </div>
@@ -2577,14 +2604,18 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </ViewportSection>
           </div>
 
-          {/* Cruise History Timeline Section (Lazy-Loaded at Bottom) */}
-          {renderTimeline && (
+          {/* Cruise History Timeline Section -- genuinely lazy-mounted now.
+              The `renderTimeline` flag that used to gate this was hardcoded
+              to `true`, so despite the "Lazy-Loaded at Bottom" label it was
+              never actually deferred; LazyMount (see definition above
+              ViewportSection) does the real work via IntersectionObserver. */}
+          <LazyMount minHeight="500px" rootMargin="1000px 0px">
             <ViewportSection id="history" minHeight="500px" className="w-full relative overflow-x-clip site-container">
               <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
                 <CruiseHistoryTimeline history={CRUISE_HISTORY} />
               </React.Suspense>
             </ViewportSection>
-          )}
+          </LazyMount>
         </>
       )}
     </div>
@@ -2600,13 +2631,13 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
         <div className="booking-cell pb-4 pt-4">
           <label htmlFor="cruise-card-name-1" className="booking-label block font-bold text-white uppercase mb-1.5">Your Full Name on the Card *</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-name-1" type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({ ...formData, cardName1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-name-1" type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({ ...formData, cardName1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell pb-4 pt-4">
           <label htmlFor="cruise-card-number-1" className="booking-label block font-bold text-white uppercase mb-1.5">Credit Card Number *</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-number-1" type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({ ...formData, cardNumber1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-number-1" type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({ ...formData, cardNumber1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell pb-4 pt-4 ">
@@ -2614,19 +2645,19 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
             <div>
               <label htmlFor="cruise-card-exp-1" className="booking-label block font-bold text-white uppercase mb-1.5">Exp. Date *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-exp-1" type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({ ...formData, cardExpiry1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-exp-1" type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({ ...formData, cardExpiry1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
               <label htmlFor="cruise-card-cvv-1" className="booking-label block font-bold text-white uppercase mb-1.5">3 Digit CVC *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-cvv-1" type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({ ...formData, cardCvv1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-cvv-1" type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({ ...formData, cardCvv1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
               <label htmlFor="cruise-card-zip-1" className="booking-label block font-bold text-white uppercase mb-1.5">Billing Zip *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-zip-1" type="text" required placeholder="Zip" value={formData.cardZip1} onChange={e => setFormData({ ...formData, cardZip1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-zip-1" type="text" required placeholder="Zip" value={formData.cardZip1} onChange={e => setFormData({ ...formData, cardZip1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
           </div>
@@ -2634,7 +2665,7 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
         <div className="booking-cell pb-4 pt-4">
           <label htmlFor="cruise-card-amount-1" className="booking-label block font-bold text-white uppercase mb-1.5">Amount to Charge ($ USD)</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-amount-1" type="text" required value={formData.cardAmount1} onChange={e => setFormData({ ...formData, cardAmount1: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3.5 py-2.5 text-base font-bold text-purple-300 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-amount-1" type="text" required value={formData.cardAmount1} onChange={e => setFormData({ ...formData, cardAmount1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-bold text-purple-300 focus:outline-none rounded-lg" />
           </div>
         </div>
       </div>
@@ -2651,13 +2682,13 @@ function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormD
         <div className="booking-cell p-4">
           <label htmlFor="cruise-card-name-2" className="booking-label block font-bold text-white uppercase mb-1.5">Your Full Name on the Card *</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-name-2" type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({ ...formData, cardName2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-name-2" type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({ ...formData, cardName2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell p-4">
           <label htmlFor="cruise-card-number-2" className="booking-label block font-bold text-white uppercase mb-1.5">Credit Card Number *</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-number-2" type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({ ...formData, cardNumber2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-number-2" type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({ ...formData, cardNumber2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell p-4">
@@ -2665,19 +2696,19 @@ function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormD
             <div>
               <label htmlFor="cruise-card-exp-2" className="booking-label block font-bold text-white uppercase mb-1.5">Exp. Date *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-exp-2" type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({ ...formData, cardExpiry2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-exp-2" type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({ ...formData, cardExpiry2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
               <label htmlFor="cruise-card-cvv-2" className="booking-label block font-bold text-white uppercase mb-1.5">3 Digit CVC *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-cvv-2" type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({ ...formData, cardCvv2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-cvv-2" type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({ ...formData, cardCvv2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
               <label htmlFor="cruise-card-zip-2" className="booking-label block font-bold text-white uppercase mb-1.5">Billing Zip *</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field" id="cruise-card-zip-2" type="text" required placeholder="Zip" value={formData.cardZip2} onChange={e => setFormData({ ...formData, cardZip2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input aria-label="Input field" id="cruise-card-zip-2" type="text" required placeholder="Zip" value={formData.cardZip2} onChange={e => setFormData({ ...formData, cardZip2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
           </div>
@@ -2685,7 +2716,7 @@ function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormD
         <div className="booking-cell p-4">
           <label htmlFor="cruise-card-amount-2" className="booking-label block font-bold text-white uppercase mb-1.5">Amount to Charge ($ USD)</label>
           <div className="input-glow-border rounded-xl">
-            <input aria-label="Input field" id="cruise-card-amount-2" type="text" required value={formData.cardAmount2} onChange={e => setFormData({ ...formData, cardAmount2: e.target.value })} className="booking-input w-full bg-black/50 border  border-white/10  px-3.5 py-2.5 text-base font-bold text-purple-300 focus:outline-none rounded-lg" />
+            <input aria-label="Input field" id="cruise-card-amount-2" type="text" required value={formData.cardAmount2} onChange={e => setFormData({ ...formData, cardAmount2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-bold text-purple-300 focus:outline-none rounded-lg" />
           </div>
         </div>
       </div>
@@ -2709,7 +2740,7 @@ function CruiseNotesAndSignatureSection({
   return (
     <div className="booking-section-container border-0 bg-transparent p-0 mt-4">
       <div className="booking-section-header bg-transparent px-0 py-2 border-0">
-        <span className="font-bold uppercase  text-white">ADDITIONAL NOTES & DIGITAL SIGNATURE</span>
+        <span className="font-bold uppercase text-white">ADDITIONAL NOTES & DIGITAL SIGNATURE</span>
       </div>
 
       <div className="py-3 border-0">
@@ -2785,15 +2816,15 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
   };
 
   return (
-    <div className="mt-4 w-full  text-left text-white animate-fade-in">
+    <div className="mt-4 w-full text-left text-white animate-fade-in">
       {/* Header */}
-      <div className="flex items-start justify-between gap-4 mb-5 border-b  border-white/10  pb-3">
+      <div className="flex items-start justify-between gap-4 mb-5 border-b border-white/10 pb-3">
         <div>
 
-          <h3 className=" font-bold uppercase tracking-tight text-white">
+          <h3 className=" font-bold uppercase text-white">
             MAKE A PAYMENT
           </h3>
-          <p className="text-white/60  mt-0.5">
+          <p className="text-white/60 mt-0.5">
             Group ID: 3325680 · Official Travel Agency: NTD Vacations
           </p>
         </div>
@@ -2806,7 +2837,7 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
             ✓
           </div>
           <h3 className="text-xl font-bold text-white">Payment Authorized!</h3>
-          <p className="text-white/80 text-xs leading-relaxed max-w-xs mx-auto">
+          <p className="text-white/80 text-xs max-w-xs mx-auto">
             Your payment of <strong className="text-emerald-400">${payForm.cardAmount}</strong> has been successfully processed under Royal Caribbean Group ID <strong className="text-purple-300">3325680</strong>.
           </p>
           <div className="bg-purple-950/40 border border-purple-500/30 p-2.5 rounded-xl font-mono text-xs text-purple-200 inline-block">
@@ -2935,7 +2966,7 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
           />
 
           <div className="pt-2 flex flex-col gap-2">
-            <span className="text-[10px] text-white/50 leading-tight">
+            <span className="text-[10px] text-white/50 ">
               🔒 256-Bit SSL Encrypted Royal Caribbean Authorization
             </span>
             <FoolishShrimpButton

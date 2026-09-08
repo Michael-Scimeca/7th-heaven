@@ -90,8 +90,8 @@ function NorthResultContent() {
             <>
               <div
                 className={`w-16 h-16 mx-auto mb-4 rounded-lg flex items-center justify-center border-2 ${succeeded ? "bg-emerald-500/10 border-emerald-500/30"
-                  : "bg-rose-500/10 border-rose-500/30"
-                  }`}
+ : "bg-rose-500/10 border-rose-500/30"
+ }`}
               >
                 <span className="text-2xl">{succeeded ? "✅" : "❌"}</span>
               </div>
@@ -113,7 +113,7 @@ function NorthResultContent() {
 
           <Link
             href="/payment-test"
-            className="inline-block mt-6 px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase  rounded-lg"
+            className="inline-block mt-6 px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase rounded-lg"
           >
             {succeeded ? "Back to Shop" : "Try Again"}
           </Link>

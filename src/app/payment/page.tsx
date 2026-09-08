@@ -68,7 +68,7 @@ function PaymentTestContent() {
         <div className="mb-8 text-left">
           <Link
             href="/"
-            className="font-bold uppercase  text-purple-400hover:text-white transition-colors flex items-center gap-2"
+            className="font-bold uppercase text-purple-400hover:text-white transition-colors flex items-center gap-2"
           >
             ← Back to Home
           </Link>
@@ -82,16 +82,16 @@ function PaymentTestContent() {
             <h1 className="text-2xl font-bold uppercase text-white tracking-wide">
               Payment Test Page
             </h1>
-            <p className="mt-1 leading-relaxed">
+            <p className="mt-1 ">
               Runs a real Stripe Checkout session in test mode. Card details are entered on
               Stripe&apos;s hosted page and never touch this server. Use test card{" "}
-              <span className="text-white/70   ">4242 4242 4242 4242</span>, any future
+              <span className="text-white/70 ">4242 4242 4242 4242</span>, any future
               expiry, any CVC.
             </p>
           </div>
 
           {status === "success" && (
-            <div className="mb-6 p-4 border  border-white/10  bg-emerald-500/10 text-[var(--color-accent)] font-bold leading-normal">
+            <div className="mb-6 p-4 border border-white/10 bg-emerald-500/10 text-[var(--color-accent)] font-bold leading-normal">
               🎉{" "}
               {confirmed
                 ? `Payment confirmed: $${(confirmed.amountTotal / 100).toFixed(2)} ${confirmed.currency?.toUpperCase()}.`
@@ -113,7 +113,7 @@ function PaymentTestContent() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
+              <label className="block text-[10px] font-bold uppercase text-white/40 mb-1">
                 Amount (USD)
               </label>
               <input
@@ -128,7 +128,7 @@ function PaymentTestContent() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
+              <label className="block text-[10px] font-bold uppercase text-white/40 mb-1">
                 Description
               </label>
               <input
@@ -143,7 +143,7 @@ function PaymentTestContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase  py-3.5 rounded-lg transition-colors disabled:opacity-50"
+              className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase py-3.5 rounded-lg transition-colors disabled:opacity-50"
             >
               {loading ? "Redirecting to Stripe…" : "Pay with Stripe (Test Mode)"}
             </button>

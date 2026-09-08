@@ -921,7 +921,7 @@ lerpSpeed: ${lerpSpeed}`;
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
                   className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
-                    }`}
+ }`}
                 >
                   {/* Member Card Thumbnail */}
                   <div
@@ -938,9 +938,9 @@ lerpSpeed: ${lerpSpeed}`;
 
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0"
-                    : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                    }`}>
-                    <p className="font-bold leading-none tracking-tight drop-  ">
+ : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+ }`}>
+                    <p className="font-bold leading-none drop- ">
                       {m?.name || "Band Member"}
                     </p>
                     <p className="font-bold mt-0.5 sm:mt-1 tracking-wide">
@@ -973,13 +973,13 @@ lerpSpeed: ${lerpSpeed}`;
                     setIsFactSheetOpen(true);
                   }}
                   className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
-                    }`}
+ }`}
                 >
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0"
-                    : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                    }`}>
-                    <p className="font-bold leading-none tracking-tight drop-  ">
+ : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+ }`}>
+                    <p className="font-bold leading-none drop- ">
                       {m?.name || "Band Member"}
                     </p>
                     <p className="font-bold mt-0.5 sm:mt-1 tracking-wide">
@@ -1096,7 +1096,7 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}
                         >
-                          <h3 className="font-bold sm:bg-black/60 bg-black/40 text-white sm:pt-1 pr-2 pl-2 tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold sm:bg-black/60 bg-black/40 text-white sm:pt-1 pr-2 pl-2 drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold sm:bg-black/60 bg-black/40 md:pb-1 pt-1 pr-2 pl-2 text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)]" style={{ fontSize: computedRoleFontSize }}>
@@ -1108,10 +1108,10 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-glass" && (
                         <div
-                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/10  px-4 py-3 transition-opacity duration-300"
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold text-white " style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -1125,10 +1125,10 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight drop-  " style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold text-white drop- " style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-   mt-0.5" style={{ fontSize: computedRoleFontSize }}>
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop- mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -1143,7 +1143,7 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold text-white drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -1154,10 +1154,10 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/10  px-4 py-2.5 rounded-lg shadow-2xl transition-opacity duration-300"
+                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-2.5 rounded-lg shadow-2xl transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold text-white " style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[#c084fc] tracking-wide block mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -1175,10 +1175,10 @@ lerpSpeed: ${lerpSpeed}`;
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight drop-  " style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold text-white drop- " style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-   mt-0.5" style={{ fontSize: computedRoleFontSize }}>
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop- mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>
@@ -1186,10 +1186,10 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-glass" && (
                         <div
-                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border  border-white/10  px-4 py-3 transition-opacity duration-300"
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold text-white " style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -1203,10 +1203,10 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
-                          <h3 className="font-bold text-white tracking-tight leading-tight drop-  " style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="font-bold text-white drop- " style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-   mt-0.5" style={{ fontSize: computedRoleFontSize }}>
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop- mt-0.5" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
                         </div>

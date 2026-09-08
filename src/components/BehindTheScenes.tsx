@@ -74,18 +74,18 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
           <div className="relative z-[3] w-full px-8 md:px-16 pb-16 pt-32">
             <div className="max-w-[700px]">
               {/* Label */}
-              <span className="inline-block font-bold    uppercase text-white/50 mb-4">
+              <span className="inline-block font-bold uppercase text-white/50 mb-4">
                 Official YouTube
               </span>
 
               {/* Heading */}
-              <h2 className="leading-[0.95] tracking-tight mb-6">
+              <h2 className="leading-[0.95] mb-6">
                 Explore Behind the{" "}
                 <span className="gradient-text">Scenes</span>
               </h2>
 
               {/* Subtitle */}
-              <p className="max-w-[500px] mb-10 leading-relaxed">
+              <p className="max-w-[500px] mb-10 ">
                 {featured.subtitle}
               </p>
 
@@ -104,11 +104,11 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               </button>
 
               {/* Director credit */}
-              <div className="mt-10 border-t  border-white/10  pt-6">
+              <div className="mt-10 border-t border-white/10 pt-6">
                 <p className="font-bold tracking-[0.15em] uppercase mb-1">
                   Directed by
                 </p>
-                <p className="font-bold tracking-tight">
+                <p className="font-bold ">
                   {featured.director}
                 </p>
               </div>
@@ -161,7 +161,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                 </div>
                 <div className="mt-2.5">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-bold uppercase tracking-[0.05em] text-white leading-tight line-clamp-1">
+                    <h3 className="font-bold uppercase tracking-[0.05em] text-white line-clamp-1">
                       {video.title}
                     </h3>
                     <div className="flex items-center gap-1.5 shrink-0 text-white/40 tabular-nums">

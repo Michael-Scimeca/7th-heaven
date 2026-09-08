@@ -7,22 +7,22 @@ export const metadata: Metadata = {
 
 export default function ReturnsPage() {
   return (
-    <section className="site-container pt-[100px] min-h-screen   ">
+    <section className="site-container pt-[100px] min-h-screen ">
       <div className="w-full text-left">
-        <h1 className="text-[clamp(2rem,4vw,3rem)]    tracking-tight mb-2 font-bold   ">
+        <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2 font-bold ">
           Return & Refund Policy
         </h1>
         <p className="font-bold mb-12">
           Last Updated: April 12, 2026
         </p>
 
-        <div className="prose-legal flex flex-col gap-10    text-base leading-relaxed">
+        <div className="prose-legal flex flex-col gap-10 text-base ">
 
           {/* Section 1 */}
           <div>
             <h2 className="font-bold mb-3">1. Merchandise Table Purchases (Live Concerts)</h2>
             <p className="">
-              All merchandise purchases completed in person at our live concert venues and tour stops are <strong className="  ">final sale</strong>.
+              All merchandise purchases completed in person at our live concert venues and tour stops are <strong className=" ">final sale</strong>.
               We do not accept returns, refunds, or size exchanges once a transaction is completed at our physical merch tables.
               Please inspect all apparel, CDs, vinyl, and accessories for quality and correct sizing prior to completing your purchase.
               In the rare event of a clear manufacturing defect, please contact our crew at the table immediately, or email us at the contact address below within 7 days.
@@ -35,9 +35,9 @@ export default function ReturnsPage() {
             <p className="mb-3">
               For merchandise purchased directly through our online store (processed via the Shopify Storefront API) and shipped to your home:
             </p>
-            <ul className="list-disc pl-5 space-y-2   ">
+            <ul className="list-disc pl-5 space-y-2 ">
               <li>
-                You have <strong className="  ">14 calendar days</strong> from the delivery confirmation date to request a return or size exchange.
+                You have <strong className=" ">14 calendar days</strong> from the delivery confirmation date to request a return or size exchange.
               </li>
               <li>
                 To be eligible, items must be unworn, unwashed, unaltered, and in their original packaging with all original product tags intact.
@@ -57,7 +57,7 @@ export default function ReturnsPage() {
             <p className="mb-3">
               For orders pre-purchased online and designated for pickup at our concert merch tables:
             </p>
-            <ul className="list-disc pl-5 space-y-2  ">
+            <ul className="list-disc pl-5 space-y-2 ">
               <li>
                 Pickup orders are fully verified via a secure QR code emailed to you. Once verified and scanned, our crew will release the order to you.
               </li>
@@ -87,7 +87,7 @@ export default function ReturnsPage() {
             <div className="">
               <p className="font-bold">7th Heaven Support</p>
               <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
-              <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
+              <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
             </div>
           </div>
 

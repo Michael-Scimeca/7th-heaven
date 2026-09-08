@@ -198,7 +198,7 @@ export default function LiveShowFeed() {
       {/* Main Media Player */}
       <div className="relative group">
         {videoId ? (
-          <div className="relative aspect-video border  border-white/10  overflow-hidden">
+          <div className="relative aspect-video border border-white/10 overflow-hidden">
             <iframe
               title="7th Heaven Live Show Video"
               src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
@@ -209,7 +209,7 @@ export default function LiveShowFeed() {
             />
           </div>
         ) : selectedMedia?.image_url ? (
-          <div className="relative aspect-video border  border-white/10  overflow-hidden">
+          <div className="relative aspect-video border border-white/10 overflow-hidden">
             <Image width={200} height={200} unoptimized
               src={selectedMedia.image_url}
               alt={selectedMedia.content}
@@ -232,7 +232,7 @@ export default function LiveShowFeed() {
             </div>
           </div>
         ) : (
-          <div className="aspect-video bg-white/[0.03] border  border-white/10  flex items-center justify-center">
+          <div className="aspect-video bg-white/[0.03] border border-white/10 flex items-center justify-center">
             <p className="">No live media yet — check back soon</p>
           </div>
         )}
@@ -254,10 +254,10 @@ export default function LiveShowFeed() {
                 key={post.id}
                 onClick={() => setSelectedMedia(post)}
                 className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
-                  : isNew
-                    ? "border-red-500/50"
-                    : "border-white/[0.06] hover:  border-white/10  "
-                  }`}
+ : isNew
+ ? "border-red-500/50"
+ : "border-white/[0.06] hover: border-white/10 "
+ }`}
                 style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}
               >
                 {thumbSrc && (
@@ -277,7 +277,7 @@ export default function LiveShowFeed() {
                 )}
                 {/* Type badge */}
                 <div className="absolute top-1 left-1">
-                  <span className="text-[var(--font-size-2xs)] font-bold uppercase  bg-black/60 text-white/70 px-1.5 py-0.5">
+                  <span className="text-[var(--font-size-2xs)] font-bold uppercase bg-black/60 text-white/70 px-1.5 py-0.5">
                     {isVideo ? "🎬" : "📸"} {timeAgo(post.created_at)}
                   </span>
                 </div>

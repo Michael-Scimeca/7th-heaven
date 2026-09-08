@@ -90,7 +90,7 @@ export default function PushAlertsCard({
   return (
     <>
       <div
-        className={`relative overflow-hidden  ${className}`}
+        className={`relative overflow-hidden ${className}`}
       >
 
         <div className="relative z-10">
@@ -103,7 +103,7 @@ export default function PushAlertsCard({
             </div>
           </div>
 
-          <p className="text-gray-300/90 leading-relaxed mb-6">
+          <p className="text-gray-300/90 mb-6">
             {subtitle || defaultSubtitle}
           </p>
 
@@ -117,7 +117,7 @@ export default function PushAlertsCard({
                 onClick={() => setShowModal(true)}
                 className="inline-flex items-center justify-center gap-2"
               >
-                <CosmicRadialButton className="justify-center !py-2.5 !px-5 font-bold uppercase  !text-white shadow-lg">
+                <CosmicRadialButton className="justify-center !py-2.5 !px-5 font-bold uppercase !text-white shadow-lg">
                   <BellIcon />
                   {subscribed ? "✓ Live Alerts Enabled 🔔" : "Enable Push Alerts"}
                 </CosmicRadialButton>
@@ -129,7 +129,7 @@ export default function PushAlertsCard({
                   href={webUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border  border-white/10  bg-[#00000029] px-4 py-3 font-bold uppercase  text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3 font-bold uppercase text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center"
                 >
                   Web Alerts <ExternalIcon />
                 </a>

@@ -7,9 +7,9 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
     return (
-        <section className="site-container pt-[100px] min-h-screen text-[var(--text-color)] text-left">
+        <section className="site-container pt-[100px] min-h-screen text-left">
             <div className="mb-12 text-left">
-                <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-bold text-[var(--text-color)]">
+                <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2 font-bold ">
                     Privacy Policy
                 </h1>
                 <p className="font-bold">
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
                 </p>
             </div>
 
-            <div className="prose-legal flex flex-col gap-10 text-[var(--text-color)] text-base leading-relaxed">
+            <div className="prose-legal flex flex-col gap-10 text-base ">
 
                 {/* 1 */}
                 <div>
@@ -74,10 +74,10 @@ export default function PrivacyPage() {
                     <div className="py-2 border-0 bg-transparent shadow-none">
                         <p className="mb-3">By subscribing to 7th Heaven Proximity & Show Alerts, you consent to receive automated notifications regarding nearby concerts and show updates. Key details:</p>
                         <ul className="list-disc pl-5 space-y-2 text-base">
-                            <li><strong className="text-[var(--text-color)] font-bold">Data Collected:</strong> Full name (optional), email address (optional), zip code or city, distance radius (e.g. 15 mi, 30 mi, 50 mi, 100 mi, or all shows), show type filter preferences, and browser web push subscription credentials.</li>
-                            <li><strong className="text-[var(--text-color)] font-bold">Notification Frequency:</strong> Varies based on tour date additions. Typically 1–4 notifications per month for nearby shows.</li>
-                            <li><strong className="text-[var(--text-color)] font-bold">Web Push & Browser Control:</strong> Browser push notifications are delivered directly to your device when permissions are granted. You may grant or block push notifications at any time via your browser settings.</li>
-                            <li><strong className="text-[var(--text-color)] font-bold">Opt-Out & Preference Updates:</strong> You can modify your distance radius, toggle show types, or unsubscribe from alerts at any time via the alert preferences panel in the site footer or fan dashboard.</li>
+                            <li><strong className=" font-bold">Data Collected:</strong> Full name (optional), email address (optional), zip code or city, distance radius (e.g. 15 mi, 30 mi, 50 mi, 100 mi, or all shows), show type filter preferences, and browser web push subscription credentials.</li>
+                            <li><strong className=" font-bold">Notification Frequency:</strong> Varies based on tour date additions. Typically 1–4 notifications per month for nearby shows.</li>
+                            <li><strong className=" font-bold">Web Push & Browser Control:</strong> Browser push notifications are delivered directly to your device when permissions are granted. You may grant or block push notifications at any time via your browser settings.</li>
+                            <li><strong className=" font-bold">Opt-Out & Preference Updates:</strong> You can modify your distance radius, toggle show types, or unsubscribe from alerts at any time via the alert preferences panel in the site footer or fan dashboard.</li>
                         </ul>
                         <p className="mt-3">Your consent to receive alerts is not a condition of any purchase.</p>
                     </div>
@@ -86,10 +86,10 @@ export default function PrivacyPage() {
                 {/* 5 */}
                 <div>
                     <h2 className="font-bold mb-3">5. How We Share Your Information</h2>
-                    <p className="mb-3">We do <strong className="text-[var(--text-color)]">not</strong> sell, rent, or trade your personal information. We may share data with:</p>
+                    <p className="mb-3">We do <strong className=" ">not</strong> sell, rent, or trade your personal information. We may share data with:</p>
                     <ul className="list-disc pl-5 space-y-2 ">
-                        <li><strong className="text-[var(--text-color)]">Service Providers:</strong> Third-party services that help us operate (e.g., Twilio for SMS delivery, payment processors for merchandise). These providers only access data necessary to perform their services.</li>
-                        <li><strong className="text-[var(--text-color)]">Legal Requirements:</strong> When required by law, subpoena, or to protect our rights.</li>
+                        <li><strong className=" ">Service Providers:</strong> Third-party services that help us operate (e.g., Twilio for SMS delivery, payment processors for merchandise). These providers only access data necessary to perform their services.</li>
+                        <li><strong className=" ">Legal Requirements:</strong> When required by law, subpoena, or to protect our rights.</li>
                     </ul>
                 </div>
 
@@ -109,10 +109,10 @@ export default function PrivacyPage() {
                 <div>
                     <h2 className="font-bold mb-3">8. Your Rights</h2>
                     <ul className="list-disc pl-5 space-y-2 ">
-                        <li><strong className="text-[var(--text-color)]">Access:</strong> Request a copy of the personal data we hold about you.</li>
-                        <li><strong className="text-[var(--text-color)]">Correction:</strong> Request correction of inaccurate information.</li>
-                        <li><strong className="text-[var(--text-color)]">Deletion:</strong> Request deletion of your personal data (subject to legal retention requirements).</li>
-                        <li><strong className="text-[var(--text-color)]">Opt-Out of SMS:</strong> Text STOP or use the unsubscribe feature in the fan dashboard.</li>
+                        <li><strong className=" ">Access:</strong> Request a copy of the personal data we hold about you.</li>
+                        <li><strong className=" ">Correction:</strong> Request correction of inaccurate information.</li>
+                        <li><strong className=" ">Deletion:</strong> Request deletion of your personal data (subject to legal retention requirements).</li>
+                        <li><strong className=" ">Opt-Out of SMS:</strong> Text STOP or use the unsubscribe feature in the fan dashboard.</li>
                     </ul>
                 </div>
 
@@ -140,7 +140,7 @@ export default function PrivacyPage() {
                     <p className="mb-2">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
                     <div className="py-2 border-0 bg-transparent shadow-none">
                         <p className="">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline !mt-0">info@7thheavenband.com</a></p>
-                        <p className="">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
+                        <p className="mt-0">Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
                     </div>
                 </div>
 

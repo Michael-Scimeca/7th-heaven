@@ -173,15 +173,15 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
           {/* Multi-Stream Links (If 2+ streams) */}
           {activeLiveRooms.length > 1 && (
             <div className="flex flex-wrap gap-2 mb-4 animate-[fade-in_0.5s_ease-out]">
-              <span className="font-bold text-white/30 uppercase    self-center mr-2">Alternative Feeds:</span>
+              <span className="font-bold text-white/30 uppercase self-center mr-2">Alternative Feeds:</span>
               {activeLiveRooms.slice(1).map((room, idx) => (
                 <Link
                   key={room.name}
                   href={`/live/${room.name}`}
-                  className="bg-[#00000029] hover:bg-white/15 border  border-white/10  hover:border-[var(--color-accent)]/50 px-3 py-1.5 rounded-lg flex items-center gap-2 transition-colors group"
+                  className="bg-[#00000029] hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5 rounded-lg flex items-center gap-2 transition-colors group"
                 >
                   <span className="w-1.5 h-1.5 bg-red-500 rounded-lg animate-pulse" />
-                  <span className="font-bold text-white/70 group-hover:text-white uppercase  truncate max-w-[120px]">
+                  <span className="font-bold text-white/70 group-hover:text-white uppercase truncate max-w-[120px]">
                     {room.title?.split(' — ')[0] || room.name}
                   </span>
                 </Link>
@@ -194,7 +194,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             {isLoading ? (
               <div className="aspect-video bg-white/[0.03] animate-pulse border border-white/[0.06]" />
             ) : videoId ? (
-              <div className="relative aspect-video border  border-white/10  overflow-hidden">
+              <div className="relative aspect-video border border-white/10 overflow-hidden">
                 <iframe
                   title="7th Heaven Live Stream Video"
                   src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
@@ -205,7 +205,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 />
               </div>
             ) : selectedMedia?.image_url ? (
-              <div className="relative aspect-video border  border-white/10  overflow-hidden">
+              <div className="relative aspect-video border border-white/10 overflow-hidden">
                 <Image width={200} height={200} unoptimized src={selectedMedia.image_url} alt={selectedMedia.content} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -220,7 +220,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 </div>
               </div>
             ) : (
-              <div className="aspect-video bg-white/[0.03] border  border-white/10  flex items-center justify-center">
+              <div className="aspect-video bg-white/[0.03] border border-white/10 flex items-center justify-center">
                 <p className="">No live media yet</p>
               </div>
             )}
@@ -229,11 +229,11 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             {activeLiveRooms.length > 0 && (
               <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <div className="text-center p-8 scale-90 group-hover:scale-100 transition-transform duration-500">
-                  <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-lg font-bold uppercase    shadow-red-600/20">
+                  <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-lg font-bold uppercase shadow-red-600/20">
                     <span className="w-2 h-2 bg-white rounded-lg animate-pulse" />
                     Live Now
                   </div>
-                  <h4 className="font-bold text-white uppercase tracking-tighter mb-6">Join the Crew Live</h4>
+                  <h4 className="font-bold text-white uppercase er mb-6">Join the Crew Live</h4>
                   <Link href="/live" className="btn-primary flex items-center justify-center gap-3 px-8 py-4 shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     Enter Live Stream ⚡
                   </Link>
@@ -255,8 +255,8 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                   <button aria-label="Action button"
                     key={post.id}
                     onClick={() => setSelectedMedia(post)}
-                    className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06] hover:  border-white/10  "
-                      }`}
+                    className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06] hover: border-white/10 "
+ }`}
                   >
                     {thumbSrc && <Image width={200} height={200} unoptimized src={thumbSrc} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
                     {isVideo && (
@@ -265,7 +265,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                       </div>
                     )}
                     <div className="absolute top-1 left-1">
-                      <span className="text-[var(--font-size-2xs)] font-bold uppercase  bg-black/60 text-white/70 px-1 py-0.5">
+                      <span className="text-[var(--font-size-2xs)] font-bold uppercase bg-black/60 text-white/70 px-1 py-0.5">
                         {timeAgo(post.created_at)}
                       </span>
                     </div>
@@ -286,13 +286,13 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
 
           {/* Listen / Buy Links */}
           <div className="flex gap-2 mt-2">
-            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase  py-2.5 transition-colors">
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase py-2.5 transition-colors">
               Buy CD
             </a>
-            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase  py-2.5 transition-colors">
+            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase py-2.5 transition-colors">
               Spotify
             </a>
-            <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase  py-2.5 transition-colors">
+            <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-center uppercase py-2.5 transition-colors">
               Apple Music
             </a>
           </div>

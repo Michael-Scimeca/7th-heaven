@@ -127,7 +127,7 @@ export default function MemberFactSheetDrawer({
     <div className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none font-sans">
       {/* Dimmed Blurred Backdrop Overlay */}
       <div
-        className="fixed inset-0  transition-opacity duration-300 ease-out"
+        className="fixed inset-0 transition-opacity duration-300 ease-out"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -190,7 +190,7 @@ export default function MemberFactSheetDrawer({
         {/* Main Content Scroll Container */}
         <div className="flex-1 p-4 sm:p-6 space-y-6">
           {/* 🎟️ VINTAGE LIGHT PAPER TICKET STUB / FACT SHEET CARD */}
-          <div className="relative  p-2 sm:p-2 overflow-hidden font-sans">
+          <div className="relative p-2 sm:p-2 overflow-hidden font-sans">
 
             {/* Ticket Header Row */}
             <div className="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3">
@@ -201,7 +201,7 @@ export default function MemberFactSheetDrawer({
             </div>
 
             {/* Member Name */}
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight  uppercase leading-none font-serif">
+            <h2 className="text-2xl sm:text-3xl font-black uppercase leading-none font-serif">
               {fullName}
             </h2>
 
@@ -213,7 +213,7 @@ export default function MemberFactSheetDrawer({
             {/* 4-Column Quick Metadata Grid */}
             <div className="grid grid-cols-4 gap-2 border-t border-white/10 pt-3">
               <div>
-                <span className="block text-[8px] sm:text-[9px] font-mono font-bold tracking-widest  uppercase">
+                <span className="block text-[8px] sm:text-[9px] font-mono font-bold tracking-widest uppercase">
                   BORN
                 </span>
                 <span className="block text-xs sm:text-sm font-bold mt-0.5">
@@ -224,7 +224,7 @@ export default function MemberFactSheetDrawer({
                 <span className="block text-[8px] sm:text-[9px] font-mono font-bold tracking-widest uppercase">
                   SIGN
                 </span>
-                <span className="block text-xs sm:text-sm font-bold  mt-0.5">
+                <span className="block text-xs sm:text-sm font-bold mt-0.5">
                   {sign}
                 </span>
               </div>
@@ -232,12 +232,12 @@ export default function MemberFactSheetDrawer({
                 <span className="block text-[8px] sm:text-[9px] font-mono font-bold tracking-widest uppercase">
                   LUCKY NO.
                 </span>
-                <span className="block text-xs sm:text-sm font-bold  mt-0.5">
+                <span className="block text-xs sm:text-sm font-bold mt-0.5">
                   {luckyNo}
                 </span>
               </div>
               <div>
-                <span className="block text-[8px] sm:text-[9px] font-mono font-bold tracking-widest  uppercase">
+                <span className="block text-[8px] sm:text-[9px] font-mono font-bold tracking-widest uppercase">
                   COLOR
                 </span>
                 <span className="block text-xs sm:text-sm font-bold mt-0.5">
@@ -283,7 +283,7 @@ export default function MemberFactSheetDrawer({
 
               {/* Favorite Quote Box */}
               <div className="pt-2 border-l-2 border-purple-500/60 pl-3.5 py-1">
-                <p className="font-serif italic text-sm sm:text-base text-neutral-200 leading-relaxed">
+                <p className="font-serif italic text-sm sm:text-base text-neutral-200 ">
                   &ldquo;{favQuote}&rdquo;
                 </p>
                 <span className="block text-[8px] font-mono font-bold tracking-widest text-purple-400 uppercase mt-1.5">

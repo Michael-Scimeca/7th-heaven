@@ -4,6 +4,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { ClipboardList, FileText, Check, CheckSquare, Square, PartyPopper, Lightbulb, History, Calendar, MapPin, Clock, Navigation, Phone, Mail, User, Sliders, PhoneCall } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useMember } from "@/context/MemberContext";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
@@ -284,7 +285,7 @@ export default function PlannerDashboard() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px] rounded-lg pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
-          <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden">
             <div className="h-px bg-[var(--color-accent)]/40" />
 
             <div className="p-10">
@@ -292,10 +293,10 @@ export default function PlannerDashboard() {
                 <div className="w-14 h-14 mx-auto mb-5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
                   <ClipboardList className="w-6 h-6 text-[var(--color-accent)]" />
                 </div>
-                <h1 className="text-2xl font-bold tracking-tight">
+                <h1 className="text-2xl font-bold ">
                   Planner <span className=" text-[var(--color-accent)]">Portal</span>
                 </h1>
-                <p className="uppercase    mt-2">
+                <p className="uppercase mt-2">
                   Event planner accounts only
                 </p>
               </div>
@@ -305,18 +306,18 @@ export default function PlannerDashboard() {
                   <div>
                     <label htmlFor="planner-full-name" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
                     <input aria-label="Input field" id="planner-full-name" type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
-                      placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
+                      placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                   </div>
                 )}
                 <div>
                   <label htmlFor="planner-login-email" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
                   <input aria-label="Input field" id="planner-login-email" type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
-                    placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
+                    placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
                 <div>
                   <label htmlFor="planner-login-password" className="uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
                   <input aria-label="Input field" id="planner-login-password" type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
-                    placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
+                    placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
 
                 {plannerMode === 'signup' && (
@@ -327,7 +328,7 @@ export default function PlannerDashboard() {
                       checked={plannerAgeConfirmed}
                       onChange={setPlannerAgeConfirmed}
                     />
-                    <span className="text-[var(--font-size-2xs)] font-semibold text-white/70 leading-tight">
+                    <span className="text-[var(--font-size-2xs)] font-semibold text-white/70 ">
                       I confirm that I am <span className="text-white font-bold">18 years of age or older</span>
                     </span>
                   </div>
@@ -348,7 +349,7 @@ export default function PlannerDashboard() {
                 </button>
               </form>
 
-              <p className="mt-8 text-center uppercase   ">
+              <p className="mt-8 text-center uppercase ">
                 7th Heaven · Event Planning Portal
               </p>
             </div>
@@ -406,13 +407,13 @@ export default function PlannerDashboard() {
             <div className="flex gap-3">
               <button aria-label="Action button"
                 onClick={() => setShowCancelConfirm(false)}
-                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold uppercase  transition-colors"
+                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold uppercase transition-colors"
               >
                 Keep Booking
               </button>
               <button aria-label="Action button"
                 onClick={handleCancelRequest}
-                className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold uppercase  transition-colors"
+                className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold uppercase transition-colors"
               >
                 Yes, Cancel
               </button>
@@ -425,7 +426,7 @@ export default function PlannerDashboard() {
 
       {/* BOOKING CARDS */}
       <div className="grid grid-cols-1 gap-6">
-        <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8  rounded-lg   flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-colors`}>
+        <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8 rounded-lg flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-colors`}>
           <div className={`absolute top-0 left-0 w-1 h-full ${s.bar}`} />
 
           <div className="flex-1">
@@ -437,7 +438,7 @@ export default function PlannerDashboard() {
             {/* View Mode */}
             {!isEditing ? (
               <>
-                <h2 className={`font-bold text-white mb-2 tracking-tight ${booking.status === 'cancelled' ? 'line-through opacity-50' : ''}`}>{booking.eventName}</h2>
+                <h2 className={`font-bold text-white mb-2 ${booking.status === 'cancelled' ? 'line-through opacity-50' : ''}`}>{booking.eventName}</h2>
                 <p className="font-medium mb-6">{eventTypeLabels[booking.eventType] || booking.eventType}</p>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -465,40 +466,40 @@ export default function PlannerDashboard() {
                 <div>
                   <label htmlFor="planner-edit-event-name" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Event Name</label>
                   <input aria-label="Input field" id="planner-edit-event-name" value={editDraft.eventName} onChange={e => setEditDraft(d => ({ ...d, eventName: e.target.value }))}
-                    className="w-full bg-white/[0.03] border  border-white/10  px-4 py-2.5 text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors" />
+                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors" />
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
                     <label htmlFor="planner-edit-start-time" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Start Time</label>
                     <input aria-label="Input field" id="planner-edit-start-time" value={editDraft.startTime} onChange={e => setEditDraft(d => ({ ...d, startTime: e.target.value }))}
-                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="planner-edit-end-time" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">End Time</label>
                     <input aria-label="Input field" id="planner-edit-end-time" value={editDraft.endTime} onChange={e => setEditDraft(d => ({ ...d, endTime: e.target.value }))}
-                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="planner-edit-venue" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Venue</label>
                     <input aria-label="Input field" id="planner-edit-venue" value={editDraft.venueName} onChange={e => setEditDraft(d => ({ ...d, venueName: e.target.value }))}
-                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="planner-edit-attendance" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Attendance</label>
                     <input aria-label="Input field" id="planner-edit-attendance" value={editDraft.expectedAttendance} onChange={e => setEditDraft(d => ({ ...d, expectedAttendance: e.target.value }))}
-                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="planner-edit-city" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">City</label>
                     <input aria-label="Input field" id="planner-edit-city" value={editDraft.venueCity} onChange={e => setEditDraft(d => ({ ...d, venueCity: e.target.value }))}
-                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="planner-edit-state" className="text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">State</label>
                     <input aria-label="Input field" id="planner-edit-state" value={editDraft.venueState} onChange={e => setEditDraft(d => ({ ...d, venueState: e.target.value }))}
-                      className="w-full bg-white/[0.03] border  border-white/10  px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
+                      className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                 </div>
               </div>
@@ -506,18 +507,18 @@ export default function PlannerDashboard() {
           </div>
 
           {/* Actions — require real sign-in */}
-          <div className="lg:w-64 flex flex-col justify-center gap-3 lg:border-l  border-white/10  lg:pl-8">
+          <div className="lg:w-64 flex flex-col justify-center gap-3 lg:border-l border-white/10 lg:pl-8">
             {isSignedInPlanner ? (
               <>
                 {isEditing ? (
                   /* Edit mode actions */
                   <>
                     <button aria-label="Action button" onClick={handleEditSave}
-                      className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors">
+                      className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase transition-colors">
                       Save Changes
                     </button>
                     <button aria-label="Action button" onClick={handleEditCancel}
-                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase  transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase transition-colors border border-white/5">
                       Discard
                     </button>
                   </>
@@ -526,17 +527,17 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border  border-white/10  hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
                     {reviveTimeLeft && (
                       <>
                         <button aria-label="Previous" onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
-                          className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors">
+                          className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase transition-colors">
                           Revive Booking
                         </button>
-                        <p className="text-center   ">
+                        <p className="text-center ">
                           ⏱ Revive expires in <span className="text-purple-300 font-bold">{reviveTimeLeft}</span>
                         </p>
                       </>
@@ -547,16 +548,16 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border  border-white/10  hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase  transition-colors text-center rounded-lg"
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold uppercase transition-colors text-center rounded-lg"
                     >
                       Rebook This Event
                     </a>
                     <button aria-label="Action button" onClick={handleEditStart}
-                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase  transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold uppercase transition-colors border border-white/5">
                       Edit Logistics
                     </button>
                     <button aria-label="Action button" onClick={() => setShowCancelConfirm(true)}
-                      className="w-full py-3 text-rose-400 font-bold uppercase  hover:bg-rose-500/10 transition-colors">
+                      className="w-full py-3 text-rose-400 font-bold uppercase hover:bg-rose-500/10 transition-colors">
                       Cancel Request
                     </button>
                   </>
@@ -565,7 +566,7 @@ export default function PlannerDashboard() {
             ) : (
               <Link
                 href="/planner"
-                className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold uppercase  transition-colors border  border-white/10  flex items-center justify-center gap-2"
+                className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold uppercase transition-colors border border-white/10 flex items-center justify-center gap-2"
               >
                 <History className="w-4 h-4" />
                 Sign in to manage
@@ -583,117 +584,189 @@ export default function PlannerDashboard() {
       <div className="mt-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div>
-            <h3 className="font-bold text-white tracking-tight uppercase">7th Heaven Band & Event Contacts</h3>
+            <h3 className="font-bold text-white uppercase">7th Heaven Band & Event Contacts</h3>
             <p className="uppercase tracking-[0.15em] font-bold mt-0.5">Direct contacts for booking, production, hospitality & press</p>
           </div>
 
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar">
-            <FoolishShrimpButton
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 w-full sm:w-auto">
+            <SectionBadge
               isActive={activeContactFilter === "all"}
               onClick={() => setActiveContactFilter("all")}
-              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
             >
               ALL
-            </FoolishShrimpButton>
-            <FoolishShrimpButton
+            </SectionBadge>
+            <SectionBadge
               isActive={activeContactFilter === "booking"}
               onClick={() => setActiveContactFilter("booking")}
-              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
             >
               BOOKING & MANAGEMENT
-            </FoolishShrimpButton>
-            <FoolishShrimpButton
+            </SectionBadge>
+            <SectionBadge
               isActive={activeContactFilter === "tech"}
               onClick={() => setActiveContactFilter("tech")}
-              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
             >
               TECHNICAL ADVANCE
-            </FoolishShrimpButton>
-            <FoolishShrimpButton
+            </SectionBadge>
+            <SectionBadge
               isActive={activeContactFilter === "non-tech"}
               onClick={() => setActiveContactFilter("non-tech")}
-              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
             >
               NON-TECH ADVANCE
-            </FoolishShrimpButton>
-            <FoolishShrimpButton
+            </SectionBadge>
+            <SectionBadge
               isActive={activeContactFilter === "press"}
               onClick={() => setActiveContactFilter("press")}
-              className="text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5"
+              className="w-full sm:w-auto justify-center text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 whitespace-nowrap cursor-pointer"
             >
               PRESS & MEDIA
-            </FoolishShrimpButton>
+            </SectionBadge>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="flex flex-wrap justify-center items-start gap-8 sm:gap-10">
           {(activeContactFilter === "all" || activeContactFilter === "booking") && (
-            <div className="pb-4 flex flex-col justify-between">
-              <div>
-                <SectionBadge label="Booking & Management" isActive={activeContactFilter === "booking"} className="mb-2 block w-fit" />
-                <h4 className="font-bold text-white">Dickie</h4>
-                <p className="mb-3">NTD Management</p>
+            <div className="w-full max-w-[320px] sm:w-[320px] flex flex-col items-center text-center">
+              <div className="mb-3">
+                <SectionBadge label="BOOKING & MANAGEMENT" isActive={activeContactFilter === "booking"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
               </div>
-              <div className="space-y-1.5 pt-2 border-t border-white/5">
-                <a href="tel:8475515363" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
-                  <Phone className="w-3.5 h-3.5" /> (847) 551-5363
+              <div
+                className="relative w-full h-64 sm:h-72 overflow-hidden flex items-end justify-center"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                }}
+              >
+                <Image
+                  width={320}
+                  height={320}
+                  unoptimized
+                  src="/images/contact/Dickie-contact.png"
+                  alt="Richard Hofherr"
+                  className="w-full h-full object-contain object-bottom"
+                />
+              </div>
+              <div className="flex flex-col items-center text-center mt-2 w-full">
+                <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
+                  Richard Hofherr
+                </h3>
+                <p className="text-white/70 text-sm font-medium mb-2">NTD Management</p>
+                <a href="tel:8475515363" className="text-[var(--color-accent)] font-bold text-base hover:underline mb-1">
+                  (847) 551-5363
                 </a>
-                <a href="mailto:info@NTDManagement.com" className="flex items-center gap-2 text-white hover:text-white truncate">
-                  <Mail className="w-3.5 h-3.5 shrink-0" /> info@NTDManagement.com
+                <a href="mailto:info@NTDManagement.com" className="text-white/80 hover:text-white text-sm font-medium truncate max-w-full px-2">
+                  info@NTDManagement.com
                 </a>
               </div>
             </div>
           )}
 
           {(activeContactFilter === "all" || activeContactFilter === "tech") && (
-            <div className="pb-4 flex flex-col justify-between">
-              <div>
-                <SectionBadge label="Technical Advance" isActive={activeContactFilter === "tech"} className="mb-2 block w-fit" />
-                <h4 className="font-bold text-white">Jeff Dobbs</h4>
-                <p className="mb-3">Production & Sound</p>
+            <div className="w-full max-w-[320px] sm:w-[320px] flex flex-col items-center text-center">
+              <div className="mb-3">
+                <SectionBadge label="TECHNICAL ADVANCE" isActive={activeContactFilter === "tech"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
               </div>
-              <div className="space-y-1.5 pt-2 border-t border-white/5">
-                <a href="tel:8477725333" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
-                  <Phone className="w-3.5 h-3.5" /> (847) 772-5333
+              <div
+                className="relative w-full h-64 sm:h-72 overflow-hidden flex items-end justify-center"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                }}
+              >
+                <Image
+                  width={320}
+                  height={320}
+                  unoptimized
+                  src="/images/contact/Jeff-contact.png"
+                  alt="Jeff Dobbs"
+                  className="w-full h-full object-contain object-bottom"
+                />
+              </div>
+              <div className="flex flex-col items-center text-center mt-2 w-full">
+                <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
+                  Jeff Dobbs
+                </h3>
+                <p className="text-white/70 text-sm font-medium mb-2">Production & Sound</p>
+                <a href="tel:8477725333" className="text-[var(--color-accent)] font-bold text-base hover:underline mb-1">
+                  (847) 772-5333
                 </a>
-                <a href="mailto:jeffdobbs64@yahoo.com" className="flex items-center gap-2 text-white hover:text-white truncate">
-                  <Mail className="w-3.5 h-3.5 shrink-0" /> jeffdobbs64@yahoo.com
+                <a href="mailto:jeffdobbs64@yahoo.com" className="text-white/80 hover:text-white text-sm font-medium truncate max-w-full px-2">
+                  jeffdobbs64@yahoo.com
                 </a>
               </div>
             </div>
           )}
 
           {(activeContactFilter === "all" || activeContactFilter === "non-tech") && (
-            <div className="pb-4 flex flex-col justify-between">
-              <div>
-                <SectionBadge label="Non-Tech Advance" isActive={activeContactFilter === "non-tech"} className="mb-2 block w-fit" />
-                <h4 className="font-bold text-white">Alan McRae</h4>
-                <p className="mb-3">NTD Management</p>
+            <div className="w-full max-w-[320px] sm:w-[320px] flex flex-col items-center text-center">
+              <div className="mb-3">
+                <SectionBadge label="NON-TECH ADVANCE" isActive={activeContactFilter === "non-tech"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
               </div>
-              <div className="space-y-1.5 pt-2 border-t border-white/5">
-                <a href="tel:6308429129" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
-                  <Phone className="w-3.5 h-3.5" /> (630) 842-9129
+              <div
+                className="relative w-full h-64 sm:h-72 overflow-hidden flex items-end justify-center"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                }}
+              >
+                <Image
+                  width={320}
+                  height={320}
+                  unoptimized
+                  src="/images/contact/Alan-contact.png"
+                  alt="Alan McRae"
+                  className="w-full h-full object-contain object-bottom"
+                />
+              </div>
+              <div className="flex flex-col items-center text-center mt-2 w-full">
+                <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
+                  Alan McRae
+                </h3>
+                <p className="text-white/70 text-sm font-medium mb-2">NTD Management</p>
+                <a href="tel:6308429129" className="text-[var(--color-accent)] font-bold text-base hover:underline mb-1">
+                  (630) 842-9129
                 </a>
-                <a href="mailto:Alan@NTDManagement.com" className="flex items-center gap-2 text-white hover:text-white truncate">
-                  <Mail className="w-3.5 h-3.5 shrink-0" /> Alan@NTDManagement.com
+                <a href="mailto:Alan@NTDManagement.com" className="text-white/80 hover:text-white text-sm font-medium truncate max-w-full px-2">
+                  Alan@NTDManagement.com
                 </a>
               </div>
             </div>
           )}
 
           {(activeContactFilter === "all" || activeContactFilter === "press") && (
-            <div className="pb-4 flex flex-col justify-between">
-              <div>
-                <SectionBadge label="Press & Media" isActive={activeContactFilter === "press"} className="mb-2 block w-fit" />
-                <h4 className="font-bold text-white">Lenny Rago</h4>
-                <p className="mb-3">NTD Records</p>
+            <div className="w-full max-w-[320px] sm:w-[320px] flex flex-col items-center text-center">
+              <div className="mb-3">
+                <SectionBadge label="PRESS & MEDIA" isActive={activeContactFilter === "press"} className="text-[11px] sm:text-xs font-bold tracking-wider px-5 py-2" />
               </div>
-              <div className="space-y-1.5 pt-2 border-t border-white/5">
-                <a href="tel:8472696200" className="flex items-center gap-2 text-[var(--color-accent)] font-bold hover:underline">
-                  <Phone className="w-3.5 h-3.5" /> (847) 269-6200
+              <div
+                className="relative w-full h-64 sm:h-72 overflow-hidden flex items-end justify-center"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                }}
+              >
+                <Image
+                  width={320}
+                  height={320}
+                  unoptimized
+                  src="/images/contact/Lenny-contact.png"
+                  alt="Lenny Rago"
+                  className="w-full h-full object-contain object-bottom"
+                />
+              </div>
+              <div className="flex flex-col items-center text-center mt-2 w-full">
+                <h3 className="font-bold text-white text-xl sm:text-2xl uppercase tracking-wide mb-1">
+                  Lenny Rago
+                </h3>
+                <p className="text-white/70 text-sm font-medium mb-2">NTD Records</p>
+                <a href="tel:8472696200" className="text-[var(--color-accent)] font-bold text-base hover:underline mb-1">
+                  (847) 269-6200
                 </a>
-                <a href="mailto:LRago@NTDRecords.com" className="flex items-center gap-2 text-white hover:text-white truncate">
-                  <Mail className="w-3.5 h-3.5 shrink-0" /> LRago@NTDRecords.com
+                <a href="mailto:LRago@NTDRecords.com" className="text-white/80 hover:text-white text-sm font-medium truncate max-w-full px-2">
+                  LRago@NTDRecords.com
                 </a>
               </div>
             </div>
@@ -707,8 +780,8 @@ export default function PlannerDashboard() {
           <div className="flex items-center gap-3 mb-6">
 
             <div>
-              <h3 className="font-bold text-white tracking-tight">Booking History</h3>
-              <p className="uppercase    font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
+              <h3 className="font-bold text-white ">Booking History</h3>
+              <p className="uppercase font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
             </div>
           </div>
 
@@ -749,7 +822,7 @@ export default function PlannerDashboard() {
                           )}
                         </div>
                       </div>
-                      <h4 className={`font-bold tracking-tight mb-0.5 ${b.status === 'cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
+                      <h4 className={`font-bold mb-0.5 ${b.status === 'cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
                         {b.eventName}
                       </h4>
                       <div className="flex items-center gap-4 text-white/40">

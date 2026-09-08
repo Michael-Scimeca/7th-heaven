@@ -142,8 +142,8 @@ export default function AwardPicksPanel() {
               key={pick.id}
               onClick={() => setSelectedPick(pick.id)}
               className={`p-3 border text-center transition-colors cursor-pointer rounded-lg ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]"
-                : " border-white/10  bg-white/[0.02] hover:  border-white/10  "
-                }`}
+ : " border-white/10 bg-white/[0.02] hover: border-white/10 "
+ }`}
             >
               <div
                 className="w-10 h-10 mx-auto mb-1.5 rounded-lg flex items-center justify-center text-lg font-bold"
@@ -169,8 +169,8 @@ export default function AwardPicksPanel() {
               key={r.id}
               onClick={() => setSelectedReason(r.id)}
               className={`px-3 py-2 text-left border transition-colors cursor-pointer rounded-lg ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
-                : " border-white/10  bg-white/[0.02] hover:  border-white/10  "
-                }`}
+ : " border-white/10 bg-white/[0.02] hover: border-white/10 "
+ }`}
             >
               <span className="">{r.label}</span>
             </button>
@@ -191,7 +191,7 @@ export default function AwardPicksPanel() {
           containerClassName="max-w-[300px] mb-3"
         />
 
-        <div className="max-h-48 overflow-y-auto border  border-white/10  rounded-lg">
+        <div className="max-h-48 overflow-y-auto border border-white/10 rounded-lg">
           {filteredFans.length === 0 ? (
             <p className="text-center py-4">No fans found</p>
           ) : (
@@ -199,9 +199,9 @@ export default function AwardPicksPanel() {
               <button aria-label="Action button"
                 key={fan.id}
                 onClick={() => setSelectedFan(fan)}
-                className={`w-full text-left px-4 py-2.5 border-b  border-white/10  last:border-0 transition-colors cursor-pointer ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10 text-white"
-                  : "hover:bg-white/[0.03]  text-white "
-                  }`}
+                className={`w-full text-left px-4 py-2.5 border-b border-white/10 last:border-0 transition-colors cursor-pointer ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10 text-white"
+ : "hover:bg-white/[0.03] text-white "
+ }`}
               >
                 <span className="font-bold">{fan.full_name || "Unnamed"}</span>
                 <span className="text-white/30 ml-2">{fan.email}</span>
@@ -217,14 +217,14 @@ export default function AwardPicksPanel() {
         <button aria-label="Action button"
           onClick={handleAward}
           disabled={!selectedFan || awarding}
-          className="flex-1 py-3 bg-[var(--color-accent)] text-white font-bold uppercase    hover:brightness-110 transition-colors disabled:opacity-30 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+          className="flex-1 py-3 bg-[var(--color-accent)] text-white font-bold uppercase hover:brightness-110 transition-colors disabled:opacity-30 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
         >
           {awarding ? "Awarding..." : `Award to ${selectedFan?.full_name?.split(" ")[0] || "Fan"}`}
         </button>
         <button aria-label="Action button"
           onClick={handleBulkAward}
           disabled={filteredFans.length === 0 || awarding}
-          className="px-6 py-3 border border-[var(--color-border-purple)] text-[var(--color-purple-light)] font-bold text-[var(--font-size-xs)] uppercase    hover:bg-[var(--color-purple-glow)] transition-colors disabled:opacity-30 cursor-pointer"
+          className="px-6 py-3 border border-[var(--color-border-purple)] text-[var(--color-purple-light)] font-bold text-[var(--font-size-xs)] uppercase hover:bg-[var(--color-purple-glow)] transition-colors disabled:opacity-30 cursor-pointer"
         >
           Bulk ({filteredFans.length})
         </button>
@@ -243,7 +243,7 @@ export default function AwardPicksPanel() {
           <span className="uppercase tracking-[0.15em] text-white/40 mb-2 block">Recent Awards</span>
           <div className="space-y-1.5">
             {recentAwards.map((a) => (
-              <div key={a.id || `${a.fan}-${a.time}`} className="flex items-center gap-3 px-3 py-2 bg-white/[0.02] border  border-white/10  rounded-lg">
+              <div key={a.id || `${a.fan}-${a.time}`} className="flex items-center gap-3 px-3 py-2 bg-white/[0.02] border border-white/10 rounded-lg">
                 <span className="w-3 h-3 rounded-lg" style={{ background: a.color }} />
                 <span className="text-white/70 font-bold">{a.fan}</span>
                 <span className="text-white/30">→</span>

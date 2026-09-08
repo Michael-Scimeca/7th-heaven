@@ -70,7 +70,7 @@ export function GradientToggle({
         <div className="pointer-events-none absolute inset-0 rounded-lg bg-white/10 transition-opacity duration-300" />
 
         {/* On background (gradient) */}
-        <div className={`pointer-events-none absolute inset-0 rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] border border-[#8c0eaf] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-300 ${checked ?'opacity-100' : 'opacity-0'}`} />
+        <div className={`pointer-events-none absolute inset-0 rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] border border-[#8c0eaf] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-300 ${checked ? 'opacity-100' : 'opacity-0'}`} />
 
         {/* Gooey Squishy Thumb */}
         <div
@@ -80,7 +80,7 @@ export function GradientToggle({
       </div>
 
       {label && (
-        <span className={`font-bold leading-tight transition-colors text-left ${checked ?'text-white' : 'text-white/80 group-hover:text-white'}`}>
+        <span className={`font-bold transition-colors text-left ${checked ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
           {label}
         </span>
       )}

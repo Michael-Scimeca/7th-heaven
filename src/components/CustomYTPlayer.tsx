@@ -258,7 +258,7 @@ export default function CustomYTPlayer({
       >
         {/* Player Container */}
         <div
-          className="relative aspect-video border  border-white/10  overflow-hidden group/player"
+          className="relative aspect-video border border-white/10 overflow-hidden group/player"
           onMouseMove={resetHideTimer}
         >
           {/* YouTube Player (hidden controls) */}
@@ -274,14 +274,14 @@ export default function CustomYTPlayer({
           {/* Loading State */}
           {!isReady && (
             <div className="absolute inset-0 flex items-center justify-center z-20">
-              <div className="w-12 h-12 border-2  border-white/10  border-t-[var(--color-accent)] rounded-lg animate-spin" />
+              <div className="w-12 h-12 border-2 border-white/10 border-t-[var(--color-accent)] rounded-lg animate-spin" />
             </div>
           )}
 
           {/* Center Play/Pause Indicator */}
           <div
             className={`absolute inset-0 flex items-center justify-center z-10 transition-opacity duration-300 pointer-events-none ${showControls && !isPlaying ? "opacity-100" : "opacity-0"
-              }`}
+ }`}
           >
             <CosmicRadialButton
               icon={false}
@@ -296,13 +296,13 @@ export default function CustomYTPlayer({
           {/* Top Gradient */}
           <div
             className={`absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-black/70 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0"
-              }`}
+ }`}
           />
 
           {/* Top Bar — Title & Close */}
           <div
             className={`absolute top-0 inset-x-0 z-20 flex items-center justify-between px-5 py-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
-              }`}
+ }`}
           >
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-1 h-6 bg-[var(--color-accent)] rounded-lg shrink-0" />
@@ -315,7 +315,7 @@ export default function CustomYTPlayer({
               onClick={(e) => { e.stopPropagation(); onClose(); }}
               className="flex items-center gap-1.5 text-white/50 hover:text-white transition-colors cursor-pointer shrink-0 ml-4"
             >
-              <span className="font-bold    uppercase hidden sm:inline">ESC</span>
+              <span className="font-bold uppercase hidden sm:inline">ESC</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -325,13 +325,13 @@ export default function CustomYTPlayer({
           {/* Bottom Gradient */}
           <div
             className={`absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0"
-              }`}
+ }`}
           />
 
           {/* Bottom Controls */}
           <div
             className={`absolute bottom-0 inset-x-0 z-20 px-5 pb-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
-              }`}
+ }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Progress Bar */}
@@ -459,7 +459,7 @@ export default function CustomYTPlayer({
                 </div>
 
                 {/* Time */}
-                <span className="text-white/40    tabular-nums hidden sm:inline">
+                <span className="text-white/40 tabular-nums hidden sm:inline">
                   {formatTime(currentTime)} / {formatTime(duration)}
                 </span>
               </div>

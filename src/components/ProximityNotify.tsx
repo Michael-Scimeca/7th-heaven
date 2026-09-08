@@ -280,7 +280,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0 md:pl-0">
             {/* Header Title */}
             <div>
-              <h2 className="lg:text-6xl font-bold text-white tracking-tight    mb-3">
+              <h2 className="lg:text-6xl font-bold text-white mb-3">
                 Never Miss a Show
               </h2>
               <p className="text-purple-200/70 max-w-xl">
@@ -293,19 +293,19 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               {/* Left Column */}
               <div className="flex flex-col space-y-3 min-w-[110px]">
                 <div>
-                  <p className="text-amber-200/60    uppercase  font-semibold mb-0.5">
+                  <p className="text-amber-200/60 uppercase font-semibold mb-0.5">
                     Countries
                   </p>
-                  <p className="font-bold text-amber-200 tracking-tight">
+                  <p className="font-bold text-amber-200 ">
                     7
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60    uppercase  font-semibold mb-0.5">
+                  <p className="text-amber-200/60 uppercase font-semibold mb-0.5">
                     Impressions
                   </p>
-                  <p className="font-bold text-amber-200 tracking-tight">
+                  <p className="font-bold text-amber-200 ">
                     2,100,000
                   </p>
                 </div>
@@ -314,19 +314,19 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               {/* Right Column */}
               <div className="flex flex-col space-y-3">
                 <div>
-                  <p className="text-amber-200/60    uppercase  font-semibold mb-0.5">
+                  <p className="text-amber-200/60 uppercase font-semibold mb-0.5">
                     Followers &amp; Fans
                   </p>
-                  <p className="font-bold text-amber-200 tracking-tight">
+                  <p className="font-bold text-amber-200 ">
                     +18,000
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60    uppercase  font-semibold mb-0.5">
+                  <p className="text-amber-200/60 uppercase font-semibold mb-0.5">
                     Live Engagements
                   </p>
-                  <p className="font-bold text-amber-200 tracking-tight">
+                  <p className="font-bold text-amber-200 ">
                     160,000
                   </p>
                 </div>
@@ -351,8 +351,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   {/* Input Fields (Matching Footer Setup) */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-bold uppercase  text-purple-300/80 mb-1 flex items-center gap-1">
-                        <User className="w-3 h-3 text-purple-400" /> Full Name
+                      <label className="block font-bold uppercase text-purple-300/80 mb-1 flex items-center gap-1">
+                        Full Name
                       </label>
                       <GlowInput
                         type="text"
@@ -363,8 +363,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold uppercase  text-purple-300/80 mb-1 flex items-center gap-1">
-                        <Mail className="w-3 h-3 text-purple-400" /> Email address
+                      <label className="block text- font-bold uppercase text-purple-300/80 mb-1 flex items-center gap-1">
+                        Email address
                       </label>
                       <GlowInput
                         type="email"
@@ -376,8 +376,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
                     <div className="sm:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-3">
                       <div className="w-full sm:w-[220px]">
-                        <label className="block text-[11px] font-bold uppercase  text-purple-300/80 mb-1 flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-pink-400" /> Zip Code / City
+                        <label className="block font-bold uppercase text-purple-300/80 mb-1 flex items-center gap-1">
+                          Zip Code / City
                         </label>
                         <GlowInput
                           type="text"
@@ -388,8 +388,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         />
                       </div>
                       <div className="w-full flex-1">
-                        <label className="block text-[11px] font-bold uppercase  text-purple-300/80 mb-1 flex items-center gap-1">
-                          <Sliders className="w-3 h-3 text-purple-400" /> Distance Radius
+                        <label className="block font-bold uppercase text-purple-300/80 mb-1 flex items-center gap-1">
+                          Distance Radius
                         </label>
                         <div className="inline-flex flex-wrap gap-1 items-center w-fit max-w-full">
                           {RADIUS_OPTIONS.map((opt) => {
@@ -412,9 +412,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   </div>
 
                   {/* Show Type Preferences */}
-                  <div className="pt-2 border-t  border-white/10  space-y-1.5">
-                    <label className="block text-[11px] font-bold uppercase  text-purple-300/80 flex items-center gap-1">
-                      <Music className="w-3 h-3 text-cyan-400" /> Notification Types
+                  <div className="pt-2 border-t border-white/10 space-y-1.5">
+                    <label className="block  font-bold uppercase text-purple-300/80 flex items-center gap-1">
+                      Notification Types
                     </label>
                     <div className="flex flex-wrap gap-1.5">
                       {SHOW_TYPES.map((type) => {
@@ -455,7 +455,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           onChange={setAgreeTerms}
                         />
                       </div>
-                      <span className="text-white/40   ">
+                      <span className="text-white/40 ">
                         I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
                       </span>
                     </div>
@@ -466,7 +466,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     type="submit"
                     icon={false}
                     disabled={status === "loading" || !agreeTerms}
-                    className="w-full uppercase  font-bold  cursor-pointer transition disabled:opacity-60"
+                    className="w-full uppercase font-bold cursor-pointer transition disabled:opacity-60"
                   >
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
                   </CosmicRadialButton>

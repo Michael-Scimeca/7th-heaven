@@ -16,6 +16,7 @@ import { formatPhoneDisplay } from "@/lib/validation";
 import dynamic from "next/dynamic";
 import PushAlertsCard from "@/components/PushAlertsCard";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 
 const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
 import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "@/app/cruise/cruiseData";
@@ -139,37 +140,82 @@ const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
   }
 ];
 
-const AVATARS = ['JD', 'SL', 'MT', 'AB', 'RC', 'KW'];
+const DEFAULT_PASSENGERS = [
+  { name: 'John', extra: 0, initial: 'J' },
+  { name: 'Jake', extra: 0, initial: 'J' },
+  { name: 'Jake', extra: 0, initial: 'J' },
+  { name: 'John', extra: 3, initial: 'J' },
+  { name: 'Anonymous', extra: 0, initial: '?' },
+  { name: 'Test', extra: 0, initial: 'T' },
+  { name: 'Cruise', extra: 21, initial: 'C' },
+  { name: 'Tester', extra: 1, initial: 'T' },
+  { name: 'Super', extra: 1, initial: 'S' },
+  { name: 'Michael', extra: 1, initial: 'M' },
+  { name: 'Tester', extra: 1, initial: 'T' },
+  { name: 'Anonymous', extra: 0, initial: '?' },
+  { name: 'Alice', extra: 0, initial: 'A' },
+  { name: 'Cruise', extra: 0, initial: 'C' },
+  { name: 'Michael', extra: 0, initial: 'M' },
+  { name: 'E2E', extra: 0, initial: 'E' },
+  { name: 'Michael', extra: 0, initial: 'M' },
+  { name: 'd', extra: 1, initial: 'D' },
+  { name: 'Test', extra: 2, initial: 'T' },
+  { name: 'Test', extra: 1, initial: 'T' },
+];
 
 function PassengersWidget() {
-  const totalFans = 412;
+  const passengers = DEFAULT_PASSENGERS;
+  const totalCount = 412;
+
+  const topAvatars = passengers.slice(0, 8);
+  const extraAvatarsCount = Math.max(0, totalCount - topAvatars.length);
 
   return (
     <div className="p-2 relative overflow-hidden group">
-      <div className="flex justify-between items-end mb-5 relative z-10">
+      <div className="flex justify-between items-end mb-4 relative z-10">
         <div>
-          <h2 className="font-bold    uppercase text-white/50 mb-1">Community</h2>
+          <h2 className="font-bold uppercase text-white/50 mb-1 text-xs tracking-wider">Community</h2>
           <div className="flex items-center gap-2">
-            <span className="text-white font-bold text-2xl tracking-wide">{totalFans}</span>
-            <span className="text-[var(--color-accent)] font-bold uppercase   ">Cruise Members Onboard</span>
+            <span className="text-white font-bold text-2xl tracking-wide">{totalCount}</span>
+            <span className="text-[var(--color-accent)] font-bold uppercase text-sm sm:text-base">Cruise Members Onboard</span>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center relative z-10">
-        <div className="flex -space-x-3">
-          {AVATARS.map((initials, i) => {
-            const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-purple-600', 'bg-violet-500', 'bg-pink-500'];
-            return (
-              <div key={initials} className={`w-10 h-10 rounded-lg border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden    hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10 - i}]`}>
-                <span className="font-bold text-white/90   ">{initials}</span>
-              </div>
-            );
-          })}
-          <div className="w-10 h-10 rounded-lg border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center    text-[var(--color-accent)] text-xs font-bold relative z-0">
-            +{totalFans - AVATARS.length}
+      {/* Avatar Circle Row */}
+      <div className="flex items-center gap-2 flex-wrap mb-4 relative z-10">
+        {topAvatars.map((p) => (
+          <div
+            key={`avatar-${p.name}-${p.initial}-${p.extra}`}
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/40 text-white font-bold text-sm flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer"
+          >
+            {p.initial}
           </div>
-        </div>
+        ))}
+        {extraAvatarsCount > 0 && (
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/60 text-purple-300 font-bold text-xs flex items-center justify-center shadow-sm">
+            +{extraAvatarsCount}
+          </div>
+        )}
+      </div>
+
+      {/* Member Names Dot-Separated List */}
+      <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 relative z-10 text-sm sm:text-base leading-relaxed">
+        {passengers.map((p, idx) => (
+          <div key={`passenger-${p.name}-${p.extra}-${p.initial}`} className="inline-flex items-center">
+            <span className="font-semibold text-white">
+              {p.name}
+              {p.extra > 0 && (
+                <span className="text-purple-300 font-bold ml-1 text-xs sm:text-sm">
+                  +{p.extra}
+                </span>
+              )}
+            </span>
+            {idx < passengers.length - 1 && (
+              <span className="text-white/30 font-bold ml-1.5 mr-0.5">·</span>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -280,14 +326,14 @@ export default function CruiseDashboard() {
     signup_source: 'cruise_member_signup',
     username: 'demo',
     avatar: 'DC'
-  } as any : ((member && member.role === 'cruise') ? member : {
+  } as any : ((member && member.role === 'cruise') ? { ...member, avatar: member.avatar || (rawUsername.toLowerCase().includes('michael') ? '/michaelscimeca.png' : undefined) } : {
     id: `cruise-${rawUsername}`,
-    name: member?.name || derivedName || 'Cruise Guest',
-    email: member?.email || `${rawUsername.toLowerCase()}@7thheaven.com`,
+    name: (rawUsername.toLowerCase().includes('michael') || member?.email?.toLowerCase().includes('michael')) ? 'Michael Scimeca' : (member?.name || derivedName || 'Cruise Guest'),
+    email: member?.email || (rawUsername.toLowerCase().includes('michael') ? 'michael@7thheaven.com' : `${rawUsername.toLowerCase()}@7thheaven.com`),
     role: 'cruise',
     signup_source: 'cruise_member_signup',
     username: rawUsername,
-    avatar: (member?.name || derivedName || 'CG').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
+    avatar: (rawUsername.toLowerCase().includes('michael') || member?.email?.toLowerCase().includes('michael')) ? '/michaelscimeca.png' : (member?.avatar || (member?.name || derivedName || 'CG').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2))
   } as any);
   const isAdmin = effectiveMember?.role === 'admin' || effectiveMember?.role === 'crew' || member?.role === 'admin';
 
@@ -522,24 +568,24 @@ export default function CruiseDashboard() {
 
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold uppercase    text-black">Cruise Hub</h1>
-            <p className="text-cyan-600 font-bold uppercase    mt-1">Exclusive Passenger Community</p>
+            <h1 className="text-2xl font-bold uppercase text-black">Cruise Hub</h1>
+            <p className="text-cyan-600 font-bold uppercase mt-1">Exclusive Passenger Community</p>
           </div>
 
-          <div className="bg-white border border-black/10 overflow-hidden   ">
+          <div className="bg-white border border-black/10 overflow-hidden ">
             {verifyingPin ? (
               <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
                 <div className="text-center mb-6">
                   <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
-                  <h3 className="font-bold text-black uppercase  mb-2">Verify Your Email</h3>
-                  <p className="text-black/60 leading-relaxed">
+                  <h3 className="font-bold text-black uppercase mb-2">Verify Your Email</h3>
+                  <p className="text-black/60 ">
                     We've sent a 6-digit verification PIN to <strong className="text-cyan-600">{email}</strong>. Enter it below to activate your account.
                   </p>
                 </div>
 
                 <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="cruise-user-pin-input" className="block   font-bold text-black/50 uppercase    mb-1.5">6-Digit Verification PIN</label>
+                    <label htmlFor="cruise-user-pin-input" className="block font-bold text-black/50 uppercase mb-1.5">6-Digit Verification PIN</label>
                     <input aria-label="Input field"
                       id="cruise-user-pin-input"
                       type="text"
@@ -554,12 +600,12 @@ export default function CruiseDashboard() {
 
                   {authError && <p className="text-rose-500 mt-2 text-center font-bold">{authError}</p>}
 
-                  <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                    {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" /> : "Verify PIN & Access Hub →"}
+                  <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Verify PIN & Access Hub →"}
                   </button>
 
                   <div className="text-center mt-4">
-                    <button aria-label="Action button" type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-black/40 hover:text-black text-[var(--font-size-2xs)] font-bold uppercase    transition-colors cursor-pointer">
+                    <button aria-label="Action button" type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-black/40 hover:text-black text-[var(--font-size-2xs)] font-bold uppercase transition-colors cursor-pointer">
                       ← Cancel and Back
                     </button>
                   </div>
@@ -568,11 +614,11 @@ export default function CruiseDashboard() {
             ) : regSuccess ? (
               <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
                 <span className="text-4xl block mb-4">📧</span>
-                <h3 className="font-bold text-black uppercase  mb-2">Check Your Email</h3>
-                <p className="text-black/60 leading-relaxed mb-6">
+                <h3 className="font-bold text-black uppercase mb-2">Check Your Email</h3>
+                <p className="text-black/60 mb-6">
                   We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
                 </p>
-                <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:text-black font-bold uppercase    transition-colors cursor-pointer">
+                <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:text-black font-bold uppercase transition-colors cursor-pointer">
                   Go to Log In
                 </button>
               </div>
@@ -580,10 +626,10 @@ export default function CruiseDashboard() {
               <>
                 {/* Tabs */}
                 <div className="flex border-b border-black/10">
-                  <button aria-label="Action button" onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase    transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button aria-label="Action button" onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Log In
                   </button>
-                  <button aria-label="Action button" onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase    transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button aria-label="Action button" onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 font-bold uppercase transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Register
                   </button>
                 </div>
@@ -593,44 +639,44 @@ export default function CruiseDashboard() {
                     <form onSubmit={handleLoginSubmit} className="space-y-4">
                       <p className="text-black/50 mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                       <div>
-                        <label htmlFor="cruise-hub-login-email" className="block   font-bold text-black/50 uppercase    mb-1.5">Email Address</label>
+                        <label htmlFor="cruise-hub-login-email" className="block font-bold text-black/50 uppercase mb-1.5">Email Address</label>
                         <input aria-label="Input field" id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-login-password" className="block   font-bold text-black/50 uppercase    mb-1.5">Password</label>
+                        <label htmlFor="cruise-hub-login-password" className="block font-bold text-black/50 uppercase mb-1.5">Password</label>
                         <input aria-label="Input field" id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
 
-                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" /> : "Access Cruise Hub →"}
+                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                        {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Access Cruise Hub →"}
                       </button>
                     </form>
                   ) : (
                     <form onSubmit={handleRegisterSubmit} className="space-y-4">
                       <p className="text-black/50 mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                       <div>
-                        <label htmlFor="cruise-hub-reg-name" className="block   font-bold text-black/50 uppercase    mb-1.5">Full Legal Name *</label>
+                        <label htmlFor="cruise-hub-reg-name" className="block font-bold text-black/50 uppercase mb-1.5">Full Legal Name *</label>
                         <input aria-label="Input field" id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-reg-email" className="block   font-bold text-black/50 uppercase    mb-1.5">Email Address *</label>
+                        <label htmlFor="cruise-hub-reg-email" className="block font-bold text-black/50 uppercase mb-1.5">Email Address *</label>
                         <input aria-label="Input field" id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-reg-phone" className="block   font-bold text-black/50 uppercase    mb-1.5">Phone Number *</label>
+                        <label htmlFor="cruise-hub-reg-phone" className="block font-bold text-black/50 uppercase mb-1.5">Phone Number *</label>
                         <input aria-label="Input field" id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-reg-password" className="block   font-bold text-black/50 uppercase    mb-1.5">Choose Password *</label>
+                        <label htmlFor="cruise-hub-reg-password" className="block font-bold text-black/50 uppercase mb-1.5">Choose Password *</label>
                         <input aria-label="Input field" id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 mt-2 font-bold">{authError}</p>}
 
-                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase    transition-colors    flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
+                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                        {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
                       </button>
                     </form>
                   )}
@@ -640,7 +686,7 @@ export default function CruiseDashboard() {
           </div>
 
           <div className="text-center mt-6">
-            <Link href="/cruise" className="text-black/40 hover:text-black font-bold uppercase    transition-colors">
+            <Link href="/cruise" className="text-black/40 hover:text-black font-bold uppercase transition-colors">
               ← Back to Cruise Information
             </Link>
           </div>
@@ -652,32 +698,14 @@ export default function CruiseDashboard() {
   return (
     <div className="site-container min-h-screen bg-transparent text-white pt-[100px] selection:bg-cyan-500 selection:text-black">
       <div>
-        <header className="mb-5 border-b  border-white/10  flex flex-col md:flex-row justify-between gap-8">
-          <div className="flex items-start gap-5">
-            {/* Member Avatar */}
-            <div className="relative shrink-0">
-              {effectiveMember?.avatar && (effectiveMember.avatar.startsWith('http') || effectiveMember.avatar.startsWith('/') || effectiveMember.avatar.startsWith('data:')) ? (
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
-                  <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={effectiveMember.name} className="w-full h-full object-cover" />
-                </div>
-              ) : (
-                <div className="w-12 h-12 rounded-full rounded-full flex items-center justify-center font-bold bg-gradient-to-br from-purple-500/30 to-purple-800/20 border-2  border-white/10  overflow-hidden">
-                  {(effectiveMember?.name || 'CG').split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
-                </div>
-              )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold  text-white bg-sky-500 rounded-lg    border border-sky-400/50">
-                Cruise
-              </span>
-            </div>
-
-            {/* Member Info */}
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold    text-white leading-none">
-                {effectiveMember?.name || 'Cruise Guest'}
-              </h1>
-              <p className="   mt-1">{effectiveMember?.email || ''}</p>
-            </div>
-          </div>
+        <header className="mb-5 border-b border-white/10 flex flex-col md:flex-row justify-between gap-8">
+          <MemberHeaderBadge
+            name={effectiveMember?.name || 'Cruise Guest'}
+            email={effectiveMember?.email || ''}
+            avatar={effectiveMember?.avatar}
+            badgeLabel="Cruise"
+            badgeColorClass="bg-sky-500 border-sky-400/50"
+          />
 
           <div className="shrink-0">
             <EmbarkationCountdown />
@@ -688,7 +716,7 @@ export default function CruiseDashboard() {
         <PushAlertsCard group="cruise" className="mb-8" />
 
         {(announcement || isAdmin) && (
-          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border  border-white/10  rounded-lg shadow-2xl group">
+          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl group">
             <div className="relative z-10">
               <div className="flex items-start gap-3 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/30">
@@ -701,7 +729,7 @@ export default function CruiseDashboard() {
                   <h3 className="font-bold tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
                 </div>
                 {isAdmin && !isEditingAnnouncement && (
-                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto font-bold text-cyan-300 hover:text-white uppercase    cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30">
+                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto font-bold text-cyan-300 hover:text-white uppercase cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30">
                     ✏️ Edit Announcement
                   </button>
                 )}
@@ -710,38 +738,38 @@ export default function CruiseDashboard() {
               {isEditingAnnouncement ? (
                 <div className="space-y-3">
                   <div>
-                    <label htmlFor="cruise-hub-notice-title" className="text-[10px] font-bold text-white/50 uppercase    block mb-1">Notice Header Title / Subject</label>
+                    <label htmlFor="cruise-hub-notice-title" className="text-[10px] font-bold text-white/50 uppercase block mb-1">Notice Header Title / Subject</label>
                     <input aria-label="Input field"
                       id="cruise-hub-notice-title"
                       type="text"
                       value={announcementTitleInput}
                       onChange={e => setAnnouncementTitleInput(e.target.value)}
                       placeholder="e.g. TEST, Captain's Log, or Cruise Notice..."
-                      className="w-full bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg px-3.5 py-2 text-white focus:border-cyan-400 outline-none font-bold transition-colors"
+                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-3.5 py-2 text-white focus:border-cyan-400 outline-none font-bold transition-colors"
                     />
                   </div>
                   <div>
-                    <label htmlFor="cruise-hub-notice-content" className="text-[10px] font-bold text-white/50 uppercase    block mb-1">Notice Content</label>
+                    <label htmlFor="cruise-hub-notice-content" className="text-[10px] font-bold text-white/50 uppercase block mb-1">Notice Content</label>
                     <textarea aria-label="Text input"
                       id="cruise-hub-notice-content"
                       value={announcementInput}
                       onChange={e => setAnnouncementInput(e.target.value)}
                       placeholder="Type news/announcements here (HTML formatting allowed)..."
-                      className="w-full bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg p-3.5 text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
+                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg p-3.5 text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
-                    <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase    transition-colors cursor-pointer rounded-xl">
+                    <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase transition-colors cursor-pointer rounded-xl">
                       Cancel
                     </button>
-                    <button aria-label="Action button" onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors cursor-pointer rounded-lg shadow-lg shadow-purple-600/30">
+                    <button aria-label="Action button" onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase transition-colors cursor-pointer rounded-lg shadow-lg shadow-purple-600/30">
                       Save Announcement
                     </button>
                   </div>
                 </div>
               ) : sanitizedAnnouncement ? (
                 <div
-                  className="text-white/80 leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-white [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-white"
+                  className="text-white/80 space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-white [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-white"
                   dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
                 />
               ) : (
@@ -757,10 +785,10 @@ export default function CruiseDashboard() {
             {/* 1. Cruise Information & Guidelines */}
             <div className="h-fit min-w-0 max-w-full overflow-hidden">
               <div className="relative z-10 min-w-0 max-w-full">
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b  border-white/10  flex-wrap">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 flex-wrap">
                   <div>
-                    <h2 className="font-bold uppercase  text-white">{guidelines.title}</h2>
-                    <p className="text-purple-400font-bold uppercase    mt-0.5">{guidelines.subtitle}</p>
+                    <h2 className="font-bold uppercase text-white">{guidelines.title}</h2>
+                    <p className="text-purple-400font-bold uppercase mt-0.5">{guidelines.subtitle}</p>
                   </div>
                   {isAdmin && !isEditingGuidelines && (
                     <button aria-label="Action button"
@@ -770,7 +798,7 @@ export default function CruiseDashboard() {
                         setGuidelinesContentInput(guidelines.content);
                         setIsEditingGuidelines(true);
                       }}
-                      className="ml-auto font-bold text-cyan-300 hover:text-white uppercase    cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30"
+                      className="ml-auto font-bold text-cyan-300 hover:text-white uppercase cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30"
                     >
                       ✏️ Edit Guidelines
                     </button>
@@ -780,43 +808,43 @@ export default function CruiseDashboard() {
                 {isEditingGuidelines ? (
                   <div className="space-y-4 min-w-0 max-w-full">
                     <div>
-                      <label htmlFor="cruise-hub-guidelines-title" className="block font-bold text-white/50 uppercase    mb-1">Section Title</label>
+                      <label htmlFor="cruise-hub-guidelines-title" className="block font-bold text-white/50 uppercase mb-1">Section Title</label>
                       <input aria-label="Input field"
                         id="cruise-hub-guidelines-title"
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={e => setGuidelinesTitleInput(e.target.value)}
-                        className="w-full bg-[#00000029] border  border-white/10  backdrop-blur-[16px] rounded-lg px-4 py-2 text-white focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-4 py-2 text-white focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
-                      <label htmlFor="cruise-hub-guidelines-sub" className="block font-bold text-white/50 uppercase    mb-1">Subtitle / Badge</label>
+                      <label htmlFor="cruise-hub-guidelines-sub" className="block font-bold text-white/50 uppercase mb-1">Subtitle / Badge</label>
                       <input aria-label="Input field"
                         id="cruise-hub-guidelines-sub"
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={e => setGuidelinesSubtitleInput(e.target.value)}
-                        className="w-full bg-[#00000029] border  border-white/10  backdrop-blur-[16px]15 rounded-lg px-4 py-2 text-purple-400focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px]15 rounded-lg px-4 py-2 text-purple-400focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>
-                      <span className="block font-bold text-white/50 uppercase    mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
+                      <span className="block font-bold text-white/50 uppercase mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
                       <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#00000029] border  border-white/10  backdrop-blur-[16px] border  border-white/10  rounded-lg text-white overflow-hidden" />
+                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#00000029] border border-white/10 backdrop-blur-[16px] border border-white/10 rounded-lg text-white overflow-hidden" />
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">
-                      <button aria-label="Action button" onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase    transition-colors cursor-pointer rounded-xl">
+                      <button aria-label="Action button" onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase transition-colors cursor-pointer rounded-xl">
                         Cancel
                       </button>
-                      <button aria-label="Action button" onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase    transition-colors cursor-pointer rounded-lg shadow-lg shadow-purple-600/30">
+                      <button aria-label="Action button" onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase transition-colors cursor-pointer rounded-lg shadow-lg shadow-purple-600/30">
                         Save Guidelines
                       </button>
                     </div>
                   </div>
                 ) : (
                   <div
-                    className="space-y-4 text-white/80 md:text-base leading-relaxed tracking-wide min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]:text-cyan-400 [&_a]:hover:text-cyan-300 [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-bold [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]:font-bold [&_h2]:text-white [&_h2]:font-bold [&_h3]:text-white [&_h3]:font-bold [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
+                    className="space-y-4 text-white/80 md:text-base tracking-wide min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]:text-cyan-400 [&_a]:hover:text-cyan-300 [&_a]:underline [&_a]:underline-offset-4 [&_a]:font-bold [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]:font-bold [&_h2]:text-white [&_h2]:font-bold [&_h3]:text-white [&_h3]:font-bold [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
                     dangerouslySetInnerHTML={{ __html: sanitizedGuidelinesContent || sanitizeHtml(cleanWysiwygHtml(guidelines.content)) }}
                   />
                 )}
@@ -863,10 +891,10 @@ export default function CruiseDashboard() {
             <span className="font-bold uppercase tracking-[0.25em] text-cyan-400">
               Interactive Voyage Map
             </span>
-            <h2 className="font-bold uppercase tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+            <h2 className="font-bold uppercase text-white mt-1 leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
-            <p className="mt-4 leading-relaxed font-semibold">
+            <p className="mt-4 font-semibold">
               Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
             </p>
 

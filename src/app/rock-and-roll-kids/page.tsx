@@ -1,13 +1,18 @@
 /* eslint-disable react-doctor/iframe-missing-sandbox */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import ExoTextReveal from "@/components/ExoTextReveal";
 import {
   Play, Music, Shield, ExternalLink, Mail,
   Users, Star, Tv, Zap, Heart
 } from "lucide-react";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import TransitionLink from "@/components/TransitionLink";
+
+const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 
 const ABOUT_DATA = {
   headline: "7th Heaven & the Rock 'n' Roll Kids",
@@ -333,20 +338,48 @@ const mainCharacters = [
 
 export default function RockNRollKidsPage() {
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
+  const heroBannerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    if (heroBannerRef.current) {
+      gsap.fromTo(
+        heroBannerRef.current,
+        {
+          scale: 1.15,
+          opacity: 0,
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 1.2,
+          ease: EXO_EASE,
+        }
+      );
+    }
+  }, []);
 
   return (
-    <div className="min-h-screen  text-white pt-[100px] pb-20 overflow-x-hidden">
+    <div className="min-h-screen text-white pt-[100px] pb-20 overflow-x-hidden">
       {/* ── NEON ARCADE SYNTHWAVE MATRIX (PERMANENT LAYOUT) ── */}
-      <div className="animate-fadeIn">
+      <div>
         {/* Hero Header */}
         <section className="relative site-container text-center space-y-6">
-          <h1 className="font-bold uppercase text-white font-sans mb-3">{ABOUT_DATA.headline}</h1>
-          <p className="font-sans max-w-2xl mx-auto leading-relaxed">
+          <ExoTextReveal as="h1" className="font-bold uppercase text-white font-sans text-3xl sm:text-5xl md:text-6xl mb-3">
+            {ABOUT_DATA.headline}
+          </ExoTextReveal>
+          <p className="font-sans max-w-2xl mx-auto ">
             7th Heaven & The Rock &apos;N&apos; Roll Kids Official Animated Series, Books & Media Universe.
           </p>
 
           {/* Full Cast Lineup Image Banner (allc.png) */}
-          <div className="relative w-full rounded-lg overflow-hidden mt-4">
+          <div ref={heroBannerRef} className="relative w-full rounded-lg overflow-hidden mt-4 transform-gpu">
             <Image
               src="/images/comics/allc.png"
               alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
@@ -361,7 +394,7 @@ export default function RockNRollKidsPage() {
           {/* Character Roster Info Cards Grid under the image */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left pt-4">
             {mainCharacters.map((char) => (
-              <div key={char.name} className="flex flex-col justify-between pb-3.5 group  ">
+              <div key={char.name} className="flex flex-col justify-between pb-3.5 group ">
                 <div>
                   {char.image && (
                     <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-start">
@@ -394,7 +427,7 @@ export default function RockNRollKidsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* LEFT COLUMN: Story Content & Featured Singles Tabs (LARGE TEXT) */}
               <div className="lg:col-span-5 space-y-6">
-                <p className="font-medium text-cyan-100 leading-relaxed font-sans py-4">
+                <p className="font-medium text-cyan-100 font-sans py-4">
                   {ABOUT_DATA.paragraph1}
                 </p>
                 <p className="leading-relaxed font-normal">
@@ -402,7 +435,7 @@ export default function RockNRollKidsPage() {
                 </p>
 
                 {/* Animated Singles Quick Select Buttons */}
-                <div className="pt-3 border-t  border-white/10  space-y-3">
+                <div className="pt-3 border-t border-white/10 space-y-3">
                   <div className="flex flex-wrap gap-2.5">
                     {FEATURED_MUSIC_SINGLES.map((single) => (
                       <FoolishShrimpButton
@@ -419,7 +452,7 @@ export default function RockNRollKidsPage() {
 
               {/* RIGHT COLUMN: Video Matrix Player & Video Grid Selector */}
               <div className="lg:col-span-7 space-y-4">
-                <div className="aspect-video w-full rounded-lg overflow-hidden  ">
+                <div className="aspect-video w-full rounded-lg overflow-hidden ">
                   <iframe src={`https://www.youtube.com/embed/${selectedVideo}`} title="Rock and Roll Kids Player" className="w-full h-full" allowFullScreen sandbox="allow-scripts allow-same-origin allow-presentation" />
                 </div>
 
@@ -443,7 +476,7 @@ export default function RockNRollKidsPage() {
 
           {/* ── MODULE 3: COMPLETE PRODUCTS & BOOK COLLECTION (Pulled from products.html) ── */}
           <section className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b  border-white/10  border- pb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 border- pb-3">
               <div>
                 <h2 className="font-sans text-white font-bold uppercase">Comic Books & Publications (12 Items)</h2>
               </div>
@@ -465,7 +498,7 @@ export default function RockNRollKidsPage() {
                   className="group flex flex-col justify-between shadow-lg hover:shadow-purple-500/30 cursor-pointer text-left transition-all"
                 >
                   <div>
-                    <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border  border-white/10  mb-2.5 bg-black">
+                    <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border border-white/10 mb-2.5 bg-black">
                       <Image
                         src={p.coverImg}
                         alt={p.title}
@@ -488,7 +521,7 @@ export default function RockNRollKidsPage() {
 
           {/* ── MODULE 5: CREATORS & CONTACT MATRIX (Pulled from contact.html) ── */}
           <section className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b  border-white/10  pb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
               <div>
                 <h2 className="font-sans text-white font-bold uppercase">Series Founders & Contact</h2>
               </div>
@@ -567,7 +600,7 @@ export default function RockNRollKidsPage() {
                   </p>
                   <a
                     href="mailto:info@minimartians.com"
-                    className="py-2.5  font-sans font-bold  flex items-center justify-start gap-2 w-full"
+                    className="py-2.5 font-sans font-bold flex items-center justify-start gap-2 w-full"
                   >
                     <span>info@minimartians.com</span>
                   </a>
@@ -575,6 +608,8 @@ export default function RockNRollKidsPage() {
               </div>
             </div>
           </section>
+
+
         </div>
       </div>
     </div>

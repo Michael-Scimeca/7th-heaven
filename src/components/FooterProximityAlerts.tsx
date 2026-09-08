@@ -225,11 +225,11 @@ export default function FooterProximityAlerts() {
 
   return (
     <div className="w-full relative z-10">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b  border-white/10  relative z-10">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10 relative z-10">
         <div className="flex items-center gap-3">
 
           <div>
-            <h3 className="font-[var(--font-heading)] font-bold uppercase tracking-tight text-white flex items-center gap-2">
+            <h3 className="font-[var(--font-heading)] font-bold uppercase text-white flex items-center gap-2">
               Proximity & Show Alert Filters
             </h3>
             <p className="">
@@ -253,31 +253,31 @@ export default function FooterProximityAlerts() {
 
       <div className="flex flex-wrap items-end gap-6 mb-6 relative z-10">
         <div className="shrink-0 w-full sm:w-[300px]">
-          <label className="block text-[11px] font-bold uppercase  text-purple-300/80 mb-2 flex items-center gap-1.5">
-            <User className="w-3.5 h-3.5 text-purple-400" /> Full Name <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
+          <label className="block font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
+            Full Name <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
           </label>
           <GlowInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" wrapperClassName="w-full sm:w-[300px]" />
         </div>
 
         <div className="shrink-0 w-full sm:w-[300px]">
-          <label className="block text-[11px] font-bold uppercase  text-purple-300/80 mb-2 flex items-center gap-1.5">
-            <MapPin className="w-3.5 h-3.5 text-pink-400" /> Your Zip Code / City
+          <label className="block  font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
+            Your Zip Code / City
           </label>
           <GlowInput type="text" value={zip} onChange={(e) => setZip(e.target.value)} placeholder="e.g. 60056 or Chicago" wrapperClassName="w-full sm:w-[300px]" />
         </div>
 
         <div className="shrink-0 w-full sm:w-[300px]">
-          <label className="block text-[11px] font-bold uppercase  text-purple-300/80 mb-2 flex items-center gap-1.5">
-            <Mail className="w-3.5 h-3.5 text-indigo-400" /> Email <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
+          <label className="block font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
+            Email <span className="text-white/30 normal-case font-medium tracking-normal">(optional)</span>
           </label>
           <GlowInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" wrapperClassName="w-full sm:w-[300px]" />
         </div>
 
         <div className="shrink-0 w-full lg:w-auto">
-          <label className="block text-[11px] font-bold uppercase  text-purple-300/80 mb-2 flex items-center gap-1.5">
-            <Sliders className="w-3.5 h-3.5 text-cyan-400" /> Maximum Distance Radius
+          <label className="block  font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
+            Maximum Distance Radius
           </label>
-          <div className="inline-flex flex-wrap gap-1.5   w-fit max-w-full">
+          <div className="inline-flex flex-wrap gap-1.5 w-fit max-w-full">
             {RADIUS_OPTIONS.map((opt) => {
               const isSelected = radius === opt.value;
               return (
@@ -297,8 +297,8 @@ export default function FooterProximityAlerts() {
       </div>
 
       <div className="mb-6 relative z-10">
-        <label className="block text-[11px] font-bold uppercase  text-purple-300/80 mb-2 flex items-center gap-1.5">
-          <Music className="w-3.5 h-3.5 text-cyan-400" /> Which Types of Show Notifications?
+        <label className="block font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
+          Which Types of Show Notifications?
         </label>
         <div className="flex flex-wrap gap-2">
           {SHOW_TYPES.map((type) => {
@@ -322,26 +322,26 @@ export default function FooterProximityAlerts() {
 
       <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
         <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
-        <span className="text-white    font-medium">
+        <span className="text-white font-medium">
           I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
         </span>
       </div>
 
-      <div className="pt-5 border-t  border-white/10  flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
+      <div className="pt-5 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
         {permission === "granted" ? (
           <div className="flex items-center gap-3 shrink-0 flex-nowrap">
-            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold uppercase  whitespace-nowrap shrink-0">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold uppercase whitespace-nowrap shrink-0">
               <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
             </span>
             <CosmicRadialButton
               icon={false}
               onClick={handleSavePrefs}
               disabled={isBusy}
-              className="!px-6 !py-3 !text-xs ! font-bold uppercase  rounded-lg shrink-0 cursor-pointer   transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
+              className="!px-6 !py-3 !text-xs ! font-bold uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
             >
               <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                 {status === "saving" ? (
-                  <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin inline-block shrink-0" />
+                  <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
                 ) : status === "saved" ? (
                   <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap font-bold">Saved!</span></>
                 ) : (
@@ -355,11 +355,11 @@ export default function FooterProximityAlerts() {
             icon={false}
             onClick={handleEnableAlerts}
             disabled={isBusy || permission === "denied"}
-            className="!px-6 !py-3.5 !text-xs ! font-bold uppercase  rounded-lg shrink-0 cursor-pointer   transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
+            className="!px-6 !py-3.5 !text-xs ! font-bold uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
           >
             <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
               {status === "saving" ? (
-                <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin inline-block shrink-0" />
+                <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
               ) : status === "saved" ? (
                 <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap font-bold">Preferences Saved!</span></>
               ) : (

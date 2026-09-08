@@ -250,7 +250,7 @@ export default function CustomVideoPlayer({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-2 max-w-[80%]">
-          <span className="text-[10px] font-bold uppercase    text-[var(--color-accent)] bg-black/60 px-2 py-0.5 rounded border border-white/10">
+          <span className="font-bold uppercase text-[var(--color-accent)] bg-black/60 px-2 py-0.5 rounded border border-white/10">
             Now Playing
           </span>
           <h4 className="font-bold text-white tracking-wide truncate drop-shadow">
@@ -261,7 +261,7 @@ export default function CustomVideoPlayer({
         {onClose && (
           <button
             onClick={onClose}
-            className="p-2 !rounded-full bg-black/60 text-white/80 hover:text-white hover:bg-white/20 transition-all border  border-white/10  hover:scale-110 cursor-pointer shadow-lg"
+            className="p-2 !rounded-full bg-black/60 text-white/80 hover:text-white hover:bg-white/20 transition-all border border-white/10 hover:scale-110 cursor-pointer shadow-lg"
             aria-label="Close Player"
           >
             <X className="w-6 h-6" />
@@ -306,7 +306,7 @@ export default function CustomVideoPlayer({
             <CosmicRadialButton
               onClick={togglePlay}
               icon={false}
-              className="w-10 h-10 !rounded-full !p-0 text-white flex items-center justify-center transition-transform   cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
+              className="w-10 h-10 !rounded-full !p-0 text-white flex items-center justify-center transition-transform cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -335,7 +335,7 @@ export default function CustomVideoPlayer({
             </button>
 
             {/* Time Counter */}
-            <span className="   font-bold text-white/80 tabular-nums ml-1">
+            <span className=" font-bold text-white/80 tabular-nums ml-1">
               {formatTime(currentTime)} <span className="text-white/40">/</span> {formatTime(duration)}
             </span>
           </div>

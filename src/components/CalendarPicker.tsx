@@ -113,14 +113,14 @@ export function CalendarPicker({
     <div className="bg-transparent border-0 p-0 w-full shadow-none">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-white font-bold  uppercase">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
+          <h3 className="text-white font-bold uppercase">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
           <p className="mt-1 ">Select one or more dates to secure your slot</p>
         </div>
       </div>
 
       {/* Legend — Static frame-0 render prevents post-mount injection layout shift */}
-      <div className="flex items-center gap-5 mb-4 uppercase    font-bold">
-        <span className="flex items-center gap-1.5 text-white/90"><span className="w-3 h-3 rounded bg-white/10 border  border-white/10  inline-block" /> Available</span>
+      <div className="flex items-center gap-5 mb-4 uppercase font-bold">
+        <span className="flex items-center gap-1.5 text-white/90"><span className="w-3 h-3 rounded bg-white/10 border border-white/10 inline-block" /> Available</span>
         <span className="flex items-center gap-1.5 text-rose-400"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
       </div>
 
@@ -131,7 +131,7 @@ export function CalendarPicker({
             <button aria-label="Previous"
               type="button"
               onClick={handlePrevMonth}
-              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 border  border-white/10  rounded-lg font-bold text-white hover:bg-white/20 transition-colors cursor-pointer"
+              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 border border-white/10 rounded-lg font-bold text-white hover:bg-white/20 transition-colors cursor-pointer"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
               <span>Prev</span>
@@ -169,7 +169,7 @@ export function CalendarPicker({
             <button aria-label="Next"
               type="button"
               onClick={handleNextMonth}
-              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 border  border-white/10  rounded-lg font-bold text-white hover:bg-white/20 transition-colors cursor-pointer"
+              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 border border-white/10 rounded-lg font-bold text-white hover:bg-white/20 transition-colors cursor-pointer"
             >
               <span>Next</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
@@ -178,7 +178,7 @@ export function CalendarPicker({
 
           <div className="grid grid-cols-7 mb-4">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
-              <div key={day} className="text-center font-bold uppercase    text-white/50">{day}</div>
+              <div key={day} className="text-center font-bold uppercase text-white/50">{day}</div>
             ))}
           </div>
           <div className="grid grid-cols-7 gap-2">
@@ -222,19 +222,19 @@ export function CalendarPicker({
                   }}
                   title={isBlocked ? "This date is already booked" : undefined}
                   className={`h-12 w-full flex items-center justify-center font-bold text-base transition-colors relative rounded-lg ${(isPastDate || isBlocked) ? "cursor-not-allowed opacity-25" : "cursor-pointer"}
-                    ${isBlocked
+ ${isBlocked
                       ? "bg-rose-500/20 border border-rose-500/30 text-rose-400 line-through"
                       : isSelected
-                        ? "bg-purple-600 border-2 border-purple-400 text-white  font-bold  shadow-lg shadow-purple-600/40 scale-105"
-                        : " bg-[#00000029]    border  border-white/10  hover:border-purple-400/60 hover:bg-white/10 text-white"}
-                  `}
+                        ? "bg-purple-600 border-2 border-purple-400 text-white font-bold shadow-lg shadow-purple-600/40 scale-105"
+                        : " bg-[#00000029] border border-white/10 hover:border-purple-400/60 hover:bg-white/10 text-white"}
+ `}
                 >
                   {date.getDate()}
                   {isBlocked && (
                     <span className="absolute -top-1 -right-1 w-2 h-2 rounded-lg bg-rose-500" />
                   )}
                   {slotsForDay.length > 1 && (
-                    <span className="absolute -top-1.5 -right-1.5 bg-purple-600 border  border-white/10  text-white font-bold w-5 h-5 rounded-lg flex items-center justify-center    animate-scale-in">
+                    <span className="absolute -top-1.5 -right-1.5 bg-purple-600 border border-white/10 text-white font-bold w-5 h-5 rounded-lg flex items-center justify-center animate-scale-in">
                       {slotsForDay.length}x
                     </span>
                   )}
@@ -244,14 +244,14 @@ export function CalendarPicker({
           </div>
         </div>
 
-        <div className="border-t lg:border-t-0 lg:border-l  border-white/10  pt-6 lg:pt-0 lg:pl-6">
+        <div className="border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-6">
           <h4 className="font-bold uppercase tracking-[0.15em] text-white/50 mb-4">
             Booking Window
           </h4>
           <div className="flex flex-col gap-4">
             {/* Show Start Time */}
             <div>
-              <label htmlFor="cal-show-start-time" className="text-[10px] font-bold uppercase  text-white block mb-1">When does the show start?</label>
+              <label htmlFor="cal-show-start-time" className="font-bold text-white block mb-1">When does the show start?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Show Start Time"
@@ -264,7 +264,7 @@ export function CalendarPicker({
 
             {/* Show Finish Time */}
             <div>
-              <label htmlFor="cal-show-finish-time" className="text-[10px] font-bold uppercase  text-white block mb-1">When does the show finish?</label>
+              <label htmlFor="cal-show-finish-time" className=" font-bold  text-white block mb-1">When does the show finish?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Show Finish Time"
@@ -275,11 +275,11 @@ export function CalendarPicker({
               />
             </div>
 
-            <div className="border-t  border-white/10  pt-2" />
+            <div className="border-t border-white/10 pt-2" />
 
             {/* Band Start Time */}
             <div>
-              <label htmlFor="cal-band-start-time" className="text-[10px] font-bold uppercase  text-white block mb-1">When does the band go on?</label>
+              <label htmlFor="cal-band-start-time" className=" font-bold text-white block mb-1">When does the band go on?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Band Start Time"
@@ -292,7 +292,7 @@ export function CalendarPicker({
 
             {/* Band Finish Time */}
             <div>
-              <label htmlFor="cal-band-finish-time" className="text-[10px] font-bold uppercase  text-white block mb-1">When does the band finish?</label>
+              <label htmlFor="cal-band-finish-time" className="font-bold text-white block mb-1">When does the band finish?</label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Band Finish Time"
@@ -306,7 +306,7 @@ export function CalendarPicker({
           </div>
         </div>
 
-        <div className="border-t lg:border-t-0 lg:border-l  border-white/10  pt-6 lg:pt-0 lg:pl-6">
+        <div className="border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-6">
           <h4 className="font-bold uppercase tracking-[0.15em] text-white/50 mb-4">
             Event Format
           </h4>
@@ -324,14 +324,14 @@ export function CalendarPicker({
                   <FoolishShrimpButton
                     isActive={isSelected}
                     onClick={() => onSelectType && onSelectType(type.id)}
-                    className="w-full !justify-start text-left p-4 !h-auto flex gap-4 items-center group cursor-pointer"
+                    className="w-full !justify-start text-left px-5 py-4 !h-auto flex gap-4 items-center group cursor-pointer !rounded-full"
                   >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
                       <TypeIcon className="w-5 h-5" />
                     </div>
                     <div>
                       <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300 font-bold" : "text-white"}`}>{type.label}</span>
-                      <span className="text-white/80 block leading-tight">{type.desc}</span>
+                      <span className="text-white/80 block ">{type.desc}</span>
                     </div>
                   </FoolishShrimpButton>
                   {type.id === "custom" && isSelected && (
@@ -342,7 +342,7 @@ export function CalendarPicker({
                         value={customDetails || ""}
                         onChange={(e) => onCustomDetailsChange?.(e.target.value)}
                         autoFocus
-                        className="w-full bg-[#0c0817]/80 backdrop-blur-[45px] border  border-white/10  text-white px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors placeholder:text-white/40 rounded-lg shadow-inner"
+                        className="w-full bg-[#0c0817]/80 backdrop-blur-[45px] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors placeholder:text-white/40 rounded-lg shadow-inner"
                       />
                     </div>
                   )}

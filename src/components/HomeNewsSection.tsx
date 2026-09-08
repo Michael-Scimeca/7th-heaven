@@ -37,14 +37,14 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
 
   return (
-    <section id="news" className="site-container relative py-section-fluid bg-[var(--card-bg)] text-[var(--text-color)]">
+    <section id="news" className="site-container relative py-section-fluid bg-[var(--card-bg)] ">
       <>
         {/* Section Header */}
         <div className="mb-12 text-left">
-          <h2 className="font-bold uppercase tracking-tight font-[family-name:var(--font-rockstar)]">
+          <h2 className="font-bold uppercase font-[family-name:var(--font-rockstar)]">
             Latest Band News
           </h2>
-          <p className="mt-2 max-w-2xl text-sm md:text-base    font-medium leading-relaxed">
+          <p className="mt-2 max-w-2xl text-sm md:text-base font-medium ">
             Stay updated with official announcements, tour updates, new music releases, and exclusive band stories.
           </p>
         </div>
@@ -53,16 +53,13 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
-            <div className="lg:col-span-7 border-0  pb-10 relative overflow-hidden group transition-colors">
+            <div className="lg:col-span-7 border-0 pb-10 relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-                <span className="px-3 py-1  font-bold uppercase  rounded-lg inline-flex items-center gap-2 bg-[#00000029] border  border-white/10  px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
-                  Featured Announcement
-                </span>
-                <span className="    text-[var(--color-accent)] font-bold">
+                <span className=" text-[var(--color-accent)] font-bold">
                   {featured.date}
                 </span>
               </div>
-              <h3 className="font-bold leading-tight mb-4 group-hover: transition-colors">
+              <h3 className="font-bold mb-4 group-hover: transition-colors">
                 {featured.title}
               </h3>
               <p className="leading-relaxed font-normal">
@@ -77,13 +74,13 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
               <button
                 type="button"
                 key={item.title} onClick={() => setSelectedArticle(item)}
-                className="w-full text-left border-0  pb-5 cursor-pointer  group font-sans font-normal"
+                className="w-full text-left border-0 pb-5 cursor-pointer group font-sans font-normal"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-[10px] font-bold uppercase    text-[var(--color-accent)]">
+                  <span className=" font-bold text-[var(--color-accent)]">
                     {item.date}
                   </span>
-                  <span className="text-[10px] font-bold  group-hover:  text-[var(--color-accent)] transition-colors">
+                  <span className="font-bold group-hover: text-[var(--color-accent)] transition-colors">
                     Read
                   </span>
                 </div>
@@ -108,17 +105,17 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
             className="bg-[var(--card-bg)] border-0 max-w-xl w-full p-8 relative shadow-2xl" onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
-              <span className="   font-bold text-[var(--color-accent)] uppercase tracking-wider">
+              <span className=" font-bold text-[var(--color-accent)] uppercase tracking-wider">
                 {selectedArticle.date}
               </span>
               <button aria-label="Action button"
                 onClick={() => setSelectedArticle(null)}
-                className="   hover:text-[var(--text-color)] text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors"
+                className=" hover: text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors"
               >
                 ✕
               </button>
             </div>
-            <h3 className="font-bold mb-4 leading-tight">
+            <h3 className="font-bold mb-4 ">
               {selectedArticle.title}
             </h3>
             <p className="leading-relaxed whitespace-pre-line">

@@ -108,7 +108,7 @@ export default function AdminFeedPost() {
     <div className="min-h-screen pt-[72px]">
       <div className="max-w-[600px] mx-auto px-4 py-8">
         {/* Presence Header */}
-        <div className="mb-6 flex items-center justify-between p-3 bg-white/[0.02] border  border-white/10  rounded-sm">
+        <div className="mb-6 flex items-center justify-between p-3 bg-white/[0.02] border border-white/10 rounded-sm">
           <div className="flex -space-x-2">
             {Array.from(onlineMembers, (m: any, i) => ({ m, i })).map(({ m, i }) => (
               <div
@@ -119,9 +119,9 @@ export default function AdminFeedPost() {
                 {m.avatar}
               </div>
             ))}
-            <div className="w-8 h-8 rounded-lg border-2 border-dashed  border-white/10  flex items-center justify-center text-white/20">+</div>
+            <div className="w-8 h-8 rounded-lg border-2 border-dashed border-white/10 flex items-center justify-center text-white/20">+</div>
           </div>
-          <span className="text-white/30 font-bold uppercase   ">
+          <span className="text-white/30 font-bold uppercase ">
             {onlineMembers.length} Crew Active
           </span>
         </div>
@@ -151,8 +151,8 @@ export default function AdminFeedPost() {
                   type="button"
                   onClick={() => setSelectedMember(m)}
                   className={`p-3 border text-center transition-colors duration-200 ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
-                    : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
-                    }`}
+ : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
+ }`}
                 >
                   <div
                     className="w-8 h-8 mx-auto rounded-lg flex items-center justify-center font-bold mb-1 border"
@@ -178,9 +178,9 @@ export default function AdminFeedPost() {
                   key={t.value}
                   type="button"
                   onClick={() => setPostType(t.value)}
-                  className={`flex items-center gap-1.5 px-3 py-2 font-medium border transition-colors duration-200 ${postType === t.value ? "  border-white/10   bg-white/[0.06]"
-                    : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
-                    }`}
+                  className={`flex items-center gap-1.5 px-3 py-2 font-medium border transition-colors duration-200 ${postType === t.value ? " border-white/10 bg-white/[0.06]"
+ : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
+ }`}
                   style={postType === t.value ? { color: t.color } : { color: "rgba(255,255,255,0.5)" }}
                 >
                   <span>{t.icon}</span>
@@ -243,12 +243,12 @@ export default function AdminFeedPost() {
             type="submit"
             disabled={!content.trim() || isPosting}
             className={`w-full py-3 font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover"
-              : "bg-white/[0.05] text-white/20 cursor-not-allowed"
-              }`}
+ : "bg-white/[0.05] text-white/20 cursor-not-allowed"
+ }`}
           >
             {isPosting ? (
               <span className="flex items-center justify-center gap-2">
-                <span className="w-3 h-3 border  border-white/10  border-t-white rounded-lg animate-spin" />
+                <span className="w-3 h-3 border border-white/10 border-t-white rounded-lg animate-spin" />
                 Posting...
               </span>
             ) : (
@@ -261,9 +261,9 @@ export default function AdminFeedPost() {
         {status && (
           <div
             className={`mt-4 p-3 font-medium text-center border transition-colors duration-300 ${status.type === "success"
-              ? "bg-green-500/10 border-green-500/30 text-green-400"
-              : "bg-red-500/10 border-red-500/30 text-red-400"
-              }`}
+ ? "bg-green-500/10 border-green-500/30 text-green-400"
+ : "bg-red-500/10 border-red-500/30 text-red-400"
+ }`}
           >
             {status.message}
           </div>

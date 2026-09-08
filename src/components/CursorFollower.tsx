@@ -671,7 +671,7 @@ export default function CursorFollower() {
           </svg>
           {handActive && (
             /* eslint-disable-next-line @next/next/no-img-element */
-            <img src="/images/hand.svg" className="w-full h-full object-contain pointer-events-none select-none drop-  " alt="" />
+            <img src="/images/hand.svg" className="w-full h-full object-contain pointer-events-none select-none drop- " alt="" />
           )}
           <div
             ref={pickTextRef}

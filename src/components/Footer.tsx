@@ -3,7 +3,7 @@
 /* eslint-disable react-doctor/no-prevent-default */
 import Image from 'next/image';
 
-import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
 import { Smartphone, Check, Bell } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
@@ -115,8 +115,8 @@ export function Footer() {
 
   return (
     <footer
-      className={`relative text-[var(--text-color)] pb-8 overflow-hidden ${isCovered ?"hidden opacity-0 pointer-events-none" : "block opacity-100"
-        }`}
+      className={`relative pb-8 overflow-hidden ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
+ }`}
       id="footer"
       suppressHydrationWarning
     >
@@ -150,9 +150,9 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-1">
               {footerLinks.map((link, i) => (
                 <span key={link.href} className="flex items-center">
-                  <Link href={link.href} className="text-[13px] font-semibold tracking-wide text-white/70 hover:text-white transition-colors">
+                  <TransitionLink href={link.href} className="text-[13px] font-semibold tracking-wide text-white/70 hover:text-white transition-colors">
                     {link.label}
-                  </Link>
+                  </TransitionLink>
                   {i < footerLinks.length - 1 && (
                     <span className="text-[var(--color-accent)] mx-2 text-[13px] font-bold">/</span>
                   )}

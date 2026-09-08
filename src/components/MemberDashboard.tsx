@@ -205,11 +205,11 @@ export default function MemberDashboard() {
     return (
       <section className="py-20 min-h-[calc(100vh-72px)] flex items-center justify-center">
         <div className="site-container max-w-xl w-full">
-          <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden relative">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden relative">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
             <div className="p-10">
               <div className="text-center mb-10">
-                <h1 className="text-3xl font-bold tracking-tight mb-3">
+                <h1 className="text-3xl font-bold mb-3">
                   Join the <span className=" text-[var(--color-accent)]">Family</span>
                 </h1>
                 <p className="">
@@ -224,20 +224,20 @@ export default function MemberDashboard() {
 
                 <div className="relative py-4 flex items-center justify-center">
                   <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
-                  <span className="relative bg-[var(--color-bg-surface)] px-4 font-bold text-white/30 uppercase   ">Already a fan?</span>
+                  <span className="relative bg-[var(--color-bg-surface)] px-4 font-bold text-white/30 uppercase ">Already a fan?</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border  border-white/10  text-white flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
+                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
-                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border  border-white/10  text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
+                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
                     Crew Portal
                   </button>
                 </div>
               </div>
 
-              <div className="mt-8 pt-8 border-t  border-white/10  text-center text-white/30">
+              <div className="mt-8 pt-8 border-t border-white/10 text-center text-white/30">
                 <p>By creating an account, you agree to receive SMS proximity notifications. You can turn these off at any time using the dashboard.</p>
               </div>
             </div>
@@ -263,7 +263,7 @@ export default function MemberDashboard() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold tracking-tight">{member!.name}</h1>
+                <h1 className="text-2xl font-bold ">{member!.name}</h1>
                 {/* Role label */}
                 {(() => {
                   const role = member?.role ?? 'fan';
@@ -280,7 +280,7 @@ export default function MemberDashboard() {
           </div>
           <div className="flex items-center gap-2">
             {(member?.role === 'crew' || member?.role === 'admin') && (
-              <Link href="/crew" className="px-4 py-2 uppercase tracking-[0.15em] text-[var(--color-accent)] hover:text-white bg-emerald-500/10 border  border-white/10  hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
+              <Link href="/crew" className="px-4 py-2 uppercase tracking-[0.15em] text-[var(--color-accent)] hover:text-white bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
                 Crew Dashboard
               </Link>
@@ -292,7 +292,7 @@ export default function MemberDashboard() {
         <PushAlertsCard group="fans" className="mb-10" />
 
         {/* Digital Tickets / Inbox moved to top */}
-        <div className="mb-10 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border    border-white/10  relative overflow-hidden shadow-[0_0_40px_rgba(255,10,61,0.15)] group">
+        <div className="mb-10 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border border-white/10 relative overflow-hidden shadow-[0_0_40px_rgba(255,10,61,0.15)] group">
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
           <div className="absolute top-0 right-0 p-4 opacity-30 blur-[2px] transition-colors duration-500 group-hover:blur-0 group-hover:opacity-40 translate-x-4 -translate-y-4">
             <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 22h20L12 2z" /></svg>
@@ -301,20 +301,20 @@ export default function MemberDashboard() {
           <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
             <div className="flex items-center gap-3">
               <Ticket className="w-6 h-6 text-cyan-400" />
-              <h2 className="font-bold tracking-tight">
+              <h2 className="font-bold ">
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
             </div>
-            <span className="uppercase    font-bold text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Claim PINs</span>
+            <span className="uppercase font-bold text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Claim PINs</span>
           </div>
 
           <div className="relative z-10">
             {(() => {
               if (localInbox.length === 0) {
                 return (
-                  <div className="py-6 flex flex-col items-center border  border-white/10  bg-[#00000029] border-dashed">
+                  <div className="py-6 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
                     <p className="font-bold">Your wallet is currently empty.</p>
-                    <p className="mt-1 uppercase    font-bold">Keep participating in live streams for a chance to win</p>
+                    <p className="mt-1 uppercase font-bold">Keep participating in live streams for a chance to win</p>
                   </div>
                 );
               }
@@ -328,34 +328,34 @@ export default function MemberDashboard() {
                     return (
                       <div key={msg.id} className={`p-4 border bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-[45px] ${msg.color === 'yellow' ? 'border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'border-white/10'}`}>
                         <div className="flex items-center gap-4 w-full">
-                          <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : ' bg-[#00000029]    border border-white/10'}`}>{msg.icon}</div>
+                          <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : ' bg-[#00000029] border border-white/10'}`}>{msg.icon}</div>
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className="font-bold text-white tracking-wide">{msg.title}</h4>
-                              {msg.isNew && <span className="text-[var(--font-size-2xs)] font-bold uppercase    px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+                              {msg.isNew && <span className="text-[var(--font-size-2xs)] font-bold uppercase px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-                            <p className="uppercase    font-bold mt-1">{msg.time}</p>
+                            <p className="uppercase font-bold mt-1">{msg.time}</p>
                           </div>
                         </div>
 
                         {pin && (
                           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
                             {msg.isClaimed ? (
-                              <div className="px-5 py-2 border  border-white/10  bg-[#00000029] opacity-50 grayscale">
-                                <span className="text-[var(--font-size-2xs)] uppercase    font-bold text-white/40 block text-center mb-1">Claimed</span>
-                                <span className="   text-xl font-bold tracking-[0.25em] text-white/30 line-through">{pin}</span>
+                              <div className="px-5 py-2 border border-white/10 bg-[#00000029] opacity-50 grayscale">
+                                <span className="text-[var(--font-size-2xs)] uppercase font-bold text-white/40 block text-center mb-1">Claimed</span>
+                                <span className=" text-xl font-bold tracking-[0.25em] text-white/30 line-through">{pin}</span>
                               </div>
                             ) : claimConfirmId === msg.id ? (
                               <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
-                                <p className="font-bold text-red-400 uppercase    leading-tight animate-pulse">Show this to merch crew.</p>
-                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-bold uppercase    rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                                <p className="font-bold text-red-400 uppercase animate-pulse">Show this to merch crew.</p>
+                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-bold uppercase rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                                   CLICK TO FLASH & CLAIM
                                 </button>
-                                <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase    cursor-pointer">Cancel</button>
+                                <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold uppercase    transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)]   cursor-pointer">
+                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold uppercase transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}
@@ -385,9 +385,9 @@ export default function MemberDashboard() {
           </div>
 
           {myPhotos.length === 0 ? (
-            <div className="py-8 flex flex-col items-center border  border-white/10  bg-[#00000029] border-dashed">
+            <div className="py-8 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
               <p className="font-bold">No photo submissions found.</p>
-              <p className="mt-1 uppercase    font-bold">Upload a photo to join the fan wall!</p>
+              <p className="mt-1 uppercase font-bold">Upload a photo to join the fan wall!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -395,10 +395,10 @@ export default function MemberDashboard() {
                 <div
                   key={photo.id}
                   className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
-                    : photo.approved
-                      ? "    border-white/10  shadow-[0_0_15px_rgba(16,185,129,0.05)]"
-                      : "border-white/10"
-                    }`}
+ : photo.approved
+ ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
+ : "border-white/10"
+ }`}
                 >
                   <div className="aspect-[4/3] bg-[#00000029] relative overflow-hidden">
                     <Image width={200} height={200} unoptimized
@@ -410,15 +410,15 @@ export default function MemberDashboard() {
                     {/* Status Overlay Badge */}
                     <div className="absolute top-2 right-2">
                       {photo.approved ? (
-                        <span className="px-2.5 py-1 bg-emerald-500/90 text-white      text-[0.9rem]  uppercase    rounded border border-emerald-400/20 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-emerald-500/90 text-white text-[0.9rem] uppercase rounded border border-emerald-400/20 flex items-center gap-1">
                           <Check className="w-3 h-3" /> Published
                         </span>
                       ) : photo.rejected ? (
-                        <span className="px-2.5 py-1 bg-red-500/95 text-white      text-[0.9rem]  uppercase    rounded border border-red-400/30 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-red-500/95 text-white text-[0.9rem] uppercase rounded border border-red-400/30 flex items-center gap-1">
                           <AlertTriangle className="w-3 h-3" /> Declined
                         </span>
                       ) : (
-                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black      text-[0.9rem]  uppercase    rounded border border-yellow-400/20 font-bold flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black text-[0.9rem] uppercase rounded border border-yellow-400/20 font-bold flex items-center gap-1">
                           <Clock className="w-3 h-3" /> Pending
                         </span>
                       )}
@@ -427,7 +427,7 @@ export default function MemberDashboard() {
 
                   <div className="p-4 flex flex-col gap-2">
                     {photo.caption && (
-                      <p className="border-l-2  border-white/10  pl-2 line-clamp-2">
+                      <p className="border-l-2 border-white/10 pl-2 line-clamp-2">
                         "{photo.caption}"
                       </p>
                     )}
@@ -435,7 +435,7 @@ export default function MemberDashboard() {
                     {/* Declined Details block */}
                     {photo.rejected && (
                       <div className="mt-2 p-2.5 bg-red-500/5 border border-red-500/15 rounded-lg text-left">
-                        <p className="text-red-400 font-bold uppercase    mb-1">
+                        <p className="text-red-400 font-bold uppercase mb-1">
                           Reason for Decline
                         </p>
                         <p className="text-red-200/80 leading-normal font-medium">
@@ -444,9 +444,9 @@ export default function MemberDashboard() {
                       </div>
                     )}
 
-                    <div className="flex justify-between items-center mt-2 pt-2 border-t  border-white/10  text-[0.65rem] text-white/30">
+                    <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/10 text-[0.65rem] text-white/30">
                       {photo.venue && <span className="truncate flex items-center gap-1"><MapPin className="w-3 h-3 text-purple-400shrink-0" /> {photo.venue}</span>}
-                      <span className="  ">{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
+                      <span className=" ">{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
                     </div>
                   </div>
                 </div>
@@ -462,7 +462,7 @@ export default function MemberDashboard() {
             { label: "Fan Since", value: new Date(member!.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "America/Chicago" }) },
           ].map((s) => (
             <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
-              <p className="uppercase    mb-1">{s.label}</p>
+              <p className="uppercase mb-1">{s.label}</p>
               <p className={`font-bold ${s.accent ? " text-[var(--color-accent)]" : ""}`}>
                 {s.value}
               </p>
@@ -499,11 +499,11 @@ export default function MemberDashboard() {
             return (
               <div className="flex flex-col gap-3">
                 {purchases.map((order) => (
-                  <div key={order.id} className="border  border-white/10  bg-white/[0.01] overflow-hidden">
+                  <div key={order.id} className="border border-white/10 bg-white/[0.01] overflow-hidden">
                     {/* Order header */}
                     <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.02] border-b border-white/5">
                       <div className="flex items-center gap-4">
-                        <span className="   text-white/30">{order.id}</span>
+                        <span className=" text-white/30">{order.id}</span>
                         <span className="text-white/20">{order.date}</span>
                       </div>
                       <span className={`uppercase tracking-[0.15em] font-bold ${order.statusColor}`}>
@@ -545,9 +545,9 @@ export default function MemberDashboard() {
            100% { background-color: #ffffff; }
          }
        `}</style>
-          <div className="  p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
-            <h1 className="text-5xl sm:text-7xl font-bold text-green-500 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]">WINNER</h1>
-            <p className="font-bold mt-4 uppercase   ">CLAIMING PRIZE</p>
+          <div className=" p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
+            <h1 className="text-5xl sm:text-7xl font-bold text-green-500 uppercase er drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]">WINNER</h1>
+            <p className="font-bold mt-4 uppercase ">CLAIMING PRIZE</p>
           </div>
         </div>
       )}

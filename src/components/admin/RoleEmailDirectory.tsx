@@ -254,7 +254,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       <div className="border-none overflow-hidden bg-transparent relative">
         <div className="w-full text-left">
           {/* Fixed Header Row */}
-          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 font-bold uppercase  text-white border-b  border-white/10  select-none]">
+          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 font-bold uppercase text-white border-b border-white/10 select-none]">
             <div>Name</div>
             <div>Email Address</div>
             <div>Role</div>
@@ -279,14 +279,14 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                           <img
                             src={avatarSrc}
                             alt={user.name}
-                            className="w-9 h-9 rounded-full object-cover shrink-0 border  border-white/10  shadow-x"
+                            className="w-9 h-9 rounded-full object-cover shrink-0 border border-white/10 shadow-x"
                             onError={(e) => {
                               (e.currentTarget as HTMLElement).style.display = 'none';
                             }}
                           />
                         ) : (
                           <div
-                            className={`w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans     border border-white/20`}
+                            className={`w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans border border-white/20`}
                           >
                             {getInitials(user.name)}
                           </div>
@@ -294,19 +294,19 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                       })()}
                       <span className="truncate">{user.name}</span>
                     </div>
-                    <div className="text-white    font-bold select-all truncate">
+                    <div className="text-white font-bold select-all truncate">
                       {user.email}
                     </div>
-                    <div className="py-1 text-white   font-bold rouned-lgtracking-wider">
+                    <div className="py-1 text-white font-bold rouned-lgtracking-wider">
                       {user.role}
                     </div>
-                    <div className="   text-white/50 font-semibold truncate">
+                    <div className=" text-white/50 font-semibold truncate">
                       {user.phone || "—"}
                     </div>
                     <div className="text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[#00000029] border  border-white/10  !text-white font-bold rounded-lg transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white font-bold rounded-lg transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>

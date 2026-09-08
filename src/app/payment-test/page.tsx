@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTransition } from "@/context/TransitionContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useNorthCart } from "@/context/NorthCartContext";
@@ -55,16 +55,16 @@ function ProductCard({
           unoptimized
           className="object-cover"
         />
-        <span className="absolute top-3 left-3 text-[10px] font-bold uppercase    bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border  border-white/10  text-cyan-300">
+        <span className="absolute top-3 left-3 text-[10px] font-bold uppercase bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 text-cyan-300">
           {product.category}
         </span>
         {soldOut && (
-          <span className="absolute top-3 right-3 text-[10px] font-bold uppercase    bg-rose-600/90 text-white px-2.5 py-1 rounded-lg">
+          <span className="absolute top-3 right-3 text-[10px] font-bold uppercase bg-rose-600/90 text-white px-2.5 py-1 rounded-lg">
             Sold Out
           </span>
         )}
         {lowStock && (
-          <span className="absolute bottom-3 left-3 text-[10px] font-bold uppercase    bg-yellow-500/90 text-black px-2.5 py-1 rounded-lg">
+          <span className="absolute bottom-3 left-3 text-[10px] font-bold uppercase bg-yellow-500/90 text-black px-2.5 py-1 rounded-lg">
             Only {selectedStock} left
           </span>
         )}
@@ -72,12 +72,12 @@ function ProductCard({
 
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div>
-          <h3 className="text-white font-bold leading-tight">{product.title}</h3>
-          <p className="mt-1 leading-relaxed">{product.description}</p>
+          <h3 className="text-white font-bold ">{product.title}</h3>
+          <p className="mt-1 ">{product.description}</p>
         </div>
 
         <div>
-          <span className="text-[10px] font-bold uppercase  text-white/40 block mb-1.5">
+          <span className="text-[10px] font-bold uppercase text-white/40 block mb-1.5">
             {product.variant_kind}
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -90,8 +90,8 @@ function ProductCard({
                   disabled={variantSoldOut}
                   onClick={() => setUserSelectedVariantId(variant.id)}
                   className={`px-3 py-1.5 rounded-lg font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)] text-white"
-                    : " bg-[#00000029]    border  border-white/10   text-white  hover:text-white"
-                    }`}
+ : " bg-[#00000029] border border-white/10 text-white hover:text-white"
+ }`}
                 >
                   {variant.label}
                 </button>
@@ -108,7 +108,7 @@ function ProductCard({
             type="button"
             disabled={soldOut || maxedOut}
             onClick={() => onAdd(selectedVariant.id)}
-            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase  rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {soldOut ? "Sold Out" : maxedOut ? "Max in Cart" : "Add to Cart"}
           </button>
@@ -119,7 +119,7 @@ function ProductCard({
 }
 
 export default function PaymentTestShopPage() {
-  const router = useRouter();
+  const { requestTransition } = useTransition();
   const cart = useNorthCart();
   const [products, setProducts] = useState<ApiProduct[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
@@ -260,7 +260,7 @@ export default function PaymentTestShopPage() {
       localStorage.setItem("7h_north_amount_v1", data.amount);
       localStorage.setItem("7h_north_tran_nbr_v1", data.tranNbr);
       localStorage.setItem("7h_north_mock_v1", data.mock ? "1" : "0");
-      router.push("/payment-test/checkout");
+      requestTransition("/payment-test/checkout");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Something went wrong starting checkout.";
       setCheckoutError(message);
@@ -275,7 +275,7 @@ export default function PaymentTestShopPage() {
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
           href="/"
-          className="font-bold uppercase  text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
+          className="font-bold uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
         >
           ← Back to Home
         </Link>
@@ -287,7 +287,7 @@ export default function PaymentTestShopPage() {
           <h1 className="text-3xl md:text-4xl font-bold uppercase text-white tracking-wide">
             7th Heaven Official Merch Store
           </h1>
-          <p className="mt-2 max-w-xl leading-relaxed">
+          <p className="mt-2 max-w-xl ">
             Get official 7th Heaven shirts, CDs, albums, hats, and exclusive band gear with secure direct checkout and fast shipping.
           </p>
 
@@ -317,7 +317,7 @@ export default function PaymentTestShopPage() {
         {/* ── Store Features Breakdown ── */}
         {showLimitations && (
           <div className="mb-8 bg-[#0e0e18] border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
-            <div className="flex items-center justify-between border-b  border-white/10  pb-4 mb-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
                 <h3 className="text-white font-bold uppercase tracking-wide">
                   7th Heaven Direct Store Features &amp; Architecture
@@ -336,8 +336,8 @@ export default function PaymentTestShopPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-white/70">
-              <div className="bg-black/40 border  border-white/10  rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] block mb-1">
                   ✅ Real-Time Inventory Tracking
                 </span>
                 <p className="leading-relaxed">
@@ -345,8 +345,8 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="bg-black/40 border  border-white/10  rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] block mb-1">
                   ✅ Order Snapshot &amp; Stock Decrement
                 </span>
                 <p className="leading-relaxed">
@@ -354,8 +354,8 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="bg-black/40 border  border-white/10  rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] block mb-1">
                   ✅ Catalog Admin &amp; Stock Control
                 </span>
                 <p className="leading-relaxed">
@@ -366,8 +366,8 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="bg-black/40 border  border-white/10  rounded-lg p-3">
-                <span className="text-purple-300 font-bold uppercase text-[10px]  block mb-1">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-purple-300 font-bold uppercase text-[10px] block mb-1">
                   ⚡ Streamlined Fast Checkout
                 </span>
                 <p className="leading-relaxed">
@@ -375,8 +375,8 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="bg-black/40 border  border-white/10  rounded-lg p-3">
-                <span className="text-purple-300 font-bold uppercase text-[10px]  block mb-1">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-purple-300 font-bold uppercase text-[10px] block mb-1">
                   ⚡ Direct Merchant Security
                 </span>
                 <p className="leading-relaxed">
@@ -384,8 +384,8 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="bg-black/40 border  border-white/10  rounded-lg p-3">
-                <span className="text-purple-300 font-bold uppercase text-[10px]  block mb-1">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-purple-300 font-bold uppercase text-[10px] block mb-1">
                   ⚡ Instant Email Order Confirmation
                 </span>
                 <p className="leading-relaxed">
@@ -393,8 +393,8 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="bg-black/40 border  border-white/10  rounded-lg p-3">
-                <span className="text-cyan-300 font-bold uppercase text-[10px]  block mb-1">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-cyan-300 font-bold uppercase text-[10px] block mb-1">
                   ✅ Concert QR Code Ordering
                 </span>
                 <p className="leading-relaxed">
@@ -408,7 +408,7 @@ export default function PaymentTestShopPage() {
         {/* ── Roadmap: features buildable on North's actual API suite ── */}
         {showRoadmap && (
           <div className="mb-8 bg-[#0e0e18] border border-emerald-500/30 rounded-2xl p-6 relative overflow-hidden">
-            <div className="flex items-center justify-between border-b  border-white/10  pb-4 mb-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
                 <h3 className="text-white font-bold uppercase tracking-wide">
                   Roadmap: Closing the Gap With North&apos;s Real API Suite
@@ -432,7 +432,7 @@ export default function PaymentTestShopPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-white/70">
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] block mb-1">
                   🔁 Fan Club / Merch Subscriptions
                 </span>
                 <p className="leading-relaxed">
@@ -444,7 +444,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] block mb-1">
                   💳 Saved Cards &amp; Refunds
                 </span>
                 <p className="leading-relaxed">
@@ -456,7 +456,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] block mb-1">
                   🧾 Custom / VIP Order Invoicing
                 </span>
                 <p className="leading-relaxed">
@@ -467,7 +467,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] block mb-1">
                   📊 Real Sales Dashboard
                 </span>
                 <p className="leading-relaxed">
@@ -481,7 +481,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] block mb-1">
                   🖥️ Embedded Checkout Upgrade
                 </span>
                 <p className="leading-relaxed">
@@ -492,7 +492,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 font-bold uppercase text-[10px]  block mb-1">
+                <span className="text-emerald-400 font-bold uppercase text-[10px] block mb-1">
                   🏬 In-Person + Online, One Inventory
                 </span>
                 <p className="leading-relaxed">
@@ -502,8 +502,8 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="bg-black/40 border  border-white/10  rounded-lg p-3">
-                <span className="text-yellow-300 font-bold uppercase text-[10px]  block mb-1">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
+                <span className="text-yellow-300 font-bold uppercase text-[10px] block mb-1">
                   🛠️ Not North — Custom-Built Only
                 </span>
                 <p className="leading-relaxed">
@@ -526,9 +526,9 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-lg font-bold uppercase  transition-colors shrink-0 ${activeCategory === cat ? "bg-cyan-500 text-black"
-                  : " bg-[#00000029]    border  border-white/10   text-white  hover:text-white"
-                  }`}
+                className={`px-4 py-2 rounded-lg font-bold uppercase transition-colors shrink-0 ${activeCategory === cat ? "bg-cyan-500 text-black"
+ : " bg-[#00000029] border border-white/10 text-white hover:text-white"
+ }`}
               >
                 {cat}
               </button>
@@ -538,7 +538,7 @@ export default function PaymentTestShopPage() {
           <button
             type="button"
             onClick={() => setShowCart(true)}
-            className="px-4 py-2.5 bg-[#00000029] border  border-white/10  hover:border-[var(--color-accent)] rounded-lg font-bold uppercase  transition-colors flex items-center gap-2"
+            className="px-4 py-2.5 bg-[#00000029] border border-white/10 hover:border-[var(--color-accent)] rounded-lg font-bold uppercase transition-colors flex items-center gap-2"
           >
             🛒 Cart ({cart.getNumberOfCartItems()})
           </button>
@@ -574,7 +574,7 @@ export default function PaymentTestShopPage() {
       {showCart && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4">
           <div className="bg-[#0e0e18] border border-white/[0.12] rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b  border-white/10  pb-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <h2 className="text-white font-bold uppercase tracking-wide">My Cart</h2>
               <button
                 type="button"
@@ -612,7 +612,7 @@ export default function PaymentTestShopPage() {
                         <button
                           type="button"
                           onClick={() => cart.removeOneItemFromCart(item.id)}
-                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border  border-white/10  rounded-lg text-white/70 hover:text-white font-bold"
+                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white font-bold"
                         >
                           −
                         </button>
@@ -623,7 +623,7 @@ export default function PaymentTestShopPage() {
                           type="button"
                           disabled={atMax}
                           onClick={() => handleCartIncrement(item.id)}
-                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border  border-white/10  rounded-lg text-white/70 hover:text-white font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white font-bold disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                           +
                         </button>
@@ -648,7 +648,7 @@ export default function PaymentTestShopPage() {
               </div>
             )}
 
-            <div className="border-t  border-white/10  pt-4 flex items-center justify-between">
+            <div className="border-t border-white/10 pt-4 flex items-center justify-between">
               <span className="text-white/50 font-bold uppercase tracking-wider">Total</span>
               <span className="text-2xl font-bold text-[var(--color-accent)]">
                 ${cart.getTotalCost().toFixed(2)}
@@ -659,7 +659,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 border  border-white/10  text-white font-bold uppercase    rounded-lg transition-colors"
+                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white font-bold uppercase rounded-lg transition-colors"
               >
                 Continue Shopping
               </button>
@@ -667,7 +667,7 @@ export default function PaymentTestShopPage() {
                 type="button"
                 disabled={cart.items.length === 0 || startingCheckout}
                 onClick={handleCheckout}
-                className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase    rounded-lg transition-colors disabled:opacity-40"
+                className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase rounded-lg transition-colors disabled:opacity-40"
               >
                 {startingCheckout ? "Starting…" : "Checkout with North"}
               </button>

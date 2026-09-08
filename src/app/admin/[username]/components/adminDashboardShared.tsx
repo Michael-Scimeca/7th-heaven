@@ -59,7 +59,7 @@ export const CrewAvatar = React.memo(({ member }: { member: any }) => {
         src={avatarUrl}
         alt={name}
         onError={() => setImgError(true)}
-        className="w-9 h-9 rounded-full object-cover border  border-white/10  shrink-0   "
+        className="w-9 h-9 rounded-full object-cover border border-white/10 shrink-0 "
       />
     );
   }
@@ -91,22 +91,22 @@ export const SidebarDateButton = React.memo(({
     <button
       type="button"
       onClick={() => show.date && onClick(show.date)}
-      className={`w-full text-left px-2 py-1.5 flex items-center  border-b  border-white/10   gap-2 cursor-pointer transition-colors duration-150 group ${isSelected ? ' bg-[#00000029]  !rounded-none'
-        : isActiveWeek
-          ? ' bg-[#00000029] '
-          : 'bg-transparent'
-        }`}
+      className={`w-full text-left px-2 py-1.5 flex items-center border-b border-white/10 gap-2 cursor-pointer transition-colors duration-150 group ${isSelected ? ' bg-[#00000029] !rounded-none'
+ : isActiveWeek
+ ? ' bg-[#00000029] '
+ : 'bg-transparent'
+ }`}
     >
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
-        <span className=" text-[9px]  font-bold text-white/40 uppercase tracking-tight">{show.dayLabel}</span>
-        <span className={` text-[11px] font-bold tracking-tight ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
+        <span className=" text-[9px] font-bold text-white/40 uppercase ">{show.dayLabel}</span>
+        <span className={` text-[11px] font-bold ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`font-bold truncate leading-tight ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
+        <p className={`font-bold truncate ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
           {show.venue || show.venue_name}
         </p>
         {show.city && (
-          <p className="truncate leading-tight">{show.city}{show.state ? `, ${show.state}` : ''}</p>
+          <p className="truncate ">{show.city}{show.state ? `, ${show.state}` : ''}</p>
         )}
       </div>
     </button>

@@ -239,7 +239,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
       return (
         <div className="h-full flex items-center justify-center">
           <div className="text-center">
-            <div className="w-24 h-24 mx-auto mb-4 rounded-lg bg-[#00000029] border  border-white/10  flex items-center justify-center">
+            <div className="w-24 h-24 mx-auto mb-4 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center">
               <Mic className="w-8 h-8 text-cyan-400" />
             </div>
             <p className="font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>
@@ -254,7 +254,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin mx-auto mb-3" />
           <p className="font-medium">Connecting to stream...</p>
-          <p className="   mt-1 opacity-40">Room ID: {room}</p>
+          <p className=" mt-1 opacity-40">Room ID: {room}</p>
           <p className="mt-1">Crew members will appear when they go live</p>
         </div>
       </div>

@@ -34,7 +34,7 @@ class MapErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border  border-white/10  flex flex-col items-center justify-center gap-3">
+        <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border border-white/10 flex flex-col items-center justify-center gap-3">
           <p className="">Map reloading...</p>
           <button aria-label="Action button"
             onClick={() => this.setState({ hasError: false })}
@@ -100,7 +100,7 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
 
   return (
     <MapErrorBoundary>
-      <div ref={containerRef} className="w-full h-full min-h-[180px] overflow-hidden     relative">
+      <div ref={containerRef} className="w-full h-full min-h-[180px] overflow-hidden relative">
         <MapContainer
           key={mapKey}
           center={[39.8283, -98.5795]}
@@ -136,8 +136,8 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
               >
                 <Tooltip direction="top" offset={[0, -10]} opacity={1} className="custom-tooltip">
                   <div className="font-sans">
-                    <p className="font-bold uppercase  text-black m-0">{loc.city}</p>
-                    <p className="text-black/70    m-0">{loc.percentage}% of Traffic</p>
+                    <p className="font-bold uppercase text-black m-0">{loc.city}</p>
+                    <p className="text-black/70 m-0">{loc.percentage}% of Traffic</p>
                   </div>
                 </Tooltip>
               </CircleMarker>

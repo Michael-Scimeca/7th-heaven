@@ -30,7 +30,7 @@ function formatMessageContent(content: string) {
       return (
         <span
           key={`tag-${i}-${part}`}
-          className={`font-bold px-0.5 mx-0.5 ${isAdminTag ? 'text-cyan-300  font-bold ' : 'text-purple-300 font-bold'}`}
+          className={`font-bold px-0.5 mx-0.5 ${isAdminTag ? 'text-cyan-300 font-bold ' : 'text-purple-300 font-bold'}`}
         >
           {part}
         </span>
@@ -471,16 +471,16 @@ export default function CruiseChat({
 
   if (isLoading) {
     return (
-      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border  border-white/10  rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
-        <div className="w-6 h-6 border-2  border-white/10  border-t-cyan-400 rounded-lg animate-spin" />
-        <p className="font-bold uppercase    mt-3">Loading chat...</p>
+      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
+        <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400 rounded-lg animate-spin" />
+        <p className="font-bold uppercase mt-3">Loading chat...</p>
       </div>
     );
   }
 
   if (!chatEnabled) {
     return (
-      <div className="bg-white border border-black/10 flex flex-col h-[320px] overflow-hidden relative group    text-black">
+      <div className="bg-white border border-black/10 flex flex-col h-[320px] overflow-hidden relative group text-black">
         <div className="bg-gray-50 px-5 py-4 border-b border-black/10 flex items-center justify-between z-10 relative">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-black/5 flex items-center justify-center text-lg opacity-50">
@@ -494,7 +494,7 @@ export default function CruiseChat({
         </div>
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <span className="text-3xl mb-2 opacity-40">🔒</span>
-          <h4 className="font-bold uppercase    text-black/60 mb-1">Chat is Currently Offline</h4>
+          <h4 className="font-bold uppercase text-black/60 mb-1">Chat is Currently Offline</h4>
           <p className="text-black/40 max-w-[260px]">The lounge chat has been temporarily paused by crew moderators.</p>
         </div>
       </div>
@@ -519,7 +519,7 @@ export default function CruiseChat({
                 Passenger Lounge
               </h3>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse    " />
+                <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse " />
                 <span className="text-[12px] font-bold text-emerald-400 uppercase tracking-wider">
                   {onlineUsers.length > 0 ? `${onlineUsers.length} Online` : 'Cruisers Online'}
                 </span>
@@ -538,7 +538,7 @@ export default function CruiseChat({
           </div>
 
           <div className="space-y-2 max-w-xs">
-            <h3 className="font-bold text-white uppercase tracking-tight">
+            <h3 className="font-bold text-white uppercase ">
               Join the Live Chat
             </h3>
             <p className="leading-relaxed font-medium">
@@ -551,7 +551,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
               }}
-              className="w-full py-3 text-white font-bold uppercase    rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
+              className="w-full py-3 text-white font-bold uppercase rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25"
             >
               Sign Up as a Fan
             </FoolishShrimpButton>
@@ -561,7 +561,7 @@ export default function CruiseChat({
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
               }}
-              className="w-full py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 hover:text-white font-bold uppercase  rounded-lg border  border-white/10  transition-all cursor-pointer"
+              className="w-full py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 hover:text-white font-bold uppercase rounded-lg border border-white/10 transition-all cursor-pointer"
             >
               Sign In to Account
             </button>
@@ -574,8 +574,8 @@ export default function CruiseChat({
             <div className="bg-purple-600/15 border-b border-purple-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
               <span className="text-purple-300 shrink-0">⚠️</span>
               <div className="flex-1">
-                <h4 className="font-bold uppercase    text-purple-300/80 mb-0.5">Warning Alert</h4>
-                <p className="text-amber-100/90 font-medium leading-relaxed">
+                <h4 className="font-bold uppercase text-purple-300/80 mb-0.5">Warning Alert</h4>
+                <p className="text-amber-100/90 font-medium ">
                   You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
                 </p>
               </div>
@@ -586,8 +586,8 @@ export default function CruiseChat({
             <div className="bg-red-500/15 border-b border-red-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
               <span className="text-red-400 shrink-0">🚫</span>
               <div className="flex-1">
-                <h4 className="font-bold uppercase    text-red-400/80 mb-0.5">Banned Alert</h4>
-                <p className="text-red-100/90 font-medium leading-relaxed">
+                <h4 className="font-bold uppercase text-red-400/80 mb-0.5">Banned Alert</h4>
+                <p className="text-red-100/90 font-medium ">
                   You have been permanently banned from sending messages in this chat.
                 </p>
               </div>
@@ -595,7 +595,7 @@ export default function CruiseChat({
           )}
 
           {/* Scrollable Message List Container with Fixed Pure Glass Blur Clipping Mask */}
-          <div className="relative flex-1 min-h-0 flex flex-col border-t border-white/10">
+          <div className="relative flex-1 min-h-0 flex flex-col border-t border-r border-l border-white/10">
             {/* Fixed Top Pure Glass Blur with Transparent Clipping Mask (No Dark Tint) */}
 
 
@@ -608,7 +608,7 @@ export default function CruiseChat({
               {messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-white/20">
                   <span className="text-3xl mb-2 opacity-50">👋</span>
-                  <p className="font-bold uppercase   ">Welcome to the lounge</p>
+                  <p className="font-bold uppercase ">Welcome to the lounge</p>
                   <p className="mt-1 text-center max-w-[200px]">Say hi to your fellow passengers or tag @admin to ask a question!</p>
                 </div>
               ) : (
@@ -625,10 +625,10 @@ export default function CruiseChat({
                     return (
                       <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-lg border ${bgClass} font-medium animate-[slideIn_0.3s_ease-out]`}>
                         <span className="shrink-0">{msg.sender_avatar || '🛡️'}</span>
-                        <div className="flex-1 leading-relaxed">
+                        <div className="flex-1 ">
                           {msg.content}
                         </div>
-                        <span className="text-[var(--font-size-2xs)] opacity-40 shrink-0    ml-2">
+                        <span className="text-[var(--font-size-2xs)] opacity-40 shrink-0 ml-2">
                           {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -641,11 +641,11 @@ export default function CruiseChat({
                   return (
                     <div key={msg.id} className="flex gap-2.5 items-start py-0.5 animate-[slideIn_0.3s_ease-out] group relative">
                       <div className="relative shrink-0">
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold mt-0.5  bg-gradient-to-br from-purple-500/30 to-purple-800/20 border border-white/10">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold mt-0.5 bg-gradient-to-br from-purple-500/30 to-purple-800/20 border border-white/10">
                           {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                         </div>
                         {(msg.sender_role === 'crew' || msg.sender_role === 'admin') && (
-                          <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[7px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none    backdrop-blur-sm">
+                          <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[7px] font-bold uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none backdrop-blur-sm">
                             {msg.sender_role === 'admin' ? 'ADMIN' : 'CREW'}
                           </span>
                         )}
@@ -655,15 +655,15 @@ export default function CruiseChat({
                           <span className={`font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                             {msg.sender_name}
                           </span>
-                          <span className="text-[12px] font-bold uppercase px-2 py-1 rounded-full border  border-white/10  leading-none">
+                          <span className="text-[12px] font-bold uppercase px-2 py-1 rounded-full border border-white/10 leading-none">
                             {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                           </span>
                           {hasAdminTag && (
-                            <span className="text-[12px] font-bold uppercase border  border-white/10  px-2 py-1 rounded-lg flex items-center gap-1 leading-none animate-pulse">
+                            <span className="text-[12px] font-bold uppercase border border-white/10 px-2 py-1 rounded-lg flex items-center gap-1 leading-none animate-pulse">
                               👑 Question for Admin
                             </span>
                           )}
-                          <span className="text-white font-medium leading-none ml-auto tracking-tight">
+                          <span className="text-white font-medium leading-none ml-auto ">
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
@@ -688,7 +688,7 @@ export default function CruiseChat({
                                 : `var(--chat-bubble-override-bg, ${getUserBubbleBg(msg.sender_name, 0.8)})`,
                             fontSize: "var(--chat-bubble-font-size, 12px)",
                           }}
-                          className="w-fit max-w-[85%] leading-relaxed break-words    transition-all text-white font-medium"
+                          className="w-fit max-w-[85%] break-words transition-all text-white font-medium"
                         >
                           {formatMessageContent(msg.content)}
                         </div>
@@ -696,12 +696,12 @@ export default function CruiseChat({
 
                       {
                         isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
-                          <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-[45px] border  border-white/10  rounded-lg p-1 z-20 shadow-lg">
+                          <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-[45px] border border-white/10 rounded-lg p-1 z-20 shadow-lg">
                             <button
                               aria-label="Warn User"
                               onClick={() => handleWarn(msg.sender_name)}
                               title="Warn User"
-                              className="w-6 h-6 rounded flex items-center justify-center text-amber-400 hover:bg-amber-500/20   transition cursor-pointer"
+                              className="w-6 h-6 rounded flex items-center justify-center text-amber-400 hover:bg-amber-500/20 transition cursor-pointer"
                             >
                               <AlertTriangle className="w-3.5 h-3.5" />
                             </button>
@@ -709,7 +709,7 @@ export default function CruiseChat({
                               aria-label="Ban User"
                               onClick={() => handleBan(msg.sender_name)}
                               title="Ban User"
-                              className="w-6 h-6 rounded flex items-center justify-center text-red-400 hover:bg-red-500/20   transition cursor-pointer"
+                              className="w-6 h-6 rounded flex items-center justify-center text-red-400 hover:bg-red-500/20 transition cursor-pointer"
                             >
                               <Ban className="w-3.5 h-3.5" />
                             </button>
@@ -717,7 +717,7 @@ export default function CruiseChat({
                               aria-label="Delete Message"
                               onClick={() => handleDeleteMsg(msg.id)}
                               title="Delete Message"
-                              className="w-6 h-6 rounded flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10   transition cursor-pointer"
+                              className="w-6 h-6 rounded flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition cursor-pointer"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -725,7 +725,7 @@ export default function CruiseChat({
                               aria-label="Remove Fan Completely"
                               onClick={() => handleKick(msg.sender_name)}
                               title="Remove Fan Completely"
-                              className="w-6 h-6 rounded flex items-center justify-center text-rose-400 hover:bg-rose-500/20   transition cursor-pointer"
+                              className="w-6 h-6 rounded flex items-center justify-center text-rose-400 hover:bg-rose-500/20 transition cursor-pointer"
                             >
                               <LogOut className="w-3.5 h-3.5" />
                             </button>
@@ -753,7 +753,7 @@ export default function CruiseChat({
                       key={s.tag}
                       type="button"
                       onClick={() => insertTag(s.tag)}
-                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 border  border-white/10  hover:border-cyan-500/40 text-white transition-colors text-left cursor-pointer"
+                      className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 border border-white/10 hover:border-cyan-500/40 text-white transition-colors text-left cursor-pointer"
                     >
                       <span>{s.icon}</span>
                       <div className="truncate">
@@ -768,7 +768,7 @@ export default function CruiseChat({
 
             {showEmojiPicker && (
               <div className="absolute bottom-full mb-2 right-0 bg-white border border-black/15 p-2.5 z-30 animate-[slideUp_0.15s_ease-out] w-64">
-                <div className="text-[10px] font-bold uppercase  text-black/40 mb-1.5 px-1 flex items-center justify-between">
+                <div className="text-[10px] font-bold uppercase text-black/40 mb-1.5 px-1 flex items-center justify-between">
                   <span>Quick Emojis</span>
                   <button aria-label="Action button" type="button" onClick={() => setShowEmojiPicker(false)} className="text-black/30 hover:text-black font-bold">✕</button>
                 </div>
@@ -792,7 +792,7 @@ export default function CruiseChat({
 
           {
             isArchived ? (
-              <div className="w-full bg-[var(--color-bg-card)] border  border-white/10  px-4 py-3 text-white/40 text-center flex items-center justify-center gap-2">
+              <div className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white/40 text-center flex items-center justify-center gap-2">
                 <span>🔒</span> This cruise chat has been archived.
               </div>
             ) : (

@@ -2,7 +2,7 @@
 import Image from 'next/image';
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTransition } from "@/context/TransitionContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { SquishyToggle } from "@/components/SquishyToggle";
@@ -12,7 +12,7 @@ function nameToUsername(name: string) {
 }
 
 export default function CompleteProfilePage() {
-  const router = useRouter();
+  const { requestTransition } = useTransition();
   const supabase = createClient();
 
   const [loading, setLoading] = useState(true);
@@ -61,7 +61,7 @@ export default function CompleteProfilePage() {
     });
 
     return () => { isMounted = false; };
-  }, [router, supabase]);
+  }, [supabase]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,7 +107,7 @@ export default function CompleteProfilePage() {
       }
 
       // Redirect to their new dashboard
-      router.push(`/fans/${trimmedUsername}`);
+      requestTransition(`/fans/${trimmedUsername}`);
     } finally {
       setSaving(false);
     }
@@ -118,7 +118,7 @@ export default function CompleteProfilePage() {
       <div className="min-h-screen text-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
-          <p className="font-bold uppercase   ">Loading your profile...</p>
+          <p className="font-bold uppercase ">Loading your profile...</p>
         </div>
       </div>
     );
@@ -128,7 +128,7 @@ export default function CompleteProfilePage() {
     <div className="min-h-screen text-white flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg">
         {/* Card */}
-        <div className="bg-[var(--color-bg-surface)] border  border-white/10  overflow-hidden animate-[fadeIn_0.3s_ease]">
+        <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
           {/* Accent bar */}
           <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
 
@@ -138,11 +138,11 @@ export default function CompleteProfilePage() {
               <div className="w-16 h-16 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center mx-auto mb-4 text-2xl">
                 🎸
               </div>
-              <h1 className="text-xl font-bold  mb-2">
+              <h1 className="text-xl font-bold mb-2">
                 Welcome to the Family
                 {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}!
               </h1>
-              <p className="uppercase   ">
+              <p className="uppercase ">
                 Let&apos;s finish setting up your profile
               </p>
             </div>
@@ -173,7 +173,7 @@ export default function CompleteProfilePage() {
                     onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                     placeholder="your_username"
                     maxLength={24}
-                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                     required
                   />
                 </div>
@@ -190,8 +190,8 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40'
-                    : 'bg-white/[0.02]  border-white/10  hover:  border-white/10  '
-                    }`}
+ : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+ }`}
                 >
                   <SquishyToggle
                     id="complete-profile-notifications"
@@ -199,7 +199,7 @@ export default function CompleteProfilePage() {
                     checked={wantNotifications}
                     onChange={(val) => setWantNotifications(val)}
                   />
-                  <span className="text-white/90 font-bold leading-tight text-left">
+                  <span className="text-white/90 font-bold text-left">
                     📍 Email me when 7th Heaven books a show near me
                   </span>
                 </div>
@@ -215,7 +215,7 @@ export default function CompleteProfilePage() {
                         value={zipCode}
                         onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
                         placeholder="e.g. 60601"
-                        className="w-full px-3 py-2 bg-white/[0.03] border  border-white/10  text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                        className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                       />
                     </div>
                   </div>
@@ -225,8 +225,8 @@ export default function CompleteProfilePage() {
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40'
-                    : 'bg-white/[0.02]  border-white/10  hover:  border-white/10  '
-                    }`}
+ : 'bg-white/[0.02] border-white/10 hover: border-white/10 '
+ }`}
                 >
                   <SquishyToggle
                     id="complete-profile-newsletter"
@@ -234,14 +234,14 @@ export default function CompleteProfilePage() {
                     checked={wantNewsletter}
                     onChange={(val) => setWantNewsletter(val)}
                   />
-                  <span className="text-white/90 font-bold leading-tight text-left">
+                  <span className="text-white/90 font-bold text-left">
                     📧 Send me news, show updates &amp; exclusive drops
                   </span>
                 </div>
               </div>
 
               {/* Info callout */}
-              <div className="bg-white/[0.02] border  border-white/10  rounded-lg px-4 py-3">
+              <div className="bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3">
                 <p className="leading-relaxed">
                   💡 <strong className="text-white/50">Tip:</strong> You can always change these preferences later from your Fan Dashboard settings. You can also follow specific shows to get notified about just the ones you care about.
                 </p>
@@ -259,7 +259,7 @@ export default function CompleteProfilePage() {
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
 
-              <p className="text-center leading-relaxed">
+              <p className="text-center ">
                 By continuing you confirm you are 13+ and agree to our{" "}
                 <Link href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</Link> &amp;{" "}
                 <Link href="/terms" className="underline hover:text-white/40 transition-colors">Terms</Link>.

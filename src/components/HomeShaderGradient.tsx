@@ -129,18 +129,46 @@ function HomeShaderGradientComponent() {
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    if ((canvasRef.current as any).__neatInitialized) return;
-    (canvasRef.current as any).__neatInitialized = true;
+
+    // NOTE: a `canvasRef.current.__neatInitialized` DOM-attached guard used
+    // to live here, added to stop React Strict Mode's dev-only double-invoke
+    // from creating two gradient instances. It backfired: Strict Mode's
+    // mount -> cleanup -> remount cycle reuses the SAME canvas DOM node (no
+    // real unmount happens in between), so the first invocation set the flag
+    // synchronously, then the second (real) invocation saw it already set
+    // and bailed out before ever calling initNeat() -- while the first
+    // invocation's own async import later resolved to find `cancelled`
+    // already true (see below) and bailed too. Net effect: neither
+    // invocation ever constructed a NeatGradient, so the canvas stayed at
+    // its default 300x150 size with nothing drawn -- the "gradient is
+    // missing" bug seen site-wide. The `cancelled` flag below already fully
+    // covers the orphaned-WebGL-context problem this guard was meant to
+    // solve (each effect invocation gets its own `cancelled`/`neatInstance`
+    // closure, so only the surviving invocation ends up constructing and
+    // owning an instance) -- no DOM-attached guard needed on top of it.
 
     // Initialize WebGL background canvas across all screen sizes
     let neatInstance: any = null;
     let watermarkTimeout: NodeJS.Timeout | null = null;
+    // Guards the async import gap below: if this effect's cleanup already ran
+    // (real unmount, or React Strict Mode's dev-only mount->cleanup->remount
+    // cycle -- reactStrictMode is on in next.config.ts) before
+    // `import("@firecms/neat")` resolves, `cancelled` is true by the time we
+    // get here. Without this check the gradient instance below gets created
+    // anyway with nothing left to ever destroy it: an orphaned WebGL
+    // context. Chrome caps how many WebGL contexts a tab can hold at once,
+    // and Strict Mode alone causes one extra mount/cleanup cycle per full
+    // page load, so this leaked one context on every reload -- exactly what
+    // the "Too many active WebGL contexts. Oldest context will be lost."
+    // console warning was tracking, and a very plausible source of the
+    // navigation slowdowns reported after a session of repeated reloads.
+    let cancelled = false;
 
     const initNeat = async () => {
       if (!canvasRef.current) return;
       try {
         const { NeatGradient } = await import("@firecms/neat");
-        if (neatInstance) return;
+        if (cancelled || neatInstance || !canvasRef.current) return;
         neatInstance = new NeatGradient({
           ref: canvasRef.current,
           ...GRADIENT_SETTINGS,
@@ -282,6 +310,7 @@ function HomeShaderGradientComponent() {
       generateGrainTile();
 
       const cleanupWebGL = () => {
+        cancelled = true;
         if (watermarkTimeout) {
           clearTimeout(watermarkTimeout);
         }
@@ -311,6 +340,7 @@ function HomeShaderGradientComponent() {
     }
 
     const cleanupWebGL = () => {
+      cancelled = true;
       if (watermarkTimeout) {
         clearTimeout(watermarkTimeout);
       }

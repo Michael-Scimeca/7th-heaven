@@ -198,14 +198,14 @@ export default function HeroIntroPage() {
             40 years of rocking the world.
           </span>
           <h1
-            className="max-w-2xl text-3xl md:text-6xl font-bold uppercase tracking-tight text-white leading-[0.95]"
+            className="max-w-2xl text-3xl md:text-6xl font-bold uppercase text-white leading-[0.95]"
             style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
           >
             An experience you just have to see and hear.
           </h1>
         </div>
 
-        <div className="absolute bottom-14 right-6 md:right-10 hidden md:flex items-center gap-2 font-bold uppercase    text-white/50">
+        <div className="absolute bottom-14 right-6 md:right-10 hidden md:flex items-center gap-2 font-bold uppercase text-white/50">
           Scroll to explore
         </div>
       </div>

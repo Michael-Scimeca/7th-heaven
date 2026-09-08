@@ -56,7 +56,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             name={name}
             required={required}
             aria-label={props["aria-label"] || (label ? label : "Input field")}
-            className={`w-full bg-[#00000029] border-0 px-4 py-3.5  text-white font-normal  font-semibold  placeholder:text-white/45 focus:outline-none transition-colors rounded-lg  ${inputClassName}`}
+            className={`w-full bg-[#00000029] border-0 px-4 py-3.5 text-white font-normal font-semibold placeholder:text-white/45 focus:outline-none transition-colors rounded-lg ${inputClassName}`}
             {...props}
           />
         </div>

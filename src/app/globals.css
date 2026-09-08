@@ -1080,7 +1080,7 @@ select::placeholder,
   /* body copy — 4px grid snap */
   --leading-relaxed: 1.75;
   /* editorial / long-form */
-  --: 1.25;
+  --leading-tight: 1.25;
   /* compact UI labels */
 
   /* ═══════════════════════════════════════════════════════════════════════
@@ -1793,7 +1793,7 @@ select::placeholder,
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--tracking-label, 0.08em);
-  line-height: var(--, 1.25);
+  line-height: var(--leading-tight, 1.25);
 }
 
 /* ── Caption / Metadata ── */
@@ -2018,10 +2018,15 @@ html.tour-sort-stuck #tour-sort-bar {
   transition: border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease !important;
 }
 
+.quill {
+  border-radius: 0.75rem !important;
+}
+
 
 /* ReactQuill WYSIWYG editor min height */
 .ql-editor {
   min-height: 200px;
+  background-color: transparent !important;
 }
 
 /* =============================================
@@ -2029,19 +2034,18 @@ html.tour-sort-stuck #tour-sort-bar {
    ============================================= */
 .ql-toolbar.ql-snow {
   background-color: #a855f71f !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  border-top-left-radius: 0.75rem !important;
-  border-top-right-radius: 0.75rem !important;
+  border: 1px solid #ffffff29 !important;
 }
 
 .ql-container.ql-snow {
-  background-color: #a855f71f !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  border-bottom-left-radius: 0.75rem !important;
-  border-bottom-right-radius: 0.75rem !important;
+  border: 1px solid #ffffff29 !important;
 }
 
 .ql-snow .ql-stroke {
+  stroke: rgba(255, 255, 255, 0.6) !important;
+}
+
+.ql-snow .ql-stroke path {
   stroke: rgba(255, 255, 255, 0.6) !important;
 }
 
@@ -2049,11 +2053,24 @@ html.tour-sort-stuck #tour-sort-bar {
   fill: rgba(255, 255, 255, 0.6) !important;
 }
 
+.quill {
+  border: none !important;
+}
+
+.guidelines-wysiwyg-editor .ql-stroke {
+  stroke: #060606 !important;
+}
+
+.guidelines-wysiwyg-editor .ql-fill {
+  fill: #126ff2 !important;
+}
+
+
 .ql-snow .ql-picker {}
 
 .ql-snow .ql-picker-options {
   background-color: #0b0b12 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid #ffffff29 !important;
 }
 
 .ql-snow .ql-picker-item {
@@ -2065,35 +2082,39 @@ html.tour-sort-stuck #tour-sort-bar {
   color: var(--color-accent) !important;
 }
 
-.ql-editor {}
+.ql-editor {
+  background-color: transparent;
+  background-color: #a855f71f !important;
+
+}
 
 .ql-editor.ql-blank::before {
   font-style: normal !important;
 }
 
+.ql-editor:before {
+  color: #fff !important;
+  font-size: 1em !important;
+}
+
 /* ==========================================================
    Guidelines WYSIWYG Editor: Light Theme (Matches Live Card)
    ========================================================== */
-.guidelines-wysiwyg-editor .ql-toolbar.ql-snow {
-  background-color: #f8fafc !important;
-  border-color: rgba(0, 0, 0, 0.15) !important;
-  border-top-left-radius: 0.75rem !important;
-  border-top-right-radius: 0.75rem !important;
-}
+.guidelines-wysiwyg-editor .ql-toolbar.ql-snow {}
 
 .guidelines-wysiwyg-editor .ql-container.ql-snow {
-  background-color: #ffffff !important;
-  border-color: rgba(0, 0, 0, 0.15) !important;
-  border-bottom-left-radius: 0.75rem !important;
-  border-bottom-right-radius: 0.75rem !important;
+  border: 1px solid #ffffff29 !important;
+  border-color: rgba(255, 255, 255, 0.148) !important;
+
 }
 
 .guidelines-wysiwyg-editor .ql-stroke {
-  stroke: #334155 !important;
+  stroke: #ffffff !important;
+  fill: none !important;
 }
 
 .guidelines-wysiwyg-editor .ql-fill {
-  fill: #334155 !important;
+  fill: #ffffff84 !important;
 }
 
 .guidelines-wysiwyg-editor .ql-picker,
@@ -2101,7 +2122,7 @@ html.tour-sort-stuck #tour-sort-bar {
 .guidelines-wysiwyg-editor .ql-picker-label::before,
 .guidelines-wysiwyg-editor .ql-picker-item,
 .guidelines-wysiwyg-editor .ql-picker-item::before {
-  color: #000000 !important;
+  color: #ffffff !important;
 }
 
 .guidelines-wysiwyg-editor .ql-picker-options {
@@ -2110,8 +2131,7 @@ html.tour-sort-stuck #tour-sort-bar {
 }
 
 .guidelines-wysiwyg-editor .ql-editor {
-  background-color: #ffffff !important;
-  color: rgba(0, 0, 0, 0.85) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .guidelines-wysiwyg-editor .ql-editor,
@@ -2132,6 +2152,18 @@ html.tour-sort-stuck #tour-sort-bar {
   text-decoration: underline !important;
   text-underline-offset: 4px !important;
   font-weight: 700 !important;
+}
+
+.guidelines-wysiwyg-editor .ql-editor,
+.guidelines-wysiwyg-editor .ql-editor *,
+.guidelines-wysiwyg-editor .ql-editor p,
+.guidelines-wysiwyg-editor .ql-editor h1,
+.guidelines-wysiwyg-editor .ql-editor h2,
+.guidelines-wysiwyg-editor .ql-editor h3,
+.guidelines-wysiwyg-editor .ql-editor span,
+.guidelines-wysiwyg-editor .ql-editor strong,
+.guidelines-wysiwyg-editor .ql-editor em {
+  color: white;
 }
 
 .guidelines-wysiwyg-editor .ql-editor.ql-blank::before {}
@@ -3222,284 +3254,288 @@ textarea,
   width: 100%;
 }
 
-@keyframes flowCurrent {
-  0% {
-    stroke-dashoffset: 0;
-  }
 
-  100% {
-    stroke-dashoffset: -120;
-  }
-}
-
-@keyframes flowHighlight {
-  0% {
-    stroke-dashoffset: 0;
-  }
-
-  100% {
-    stroke-dashoffset: -192;
-  }
-}
-
-.snake-itinerary-waterCurrent {
-  animation: flowCurrent 3s linear infinite;
-}
-
-.snake-itinerary-waterHighlight {
-  animation: flowHighlight 2s linear infinite;
-}
-
-.snake-itinerary-header {
-  text-align: center;
-  margin-bottom: 56px;
-  position: relative;
-  z-index: 1;
-}
-
-.snake-itinerary-eyebrow {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #38bdf8;
-  margin-bottom: 16px;
-}
-
-.snake-itinerary-eyebrow span {
-  opacity: 0.5;
-  margin: 0 8px;
-}
-
-.snake-itinerary-title {
-  font-size: clamp(2.2rem, 5vw, 3.6rem);
-  font-weight: 900;
-  color: #ffffff;
-  text-transform: uppercase;
-  margin: 0;
-  line-height: 1;
-}
-
-.snake-itinerary-canvas {
-  position: relative;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 100%;
-}
-
-.snake-itinerary-glowCyan {
-  display: none;
-}
-
-.snake-itinerary-glowPurple {
-  display: none;
-}
-
-.snake-itinerary-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  overflow: visible;
-}
-
-.snake-itinerary-svg path {
-  fill: none !important;
-}
-
-.snake-itinerary-row {
-  position: absolute;
-  left: 0;
-  right: 0;
-  transform: translateY(-28px);
-  display: grid;
-  grid-template-columns: 1fr 90px 1fr;
-  align-items: center;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.snake-itinerary-slotLeft {
-  display: flex;
-  justify-content: flex-end;
-  padding-left: 0;
-  padding-right: 0;
-  pointer-events: all;
-}
-
-.snake-itinerary-slotRight {
-  display: flex;
-  justify-content: flex-start;
-  padding-left: 0;
-  padding-right: 0;
-  pointer-events: all;
-}
-
-.snake-itinerary-nodeCenter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.snake-itinerary-nodeIcon {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  z-index: 10;
-  pointer-events: none;
-  font-size: 22px;
-  line-height: 1;
-  user-select: none;
-}
-
-.snake-itinerary-card {
-  background: rgba(10, 25, 55, 0.85);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  border-radius: 28px;
-  padding: 0px;
-  width: min(600px, 44vw);
-  max-width: 600px;
-  overflow: hidden;
-  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
-  opacity: 1;
-  pointer-events: all;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-@media (max-width: 767.98px) {
-  .snake-itinerary-card {
-    width: calc(100vw - 64px) !important;
-    max-width: calc(100vw - 64px) !important;
-  }
-}
-
-.snake-itinerary-card:hover {
-  border-color: rgba(56, 189, 248, 0.5);
-  box-shadow: 0 25px 60px rgba(6, 182, 212, 0.2);
-}
-
-.snake-itinerary-cardLeft {
-  text-align: left;
-}
-
-.snake-itinerary-cardRight {
-  text-align: right;
-  background: rgba(10, 25, 55, 0.85);
-}
-
-.snake-itinerary-cardRight .snake-itinerary-eventItem {
-  flex-direction: row-reverse;
-  text-align: right;
-}
-
-.snake-itinerary-cardVisible {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
-
-.snake-itinerary-cardLeft:not(.snake-itinerary-cardVisible) {
-  transform: translateY(20px);
-}
-
-.snake-itinerary-cardRight:not(.snake-itinerary-cardVisible) {
-  transform: translateY(20px);
-}
-
-.snake-itinerary-cardHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.snake-itinerary-dayBadge {
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 5px 14px;
-  border-radius: 100px;
-  border: 1px solid;
-  white-space: nowrap;
-}
-
-.snake-itinerary-location {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.snake-itinerary-cardTitle {
-  font-size: clamp(1.3rem, 2.4vw, 1.8rem);
-  font-weight: 900;
-  color: #ffffff;
-  text-transform: uppercase;
-  margin: 0 0 16px;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-}
-
-.snake-itinerary-eventsList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.snake-itinerary-eventItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-}
-
-.snake-itinerary-eventTime {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: rgba(56, 189, 248, 0.15);
-
-  color: #fff;
-  white-space: nowrap;
-  margin-top: 1px;
-  flex-shrink: 0;
-}
-
-.snake-itinerary-eventTitle {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.01em;
-  line-height: 1.3;
-}
-
-.snake-itinerary-eventSubtitle {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.65);
-  margin-top: 2px;
-  line-height: 1.4;
-}
 
 @media (max-width: 767.98px) {
   .snake-itinerary-root {
-    padding: 32px 0 60px 0;
+    padding: 32px 0 0px 0;
   }
+
+  @keyframes flowCurrent {
+    0% {
+      stroke-dashoffset: 0;
+    }
+
+    100% {
+      stroke-dashoffset: -120;
+    }
+  }
+
+  @keyframes flowHighlight {
+    0% {
+      stroke-dashoffset: 0;
+    }
+
+    100% {
+      stroke-dashoffset: -192;
+    }
+  }
+
+  .snake-itinerary-waterCurrent {
+    animation: flowCurrent 3s linear infinite;
+  }
+
+  .snake-itinerary-waterHighlight {
+    animation: flowHighlight 2s linear infinite;
+  }
+
+  .snake-itinerary-header {
+    text-align: center;
+    margin-bottom: 56px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .snake-itinerary-eyebrow {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #38bdf8;
+    margin-bottom: 16px;
+  }
+
+  .snake-itinerary-eyebrow span {
+    opacity: 0.5;
+    margin: 0 8px;
+  }
+
+  .snake-itinerary-title {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
+  }
+
+  .snake-itinerary-canvas {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .snake-itinerary-glowCyan {
+    display: none;
+  }
+
+  .snake-itinerary-glowPurple {
+    display: none;
+  }
+
+  .snake-itinerary-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: visible;
+  }
+
+  .snake-itinerary-svg path {
+    fill: none !important;
+  }
+
+  .snake-itinerary-row {
+    position: absolute;
+    left: 0;
+    right: 0;
+    transform: translateY(-28px);
+    display: grid;
+    grid-template-columns: 1fr 90px 1fr;
+    align-items: center;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .snake-itinerary-slotLeft {
+    display: flex;
+    justify-content: flex-end;
+    padding-left: 0;
+    padding-right: 0;
+    pointer-events: all;
+  }
+
+  .snake-itinerary-slotRight {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 0;
+    padding-right: 0;
+    pointer-events: all;
+  }
+
+  .snake-itinerary-nodeCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .snake-itinerary-nodeIcon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    z-index: 10;
+    pointer-events: none;
+    font-size: 22px;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .snake-itinerary-card {
+    background: rgba(10, 25, 55, 0.85);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 28px;
+    padding: 0px;
+    width: min(600px, 44vw);
+    max-width: 600px;
+    overflow: hidden;
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+    opacity: 1;
+    pointer-events: all;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  @media (max-width: 767.98px) {
+    .snake-itinerary-card {
+      width: calc(100vw - 64px) !important;
+      max-width: calc(100vw - 64px) !important;
+    }
+  }
+
+  .snake-itinerary-card:hover {
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow: 0 25px 60px rgba(6, 182, 212, 0.2);
+  }
+
+  .snake-itinerary-cardLeft {
+    text-align: left;
+  }
+
+  .snake-itinerary-cardRight {
+    text-align: right;
+    background: rgba(10, 25, 55, 0.85);
+  }
+
+  .snake-itinerary-cardRight .snake-itinerary-eventItem {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  .snake-itinerary-cardVisible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .snake-itinerary-cardLeft:not(.snake-itinerary-cardVisible) {
+    transform: translateY(20px);
+  }
+
+  .snake-itinerary-cardRight:not(.snake-itinerary-cardVisible) {
+    transform: translateY(20px);
+  }
+
+  .snake-itinerary-cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .snake-itinerary-dayBadge {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+
+  .snake-itinerary-location {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .snake-itinerary-cardTitle {
+    font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+    line-height: 1.1;
+    letter-spacing: 0.03em;
+  }
+
+  .snake-itinerary-eventsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .snake-itinerary-eventItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .snake-itinerary-eventTime {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(56, 189, 248, 0.15);
+
+    color: #fff;
+    white-space: nowrap;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .snake-itinerary-eventTitle {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+  }
+
+  .snake-itinerary-eventSubtitle {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+
 
   .snake-itinerary-header {
     margin-bottom: 32px;
@@ -6188,10 +6224,7 @@ body:has(textarea:focus) .cursor-tail-circle {
   background: #1a065569;
 }
 
-.ql-editor:before {
-  color: #fff !important;
-  font-size: 17px !important;
-}
+
 
 /* ── Page Curtain Transition Animation ── */
 .hvn-page-curtain__mark {
@@ -6224,3 +6257,7 @@ body:has(textarea:focus) .cursor-tail-circle {
     opacity: 1;
   }
 }
+
+/* [style]:not([style*="font-size: 16px;"]) {
+  color: red;
+} */

@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
 import Link from "next/link";
+import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 interface FAQItem {
   id: string;
@@ -124,8 +125,8 @@ const SearchIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
 );
 
-const ChevronDownIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+const ChevronRightIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
 );
 
 const SparklesIcon = () => (
@@ -160,12 +161,12 @@ export default function FAQPage() {
   }, [activeTab, searchQuery]);
 
   return (
-    <section className="site-container min-h-screen pt-[100px] relative overflow-hidden text-[var(--text-color)]">
+    <section className="site-container min-h-screen pt-[100px] relative overflow-hidden ">
 
       {/* Page Header */}
       <div className="text-center mb-12">
 
-        <h1 className="text-4xl sm:text-5xl font-bold  tracking-tight uppercase mb-4">
+        <h1 className="text-4xl sm:text-5xl font-bold uppercase mb-4">
           Frequently Asked Questions
         </h1>
         <p className="max-w-xl mx-auto font-medium">
@@ -192,8 +193,8 @@ export default function FAQPage() {
             <button aria-label="Action button"
               key={cat.id}
               onClick={() => setActiveTab(cat.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold transition duration-200 border ${isActive ? "bg-purple-600 border-purple-600 text-white   "
-                : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20    "
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold transition duration-200 border ${isActive ? "bg-purple-600 border-purple-600 text-white "
+                : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 "
                 }`}
             >
               <span className={isActive ? "text-white" : cat.color}>
@@ -222,12 +223,12 @@ export default function FAQPage() {
                   onClick={() => toggleExpand(faq.id)}
                   className="w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
                 >
-                  <span className="font-bold sm:text-base text-white transition duration-200">
+                  <span className="font-bold text-white transition duration-200">
                     {faq.question}
                   </span>
-                  <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-180 text-purple-400" : ""
+                  <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-90 text-purple-400" : ""
                     }`}>
-                    <ChevronDownIcon />
+                    <ChevronRightIcon />
                   </div>
                 </button>
 
@@ -237,7 +238,7 @@ export default function FAQPage() {
                     }`}
                 >
                   <div className="overflow-hidden">
-                    <div className="pb-6 md:text-base text-white/80 leading-relaxed bg-transparent">
+                    <div className="pb-6 md:text-base text-white/80 bg-transparent">
                       {faq.answer}
                     </div>
                   </div>
@@ -246,7 +247,7 @@ export default function FAQPage() {
             );
           })
         ) : (
-          <div className="text-center py-16 bg-[#00000029] backdrop-blur-xl border  border-white/10  rounded-lg p-8">
+          <div className="text-center py-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-8">
             <span className="text-white/20 inline-block mb-4 scale-150">
               <HelpIcon />
             </span>
@@ -259,18 +260,17 @@ export default function FAQPage() {
       </div>
 
       {/* Live Support Banner */}
-      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border  border-white/10  rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left   ">
+      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left ">
         <div>
           <h4 className="text-white font-bold mb-1">Still need help?</h4>
           <p className="font-medium">
             Can't find the answer you are looking for? Reach out to our direct support.
           </p>
         </div>
-        <Link
-          href="/contact"
-          className="px-6 py-3 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold transition duration-200 whitespace-nowrap   "
-        >
-          Contact Us
+        <Link href="/contact">
+          <FoolishShrimpButton className="px-6 py-3 font-bold uppercase whitespace-nowrap">
+            Contact Us
+          </FoolishShrimpButton>
         </Link>
       </div>
     </section>

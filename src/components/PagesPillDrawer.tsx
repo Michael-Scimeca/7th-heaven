@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
 import {
   Menu,
   X,
@@ -133,12 +133,12 @@ export default function PagesPillDrawer() {
       {/* ── PURPLE FLOATING PILL BUTTON (Matching Screenshot) ── */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 left-6 md:right-6 md:left-auto z-[9999] flex items-center gap-3 px-8 py-4.5 rounded-lg bg-[#8b3dff] hover:bg-[#7b2cff]   active:scale-95 text-white font-black text-base md:text-lg uppercase    transition-all duration-200 shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] border-2 border-white/30 group cursor-pointer"
+        className="fixed bottom-6 left-6 md:right-6 md:left-auto z-[9999] flex items-center gap-3 px-8 py-4.5 rounded-lg bg-[#8b3dff] hover:bg-[#7b2cff] active:scale-95 text-white font-black text-base md:text-lg uppercase transition-all duration-200 shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] border-2 border-white/30 group cursor-pointer"
         aria-label="Open Pages Directory"
       >
         <Menu className="w-6 h-6 md:w-7 md:h-7 text-white transition-transform group-hover:scale-110" />
         <span>PAGES</span>
-        <span className="ml-1 px-2.5 py-1 rounded-lg bg-white/25    font-bold">
+        <span className="ml-1 px-2.5 py-1 rounded-lg bg-white/25 font-bold">
           {ALL_SITE_ROUTES.length}
         </span>
       </button>
@@ -157,15 +157,15 @@ export default function PagesPillDrawer() {
           <div className="relative w-full max-w-5xl max-h-[85vh] rounded-lg bg-[rgba(18,18,26,0.95)] border border-purple-500/30 p-6 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9)] flex flex-col z-10 overflow-hidden">
 
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-6 border-b  border-white/10  shrink-0">
+            <div className="flex items-center justify-between pb-6 border-b border-white/10 shrink-0">
               <div className="flex items-center gap-3">
                 <div className="p-3 rounded-lg bg-[#8b3dff]/20 border border-[#8b3dff]/40 text-[#a855f7]">
                   <Menu className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="font-bold uppercase tracking-tight text-white flex items-center gap-2">
+                  <h2 className="font-bold uppercase text-white flex items-center gap-2">
                     Pages Directory
-                    <span className="   font-bold px-2.5 py-0.5 rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/30">
+                    <span className=" font-bold px-2.5 py-0.5 rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/30">
                       {ALL_SITE_ROUTES.length} Total Routes
                     </span>
                   </h2>
@@ -177,7 +177,7 @@ export default function PagesPillDrawer() {
 
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 hover:text-white border  border-white/10  transition-colors"
+                className="p-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors"
                 aria-label="Close Pages Modal"
               >
                 <X className="w-6 h-6" />
@@ -195,8 +195,8 @@ export default function PagesPillDrawer() {
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
                       className={`px-3 py-1.5 rounded-lg font-bold transition-all ${activeCategory === cat ? "bg-[#8b3dff] text-white shadow-lg shadow-purple-950/60"
-                        : " bg-[#00000029]    hover:bg-white/10  text-white  hover:text-white"
-                        }`}
+ : " bg-[#00000029] hover:bg-white/10 text-white hover:text-white"
+ }`}
                     >
                       {cat}
                     </button>
@@ -211,7 +211,7 @@ export default function PagesPillDrawer() {
                     placeholder="Search routes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-black/50 border  border-white/10  rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff]   "
+                    className="w-full bg-black/50 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-[#8b3dff] "
                   />
                 </div>
               </div>
@@ -226,25 +226,25 @@ export default function PagesPillDrawer() {
                 return (
                   <div
                     key={item.path}
-                    className="group p-4 rounded-lg bg-white/[0.03] hover:bg-purple-900/10 border  border-white/10  hover:border-purple-500/40 transition-all flex flex-col justify-between"
+                    className="group p-4 rounded-lg bg-white/[0.03] hover:bg-purple-900/10 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                         <div className="flex items-center gap-2">
                           <IconComp className="w-4 h-4 text-purple-400" />
-                          <span className="text-[10px] font-bold uppercase  text-purple-300">
+                          <span className="text-[10px] font-bold uppercase text-purple-300">
                             {item.category}
                           </span>
                         </div>
                         <span
-                          className={`text-[12px]    font-bold px-1.5 py-0.5 rounded ${item.type === "Static"
-                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                            : item.type === "SSG"
-                              ? "bg-purple-500/10 text-purple-300 border border-white/20"
-                              : item.type === "Dynamic"
-                                ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
-                                : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
-                            }`}
+                          className={`text-[12px] font-bold px-1.5 py-0.5 rounded ${item.type === "Static"
+ ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+ : item.type === "SSG"
+ ? "bg-purple-500/10 text-purple-300 border border-white/20"
+ : item.type === "Dynamic"
+ ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
+ : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+ }`}
                         >
                           {item.type}
                         </span>
@@ -253,7 +253,7 @@ export default function PagesPillDrawer() {
                       <h3 className="font-bold text-white group-hover:text-purple-200 transition-colors">
                         {item.label}
                       </h3>
-                      <p className="   mt-1 truncate">
+                      <p className=" mt-1 truncate">
                         {item.path}
                       </p>
                     </div>
@@ -269,13 +269,13 @@ export default function PagesPillDrawer() {
                           Test Endpoint <ExternalLink className="w-3 h-3" />
                         </a>
                       ) : (
-                        <Link
+                        <TransitionLink
                           href={item.path}
                           onClick={() => setIsOpen(false)}
                           className="inline-flex items-center gap-1.5 text-[11px] font-bold text-purple-400 hover:text-purple-300 transition-colors"
                         >
                           Open Page <ExternalLink className="w-3 h-3" />
-                        </Link>
+                        </TransitionLink>
                       )}
                     </div>
                   </div>
@@ -284,7 +284,7 @@ export default function PagesPillDrawer() {
             </div>
 
             {filtered.length === 0 && (
-              <div className="py-12 text-center text-white/40   ">
+              <div className="py-12 text-center text-white/40 ">
                 No matching pages found for "{search}".
               </div>
             )}

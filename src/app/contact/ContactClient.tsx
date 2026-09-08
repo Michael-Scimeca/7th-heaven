@@ -95,15 +95,15 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
   const [activePhotoId, setActivePhotoId] = useState<string>(DEFAULT_PHOTO_ID);
 
   return (
-    <section id="contact-page" className="site-container relative flex flex-col text-[var(--text-color)] pt-[100px] min-h-[calc(100vh-100px)] pb-0 overflow-hidden">
+    <section id="contact-page" className="site-container relative flex flex-col pt-[100px] min-h-[calc(100vh-100px)] pb-0 overflow-hidden">
 
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] relative z-10">
 
-        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
           CONTACT
         </h1>
-        <p className="font-medium mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl leading-relaxed">
+        <p className="font-medium mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl ">
           Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.
         </p>
       </div>
@@ -136,7 +136,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
 
                   {/* Name & Title / Note */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <h3 className="font-bold text-white tracking-tight leading-snug">
+                    <h3 className="font-bold text-white leading-snug">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
                   </div>
@@ -159,7 +159,7 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/-/g, "")}`}
-                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !text-white font-bold text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 tracking-tight group/link w-fit whitespace-nowrap"
+                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !text-white font-bold hover:text-[var(--color-accent)] transition-colors duration-150 group/link w-fit whitespace-nowrap"
                       >
                         <span className="whitespace-nowrap">{contact.phone}</span>
                       </a>
@@ -185,8 +185,8 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
               <div
                 key={photo.id}
                 className={`absolute inset-0 transition-[opacity,transform,filter] duration-500 ease-out flex items-end justify-end ${isActive ? "opacity-100 scale-100 filter-none"
-                  : "opacity-0 scale-95 filter blur-sm"
-                  }`}
+ : "opacity-0 scale-95 filter blur-sm"
+ }`}
               >
                 <picture className="w-full h-full flex items-end justify-end pointer-events-none">
                   <source media="(max-width: 768px)" srcSet={photo.mobile} />

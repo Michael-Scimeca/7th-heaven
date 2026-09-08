@@ -126,6 +126,9 @@ export const SparkleGenerateButton = React.forwardRef<
         timerId = setTimeout(() => {
           button.classList.remove("sgb-is-clicked");
         }, 500);
+        if (button && typeof button.blur === "function") {
+          button.blur();
+        }
       };
 
       button.addEventListener("pointerenter", onEnter);
@@ -273,6 +276,20 @@ export const SparkleGenerateButton = React.forwardRef<
         </button>
 
         <style jsx global>{`
+          .sgb-generate-button,
+          .sgb-generate-button *,
+          .sgb-generate-button:focus,
+          .sgb-generate-button:focus-visible,
+          .sgb-generate-button span:focus,
+          .sgb-generate-button span:focus-visible,
+          .sgb-generate-button::-moz-focus-inner {
+            outline: none !important;
+            outline-style: none !important;
+            box-shadow: none;
+            -webkit-user-select: none;
+            user-select: none;
+          }
+
           .sgb-generate-button {
             --sgb-shadow-wide: rgba(102, 3, 231, 0.94);
             --sgb-shadow-inset: rgba(232, 11, 11, 1);
@@ -281,7 +298,7 @@ export const SparkleGenerateButton = React.forwardRef<
             --sgb-scale: 1;
             --sgb-translate-y: 0px;
             appearance: none;
-            outline: none;
+            outline: none !important;
             border: 1px solid rgba(255, 255, 255, 0.25);
             padding: 10px 24px;
             border-radius: 29px;
@@ -311,6 +328,7 @@ export const SparkleGenerateButton = React.forwardRef<
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
           }
 
           .sgb-generate-button svg {

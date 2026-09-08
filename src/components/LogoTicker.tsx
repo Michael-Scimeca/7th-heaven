@@ -106,7 +106,7 @@ export default function LogoTicker({
       >
         <div
           className={`hoy-ticker-track flex w-max items-stretch${direction === "right" ? " hoy-ticker-reverse" : ""
-            }`}
+ }`}
         >
           {track.map((item, i) =>
             item.src ? (
@@ -125,7 +125,7 @@ export default function LogoTicker({
                   width={0}
                   height={0}
                   className={`w-auto max-w-none object-contain transition-[height,filter] duration-150 ${config.invert ? "hoy-ticker-logo" : ""
-                    }`}
+ }`}
                   style={{ height: "clamp(24px, 4vw, 64px)", width: "auto", maxHeight: "100%" }}
                   unoptimized
                 />
@@ -133,12 +133,12 @@ export default function LogoTicker({
             ) : (
               <div
                 key={(item.label || "item") + "-" + i}
-                className="flex shrink-0 items-center gap-4 border-r  border-white/10  px-4 sm:px-8 transform-gpu"
+                className="flex shrink-0 items-center gap-4 border-r border-white/10 px-4 sm:px-8 transform-gpu"
                 style={{ height: "clamp(44px, 6vw, 96px)" }}
               >
                 {item.icon && <Icon kind={item.icon} />}
-                <div className="flex flex-col leading-tight">
-                  <span className="whitespace-nowrap text-[clamp(1rem,2vw,1.6rem)] font-black tracking-tight text-white">
+                <div className="flex flex-col ">
+                  <span className="whitespace-nowrap text-[clamp(1rem,2vw,1.6rem)] font-black text-white">
                     {item.label}
                   </span>
                   {item.sub && (

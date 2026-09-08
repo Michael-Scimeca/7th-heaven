@@ -108,7 +108,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
   if (compact) {
     return (
-      <div className="flex items-center gap-3 bg-white/[0.03] border  border-white/10  p-3">
+      <div className="flex items-center gap-3 bg-white/[0.03] border border-white/10 p-3">
         <div className="relative w-12 h-12 rounded-lg bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)]/60 flex items-center justify-center overflow-hidden shrink-0">
           {isAvatarUrl ? (
             <img src={activeAvatar} alt="Profile" className="w-full h-full object-cover" />
@@ -117,7 +117,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-bold uppercase  truncate">
+          <p className="font-bold uppercase truncate">
             {member?.name || "Official Profile Photo"}
           </p>
           <p className="">
@@ -134,7 +134,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
         <button aria-label="Action button"
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase  rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+          className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50"
         >
           {isUploading ? "Uploading..." : isAvatarUrl ? "Change" : "Upload"}
         </button>
@@ -150,7 +150,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <Camera className="w-4 h-4 text-purple-600" />
           </div>
           <div>
-            <h3 className="font-bold uppercase tracking-tight text-black">
+            <h3 className="font-bold uppercase text-black">
               Official Profile & Scheduling Photo
             </h3>
             <p className="text-black/70 font-semibold">
@@ -159,7 +159,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           </div>
         </div>
         {isAvatarUrl && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase    bg-emerald-100 border border-emerald-300 text-emerald-800">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[var(--font-size-2xs)] font-bold uppercase bg-emerald-100 border border-emerald-300 text-emerald-800">
             <span className="w-1.5 h-1.5 rounded-lg bg-[var(--color-accent)] animate-pulse" />
             Photo Active
           </span>
@@ -168,13 +168,13 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
       <div className="flex flex-col sm:flex-row items-center gap-6 p-4 bg-black/[0.02] border border-black/10">
         {/* Preview Box */}
-        <div className="relative w-24 h-24 bg-[var(--color-accent)] border-2 border-[var(--color-accent)] flex items-center justify-center overflow-hidden shrink-0    group">
+        <div className="relative w-24 h-24 bg-[var(--color-accent)] border-2 border-[var(--color-accent)] flex items-center justify-center overflow-hidden shrink-0 group">
           {isAvatarUrl ? (
             <img src={activeAvatar} alt="Profile preview" className="w-full h-full object-cover" />
           ) : (
             <div className="text-center p-1">
-              <span className="font-bold text-[var(--color-accent)]  block">{initials}</span>
-              <p className="font-bold text-[var(--color-accent)]/60 uppercase    mt-0.5">No Photo</p>
+              <span className="font-bold text-[var(--color-accent)] block">{initials}</span>
+              <p className="font-bold text-[var(--color-accent)]/60 uppercase mt-0.5">No Photo</p>
             </div>
           )}
           <button aria-label="Action button"
@@ -199,7 +199,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <button aria-label="Action button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-bold uppercase  rounded-lg transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-bold uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
               {isUploading ? "Uploading..." : "Upload Photo File"}
@@ -207,7 +207,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
             <button aria-label="Action button"
               onClick={() => setShowInput(!showInput)}
-              className="px-4 py-2.5 bg-black/5 hover:bg-black/10 text-black font-bold uppercase  rounded-lg border border-black/15 transition-colors cursor-pointer"
+              className="px-4 py-2.5 bg-black/5 hover:bg-black/10 text-black font-bold uppercase rounded-lg border border-black/15 transition-colors cursor-pointer"
             >
               {showInput ? "Cancel URL" : "Paste Image URL"}
             </button>
@@ -232,7 +232,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             </form>
           )}
 
-          <p className="text-black/60 font-semibold leading-relaxed">
+          <p className="text-black/60 font-semibold ">
             Supported formats: JPG, PNG, WebP (max 5MB). Photo syncs automatically across your scheduling profile and header avatar.
           </p>
         </div>
@@ -240,7 +240,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
       {message && (
         <div className={`mt-3 px-4 py-2 rounded-lg font-bold flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
-          }`}>
+ }`}>
           <span>{message.text}</span>
           <button aria-label="Action button" onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer font-bold">×</button>
         </div>

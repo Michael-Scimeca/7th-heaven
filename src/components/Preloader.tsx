@@ -21,12 +21,26 @@ import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
 // Timer-driven rather than tied to window "load" or asset-readiness events --
 // a previous version of this component waited on page-readiness signals that
 // didn't always fire (some routes with query params never resolved them),
-// which held the overlay on screen indefinitely. A fixed timer can't hang.
+// which held the overlay on screen indefinitely.
+//
+// A fixed timer can't hang on its own, but the two GSAP tweens driving it
+// (the 0->100 counter, then the wipe) can still get orphaned -- the same
+// class of bug found and fixed in PageTransition.tsx, where a tween whose
+// onComplete never fires (rAF throttling in a backgrounded tab, a slow
+// initial script evaluation, etc.) leaves whatever it was gating stuck
+// forever. Here that means the `is-preloading` class never gets removed and
+// the whole site stays hidden behind the overlay. A HARD_CEILING_MS watchdog
+// force-finishes the sequence no matter what stalls, so the worst case is a
+// skipped/cut-short animation, never a frozen site.
 type Phase = "loading" | "wiping" | "done";
 
 const WIPE_DURATION = 1.0;
 const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 const WIPE_SLANT_RATIO = 0.095;
+
+// Counter (1.2s) + content fade-out (0.3s) + wipe (1.0s) = 2.5s in the
+// happy path. Give it a generous multiple of that before force-finishing.
+const HARD_CEILING_MS = 6000;
 
 // Shared with PageTransition.tsx so the preloader and every in-site
 // navigation after it read as the same curtain, not two different overlays.
@@ -48,6 +62,7 @@ export default function Preloader() {
 
   useEffect(() => {
     const html = document.documentElement;
+    let finished = false;
 
     const unlockScroll = () => {
       html.classList.remove("is-preloading");
@@ -55,8 +70,18 @@ export default function Preloader() {
         try {
           (window as any).__lenis.start();
           (window as any).__lenis.resize();
-        } catch {}
+        } catch { }
       }
+    };
+
+    // Single, idempotent exit path -- whether reached via the normal
+    // wipe-complete callback or the watchdog below, this is the only place
+    // that unlocks scroll and flips phase to "done".
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      unlockScroll();
+      setPhase("done");
     };
 
     if (!html.classList.contains("is-preloading")) {
@@ -65,8 +90,7 @@ export default function Preloader() {
     }
 
     if (shouldSkip()) {
-      unlockScroll();
-      setPhase("done");
+      finish();
       return;
     }
 
@@ -75,10 +99,11 @@ export default function Preloader() {
     if ((window as any).__lenis) {
       try {
         (window as any).__lenis.stop();
-      } catch {}
+      } catch { }
     }
 
     let cancelled = false;
+    let wipeTween: gsap.core.Tween | null = null;
 
     const startWipe = () => {
       if (cancelled) return;
@@ -86,8 +111,7 @@ export default function Preloader() {
 
       const overlay = overlayRef.current;
       if (!overlay) {
-        unlockScroll();
-        setPhase("done");
+        finish();
         return;
       }
 
@@ -96,7 +120,7 @@ export default function Preloader() {
       }
 
       const proxy = { p: 0 };
-      gsap.to(proxy, {
+      wipeTween = gsap.to(proxy, {
         p: 1,
         duration: WIPE_DURATION,
         ease: EXO_EASE,
@@ -105,8 +129,7 @@ export default function Preloader() {
         },
         onComplete: () => {
           if (cancelled) return;
-          unlockScroll();
-          setPhase("done");
+          finish();
           if (typeof window !== "undefined") {
             window.dispatchEvent(new CustomEvent("preloader-complete"));
           }
@@ -141,9 +164,24 @@ export default function Preloader() {
       },
     });
 
+    // Watchdog: if the counter -> fade -> wipe chain hasn't finished within
+    // a generous bound, force it through instead of leaving the whole site
+    // hidden behind the overlay forever.
+    const watchdog = setTimeout(() => {
+      if (cancelled || finished) return;
+      counterTween.kill();
+      wipeTween?.kill();
+      finish();
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("preloader-complete"));
+      }
+    }, HARD_CEILING_MS);
+
     return () => {
       cancelled = true;
+      clearTimeout(watchdog);
       counterTween.kill();
+      wipeTween?.kill();
       unlockScroll();
     };
   }, []);
@@ -184,7 +222,7 @@ export default function Preloader() {
         </div>
 
         {/* Exo Ape Style Numerical Counter */}
-        <div className="font-bold text-4xl sm:text-6xl text-white tracking-tighter tabular-nums drop-shadow-lg">
+        <div className="font-bold text-4xl sm:text-6xl text-white er tabular-nums drop-shadow-lg">
           {String(count).padStart(2, "0")}<span className="text-purple-400 text-2xl sm:text-3xl ml-0.5">%</span>
         </div>
       </div>

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { createPortal } from "react-dom";
 
 import TransitionLink from "@/components/TransitionLink";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
 import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
@@ -141,8 +141,7 @@ const ICON_X_LINE_LEN = 20; // diagonal stroke length (x/y: 5 -> 19)
 
 export function Header() {
   const pathname = usePathname();
-  const router = useRouter();
-  const { mode, pendingHref } = useTransition();
+  const { mode, pendingHref, requestTransition } = useTransition();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hasLiveStreams, setHasLiveStreams] = useState(false);
@@ -557,9 +556,9 @@ export function Header() {
               }
             }}
             className={`shrink-0 min-w-0 flex items-center justify-center group transition-colors duration-300 pt-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/"
-              ? "!text-[#9333ea] active cursor-default"
-              : "cursor-pointer"
-              }`}
+ ? "!text-[#9333ea] active cursor-default"
+ : "cursor-pointer"
+ }`}
             title="7th Heaven — Go to Home Page"
           >
             <div className="w-[clamp(130px,13.5vw,250px)] h-[clamp(24px,2.5vw,46px)] flex items-center justify-center pointer-events-auto select-none transition-[width,height] duration-150">
@@ -575,9 +574,9 @@ export function Header() {
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors duration-200 relative ${active ? "!text-[#9333ea] font-bold active cursor-default"
-                    : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                    }`}
+                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors duration-200 relative ${active ? "!text-[#9333ea] font-bold active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}
                 >
                   {link.label}
                 </TransitionLink>
@@ -590,13 +589,13 @@ export function Header() {
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors py-1 z-50 ${isNavActive("/live")
-                ? "!text-[#9333ea] font-bold active cursor-default"
-                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                }`}
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 z-50 ${isNavActive("/live")
+ ? "!text-[#9333ea] font-bold active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}
             >
               {hasLiveStreams && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-bold uppercase  text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-lg whitespace-nowrap font-sans scale-90">
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-bold uppercase text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-lg whitespace-nowrap font-sans scale-90">
                   <span className="w-1 h-1 rounded-lg bg-white animate-pulse" />
                   LIVE
                 </span>
@@ -607,10 +606,10 @@ export function Header() {
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors py-1 ${isNavActive("/cruise")
-                ? "!text-[#9333ea] font-bold active cursor-default"
-                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                }`}
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/cruise")
+ ? "!text-[#9333ea] font-bold active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}
             >
               CRUISE
               {isNavActive("/cruise") && <CruiseWaveAnimation />}
@@ -619,10 +618,10 @@ export function Header() {
             {/* Book Us link */}
             <TransitionLink
               href="/book"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors py-1 ${isNavActive("/book")
-                ? "!text-[#9333ea] font-bold active cursor-default"
-                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                }`}
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/book")
+ ? "!text-[#9333ea] font-bold active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}
             >
               BOOK US
             </TransitionLink>
@@ -630,10 +629,10 @@ export function Header() {
             {/* Contact link */}
             <TransitionLink
               href="/contact"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase  transition-colors py-1 ${isNavActive("/contact")
-                ? "!text-[#9333ea] font-bold active cursor-default"
-                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                }`}
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/contact")
+ ? "!text-[#9333ea] font-bold active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}
             >
               CONTACT
             </TransitionLink>
@@ -662,14 +661,14 @@ export function Header() {
                 <div className="relative shrink-0 aspect-square flex items-center justify-center">
                   <TransitionLink
                     href={dashboardHref}
-                    className="relative flex items-center justify-center text-white font-bold shrink-0 aspect-square      transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
+                    className="relative flex items-center justify-center text-white font-bold shrink-0 aspect-square transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
                     style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
                     title={displayName}
                   >
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
                     ) : (
-                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border  border-white/10  flex items-center justify-center text-white font-bold text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
+                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white font-bold text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
                         {initials}
                       </div>
                     )}
@@ -684,7 +683,7 @@ export function Header() {
                   </span>
                 </div>
                 <button
-                  onClick={() => { logout(); router.push('/'); }}
+                  onClick={() => { logout(); requestTransition('/'); }}
                   className="hidden lg:block text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-2"
                   title="Sign Out"
                 >
@@ -695,7 +694,7 @@ export function Header() {
               <CosmicRadialButton
                 icon={false}
                 onClick={() => openModal("login")}
-                className="px-3.5 py-1.5 font-bold  rounded-lg shrink-0"
+                className="px-3.5 py-1.5 font-bold rounded-lg shrink-0"
                 id="header-sign-in"
               >
                 SIGN IN
@@ -845,7 +844,7 @@ export function Header() {
                       }}
                     />
                     <div className="absolute inset-0 pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[12px] font-bold uppercase   ">
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[12px] font-bold uppercase ">
                       <span>7H FESTIVAL STAGE</span>
                     </div>
                   </div>
@@ -865,7 +864,7 @@ export function Header() {
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
                         className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase leading-[1.02] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc] active cursor-default" : "!text-white hover:!text-[#c084fc] cursor-pointer"
-                          }`}
+ }`}
                         style={{
                           // exoape's own per-link reveal: rotate:7deg -> 0 and
                           // yPercent:100 -> 0 (a full line-height slide, not a

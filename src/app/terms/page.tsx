@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
     return (
-        <section className="site-container pt-[100px] min-h-screen    text-left">
+        <section className="site-container pt-[100px] min-h-screen text-left">
             <div className="mb-12 text-left">
-                <h1 className="text-[clamp(2rem,4vw,3rem)]    tracking-tight mb-2 font-bold text-[var(--text-color)]">
+                <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2 font-bold">
                     Terms of Service
                 </h1>
                 <p className="font-bold">
@@ -18,7 +18,7 @@ export default function TermsPage() {
                 </p>
             </div>
 
-            <div className="prose-legal flex flex-col gap-10    text-base leading-relaxed">
+            <div className="prose-legal flex flex-col gap-10 text-base">
 
                 {/* 1 */}
                 <div>
@@ -35,7 +35,7 @@ export default function TermsPage() {
                 <div>
                     <h2 className="font-bold mb-3">2. Services Provided</h2>
                     <p className="mb-3">7th Heaven provides the following through the Site:</p>
-                    <ul className="list-disc pl-5 space-y-2   ">
+                    <ul className="list-disc pl-5 space-y-2">
                         <li>Band information, tour dates, music, videos, and news content</li>
                         <li>A member portal with rewards, pick collection, and show tracking</li>
                         <li>An SMS text alert service for show notifications based on your location</li>
@@ -46,7 +46,7 @@ export default function TermsPage() {
                 {/* 3 */}
                 <div>
                     <h2 className="font-bold mb-3">3. Member Accounts</h2>
-                    <ul className="list-disc pl-5 space-y-2    ">
+                    <ul className="list-disc pl-5 space-y-2">
                         <li>You must provide accurate information when creating an account.</li>
                         <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
                         <li>You must be at least 13 years old to create an account.</li>
@@ -93,14 +93,14 @@ export default function TermsPage() {
                 {/* 5 */}
                 <div>
                     <h2 className="font-bold mb-3">5. Intellectual Property</h2>
-                    <p className="">All content on the Site — including music, lyrics, logos, graphics, text, images, audio clips, and software — is the property of 7th Heaven or its content suppliers and is protected by US and international copyright, trademark, and other intellectual property laws. You may not reproduce, distribute, or create derivative works without express written permission.</p>
+                    <p>All content on the Site — including music, lyrics, logos, graphics, text, images, audio clips, and software — is the property of 7th Heaven or its content suppliers and is protected by US and international copyright, trademark, and other intellectual property laws. You may not reproduce, distribute, or create derivative works without express written permission.</p>
                 </div>
 
                 {/* 6 */}
                 <div>
                     <h2 className="font-bold mb-3">6. User Content & Conduct</h2>
                     <p className="mb-3">If you submit content (such as fan photos, setlist votes, chat messages, or reviews), you grant 7th Heaven a non-exclusive, royalty-free, perpetual license to use, display, and distribute that content on the Site and associated media. You agree not to submit content that is:</p>
-                    <ul className="list-disc pl-5 space-y-2 ">
+                    <ul className="list-disc pl-5 space-y-2">
                         <li>Unlawful, defamatory, harassing, abusive, or hateful</li>
                         <li>Infringing on any third party&apos;s intellectual property or privacy rights</li>
                         <li>Spam, commercial solicitation, or malicious code</li>
@@ -110,7 +110,7 @@ export default function TermsPage() {
                 {/* 7 */}
                 <div>
                     <h2 className="font-bold mb-3">7. E-Commerce & Merch Purchases</h2>
-                    <ul className="list-disc pl-5 space-y-2  ">
+                    <ul className="list-disc pl-5 space-y-2">
                         <li>All prices are displayed in USD and are subject to change without notice.</li>
                         <li>We reserve the right to refuse or cancel orders at our discretion.</li>
                         <li>Returns and refunds are governed by our <Link href="/returns" className="text-[var(--color-accent)] font-bold hover:underline">Returns Policy</Link>.</li>
@@ -121,7 +121,7 @@ export default function TermsPage() {
                 <div>
                     <h2 className="font-bold mb-3">8. Prohibited Activities</h2>
                     <p className="mb-3">You agree not to:</p>
-                    <ul className="list-disc pl-5 space-y-2 ">
+                    <ul className="list-disc pl-5 space-y-2">
                         <li>Attempt to gain unauthorized access to the Site, member accounts, or server infrastructure</li>
                         <li>Interfere with or disrupt the operation of the Site or SMS service</li>
                         <li>Scrape, mine, or extract data from the Site without written consent</li>
@@ -132,36 +132,36 @@ export default function TermsPage() {
                 {/* 9 */}
                 <div>
                     <h2 className="font-bold mb-3">9. Disclaimers</h2>
-                    <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg     text-base">
-                        <p className="">The Site and its services are provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, express or implied. 7th Heaven does not guarantee that the Site will be uninterrupted, error-free, or secure. Show dates, times, and venues are subject to change without notice.</p>
+                    <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg text-base">
+                        <p>The Site and its services are provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, express or implied. 7th Heaven does not guarantee that the Site will be uninterrupted, error-free, or secure. Show dates, times, and venues are subject to change without notice.</p>
                     </div>
                 </div>
 
                 {/* 10 */}
                 <div>
                     <h2 className="font-bold mb-3">10. Limitation of Liability</h2>
-                    <p className="">To the fullest extent permitted by law, 7th Heaven and its members, agents, and affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Site, SMS service, or any related services.</p>
+                    <p>To the fullest extent permitted by law, 7th Heaven and its members, agents, and affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Site, SMS service, or any related services.</p>
                 </div>
 
                 {/* 11 */}
                 <div>
                     <h2 className="font-bold mb-3">11. Changes to These Terms</h2>
-                    <p className="">We may update these Terms from time to time. Changes will be posted on this page with an updated date. Your continued use of the Site after changes are posted constitutes acceptance of the updated Terms.</p>
+                    <p>We may update these Terms from time to time. Changes will be posted on this page with an updated date. Your continued use of the Site after changes are posted constitutes acceptance of the updated Terms.</p>
                 </div>
 
                 {/* 12 */}
                 <div>
                     <h2 className="font-bold mb-3">12. Governing Law</h2>
-                    <p className="">These Terms are governed by the laws of the State of Illinois, without regard to conflict of law principles. Any disputes shall be resolved in the courts of Cook County, Illinois.</p>
+                    <p>These Terms are governed by the laws of the State of Illinois, without regard to conflict of law principles. Any disputes shall be resolved in the courts of Cook County, Illinois.</p>
                 </div>
 
                 {/* 13 */}
                 <div>
                     <h2 className="font-bold mb-3">13. Contact</h2>
                     <p className="mb-2">For questions about these Terms of Service:</p>
-                    <div className="">
+                    <div>
                         <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
-                        <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
+                        <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>
                     </div>
                 </div>
 

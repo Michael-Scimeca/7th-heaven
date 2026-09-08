@@ -166,10 +166,29 @@ export function buildDecayingSlantClipPath(
   rampFraction: number = 0.05
 ): string {
   const p = clamp01(progress);
-  const rightY = 100 * (1 - p);
+  const leftY = 100 * (1 - p);
   const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
-  const leftY = rightY / (1 + rampedRatio);
+  const rightY = leftY / (1 + rampedRatio);
   return toPolygon(leftY, rightY);
+}
+
+/**
+ * Covering curtain wipe (outgoing page exit): curtain sweeps UPWARD from the bottom
+ * of the viewport (y=100%, 0% covered) up to the top (y=0%, 100% covered).
+ * Right edge leads moving upward (smaller Y / higher on screen).
+ *
+ * @param progress 0 (0% covered at bottom) to 1 (100% covered in black).
+ */
+export function buildDecayingSlantCoverClipPath(
+  progress: number,
+  ratio: number = 0.095,
+  rampFraction: number = 0.05
+): string {
+  const p = clamp01(progress);
+  const leftY = 100 * (1 - p);
+  const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
+  const rightY = leftY / (1 + rampedRatio);
+  return `polygon(0% ${leftY.toFixed(2)}%, 100% ${rightY.toFixed(2)}%, 100% 100%, 0% 100%)`;
 }
 
 export const CURTAIN_MAX_SLANT_FRAC = MAX_SLANT_FRAC;

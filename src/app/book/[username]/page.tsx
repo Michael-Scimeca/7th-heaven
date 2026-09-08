@@ -5,15 +5,18 @@
 
 import { useMember } from "@/context/MemberContext";
 import { useRouter, useParams } from "next/navigation";
+import { useTransition } from "@/context/TransitionContext";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import PlannerDashboard from "@/components/PlannerDashboard";
 import { CosmicRadialButton } from "@/components/CosmicRadialButton";
 import { Plus } from "lucide-react";
+import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 
 export default function PlannerDashboardPage() {
   const { member, isLoggedIn, hydrated, openModal, login } = useMember();
   const router = useRouter();
+  const { requestTransition } = useTransition();
   const params = useParams();
   const urlUsername = typeof params?.username === 'string' ? params.username : '';
   const isDemoMode = urlUsername === 'demo';
@@ -84,47 +87,29 @@ export default function PlannerDashboardPage() {
     if (parkingAddress) p.set("parkingAddress", parkingAddress);
     if (parkingNotes) p.set("parkingNotes", parkingNotes);
 
-    router.push(`/book?${p.toString()}`);
+    requestTransition(`/book?${p.toString()}`);
   };
 
   return (
     <div className="site-container bg-transparent text-white pt-[100px] selection:bg-[var(--color-accent)] selection:text-white">
       <div>
         {/* Planner Profile Header */}
-        <header className="mb-8 border-b  border-white/10  pb-8 flex flex-col md:flex-row items-end md:items-end justify-between gap-6">
-          <div className="flex items-start gap-5">
-            {/* Member Avatar */}
-            <div className="relative shrink-0">
-              {isAvatarUrl ? (
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 border-[var(--color-accent)]/40 shadow-[0_0_20px_rgba(146,51,234,0.2)]">
-                  <Image width={80} height={80} unoptimized src={effectiveMember.avatar} alt={displayName} className="w-full h-full object-cover" />
-                </div>
-              ) : (
-                <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] border-[var(--color-accent)]/40 flex items-center justify-center text-white font-bold text-xl md:text-2xl shadow-[0_0_20px_rgba(146,51,234,0.2)]">
-                  {initials}
-                </div>
-              )}
-              <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] font-bold uppercase text-white bg-[var(--color-accent)] rounded-lg    border border-[var(--color-accent)]/50">
-                Planner
-              </span>
-            </div>
-
-            {/* Member Info */}
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold uppercase    text-white leading-none">
-                {displayName}
-              </h1>
-              <p className="font-bold    uppercase mt-1.5">Event Planner Dashboard</p>
-              <p className="   mt-1">{effectiveMember?.email || ''}</p>
-            </div>
-          </div>
+        <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <MemberHeaderBadge
+            name={displayName}
+            email={effectiveMember?.email || ''}
+            avatar={effectiveMember?.avatar}
+            badgeLabel="PLANNER"
+            badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
+            subtitle="Manage upcoming event bookings, venue logistics, and show requests."
+          />
 
           {/* Plus Sign Create New Event Button */}
           <div className="flex items-center self-start md:self-auto">
             <CosmicRadialButton
               icon={<Plus className="w-4 h-4 text-white" />}
               onClick={handleCreateNewEvent}
-              className="px-5 py-2.5 rounded-lg font-bold uppercase  shadow-lg flex items-center gap-2 cursor-pointer"
+              className="px-5 py-2.5 rounded-lg font-bold uppercase shadow-lg flex items-center gap-2 cursor-pointer"
             >
               Create New Event
             </CosmicRadialButton>

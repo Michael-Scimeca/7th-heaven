@@ -503,7 +503,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           loop
           playsInline
           className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
-            }`}
+ }`}
           style={{
             WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
             maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
@@ -557,7 +557,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           {!isCustomizerOpen ? (
             <button aria-label="Action button"
               onClick={() => setIsCustomizerOpen(true)}
-              className="w-10 h-10 rounded-lg bg-black/60 backdrop-blur-[45px] border  border-white/10  flex items-center justify-center cursor-pointer hover:bg-black/85   active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+              className="w-10 h-10 rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
               title="Open Video Tint Customizer"
             >
               <svg
@@ -585,15 +585,15 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             </button>
           ) : (
             <div
-              className="w-[280px] bg-black/75 backdrop-blur-xl border  border-white/10  p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left"
+              className="w-[280px] bg-black/75 backdrop-blur-xl border border-white/10 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left"
             >
               {/* Header */}
-              <div className="flex items-center justify-between border-b  border-white/10  pb-2">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
                 <div className="flex flex-col">
-                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-bold uppercase  text-[var(--color-accent)]">
+                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-bold uppercase text-[var(--color-accent)]">
                     Video Tint Tester
                   </span>
-                  <span className="  text-white/40 uppercase font-semibold">
+                  <span className=" text-white/40 uppercase font-semibold">
                     Customize background tint
                   </span>
                 </div>
@@ -607,7 +607,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Presets */}
               <div className="space-y-1.5">
-                <span className="font-bold text-white/45 uppercase  block">Presets</span>
+                <span className="font-bold text-white/45 uppercase block">Presets</span>
                 <div className="flex flex-wrap gap-2">
                   {TINT_PRESETS.map((preset) => (
                     <button aria-label="Action button"
@@ -627,7 +627,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                   ))}
                   {/* Custom Color Selector */}
                   <div
-                    className="w-6 h-6 rounded-lg border  border-white/10  relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
+                    className="w-6 h-6 rounded-lg border border-white/10 relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
                     title="Custom Color"
                   >
                     <input aria-label="Input field"
@@ -645,7 +645,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               <div className="space-y-1.5">
                 <div className="flex justify-between font-bold text-white/45 uppercase tracking-wider">
                   <span>Opacity</span>
-                  <span className="text-[var(--color-accent)]    font-bold">{Math.round(tintOpacity * 100)}%</span>
+                  <span className="text-[var(--color-accent)] font-bold">{Math.round(tintOpacity * 100)}%</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -660,15 +660,15 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
               {/* Blend Modes */}
               <div className="space-y-1.5">
-                <span className="font-bold text-white/45 uppercase  block">Mix Blend Mode</span>
+                <span className="font-bold text-white/45 uppercase block">Mix Blend Mode</span>
                 <div className="grid grid-cols-3 gap-1">
                   {(["normal", "multiply", "overlay", "screen", "color", "darken"] as const).map((mode) => (
                     <button aria-label="Action button"
                       key={mode}
                       onClick={() => updateBlend(mode)}
-                      className={`px-1 py-1   font-bold uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]  font-bold "
-                        : " bg-[#00000029]     border-white/10   text-white  hover:bg-white/10 hover:border-white/10"
-                        }`}
+                      className={`px-1 py-1 font-bold uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)] font-bold "
+ : " bg-[#00000029] border-white/10 text-white hover:bg-white/10 hover:border-white/10"
+ }`}
                     >
                       {mode}
                     </button>
@@ -677,7 +677,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               </div>
 
               {/* Active Values HUD */}
-              <div className="bg-white/[0.02] border  border-white/10  rounded-lg p-2      text-white/40 space-y-0.5">
+              <div className="bg-white/[0.02] border border-white/10 rounded-lg p-2 text-white/40 space-y-0.5">
                 <div>Color: <span className="text-white font-bold">{tintColor}</span></div>
                 <div>Opacity: <span className="text-white font-bold">{tintOpacity}</span></div>
                 <div>Blend: <span className="text-white font-bold">{mixBlendMode}</span></div>
@@ -686,7 +686,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               {/* Copy CSS Button */}
               <button aria-label="Action button"
                 onClick={copyCSS}
-                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold text-[var(--font-size-2xs)] uppercase    transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold text-[var(--font-size-2xs)] uppercase transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? (
                   <>

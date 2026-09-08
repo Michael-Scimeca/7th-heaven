@@ -567,12 +567,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           25+ Years Legacy Pathway
         </span>
         <h3
-          className="font-bold uppercase text-white tracking-tight"
+          className="font-bold uppercase text-white "
           style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
         >
           Cruising <span className="accent-gradient-text">History & Milestones</span>
         </h3>
-        <p className="mt-2 leading-relaxed">
+        <p className="mt-2 ">
           Explore 7th Heaven&apos;s history at sea across Royal Caribbean, MSC, and landmark voyages in our serpentine timeline.
         </p>
 
@@ -709,7 +709,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               ref={startDotRef}
               className="w-5 h-5 rounded-lg bg-cyan-400 border-4 border-[#06060c] z-10"
             />
-            <span className="font-bold uppercase    text-black bg-cyan-400 px-3.5 md:px-4 py-1.5 rounded-lg    z-10">
+            <span className="font-bold uppercase text-black bg-cyan-400 px-3.5 md:px-4 py-1.5 rounded-lg z-10">
               START · INAUGURAL 1998 VOYAGE
             </span>
           </div>
@@ -730,7 +730,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <div
                   data-year-header-row
                   className={`relative flex justify-between items-center px-2 md:px-4 lg:px-6 h-12 z-30 ${isEvenRow ? 'flex-row' : 'flex-row-reverse'
-                    }`}
+ }`}
                 >
                   {(() => {
                     const paddedItems = rowItems.length < chunkSize
@@ -771,13 +771,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           <div
                             data-year-badge
                             className={`inline-blockn rounded-lg z-40 transition-colors duration-300 ${isReached ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
-                              : 'bg-[#06060c] border border-white/10'
-                              }`}
+ : 'bg-[#06060c] border border-white/10'
+ }`}
                             style={{ padding: 'clamp(0.25rem, 0.6vw, 0.5rem) clamp(0.75rem, 1.5vw, 1.5rem)' }}
                           >
                             <h6
-                              className={`font-bold    tracking-tight transition-colors leading-none ${isReached ? 'text-cyan-300' : 'text-white/40'
-                                }`}
+                              className={`font-bold transition-colors leading-none ${isReached ? 'text-cyan-300' : 'text-white/40'
+ }`}
                               style={{ fontSize: 'clamp(1.5rem, 3.2vw, 3rem)' }}
                             >
                               {hist.year}
@@ -792,7 +792,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* CARDS ROW */}
                 <div
                   className={`flex justify-between items-start px-2 md:px-4 lg:px-6 mt-4 ${isEvenRow ? 'flex-row' : 'flex-row-reverse'
-                    }`}
+ }`}
                 >
                   {(() => {
                     const paddedItems = rowItems.length < chunkSize
@@ -829,15 +829,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         >
                           <div
                             className={`transition-colors duration-300 ${isReached ? 'opacity-100'
-                              : 'opacity-70'
-                              }`}
+ : 'opacity-70'
+ }`}
                             style={{ padding: '0.5rem 0' }}
                           >
                             <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                               <span
-                                className={`font-bold uppercase       rounded-lg transition-colors ${isReached ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
-                                  : 'text-white/40  bg-[#00000029]    border border-white/10'
-                                  }`}
+                                className={`font-bold uppercase rounded-lg transition-colors ${isReached ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
+ : 'text-white/40 bg-[#00000029] border border-white/10'
+ }`}
                                 style={{ fontSize: 'clamp(0.55rem, 0.75vw, 0.65rem)', padding: '0.125rem 0.5rem' }}
                               >
                                 VOYAGE #{voyageNum}
@@ -846,13 +846,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                             <h4
                               className={`font-bold uppercase leading-snug transition-colors ${isReached ? 'text-white' : ' text-white '
-                                }`}
+ }`}
                               style={{ fontSize: 'clamp(0.75rem, 1.1vw, 1rem)' }}
                             >
                               {hist.ship}
                             </h4>
                             <p
-                              className="mt-2 leading-relaxed font-sans"
+                              className="mt-2 font-sans"
                               style={{ fontSize: 'clamp(0.65rem, 0.85vw, 0.75rem)' }}
                             >
                               {hist.details}
@@ -887,31 +887,31 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* Node Circle Box */}
                 <div
                   className={`absolute left-[-25px] top-2 w-4 h-4 rounded-lg border-2 border-[#06060c] z-10 transition-colors duration-300 ${isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
-                    }`}
+ }`}
                 />
 
                 {/* Connecting Line Segment — Aligned at 25px Global Mobile Padding */}
                 {showConnectorLine && (
                   <div
                     className={`absolute left-[-19px] top-2 bottom-[-32px] w-[4px] transition-colors duration-300 ${isReached ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'bg-cyan-500/20'
-                      }`}
+ }`}
                   />
                 )}
 
                 <div
                   className={`py-1 transition-colors duration-300 ${isReached ? 'opacity-100' : 'opacity-70'
-                    }`}
+ }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-2">
-                    <span className="text-lg font-bold text-purple-400  ">
+                    <span className="text-lg font-bold text-purple-400 ">
                       {hist.year}
                     </span>
-                    <span className="  font-bold uppercase    text-white/30   ">
+                    <span className=" font-bold uppercase text-white/30 ">
                       VOYAGE #{idx + 1}
                     </span>
                   </div>
                   <h4 className="font-bold text-white uppercase">{hist.ship}</h4>
-                  <p className="mt-1 leading-relaxed">{hist.details}</p>
+                  <p className="mt-1 ">{hist.details}</p>
                 </div>
               </div>
             );
@@ -939,7 +939,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             <div className="flex items-center justify-between border-b border-cyan-500/30 pb-3 mb-5">
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚙️</span>
-                <h3 className="font-bold uppercase    text-cyan-300">
+                <h3 className="font-bold uppercase text-cyan-300">
                   History Timeline & 3D Ship Controls
                 </h3>
               </div>
@@ -956,7 +956,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-white/90">⚓ 1998 Start Ship Size (Scale)</span>
-                  <span className="text-cyan-400    font-bold">{(tuning.startScale ?? 0.70).toFixed(2)}x</span>
+                  <span className="text-cyan-400 font-bold">{(tuning.startScale ?? 0.70).toFixed(2)}x</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -974,7 +974,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-white/90">🚀 2028 End Ship Size (Scale)</span>
-                  <span className="text-cyan-400    font-bold">{(tuning.endScale ?? 3.20).toFixed(2)}x</span>
+                  <span className="text-cyan-400 font-bold">{(tuning.endScale ?? 3.20).toFixed(2)}x</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -996,10 +996,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     <button aria-label="Action button"
                       key={mode}
                       onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
-                      className={`py-1.5 px-2 font-bold uppercase  transition-colors cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode
-                        ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
-                        : ' bg-[#00000029]    text-white/70  border-white/10  hover:bg-white/10 hover:text-white'
-                        }`}
+                      className={`py-1.5 px-2 font-bold uppercase transition-colors cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode
+ ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
+ : ' bg-[#00000029] text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
+ }`}
                     >
                       {mode === 'linear' ? 'Linear' : mode === 'exponential' ? 'Accel' : 'Stepped'}
                     </button>
@@ -1019,7 +1019,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
                     <span className="font-bold text-white/90">⚡ Year Acceleration Curve (Exponent)</span>
-                    <span className="text-cyan-400    font-bold">{(tuning.growthCurveExp ?? 1.5).toFixed(1)}</span>
+                    <span className="text-cyan-400 font-bold">{(tuning.growthCurveExp ?? 1.5).toFixed(1)}</span>
                   </div>
                   <input aria-label="Input field"
                     type="range"
@@ -1038,7 +1038,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">↔️ Ship X Position Offset (Horizontal)</span>
-                  <span className="text-cyan-400    font-bold">{tuning.shipOffsetX ?? 0}px</span>
+                  <span className="text-cyan-400 font-bold">{tuning.shipOffsetX ?? 0}px</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1056,7 +1056,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">↕️ Ship Y Position Offset (Vertical)</span>
-                  <span className="text-cyan-400    font-bold">{tuning.shipOffsetY ?? 0}px</span>
+                  <span className="text-cyan-400 font-bold">{tuning.shipOffsetY ?? 0}px</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1074,7 +1074,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">🎯 Ship & Blue Line Timeline Stop Position</span>
-                  <span className="text-cyan-400    font-bold">{tuning.bowOffsetPx}px</span>
+                  <span className="text-cyan-400 font-bold">{tuning.bowOffsetPx}px</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1092,7 +1092,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">🚀 Scroll Start Trigger (% Viewport)</span>
-                  <span className="text-cyan-400    font-bold">{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
+                  <span className="text-cyan-400 font-bold">{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1110,7 +1110,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">🏁 2026 Finish Viewport Position (% Viewport)</span>
-                  <span className="text-cyan-400    font-bold">{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
+                  <span className="text-cyan-400 font-bold">{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1128,7 +1128,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="bg-cyan-950/30 border border-cyan-400/30 p-3">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-cyan-300">⚡ Scroll Scrub Smoothness (Damping)</span>
-                  <span className="text-cyan-400    font-bold">{(tuning.scrubDamping ?? 0.5).toFixed(1)}s</span>
+                  <span className="text-cyan-400 font-bold">{(tuning.scrubDamping ?? 0.5).toFixed(1)}s</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1146,7 +1146,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bold text-white/90">🖊️ Line Thickness</span>
-                  <span className="text-cyan-400    font-bold">{tuning.lineWidth}px</span>
+                  <span className="text-cyan-400 font-bold">{tuning.lineWidth}px</span>
                 </div>
                 <input aria-label="Input field"
                   type="range"
@@ -1168,7 +1168,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       key={col}
                       onClick={() => setTuning({ ...tuning, lineColor: col })}
                       className={`w-7 h-7 rounded-lg transition-transform cursor-pointer border-2 ${tuning.lineColor === col ? 'scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]' : 'border-transparent opacity-70 hover:opacity-100'
-                        }`}
+ }`}
                       style={{ backgroundColor: col }}
                     />
                   ))}
@@ -1177,10 +1177,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center justify-between border-t  border-white/10  pt-4 mt-6">
+            <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-6">
               <button aria-label="Action button"
                 onClick={handleResetTuning}
-                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase    transition-colors cursor-pointer"
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase transition-colors cursor-pointer"
               >
                 🔄 Reset Defaults
               </button>
@@ -1192,7 +1192,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 )}
                 <button aria-label="Action button"
                   onClick={handleSaveTuning}
-                  className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase    transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                  className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
                 >
                   💾 Save Settings
                 </button>

@@ -261,10 +261,10 @@ export default function LiveHubPage() {
       {/* ── HERO HEADER ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 relative z-10 site-container">
         <div className="text-left">
-          <h1 className="font-bold uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          <h1 className="font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             LIVE <span className="inline-block pr-[0.15em]">STREAM HUB</span>
           </h1>
-          <p className="font-medium mt-3 max-w-2xl leading-relaxed">
+          <p className="font-medium mt-3 max-w-2xl ">
             {rooms.length} active crew streams · {totalViewers.toLocaleString()} viewers watching live right now.
           </p>
         </div>
@@ -280,7 +280,7 @@ export default function LiveHubPage() {
             <div className="px-6 py-4 flex items-center justify-between" style={{ background: "rgba(239,68,68,0.06)", borderBottom: "1px solid rgba(239,68,68,0.15)" }}>
               <div className="flex items-center gap-3">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                <span className="font-bold uppercase   " style={{ color: "#f87171" }}>Moderation Dashboard</span>
+                <span className="font-bold uppercase " style={{ color: "#f87171" }}>Moderation Dashboard</span>
                 <span className="px-2 py-0.5 rounded-lg font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}>LIVE SHOW</span>
               </div>
               <div className="flex items-center gap-4" style={{ color: "rgba(255,255,255,0.35)" }}>
@@ -295,7 +295,7 @@ export default function LiveHubPage() {
             <div className="px-6 pt-3 pb-0 flex gap-2 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
               {(["streams", "users", "policy"] as const).map(tab => (
                 <button aria-label="Action button" key={tab} onClick={() => setAdminTab(tab)}
-                  className="px-4 py-2 font-bold uppercase  rounded-t-lg transition-colors"
+                  className="px-4 py-2 font-bold uppercase rounded-t-lg transition-colors"
                   style={{
                     background: adminTab === tab ? "rgba(255,10,61,0.15)" : "transparent",
                     color: adminTab === tab ? "#c084fc" : "rgba(255,255,255,0.35)",
@@ -341,13 +341,13 @@ export default function LiveHubPage() {
                         <p className="" style={{ color: "rgba(255,255,255,0.3)" }}>{getElapsed(room.creationTime)}</p>
                         <div className="flex gap-1.5 mt-3">
                           <Link href={`/live/${room.name.replace(/^live_/, "")}`}
-                            className="flex-1 text-center py-1.5 rounded-lg font-bold transition-colors  "
+                            className="flex-1 text-center py-1.5 rounded-lg font-bold transition-colors "
                             style={{ background: `rgba(${parseInt(room.color.slice(1, 3), 16)},${parseInt(room.color.slice(3, 5), 16)},${parseInt(room.color.slice(5, 7), 16)},0.15)`, color: room.color, border: `1px solid ${room.color}40` }}>
                             👁 Watch
                           </Link>
                           <button aria-label="Previous"
                             onClick={() => { setRooms(prev => prev.filter(r => r.name !== room.name)); addLog("🛑 Ended stream", room.title); }}
-                            className="py-1.5 px-3 rounded-lg font-bold transition-colors  "
+                            className="py-1.5 px-3 rounded-lg font-bold transition-colors "
                             style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
                             🛑 End
                           </button>
@@ -411,7 +411,7 @@ export default function LiveHubPage() {
                   {/* Mod log */}
                   {modLog.length > 0 && (
                     <div className="col-span-full mt-4 p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                      <p className="font-bold uppercase    mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>📋 Recent Actions</p>
+                      <p className="font-bold uppercase mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>📋 Recent Actions</p>
                       <div className="space-y-1">
                         {modLog.slice(0, 5).map(e => (
                           <div key={e.id} className="flex items-center justify-between" style={{ color: "rgba(255,255,255,0.4)" }}>
@@ -429,7 +429,7 @@ export default function LiveHubPage() {
               {adminTab === "policy" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
                   <div>
-                    <p className="font-bold uppercase    mb-3" style={{ color: "#f87171" }}>🚫 Zero-Tolerance — Instant Ban</p>
+                    <p className="font-bold uppercase mb-3" style={{ color: "#f87171" }}>🚫 Zero-Tolerance — Instant Ban</p>
                     {[
                       { icon: "🔞", rule: "Adult / pornographic content", desc: "Explicit content, NSFW links, or adult platform promotion." },
                       { icon: "⚠️", rule: "Hate speech & slurs", desc: "Racist, homophobic, or discriminatory language." },
@@ -442,7 +442,7 @@ export default function LiveHubPage() {
                     ))}
                   </div>
                   <div>
-                    <p className="font-bold uppercase    mb-3" style={{ color: "#c084fc" }}>⚠️ Warn First — Then Mute/Kick</p>
+                    <p className="font-bold uppercase mb-3" style={{ color: "#c084fc" }}>⚠️ Warn First — Then Mute/Kick</p>
                     {[
                       { icon: "🏛️", rule: "Political commentary", desc: "No political debate, parties, or electoral content." },
                       { icon: "📢", rule: "Spam & self-promotion", desc: "Links, social handles, or money solicitation." },
@@ -522,7 +522,7 @@ export default function LiveHubPage() {
             <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-[45px] text-white">
               {/* Avatar badge */}
               <div
-                className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white/20   "
+                className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white/20 "
                 style={{ background: room.gradient }}
               >
                 {room.member}
@@ -538,7 +538,7 @@ export default function LiveHubPage() {
                   const slug = room.name.replace(/^live_/, "");
                   navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
                 }}
-                className="ml-4 px-4 py-2 font-bold    rounded-lg transition-colors   bg-white/10 hover:bg-white/20 border  border-white/10  text-white cursor-pointer"
+                className="ml-4 px-4 py-2 font-bold rounded-lg transition-colors bg-white/10 hover:bg-white/20 border border-white/10 text-white cursor-pointer"
               >
                 Copy Link
               </button>

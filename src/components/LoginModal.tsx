@@ -582,7 +582,7 @@ export default function LoginModal() {
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-lg rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] border  border-white/10  animate-[fadeIn_0.3s_ease]"
+        className="relative w-full max-w-lg rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] border border-white/10 animate-[fadeIn_0.3s_ease]"
         style={{
           background: "#120a22",
           backdropFilter: "blur(32px) saturate(180%)",
@@ -593,7 +593,7 @@ export default function LoginModal() {
         {/* Close */}
         <button onClick={closeModal}
           aria-label="Close login modal"
-          className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border  border-white/10  flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
+          className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
         >
           <X className="w-4 h-4" />
         </button>
@@ -710,8 +710,8 @@ function LoginModalBodyContent(props: any) {
       >
         {/* Logo */}
         <div className="text-center mb-5">
-          <h2 className="font-bold tracking-tighter uppercase">
-            <span className=" text-[var(--color-accent)]">7</span>th <span className=" text-[var(--color-accent)] not-  ">HEAVEN</span>
+          <h2 className="font-bold er uppercase">
+            <span className=" text-[var(--color-accent)]">7</span>th <span className=" text-[var(--color-accent)] not- ">HEAVEN</span>
           </h2>
           <div className="uppercase tracking-[0.18em] font-bold text-[var(--color-accent)] mt-2 flex items-center justify-center flex-wrap gap-1">
             {modalMode === "forgot" ? (
@@ -723,7 +723,7 @@ function LoginModalBodyContent(props: any) {
             ) : (
               <span>
                 SIGN UP FOR FREE{" "}
-                <span className="inline-block text-base sm:text-lg font-bold text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg    mx-1    border border-[var(--color-accent)]/40">
+                <span className="inline-block text-base sm:text-lg font-bold text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg mx-1 border border-[var(--color-accent)]/40">
                   FAN
                 </span>{" "}
                 MEMBERSHIP
@@ -734,7 +734,7 @@ function LoginModalBodyContent(props: any) {
 
         {/* Prominent High-Contrast Sliding Toggle Tabs */}
         {modalMode !== "forgot" && (
-          <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border  border-white/10  mb-4 max-w-sm mx-auto shadow-inner select-none">
+          <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
             <div
               className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] transition-transform duration-300 ease-out pointer-events-none"
               style={{
@@ -744,10 +744,10 @@ function LoginModalBodyContent(props: any) {
             <button
               type="button"
               onClick={() => setModalMode("login")}
-              className={`relative z-10 py-2.5 px-4 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
-                ? "text-white font-extrabold"
-                : " text-white  hover:text-white"
-                }`}
+              className={`relative z-10 py-2.5 px-4 font-bold uppercase transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
+ ? "text-white font-extrabold"
+ : " text-white hover:text-white"
+ }`}
             >
               Sign In
             </button>
@@ -757,10 +757,10 @@ function LoginModalBodyContent(props: any) {
                 setModalMode("signup");
                 if (loginRole === "crew" || loginRole === "cruise") setLoginRole("fan");
               }}
-              className={`relative z-10 py-2.5 px-4 font-bold uppercase    transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
-                ? "text-white font-extrabold"
-                : " text-white  hover:text-white"
-                }`}
+              className={`relative z-10 py-2.5 px-4 font-bold uppercase transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
+ ? "text-white font-extrabold"
+ : " text-white hover:text-white"
+ }`}
             >
               Sign Up
             </button>
@@ -773,7 +773,7 @@ function LoginModalBodyContent(props: any) {
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-bold tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
             </div>
-            <div className={`grid p-1 bg-black/40 backdrop-blur-[45px] border  border-white/10  rounded-lg gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
+            <div className={`grid p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
               {[
                 { id: "fan", label: "Fan" },
                 ...(modalMode === "signup" ? [] : [{ id: "crew", label: "Crew" }]),
@@ -791,10 +791,10 @@ function LoginModalBodyContent(props: any) {
                       setAdminMode(false);
                     }
                   }}
-                  className={`py-1.5 px-1.5 text-[10px] font-bold uppercase  rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
-                    ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
-                    : "text-white/50 hover:text-white/90 hover: bg-[#00000029]   "
-                    }`}
+                  className={`py-1.5 px-1.5 text-[10px] font-bold uppercase rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
+ ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
+ : "text-white/50 hover:text-white/90 hover: bg-[#00000029] "
+ }`}
                 >
                   {role.label}
                 </button>
@@ -819,7 +819,7 @@ function LoginModalBodyContent(props: any) {
         {/* PIN Verification Step */}
         {pinSent ? (
           <div className="flex flex-col gap-4 my-4">
-            <div className="text-center text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border  border-white/10  rounded-lg">
+            <div className="text-center text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-white/10 rounded-lg">
               A 6-digit verification code has been sent to <strong>{signUpPayload?.email || email}</strong>
             </div>
 
@@ -834,7 +834,7 @@ function LoginModalBodyContent(props: any) {
                 value={pinCode}
                 onChange={(e) => setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="123456"
-                className="w-full px-4 py-3 bg-black/60 border  border-white/10  sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-bold text-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-bold text-xl"
                 required
               />
             </div>
@@ -864,12 +864,12 @@ function LoginModalBodyContent(props: any) {
               <Mail className="w-6 h-6" />
             </div>
             <h3 className="font-bold uppercase text-white tracking-wider">Check Your Email</h3>
-            <p className="max-w-sm leading-relaxed">
+            <p className="max-w-sm ">
               We sent a confirmation link to <strong className="text-white">{email}</strong>. Please click the link in that email to confirm your account and sign in.
             </p>
             <button type="button"
               onClick={() => { setConfirmationRequired(false); setError(""); }}
-              className="w-full py-3 border border-black/10 text-black font-bold uppercase    hover:bg-black/5 transition-colors cursor-pointer"
+              className="w-full py-3 border border-black/10 text-black font-bold uppercase hover:bg-black/5 transition-colors cursor-pointer"
             >
               Got it, thanks
             </button>
@@ -916,14 +916,14 @@ function LoginModalBodyContent(props: any) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
-                        className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                        className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                         required
                       />
                     </div>
                   </div>
                 ) : (
                   <>
-                    <div className="text-center text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border  border-white/10  rounded-lg">
+                    <div className="text-center text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-white/10 rounded-lg">
                       A verification code has been sent to <strong>{email}</strong>
                     </div>
                     <div>
@@ -936,7 +936,7 @@ function LoginModalBodyContent(props: any) {
                           value={forgotPinCode}
                           onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                           placeholder="123456"
-                          className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em] font-bold rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em] font-bold rounded-xl"
                           required
                         />
                       </div>
@@ -950,7 +950,7 @@ function LoginModalBodyContent(props: any) {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                           required
                         />
                       </div>
@@ -977,7 +977,7 @@ function LoginModalBodyContent(props: any) {
                       readOnly={isInviteFlow}
                       data-lpignore="true"
                       data-form-type="other"
-                      className={`w-full px-4 py-3 bg-black/60 border  border-white/10  sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
                     />
                   </div>
                 </div>
@@ -993,7 +993,7 @@ function LoginModalBodyContent(props: any) {
                       autoComplete="new-password"
                       data-lpignore="true"
                       data-form-type="other"
-                      className="w-full px-4 py-3 bg-black/60 border  border-white/10  sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   {modalMode === "login" && (
@@ -1030,7 +1030,7 @@ function LoginModalBodyContent(props: any) {
               type="submit"
               icon={false}
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-lg text-white font-bold  disabled:opacity-50"
+              className="w-full py-3.5 px-6 rounded-lg text-white font-bold disabled:opacity-50"
             >
               {loading
                 ? "Processing..."
@@ -1099,7 +1099,7 @@ function LoginModalBodyContent(props: any) {
         {/* Quick Demo Login Bar for Testing */}
         <div className="mt-4 pt-3 border-t border-white/10">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-bold uppercase    text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
+            <span className="text-[10px] font-bold uppercase text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
             <button type="button"
               onClick={() => {
                 if (!adminMode) {
@@ -1130,7 +1130,7 @@ function LoginModalBodyContent(props: any) {
                 await login("admin@7thheaven.com", "password123");
                 window.location.href = "/admin";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border  border-white/10  rounded-lg  text-[11px] font-bold uppercase  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] font-bold uppercase text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
             >
               Admin
             </button>
@@ -1143,7 +1143,7 @@ function LoginModalBodyContent(props: any) {
                 await login("crew@7thheaven.com", "password123");
                 window.location.href = "/crew";
               }}
-              className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg  text-[11px] font-bold uppercase  text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[11px] font-bold uppercase text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
             >
               Crew
             </button>
@@ -1156,7 +1156,7 @@ function LoginModalBodyContent(props: any) {
                 await login("planner@7thheaven.com", "password123");
                 window.location.href = "/planner";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border  border-white/10  rounded-lg  text-[11px] font-bold uppercase  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] font-bold uppercase text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
             >
               Planner
             </button>
@@ -1169,7 +1169,7 @@ function LoginModalBodyContent(props: any) {
                 await login("cruise@7thheaven.com", "password123");
                 window.location.href = "/cruise/cruise_guest";
               }}
-              className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg  text-[11px] font-bold uppercase  text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[11px] font-bold uppercase text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
             >
               Cruise
             </button>
@@ -1182,7 +1182,7 @@ function LoginModalBodyContent(props: any) {
                 await login("fan@7thheaven.com", "password123");
                 window.location.href = "/fans/super_fan";
               }}
-              className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg  text-[11px] font-bold uppercase  text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
+              className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[11px] font-bold uppercase text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
             >
               Fan
             </button>
@@ -1199,7 +1199,7 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
     <>
       <div className="flex items-center gap-3 my-4">
         <div className="flex-1 h-px bg-white/20" />
-        <span className="font-bold uppercase    text-white/70 px-1">Or continue with</span>
+        <span className="font-bold uppercase text-white/70 px-1">Or continue with</span>
         <div className="flex-1 h-px bg-white/20" />
       </div>
 
@@ -1247,8 +1247,8 @@ function QuickLoginDemoButtons({
   setLoginRole: (v: 'fan' | 'crew' | 'planner' | 'cruise') => void;
 }) {
   return (
-    <div className="mt-4 pt-4 border-t  border-white/10  space-y-2">
-      <p className="uppercase    text-purple-400 font-bold text-center">1-Click Quick Demo Login (Instant Live Access)</p>
+    <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
+      <p className="uppercase text-purple-400 font-bold text-center">1-Click Quick Demo Login (Instant Live Access)</p>
       <div className="grid grid-cols-5 gap-1.5">
         <button type="button"
           onClick={async () => {
@@ -1260,7 +1260,7 @@ function QuickLoginDemoButtons({
             await login("admin@7thheaven.com", "password123");
             window.location.href = "/admin";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border  border-white/10  rounded-lg  text-[11px] font-bold uppercase  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] font-bold uppercase text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
         >
           Admin
         </button>
@@ -1273,7 +1273,7 @@ function QuickLoginDemoButtons({
             await login("crew@7thheaven.com", "password123");
             window.location.href = "/crew";
           }}
-          className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg  text-[11px] font-bold uppercase  text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[11px] font-bold uppercase text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
         >
           Crew
         </button>
@@ -1286,7 +1286,7 @@ function QuickLoginDemoButtons({
             await login("planner@7thheaven.com", "password123");
             window.location.href = "/planner";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border  border-white/10  rounded-lg  text-[11px] font-bold uppercase  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] font-bold uppercase text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
         >
           Planner
         </button>
@@ -1299,7 +1299,7 @@ function QuickLoginDemoButtons({
             await login("cruise@7thheaven.com", "password123");
             window.location.href = "/cruise/cruise_guest";
           }}
-          className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg  text-[11px] font-bold uppercase  text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[11px] font-bold uppercase text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
         >
           Cruise
         </button>
@@ -1312,7 +1312,7 @@ function QuickLoginDemoButtons({
             await login("fan@7thheaven.com", "password123");
             window.location.href = "/fans/super_fan";
           }}
-          className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg  text-[11px] font-bold uppercase  text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
+          className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[11px] font-bold uppercase text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
         >
           Fan
         </button>
@@ -1356,7 +1356,7 @@ function SignUpExtraFields({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1369,7 +1369,7 @@ function SignUpExtraFields({
                 id="signup-company-name"
                 type="text"
                 placeholder="e.g. Dream Events / Venue"
-                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1387,7 +1387,7 @@ function SignUpExtraFields({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1400,7 +1400,7 @@ function SignUpExtraFields({
                 id="signup-cabin-no"
                 type="text"
                 placeholder="e.g. Stateroom 7102"
-                className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1421,7 +1421,7 @@ function SignUpExtraFields({
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   readOnly={isInviteFlow && !!name}
-                  className={`w-full px-4 py-3 bg-black/60 border  border-white/10  sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
                 />
               </div>
             </div>
@@ -1437,7 +1437,7 @@ function SignUpExtraFields({
                   onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                   placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
                   maxLength={24}
-                  className="w-full px-4 py-3 bg-black/60 border  border-white/10  sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                  className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                 />
               </div>
             </div>
@@ -1453,7 +1453,7 @@ function SignUpExtraFields({
                   checked={wantNotifications}
                   onChange={(checked) => setWantNotifications(checked)}
                 />
-                <label htmlFor="signup-want-notifications-toggle" className={`font-bold leading-tight text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-notifications-toggle" className={`font-bold text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
                   Show alerts near me
                 </label>
               </div>
@@ -1464,7 +1464,7 @@ function SignUpExtraFields({
                   checked={wantNewsletter}
                   onChange={(checked) => setWantNewsletter(checked)}
                 />
-                <label htmlFor="signup-want-newsletter-toggle" className={`font-bold leading-tight text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-newsletter-toggle" className={`font-bold text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
                   News & updates
                 </label>
               </div>
@@ -1483,7 +1483,7 @@ function SignUpExtraFields({
                       onChange={(e) => setZipCode(e.target.value)}
                       placeholder="Zip code"
                       maxLength={10}
-                      className="w-full px-4 py-3 bg-black/60 border  border-white/10  text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   <div className="shrink-0 relative z-30">

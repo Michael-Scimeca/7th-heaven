@@ -84,13 +84,13 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
 
   if (!upcomingShows || upcomingShows.length === 0) {
     return (
-      <div className="bg-black/70 backdrop-blur-xl border  border-white/10  rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] h-full">
+      <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] h-full">
         <div className="flex items-center justify-between mb-1.5 px-0.5">
           <div className="flex items-center gap-1">
             <span className="w-1 h-1 rounded-lg bg-[var(--color-accent)] animate-pulse" />
-            <span className="  font-bold uppercase    text-[var(--color-accent)]">Upcoming Shows</span>
+            <span className=" font-bold uppercase text-[var(--color-accent)]">Upcoming Shows</span>
           </div>
-          <Link href="/tour" className="  font-bold uppercase    text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
+          <Link href="/tour" className=" font-bold uppercase text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
             All
             <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
           </Link>
@@ -126,14 +126,14 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
   const daysLabel = getDaysUntilLabel();
 
   return (
-    <div className=" /85 backdrop-blur-xl border  border-white/10  rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] w-full">
+    <div className=" /85 backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-2 px-0.5">
         <div className="flex items-center gap-1">
           <span className="w-1 h-1 rounded-lg bg-[var(--color-accent)] animate-pulse" />
-          <span className="  font-bold uppercase    text-[var(--color-accent)]">Upcoming Shows</span>
+          <span className=" font-bold uppercase text-[var(--color-accent)]">Upcoming Shows</span>
         </div>
-        <Link href="/tour" className="  font-bold uppercase    text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
+        <Link href="/tour" className=" font-bold uppercase text-white/30 hover:text-white transition-colors flex items-center gap-0.5">
           All
           <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
         </Link>
@@ -167,10 +167,10 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
 
           {/* Middle block: Venue & details (clickable link to tour page) */}
           <Link href="/tour" className="block hover:opacity-85 transition-opacity group/venue">
-            <h2 className="font-[var(--font-heading)] font-bold text-white leading-tight mb-1 uppercase tracking-tight truncate group-hover/venue: transition-colors">
+            <h2 className="font-[var(--font-heading)] font-bold text-white mb-1 uppercase truncate group-hover/venue: transition-colors">
               {nextShow.venue}
             </h2>
-            <div className="flex flex-wrap items-center gap-1   text-white/50 font-medium">
+            <div className="flex flex-wrap items-center gap-1 text-white/50 font-medium">
               <span>{nextShow.day}, {nextShow.date}</span>
               {nextShow.city && (
                 <>
@@ -208,28 +208,28 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           {/* Bottom block: Action buttons */}
           <div className="flex flex-wrap gap-1.5 items-center mt-0.5 pt-2 border-t border-white/5">
             {nextShow.mapUrl && (
-              <a href={nextShow.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 uppercase    font-bold flex items-center gap-1" id="hero-upnext-map">
+              <a href={nextShow.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 uppercase font-bold flex items-center gap-1" id="hero-upnext-map">
                 <MapPin className="w-3 h-3 text-cyan-400" /> Directions
               </a>
             )}
             {nextShow.websiteUrl && (
-              <a href={nextShow.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-primary btn-primary-hover text-[var(--font-size-5xs)] py-1 px-3 bg-[var(--color-accent)] text-white uppercase    font-bold" id="hero-upnext-website">
+              <a href={nextShow.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-primary btn-primary-hover text-[var(--font-size-5xs)] py-1 px-3 bg-[var(--color-accent)] text-white uppercase font-bold" id="hero-upnext-website">
                 Website
               </a>
             )}
             <div className="relative calendar-dropdown-container">
               <button aria-label="Next"
                 onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase    font-bold text-white/70"
+                className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase font-bold text-white/70"
                 id="hero-upnext-calendar-btn"
               >
                 <Calendar className="w-3 h-3 text-cyan-400" /> Calendar
               </button>
               {activeCalDropdownId === 'upnext' && (
-                <div className="absolute left-0 bottom-full mb-1 border  border-white/10  rounded py-1 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[110px] backdrop-blur-md">
-                  <a href={getGoogleCalendarUrl(nextShow)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1   font-bold uppercase  text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google</a>
-                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1   font-bold uppercase  text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
-                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1   font-bold uppercase  text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
+                <div className="absolute left-0 bottom-full mb-1 border border-white/10 rounded py-1 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[110px] backdrop-blur-md">
+                  <a href={getGoogleCalendarUrl(nextShow)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 font-bold uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google</a>
+                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 font-bold uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
+                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 font-bold uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
                 </div>
               )}
             </div>
@@ -241,13 +241,13 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
       <div className="flex flex-col gap-1">
         {remainingShows.map((show, idx) => (
           // eslint-disable-next-line react-doctor/no-array-index-as-key
-          <Link key={`hero_show_${idx}_${show.id || show.venue}`} href="/tour" className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/[0.02] border  border-white/10  hover:bg-white/[0.04]">
+          <Link key={`hero_show_${idx}_${show.id || show.venue}`} href="/tour" className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/[0.02] border border-white/10 hover:bg-white/[0.04]">
             <div className="w-7 h-7 rounded flex flex-col items-center justify-center bg-white/[0.03] text-white/40 shrink-0 border border-white/5">
-              <span className="text-[var(--font-size-5xs)] font-bold uppercase  leading-none">{show.date.split(' ')[0]?.slice(0, 3)}</span>
+              <span className="text-[var(--font-size-5xs)] font-bold uppercase leading-none">{show.date.split(' ')[0]?.slice(0, 3)}</span>
               <span className="text-[var(--font-size-2xs)] font-bold leading-none mt-0.5">{show.date.split(' ')[1]}</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-bold truncate leading-tight">{show.venue}</p>
+              <p className="font-bold truncate ">{show.venue}</p>
               {(show.city || show.state) && (
                 <p className="truncate mt-0.5 flex items-center gap-1">
                   <MapPin className="w-2.5 h-2.5 text-purple-400 shrink-0" />
@@ -255,7 +255,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
                 </p>
               )}
             </div>
-            <span className="  font-bold text-white/20">→</span>
+            <span className=" font-bold text-white/20">→</span>
           </Link>
         ))}
       </div>

@@ -475,10 +475,10 @@ export default function HomeVideoShowcase() {
       <div className="site-container relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
-            <h2 className="font-bold tracking-tight mb-2.5 font-sans text-white">
+            <h2 className="font-bold mb-2.5 font-sans text-white">
               Video &amp; Live Media
             </h2>
-            <p className="text-purple-200/75 font-normal mb-5 leading-relaxed">
+            <p className="text-purple-200/75 font-normal mb-5 ">
               Explore 7th Heaven&apos;s live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax.
             </p>
           </div>
@@ -491,7 +491,7 @@ export default function HomeVideoShowcase() {
         data-slider="true"
         data-vertical={smooothyVertical}
         className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
-          }`}
+ }`}
         style={{
           touchAction: "pan-y",
           ...(smooothyVertical
@@ -529,8 +529,8 @@ export default function HomeVideoShowcase() {
                   }
                 }}
                 className={`relative w-full ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
-                  : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
-                  }`}
+ : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
+ }`}
               >
                 {playingVideoId === video.id ? (
                   <div className="relative w-full h-full bg-black z-30">
@@ -558,13 +558,13 @@ export default function HomeVideoShowcase() {
                     {playButtonVisibility !== "hidden" && (
                       <div
                         className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
-                          ? "opacity-100"
-                          : "opacity-90 sm:opacity-0 group-hover:opacity-100"
-                          }`}
+ ? "opacity-100"
+ : "opacity-90 sm:opacity-0 group-hover:opacity-100"
+ }`}
                       >
                         <CosmicRadialButton
                           icon={false}
-                          className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto  `}
+                          className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto `}
                           aria-label={`Play full video for ${video.title}`}
                           title="Play Full Video"
                         >
@@ -590,7 +590,7 @@ export default function HomeVideoShowcase() {
                         </div>
                       )}
 
-                      <h3 className="font-black uppercase tracking-tight text-white leading-tight line-clamp-2 group-hover:text-purple-300 transition-colors">
+                      <h3 className="font-black uppercase text-white line-clamp-2 group-hover:text-purple-300 transition-colors">
                         {video.title}
                       </h3>
                     </div>
@@ -602,11 +602,11 @@ export default function HomeVideoShowcase() {
               {showMetadata && (
                 <div className="pt-2.5 flex items-center justify-between gap-2 text-white/80 font-semibold w-full px-0.5 pointer-events-none">
                   <span className="shrink-0">
-                    Views <strong className="text-white    ml-1">{video.viewCount}</strong>
+                    Views <strong className="text-white ml-1">{video.viewCount}</strong>
                   </span>
 
                   <span className="shrink-0">
-                    Year <strong className="text-white    ml-1">{video.year}</strong>
+                    Year <strong className="text-white ml-1">{video.year}</strong>
                   </span>
                 </div>
               )}

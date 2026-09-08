@@ -97,7 +97,7 @@ export default function ChatInputBar({
       </form>
 
       {showRulesFooter && (
-        <div className="flex items-center justify-between text-[10px] font-bold text-white uppercase  mt-2 px-1">
+        <div className="flex items-center justify-between font-bold text-white uppercase mt-2 px-1">
           <span>KEEP IT RATED PG-13 · NO POLITICS</span>
           {onAdminTag && (
             <button

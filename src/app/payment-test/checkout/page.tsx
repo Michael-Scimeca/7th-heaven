@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTransition } from "@/context/TransitionContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useNorthCart } from "@/context/NorthCartContext";
@@ -9,7 +9,7 @@ import { useNorthCart } from "@/context/NorthCartContext";
 const BROWSER_POST_URL = "https://services.epxuap.com/browserpost/";
 
 export default function NorthCheckoutPage() {
-  const router = useRouter();
+  const { requestTransition } = useTransition();
   const cart = useNorthCart();
   const [tac, setTac] = useState<string | null>(null);
   const [amount, setAmount] = useState<string | null>(null);
@@ -57,7 +57,7 @@ export default function NorthCheckoutPage() {
       });
 
       // res.url is the final URL after following the 303 redirect.
-      router.push(res.url.replace(window.location.origin, ""));
+      requestTransition(res.url.replace(window.location.origin, ""));
     } catch {
       setSimulating(null);
     }
@@ -72,7 +72,7 @@ export default function NorthCheckoutPage() {
           </p>
           <Link
             href="/payment-test"
-            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase  rounded-lg"
+            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase rounded-lg"
           >
             ← Back to Shop
           </Link>
@@ -86,7 +86,7 @@ export default function NorthCheckoutPage() {
       <div className="site-container max-w-xl mx-auto px-6">
         <Link
           href="/payment-test"
-          className="font-bold uppercase  text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
+          className="font-bold uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
         >
           ← Back to Shop
         </Link>
@@ -100,12 +100,12 @@ export default function NorthCheckoutPage() {
               Card Payment
             </h1>
             {mockMode ? (
-              <p className="text-yellow-300 mt-1 leading-relaxed">
+              <p className="text-yellow-300 mt-1 ">
                 🧪 Test mode: no real North credentials are configured, so this won&apos;t
                 contact EPX. Use the simulate buttons below instead of a real submit.
               </p>
             ) : (
-              <p className="mt-1 leading-relaxed">
+              <p className="mt-1 ">
                 Submitting this form sends your card details directly to North&apos;s servers —
                 they never pass through this site. This uses North&apos;s sandbox test card by
                 default.
@@ -144,7 +144,7 @@ export default function NorthCheckoutPage() {
               the account number get used, for the fake masked receipt). */}
           <div className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
+              <label className="block text-[10px] font-bold uppercase text-white/40 mb-1">
                 Account Number
               </label>
               <input
@@ -158,7 +158,7 @@ export default function NorthCheckoutPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
+                <label className="block text-[10px] font-bold uppercase text-white/40 mb-1">
                   Expiry (YYMM)
                 </label>
                 <input
@@ -171,7 +171,7 @@ export default function NorthCheckoutPage() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase  text-white/40 mb-1">
+                <label className="block text-[10px] font-bold uppercase text-white/40 mb-1">
                   CVV
                 </label>
                 <input
@@ -192,7 +192,7 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("approved")}
-                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold uppercase    rounded-lg transition-colors disabled:opacity-50"
+                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold uppercase rounded-lg transition-colors disabled:opacity-50"
               >
                 {simulating === "approved" ? "Simulating…" : `✅ Simulate Approved — $${amount}`}
               </button>
@@ -200,7 +200,7 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("declined")}
-                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold uppercase    rounded-lg transition-colors disabled:opacity-50"
+                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold uppercase rounded-lg transition-colors disabled:opacity-50"
               >
                 {simulating === "declined" ? "Simulating…" : "❌ Simulate Declined"}
               </button>
@@ -224,7 +224,7 @@ export default function NorthCheckoutPage() {
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase    rounded-lg transition-colors"
+                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase rounded-lg transition-colors"
               >
                 Submit Payment — ${amount}
               </button>

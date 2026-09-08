@@ -64,13 +64,13 @@ export default function Home() {
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
       <LazySection fallbackHeight="180px" id="logos" className="relative w-full py-section-fluid">
-        <div className="container mx-auto px-4 flex flex-col items-center text-center  mb-12">
-          <div className="inline-flex items-center gap-2 bg-[#00000029] border  border-white/10  px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
-            <span className=" font-black     text-white/95">
+        <div className="container mx-auto px-4 flex flex-col items-center text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-[#00000029] border border-white/10 px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
+            <span className=" font-black text-white/95">
               WHO WE&apos;VE PLAYED WITH &amp; WHERE WE&apos;VE BEEN FEATURED
             </span>
           </div>
-          <p className="mt-2 max-w-2xl text-sm md:text-base text-white/80 font-medium leading-relaxed">
+          <p className="mt-2 max-w-2xl  font-medium ">
             Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications.
           </p>
         </div>

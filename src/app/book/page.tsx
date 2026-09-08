@@ -103,11 +103,11 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 
   return (
     <div className="relative">
-      <span className="text-base font-bold uppercase    text-white block mb-1.5">{label}</span>
+      <span className="text-base font-bold uppercase text-white block mb-1.5">{label}</span>
       <button aria-label="Action button"
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`group w-full backdrop-blur-[45px] border  border-white/10  outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between rounded-lg ${value ? 'text-white font-semibold' : 'text-white/45'}`}
+        className={`group w-full backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-4 py-3.5 text-xl text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between rounded-lg ${value ? 'text-white font-semibold' : 'text-white/45'}`}
         style={{ background: "#a855f71f", border: "1px solid #ffffff1a" }}
       >
         <span className={`transition-[color,opacity] duration-200 ${value ? 'text-white font-semibold' : 'text-white/45 group-hover:text-white group-hover:opacity-100'}`}>
@@ -123,11 +123,11 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
               type="button"
               disabled={isPrevDisabled}
               onClick={() => setCalMonth(new Date(year, month - 1, 1))}
-              className={`p-1 transition-colors ${isPrevDisabled ? 'text-white/20 cursor-not-allowed' : ' text-white  hover:text-white cursor-pointer'}`}
+              className={`p-1 transition-colors ${isPrevDisabled ? 'text-white/20 cursor-not-allowed' : ' text-white hover:text-white cursor-pointer'}`}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
             </button>
-            <button aria-label="Action button" type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="font-bold uppercase  text-white/80 hover:text-[#c27aff] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
+            <button aria-label="Action button" type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="font-bold uppercase text-white/80 hover:text-[#c27aff] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
             <button aria-label="Next Month" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-white hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
           </div>
           {showMonthGrid ? (
@@ -143,7 +143,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                   const isPast = new Date(year, i + 1, 0) < today;
                   return (
                     <button aria-label="Action button" key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
-                      className={`py-2 rounded-lg text-base font-bold uppercase  transition-colors ${isPast ? 'text-white/20 cursor-not-allowed' : isCur ? 'bg-[#a855f7] text-white    shadow-purple-600/30' : 'text-white/70 hover:bg-white/10 cursor-pointer'}`}
+                      className={`py-2 rounded-lg text-base font-bold uppercase transition-colors ${isPast ? 'text-white/20 cursor-not-allowed' : isCur ? 'bg-[#a855f7] text-white shadow-purple-600/30' : 'text-white/70 hover:bg-white/10 cursor-pointer'}`}
                     >{m}</button>
                   );
                 })}
@@ -166,7 +166,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                     <button aria-label="Action button"
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-10 w-full font-bold rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white    shadow-purple-600/40  font-bold ' : ' bg-[#00000029]    hover:bg-white/15 text-white/80 cursor-pointer'}`}
+                      className={`h-10 w-full font-bold rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-purple-600/40 font-bold ' : ' bg-[#00000029] hover:bg-white/15 text-white/80 cursor-pointer'}`}
                     >
                       {i + 1}
                     </button>
@@ -174,7 +174,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                 })}
               </div>
               {value && (
-                <button aria-label="Action button" type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase    font-bold cursor-pointer">Clear</button>
+                <button aria-label="Action button" type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase font-bold cursor-pointer">Clear</button>
               )}
             </>
           )}
@@ -835,25 +835,25 @@ function BookPageContent() {
         {/* Background Glows */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-accent)] opacity-[0.05] rounded-lg blur-[150px] pointer-events-none" />
 
-        <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both] bg-[var(--color-bg-surface)]/80 border  border-white/10  backdrop-blur-xl p-10 rounded-[2rem]">
+        <div className="text-center max-w-lg relative z-10 w-full animate-[fade-in-up_0.6s_ease-out_both] bg-[var(--color-bg-surface)]/80 border border-white/10 backdrop-blur-xl p-10 rounded-[2rem]">
           <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 border border-[var(--color-accent)] flex items-center justify-center">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-3 tracking-tight">Request Received</h1>
+          <h1 className="text-3xl font-bold text-white mb-3 ">Request Received</h1>
           <p className="leading-relaxed mb-8">
             Thank you for your interest in booking 7th Heaven! We&apos;ve sent a confirmation email to <strong className="text-white">{formData.email}</strong>. Please check your inbox to verify your request.
             <br /><span className="text-base text-[var(--color-accent)]/70 mt-2 inline-block">✓ Notification sent to band management</span>
           </p>
 
           <div className="flex flex-col gap-3 w-full">
-            <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase  text-base py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
+            <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase text-base py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
               Book Another Show
             </Link>
             {!isLoggedIn && (
               creatingAccount ? (
-                <div className="bg-white/[0.03] border  border-white/10  p-5 text-left">
+                <div className="bg-white/[0.03] border border-white/10 p-5 text-left">
                   <div className="mb-4">
-                    <span className="text-base text-white/30 uppercase    font-bold block mb-1.5">Account Email</span>
+                    <span className="text-base text-white/30 uppercase font-bold block mb-1.5">Account Email</span>
                     {editingEmail ? (
                       <div className="flex gap-2">
                         <input aria-label="Input field"
@@ -862,15 +862,15 @@ function BookPageContent() {
                           onChange={e => setAccountEmail(e.target.value)}
                           autoFocus
                           disabled={pinSent || pinLoading}
-                          className="flex-1 border  border-white/10  px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
+                          className="flex-1 border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
-                        <button aria-label="Action button" type="button" onClick={() => setEditingEmail(false)} className="text-base text-[var(--color-accent)] font-bold uppercase  cursor-pointer px-3">Done</button>
+                        <button aria-label="Action button" type="button" onClick={() => setEditingEmail(false)} className="text-base text-[var(--color-accent)] font-bold uppercase cursor-pointer px-3">Done</button>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
                         <span className="text-lg text-white font-bold">{accountEmail}</span>
                         {!pinSent && (
-                          <button aria-label="Action button" type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 hover: text-[var(--color-accent)] uppercase    font-bold cursor-pointer transition-colors">Edit</button>
+                          <button aria-label="Action button" type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 hover: text-[var(--color-accent)] uppercase font-bold cursor-pointer transition-colors">Edit</button>
                         )}
                       </div>
                     )}
@@ -885,16 +885,16 @@ function BookPageContent() {
                           value={accountPassword}
                           onChange={e => setAccountPassword(e.target.value)}
                           disabled={pinLoading}
-                          className="flex-1 border  border-white/10  px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
+                          className="flex-1 border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
                         <button aria-label="Action button"
                           type="button"
                           disabled={!accountPassword || accountPassword.length < 6 || !accountEmail || pinLoading}
                           onClick={handleSendPin}
-                          className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg font-bold uppercase  transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]"
+                          className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg font-bold uppercase transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]"
                         >
                           {pinLoading ? (
-                            <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" />
+                            <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
                           ) : (
                             "Go →"
                           )}
@@ -912,16 +912,16 @@ function BookPageContent() {
                           value={pinCode}
                           onChange={e => setPinCode(e.target.value.replace(/\D/g, ''))}
                           disabled={pinLoading}
-                          className="flex-1 border  border-white/10  px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors text-center       disabled:opacity-50"
+                          className="flex-1 border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors text-center disabled:opacity-50"
                         />
                         <button aria-label="Action button"
                           type="button"
                           disabled={pinCode.length !== 6 || pinLoading}
                           onClick={handleVerifyPin}
-                          className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg font-bold uppercase  transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]"
+                          className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg font-bold uppercase transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]"
                         >
                           {pinLoading ? (
-                            <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" />
+                            <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
                           ) : (
                             "Verify & Create"
                           )}
@@ -976,14 +976,14 @@ function BookPageContent() {
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
-                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase  text-base py-4 px-8 transition-colors border  border-white/10  hover:border-[var(--color-accent)]/60 cursor-pointer"
+                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase text-base py-4 px-8 transition-colors border border-white/10 hover:border-[var(--color-accent)]/60 cursor-pointer"
                   >
                     Create Account
                   </button>
                 </div>
               )
             )}
-            <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase  text-base py-4 px-8 transition-colors border border-white/5">
+            <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase text-base py-4 px-8 transition-colors border border-white/5">
               Return to Homepage
             </Link>
           </div>
@@ -1023,7 +1023,7 @@ function BookPageContent() {
               <button aria-label="Action button"
                 type="button"
                 onClick={handleLoadLastForm}
-                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase  transition-colors cursor-pointer    rounded-lg shrink-0 flex items-center gap-1.5"
+                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase transition-colors cursor-pointer rounded-lg shrink-0 flex items-center gap-1.5"
               >
                 <Zap className="w-3.5 h-3.5" /> Populate
               </button>
@@ -1037,7 +1037,7 @@ function BookPageContent() {
             <h2 className="font-bold uppercase mb-4 flex items-center gap-3">
               Event Schedule & Format
             </h2>
-            <p className="font-medium mt-3 mb-6 max-w-2xl leading-relaxed">
+            <p className="font-medium mt-3 mb-6 max-w-2xl ">
               Select dates on the calendar to reserve 7th Heaven. You can select <strong>multiple dates</strong> for multi-day runs, and configure unique times, formats, and venue details for each date below.
             </p>
             <div className="mb-6">
@@ -1062,7 +1062,7 @@ function BookPageContent() {
                 <div className="flex items-center gap-3 mb-4">
                   <CalendarIcon className="w-5 h-5 text-[#c27aff] shrink-0" />
                   <div>
-                    <h4 className="font-bold uppercase    text-white">Flexible? Add Backup Dates</h4>
+                    <h4 className="font-bold uppercase text-white">Flexible? Add Backup Dates</h4>
                     <p className="">Increase your chances — we&apos;ll try your preferred date first</p>
                   </div>
                 </div>
@@ -1072,7 +1072,7 @@ function BookPageContent() {
                 </div>
                 {(altDate1 || altDate2) && (
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <span className="text-base text-white/50 uppercase    font-bold">Priority:</span>
+                    <span className="text-base text-white/50 uppercase font-bold">Priority:</span>
                     <span className="text-base bg-white/10 text-white/80 px-2.5 py-0.5 rounded-lg font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
                     {altDate1 && <span className="text-base bg-white/10 text-white/80 px-2.5 py-0.5 rounded-lg font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
                     {altDate2 && <span className="text-base bg-white/10 text-white/80 px-2.5 py-0.5 rounded-lg font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
@@ -1095,21 +1095,21 @@ function BookPageContent() {
           {/* Your Scheduled Shows (Full Width Grid) */}
           <div className="bg-[var(--color-section-bg)] relative">
             {bookingSlots.length === 0 ? (
-              <div className="text-center p-6 rounded-lg border-2 border-dashed  border-white/10  bg-white/[0.02] rounded-lg">
+              <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] rounded-lg">
                 <span className="text-4xl block mb-4">📅</span>
-                <h4 className="font-bold text-white uppercase  mb-2">No Dates Selected Yet</h4>
+                <h4 className="font-bold text-white uppercase mb-2">No Dates Selected Yet</h4>
                 <p className="max-w-md mx-auto">
                   Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once.
                 </p>
               </div>
             ) : (
               <>
-                <div className="flex items-center justify-between border-b  border-white/10  pb-4 mb-6">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                   <div>
                     <h4 className="font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
                     <p className="mt-1 uppercase">Configure individual times and formats for each show below</p>
                   </div>
-                  <span className="font-bold uppercase    text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-lg border border-cyan-400/30">
+                  <span className="font-bold uppercase text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-lg border border-cyan-400/30">
                     {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
                   </span>
                 </div>
@@ -1119,7 +1119,7 @@ function BookPageContent() {
                     return (
                       <div
                         key={slot.id}
-                        className="bg-[#00000029] border  border-white/10  hover:border-cyan-400/40 p-6 rounded-lg relative group transition-colors shadow-lg"
+                        className="bg-[#00000029] border border-white/10 hover:border-cyan-400/40 p-6 rounded-lg relative group transition-colors shadow-lg"
                       >
                         {/* Duplicate and Remove buttons */}
                         <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -1132,7 +1132,7 @@ function BookPageContent() {
                               };
                               setBookingSlots([...bookingSlots, newSlot]);
                             }}
-                            className="text-white hover:text-cyan-300 transition-colors cursor-pointer font-bold uppercase  flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border  border-white/10  hover:border-cyan-400/30"
+                            className="text-white hover:text-cyan-300 transition-colors cursor-pointer font-bold uppercase flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/10 hover:border-cyan-400/30"
                             title="Add another show on this date"
                           >
                             <Plus className="w-3 h-3" /> Add Another
@@ -1140,7 +1140,7 @@ function BookPageContent() {
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
-                            className="text-white hover:text-rose-400 transition-colors cursor-pointer font-bold uppercase  flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border  border-white/10  hover:border-rose-500/30"
+                            className="text-white hover:text-rose-400 transition-colors cursor-pointer font-bold uppercase flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border border-white/10 hover:border-rose-500/30"
                             title="Remove this show"
                           >
                             <X className="w-3 h-3" /> Remove
@@ -1148,14 +1148,14 @@ function BookPageContent() {
                         </div>
 
                         <div className="mb-4">
-                          <span className="font-bold uppercase    text-cyan-300 block mb-1">Show #{index + 1}</span>
+                          <span className="font-bold uppercase text-cyan-300 block mb-1">Show #{index + 1}</span>
                           <h5 className="text-base font-bold text-white tracking-wide">{formattedDate}</h5>
                         </div>
 
-                        <div className="space-y-3 mt-4 border-t  border-white/10  pt-4">
+                        <div className="space-y-3 mt-4 border-t border-white/10 pt-4">
                           {/* Format */}
                           <div>
-                            <label htmlFor={`slot-format-${slot.id}`} className="font-bold uppercase    text-white/50 block mb-1.5">Show Format</label>
+                            <label htmlFor={`slot-format-${slot.id}`} className="font-bold uppercase text-white/50 block mb-1.5">Show Format</label>
                             <Dropdown
                               id={`slot-format-${slot.id}`}
                               fullWidth={true}
@@ -1189,7 +1189,7 @@ function BookPageContent() {
                           {/* Times */}
                           <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <label htmlFor={`slot-start-${slot.id}`} className="font-bold uppercase    text-white/50 block mb-1.5">Start Time</label>
+                              <label htmlFor={`slot-start-${slot.id}`} className="font-bold uppercase text-white/50 block mb-1.5">Start Time</label>
                               <Dropdown
                                 id={`slot-start-${slot.id}`}
                                 fullWidth={true}
@@ -1203,7 +1203,7 @@ function BookPageContent() {
                               />
                             </div>
                             <div>
-                              <label htmlFor={`slot-end-${slot.id}`} className="font-bold uppercase    text-white/50 block mb-1.5">End Time</label>
+                              <label htmlFor={`slot-end-${slot.id}`} className="font-bold uppercase text-white/50 block mb-1.5">End Time</label>
                               <Dropdown
                                 id={`slot-end-${slot.id}`}
                                 fullWidth={true}
@@ -1222,8 +1222,8 @@ function BookPageContent() {
                         {/* Separate Contact/Venue details toggle buttons & form fields */}
                         <div className="mt-4 pt-4 border-t border-white/10">
                           <div className="mb-3">
-                            <span className="font-bold uppercase    text-white/50 block mb-2">Contact & Venue Details</span>
-                            <div className="grid grid-cols-2 gap-1.5 bg-black/50 p-1 border  border-white/10  rounded-lg">
+                            <span className="font-bold uppercase text-white/50 block mb-2">Contact & Venue Details</span>
+                            <div className="grid grid-cols-2 gap-1.5 bg-black/50 p-1 border border-white/10 rounded-lg">
                               <button aria-label="Action button"
                                 type="button"
                                 onClick={() => {
@@ -1239,7 +1239,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg font-bold uppercase  transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white   ' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg font-bold uppercase transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white ' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Share Main Info
                               </button>
@@ -1258,7 +1258,7 @@ function BookPageContent() {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg font-bold uppercase  transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white   ' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                className={`py-2 rounded-lg font-bold uppercase transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white ' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                               >
                                 Use Separate Info
                               </button>
@@ -1266,31 +1266,31 @@ function BookPageContent() {
                           </div>
 
                           {!slot.useSeparateInfo ? (
-                            <div className="p-3.5 bg-white/[0.03] border  border-white/10  rounded-lg text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
+                            <div className="p-3.5 bg-white/[0.03] border border-white/10 rounded-lg text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
                               <div className="flex justify-between items-start gap-2">
-                                <span className="font-bold text-white/40 uppercase      mt-0.5">Contact:</span>
+                                <span className="font-bold text-white/40 uppercase mt-0.5">Contact:</span>
                                 <span className="text-white font-medium text-right break-all">
-                                  {formData.name || <span className="text-white/20   ">(empty)</span>}
-                                  {formData.email && <span className="block   text-white/40    mt-0.5">{formData.email}</span>}
+                                  {formData.name || <span className="text-white/20 ">(empty)</span>}
+                                  {formData.email && <span className="block text-white/40 mt-0.5">{formData.email}</span>}
                                 </span>
                               </div>
                               <div className="flex justify-between items-start gap-2">
-                                <span className="font-bold text-white/40 uppercase      mt-0.5">Venue:</span>
+                                <span className="font-bold text-white/40 uppercase mt-0.5">Venue:</span>
                                 <span className="text-white font-medium text-right break-all">
-                                  {formData.venueName || <span className="text-white/20   ">(empty)</span>}
+                                  {formData.venueName || <span className="text-white/20 ">(empty)</span>}
                                   {(formData.venueCity || formData.venueState) && (
-                                    <span className="block   text-white/40 mt-0.5">{formData.venueCity || '—'}, {formData.venueState || '—'}</span>
+                                    <span className="block text-white/40 mt-0.5">{formData.venueCity || '—'}, {formData.venueState || '—'}</span>
                                   )}
                                 </span>
                               </div>
-                              <p className="text-cyan-300 font-bold tracking-wide mt-2 pt-1.5 border-t  border-white/10  text-right flex items-center justify-end gap-1">
+                              <p className="text-cyan-300 font-bold tracking-wide mt-2 pt-1.5 border-t border-white/10 text-right flex items-center justify-end gap-1">
                                 <span>🔗 Link Active: Shares contact & venue data</span>
                               </p>
                             </div>
                           ) : (
-                            <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.03] border  border-white/10  rounded-xl">
+                            <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.03] border border-white/10 rounded-xl">
                               <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
-                                <span className="  font-bold uppercase    text-white/40">Separate Show Info</span>
+                                <span className=" font-bold uppercase text-white/40">Separate Show Info</span>
                                 <div className="flex gap-2">
                                   <button aria-label="Action button"
                                     type="button"
@@ -1306,7 +1306,7 @@ function BookPageContent() {
                                       } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="  font-bold text-cyan-300 hover:underline cursor-pointer"
+                                    className=" font-bold text-cyan-300 hover:underline cursor-pointer"
                                   >
                                     ⚡ Copy Main
                                   </button>
@@ -1331,7 +1331,7 @@ function BookPageContent() {
                                           }
                                         } catch { }
                                       }}
-                                      className="  font-bold text-purple-400 hover:underline cursor-pointer"
+                                      className=" font-bold text-purple-400 hover:underline cursor-pointer"
                                     >
                                       ⚡ Load Last
                                     </button>
@@ -1341,7 +1341,7 @@ function BookPageContent() {
 
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label htmlFor={`slot-contact-name-${slot.id}`} className="  font-bold uppercase    text-white/50 block mb-1">Contact Name</label>
+                                  <label htmlFor={`slot-contact-name-${slot.id}`} className=" font-bold uppercase text-white/50 block mb-1">Contact Name</label>
                                   <input aria-label="Input field"
                                     id={`slot-contact-name-${slot.id}`}
                                     type="text"
@@ -1351,11 +1351,11 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border  border-white/10  py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
-                                  <label htmlFor={`slot-contact-email-${slot.id}`} className="  font-bold uppercase    text-white/50 block mb-1">Contact Email</label>
+                                  <label htmlFor={`slot-contact-email-${slot.id}`} className=" font-bold uppercase text-white/50 block mb-1">Contact Email</label>
                                   <input aria-label="Input field"
                                     id={`slot-contact-email-${slot.id}`}
                                     type="email"
@@ -1365,13 +1365,13 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border  border-white/10  py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
 
                               <div>
-                                <label htmlFor={`slot-venue-name-${slot.id}`} className="  font-bold uppercase    text-white/50 block mb-1">Venue Name</label>
+                                <label htmlFor={`slot-venue-name-${slot.id}`} className=" font-bold uppercase text-white/50 block mb-1">Venue Name</label>
                                 <input aria-label="Input field"
                                   id={`slot-venue-name-${slot.id}`}
                                   type="text"
@@ -1381,13 +1381,13 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[#00000029] backdrop-blur-[45px] border  border-white/10  py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                  className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                 />
                               </div>
 
                               <div className="grid grid-cols-2 gap-2">
                                 <div>
-                                  <label htmlFor={`slot-venue-city-${slot.id}`} className="  font-bold uppercase    text-white/50 block mb-1">City</label>
+                                  <label htmlFor={`slot-venue-city-${slot.id}`} className=" font-bold uppercase text-white/50 block mb-1">City</label>
                                   <input aria-label="Input field"
                                     id={`slot-venue-city-${slot.id}`}
                                     type="text"
@@ -1397,11 +1397,11 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border  border-white/10  py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
-                                  <label htmlFor={`slot-venue-state-${slot.id}`} className="  font-bold uppercase    text-white/50 block mb-1">State</label>
+                                  <label htmlFor={`slot-venue-state-${slot.id}`} className=" font-bold uppercase text-white/50 block mb-1">State</label>
                                   <input aria-label="Input field"
                                     id={`slot-venue-state-${slot.id}`}
                                     type="text"
@@ -1411,7 +1411,7 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border  border-white/10  py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1423,10 +1423,10 @@ function BookPageContent() {
                           <button aria-label="Previous"
                             type="button"
                             onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
-                            className="w-full text-left flex items-center justify-between font-bold uppercase    text-cyan-300 hover:text-purple-400 transition-colors"
+                            className="w-full text-left flex items-center justify-between font-bold uppercase text-cyan-300 hover:text-purple-400 transition-colors"
                           >
                             <span className="flex items-center gap-1.5"><Megaphone className="w-3.5 h-3.5" /> Tour Page Details {expandedMetadata[slot.id] ? <ChevronDown className="w-3.5 h-3.5 inline" /> : <ChevronRight className="w-3.5 h-3.5 inline" />}</span>
-                            <span className="  text-white/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
+                            <span className=" text-white/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
                           </button>
 
                           {expandedMetadata[slot.id] && (
@@ -1443,7 +1443,7 @@ function BookPageContent() {
 
           {/* Step 2: Contact Information */}
           <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both]">
-            <h2 className="font-bold uppercase    text-purple-400mb-6 flex items-center gap-3">
+            <h2 className="font-bold uppercase text-purple-400mb-6 flex items-center gap-3">
               Contact Information
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1462,7 +1462,7 @@ function BookPageContent() {
 
             {/* Show Event Start & End Times + Band Schedule */}
             <div className="space-y-4">
-              <div className="border-b  border-white/10  pb-2.5">
+              <div className="border-b border-white/10 pb-2.5">
 
               </div>
 
@@ -1506,15 +1506,15 @@ function BookPageContent() {
                   />
                 </div>
               </div>
-              <p className="text-purple-300/80 font-medium flex items-center gap-1 leading-tight mt-1.5 justify-end">
+              <p className="text-purple-300/80 font-medium flex items-center gap-1 mt-1.5 justify-end">
                 Band load-in is usually ~2 hours before band start time.
               </p>
 
               {isLoadInUnsure && (
-                <div className="p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-lg text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both]   ">
+                <div className="p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-lg text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both] ">
                   <div className="space-y-1">
                     <span className="font-bold text-white block">Unsure of exact load-in time? No problem!</span>
-                    <span className="text-white/80 leading-relaxed block">
+                    <span className="text-white/80 block">
                       Our 7th Heaven band booking admin will coordinate your event schedule, update the load-in setup time, and send a confirmation email directly to the planner.
                     </span>
                   </div>
@@ -1524,8 +1524,8 @@ function BookPageContent() {
 
             {/* Venue Address & Location Picker */}
             <div className="space-y-5">
-              <div className="border-b  border-white/10  pb-3">
-                <h3 className="font-bold uppercase    text-purple-300 flex items-center gap-2">
+              <div className="border-b border-white/10 pb-3">
+                <h3 className="font-bold uppercase text-purple-300 flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#c27aff]" /> Venue Address & Location Setup
                 </h3>
               </div>
@@ -1677,7 +1677,7 @@ function BookPageContent() {
                   <RadioPillField label="Stage Available?" name="stageAvailable" value={formData.stageAvailable} onChange={handleChange} options={["Yes", "No — performing at floor level", "Portable / riser can be arranged", "Not sure"]} />
                   <RadioPillField label="Backline Provided?" name="backlineProvided" value={formData.backlineProvided} onChange={handleChange} options={["Yes — amps, drums, etc.", "Partial", "No — band brings everything", "Not sure"]} />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t  border-white/10  pt-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-white/10 pt-8">
                     <div>
                       <InputField label="Expected Attendance" name="expectedAttendance" value={formData.expectedAttendance} onChange={handleChange} placeholder="~200 people" />
                     </div>
@@ -1701,9 +1701,9 @@ function BookPageContent() {
                           key={option.id}
                           type="button"
                           onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                          className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ? 'border-cyan-400 bg-cyan-500/20   '
-                            : ' border-white/10   bg-[#00000029]    hover:  border-white/10   hover:bg-white/10'
-                            }`}
+                          className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ? 'border-cyan-400 bg-cyan-500/20 '
+ : ' border-white/10 bg-[#00000029] hover: border-white/10 hover:bg-white/10'
+ }`}
                         >
                           <span className="text-xl mt-0.5">{option.icon}</span>
                           <div className="flex-1 min-w-0">
@@ -1721,8 +1721,8 @@ function BookPageContent() {
                   })()}
                 </div>
                 {addOns.length > 0 && (
-                  <div className="mt-5 pt-4 border-t  border-white/10  flex items-center gap-3 flex-wrap">
-                    <span className="text-base font-bold uppercase    text-white/50">Selected:</span>
+                  <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-3 flex-wrap">
+                    <span className="text-base font-bold uppercase text-white/50">Selected:</span>
                     {addOns.map(id => (
                       <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 text-cyan-300 text-base font-bold rounded-lg border border-cyan-400/30">
                         {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
@@ -1746,13 +1746,13 @@ function BookPageContent() {
                     onChange={handleChange}
                     rows={5}
                     placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                    className="w-full bg-[#00000029] border-0 text-white text-base leading-relaxed px-4 py-3 focus:outline-none transition resize-none placeholder:text-white/40 rounded-lg"
+                    className="w-full bg-[#00000029] border-0 text-white text-base px-4 py-3 focus:outline-none transition resize-none placeholder:text-white/40 rounded-lg"
                   />
                 </div>
                 {formData.details && (
                   <div className="mt-3 flex items-center gap-2 text-base text-emerald-400">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-                    <span className="uppercase    font-bold">Note attached to your booking</span>
+                    <span className="uppercase font-bold">Note attached to your booking</span>
                   </div>
                 )}
               </div>
@@ -1768,11 +1768,11 @@ function BookPageContent() {
             <div>
               <div className="sticky top-32">
                 <div className="bg-transparent border-0 p-0 shadow-none">
-                  <h3 className="font-bold    uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
+                  <h3 className="font-bold uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
                   <div className="flex flex-col gap-4 mb-8">
                     <div className="flex justify-between items-start">
-                      <span className="text-lg text-white/50 uppercase    mt-1">Date</span>
+                      <span className="text-lg text-white/50 uppercase mt-1">Date</span>
                       <span className="text-base font-bold text-white text-right">
                         {bookingSlots.length === 1 ? (
                           new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
@@ -1784,7 +1784,7 @@ function BookPageContent() {
                       </span>
                     </div>
                     <div className="flex justify-between items-start">
-                      <span className="text-lg text-white/50 uppercase    mt-1">Time</span>
+                      <span className="text-lg text-white/50 uppercase mt-1">Time</span>
                       <span className="text-base font-bold text-white text-right">
                         {bookingSlots.length === 1 ? (
                           `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
@@ -1796,13 +1796,13 @@ function BookPageContent() {
                       </span>
                     </div>
                     <div className="flex justify-between items-start">
-                      <span className="text-lg text-white/50 uppercase    mt-1">Format</span>
+                      <span className="text-lg text-white/50 uppercase mt-1">Format</span>
                       <span className="text-base font-bold text-cyan-300 text-right">
                         {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="text-cyan-400/30">—</span>}
                       </span>
                     </div>
                     <div className="flex justify-between items-start pt-4 border-t border-white/10">
-                      <span className="text-lg text-white/50 uppercase    mt-1">Venue</span>
+                      <span className="text-lg text-white/50 uppercase mt-1">Venue</span>
                       <span className="text-base font-bold text-white text-right break-words max-w-[150px]">
                         {formData.venueName ? formData.venueName : <span className="text-white/30">—</span>}
                         {formData.venueCity && <span className="block text-base text-white/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
@@ -1810,7 +1810,7 @@ function BookPageContent() {
                     </div>
                     {addOns.length > 0 && (
                       <div className="flex justify-between items-start pt-4 border-t border-white/10">
-                        <span className="text-lg text-white/50 uppercase    mt-1">Add-Ons</span>
+                        <span className="text-lg text-white/50 uppercase mt-1">Add-Ons</span>
                         <div className="text-right">
                           <span className="text-base font-bold text-cyan-300">{addOns.length} selected</span>
                           <div className="flex flex-wrap gap-1 mt-1 justify-end max-w-[160px]">
@@ -1831,7 +1831,7 @@ function BookPageContent() {
                     <div className="bg-rose-500/10 border border-rose-500/30 p-4 mb-4 rounded-xl">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-rose-400">⚠</span>
-                        <span className="text-rose-300 text-lg font-bold uppercase   ">Please fix the following</span>
+                        <span className="text-rose-300 text-lg font-bold uppercase ">Please fix the following</span>
                       </div>
                       <ul className="space-y-1">
                         {validationErrors.map((err, i) => (
@@ -1845,11 +1845,11 @@ function BookPageContent() {
                     type="submit"
                     icon={false}
                     disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                    className="w-full text-white font-bold  text-base py-4 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-full text-white font-bold text-base py-4 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {submitting ? (
                       <>
-                        <span className="w-4 h-4 border-2  border-white/10  border-t-white rounded-lg animate-spin" />
+                        <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
                         Submitting...
                       </>
                     ) : (
@@ -1877,7 +1877,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
     <div className="mt-4 space-y-3 animate-[fade-in-up_0.15s_ease-out_both]">
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor={`slot-age-limit-${slot.id}`} className="  font-bold uppercase    text-white/50 block mb-1">Age Limit</label>
+          <label htmlFor={`slot-age-limit-${slot.id}`} className=" font-bold uppercase text-white/50 block mb-1">Age Limit</label>
           <Dropdown
             id={`slot-age-limit-${slot.id}`}
             fullWidth={true}
@@ -1895,7 +1895,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
           />
         </div>
         <div>
-          <label htmlFor={`slot-doors-time-${slot.id}`} className="  font-bold uppercase    text-white/50 block mb-1">Doors Time</label>
+          <label htmlFor={`slot-doors-time-${slot.id}`} className=" font-bold uppercase text-white/50 block mb-1">Doors Time</label>
           <Dropdown
             id={`slot-doors-time-${slot.id}`}
             fullWidth={true}
@@ -1913,7 +1913,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor={`slot-cover-${slot.id}`} className="  font-bold uppercase    text-white/50 block mb-1">Cover / Price</label>
+          <label htmlFor={`slot-cover-${slot.id}`} className=" font-bold uppercase text-white/50 block mb-1">Cover / Price</label>
           <input aria-label="Input field"
             id={`slot-cover-${slot.id}`}
             type="text"
@@ -1923,11 +1923,11 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#00000029] backdrop-blur-[45px] border  border-white/10  py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
         <div>
-          <label htmlFor={`slot-ticket-link-${slot.id}`} className="  font-bold uppercase    text-white/50 block mb-1">Ticket Link</label>
+          <label htmlFor={`slot-ticket-link-${slot.id}`} className=" font-bold uppercase text-white/50 block mb-1">Ticket Link</label>
           <input aria-label="Input field"
             id={`slot-ticket-link-${slot.id}`}
             type="text"
@@ -1937,7 +1937,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#00000029] backdrop-blur-[45px] border  border-white/10  py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
       </div>
@@ -1977,10 +1977,10 @@ function MapPickerModal({
   return (
     <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
       <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg w-full max-w-2xl overflow-hidden shadow-2xl space-y-5 p-6 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between border-b  border-white/10  pb-4">
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="w-5 h-5 text-[#c27aff]" />
-            <h3 className="font-bold uppercase  text-white">Google Maps Location & Address Picker</h3>
+            <h3 className="font-bold uppercase text-white">Google Maps Location & Address Picker</h3>
           </div>
           <button aria-label="Close modal"
             type="button"
@@ -1995,14 +1995,14 @@ function MapPickerModal({
         {savedAddresses.length > 0 && (
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
-              <label className="font-bold uppercase    text-purple-400block">Saved Locations & Venue Presets</label>
+              <label className="font-bold uppercase text-purple-400block">Saved Locations & Venue Presets</label>
               <span className="text-[10px] text-white/50 font-normal">Click to auto-fill form</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {savedAddresses.map((item) => (
                 <div
                   key={item.id}
-                  className="p-3 bg-[#00000029] hover:bg-white/10 border  border-white/10  hover:border-purple-400/50 rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer"
+                  className="p-3 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-purple-400/50 rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer"
                   onClick={() => {
                     if (onSelectSaved) {
                       onSelectSaved(item);
@@ -2059,28 +2059,28 @@ function MapPickerModal({
           </div>
         )}
 
-        <div className="space-y-2 border-t  border-white/10  pt-4">
-          <label className="font-bold uppercase    text-purple-400block">Search Location or Paste Google Maps Address</label>
+        <div className="space-y-2 border-t border-white/10 pt-4">
+          <label className="font-bold uppercase text-purple-400block">Search Location or Paste Google Maps Address</label>
           <div className="flex gap-2">
             <input aria-label="Input field"
               type="text"
               value={addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
               placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
-              className="flex-1 bg-[#00000029] border  border-white/10  rounded-lg px-4 py-2.5 text-white focus:border-cyan-400 focus:outline-none"
+              className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-cyan-400 focus:outline-none"
             />
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2.5 bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/40 rounded-lg font-bold text-white uppercase  transition-colors inline-flex items-center gap-1.5 shrink-0"
+              className="px-3.5 py-2.5 bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/40 rounded-lg font-bold text-white uppercase transition-colors inline-flex items-center gap-1.5 shrink-0"
             >
               <Navigation className="w-3.5 h-3.5 text-cyan-300" /> Open Map
             </a>
           </div>
         </div>
 
-        <div className="flex items-center justify-between gap-3 pt-4 border-t  border-white/10  flex-wrap">
+        <div className="flex items-center justify-between gap-3 pt-4 border-t border-white/10 flex-wrap">
           {onSaveNewAddress && (
             <button
               type="button"
@@ -2089,7 +2089,7 @@ function MapPickerModal({
                   onSaveNewAddress(addressInput.trim());
                 }
               }}
-              className="px-3.5 py-2 bg-[var(--color-accent)] rounded-lg font-bold uppercase  flex items-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-2 bg-[var(--color-accent)] rounded-lg font-bold uppercase flex items-center gap-1.5 cursor-pointer"
             >
               <Bookmark className="w-3.5 h-3.5" /> Save to Favorites
             </button>
@@ -2098,7 +2098,7 @@ function MapPickerModal({
             <button aria-label="Cancel button"
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 rounded-lg font-bold text-white hover:text-white uppercase  transition-colors"
+              className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 rounded-lg font-bold text-white hover:text-white uppercase transition-colors"
             >
               Cancel
             </button>
@@ -2108,7 +2108,7 @@ function MapPickerModal({
                 onSave(addressInput);
                 onClose();
               }}
-              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg font-bold text-white uppercase  transition-transform    cursor-pointer flex items-center gap-1.5"
+              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg font-bold text-white uppercase transition-transform cursor-pointer flex items-center gap-1.5"
             >
               <Check className="w-4 h-4" /> Save Location to Form
             </button>

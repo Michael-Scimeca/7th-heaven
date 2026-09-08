@@ -45,7 +45,7 @@ export default function TextColorTestPage() {
     <div className="min-h-screen w-full bg-black px-6 pt-16 pb-[65vh] text-white">
       <div className="mx-auto flex max-w-4xl flex-col gap-16">
         <header className="flex flex-col gap-2">
-          <p className="uppercase   ">
+          <p className="uppercase ">
             /textcolor test page
           </p>
           <h1 className="text-2xl font-semibold text-white/80">
@@ -68,10 +68,10 @@ export default function TextColorTestPage() {
 
         {/* Hero replica */}
         <section className="flex flex-col items-start gap-4">
-          <h2 className="font-bold tracking-tight sm:text-6xl">
+          <h2 className="font-bold sm:text-6xl">
             Ship <AuroraText colors={PRESETS[0].colors}>beautiful</AuroraText>
           </h2>
-          <h2 className="font-bold tracking-tight text-white/90">
+          <h2 className="font-bold text-white/90">
             Ship <AuroraText colors={PRESETS[0].colors}>beautiful</AuroraText>
           </h2>
         </section>
@@ -85,7 +85,7 @@ export default function TextColorTestPage() {
             {PRESETS.map((preset) => (
               <div
                 key={preset.name}
-                className="flex flex-col gap-2 rounded-lg border  border-white/10  p-6"
+                className="flex flex-col gap-2 rounded-lg border border-white/10 p-6"
               >
                 <p className="font-extrabold">
                   <AuroraText colors={preset.colors} speed={preset.speed}>
@@ -104,7 +104,7 @@ export default function TextColorTestPage() {
             Playground
           </h3>
 
-          <div className="flex flex-col gap-6 rounded-lg border  border-white/10  p-6">
+          <div className="flex flex-col gap-6 rounded-lg border border-white/10 p-6">
             <p className="font-bold">
               <AuroraText colors={colors} speed={speed}>
                 {text || " "}
@@ -117,7 +117,7 @@ export default function TextColorTestPage() {
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="rounded border  border-white/10  bg-[#00000029] px-3 py-2 text-white outline-none focus:border-white/40"
+                className="rounded border border-white/10 bg-[#00000029] px-3 py-2 text-white outline-none focus:border-white/40"
               />
             </label>
 
@@ -142,9 +142,9 @@ export default function TextColorTestPage() {
                       type="color"
                       value={c}
                       onChange={(e) => updateColor(i, e.target.value)}
-                      className="h-8 w-8 cursor-pointer rounded border  border-white/10  bg-transparent"
+                      className="h-8 w-8 cursor-pointer rounded border border-white/10 bg-transparent"
                     />
-                    <span className="   text-white/50">
+                    <span className=" text-white/50">
                       {c}
                     </span>
                   </label>

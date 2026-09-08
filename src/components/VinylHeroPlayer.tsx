@@ -575,8 +575,8 @@ export default function VinylHeroPlayer({
             {/* LAYER 2 & 3: Vinyl disc track & Controls overlay — REVEALED SMOOTHLY ONCE READY */}
             <div
               className={`transition-all duration-700 ease-out ${isPlayerReady ? "opacity-100 scale-100 blur-0 pointer-events-auto"
-                : "opacity-0 scale-95 blur-xs pointer-events-none"
-                }`}
+ : "opacity-0 scale-95 blur-xs pointer-events-none"
+ }`}
             >
               {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
               <div style={{
@@ -609,8 +609,8 @@ export default function VinylHeroPlayer({
                           <button
                             type="button"
                             className={`relative rounded-lg flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
-                              : "opacity-90 scale-90 z-0"
-                              } ${isActive ? "vinyl-spinning" : ""}`}
+ : "opacity-90 scale-90 z-0"
+ } ${isActive ? "vinyl-spinning" : ""}`}
                             style={{
                               width: "165px",
                               height: "165px",
@@ -645,7 +645,7 @@ export default function VinylHeroPlayer({
                               >
                                 <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
-                                  <span className="text-[var(--font-size-5xs)] font-bold text-white uppercase tracking-tighter leading-none">{album.title}</span>
+                                  <span className="text-[var(--font-size-5xs)] font-bold text-white uppercase er leading-none">{album.title}</span>
                                   <span className="w-2 h-2 rounded-lg bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
                                 </div>
                               </div>
@@ -664,7 +664,7 @@ export default function VinylHeroPlayer({
 
                   {/* Top Controls */}
                   <div className="flex items-center justify-center pointer-events-auto ">
-                    <div className="flex items-center gap-2 bg-black /60 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border  border-white/10  shadow w-full">
+                    <div className="flex items-center gap-2 bg-black /60 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10 shadow w-full">
                       <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                       </button>
@@ -684,8 +684,8 @@ export default function VinylHeroPlayer({
                       <button aria-label="Toggle Playlist"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
                         className={`p-1.5 rounded-lg transition-all duration-300 cursor-pointer ${showTracklist ? "text-white bg-[#d946ef] border border-white shadow-[0_0_20px_#d946ef,0_0_10px_#ffffff] scale-110"
-                          : "text-white bg-[#d946ef]/25 border border-[#d946ef]/60 shadow-[0_0_14px_rgba(217,70,239,0.9)] hover:bg-[#d946ef]/50 hover:border-[#d946ef] hover:shadow-[0_0_20px_rgba(217,70,239,1)]"
-                          }`}
+ : "text-white bg-[#d946ef]/25 border border-[#d946ef]/60 shadow-[0_0_14px_rgba(217,70,239,0.9)] hover:bg-[#d946ef]/50 hover:border-[#d946ef] hover:shadow-[0_0_20px_rgba(217,70,239,1)]"
+ }`}
                         title="Toggle Playlist"
                       >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_4px_rgba(255,255,255,0.9)]">
@@ -727,7 +727,7 @@ export default function VinylHeroPlayer({
                         }}
                       >
                         {/* Track Background */}
-                        <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-lg overflow-hidden border  border-white/10  backdrop-blur-[45px] transition-all duration-200">
+                        <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-lg overflow-hidden border border-white/10 backdrop-blur-[45px] transition-all duration-200">
                           <div
                             className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-lg shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                             style={{ width: `${Math.min(100, Math.max(0, volume * 100))}%` }}
@@ -763,9 +763,9 @@ export default function VinylHeroPlayer({
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                        className="text-left border-0 bg-white text-black rounded-lg px-3 py-1    min-w-[130px] cursor-pointer"
+                        className="text-left border-0 bg-white text-black rounded-lg px-3 py-1 min-w-[130px] cursor-pointer"
                       >
-                        <div className="text-[12px] font-bold uppercase leading-tight flex items-center gap-1">
+                        <div className="text-[12px] font-bold uppercase flex items-center gap-1">
                           <span className="truncate">{currentAlbum.title}</span>
                           {isBuffering ? (
                             <span className="text-[12px] font-bold text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1.5 py-0.5 rounded-lg animate-pulse shrink-0 flex items-center gap-1">
@@ -776,7 +776,7 @@ export default function VinylHeroPlayer({
                             <span className="text-[10px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
                           )}
                         </div>
-                        <div className="text-[10px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
+                        <div className="text-[10px] font-extrabold uppercase text-black/70 leading-none truncate mt-0.5">
                           {currentTrack.title}
                         </div>
                       </button>
@@ -784,7 +784,7 @@ export default function VinylHeroPlayer({
                       <Link
                         href={currentAlbum.storeUrl}
                         onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 bg-purple-600 hover:bg-purple-500 text-white !text-white text-[10px] font-black uppercase  px-3.5 py-1.5 rounded-lg shadow-[0_0_14px_rgba(147,51,234,0.8)] transition-all   shrink-0 z-10"
+                        className="flex items-center gap-1.5 bg-purple-600 hover:bg-purple-500 text-white !text-white text-[10px] font-black uppercase px-3.5 py-1.5 rounded-lg shadow-[0_0_14px_rgba(147,51,234,0.8)] transition-all shrink-0 z-10"
                         style={{ color: "#ffffff", fill: "#ffffff" }}
                       >
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="#ffffff" style={{ color: "#ffffff", fill: "#ffffff" }} className="shrink-0"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
@@ -798,7 +798,7 @@ export default function VinylHeroPlayer({
                   <div className="pointer-events-auto px-1 mt-2">
                     <div className="relative w-full h-4 flex items-center cursor-pointer group">
                       {/* Track Background */}
-                      <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-lg overflow-hidden border  border-white/10  backdrop-blur-[45px] transition-all duration-200">
+                      <div className="h-1.5 w-full bg-white/10 group-hover:bg-white/20 rounded-lg overflow-hidden border border-white/10 backdrop-blur-[45px] transition-all duration-200">
                         {/* Filled Progress Gradient Bar */}
                         <div
                           className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] rounded-lg shadow-[0_0_10px_rgba(217,70,239,0.8)]"
@@ -822,7 +822,7 @@ export default function VinylHeroPlayer({
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
                       />
                     </div>
-                    <div className="flex justify-between    text-white mt-0.5">
+                    <div className="flex justify-between text-white mt-0.5">
                       <span>{currentTime}</span>
                       <span>{duration}</span>
                     </div>
@@ -833,14 +833,14 @@ export default function VinylHeroPlayer({
             {/* ── TRACKLIST PANEL — aligned flush with the top of the glass sleeve box ── */}
             <div
               className={`absolute top-0 bottom-0 flex flex-col text-left transition-colors duration-500 ease-out origin-left z-40 ${showTracklist ? "opacity-100 pointer-events-auto"
-                : "opacity-0 pointer-events-none"
-                }`}
+ : "opacity-0 pointer-events-none"
+ }`}
               style={{ left: 'calc(50% + 135px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative border  border-white/10  h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px] rounded-lg overflow-hidden">
+              <div className="relative border border-white/10 h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px] rounded-lg overflow-hidden">
                 {/* Always-Visible Glowing Purple Scrollbar Indicator Track */}
-                <div className="absolute top-[38px] bottom-2 right-1.5 w-1.5 bg-white/10 rounded-lg border  border-white/10  overflow-hidden pointer-events-none z-50">
+                <div className="absolute top-[38px] bottom-2 right-1.5 w-1.5 bg-white/10 rounded-lg border border-white/10 overflow-hidden pointer-events-none z-50">
                   <div
                     className="w-full rounded-lg bg-gradient-to-b from-white via-white/90 to-white/70 shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-transform duration-75"
                     style={{
@@ -849,8 +849,8 @@ export default function VinylHeroPlayer({
                     }}
                   />
                 </div>
-                <div className="flex items-center justify-between mb-1.5 pb-1 border-b  border-white/10  whitespace-nowrap px-4">
-                  <span className="text-[12px] font-bold uppercase  text-[var(--color-accent)]">
+                <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap px-4">
+                  <span className="text-[12px] font-bold uppercase text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
                   </span>
                   <div className="flex items-center gap-1.5">
@@ -861,7 +861,7 @@ export default function VinylHeroPlayer({
                   </div>
                 </div>
                 <ol
-                  className="scrollbar-none max-h-[200px] overflow-y-scroll pointer-events-auto space-y-1 font-sans text-[12px] pt-2 font-bold uppercase text-white/80 tracking-tight pr-3.5 pb-2 whitespace-nowrap [&::-webkit-scrollbar]:hidden"
+                  className="scrollbar-none max-h-[200px] overflow-y-scroll pointer-events-auto space-y-1 font-sans text-[12px] pt-2 font-bold uppercase text-white/80 pr-3.5 pb-2 whitespace-nowrap [&::-webkit-scrollbar]:hidden"
                   style={{ scrollBehavior: 'smooth', overscrollBehavior: 'contain', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                   onScroll={handleTracklistScroll}
                   onWheel={(e) => e.stopPropagation()}
@@ -873,10 +873,10 @@ export default function VinylHeroPlayer({
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                          className={`w-full text-left border-0 bg-transparent flex items-center gap-2 px-3 py-[1px] transition-colors duration-200 !rounded-none ${isSelected ? "text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white hover: bg-[#00000029]  cursor-pointer"
-                            }`}
+                          className={`w-full text-left border-0 bg-transparent flex items-center gap-2 px-3 py-[1px] transition-colors duration-200 !rounded-none ${isSelected ? "text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white hover: bg-[#00000029] cursor-pointer"
+ }`}
                         >
-                          <span className="text-[12px]    opacity-50 w-4 text-right">{track.number}.</span>
+                          <span className="text-[12px] opacity-50 w-4 text-right">{track.number}.</span>
                           <span className="truncate flex-1 text-[14px]">{track.title}</span>
                           {isSelected && isPlaying && <span className="w-2 h-2 bg-[#d946ef] animate-pulse" />}
                         </button>

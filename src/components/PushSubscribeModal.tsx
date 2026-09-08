@@ -105,13 +105,13 @@ export default function PushSubscribeModal({
                 <h3 className="font-bold text-white tracking-wide">
                   Live Stream Push Alerts
                 </h3>
-                <span className="font-bold uppercase  text-purple-400">
+                <span className="font-bold uppercase text-purple-400">
                   7th Heaven Official Notifications
                 </span>
               </div>
             </div>
 
-            <p className="text-gray-300/90 leading-relaxed mb-6">
+            <p className="text-gray-300/90 mb-6">
               Enter your details below to get instant push notifications whenever 7th Heaven or a crew member goes live!
             </p>
 
@@ -123,7 +123,7 @@ export default function PushSubscribeModal({
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block font-bold uppercase  text-gray-300 mb-1.5">
+                <label className="block font-bold uppercase text-gray-300 mb-1.5">
                   Your Full Name
                 </label>
                 <div className="relative w-full">
@@ -134,7 +134,7 @@ export default function PushSubscribeModal({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Michael Scimeca"
-                      className="w-full bg-[#0d071b] border  border-white/10  rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
+                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                     />
                   </div>
                   <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -144,7 +144,7 @@ export default function PushSubscribeModal({
               </div>
 
               <div>
-                <label className="block font-bold uppercase  text-gray-300 mb-1.5">
+                <label className="block font-bold uppercase text-gray-300 mb-1.5">
                   Your Email Address
                 </label>
                 <div className="relative w-full">
@@ -155,7 +155,7 @@ export default function PushSubscribeModal({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="michael@example.com"
-                      className="w-full bg-[#0d071b] border  border-white/10  rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
+                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                     />
                   </div>
                   <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -189,14 +189,14 @@ export default function PushSubscribeModal({
                 <CosmicRadialButton
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 text-white font-bold uppercase    flex items-center justify-center gap-2"
+                  className="w-full py-3.5 text-white font-bold uppercase flex items-center justify-center gap-2"
                 >
                   {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS 🔔"}
                 </CosmicRadialButton>
               </div>
             </form>
 
-            <div className="mt-6 border-t  border-white/10  pt-4 text-center">
+            <div className="mt-6 border-t border-white/10 pt-4 text-center">
               <p className="leading-relaxed">
                 🔒 100% Free · We value your privacy. Every alert email includes a 1-click unsubscribe link.
               </p>
@@ -208,14 +208,14 @@ export default function PushSubscribeModal({
               <Check className="w-8 h-8" />
             </div>
             <h3 className="font-bold text-white mb-2">You&apos;re Subscribed! 🔔</h3>
-            <p className="text-gray-300 max-w-sm mx-auto leading-relaxed mb-6">
-              We sent a welcome confirmation email to <strong className="text-white   ">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
+            <p className="text-gray-300 max-w-sm mx-auto mb-6">
+              We sent a welcome confirmation email to <strong className="text-white ">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
             </p>
 
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase    rounded-lg transition-colors"
+              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase rounded-lg transition-colors"
             >
               DONE
             </button>
