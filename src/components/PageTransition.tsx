@@ -534,15 +534,32 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
       if (href === currentPath) return;
 
+      try {
+        router.prefetch(href);
+      } catch { }
+
       e.preventDefault();
       requestTransitionRef.current(href);
     };
 
+    const handleGlobalHover = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement)?.closest<HTMLAnchorElement>("a[href]");
+      if (!target) return;
+      const href = target.getAttribute("href");
+      if (href && href.startsWith("/")) {
+        try {
+          router.prefetch(href);
+        } catch { }
+      }
+    };
+
     document.addEventListener("click", handleGlobalClick, { capture: true });
+    document.addEventListener("mouseover", handleGlobalHover, { passive: true });
     return () => {
       document.removeEventListener("click", handleGlobalClick, { capture: true });
+      document.removeEventListener("mouseover", handleGlobalHover, { passive: true });
     };
-  }, []);
+  }, [router]);
 
   const revealOffset = settings.revealDurationOffset !== undefined ? settings.revealDurationOffset : 0.25;
   const revealDuration = (settings.exitSpeed + revealOffset) * settings.speedMult;

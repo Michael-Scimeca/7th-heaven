@@ -48,11 +48,10 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
 
   const requestTransition = useCallback(
     (href: string) => {
-      if (mode !== "idle") return;
       setPendingHref(href);
       setMode("covering");
     },
-    [mode]
+    []
   );
 
   const clearPendingHref = useCallback(() => setPendingHref(null), []);
