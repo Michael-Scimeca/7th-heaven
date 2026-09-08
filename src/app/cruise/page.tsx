@@ -298,7 +298,23 @@ export default function CruisePage() {
     <div className="min-h-screen bg-transparent text-white pt-[100px]">
       {transitionDone && (
         <>
-          {/* SECTION 2: CABINS & PRICING (Moved to Top Section) */}
+          {/* SECTION 5: FAQS (Moved to Top Section for Testing) */}
+          <LazyMount minHeight="600px" rootMargin="300px 0px">
+            <CruiseFaqSection />
+          </LazyMount>
+
+          {/* SECTION 1: HERO */}
+          <CruiseHeroSection
+            heroVideoRef={heroVideoRef}
+            heroForegroundRef={heroForegroundRef}
+            heroMaskSettings={heroMaskSettings}
+            heroVideoReady={heroVideoReady}
+            setHeroVideoReady={setHeroVideoReady}
+            heroParallax={heroParallax}
+            setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
+          />
+
+          {/* SECTION 2: CABINS & PRICING */}
           <LazyMount minHeight="800px" rootMargin="300px 0px">
             <CruiseCabinsPricingSection
               handleSelectCabin={handleSelectCabin}
@@ -325,17 +341,6 @@ export default function CruisePage() {
             />
           </LazyMount>
 
-          {/* SECTION 1: HERO */}
-          <CruiseHeroSection
-            heroVideoRef={heroVideoRef}
-            heroForegroundRef={heroForegroundRef}
-            heroMaskSettings={heroMaskSettings}
-            heroVideoReady={heroVideoReady}
-            setHeroVideoReady={setHeroVideoReady}
-            heroParallax={heroParallax}
-            setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
-          />
-
           {/* SECTION 3: PORTS OF CALL */}
           <LazyMount minHeight="600px" rootMargin="300px 0px">
             <CruisePortsCatalogSection />
@@ -344,11 +349,6 @@ export default function CruisePage() {
           {/* SECTION 4: SHIP EXPLORER */}
           <LazyMount minHeight="600px" rootMargin="300px 0px">
             <CruiseShipExplorerSection />
-          </LazyMount>
-
-          {/* SECTION 5: FAQS */}
-          <LazyMount minHeight="600px" rootMargin="300px 0px">
-            <CruiseFaqSection />
           </LazyMount>
         </>
       )}
