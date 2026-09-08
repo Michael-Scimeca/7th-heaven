@@ -2,6 +2,7 @@
 "use client";
 import Image from 'next/image';
 import { createPortal } from "react-dom";
+import { Loader2 } from "lucide-react";
 
 import TransitionLink from "@/components/TransitionLink";
 import { usePathname } from "next/navigation";
@@ -143,7 +144,7 @@ export function Header() {
   const { mode, pendingHref, requestTransition } = useTransition();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { member, isLoggedIn, openModal, logout } = useMember();
+  const { member, isLoggedIn, openModal, logout, isModalOpen } = useMember();
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
@@ -484,6 +485,18 @@ export function Header() {
       className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none bg-transparent text-white`}
       suppressHydrationWarning
     >
+      {/* ── TOP GLOBAL PAGE TRANSITION PROGRESS LOADER BAR ── */}
+      {mode !== "idle" && (
+        <div className="fixed top-0 left-0 right-0 h-[3px] z-[100005] pointer-events-none overflow-hidden bg-purple-950/40">
+          <div
+            className="h-full bg-gradient-to-r from-[#9333ea] via-purple-300 to-[#9333ea] shadow-[0_0_12px_#9333ea] w-full origin-left"
+            style={{
+              animation: "headerNavProgress 1s cubic-bezier(0.4, 0, 0.2, 1) infinite",
+            }}
+          />
+        </div>
+      )}
+
       <div className="w-full max-w-full site-container">
         <div
           id="nav-inner-card"
@@ -495,6 +508,7 @@ export function Header() {
           <TransitionLink
             href="/"
             id="header-logo"
+            showSpinner={false}
             onClick={(e) => {
               setMobileOpen(false);
               if (pathname === "/") {
@@ -553,7 +567,6 @@ export function Header() {
  }`}
             >
               CRUISE
-              {isNavActive("/cruise") && <CruiseWaveAnimation />}
             </TransitionLink>
 
             {/* Book Us link */}
@@ -602,6 +615,7 @@ export function Header() {
                 <div className="relative shrink-0 aspect-square flex items-center justify-center">
                   <TransitionLink
                     href={dashboardHref}
+                    showSpinner={false}
                     className="relative flex items-center justify-center text-white font-bold shrink-0 aspect-square transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
                     style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
                     title={displayName}
@@ -611,6 +625,11 @@ export function Header() {
                     ) : (
                       <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white font-bold text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
                         {initials}
+                      </div>
+                    )}
+                    {mode !== "idle" && (pendingHref === dashboardHref || (pendingHref && pendingHref.startsWith(dashboardHref))) && (
+                      <div className="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center rounded-full z-20">
+                        <Loader2 className="w-4 h-4 animate-spin text-[#9333ea]" />
                       </div>
                     )}
                   </TransitionLink>
@@ -625,20 +644,26 @@ export function Header() {
                 </div>
                 <button
                   onClick={() => { logout(); requestTransition('/'); }}
-                  className="hidden lg:block text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-2"
+                  className="hidden lg:inline-flex items-center gap-1.5 text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-2"
                   title="Sign Out"
                 >
-                  Sign Out
+                  <span>Sign Out</span>
+                  {mode !== "idle" && pendingHref === "/" && (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-400 shrink-0" />
+                  )}
                 </button>
               </div>
             ) : (
               <CosmicRadialButton
-                icon={false}
+                icon={isModalOpen ? <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-300" /> : false}
                 onClick={() => openModal("login")}
-                className="px-3.5 py-1.5 font-bold rounded-lg shrink-0"
+                className="px-3.5 py-1.5 font-bold rounded-lg shrink-0 flex items-center gap-1.5"
                 id="header-sign-in"
               >
-                SIGN IN
+                <span>SIGN IN</span>
+                {isModalOpen && (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-white shrink-0 ml-1" />
+                )}
               </CosmicRadialButton>
             )}
 

@@ -3,7 +3,7 @@
 /* oxlint-disable react-doctor/no-giant-component */
 
 import { useReducer, useEffect, useCallback, useRef, useState } from "react";
-import { Lock, Mail, Zap, Check, X } from "lucide-react";
+import { Lock, Mail, Zap, Check, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { isValidEmail } from "@/lib/validation";
@@ -745,9 +745,9 @@ function LoginModalBodyContent(props: any) {
               type="button"
               onClick={() => setModalMode("login")}
               className={`relative z-10 py-2.5 px-4 font-bold uppercase transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
- ? "text-white font-extrabold"
- : " text-white hover:text-white"
- }`}
+                ? "text-white font-extrabold"
+                : " text-white hover:text-white"
+                }`}
             >
               Sign In
             </button>
@@ -758,9 +758,9 @@ function LoginModalBodyContent(props: any) {
                 if (loginRole === "crew" || loginRole === "cruise") setLoginRole("fan");
               }}
               className={`relative z-10 py-2.5 px-4 font-bold uppercase transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
- ? "text-white font-extrabold"
- : " text-white hover:text-white"
- }`}
+                ? "text-white font-extrabold"
+                : " text-white hover:text-white"
+                }`}
             >
               Sign Up
             </button>
@@ -792,9 +792,9 @@ function LoginModalBodyContent(props: any) {
                     }
                   }}
                   className={`py-1.5 px-1.5 text-[10px] font-bold uppercase rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
- ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
- : "text-white/50 hover:text-white/90 hover: bg-[#00000029] "
- }`}
+                    ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
+                    : "text-white/50 hover:text-white/90   bg-[#00000029] "
+                    }`}
                 >
                   {role.label}
                 </button>
@@ -1030,17 +1030,22 @@ function LoginModalBodyContent(props: any) {
               type="submit"
               icon={false}
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-lg text-white font-bold disabled:opacity-50"
+              className="w-full py-3.5 px-6 rounded-lg text-white font-bold disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {loading
-                ? "Processing..."
-                : modalMode === "forgot"
+              {loading ? (
+                <span className="inline-flex items-center gap-2 justify-center">
+                  <Loader2 className="w-4 h-4 animate-spin text-white shrink-0" />
+                  <span>Processing...</span>
+                </span>
+              ) : (
+                modalMode === "forgot"
                   ? (forgotPinSent ? "Reset Password" : "Send Verification Code")
                   : modalMode === "login"
                     ? "Sign In"
                     : isInviteFlow
                       ? "Activate Account"
-                      : "Create Account"}
+                      : "Create Account"
+              )}
             </CosmicRadialButton>
 
             {modalMode === "forgot" && (

@@ -4,10 +4,12 @@ import Link, { LinkProps } from "next/link";
 import { AnchorHTMLAttributes, MouseEvent, ReactNode, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "@/context/TransitionContext";
+import { Loader2 } from "lucide-react";
 
 type TransitionLinkProps = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps | "href"> & {
     children: ReactNode;
+    showSpinner?: boolean;
   };
 
 /**
@@ -23,10 +25,12 @@ export default function TransitionLink({
   onPointerEnter,
   onTouchStart,
   onFocus,
+  showSpinner = true,
+  className = "",
   ...rest
 }: TransitionLinkProps) {
   const router = useRouter();
-  const { requestTransition } = useTransition();
+  const { requestTransition, pendingHref, mode } = useTransition();
 
   const handlePrefetch = useCallback(() => {
     const targetHref = typeof href === "string" ? href : href.pathname ?? "";
@@ -51,6 +55,14 @@ export default function TransitionLink({
     requestTransition(targetHref);
   };
 
+  const targetHref = typeof href === "string" ? href : href.pathname ?? "";
+  const isPending =
+    showSpinner &&
+    mode !== "idle" &&
+    pendingHref !== null &&
+    targetHref !== "" &&
+    (pendingHref === targetHref || pendingHref.startsWith(targetHref + "?"));
+
   return (
     <Link
       href={href}
@@ -71,9 +83,16 @@ export default function TransitionLink({
         onFocus?.(e);
         handlePrefetch();
       }}
+      className={className}
       {...rest}
     >
-      {children}
+      <span className="inline-flex items-center gap-1.5">
+        <span>{children}</span>
+        {isPending && (
+          <Loader2 className="w-3.5 h-3.5 animate-spin text-[#9333ea] shrink-0" />
+        )}
+      </span>
     </Link>
   );
 }
+
