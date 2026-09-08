@@ -13,7 +13,7 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(CustomEase);
   try {
     CustomEase.create("exo", "0.496, 0.004, 0, 1");
-  } catch {}
+  } catch { }
 }
 
 const EXO_EASE = "exo";
@@ -103,19 +103,6 @@ function buildRevealClipPath(progress: number, ratio: number, flip: boolean, ram
   return `polygon(0% ${leftY}%, 100% ${rightY}%, 100% 100%, 0% 100%)`;
 }
 
-// Pixel-based reveal clip — yPx is the top edge of the reveal window in pixels.
-// After scrollTo(0,0), outerRef.top === viewport.top so px == viewport-px.
-// Using px lets the content's y transform and the clip edge share the exact same number.
-function buildRevealClipPathPx(yPx: number, ratio: number, flip: boolean, rampFraction = 0.05): string {
-  const vh = typeof window !== "undefined" ? window.innerHeight : 800;
-  const p = Math.min(1, Math.max(0, 1 - yPx / vh));
-  const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
-  const leadY = yPx / (1 + rampedRatio);
-  const leftY = flip ? leadY : yPx;
-  const rightY = flip ? yPx : leadY;
-  return `polygon(0px ${leftY}px, 100% ${rightY}px, 100% 99999px, 0px 99999px)`;
-}
-
 function buildExitClipPath(progress: number, ratio: number, flip: boolean, rampFraction = 0.05): string {
   const p = Math.min(1, Math.max(0, progress));
   const mainY = 100 * (1 - p);
@@ -179,7 +166,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           settingsRef.current = merged;
         }
       }
-    } catch {}
+    } catch { }
   }, []);
 
   const updateSetting = <K extends keyof TransitionSettings>(key: K, val: TransitionSettings[K]) => {
@@ -205,7 +192,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     settingsRef.current = next;
     try {
       localStorage.setItem("7h_page_transition_settings_v7", JSON.stringify(next));
-    } catch {}
+    } catch { }
   };
 
   const resetDefaults = () => {
@@ -213,7 +200,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     settingsRef.current = DEFAULT_SETTINGS;
     try {
       localStorage.setItem("7h_page_transition_settings_v7", JSON.stringify(DEFAULT_SETTINGS));
-    } catch {}
+    } catch { }
   };
 
   const triggerReplay = useCallback(() => {
@@ -242,7 +229,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     settingsRef.current = next;
     try {
       localStorage.setItem("7h_page_transition_settings_v2", JSON.stringify(next));
-    } catch {}
+    } catch { }
 
     setTimeout(() => {
       triggerReplay();
@@ -257,7 +244,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (typeof window !== "undefined" && (window as any).__lenis) {
       try {
         (window as any).__lenis.stop();
-      } catch {}
+      } catch { }
     }
 
     if (shouldSkip()) {
@@ -266,7 +253,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         try {
           (window as any).__lenis.start();
           (window as any).__lenis.resize();
-        } catch {}
+        } catch { }
       }
       // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
       router.push(pendingHref);
@@ -350,14 +337,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (outerRef.current) {
       outerRef.current.style.overflow = "hidden";
       outerRef.current.style.willChange = s.clipRevealPath ? "clip-path" : "";
-      // Clip starts fully closed (edge at 100% = bottom of element = nothing visible)
       outerRef.current.style.clipPath = s.clipRevealPath
         ? buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant)
         : "none";
     }
-    // Content stays at y:0 always. The clip path IS the reveal — no y-translation needed.
-    // Translating contentRef creates a gap between the clip edge and the content top,
-    // which shows the solid body background (the purple band the user sees).
+    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
     if (contentRef.current) {
       contentRef.current.style.willChange = "transform";
       gsap.set(contentRef.current, {
@@ -394,7 +378,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           try {
             (window as any).__lenis.start();
             (window as any).__lenis.resize();
-          } catch {}
+          } catch { }
         }
         revealStartedForRef.current = null;
         clearPendingHref();
@@ -421,7 +405,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       0
     );
 
-    // Old page snapshot clip path sweep (exit wipe)
+    // Synchronized clip path sweep - dynamic exit & reveal path clipping
     const exitProxy = { p: 0 };
     masterTl.to(
       exitProxy,
@@ -433,6 +417,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           if (snapshotOuter) {
             snapshotOuter.style.clipPath = s.clipExitPath
               ? buildExitClipPath(exitProxy.p, s.exitSlantRatio, s.exitFlipSlant)
+              : "none";
+          }
+          if (outerRef.current) {
+            outerRef.current.style.clipPath = s.clipRevealPath
+              ? buildRevealClipPath(exitProxy.p, s.revealSlantRatio, s.revealFlipSlant)
               : "none";
           }
         },
@@ -448,36 +437,28 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       0
     );
 
-    // 2. Clip path sweeps from 0→1 (bottom→top) to reveal new page. Content is at y:0.
-    // The gradient canvas (position:fixed behind everything) shows through the clip.
-    // No y-translation on content = no gap = no solid background colour visible.
-    const revealProxy = { p: 0 };
-    masterTl.to(
-      revealProxy,
-      {
-        p: 1,
-        duration: exitDuration,
-        ease: exitEase,
-        onUpdate: () => {
-          if (outerRef.current) {
-            outerRef.current.style.clipPath = s.clipRevealPath
-              ? buildRevealClipPath(revealProxy.p, s.revealSlantRatio, s.revealFlipSlant)
-              : "none";
-          }
-        },
-        onComplete: () => {
-          if (outerRef.current) outerRef.current.style.clipPath = "none";
-        },
-      },
-      0
-    );
-
-    // Scale / rotation on content for subtle parallax (no y — content stays at y:0)
-    if (contentRef.current && (s.revealScale !== 1 || (s.revealRotation || 0) !== 0)) {
+    // 2. New page reveal — clip path alone does the wipe. Content stays at y: 0.
+    if (contentRef.current) {
       masterTl.fromTo(
         contentRef.current,
-        { scale: s.revealScale, rotation: s.revealRotation || 0, transformOrigin: revealOrigin },
-        { scale: 1, rotation: 0, transformOrigin: revealOrigin, duration: exitDuration, ease: exitEase },
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          scale: s.revealScale,
+          rotation: s.revealRotation || 0,
+          transformOrigin: revealOrigin,
+        },
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          scale: 1,
+          rotation: 0,
+          transformOrigin: revealOrigin,
+          duration: exitDuration,
+          ease: exitEase,
+        },
         0
       );
     }
@@ -517,7 +498,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         try {
           (window as any).__lenis.start();
           (window as any).__lenis.resize();
-        } catch {}
+        } catch { }
       }
       revealStartedForRef.current = null;
       clearPendingHref();
@@ -670,31 +651,28 @@ function TransitionTunerPanel({
           <div className="grid grid-cols-3 gap-1 rounded-xl bg-white/5 p-1 border border-white/10">
             <button
               onClick={() => setActiveTab("master")}
-              className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${
-                activeTab === "master"
+              className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${activeTab === "master"
                   ? "bg-purple-600 text-white shadow"
                   : "text-white/60 hover:text-white hover:bg-white/5"
-              }`}
+                }`}
             >
               ⚡ Master
             </button>
             <button
               onClick={() => setActiveTab("exit")}
-              className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${
-                activeTab === "exit"
+              className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${activeTab === "exit"
                   ? "bg-fuchsia-600 text-white shadow"
                   : "text-white/60 hover:text-white hover:bg-white/5"
-              }`}
+                }`}
             >
               📤 Exit Path
             </button>
             <button
               onClick={() => setActiveTab("reveal")}
-              className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${
-                activeTab === "reveal"
+              className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${activeTab === "reveal"
                   ? "bg-cyan-600 text-white shadow"
                   : "text-white/60 hover:text-white hover:bg-white/5"
-              }`}
+                }`}
             >
               📥 Reveal Path
             </button>
@@ -727,11 +705,10 @@ function TransitionTunerPanel({
                 <button
                   key={m}
                   onClick={() => handleSpeedPreset(m)}
-                  className={`flex-1 py-1 rounded text-[10px] font-bold font-mono transition ${
-                    settings.speedMult === m
+                  className={`flex-1 py-1 rounded text-[10px] font-bold font-mono transition ${settings.speedMult === m
                       ? "bg-purple-600 text-white shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black font-extrabold"
                       : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
-                  }`}
+                    }`}
                 >
                   {m}x
                 </button>
