@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 /* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer */
 /* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer */
@@ -22,8 +23,7 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
     <div
       className="smooothy-parallax-media absolute inset-0 w-full h-full overflow-hidden transform-gpu"
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+      onMouseLeave={() => setHovered(false)}>
       {hovered ? (
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
@@ -134,10 +134,22 @@ interface SmooothyInstance {
 }
 
 export default function HomeVideoShowcase() {
+  const [sanityContent, setSanityContent] = useState<any>(null);
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [startIndex, setStartIndex] = useState(0);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [activeSettingsTab, setActiveSettingsTab] = useState<"smooothy" | "layout" | "motion" | "video" | "style" | "ui">("smooothy");
+
+  useEffect(() => {
+    fetch("/api/page-content?key=home")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.success && data?.data) {
+          setSanityContent(data.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -490,11 +502,11 @@ export default function HomeVideoShowcase() {
       <div className="site-container relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
-            <h2 className="font-bold mb-2.5 font-sans text-white">
-              Video &amp; Live Media
+            <h2 className="mb-2.5 font-sans text-white">
+              {sanityContent?.videoShowcaseTitle || sanityContent?.title || "Video & Live Media"}
             </h2>
-            <p className="text-purple-200/75 font-normal mb-5 ">
-              Explore 7th Heaven&apos;s live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax.
+            <p className="text-purple-200/75 font-normal mb-5">
+              {sanityContent?.videoShowcaseSubtitle || sanityContent?.subtitle || "Explore 7th Heaven's live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax."}
             </p>
           </div>
         </div>
@@ -506,14 +518,13 @@ export default function HomeVideoShowcase() {
         data-slider="true"
         data-vertical={smooothyVertical}
         className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
- }`}
+          }`}
         style={{
           touchAction: "pan-y",
           ...(smooothyVertical
             ? {}
             : { marginLeft: `-${gapPx / 2}px`, marginRight: `-${gapPx / 2}px`, width: `calc(100% + ${gapPx}px)` })
-        }}
-      >
+        }}>
         {CATEGORY_SHOWCASE.map((video, idx) => {
           const start = video.previewStart ?? previewStartSec;
           const end = start + previewDurationSec;
@@ -530,8 +541,7 @@ export default function HomeVideoShowcase() {
                 paddingRight: smooothyVertical ? 0 : `${gapPx / 2}px`,
                 paddingTop: smooothyVertical ? `${gapPx / 2}px` : 0,
                 paddingBottom: smooothyVertical ? `${gapPx / 2}px` : 0,
-              }}
-            >
+              }}>
               {/* Video Card Container — Whole Card Clickable */}
               <div
                 style={{
@@ -544,9 +554,8 @@ export default function HomeVideoShowcase() {
                   }
                 }}
                 className={`relative w-full ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
- : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
- }`}
-              >
+                  : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
+                  }`}>
                 {playingVideoId === video.id ? (
                   <div className="relative w-full h-full bg-black z-30">
                     <InlineYTPlayer
@@ -573,16 +582,14 @@ export default function HomeVideoShowcase() {
                     {playButtonVisibility !== "hidden" && (
                       <div
                         className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
- ? "opacity-100"
- : "opacity-90 sm:opacity-0 group-hover:opacity-100"
- }`}
-                      >
+                          ? "opacity-100"
+                          : "opacity-90 sm:opacity-0 group-hover:opacity-100"
+                          }`}>
                         <CosmicRadialButton
                           icon={false}
                           className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto `}
                           aria-label={`Play full video for ${video.title}`}
-                          title="Play Full Video"
-                        >
+                          title="Play Full Video">
                           <Play className="w-6 h-6 fill-white ml-0.5" />
                         </CosmicRadialButton>
                       </div>

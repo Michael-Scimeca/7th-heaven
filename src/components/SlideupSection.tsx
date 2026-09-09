@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -126,9 +127,30 @@ const SLIDES: {
   ];
 
 export default function SlideupSection({ showIntro = false }: { showIntro?: boolean }) {
+  const [sanityContent, setSanityContent] = useState<any>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lastStateRef = useRef<{ overlap: number; scale: number; translateY: number; masked: boolean }[]>([]);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=home")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.success && data?.data) {
+          setSanityContent(data.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const activeSlides = SLIDES.map((slide, idx) => {
+    const sanitySection = sanityContent?.sections?.[idx];
+    return {
+      ...slide,
+      title: sanitySection?.title || slide.title,
+      desc: sanitySection?.subtitle || sanitySection?.body || slide.desc,
+    };
+  });
 
   useEffect(() => {
     const vh = () => window.innerHeight - HEADER_H;
@@ -169,7 +191,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
           }
 
           if (overlapPercent !== prev.overlap) {
-            if (overlapPercent > 0) {
+            if (overlapPercent> 0) {
               const maskTopPercent = Math.max(0, 100 - overlapPercent);
               const fadeEdge = Math.max(0, maskTopPercent - 6);
               const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
@@ -223,7 +245,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
     <section id="slide-up" className="su-bleed py-section-fluid">
       <div className="su-rail-track">
         <div className="su-rail">
-          {SLIDES.map((_, i) => (
+          {activeSlides.map((_, i) => (
             <div key={i} className="su-dot" ref={(el) => { dotRefs.current[i] = el; }} />
           ))}
         </div>
@@ -238,12 +260,11 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
       )}
 
       <section className="su-stack site-container">
-        {SLIDES.map((slide, i) => (
+        {activeSlides.map((slide, i) => (
           <article
             key={slide.title}
             className="su-card"
-            ref={(el) => { cardRefs.current[i] = el; }}
-          >
+            ref={(el) => { cardRefs.current[i] = el; }}>
             <div className="su-card-inner">
               <div className="flex flex-col items-center text-center pb-[20px] gap-4">
                 <div className="su-headline">

@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -59,6 +60,18 @@ export default function HomeMerch() {
   const { requestTransition } = useTransition();
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sanityContent, setSanityContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=home")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.success && data?.data) {
+          setSanityContent(data.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const loadInventory = useCallback(async () => {
     try {
@@ -90,10 +103,10 @@ export default function HomeMerch() {
         <div className="site-container">
           <div className="flex items-center justify-between mb-10">
             <div>
-              <span className="font-bold text-[var(--color-accent)] uppercase mb-2 block">Specials</span>
-              <h2 className="font-bold text-white uppercase">On Sale Now</h2>
+              <span className="text-[var(--color-accent)] uppercase mb-2 block">Specials</span>
+              <h2 className="text-white uppercase">On Sale Now</h2>
             </div>
-            <Link href="/merch" className="font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
+            <Link href="/merch" className="text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
               Shop All →
             </Link>
           </div>
@@ -128,7 +141,7 @@ export default function HomeMerch() {
   // When Shopify has no specials, show demo items so the client can see this
   // section. Remove DEMO_PRODUCTS and this block + restore the `return null`
   // below once real Shopify products with sale/featured tags are configured.
-  const displayProducts = products.length > 0 ? products : DEMO_PRODUCTS;
+  const displayProducts = products.length> 0 ? products : DEMO_PRODUCTS;
   const isDemo = products.length === 0;
   // ── END DEMO FALLBACK ──────────────────────────────────────────────────────
 
@@ -139,18 +152,18 @@ export default function HomeMerch() {
         {isDemo && (
           <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-white/10 rounded-lg">
             <AlertTriangle className="w-4 h-4 text-purple-300 shrink-0" />
-            <span className="text-purple-300 font-bold uppercase ">Demo</span>
+            <span className="text-purple-300 uppercase">Demo</span>
             <p className="text-purple-200/50">Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast Shipping.</p>
           </div>
         )}
         {/* ── END DEMO BANNER ─────────────────────────────────────────── */}
         <div className="flex items-center justify-between mb-10">
           <div>
-            <span className="font-bold text-[var(--color-accent)] uppercase mb-2 block">Specials</span>
-            <h2 className="font-bold text-white uppercase">On Sale Now</h2>
+            <span className="text-[var(--color-accent)] uppercase mb-2 block">{sanityContent?.merchBadge || "Specials"}</span>
+            <h2 className="text-white uppercase">{sanityContent?.merchTitle || "On Sale Now"}</h2>
           </div>
-          <Link href="/merch" className="font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
-            Shop All →
+          <Link href="/merch" className="text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
+            {sanityContent?.merchCtaText || "Shop All →"}
           </Link>
         </div>
         <div className={`grid gap-4 ${displayProducts.length <= 3 ? 'grid-cols-2 md:grid-cols-3' : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5'}`}>
@@ -165,7 +178,7 @@ export default function HomeMerch() {
               <div key={product.id} className="bg-white/[0.02] border border-white/10 overflow-hidden border-white/10 transition-colors group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
-                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)] font-bold uppercase px-2.5 py-1 rounded-lg shadow-red-500/20">
+                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)] uppercase px-2.5 py-1 rounded-lg shadow-red-500/20">
                     Sale
                   </span>
                 </div>
@@ -174,29 +187,28 @@ export default function HomeMerch() {
                     <Image src={imageUrl} alt={product.title} fill sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <ShoppingCart className=" w-11 h-11  text-white/20" />
+                      <ShoppingCart className="w-11 h-11 text-white/20" />
                     </div>
                   )}
                   {soldOut && (
-                    <span className="absolute top-2 right-2 bg-red-500/80 backdrop-blur-sm text-white text-[var(--font-size-2xs)] font-bold uppercase px-2 py-0.5 rounded">Sold Out</span>
+                    <span className="absolute top-2 right-2 bg-red-500/80 backdrop-blur-sm text-white text-[var(--font-size-2xs)] uppercase px-2 py-0.5 rounded">Sold Out</span>
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="font-bold text-white truncate mb-1 group-  transition-colors">{product.title}</h3>
+                  <h3 className="text-white truncate mb-1 group- transition-colors">{product.title}</h3>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-[var(--color-accent)] font-bold">{price}</span>
+                      <span className="text-[var(--color-accent)]">{price}</span>
                       {compareAt && (
                         <span className="text-white/25 line-through">{compareAt}</span>
                       )}
                     </div>
                     {soldOut ? (
-                      <span className="text-[var(--font-size-2xs)] text-white/15 uppercase ">Sold Out</span>
+                      <span className="text-[var(--font-size-2xs)] text-white/15 uppercase">Sold Out</span>
                     ) : (
                       <button aria-label="Action button"
                         onClick={() => handleBuy()}
-                        className="text-[var(--font-size-2xs)] font-bold uppercase text-white/30 hover:text-white transition-colors cursor-pointer"
-                      >
+                        className="text-[var(--font-size-2xs)] uppercase text-white/30 hover:text-white transition-colors cursor-pointer">
                         Buy →
                       </button>
                     )}

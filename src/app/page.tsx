@@ -11,6 +11,8 @@ const HomeMerch = nextDynamic(() => import("@/components/HomeMerch"));
 const HomeNewsSection = nextDynamic(() => import("@/components/HomeNewsSection"));
 const HomeDataLoader = nextDynamic(() => import("@/components/HomeDataLoader"));
 
+const HomeLogosSection = nextDynamic(() => import("@/components/HomeLogosSection"));
+
 import LazySection from "@/components/LazySection";
 
 // Fully static page — no server-side data fetching
@@ -35,8 +37,7 @@ export default function Home() {
           marginLeft: "calc(-1 * var(--page-padding-x))",
           marginRight: "calc(-1 * var(--page-padding-x))",
           width: "calc(100% + 2 * var(--page-padding-x))",
-        }}
-      >
+        }}>
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
         <div id="hero-card" className="relative w-full h-full max-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
           <HeroVideoPlayer />
@@ -58,19 +59,7 @@ export default function Home() {
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
       <LazySection fallbackHeight="180px" id="logos" className="relative w-full py-section-fluid">
-        <div className="container mx-auto px-4 flex flex-col items-center text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-[#00000029] border border-white/10 px-4 py-1.5 rounded-xl shadow-lg mb-2.5">
-            <span className=" font-black text-white/95">
-              WHO WE&apos;VE PLAYED WITH &amp; WHERE WE&apos;VE BEEN FEATURED
-            </span>
-          </div>
-          <p className="mt-2 max-w-2xl    ">
-            Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications.
-          </p>
-        </div>
-
-        <LogoTicker items={ARTIST_LOGOS} direction="left" />
-        <LogoTicker items={PRESS_LOGOS} direction="right" />
+        <HomeLogosSection />
       </LazySection>
 
       {/* ====== LATEST BAND NEWS ====== */}

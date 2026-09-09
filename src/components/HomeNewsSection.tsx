@@ -1,6 +1,7 @@
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export interface NewsItem {
   date: string;
@@ -32,20 +33,33 @@ const FALLBACK_NEWS: NewsItem[] = [
 ];
 
 export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
+  const [sanityContent, setSanityContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=home")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.success && data?.data) {
+          setSanityContent(data.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const newsItems = items && items.length > 0 ? items : FALLBACK_NEWS;
   const featured = newsItems[0];
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
 
   return (
-    <section id="news" className="site-container relative py-section-fluid bg-[var(--card-bg)] ">
+    <section id="news" className="site-container relative py-section-fluid bg-[var(--card-bg)]">
       <>
         {/* Section Header */}
         <div className="mb-12 text-left">
-          <h2 className="font-bold uppercase font-[family-name:var(--font-rockstar)]">
-            Latest Band News
+          <h2 className="uppercase font-[family-name:var(--font-rockstar)]">
+            {sanityContent?.newsTitle || "Latest Band News"}
           </h2>
-          <p className="mt-2 max-w-2xl text-sm md:text-base   ">
-            Stay updated with official announcements, tour updates, new music releases, and exclusive band stories.
+          <p className="mt-2 max-w-2xl text-sm md:text-base">
+            {sanityContent?.newsSubtitle || "Stay updated with official announcements, tour updates, new music releases, and exclusive band stories."}
           </p>
         </div>
 
@@ -55,14 +69,14 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           {featured && (
             <div className="lg:col-span-7 border-0 pb-10 relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-                <span className=" text-[var(--color-accent)] font-bold">
+                <span className="text-[var(--color-accent)]">
                   {featured.date}
                 </span>
               </div>
-              <h3 className="font-bold mb-4 group-  transition-colors">
+              <h3 className="mb-4 group- transition-colors">
                 {featured.title}
               </h3>
-              <p className="   font-normal">
+              <p className="font-normal">
                 {featured.content}
               </p>
             </div>
@@ -74,20 +88,19 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
               <button
                 type="button"
                 key={item.title} onClick={() => setSelectedArticle(item)}
-                className="w-full text-left border-0 pb-5 cursor-pointer group font-sans font-normal"
-              >
+                className="w-full text-left border-0 pb-5 cursor-pointer group font-sans font-normal">
                 <div className="flex justify-between items-center mb-2">
-                  <span className=" font-bold text-[var(--color-accent)]">
+                  <span className="text-[var(--color-accent)]">
                     {item.date}
                   </span>
-                  <span className="font-bold group-  text-[var(--color-accent)] transition-colors">
+                  <span className="group- text-[var(--color-accent)] transition-colors">
                     Read
                   </span>
                 </div>
-                <h4 className="font-bold group-  transition-colors line-clamp-1">
+                <h4 className="group- transition-colors line-clamp-1">
                   {item.title}
                 </h4>
-                <p className="   line-clamp-2 mt-1">
+                <p className="line-clamp-2 mt-1">
                   {item.content}
                 </p>
               </button>
@@ -99,26 +112,23 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
       {/* Article Detail Modal */}
       {selectedArticle && (
         <div
-          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setSelectedArticle(null)}
-        >
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setSelectedArticle(null)}>
           <div
-            className="bg-[var(--card-bg)] border-0 max-w-xl w-full p-8 relative shadow-2xl" onClick={(e) => e.stopPropagation()}
-          >
+            className="bg-[var(--card-bg)] border-0 max-w-xl w-full p-8 relative shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-4">
-              <span className=" font-bold text-[var(--color-accent)] uppercase tracking-wider">
+              <span className="text-[var(--color-accent)] uppercase r">
                 {selectedArticle.date}
               </span>
               <button aria-label="Action button"
                 onClick={() => setSelectedArticle(null)}
-                className="   text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors"
-              >
+                className="text-xl w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors">
                 ✕
               </button>
             </div>
-            <h3 className="font-bold mb-4 ">
+            <h3 className="mb-4">
               {selectedArticle.title}
             </h3>
-            <p className="   whitespace-pre-line">
+            <p className="whitespace-pre-line">
               {selectedArticle.content}
             </p>
           </div>
