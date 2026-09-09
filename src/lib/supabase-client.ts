@@ -19,6 +19,23 @@ if (process.env.NODE_ENV !== 'production') {
 }
 export const isSupabaseConfigured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co');
 
+/**
+ * Gets the public CDN URL for a file stored in a Supabase Storage bucket.
+ */
+export function getSupabaseStorageUrl(bucket: string, path: string | null | undefined, fallback: string = ""): string {
+  if (!path) return fallback;
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
+    return path;
+  }
+  if (!isSupabaseConfigured) return fallback;
+  try {
+    const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+    return data?.publicUrl || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 // Database types for the live feed
 export interface FeedPostDB {
  id: string;

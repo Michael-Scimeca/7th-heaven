@@ -217,3 +217,22 @@ export async function fetchVideosByCategory(category: string): Promise<SanityVid
  const { query, params } = queries.videosByCategory(category);
  return sanityClient.fetch<SanityVideo[]>(query, params);
 }
+
+/**
+ * Universal media URL resolver: Converts Sanity image references, Supabase storage bucket URLs,
+ * or direct static asset paths into valid, optimized CDN URLs with fallback.
+ */
+export function getMediaUrl(source: SanityImageSource | string | null | undefined, fallbackPath: string = ""): string {
+  if (!source) return fallbackPath;
+  if (typeof source === "string") {
+    if (source.startsWith("http://") || source.startsWith("https://") || source.startsWith("/")) {
+      return source;
+    }
+  }
+  try {
+    return urlFor(source).url();
+  } catch {
+    return fallbackPath;
+  }
+}
+
