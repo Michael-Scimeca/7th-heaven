@@ -335,6 +335,11 @@ export default function CruisePage() {
               PaymentPortalDropdownPanel={PaymentPortalDropdownPanel}
             />
           </LazyMount>
+
+          {/* SECTION 3: PORTS OF CALL CATALOG */}
+          <LazyMount minHeight="600px" rootMargin="300px 0px">
+            <CruisePortsCatalogSection />
+          </LazyMount>
         </>
       )}
     </div>
