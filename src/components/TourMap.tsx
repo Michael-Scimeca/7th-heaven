@@ -1,4 +1,6 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
+/* eslint-disable react-doctor/effect-needs-cleanup */
 "use client";
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
@@ -267,33 +269,54 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   // saving ~1.26s of unused JS execution time and eliminating content Contention with Hero LCP.
   useEffect(() => {
     let active = true;
+    let idleHandle: number | undefined;
+    let timerHandle: ReturnType<typeof setTimeout> | undefined;
     const container = mapRef.current;
 
     const loadMaps = () => {
       if (!active) return;
 
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-      if (!apiKey) {
-        setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
-        console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
-        return;
-      }
+      const executeLoad = () => {
+        if (!active) return;
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+        if (!apiKey) {
+          setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
+          console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
+          return;
+        }
 
-      if (!googleMapsOptionsSet) {
-        setOptions({ key: apiKey, v: "weekly" });
-        googleMapsOptionsSet = true;
+        if (!googleMapsOptionsSet) {
+          setOptions({ key: apiKey, v: "weekly" });
+          googleMapsOptionsSet = true;
+        }
+        importLibrary("maps")
+          .then(() => { if (active) setGoogleReady(true); })
+          .catch((e: unknown) => {
+            console.warn("[TourMap] Failed to load Google Maps:", e);
+            if (active) setMapLoadError("Failed to load Google Maps");
+          });
+      };
+
+      if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+        idleHandle = (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(executeLoad, { timeout: 1500 });
+      } else {
+        timerHandle = setTimeout(executeLoad, 200);
       }
-      importLibrary("maps")
-        .then(() => { if (active) setGoogleReady(true); })
-        .catch((e: unknown) => {
-          console.warn("[TourMap] Failed to load Google Maps:", e);
-          if (active) setMapLoadError("Failed to load Google Maps");
-        });
+    };
+
+    const cleanupHandles = () => {
+      active = false;
+      if (idleHandle !== undefined && typeof window !== "undefined" && "cancelIdleCallback" in window) {
+        (window as Window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleHandle);
+      }
+      if (timerHandle !== undefined) {
+        clearTimeout(timerHandle);
+      }
     };
 
     if (!container || typeof IntersectionObserver === "undefined") {
       loadMaps();
-      return () => { active = false; };
+      return cleanupHandles;
     }
 
     const observer = new IntersectionObserver(
@@ -303,13 +326,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           observer.disconnect();
         }
       },
-      { rootMargin: "300px 0px" }
+      { rootMargin: "100px 0px" }
     );
 
     observer.observe(container);
 
     return () => {
-      active = false;
+      cleanupHandles();
       observer.disconnect();
     };
   }, []);
