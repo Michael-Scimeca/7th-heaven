@@ -14,6 +14,7 @@ interface CruiseHeroSectionProps {
   heroMaskSettings: any;
   heroParallax: HeroParallaxController;
   setIsPaymentDropdownOpen: (open: boolean) => void;
+  sanityContent?: any;
 }
 
 export default function CruiseHeroSection({
@@ -21,6 +22,7 @@ export default function CruiseHeroSection({
   heroMaskSettings,
   heroParallax,
   setIsPaymentDropdownOpen,
+  sanityContent,
 }: CruiseHeroSectionProps) {
   return (
     <section
@@ -30,16 +32,14 @@ export default function CruiseHeroSection({
         marginLeft: "calc(-1 * var(--page-padding-x))",
         marginRight: "calc(-1 * var(--page-padding-x))",
         width: "calc(100% + 2 * var(--page-padding-x))",
-      }}
-    >
+      }}>
       {/* Cruise Hero — using poster image; swap back to <video> when ready */}
       <div
         className="absolute inset-0 z-0 overflow-hidden bg-transparent"
         style={{
           maskImage: "linear-gradient(black 0%, black 82%, transparent 98%)",
           WebkitMaskImage: "linear-gradient(black 0%, black 82%, transparent 98%)",
-        }}
-      >
+        }}>
         <Image
           src="/images/cruise/hero-video-poster.jpg"
           alt="7th Heaven Fan Cruise hero"
@@ -71,11 +71,10 @@ export default function CruiseHeroSection({
       {/* Hero Text */}
       <div
         ref={heroForegroundRef}
-        className="relative z-10 text-left site-container mb-4"
-      >
+        className="relative z-10 text-left site-container mb-4">
         {/* Chicago Music Cruise Official Branding Badges & Social Links */}
         <div className="flex flex-wrap items-center gap-2.5 mb-4">
-          <SectionBadge label="CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)" />
+          <SectionBadge label={sanityContent?.heroSubheading || "CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)"} />
           <SectionBadge label="ROYAL CARIBBEAN GROUP ID: 3325680" />
           <SectionBadge
             label="ROYAL CARIBBEAN ONLINE PAYMENT PORTAL"
@@ -89,17 +88,19 @@ export default function CruiseHeroSection({
         </div>
 
         {/* Main Title: Cruise Name */}
-        <h1 className="font-bold uppercase er text-white leading-none">
-          7TH HEAVEN <span className="inline-block pr-[0.15em]">FAN CRUISE</span>
+        <h1 className="uppercase er text-white leading-none">
+          {sanityContent?.heroHeading || (
+            <>7TH HEAVEN <span className="inline-block pr-[0.15em]">FAN CRUISE</span></>
+          )}
         </h1>
 
         {/* Cruise Ship Names Subtitle */}
-        <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 md:text-base font-bold uppercase text-white">
-          <span className="bg-[#e1e6ff29] border-white/10 border px-2 py-2 !rounded-full text-white font-bold border border-white/10 backdrop-blur-[45px] flex items-center gap-2.5">
-            Star of the seas <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 !rounded-full font-bold border border-purple-400/40">2027</span>
+        <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 md:text-base uppercase text-white">
+          <span className="bg-[#e1e6ff29] border-white/10 border px-2 py-2 !rounded-full text-white border border-white/10 backdrop-blur-[45px] flex items-center gap-2.5">
+            {sanityContent?.sections?.find((s: any) => s.sectionId === "hero_ship_1")?.title || "Star of the seas"} <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 !rounded-full border border-purple-400/40">{sanityContent?.sections?.find((s: any) => s.sectionId === "hero_ship_1")?.subtitle || "2027"}</span>
           </span>
-          <span className="bg-[#e1e6ff29] border-white/10 border px-2 py-2 !rounded-full text-white font-bold border border-white/10 backdrop-blur-[45px] flex items-center gap-2.5">
-            Legend of the seas <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 !rounded-full font-bold border border-purple-400/40">2028</span>
+          <span className="bg-[#e1e6ff29] border-white/10 border px-2 py-2 !rounded-full text-white border border-white/10 backdrop-blur-[45px] flex items-center gap-2.5">
+            {sanityContent?.sections?.find((s: any) => s.sectionId === "hero_ship_2")?.title || "Legend of the seas"} <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 !rounded-full border border-purple-400/40">{sanityContent?.sections?.find((s: any) => s.sectionId === "hero_ship_2")?.subtitle || "2028"}</span>
           </span>
         </div>
       </div>

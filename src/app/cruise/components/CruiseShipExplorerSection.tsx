@@ -6,19 +6,26 @@ import { SectionBadge } from "@/components/SectionBadge";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import LazyMount from "@/components/LazyMount";
 
-function CruiseShipExplorerSectionComponent() {
+interface CruiseShipExplorerSectionProps {
+  sanityContent?: any;
+}
+
+function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplorerSectionProps) {
   const [foodTypeTab, setFoodTypeTab] = useState<"included" | "paid">("included");
   const [barTab, setBarTab] = useState<"bars" | "entertainment">("bars");
+
+  const sectionTitle = sanityContent?.sections?.find((s: any) => s.sectionId === "ship")?.title || "Ship Specifications & Inclusions";
+  const sectionSubtitle = sanityContent?.sections?.find((s: any) => s.sectionId === "ship")?.subtitle || "Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.";
 
   return (
     <div id="ship-explorer" className="py-[32px] md:py-20" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <LazyMount minHeight="800px" rootMargin="300px 0px">
         <div className="text-left w-full mb-10">
-          <h2 className="font-bold uppercase text-white leading-none">
-            Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
+          <h2 className="uppercase text-white leading-none">
+            {sectionTitle}
           </h2>
           <p className="mt-3 font-semibold max-w-2xl">
-            Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.
+            {sectionSubtitle}
           </p>
         </div>
 
@@ -31,8 +38,8 @@ function CruiseShipExplorerSectionComponent() {
             { label: "Decks Tall", value: "20 Decks" },
           ].map((stat) => (
             <div key={stat.label} className="bg-transparent border-0 p-0 text-left">
-              <span className="text-white font-bold uppercase block">{stat.label}</span>
-              <span className="text-lg md:text-xl font-bold text-white mt-1 block">{stat.value}</span>
+              <span className="text-white uppercase block">{stat.label}</span>
+              <span className="text-lg md:text-xl text-white mt-1 block">{stat.value}</span>
             </div>
           ))}
         </div>
@@ -40,7 +47,7 @@ function CruiseShipExplorerSectionComponent() {
         {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
         <div className="mb-16">
           <div className="mb-6 text-left">
-            <h3 className="font-bold uppercase text-white">
+            <h3 className="uppercase text-white">
               Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
             </h3>
             <p className="font-semibold mt-1">
@@ -74,7 +81,7 @@ function CruiseShipExplorerSectionComponent() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                   <SectionBadge label={item.category} className="self-start mb-1.5" />
-                  <p className="font-bold leading-snug">{item.title}</p>
+                  <p className="leading-snug">{item.title}</p>
                 </div>
               </div>
             ))}
@@ -85,7 +92,7 @@ function CruiseShipExplorerSectionComponent() {
         <div className="bg-transparent p-0 text-left mb-16">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
             <div>
-              <h3 className="font-bold uppercase text-white">Dining Explorer Guide</h3>
+              <h3 className="uppercase text-white">Dining Explorer Guide</h3>
               <p className="font-semibold mt-1">Discover included food spots and premium specialty restaurants.</p>
             </div>
             {/* Dining Filter Tabs */}
@@ -93,15 +100,13 @@ function CruiseShipExplorerSectionComponent() {
               <FoolishShrimpButton
                 onClick={() => setFoodTypeTab("included")}
                 isActive={foodTypeTab === "included"}
-                className="px-4 py-2 font-bold uppercase text-xs cursor-pointer"
-              >
+                className="px-4 py-2 uppercase text-xs cursor-pointer">
                 Included (Free)
               </FoolishShrimpButton>
               <FoolishShrimpButton
                 onClick={() => setFoodTypeTab("paid")}
                 isActive={foodTypeTab === "paid"}
-                className="px-4 py-2 font-bold uppercase text-xs cursor-pointer"
-              >
+                className="px-4 py-2 uppercase text-xs cursor-pointer">
                 Specialty (With Fee)
               </FoolishShrimpButton>
             </div>
@@ -154,7 +159,7 @@ function CruiseShipExplorerSectionComponent() {
                 <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
                 <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                   <SectionBadge label={food.tag} className="self-start mb-1.5" />
-                  <p className="font-bold leading-snug">{food.name}</p>
+                  <p className="leading-snug">{food.name}</p>
                 </div>
               </div>
             ))}
@@ -165,25 +170,23 @@ function CruiseShipExplorerSectionComponent() {
         <div className="py-20">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-4 border-b border-white/10 text-left">
             <div className="w-full lg:w-auto">
-              <h3 className="font-bold uppercase text-white">Bars & Entertainment Explorer</h3>
+              <h3 className="uppercase text-white">Bars & Entertainment Explorer</h3>
               <p className="font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
             </div>
             <div className="flex p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto gap-2">
               <FoolishShrimpButton
                 onClick={() => setBarTab("bars")}
                 isActive={barTab === "bars"}
-                className="px-4 py-2 font-bold uppercase text-xs cursor-pointer flex items-center gap-2"
-              >
+                className="px-4 py-2 uppercase text-xs cursor-pointer flex items-center gap-2">
                 <span>Bars & Clubs</span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-lg font-bold ${barTab === "bars" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
+                <span className={`text-[10px] px-2 py-0.5 rounded-lg    ${barTab === "bars" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
               </FoolishShrimpButton>
               <FoolishShrimpButton
                 onClick={() => setBarTab("entertainment")}
                 isActive={barTab === "entertainment"}
-                className="px-4 py-2 font-bold uppercase text-xs cursor-pointer flex items-center gap-2"
-              >
+                className="px-4 py-2 uppercase text-xs cursor-pointer flex items-center gap-2">
                 <span>Entertainment</span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-lg font-bold ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
+                <span className={`text-[10px] px-2 py-0.5 rounded-lg    ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
               </FoolishShrimpButton>
             </div>
           </div>
@@ -239,7 +242,7 @@ function CruiseShipExplorerSectionComponent() {
                 <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                   <SectionBadge label={item.tag} className="self-start mb-1.5" />
-                  <p className="font-bold leading-snug">{item.name}</p>
+                  <p className="leading-snug">{item.name}</p>
                 </div>
               </div>
             ))}

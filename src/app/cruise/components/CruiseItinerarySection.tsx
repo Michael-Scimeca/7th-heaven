@@ -6,19 +6,26 @@ import { SectionBadge } from "@/components/SectionBadge";
 import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
 import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "../cruiseData";
 
-export default function CruiseItinerarySection() {
+interface CruiseItinerarySectionProps {
+  sanityContent?: any;
+}
+
+export default function CruiseItinerarySection({ sanityContent }: CruiseItinerarySectionProps) {
   const [activeItinYear, setActiveItinYear] = useState<2027 | 2028>(2027);
+
+  const sectionTitle = sanityContent?.sections?.find((s: any) => s.sectionId === "itinerary")?.title || "Day-by-Day Voyage Itinerary";
+  const sectionSubtitle = sanityContent?.sections?.find((s: any) => s.sectionId === "itinerary")?.subtitle || "Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.";
 
   return (
     <section id="itinerary" className="pt-20 pb-12 relative z-20" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <div className="w-full mx-auto">
         <div className="text-left w-full mb-10">
           <SectionBadge label="Interactive Voyage Map" className="mb-3" />
-          <h2 className="font-bold uppercase text-white leading-none">
-            Day-by-Day <span className="accent-gradient-text">Voyage Itinerary</span>
+          <h2 className="uppercase text-white leading-none">
+            {sectionTitle}
           </h2>
           <p className="mt-3 font-semibold max-w-2xl">
-            Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
+            {sectionSubtitle}
           </p>
 
           {/* Itinerary Year Toggle */}
@@ -27,16 +34,14 @@ export default function CruiseItinerarySection() {
               type="button"
               onClick={() => setActiveItinYear(2027)}
               isActive={activeItinYear === 2027}
-              className="!w-auto px-5 py-2 text-xs uppercase font-bold"
-            >
+              className="!w-auto px-5 py-2 text-xs uppercase">
               2027 Star of the Seas (7-Night)
             </FoolishShrimpButton>
             <FoolishShrimpButton
               type="button"
               onClick={() => setActiveItinYear(2028)}
               isActive={activeItinYear === 2028}
-              className="!w-auto px-5 py-2 text-xs uppercase font-bold"
-            >
+              className="!w-auto px-5 py-2 text-xs uppercase">
               2028 Legend of the Seas (8-Night)
             </FoolishShrimpButton>
           </div>
