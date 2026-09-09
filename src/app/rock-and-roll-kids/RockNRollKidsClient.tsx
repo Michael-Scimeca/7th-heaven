@@ -1,15 +1,12 @@
 /* eslint-disable react-doctor/iframe-missing-sandbox */
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import gsap from "gsap";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import TransitionLink from "@/components/TransitionLink";
 import SectionBadge from "@/components/SectionBadge";
 import { getMediaUrl } from "@/lib/sanity";
-
-const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 
 const ABOUT_DATA = {
   headline: "7th Heaven & the Rock 'n' Roll Kids",
@@ -312,38 +309,33 @@ const mainCharacters = [
   },
 ];
 
+const DEFAULT_FOUNDERS = [
+  {
+    name: "Richard Hofherr",
+    role: "Founder and songwriter of 7th heaven",
+    desc: "Co-creator of 7th Heaven & The Rock 'n' Roll Kids animated series, comics, and video games.",
+    phone: "(847) 551-5363",
+    email: "Rich777@aol.com",
+    mobileImg: "/images/contact/Dickie-contact-mobile.png",
+    desktopImg: "/images/members/desktop-richy.png",
+  },
+  {
+    name: "Roy Adorjan",
+    role: "Lead Animator & Character Designer",
+    desc: "Co-creator and art director for 7th Heaven & The Rock 'n' Roll Kids.",
+    phone: "",
+    email: "info@minimartians.com",
+    mobileImg: "/images/comics/roy-mobile.png",
+    desktopImg: "/images/comics/desktop-roy.png",
+  },
+];
+
 export default function RockNRollKidsClient({
   sanityContent,
 }: {
   sanityContent?: any;
 }) {
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
-  const heroBannerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return;
-    }
-
-    if (heroBannerRef.current) {
-      gsap.fromTo(
-        heroBannerRef.current,
-        {
-          scale: 1.15,
-          opacity: 0,
-        },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 1.2,
-          ease: EXO_EASE,
-        }
-      );
-    }
-  }, []);
 
   // ── SANITY CMS DYNAMIC DATA MAPPINGS WITH FULL FALLBACKS ──
   const comicsSection = sanityContent?.sections?.find(
@@ -442,8 +434,7 @@ export default function RockNRollKidsClient({
 
           {/* Full Cast Lineup Image Banner (allc.png) */}
           <div
-            ref={heroBannerRef}
-            className="relative w-full rounded-lg overflow-hidden mt-4 transform-gpu">
+            className="relative w-full rounded-lg overflow-hidden mt-4">
             <Image
               src="/images/comics/allc.png"
               alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
@@ -592,7 +583,7 @@ export default function RockNRollKidsClient({
               {productsList.map((prod: any) => (
                 <div
                   key={prod.id}
-                  className="bg-[#0b0718]/90 border border-white/10 rounded-xl overflow-hidden flex flex-col justify-between p-4 hover:border-purple-500/40 transition-all group">
+                  className="bg-[#0b0718]/90 border border-white/10 rounded-xl overflow-hidden flex flex-col justify-between p-4 transition-all group">
                   <div>
                     <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden mb-3 bg-black/40">
                       <Image
@@ -600,13 +591,13 @@ export default function RockNRollKidsClient({
                         alt={prod.title}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="object-cover"
                       />
                     </div>
                     <span className="text-[11px] font-sans text-purple-400 font-bold uppercase tracking-wider block mb-1">
                       {prod.badge}
                     </span>
-                    <h3 className="text-white font-sans text-base font-bold mb-1.5 line-clamp-1 group-hover:text-purple-300 transition-colors">
+                    <h3 className="text-white font-sans text-base font-bold mb-1.5 line-clamp-1">
                       {prod.title}
                     </h3>
                     <p className="text-white/70 text-xs leading-relaxed mb-4 line-clamp-2">

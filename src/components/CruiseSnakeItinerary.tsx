@@ -81,7 +81,7 @@ type ItineraryDay = {
   colorTheme: string;
   photo?: string;
 };
-type Props = { itinerary: ItineraryDay[]; hideHeader?: boolean };
+type Props = { itinerary: ItineraryDay[]; hideHeader?: boolean; sanityContent?: any };
 
 function CircleVideoNode({
   src,
@@ -235,7 +235,7 @@ const fadeAudioOut = (audio: HTMLAudioElement | null, durationMs = 800) => {
   requestAnimationFrame(fade);
 };
 
-export default function CruiseSnakeItinerary({ itinerary, hideHeader = false }: Props) {
+export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sanityContent }: Props) {
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('alternating');
   const [showSettings, setShowSettings] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
@@ -424,7 +424,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false }: 
   };
 
   // Canvas height: last node Y + card height (450px) so card bottom sits flush at container padding boundary
-  const lastNodeY = (itinerary.length - 1) * STEP_H + 50;
+  const lastNodeY = (itinerary.length - 1) * STEP_H + 90;
   const totalH = lastNodeY + 450;
 
   /* ── Node positions dynamically computed based on layoutMode ── */
@@ -439,7 +439,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false }: 
     }
     return {
       x,
-      y: i * STEP_H + 50,
+      y: i * STEP_H + 90,
       isLeft: layoutMode === 'harbor' ? false : layoutMode === 'center' ? i % 2 === 0 : i % 2 === 0,
     };
   });
@@ -724,17 +724,10 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false }: 
 
   return (
     <section
-      className="snake-itinerary-root"
+      className="snake-itinerary-root site-container"
       ref={sectionRef}
     >
-      {/* ── Inner Backdrop & Tint Overlay ── */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 rounded-3xl overflow-hidden"
-        style={{
-          background: "linear-gradient(180deg, rgba(6, 11, 24, 0.95) 0%, rgba(10, 20, 44, 0.95) 50%, rgba(6, 11, 24, 0.95) 100%)",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-        }}
-      />
+
       {/* ── Header (Inside Blue Container Box) ── */}
       {!hideHeader && (
         <div className="snake-itinerary-header">
