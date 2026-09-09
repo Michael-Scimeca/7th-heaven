@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/iframe-missing-sandbox */
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -340,6 +341,21 @@ const mainCharacters = [
 export default function RockNRollKidsPage() {
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
   const heroBannerRef = useRef<HTMLDivElement>(null);
+  const [sanityContent, setSanityContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=rock-and-roll-kids")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((res) => {
+        if (res?.success && res?.data) {
+          setSanityContent(res.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (
@@ -372,11 +388,11 @@ export default function RockNRollKidsPage() {
       <div>
         {/* Hero Header */}
         <section className="relative site-container text-center space-y-6">
-          <ExoTextReveal as="h1" className="font-bold uppercase text-white font-sans text-3xl sm:text-5xl md:text-6xl mb-3">
-            {ABOUT_DATA.headline}
+          <ExoTextReveal as="h1" className="uppercase text-white font-sans text-3xl sm:text-5xl md:text-6xl mb-3">
+            {sanityContent?.heroHeading || ABOUT_DATA.headline}
           </ExoTextReveal>
-          <p className="font-sans max-w-2xl mx-auto ">
-            7th Heaven & The Rock &apos;N&apos; Roll Kids Official Animated Series, Books & Media Universe.
+          <p className="font-sans max-w-2xl mx-auto">
+            {sanityContent?.heroSubheading || "7th Heaven & The Rock 'N' Roll Kids Official Animated Series, Books & Media Universe."}
           </p>
 
           {/* Full Cast Lineup Image Banner (allc.png) */}
@@ -395,7 +411,7 @@ export default function RockNRollKidsPage() {
           {/* Character Roster Info Cards Grid under the image */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left pt-4 mb-12">
             {mainCharacters.map((char) => (
-              <div key={char.name} className="flex flex-col justify-between pb-3.5 group ">
+              <div key={char.name} className="flex flex-col justify-between pb-3.5 group">
                 <div>
                   {char.image && (
                     <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-start">
@@ -412,8 +428,8 @@ export default function RockNRollKidsPage() {
                     <char.icon className="w-3.5 h-3.5" />
                     <span className="text-[10px] font-sans text-white uppercase">{char.role}</span>
                   </div>
-                  <h4 className="font-bold text-white mb-1">{char.name}</h4>
-                  <p className="  ">{char.desc}</p>
+                  <h4 className="text-white mb-1">{char.name}</h4>
+                  <p>{char.desc}</p>
                 </div>
               </div>
             ))}
@@ -429,10 +445,10 @@ export default function RockNRollKidsPage() {
               {/* LEFT COLUMN: Story Content & Featured Singles Tabs (LARGE TEXT) */}
               <div className="lg:col-span-5 space-y-6">
                 <p className="font-sans pb-2">
-                  {ABOUT_DATA.paragraph1}
+                  {sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.subtitle || ABOUT_DATA.paragraph1}
                 </p>
-                <p className="   font-normal">
-                  {ABOUT_DATA.paragraph2}
+                <p className="font-normal">
+                  {sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.body || ABOUT_DATA.paragraph2}
                 </p>
 
                 {/* Animated Singles Quick Select Buttons */}
@@ -442,8 +458,7 @@ export default function RockNRollKidsPage() {
                       <FoolishShrimpButton
                         key={single.id}
                         onClick={() => setSelectedVideo(single.id)}
-                        className={`px-4 py-2 font-bold tracking-wide transition-all ${selectedVideo === single.id ? "scale-105 opacity-100" : "opacity-80 hover:opacity-100"}`}
-                      >
+                        className={`px-4 py-2      transition-all ${selectedVideo === single.id ? "scale-105 opacity-100" : "opacity-80 hover:opacity-100"}`}>
                         {single.title}
                       </FoolishShrimpButton>
                     ))}
@@ -453,7 +468,7 @@ export default function RockNRollKidsPage() {
 
               {/* RIGHT COLUMN: Video Matrix Player & Video Grid Selector */}
               <div className="lg:col-span-7 space-y-4">
-                <div className="aspect-video w-full rounded-lg overflow-hidden ">
+                <div className="aspect-video w-full rounded-lg overflow-hidden">
                   <iframe src={`https://www.youtube.com/embed/${selectedVideo}`} title="Rock and Roll Kids Player" className="w-full h-full" allowFullScreen sandbox="allow-scripts allow-same-origin allow-presentation" />
                 </div>
 
@@ -462,11 +477,10 @@ export default function RockNRollKidsPage() {
                     <FoolishShrimpButton
                       key={v.id}
                       onClick={() => setSelectedVideo(v.id)}
-                      className={`!h-auto !py-3 !px-4 !justify-start text-left transition-all ${selectedVideo === v.id ? "scale-[1.02] opacity-100" : "opacity-80 hover:opacity-100"}`}
-                    >
+                      className={`!h-auto !py-3 !px-4 !justify-start text-left transition-all ${selectedVideo === v.id ? "scale-[1.02] opacity-100" : "opacity-80 hover:opacity-100"}`}>
                       <div className="flex flex-col items-start text-left whitespace-normal w-full">
-                        <span className="text-[10px] font-sans text-purple-400 font-bold uppercase tracking-wider block mb-1">{v.tag}</span>
-                        <span className="font-bold text-white text-xs sm:text-sm leading-snug line-clamp-2">{v.title}</span>
+                        <span className="text-[10px] font-sans text-purple-400 uppercase r block mb-1">{v.tag}</span>
+                        <span className="text-white text-xs sm:text-sm leading-snug line-clamp-2">{v.title}</span>
                       </div>
                     </FoolishShrimpButton>
                   ))}
@@ -479,7 +493,7 @@ export default function RockNRollKidsPage() {
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 border- pb-3">
               <div>
-                <h2 className="font-sans text-white font-bold uppercase">Comic Books & Publications (12 Items)</h2>
+                <h2 className="font-sans text-white uppercase">{sanityContent?.sections?.find((s: any) => s.sectionId === "comics")?.title || "Comic Books & Publications (12 Items)"}</h2>
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <FoolishShrimpButton onClick={() => window.open("https://www.amazon.com/dp/B096TJNDWR", "_blank")}>
@@ -496,8 +510,7 @@ export default function RockNRollKidsPage() {
                   href={p.amazonUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col justify-between shadow-lg hover:shadow-purple-500/30 cursor-pointer text-left transition-all"
-                >
+                  className="group flex flex-col justify-between shadow-lg hover:shadow-purple-500/30 cursor-pointer text-left transition-all">
                   <div>
                     <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border border-white/10 mb-2.5 bg-black">
                       <Image
@@ -508,11 +521,11 @@ export default function RockNRollKidsPage() {
                         className="object-cover"
                       />
                     </div>
-                    <span className="text-[12px] font-sans text-purple-400 font-bold uppercase tracking-wider block mb-0.5">{p.badge}</span>
-                    <h3 className="font-bold text-white line-clamp-1 mb-1 group-hover:text-purple-300 transition-colors">{p.title}</h3>
+                    <span className="text-[12px] font-sans text-purple-400 uppercase r block mb-0.5">{p.badge}</span>
+                    <h3 className="text-white line-clamp-1 mb-1 group-hover:text-purple-300 transition-colors">{p.title}</h3>
                     <p className="line-clamp-2 mb-3 text-gray-300">{p.desc}</p>
                   </div>
-                  <FoolishShrimpButton className="w-full py-1.5 text-center font-bold ">
+                  <FoolishShrimpButton className="w-full py-1.5 text-center">
                     Amazon Link
                   </FoolishShrimpButton>
                 </a>
@@ -524,7 +537,7 @@ export default function RockNRollKidsPage() {
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
               <div>
-                <h2 className="font-sans text-white font-bold uppercase">Series Founders & Contact</h2>
+                <h2 className="font-sans text-white uppercase">{sanityContent?.sections?.find((s: any) => s.sectionId === "founders")?.title || "Series Founders & Contact"}</h2>
               </div>
 
             </div>
@@ -553,20 +566,19 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 pointer-events-none z-10" />
                 </div>
                 <div className="flex flex-col items-center text-center mt-4 space-y-2.5 w-full">
-                  <h3 className="font-sans text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">Richard Hofherr</h3>
+                  <h3 className="font-sans text-2xl sm:text-3xl text-white uppercase mb-2">Richard Hofherr</h3>
                   <div>
                     <SectionBadge label="Founder and songwriter of 7th heaven" isActive />
                   </div>
                   <p className="text-white/80 text-sm leading-relaxed max-w-md mx-auto mb-1">
                     Co-creator of 7th Heaven & The Rock &apos;n&apos; Roll Kids animated series, comics, and video games.
                   </p>
-                  <a href="tel:8475515363" className="!text-white font-bold text-sm sm:text-base hover:underline block mb-0 mt-1">
+                  <a href="tel:8475515363" className="!text-white text-sm sm:text-base hover:underline block mb-0 mt-1">
                     (847) 551-5363
                   </a>
                   <a
                     href="mailto:Rich777@aol.com"
-                    className="text-purple-400 font-bold text-sm sm:text-base hover:underline block"
-                  >
+                    className="text-purple-400 text-sm sm:text-base hover:underline block">
                     Rich777@aol.com
                   </a>
                 </div>
@@ -595,7 +607,7 @@ export default function RockNRollKidsPage() {
                   <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 pointer-events-none z-10" />
                 </div>
                 <div className="flex flex-col items-center text-center mt-4 space-y-2.5 w-full">
-                  <h3 className="font-sans text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">Roy Adorjan</h3>
+                  <h3 className="font-sans text-2xl sm:text-3xl text-white uppercase mb-2">Roy Adorjan</h3>
                   <div>
                     <SectionBadge label="Lead Animator & Character Designer" isActive />
                   </div>
@@ -605,8 +617,7 @@ export default function RockNRollKidsPage() {
                   </p>
                   <a
                     href="mailto:info@minimartians.com"
-                    className="text-purple-400 font-bold text-sm sm:text-base hover:underline block"
-                  >
+                    className="text-purple-400 text-sm sm:text-base hover:underline block">
                     info@minimartians.com
                   </a>
                 </div>
