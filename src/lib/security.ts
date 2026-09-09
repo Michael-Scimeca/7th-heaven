@@ -129,7 +129,7 @@ export function hasAdminAccess(role: string | null | undefined): boolean {
  */
 export const RECOMMENDED_SECURITY_HEADERS = {
   'Content-Security-Policy': "default-src 'self'",
-  'X-Frame-Options': 'DENY',
+  'X-Frame-Options': 'SAMEORIGIN',
   'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
