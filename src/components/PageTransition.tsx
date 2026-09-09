@@ -372,8 +372,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
     router.push(pendingHref);
+    // Defer scrollTo by one rAF — calling it on the same frame as router.push
+    // forces a layout recalc that interrupts the compositor and causes a click/flash
     if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
+      requestAnimationFrame(() => window.scrollTo(0, 0));
     }
 
     let animId = 0;

@@ -9,6 +9,19 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 
+/* ── Kill backdrop-filter during page transitions ───────────────────────────
+   backdrop-filter forces the GPU to read every pixel behind the element on
+   each composited frame. With 46+ backdrop-filter elements on screen and a
+   clip-path wipe running simultaneously, this causes stuttering/clicking.
+   The transition overlay covers everything anyway so removing it is invisible.
+   ─────────────────────────────────────────────────────────────────────────── */
+html.is-page-transitioning *,
+html.is-page-transitioning *::before,
+html.is-page-transitioning *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 body {
   background-color: var(--bg-color, #05030a);
   color: var(--text-color, #ffffff);
