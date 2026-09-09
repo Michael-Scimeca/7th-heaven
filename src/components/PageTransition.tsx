@@ -78,7 +78,7 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   revealScale: 1.00,
   revealRotation: 0,
   revealOrigin: "center center",
-  revealEase: "power3.out",
+  revealEase: "circ.out",
   revealSlantRatio: 0.04,
   revealFlipSlant: true,
   revealDurationOffset: 0.1,
@@ -88,7 +88,7 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   exitScale: 1.0,
   exitRotation: 0,
   exitOrigin: "center center",
-  exitEase: "power3.out",
+  exitEase: "circ.out",
   exitSlantRatio: 0.04,
   exitFlipSlant: true,
 };
@@ -196,7 +196,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("7h_page_transition_settings_v15");
+      const saved = localStorage.getItem("7h_page_transition_settings_v16");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
@@ -230,7 +230,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v15", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v16", JSON.stringify(next));
     } catch { }
   };
 
@@ -238,7 +238,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(DEFAULT_SETTINGS);
     settingsRef.current = DEFAULT_SETTINGS;
     try {
-      localStorage.setItem("7h_page_transition_settings_v15", JSON.stringify(DEFAULT_SETTINGS));
+      localStorage.setItem("7h_page_transition_settings_v16", JSON.stringify(DEFAULT_SETTINGS));
     } catch { }
   };
 
@@ -260,7 +260,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v15", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v16", JSON.stringify(next));
     } catch { }
 
     setTimeout(() => {
