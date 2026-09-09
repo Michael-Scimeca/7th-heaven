@@ -6,7 +6,7 @@ import { SectionBadge } from "@/components/SectionBadge";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import LazyMount from "@/components/LazyMount";
 
-export default function CruiseShipExplorerSection() {
+function CruiseShipExplorerSectionComponent() {
   const [foodTypeTab, setFoodTypeTab] = useState<"included" | "paid">("included");
   const [barTab, setBarTab] = useState<"bars" | "entertainment">("bars");
 
@@ -249,3 +249,6 @@ export default function CruiseShipExplorerSection() {
     </div>
   );
 }
+
+const CruiseShipExplorerSection = React.memo(CruiseShipExplorerSectionComponent);
+export default CruiseShipExplorerSection;

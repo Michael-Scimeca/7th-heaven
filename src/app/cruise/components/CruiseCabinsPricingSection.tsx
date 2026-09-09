@@ -33,7 +33,7 @@ interface CruiseCabinsPricingSectionProps {
   PaymentPortalDropdownPanel: React.ComponentType<{ isOpen: boolean; onClose: () => void }>;
 }
 
-export default function CruiseCabinsPricingSection({
+function CruiseCabinsPricingSectionComponent({
   handleSelectCabin,
   handleSignup,
   formData,
@@ -481,3 +481,6 @@ export default function CruiseCabinsPricingSection({
     </div>
   );
 }
+
+const CruiseCabinsPricingSection = React.memo(CruiseCabinsPricingSectionComponent);
+export default CruiseCabinsPricingSection;

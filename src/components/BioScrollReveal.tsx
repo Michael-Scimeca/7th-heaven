@@ -22,7 +22,7 @@ interface BioScrollRevealProps {
   members: RevealMember[];
 }
 
-export default function BioScrollReveal({
+function BioScrollRevealComponent({
   title = "BAND MEMBERS & DIRECTORS",
   subtitle = "SCROLL TO DISCOVER THE CREATIVE FORCE BEHIND 7TH HEAVEN",
   members,
@@ -182,3 +182,6 @@ export default function BioScrollReveal({
     </section>
   );
 }
+
+const BioScrollReveal = React.memo(BioScrollRevealComponent);
+export default BioScrollReveal;

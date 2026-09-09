@@ -2,7 +2,7 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { useMember } from '@/context/MemberContext';
 
 const MINI_EQ_DURATIONS = [0.8, 1.0, 0.7, 1.1, 0.9];
@@ -16,7 +16,7 @@ const formatTime = (time: number) => {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 };
 
-export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
+function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
   const { isLoggedIn, openModal } = useMember();
   const [track, setTrack] = useState<any>(null);
   const [locked, setLocked] = useState(false);
@@ -616,3 +616,6 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
     </section>
   );
 }
+
+const FeaturedTrack = memo(FeaturedTrackComponent);
+export default FeaturedTrack;
