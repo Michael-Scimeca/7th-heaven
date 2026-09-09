@@ -21,8 +21,8 @@ function VersionA() {
         {Array.from(guests, (guest, i) => ({ guest, i })).map(({ guest, i }) => (
           <button aria-label="Action button" key={i} type="button" onClick={() => setActiveTab(i)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold transition-colors cursor-pointer ${activeTab === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
- : "bg-white/[0.04] border border-white/10 text-white/40 hover: text-white "
- }`}>
+              : "bg-white/[0.04] border border-white/10 text-white/40   text-white "
+              }`}>
             <span className="w-5 h-5 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] font-bold" style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}>
               {i === 0 ? "Y" : guest.name ? guest.name[0].toUpperCase() : (i + 1)}
             </span>
@@ -54,9 +54,9 @@ function VersionB() {
           <React.Fragment key={i}>
             <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0 bg-transparent p-0 text-left" onClick={() => setStep(i)}>
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
- : step > i ? "bg-[var(--color-accent)]/30 text-white"
- : " bg-[#00000029] border border-white/10 text-white/30"
- }`}>{step > i ? "✓" : i + 1}</div>
+                : step > i ? "bg-[var(--color-accent)]/30 text-white"
+                  : " bg-[#00000029] border border-white/10 text-white/30"
+                }`}>{step > i ? "✓" : i + 1}</div>
               <span className={`text-[var(--font-size-2xs)] uppercase font-bold ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
             </button>
             {i < STEP_LABELS.length - 1 && <div className={`flex-1 h-px mx-2 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`} />}
@@ -100,7 +100,7 @@ function VersionC() {
           <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="p-4 border border-dashed border-white/10 flex items-center justify-center gap-2 text-white/20 hover:text-white/40 hover: border-white/10 transition-colors cursor-pointer">
+      <button aria-label="Action button" type="button" className="p-4 border border-dashed border-white/10 flex items-center justify-center gap-2 text-white/20 hover:text-white/40   border-white/10 transition-colors cursor-pointer">
         <span className="text-xl">+</span>
         <span className="font-bold uppercase ">Add Guest</span>
       </button>
@@ -130,7 +130,7 @@ function VersionD() {
           <input aria-label="Input field" type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={SMALL} />
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="w-full py-2.5 font-bold uppercase text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
+      <button aria-label="Action button" type="button" className="w-full py-2.5 font-bold uppercase text-[var(--color-accent)]/60   text-[var(--color-accent)] hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
     </div>
   );
 }
@@ -147,7 +147,7 @@ function VersionE() {
         <div key={i} className="overflow-hidden border border-white/5">
           <button aria-label="Action button" type="button" onClick={() => setOpen(open === i ? -1 : i)}
             className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"
- }`}>
+              }`}>
             <span className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white shrink-0" style={{ backgroundColor: COLORS[i] }}>
               {g.name ? g.name[0].toUpperCase() : (i + 1)}
             </span>
@@ -166,7 +166,7 @@ function VersionE() {
           )}
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="w-full py-3 border border-dashed border-white/10 font-bold uppercase text-white/20 hover: text-[var(--color-accent)] hover: border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
+      <button aria-label="Action button" type="button" className="w-full py-3 border border-dashed border-white/10 font-bold uppercase text-white/20   text-[var(--color-accent)]   border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
     </div>
   );
 }
@@ -193,7 +193,7 @@ function VersionF() {
         </div>
       ))}
       <button aria-label="Action button" type="button" onClick={() => setGuests(g => [...g, emptyGuest()])}
-        className="font-bold text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] transition-colors cursor-pointer">+ Add another guest</button>
+        className="font-bold text-[var(--color-accent)]/60   text-[var(--color-accent)] transition-colors cursor-pointer">+ Add another guest</button>
     </div>
   );
 }
@@ -217,7 +217,7 @@ export default function CruisePreviewPage() {
     <div className="min-h-screen pt-28 pb-20">
       <div className="site-container">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold uppercase italic text-white" style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+          <h1 className="text-4xl font-bold uppercase italic text-white">
             Guest Form <span className="accent-gradient-text">Variants</span>
           </h1>
           <p className="mt-2">6 different UI approaches — pick your favorite</p>
