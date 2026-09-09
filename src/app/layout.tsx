@@ -165,11 +165,11 @@ export default function RootLayout({
         <link
           rel="preload"
           as="style"
-          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=optional"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
         />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=optional"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
         />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
