@@ -2841,14 +2841,15 @@ textarea,
 
 /* =============================================
    PERFORMANCE: content-visibility for off-screen page sections
-   Tells the browser to skip rendering below-fold content until
-   it enters the viewport — saves CPU, GPU, and layout cost on mobile
+   Tells Chromium to skip style, layout, and paint rendering for
+   below-the-fold content until it enters the viewport — saves CPU,
+   GPU memory, and layout reflow budget on both mobile & desktop.
    ============================================= */
-@media (max-width: 768px) {
-  section:not(#hero):not(:first-of-type) {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 500px;
-  }
+section:not(#hero):not(:first-of-type),
+.below-fold-section,
+.cruise-section:not(:first-of-type) {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
 }
 
 /* =============================================
