@@ -25,7 +25,7 @@ const mockLiveMedia: FeedPostDB[] = [
     member_avatar: "MS",
     content: "Adam absolutely owning the stage right now 🎤🔥",
     post_type: "photo",
-    image_url: "/images/band-performance.png",
+    image_url: "/images/hero/band-performance.png",
     reactions: { "🔥": 89, "📸": 34 },
     is_live: true,
     created_at: "2026-08-06T16:42:00.000Z",
@@ -37,7 +37,7 @@ const mockLiveMedia: FeedPostDB[] = [
     member_avatar: "MS",
     content: "Sound check vibes — this venue sounds incredible 🎸",
     post_type: "photo",
-    image_url: "/images/hero-banner.png",
+    image_url: "/images/hero/hero-banner.png",
     reactions: { "🤘": 45, "❤️": 22 },
     is_live: true,
     created_at: "2026-08-06T16:35:00.000Z",
@@ -60,7 +60,7 @@ const mockLiveMedia: FeedPostDB[] = [
     member_avatar: "MS",
     content: "The crowd is packed and ready 🤘 Standing room only!",
     post_type: "crowd",
-    image_url: "/images/band-performance.png",
+    image_url: "/images/hero/band-performance.png",
     reactions: { "🤘": 112, "🔥": 78 },
     is_live: true,
     created_at: "2026-08-06T16:15:00.000Z",
@@ -181,15 +181,15 @@ export default function LiveShowFeed() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-500" />
             </span>
-            <span className="font-bold uppercase tracking-[0.15em] text-red-400">Live</span>
+            <span className="uppercase tracking-[0.15em] text-red-400">Live</span>
           </div>
-          <span className="font-bold text-white/30 uppercase tracking-[0.15em]">
+          <span className="text-white/30 uppercase tracking-[0.15em]">
             From the Show
           </span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 bg-red-500 rounded-lg animate-pulse" />
-          <span className="font-bold text-white/30 tabular-nums">
+          <span className="text-white/30 tabular-nums">
             {viewerCount.toLocaleString()} watching
           </span>
         </div>
@@ -221,25 +221,24 @@ export default function LiveShowFeed() {
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <div className="flex items-center gap-2 mb-2">
                 <div
-                  className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15"
-                >
+                  className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15">
                   {selectedMedia.member_avatar}
                 </div>
                 <span className="font-semibold text-white/80">{selectedMedia.member_name}</span>
                 <span className="text-white/30">{timeAgo(selectedMedia.created_at)}</span>
               </div>
-              <p className="  ">{selectedMedia.content}</p>
+              <p>{selectedMedia.content}</p>
             </div>
           </div>
         ) : (
           <div className="aspect-video bg-white/[0.03] border border-white/10 flex items-center justify-center">
-            <p className="">No live media yet — check back soon</p>
+            <p>No live media yet — check back soon</p>
           </div>
         )}
       </div>
 
       {/* Media Thumbnails Grid */}
-      {mediaPosts.length > 1 && (
+      {mediaPosts.length> 1 && (
         <div className="grid grid-cols-4 sm:grid-cols-5 gap-1.5 mt-2">
           {mediaPosts.slice(0, 10).map((post) => {
             const isActive = selectedMedia?.id === post.id;
@@ -258,8 +257,7 @@ export default function LiveShowFeed() {
                     ? "border-red-500/50"
                     : "border-white/[0.06]   border-white/10 "
                   }`}
-                style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}
-              >
+                style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
                 {thumbSrc && (
                   <Image width={200} height={200} unoptimized
                     src={thumbSrc}
@@ -277,7 +275,7 @@ export default function LiveShowFeed() {
                 )}
                 {/* Type badge */}
                 <div className="absolute top-1 left-1">
-                  <span className="text-[var(--font-size-2xs)] font-bold uppercase bg-black/60 text-white/70 px-1.5 py-0.5">
+                  <span className="text-[var(--font-size-2xs)] uppercase bg-black/60 text-white/70 px-1.5 py-0.5">
                     {isVideo ? "🎬" : "📸"} {timeAgo(post.created_at)}
                   </span>
                 </div>
@@ -292,7 +290,7 @@ export default function LiveShowFeed() {
       )}
 
       {/* Latest Text Updates */}
-      {posts.filter((p) => !p.image_url && !p.video_url).length > 0 && (
+      {posts.filter((p) => !p.image_url && !p.video_url).length> 0 && (
         <div className="mt-4 flex flex-col gap-1.5">
           {posts
             .filter((p) => !p.image_url && !p.video_url)
@@ -300,11 +298,9 @@ export default function LiveShowFeed() {
             .map((post) => (
               <div
                 key={post.id}
-                className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-colors hover:bg-white/[0.04]"
-              >
+                className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-colors hover:bg-white/[0.04]">
                 <div
-                  className="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]/40 text-[var(--color-accent)] bg-[var(--color-accent)]/10"
-                >
+                  className="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)]/40 text-[var(--color-accent)] bg-[var(--color-accent)]/10">
                   {post.member_avatar}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -312,7 +308,7 @@ export default function LiveShowFeed() {
                     <span className="font-semibold text-white/70">{post.member_name}</span>
                     <span className="text-white/20">{timeAgo(post.created_at)}</span>
                   </div>
-                  <p className="   truncate">{post.content}</p>
+                  <p className="truncate">{post.content}</p>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   {Object.entries(post.reactions).slice(0, 2).map(([emoji, count]) => (

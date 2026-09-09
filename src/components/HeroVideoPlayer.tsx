@@ -479,7 +479,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       {!isDesktop ? (
         <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
           <Image
-            src="/images/hero-banner.webp"
+            src="/images/hero/hero-banner.webp"
             alt="7th Heaven Live Stage"
             fill
             priority

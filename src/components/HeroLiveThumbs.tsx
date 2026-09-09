@@ -27,7 +27,7 @@ const mockThumbs: FeedPostDB[] = [
     member_avatar: "MS",
     content: "Adam owning it 🎤🔥",
     post_type: "photo",
-    image_url: "/images/band-performance.webp",
+    image_url: "/images/hero/band-performance.webp",
     reactions: { "🔥": 89 },
     is_live: true,
     created_at: "2026-08-06T16:42:00.000Z",
@@ -108,7 +108,7 @@ export default function HeroLiveThumbs() {
   }, [fetchPosts]);
 
   const filteredMedia = posts.filter((p) => p.image_url || p.video_url);
-  const mediaPosts = filteredMedia.length > 0 ? filteredMedia : mockThumbs;
+  const mediaPosts = filteredMedia.length> 0 ? filteredMedia : mockThumbs;
 
   if (!mounted) {
     return null;
@@ -118,13 +118,12 @@ export default function HeroLiveThumbs() {
     return (
       <button aria-label="Action button"
         onClick={handleOpen}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-bg-surface)]/80 border border-white/10   border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] active:scale-95 transition-colors duration-300 backdrop-blur-[45px] select-none group cursor-pointer"
-      >
+        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-bg-surface)]/80 border border-white/10 border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] active:scale-95 transition-colors duration-300 backdrop-blur-[45px] select-none group cursor-pointer">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
           <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-600" />
         </span>
-        <span className="font-bold text-white/80 group-hover:text-white uppercase tracking-[0.18em]">
+        <span className="text-white/80 group-hover:text-white uppercase tracking-[0.18em]">
           Show Live Streams
         </span>
       </button>
@@ -141,8 +140,7 @@ export default function HeroLiveThumbs() {
         style={{
           width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
           height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
-        }}
-      >
+        }}>
         <div
           className="absolute left-0 bottom-0 select-none animate-pulse flex items-end gap-3"
           style={{
@@ -150,8 +148,7 @@ export default function HeroLiveThumbs() {
             height: `${unscaledHeight}px`,
             transform: scale < 1 ? `scale(${scale})` : undefined,
             transformOrigin: "bottom left",
-          }}
-        >
+          }}>
           {[...Array(2)].map((_, i) => (
             <div key={i} className="w-[220px] h-[250px] bg-[#00000029] shrink-0" />
           ))}
@@ -169,8 +166,7 @@ export default function HeroLiveThumbs() {
       style={{
         width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
         height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
-      }}
-    >
+      }}>
       <div
         className="absolute left-0 bottom-0 select-none animate-[fade-in-up_0.6s_var(--ease-out-expo)_1.1s_both]"
         style={{
@@ -178,8 +174,7 @@ export default function HeroLiveThumbs() {
           height: `${unscaledHeight}px`,
           transform: scale < 1 ? `scale(${scale})` : undefined,
           transformOrigin: "bottom left",
-        }}
-      >
+        }}>
         {/* ── LIVE NOW header ── */}
         <div className="relative flex items-center justify-between mb-3 px-1 w-full">
           <div className="flex items-center gap-2 pr-7">
@@ -187,22 +182,20 @@ export default function HeroLiveThumbs() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-lg h-3 w-3 bg-red-600" />
             </span>
-            <span className="text-white text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.18em] whitespace-nowrap">
+            <span className="text-white text-[var(--font-size-2xs)] uppercase tracking-[0.18em] whitespace-nowrap">
               Crew Streaming
             </span>
-            {mediaPosts.length > 2 && (
+            {mediaPosts.length> 2 && (
               <Link
                 href="/live"
-                className=" font-bold text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:underline whitespace-nowrap"
-              >
+                className="text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:underline whitespace-nowrap">
                 + {mediaPosts.length - 2} More →
               </Link>
             )}
           </div>
           <button onClick={handleClose}
             className="text-white/40 hover:text-white transition-colors duration-200 p-2.5 min-w-[48px] min-h-[48px] rounded hover:bg-white/10 flex items-center justify-center cursor-pointer shrink-0"
-            aria-label="Hide Live Streams"
-          >
+            aria-label="Hide Live Streams">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -212,7 +205,7 @@ export default function HeroLiveThumbs() {
         {/* ── Card Row ── */}
         <div className="flex items-end gap-3 select-none">
           {mediaPosts.slice(0, 2).map((post, idx) => {
-            const fallbackSrc = post.image_url || "/images/band-performance.webp";
+            const fallbackSrc = post.image_url || "/images/hero/band-performance.webp";
             // Prefer the live canvas snapshot if available, else fall back
             const thumbSrc = snapshots[idx] ?? fallbackSrc;
 
@@ -224,8 +217,7 @@ export default function HeroLiveThumbs() {
               <Link
                 key={post.id}
                 href="/live"
-                className="group shrink-0 w-[220px] h-[250px] overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-colors duration-300 flex flex-col"
-              >
+                className="group shrink-0 w-[220px] h-[250px] overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-colors duration-300 flex flex-col">
                 {/* Thumbnail */}
                 <div className="relative w-full h-[195px] overflow-hidden bg-zinc-950">
                   <Image width={220} height={195}
@@ -241,19 +233,19 @@ export default function HeroLiveThumbs() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
                   {/* LIVE badge — top left */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 text-white font-bold uppercase px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(220,38,38,0.7)]">
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 text-white uppercase px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(220,38,38,0.7)]">
                     <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
                     LIVE
                   </div>
 
                   {/* Viewer count — top right */}
-                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white font-bold px-2 py-0.5 rounded-lg">
+                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white px-2 py-0.5 rounded-lg">
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" /></svg>
                     {viewers}
                   </div>
 
                   {/* Stream duration — bottom left */}
-                  <div className="absolute bottom-3 left-3.5 text-white/80 font-bold">
+                  <div className="absolute bottom-3 left-3.5 text-white/80">
                     {timeText}
                   </div>
                 </div>
@@ -266,13 +258,13 @@ export default function HeroLiveThumbs() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-emerald-400 opacity-60" />
                       <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-emerald-500" />
                     </span>
-                    <span className="text-[var(--font-size-2xs)] font-bold uppercase text-white truncate">
+                    <span className="text-[var(--font-size-2xs)] uppercase text-white truncate">
                       {crewName}
                     </span>
                   </div>
 
                   {/* Watch now cta */}
-                  <span className=" font-bold uppercase tracking-wide text-red-400 group-hover:text-red-300 transition-colors shrink-0">
+                  <span className="uppercase text-red-400 group-hover:text-red-300 transition-colors shrink-0">
                     WATCH →
                   </span>
                 </div>

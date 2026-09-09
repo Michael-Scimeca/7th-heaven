@@ -6051,7 +6051,7 @@ body:has(textarea:focus) .cursor-tail-circle {
   pointer-events: none;
   width: 11px;
   height: 14px;
-  background-image: url("/images/buttonsyb.svg");
+  background-image: url("/images/ui/buttonsyb.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

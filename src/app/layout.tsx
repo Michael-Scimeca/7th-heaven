@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     siteName: "7th Heaven",
     images: [
       {
-        url: "/images/7thheavenlogo.jpg",
+        url: "/images/logos/7thheavenlogo.jpg",
         width: 1200,
         height: 630,
         alt: "7th Heaven Logo",
@@ -93,7 +93,7 @@ export const metadata: Metadata = {
     title: "7th Heaven — Official Website",
     description:
       "7th heaven is an experience you just have to see and hear! 40 years of rocking the world.",
-    images: ["/images/7thheavenlogo.jpg"],
+    images: ["/images/logos/7thheavenlogo.jpg"],
   },
 };
 
@@ -105,8 +105,8 @@ const BAND_LD = {
   "description": "Chart-topping rock band from Chicago, icons of the Midwest music scene for over 40 years.",
   "genre": "Rock",
   "url": "https://7thheavenband.com",
-  "logo": "https://7thheavenband.com/images/7thheavenlogo.jpg",
-  "image": "https://7thheavenband.com/images/hero-banner.png",
+  "logo": "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+  "image": "https://7thheavenband.com/images/hero/hero-banner.png",
   "sameAs": [
     "https://www.facebook.com/7thheavenband",
     "https://twitter.com/7thheavenband",
@@ -199,7 +199,7 @@ export default function RootLayout({
           type="application/ld+json"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
-            // Escape <, > and & so that </script> sequences in data values
+            // Escape <,> and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
             __html: JSON.stringify(BAND_LD)
               .replace(/</g, '\\u003c')

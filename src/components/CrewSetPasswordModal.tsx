@@ -60,14 +60,13 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
         display: "flex", alignItems: "center", justifyContent: "center",
         fontFamily: "'Inter', sans-serif",
         padding: "16px",
-      }}
-    >
+      }}>
       {/* Blurred Hero Background Overlay */}
       <div 
         style={{
           position: "fixed",
           inset: 0,
-          backgroundImage: "url('/images/hero-band-bg.png')",
+          backgroundImage: "url('/images/hero/hero-band-bg.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           filter: "brightness(0.35) blur(10px)",
@@ -103,8 +102,7 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
           position: "relative",
           zIndex: 10,
           overflow: "hidden",
-        }}
-      >
+        }}>
 
         {/* Icon */}
         <div style={{
@@ -235,8 +233,7 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
                 transition: "background 0.2s, box-shadow 0.2s",
                 boxShadow: loading ? "none" : "0 0 20px var(--color-purple-glow)",
                 letterSpacing: 1,
-              }}
-            >
+              }}>
               {loading ? "Setting Password…" : "Set My Password →"}
             </button>
           </form>

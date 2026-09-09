@@ -191,7 +191,7 @@ export async function GET() {
       }
     }
 
-    const videos = Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_VIDEOS;
+    const videos = Array.isArray(parsed) && parsed.length> 0 ? parsed : DEFAULT_VIDEOS;
     return NextResponse.json({ videos });
   } catch (err: any) {
     return NextResponse.json({ videos: DEFAULT_VIDEOS });
@@ -233,7 +233,7 @@ export async function POST(req: Request) {
         title: body.title.trim(),
         category: body.category || 'Ship Tour',
         url: body.url.trim(),
-        poster: body.poster || '/images/cruise-hero.png',
+        poster: body.poster || '/images/cruise/cruise-hero.png',
         description: body.description || '',
         featured: !!body.featured,
         createdAt: new Date().toISOString(),

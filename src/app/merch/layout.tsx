@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://7thheavenband.com/merch",
     siteName: "7th Heaven",
-    images: [{ url: "/images/7thheavenlogo.jpg", width: 1200, height: 630, alt: "7th Heaven" }],
+    images: [{ url: "/images/logos/7thheavenlogo.jpg", width: 1200, height: 630, alt: "7th Heaven" }],
   },
 };
 

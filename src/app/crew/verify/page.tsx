@@ -35,7 +35,7 @@ const renderBackground = () => (
       style={{
         position: "fixed",
         inset: 0,
-        backgroundImage: "url('/images/hero-band-bg.png')",
+        backgroundImage: "url('/images/hero/hero-band-bg.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         filter: "brightness(0.55) blur(3px)",

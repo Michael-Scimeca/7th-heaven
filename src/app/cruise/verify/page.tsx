@@ -126,7 +126,7 @@ function CruiseVerifyContent() {
       <div
         className="fixed inset-0 bg-cover bg-center pointer-events-none z-0"
         style={{
-          backgroundImage: "url('/images/cruise-hero.png')",
+          backgroundImage: "url('/images/cruise/cruise-hero.png')",
           filter: "brightness(0.4) blur(3px)",
           transform: "scale(1.08)",
         }}
