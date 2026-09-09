@@ -193,16 +193,18 @@ function BookPageContent() {
           setSanityContent(res.data);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const pickerLabels = useMemo(() => {
     if (!sanityContent?.sections) return undefined;
     const formatSection = sanityContent.sections.find((s: any) => s.sectionId === "formats");
     const windowSection = sanityContent.sections.find((s: any) => s.sectionId === "window");
+    const scheduleSection = sanityContent.sections.find((s: any) => s.sectionId === "schedule");
     return {
       bookingWindowHeading: windowSection?.title,
       eventFormatHeading: formatSection?.title,
+      calendarSubtitle: scheduleSection?.subtitle,
     };
   }, [sanityContent]);
 
@@ -1018,7 +1020,7 @@ function BookPageContent() {
 
                         <div className="mb-4">
                           <span className="font-bold uppercase    block mb-1">Show #{index + 1}</span>
-                          <h5 className="text-base font-bold text-white tracking-wide">{formattedDate}</h5>
+                          <h5 className="text-base font-bold text-white  ">{formattedDate}</h5>
                         </div>
 
                         <div className="space-y-3 mt-4 border-t border-white/10 pt-4">
@@ -1152,7 +1154,7 @@ function BookPageContent() {
                                   )}
                                 </span>
                               </div>
-                              <p className="   font-bold tracking-wide mt-2 pt-1.5 border-t border-white/10 text-right flex items-center justify-end gap-1">
+                              <p className="   font-bold   mt-2 pt-1.5 border-t border-white/10 text-right flex items-center justify-end gap-1">
                                 <span>🔗 Link Active: Shares contact & venue data</span>
                               </p>
                             </div>
@@ -1428,7 +1430,7 @@ function BookPageContent() {
                       }}
                       label="Add custom parking directions"
                     />
-                    <span className="text-[#c27aff] font-bold tracking-wide">
+                    <span className=" font-bold  ">
                       Add custom parking directions
                     </span>
                   </div>
@@ -1548,7 +1550,13 @@ function BookPageContent() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-white/10 pt-8">
                     <div>
-                      <InputField label="Expected Attendance" name="expectedAttendance" value={formData.expectedAttendance} onChange={handleChange} placeholder="~200 people" />
+                      <InputField
+                        label={sanityContent?.sections?.find((s: any) => s.sectionId === "attendance")?.title || "Expected Attendance"}
+                        name="expectedAttendance"
+                        value={formData.expectedAttendance}
+                        onChange={handleChange}
+                        placeholder={sanityContent?.sections?.find((s: any) => s.sectionId === "attendance")?.subtitle || "~200 people"}
+                      />
                     </div>
                   </div>
                 </div>
@@ -1557,9 +1565,9 @@ function BookPageContent() {
               {/* Step 5: Additional Options */}
               <div className="bg-transparent border-0 p-0 shadow-none relative">
                 <h2 className="font-bold uppercase text-purple-400 mb-2 flex items-center gap-3">
-                  Production & Extras
+                  {sanityContent?.sections?.find((s: any) => s.sectionId === "extras")?.title || "Production & Extras"}
                 </h2>
-                <p className="mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
+                <p className="mb-6">{sanityContent?.sections?.find((s: any) => s.sectionId === "extras")?.subtitle || "Select any features you'd like the band to bring to your event. Pricing discussed with your band manager."}</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {(() => {
                     const addOnsSet = new Set(addOns);
@@ -1605,16 +1613,16 @@ function BookPageContent() {
               {/* Step 6: Notes & Questions */}
               <div className="bg-transparent border-0 p-0 shadow-none relative">
                 <h2 className="font-bold uppercase text-purple-400 mb-2 flex items-center gap-3">
-                  Notes & Questions
+                  {sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.title || "Notes & Questions"}
                 </h2>
-                <p className="mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
+                <p className="mb-4">{sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.subtitle || "Anything else you'd like to mention? Special requests, questions, or details for our band manager."}</p>
                 <div className="input-glow-border rounded-lg">
                   <textarea aria-label="Text input"
                     name="details"
                     value={formData.details}
                     onChange={handleChange}
                     rows={5}
-                    placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
+                    placeholder={sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.body || "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"}
                     className="w-full bg-[#00000029] border-0 text-white text-base px-4 py-3 focus:outline-none transition resize-none placeholder:text-white/40 rounded-lg"
                   />
                 </div>
@@ -1904,7 +1912,7 @@ function MapPickerModal({
                           onClose();
                         }
                       }}
-                      className="px-2 py-1 bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/40 rounded text-[10px] font-bold text-white uppercase tracking-wider"
+                      className="px-2 py-1 bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/40 rounded text-[10px] font-bold text-white uppercase  r"
                     >
                       Use
                     </button>

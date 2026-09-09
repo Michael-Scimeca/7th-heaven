@@ -42,6 +42,7 @@ export interface CalendarPickerLabels {
   bandStartLabel?: string;
   bandFinishLabel?: string;
   eventFormatHeading?: string;
+  calendarSubtitle?: string;
   formats?: Array<{ id: string; label: string; desc: string }>;
 }
 
@@ -126,7 +127,7 @@ export function CalendarPicker({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h3 className="text-white font-bold uppercase">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
-          <p className="mt-1 ">Select one or more dates to secure your slot</p>
+          <p className="mt-1 ">{labels?.calendarSubtitle || "Select one or more dates to secure your slot"}</p>
         </div>
       </div>
 
@@ -356,7 +357,7 @@ export function CalendarPicker({
                       <TypeIcon className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300 font-bold" : "text-white"}`}>{displayLabel}</span>
+                      <span className={`text-base font-bold block mb-0.5   ${isSelected ? "text-purple-300 font-bold" : "text-white"}`}>{displayLabel}</span>
                       <span className="text-white/80 block ">{displayDesc}</span>
                     </div>
                   </FoolishShrimpButton>
