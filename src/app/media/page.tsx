@@ -1,3 +1,5 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 import Image from 'next/image';
 import staticVideoCategories from "../../../public/data/videos.json";
@@ -84,7 +86,7 @@ function VideoCardVisual({
             <Play className="w-8 h-8 text-white fill-white ml-1" />
           </div>
         </div>
-        <h4 className="text-white/90 font-bold uppercase line-clamp-2 px-2 drop-shadow-md">
+        <h4 className="text-white/90 uppercase line-clamp-2 px-2 drop-shadow-md">
           {title}
         </h4>
       </div>
@@ -120,8 +122,7 @@ function VideoCardVisual({
 
       {/* 4. Hover Active Card Overlay */}
       <div
-        className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-300 flex items-center justify-center bg-black/30 ${isHovered ? "opacity-100" : "opacity-0"}`}
-      >
+        className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-300 flex items-center justify-center bg-black/30 ${isHovered ? "opacity-100" : "opacity-0"}`}>
 
       </div>
     </div>
@@ -139,6 +140,21 @@ function extractYouTubeId(urlOrId: string): string {
 export default function MediaPage() {
   const { member } = useMember();
   const isAdmin = member?.role === 'admin' || member?.role === 'crew';
+  const [sanityContent, setSanityContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=media")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((res) => {
+        if (res?.success && res?.data) {
+          setSanityContent(res.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const [categories, setCategories] = useState<VideoCategory[]>(staticVideoCategories as VideoCategory[]);
   const [playingVideo, setPlayingVideo] = useState<Video | null>(null);
@@ -174,7 +190,7 @@ export default function MediaPage() {
         const sanityRes = await fetch("/api/videos");
         if (sanityRes.ok) {
           const { videos: sanityVids } = await sanityRes.json();
-          if (Array.isArray(sanityVids) && sanityVids.length > 0) {
+          if (Array.isArray(sanityVids) && sanityVids.length> 0) {
             sanityVids.forEach((sv: any) => {
               const targetCat = baseCategories.find((c) => c.category.toLowerCase() === sv.category?.toLowerCase());
               const formattedVideo: Video = {
@@ -374,7 +390,14 @@ export default function MediaPage() {
       <div className="site-container relative z-10">
         {/* ── CENTERED PAGE TITLE ── */}
         <div className="text-center mb-6">
-          <h1 className=" font-bold uppercase text-white">MEDIA</h1>
+          <h1 className="uppercase text-white">
+            {sanityContent?.heroHeading || sanityContent?.title || "MEDIA"}
+          </h1>
+          {(sanityContent?.heroSubheading || sanityContent?.subtitle) && (
+            <p className="mt-2 text-white/60 max-w-xl mx-auto uppercase text-xs tracking-widest">
+              {sanityContent.heroSubheading || sanityContent.subtitle}
+            </p>
+          )}
         </div>
 
         {/* ── 700+ SONG MP3/CD AUDIO VAULT PLAYER (TOP OF MEDIA PAGE) ── */}
@@ -387,16 +410,15 @@ export default function MediaPage() {
           <SearchInput
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search Media..."
+            placeholder={sanityContent?.searchPlaceholder || "Search Media..."}
             containerClassName="w-full sm:w-[320px]"
           />
           {isAdmin && (
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase rounded-md transition-all cursor-pointer shrink-0 animate-[fade-in_0.2s_ease-out]"
-            >
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white uppercase rounded-md transition-all cursor-pointer shrink-0 animate-[fade-in_0.2s_ease-out]">
               <Plus className="w-4 h-4" />
-              <span>Add Video</span>
+              <span>{sanityContent?.addVideoButtonText || "Add Video"}</span>
             </button>
           )}
         </div>
@@ -407,8 +429,7 @@ export default function MediaPage() {
             type="button"
             onClick={() => handleFilterChange("ALL")}
             isActive={activeFilter === "ALL"}
-            className="!w-auto px-5 py-2.5 font-bold uppercase text-xs"
-          >
+            className="!w-auto px-5 py-2.5 uppercase text-xs">
             ALL
           </FoolishShrimpButton>
 
@@ -422,8 +443,7 @@ export default function MediaPage() {
                 type="button"
                 onClick={() => handleFilterChange(catUpper)}
                 isActive={isActive}
-                className="!w-auto px-5 py-2.5 font-bold uppercase text-xs"
-              >
+                className="!w-auto px-5 py-2.5 uppercase text-xs">
                 {catUpper}
               </FoolishShrimpButton>
             );
@@ -443,9 +463,8 @@ export default function MediaPage() {
                 onMouseLeave={() => setHoveredVideoId(null)}
                 onClick={() => setPlayingVideo(video)}
                 className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden transition-all duration-500 bg-[#0c071a] animate-[fade-in_0.35s_ease-out_both] ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"
- }`}
-                style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}
-              >
+                  }`}
+                style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}>
                 {/* Full Bleed Visual Media Player Preview */}
                 <div className="absolute inset-0 w-full h-full">
                   <VideoCardVisual key={video.id} videoId={video.id} title={video.title} isHovered={isHovered} index={index} shouldPrefetch={index < prefetchLimit} />
@@ -458,8 +477,7 @@ export default function MediaPage() {
                 <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                   <CosmicRadialButton
                     icon={false}
-                    className="w-12 h-12 sm:w-16 sm:h-16 !rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-300/40 shadow-2xl"
-                  >
+                    className="w-12 h-12 sm:w-16 sm:h-16 !rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-300/40 shadow-2xl">
                     <Play className="w-5 h-5 sm:w-7 sm:h-7 text-white fill-white ml-1" />
                   </CosmicRadialButton>
                 </div>
@@ -467,21 +485,20 @@ export default function MediaPage() {
                 {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none">
                   {/* Category Pill Tag */}
-                  <span className="inline-flex items-center justify-center leading-none text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white font-bold uppercase border border-white/10 shrink-0">
+                  <span className="inline-flex items-center justify-center leading-none text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white uppercase border border-white/10 shrink-0">
                     {video.category || "7TH HEAVEN"}
                   </span>
 
                   {/* Poster Title Container with Responsive Height */}
                   <div className="h-10 sm:h-14 flex items-center justify-center">
                     <h3
-                      className="font-bold uppercase text-white drop-shadow-md line-clamp-2"
-                    >
+                      className="uppercase text-white drop-shadow-md line-clamp-2">
                       {video.title}
                     </h3>
                   </div>
 
                   {/* Year / Duration Metadata */}
-                  <span className="font-semibold text-purple-300/80 uppercase shrink-0">
+                  <span className="font-semibold uppercase shrink-0">
                     {video.year || "2026"} {video.duration ? `• ${video.duration}` : ""}
                   </span>
                 </div>
@@ -501,9 +518,8 @@ export default function MediaPage() {
             <button
               type="button"
               onClick={() => setVisibleCount((prev) => Math.min(prev + CARDS_PER_BATCH, filteredVideos.length))}
-              className="rounded-full border border-white/20 bg-white/5 px-6 py-2.5 text-sm font-bold uppercase tracking-wide transition hover:bg-white/10"
-            >
-              Load more ({filteredVideos.length - visibleCount} more)
+              className="rounded-full border border-white/20 bg-white/5 px-6 py-2.5 text-sm uppercase transition hover:bg-white/10">
+              {sanityContent?.loadMoreText || "Load more"} ({filteredVideos.length - visibleCount} more)
             </button>
           </div>
         )}
@@ -512,12 +528,11 @@ export default function MediaPage() {
         {filteredVideos.length === 0 && (
           <div className="py-24 text-center bg-white/5 rounded-3xl border border-white/10">
             <Search className="w-12 h-12 text-purple-400/50 mx-auto mb-4" />
-            <p className="font-semibold">No media found matching &quot;{searchQuery}&quot;</p>
+            <p className="font-semibold">{sanityContent?.noResultsTitle || "No media found matching"} &quot;{searchQuery}&quot;</p>
             <button
               onClick={() => { setSearchQuery(""); setActiveFilter("ALL"); }}
-              className="mt-4 px-6 py-2.5 rounded-lg bg-purple-600 text-white font-bold uppercase hover:bg-purple-500 transition-colors cursor-pointer"
-            >
-              Clear Filters & Search
+              className="mt-4 px-6 py-2.5 rounded-lg bg-purple-600 text-white uppercase hover:bg-purple-500 transition-colors cursor-pointer">
+              {sanityContent?.clearFiltersText || "Clear Filters & Search"}
             </button>
           </div>
         )}
@@ -537,7 +552,7 @@ export default function MediaPage() {
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 text-white px-5 py-3.5 rounded-lg flex items-center gap-3 shadow-2xl">
-          <span className="font-bold">{toastMessage}</span>
+          <span>{toastMessage}</span>
         </div>
       )}
 
@@ -551,22 +566,21 @@ export default function MediaPage() {
                   <VideoIcon className="w-4 h-4 text-purple-300" />
                 </div>
                 <div>
-                  <h3 className="font-bold uppercase text-white">Add Video to Media Vault</h3>
-                  <p className="uppercase ">Syncs to Sanity CMS & Media Hub</p>
+                  <h3 className="uppercase text-white">{sanityContent?.modalTitle || "Add Video to Media Vault"}</h3>
+                  <p className="uppercase">{sanityContent?.modalSubtitle || "Syncs to Sanity CMS & Media Hub"}</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1 text-white/50 hover:text-white transition-colors cursor-pointer"
-              >
+                className="p-1 text-white/50 hover:text-white transition-colors cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleAddVideoSubmit} className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase text-purple-300 mb-1">
+                <label className="block text-[10px] uppercase text-purple-300 mb-1">
                   Video URL or ID <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -595,11 +609,11 @@ export default function MediaPage() {
                         />
                       </div>
                       <div>
-                        <div className="flex items-center gap-1.5 font-bold text-purple-300">
+                        <div className="flex items-center gap-1.5 text-purple-300">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                           <span>Valid Video Link Detected</span>
                         </div>
-                        <p className=" mt-0.5">ID: {parsed}</p>
+                        <p className="mt-0.5">ID: {parsed}</p>
                       </div>
                     </div>
                   );
@@ -608,7 +622,7 @@ export default function MediaPage() {
               })()}
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-purple-300 mb-1">
+                <label className="block text-[10px] uppercase text-purple-300 mb-1">
                   Video Title <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -623,14 +637,13 @@ export default function MediaPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase text-purple-300 mb-1">
+                  <label className="block text-[10px] uppercase text-purple-300 mb-1">
                     Category <span className="text-pink-400">*</span>
                   </label>
                   <select
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-purple-400"
-                  >
+                    className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-purple-400">
                     <option value="Official Music Videos">Official Music Videos</option>
                     <option value="TV Appearances">TV Appearances</option>
                     <option value="Full Concerts">Full Concerts</option>
@@ -645,7 +658,7 @@ export default function MediaPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase text-purple-300 mb-1">
+                  <label className="block text-[10px] uppercase text-purple-300 mb-1">
                     Release Year
                   </label>
                   <input
@@ -659,7 +672,7 @@ export default function MediaPage() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-purple-300 mb-1">
+                <label className="block text-[10px] uppercase text-purple-300 mb-1">
                   Description / Notes (Optional)
                 </label>
                 <textarea
@@ -675,16 +688,16 @@ export default function MediaPage() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 font-bold text-white/70 hover:text-white transition-colors"
-                >
+                  className="px-4 py-2 text-white/70 hover:text-white transition-colors">
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold uppercase rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
-                >
-                  {submitting ? "Saving to Sanity..." : "Publish Video to Vault"}
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white uppercase rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2">
+                  {submitting
+                    ? (sanityContent?.modalSavingText || "Saving to Sanity...")
+                    : (sanityContent?.modalSubmitText || "Publish Video to Vault")}
                 </button>
               </div>
             </form>
