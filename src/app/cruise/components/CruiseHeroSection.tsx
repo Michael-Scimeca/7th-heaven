@@ -35,7 +35,7 @@ export default function CruiseHeroSection({
         width: "calc(100% + 2 * var(--page-padding-x))",
       }}
     >
-      {/* Cruise Hero Video Background Overlay with Pure Mask Gradient */}
+      {/* Cruise Hero — using poster image; swap back to <video> when ready */}
       <div
         className="absolute inset-0 z-0 overflow-hidden bg-transparent"
         style={{
@@ -43,32 +43,16 @@ export default function CruiseHeroSection({
           WebkitMaskImage: "linear-gradient(black 0%, black 82%, transparent 98%)",
         }}
       >
-        <video
-          ref={heroVideoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster="/images/cruise/hero-video-poster.jpg"
-          onPlaying={() => setHeroVideoReady?.(true)}
-          {...({ fetchPriority: "high" } as any)}
-          className="w-full h-full object-cover transition-[opacity,object-position] duration-500 ease-out"
-          style={{
-            objectPosition: "center 40%",
-            // Only apply filter when non-neutral — CSS filter on <video> forces a per-frame GPU shader pass
-            filter: (heroMaskSettings.videoBlur > 0 || heroMaskSettings.videoContrast !== 100)
-              ? `blur(${heroMaskSettings.videoBlur}px) contrast(${heroMaskSettings.videoContrast}%)`
-              : "none",
-            opacity: heroVideoReady ? (heroMaskSettings.videoOpacity ?? 100) / 100 : 1,
-            transform: "translateZ(0)",
-          }}
-        >
-          <source src="/movie/cruise-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
-          <source src="/movie/cruise-desktop.mp4" type="video/mp4" media="(min-width: 769px)" />
-          <source src="/movie/cruise.mp4" type="video/mp4" />
-        </video>
-        {/* Brightness dimming via overlay — cheaper than CSS filter on <video> */}
+        <Image
+          src="/images/cruise/hero-video-poster.jpg"
+          alt="7th Heaven Fan Cruise hero"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: "center 40%" }}
+        />
+        {/* Brightness dimming overlay */}
         {heroMaskSettings.videoBrightness < 100 && (
           <div
             aria-hidden="true"
