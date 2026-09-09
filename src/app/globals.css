@@ -5786,26 +5786,6 @@ section {
 
 
 /* ── Custom Cursor & Cursor Follower Styles ── */
-@media (pointer: fine) {
-
-  *,
-  *::before,
-  *::after {
-    cursor: none !important;
-  }
-
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="number"],
-  input[type="search"],
-  input[type="tel"],
-  input[type="url"],
-  textarea,
-  [contenteditable="true"] {
-    cursor: text !important;
-  }
-}
 
 .cursor-tail-circle {
   border-radius: 50%;

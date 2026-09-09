@@ -19,7 +19,6 @@ import SmoothScroll from "@/components/SmoothScroll";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import Preloader from "@/components/Preloader";
 import PageTransition from "@/components/PageTransition";
-import CursorFollower from "@/components/CursorFollower";
 import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
 
@@ -217,7 +216,6 @@ export default function RootLayout({
             document.head.appendChild(style);
           }
         ` }} />
-        <CursorFollower />
         <TransitionProvider>
           <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
             <Providers>
