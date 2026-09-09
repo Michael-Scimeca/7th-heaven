@@ -160,9 +160,9 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
               <ShieldAlert className="w-8 h-8" />
             </div>
 
-            <h1 className="text-xl text-white uppercase mb-2">
+            <h2 className="text-xl text-white uppercase mb-2">
               {sanityContent?.heroHeading || sanityContent?.title || "Crew Portal Restricted"}
-            </h1>
+            </h2>
 
             <p className="mb-6">
               {sanityContent?.heroSubheading || sanityContent?.subtitle || "You must be signed in as an authorized 7th Heaven Crew Member to verify winner PINs."}

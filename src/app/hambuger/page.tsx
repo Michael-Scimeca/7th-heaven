@@ -127,6 +127,7 @@ export default function HamburgerTestPage() {
 
         {/* DEMO CONTENT */}
         <main className="main">
+          <h1 className="sr-only">Animated Navigation Demo</h1>
           <div className="gallery" aria-label="gallery">
             {Array.from({ length: 20 }).map((_, i) => (
               <a href="#" className="gallery__item" key={`gallery-item-${i + 1}`} aria-label={`Gallery item ${i + 1}`} />

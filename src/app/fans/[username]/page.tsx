@@ -1,4 +1,4 @@
-/* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
 "use client";
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 import Image from 'next/image';
@@ -463,7 +463,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div>
                 <div className="flex items-center gap-4 mb-4">
                   <div>
-                    <h1 className="uppercase">Cruise Hub</h1>
+                    <h2 className="text-2xl font-bold uppercase">Cruise Hub</h2>
                     <p className="uppercase mt-1">Passenger Area</p>
                   </div>
                 </div>

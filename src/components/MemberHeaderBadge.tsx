@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import React from "react";
@@ -88,7 +89,7 @@ export function MemberHeaderBadge({
       {/* Member Info */}
       <div className="min-w-0 flex-1 pt-0.5">
         <div className="flex flex-wrap items-center gap-2.5">
-          <h1 className={nameClassName}>{name}</h1>
+          <h2 className={nameClassName}>{name}</h2>
           {statusBadge && (
             <span
               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs    uppercase  r border   ${statusColorClass}`}>

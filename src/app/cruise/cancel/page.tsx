@@ -71,7 +71,7 @@ function CancelContent() {
       ) : (
         <>
           <span className="text-4xl block mb-4">🚢</span>
-          <h2 className="text-white mb-2">Cancel Your Cruise Signup?</h2>
+          <h1 className="text-white text-2xl font-bold mb-2">Cancel Your Cruise Signup?</h1>
           <p className="mb-8">
             This will remove your interest signup from the 7th Heaven cruise. You can always sign up again later.
           </p>

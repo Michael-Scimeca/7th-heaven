@@ -354,7 +354,7 @@ export default function AdminGatewayPage() {
           <>
             <div className="text-center mb-8 relative z-10">
               <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
-              <h1 className="">Admin 2FA Verification</h1>
+              <h2 className="text-xl font-bold uppercase mb-2">Admin 2FA Verification</h2>
               <p className="mt-1">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
             </div>
 

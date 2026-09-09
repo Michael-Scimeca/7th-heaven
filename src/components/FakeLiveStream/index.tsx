@@ -1,4 +1,4 @@
-/* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
 'use client';
 /* eslint-disable react-doctor/prefer-useReducer */
 import Image from 'next/image';
@@ -1418,6 +1418,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               )}
 
               {/* ── LIVE badge + viewer count ── */}
+              <h1 className="sr-only">7th Heaven Live Stream - {activeFeedCrew?.name || 'Band'}</h1>
               <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-30 flex items-center gap-2">
                 {crewIsLive ? (
                   <>

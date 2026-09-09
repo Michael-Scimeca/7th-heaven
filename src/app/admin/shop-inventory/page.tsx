@@ -116,7 +116,7 @@ export default function ShopInventoryAdminPage() {
     return (
       <div className="min-h-screen text-white pt-32 pb-24 flex items-center justify-center px-6">
         <div className="max-w-md w-full bg-white/[0.04] border border-white/[0.12] rounded-lg p-8 text-center">
-          <h1 className=" mb-2">Admin Access Required</h1>
+          <h2 className="text-xl font-bold uppercase mb-2">Admin Access Required</h2>
           <p className="mb-6">
             This page manages real inventory and pricing. Sign in with an admin, crew, or merch
             account to continue.

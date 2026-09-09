@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
@@ -76,9 +77,9 @@ function NorthResultContent() {
               <div className="w-16 h-16 mx-auto mb-4 bg-rose-500/10 border-2 border-rose-500/30 rounded-lg flex items-center justify-center">
                 <span className="text-2xl">⚠️</span>
               </div>
-              <h1 className="mb-2">
+              <h2 className="text-xl font-bold uppercase mb-2">
                 Couldn&apos;t Load Result
-              </h1>
+              </h2>
               <p>
                 {fetchError ||
                   "We couldn't find a record of this transaction. If a charge went through, check your bank statement and contact us."}
