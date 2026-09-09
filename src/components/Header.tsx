@@ -160,7 +160,7 @@ export function Header() {
         const raw = localStorage.getItem("7h_north_cart_v1");
         if (raw) {
           const items = JSON.parse(raw);
-          if (Array.isArray(items) && items.length > 0) {
+          if (Array.isArray(items) && items.length> 0) {
             const count = items.reduce((sum: number, item: any) => sum + (Number(item.quantity) || 1), 0);
             setCartCount(count);
             return;
@@ -236,7 +236,7 @@ export function Header() {
     if (!mobileOpen) return;
 
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth>= 1024) {
         setMobileOpen(false);
       }
     };
@@ -357,7 +357,7 @@ export function Header() {
 
     const checkScroll = () => {
       rafId = null;
-      const isPastThreshold = window.scrollY > 40;
+      const isPastThreshold = window.scrollY> 40;
       if (isScrolledRef.current !== isPastThreshold) {
         isScrolledRef.current = isPastThreshold;
         setScrolled(isPastThreshold);
@@ -460,7 +460,7 @@ export function Header() {
 
   const avatarSrc =
     member?.avatar &&
-    (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"))
+      (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"))
       ? member.avatar
       : customAvatar
         ? customAvatar
@@ -503,16 +503,14 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none bg-transparent text-white`}
-      suppressHydrationWarning
-    >
+      suppressHydrationWarning>
       <div className="w-full max-w-full site-container">
         <div
           id="nav-inner-card"
           suppressHydrationWarning
-          className="w-full h-[80px] flex items-center justify-between relative pointer-events-auto gap-4 z-[30000]"
-        >
+          className="w-full h-[80px] flex items-center justify-between relative pointer-events-auto gap-4 z-[30000]">
 
-          {/* ── LOGO (Left-aligned on mobile; dead-centered on desktop >= 1024px) ── */}
+          {/* ── LOGO (Left-aligned on mobile; dead-centered on desktop>= 1024px) ── */}
           <TransitionLink
             href="/"
             id="header-logo"
@@ -525,17 +523,16 @@ export function Header() {
               }
             }}
             className={`shrink-0 min-w-0 flex items-center justify-center group transition-colors duration-300 pt-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/"
- ? "!text-[#9333ea] active cursor-default"
- : "cursor-pointer"
- }`}
-            title="7th Heaven — Go to Home Page"
-          >
+              ? "!text-[#9333ea] active cursor-default"
+              : "cursor-pointer"
+              }`}
+            title="7th Heaven — Go to Home Page">
             <div className="w-[clamp(130px,13.5vw,250px)] h-[clamp(24px,2.5vw,46px)] flex items-center justify-center pointer-events-auto select-none transition-[width,height] duration-150">
               <Logo className="w-full h-full text-current transition-colors duration-200 pointer-events-auto" />
             </div>
           </TransitionLink>
 
-          {/* ── LEFT NAV GROUP (Desktop >= 1024px) ── */}
+          {/* ── LEFT NAV GROUP (Desktop>= 1024px) ── */}
           <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-5 xl:gap-8 relative z-50">
             {leftNavLinks.map((link) => {
               const active = isNavActive(link.href);
@@ -543,10 +540,9 @@ export function Header() {
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors duration-200 relative ${active ? "!text-[#9333ea] font-bold active cursor-default"
- : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
- }`}
-                >
+                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors duration-200 relative ${active ? "!text-[#9333ea] active cursor-default"
+                    : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+                    }`}>
                   {link.label}
                 </TransitionLink>
               );
@@ -559,10 +555,9 @@ export function Header() {
             <TransitionLink
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 z-50 ${isNavActive("/live")
- ? "!text-[#9333ea] font-bold active cursor-default"
- : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
- }`}
-            >
+                ? "!text-[#9333ea] active cursor-default"
+                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+                }`}>
               LIVE
             </TransitionLink>
 
@@ -570,10 +565,9 @@ export function Header() {
             <TransitionLink
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/cruise")
- ? "!text-[#9333ea] font-bold active cursor-default"
- : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
- }`}
-            >
+                ? "!text-[#9333ea] active cursor-default"
+                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+                }`}>
               CRUISE
             </TransitionLink>
 
@@ -581,10 +575,9 @@ export function Header() {
             <TransitionLink
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/book")
- ? "!text-[#9333ea] font-bold active cursor-default"
- : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
- }`}
-            >
+                ? "!text-[#9333ea] active cursor-default"
+                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+                }`}>
               BOOK US
             </TransitionLink>
 
@@ -592,26 +585,24 @@ export function Header() {
             <TransitionLink
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/contact")
- ? "!text-[#9333ea] font-bold active cursor-default"
- : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
- }`}
-            >
+                ? "!text-[#9333ea] active cursor-default"
+                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+                }`}>
               CONTACT
             </TransitionLink>
 
             {/* Cart Icon — only shown if something is in cart */}
-            {cartCount > 0 && (
+            {cartCount> 0 && (
               <TransitionLink
                 href="/payment-test"
                 className="relative !text-white/80 hover:!text-[#9333ea] transition-colors p-0.5 mx-0.5 shrink-0 flex items-center justify-center"
-                title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}
-              >
+                title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}>
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="9" cy="21" r="1" />
                   <circle cx="20" cy="21" r="1" />
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                <span className="absolute -top-1.5 -right-2 bg-[#9333ea] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-sm">
+                <span className="absolute -top-1.5 -right-2 bg-[#9333ea] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-sm">
                   {cartCount}
                 </span>
               </TransitionLink>
@@ -624,14 +615,13 @@ export function Header() {
                   <TransitionLink
                     href={dashboardHref}
                     showSpinner={false}
-                    className="relative flex items-center justify-center text-white font-bold shrink-0 aspect-square transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
+                    className="relative flex items-center justify-center text-white shrink-0 aspect-square transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
                     style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
-                    title={displayName}
-                  >
+                    title={displayName}>
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={avatarSrc} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
                     ) : (
-                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white font-bold text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
+                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-white text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
                         {initials}
                       </div>
                     )}
@@ -644,17 +634,15 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px] font-bold uppercase text-white flex items-center justify-center leading-none ${badgeBg}`}
-                    style={{ borderRadius: "9999px" }}
-                  >
+                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px]    uppercase text-white flex items-center justify-center leading-none ${badgeBg}`}
+                    style={{ borderRadius: "9999px" }}>
                     {badgeText}
                   </span>
                 </div>
                 <button
                   onClick={() => { logout(); requestTransition('/'); }}
                   className="flex items-center gap-1.5 text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-1 sm:ml-2"
-                  title="Sign Out"
-                >
+                  title="Sign Out">
                   <span>SIGN OUT</span>
                   {mode !== "idle" && pendingHref === "/" && (
                     <span className="w-4 h-4 rounded-full border-[3px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.8)] shrink-0" />
@@ -665,9 +653,8 @@ export function Header() {
               <CosmicRadialButton
                 icon={false}
                 onClick={() => openModal("login")}
-                className="px-4 py-2 font-bold rounded-lg shrink-0 flex items-center gap-2"
-                id="header-sign-in"
-              >
+                className="px-4 py-2 rounded-lg shrink-0 flex items-center gap-2"
+                id="header-sign-in">
                 <span>SIGN IN</span>
                 {isModalOpen && (
                   <span className="w-4.5 h-4.5 rounded-full border-[3.5px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.9)] shrink-0 ml-0.5" />
@@ -680,16 +667,14 @@ export function Header() {
               className="flex lg:hidden w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 items-center justify-center relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0 shrink-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              id="mobile-menu-toggle"
-            >
+              id="mobile-menu-toggle">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
                 strokeLinecap="round"
-                className="w-full h-full overflow-visible"
-              >
+                className="w-full h-full overflow-visible">
                 {/* Burger — 3 lines, draw themselves off + fade out on open.
                     Staggered 0.1s apart on open (matches exoape); collapsed
                     to no stagger on close, same convention already used for
@@ -760,7 +745,7 @@ export function Header() {
             <div
               // The panel itself is revealed by wiping clip-path open, not by
               // fading opacity — this sidesteps the globals.css PageSpeed hack
-              // (`html body > *{ opacity:1 !important }`, meant to force
+              // (`html body> *{ opacity:1 !important }`, meant to force
               // above-the-fold content visible on first paint) that used to
               // flatten any opacity transition on a direct child of <body>
               // to a permanent 1 no matter what we set — clip-path isn't
@@ -779,8 +764,7 @@ export function Header() {
                   ? "polygon(0% 0%, 100% 0%, 100% 110%, 0% 100%)"
                   : "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
                 transition: `clip-path ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
-              }}
-            >
+              }}>
               {/* exoape's second half of the "enter" tween: a wrapper around
                   the actual content settles in from scale:1.3 rotate:-7deg
                   translateY(-50vh) opacity:.3 down to identity, at the same
@@ -795,8 +779,7 @@ export function Header() {
                     : "scale(1.3) rotate(-7deg) translateY(-12%)",
                   opacity: overlayVisible ? 1 : 0.3,
                   transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
-                }}
-              >
+                }}>
                 <div className="pt-[87px]" />
 
                 {/* Main: portrait media panel + stacked links, side by side
@@ -818,7 +801,7 @@ export function Header() {
                       }}
                     />
                     <div className="absolute inset-0 pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[12px] font-bold uppercase ">
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[12px] uppercase">
                       <span>7H FESTIVAL STAGE</span>
                     </div>
                   </div>
@@ -838,7 +821,7 @@ export function Header() {
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
                         className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase leading-[1.02] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc] active cursor-default" : "!text-white hover:!text-[#c084fc] cursor-pointer"
- }`}
+                          }`}
                         style={{
                           // exoape's own per-link reveal: rotate:7deg -> 0 and
                           // yPercent:100 -> 0 (a full line-height slide, not a
@@ -854,8 +837,7 @@ export function Header() {
                           transformOrigin: "0% 100%",
                           transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
                           transitionDelay: overlayVisible ? `${450 + i * 70}ms` : "0ms",
-                        }}
-                      >
+                        }}>
                         {link.label}
                       </TransitionLink>
                     ))}
@@ -867,7 +849,7 @@ export function Header() {
                   Play Reel / Our Story / Now Hiring! row, filled in with
                   this site's own links rather than copying its wording. */}
                 <div className="shrink-0 flex items-center justify-between gap-4 px-6 sm:px-10 py-5 border-t border-white/10">
-                  <div className="flex items-center gap-4 sm:gap-6 text-[11px] font-bold uppercase tracking-[0.15em] text-white">
+                  <div className="flex items-center gap-4 sm:gap-6 text-[11px] uppercase tracking-[0.15em] text-white">
                     <a href="https://www.instagram.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Instagram</a>
                     <a href="https://www.facebook.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Facebook</a>
                     <a href="https://twitter.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Twitter</a>
@@ -881,13 +863,12 @@ export function Header() {
                           href={dashboardHref}
                           showSpinner={false}
                           onClick={() => setMobileOpen(false)}
-                          className="relative flex items-center justify-center text-white font-bold shrink-0 aspect-square w-8 h-8 min-w-8 min-h-8"
-                          style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}
-                        >
+                          className="relative flex items-center justify-center text-white shrink-0 aspect-square w-8 h-8 min-w-8 min-h-8"
+                          style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}>
                           {isAvatarUrl ? (
                             <Image width={100} height={100} unoptimized src={avatarSrc} alt={displayName} className="w-full h-full object-cover" />
                           ) : (
-                            <div className="w-full h-full bg-black/60 border border-white/20 flex items-center justify-center text-white font-bold text-xs">
+                            <div className="w-full h-full bg-black/60 border border-white/20 flex items-center justify-center text-white text-xs">
                               {initials}
                             </div>
                           )}
@@ -898,8 +879,7 @@ export function Header() {
                       </div>
                       <button
                         onClick={() => { setMobileOpen(false); logout(); requestTransition('/'); }}
-                        className="text-[12px] font-bold uppercase text-purple-400 hover:text-white transition-colors cursor-pointer ml-1"
-                      >
+                        className="text-[12px] uppercase text-purple-400 hover:text-white transition-colors cursor-pointer ml-1">
                         SIGN OUT
                       </button>
                     </div>
@@ -910,8 +890,7 @@ export function Header() {
                         setMobileOpen(false);
                         openModal("login");
                       }}
-                      className="px-3.5 py-1.5 text-xs font-bold rounded-lg shrink-0"
-                    >
+                      className="px-3.5 py-1.5 text-xs rounded-lg shrink-0">
                       SIGN IN
                     </CosmicRadialButton>
                   )}
