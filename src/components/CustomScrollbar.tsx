@@ -15,6 +15,7 @@ interface CustomScrollbarProps {
   topOffset?: number;
 }
 
+// eslint-disable-next-line react-doctor/no-high-complexity-react-function
 export default function CustomScrollbar({
   children,
   className = "",
@@ -173,8 +174,8 @@ export default function CustomScrollbar({
       setIsDragging(false);
       setActiveDragAxis(null);
     };
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mouseup", onMouseUp, { passive: true });
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);

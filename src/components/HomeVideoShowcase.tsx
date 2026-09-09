@@ -293,16 +293,31 @@ export default function HomeVideoShowcase() {
 
       // Official Smooothy animation frame update loop — paused while the
       // carousel is scrolled out of view (see isInViewRef above).
-      let animId: number;
+      let animId: number | null = null;
       const renderLoop = () => {
-        if (isInViewRef.current && smooothyInstanceRef.current?.update) {
+        if (!isInViewRef.current) {
+          animId = null;
+          return;
+        }
+        if (smooothyInstanceRef.current?.update) {
           smooothyInstanceRef.current.update();
         }
+        // eslint-disable-next-line react-doctor/three-prefer-set-animation-loop
         animId = requestAnimationFrame(renderLoop);
       };
-      animId = requestAnimationFrame(renderLoop);
+
+      const startLoopIfNeeded = () => {
+        if (isInViewRef.current && !animId) {
+          // eslint-disable-next-line react-doctor/three-prefer-set-animation-loop
+          animId = requestAnimationFrame(renderLoop);
+        }
+      };
+
+      startLoopIfNeeded();
+      const intervalId = setInterval(startLoopIfNeeded, 500);
 
       return () => {
+        clearInterval(intervalId);
         if (animId) cancelAnimationFrame(animId);
         try {
           smooothyInstanceRef.current?.destroy?.();

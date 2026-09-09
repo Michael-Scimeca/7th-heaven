@@ -235,8 +235,8 @@ export default function AudioPlayerSection() {
       window.removeEventListener("mouseup", onMouseUp);
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mouseup", onMouseUp, { passive: true });
   };
 
   const tracklistScrollRef = useRef<HTMLDivElement | null>(null);
@@ -340,8 +340,8 @@ export default function AudioPlayerSection() {
       window.removeEventListener("mouseup", onMouseUp);
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mouseup", onMouseUp, { passive: true });
   };
 
   const originalCds = albums.filter(a => {

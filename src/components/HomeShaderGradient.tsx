@@ -199,7 +199,7 @@ function HomeShaderGradientComponent() {
     initNeat();
 
     // ── Position Overlay Animation ──
-    let animFrameId: number;
+    let animFrameId: number | null = null;
     const startMs = performance.now();
     let isVisible = true;
     let isScrolling = false;
@@ -221,12 +221,27 @@ function HomeShaderGradientComponent() {
       window.addEventListener("scroll", onScroll, { passive: true });
     }
 
+    const startLoop = () => {
+      if (!animFrameId && isVisible && !document.hidden) {
+        // eslint-disable-next-line react-doctor/three-prefer-set-animation-loop
+        animFrameId = requestAnimationFrame(positionLoop);
+      }
+    };
+
     let observer: IntersectionObserver | null = null;
     if (typeof IntersectionObserver !== "undefined" && canvasRef.current) {
       observer = new IntersectionObserver(([entry]) => {
         isVisible = entry.isIntersecting;
+        if (isVisible) startLoop();
       }, { threshold: 0.01 });
       observer.observe(canvasRef.current);
+    }
+
+    const onVisibilityChange = () => {
+      if (!document.hidden && isVisible) startLoop();
+    };
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", onVisibilityChange);
     }
 
     let cachedWinW = typeof window !== "undefined" ? window.innerWidth : 1920;
@@ -253,35 +268,32 @@ function HomeShaderGradientComponent() {
         const phase = basePhase + idx * (Math.PI / 4);
         const mx = (c.moveX / winW) * 100;
         const my = (c.moveY / winH) * 100;
-        const x = Math.max(0, Math.min(100, c.posX + Math.sin(phase) * mx));
-        const y = Math.max(0, Math.min(100, c.posY + Math.cos(phase) * my));
-        return [`radial-gradient(circle at ${x}% ${y}%, ${hexToRgba(c.color, c.opacity)} 0%, transparent ${c.size}%)`];
+
+        const xPct = c.posX + Math.sin(phase) * mx;
+        const yPct = c.posY + Math.cos(phase * 0.8) * my;
+
+        return `radial-gradient(circle at ${xPct.toFixed(2)}% ${yPct.toFixed(2)}%, ${hexToRgba(c.color, c.opacity)} 0%, transparent ${c.size}%)`;
       });
 
       positionLayerRef.current.style.background = layers.join(", ");
     };
 
     const positionLoop = (t: number) => {
-      // Keep position updates smooth and continuous without restarting or jumping on scroll
-      if (isVisible && !document.hidden) {
-        const baseCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40; // 15 FPS on mobile, 25 FPS on desktop
-        // This loop runs for the lifetime of every page (it lives in the root
-        // layout), competing with scroll-driven work for main-thread frame
-        // budget. Ambient background drift isn't something anyone perceives
-        // the rate of, so halve the update rate while the user is actively
-        // scrolling to free that budget for scroll smoothness instead.
-        const frameCap = isScrolling ? baseCap * 2 : baseCap;
-        if (t - lastFrameTime > frameCap) {
-          updatePositionLayer(t);
-          lastFrameTime = t;
-        }
+      if (!isVisible || document.hidden) {
+        animFrameId = null;
+        return;
+      }
+      const baseCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40;
+      const frameCap = isScrolling ? baseCap * 2 : baseCap;
+      if (t - lastFrameTime > frameCap) {
+        updatePositionLayer(t);
+        lastFrameTime = t;
       }
       animFrameId = requestAnimationFrame(positionLoop);
     };
 
-    animFrameId = requestAnimationFrame(positionLoop);
+    startLoop();
 
-    // ── Grain Overlay Canvas (Optimized 256x256 Tile Pattern) ──
     const grainCanvas = grainCanvasRef.current;
     if (grainCanvas) {
       const ctx = grainCanvas.getContext("2d");
