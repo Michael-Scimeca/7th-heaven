@@ -1538,13 +1538,13 @@ function BookPageContent() {
               {/* Step 4: Technical & Logistics */}
               <div className="bg-transparent border-0 pt-10 shadow-none relative">
                 <h2 className="font-bold uppercase text-purple-400 mb-6 flex items-center gap-3">
-                  Technical & Logistics
+                  {sanityContent?.sections?.find((s: any) => s.sectionId === "logistics")?.title || "Technical & Logistics"}
                 </h2>
                 <div className="flex flex-col gap-8">
-                  <RadioPillField label="Indoor / Outdoor" name="indoorOutdoor" value={formData.indoorOutdoor} onChange={handleChange} options={["Indoor", "Outdoor", "Both / Hybrid", "TBD"]} />
-                  <RadioPillField label="Sound System Available?" name="soundSystem" value={formData.soundSystem} onChange={handleChange} options={["Yes — full PA system", "Partial — need supplemental", "No — band needs to provide", "Not sure"]} />
-                  <RadioPillField label="Stage Available?" name="stageAvailable" value={formData.stageAvailable} onChange={handleChange} options={["Yes", "No — performing at floor level", "Portable / riser can be arranged", "Not sure"]} />
-                  <RadioPillField label="Backline Provided?" name="backlineProvided" value={formData.backlineProvided} onChange={handleChange} options={["Yes — amps, drums, etc.", "Partial", "No — band brings everything", "Not sure"]} />
+                  <RadioPillField label={sanityContent?.sections?.find((s: any) => s.sectionId === "logistics_indoor")?.title || "Indoor / Outdoor"} name="indoorOutdoor" value={formData.indoorOutdoor} onChange={handleChange} options={["Indoor", "Outdoor", "Both / Hybrid", "TBD"]} />
+                  <RadioPillField label={sanityContent?.sections?.find((s: any) => s.sectionId === "logistics_sound")?.title || "Sound System Available?"} name="soundSystem" value={formData.soundSystem} onChange={handleChange} options={["Yes — full PA system", "Partial — need supplemental", "No — band needs to provide", "Not sure"]} />
+                  <RadioPillField label={sanityContent?.sections?.find((s: any) => s.sectionId === "logistics_stage")?.title || "Stage Available?"} name="stageAvailable" value={formData.stageAvailable} onChange={handleChange} options={["Yes", "No — performing at floor level", "Portable / riser can be arranged", "Not sure"]} />
+                  <RadioPillField label={sanityContent?.sections?.find((s: any) => s.sectionId === "logistics_backline")?.title || "Backline Provided?"} name="backlineProvided" value={formData.backlineProvided} onChange={handleChange} options={["Yes — amps, drums, etc.", "Partial", "No — band brings everything", "Not sure"]} />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-white/10 pt-8">
                     <div>
