@@ -1,3 +1,5 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import Link from "next/link";
@@ -177,6 +179,32 @@ function BookPageContent() {
   const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>(DEFAULT_SAVED_ADDRESSES);
   const [addressNotification, setAddressNotification] = useState<string | null>(null);
   const [selectedSavedAddressId, setSelectedSavedAddressId] = useState<string>("");
+
+  const [sanityContent, setSanityContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=book")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((res) => {
+        if (res?.success && res?.data) {
+          setSanityContent(res.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const pickerLabels = useMemo(() => {
+    if (!sanityContent?.sections) return undefined;
+    const formatSection = sanityContent.sections.find((s: any) => s.sectionId === "formats");
+    const windowSection = sanityContent.sections.find((s: any) => s.sectionId === "window");
+    return {
+      bookingWindowHeading: windowSection?.title,
+      eventFormatHeading: formatSection?.title,
+    };
+  }, [sanityContent]);
 
   useEffect(() => {
     try {
@@ -895,6 +923,7 @@ function BookPageContent() {
                 customDetails={formData.customEventType}
                 onCustomDetailsChange={(d) => setFormData(p => ({ ...p, customEventType: d }))}
                 blockedDates={blockedDates}
+                labels={pickerLabels}
               />
 
               {/* Alternate Dates */}

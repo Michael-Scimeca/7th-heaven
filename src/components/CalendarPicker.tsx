@@ -35,6 +35,16 @@ const EMPTY_SLOTS: BookingSlot[] = [];
 const EMPTY_BLOCKED_DATES: string[] = [];
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+export interface CalendarPickerLabels {
+  bookingWindowHeading?: string;
+  showStartLabel?: string;
+  showFinishLabel?: string;
+  bandStartLabel?: string;
+  bandFinishLabel?: string;
+  eventFormatHeading?: string;
+  formats?: Array<{ id: string; label: string; desc: string }>;
+}
+
 export function CalendarPicker({
   slots = EMPTY_SLOTS,
   onChangeSlots,
@@ -53,6 +63,7 @@ export function CalendarPicker({
   label,
   required,
   blockedDates = EMPTY_BLOCKED_DATES,
+  labels,
 }: {
   slots: BookingSlot[];
   onChangeSlots: (slots: BookingSlot[]) => void;
@@ -71,6 +82,7 @@ export function CalendarPicker({
   label: string;
   required?: boolean;
   blockedDates?: string[];
+  labels?: CalendarPickerLabels;
 }) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showMonthPicker, setShowMonthPicker] = useState(false);
@@ -246,12 +258,14 @@ export function CalendarPicker({
 
         <div className="border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-6">
           <h4 className="font-bold uppercase tracking-[0.15em] text-white/50 mb-4">
-            Booking Window
+            {labels?.bookingWindowHeading || "Booking Window"}
           </h4>
           <div className="flex flex-col gap-4">
             {/* Show Start Time */}
             <div>
-              <label htmlFor="cal-show-start-time" className="font-bold text-white block mb-1">When does the show start?</label>
+              <label htmlFor="cal-show-start-time" className="font-bold text-white block mb-1">
+                {labels?.showStartLabel || "When does the show start?"}
+              </label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Show Start Time"
@@ -264,7 +278,9 @@ export function CalendarPicker({
 
             {/* Show Finish Time */}
             <div>
-              <label htmlFor="cal-show-finish-time" className=" font-bold  text-white block mb-1">When does the show finish?</label>
+              <label htmlFor="cal-show-finish-time" className=" font-bold  text-white block mb-1">
+                {labels?.showFinishLabel || "When does the show finish?"}
+              </label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Show Finish Time"
@@ -279,7 +295,9 @@ export function CalendarPicker({
 
             {/* Band Start Time */}
             <div>
-              <label htmlFor="cal-band-start-time" className=" font-bold text-white block mb-1">When does the band go on?</label>
+              <label htmlFor="cal-band-start-time" className=" font-bold text-white block mb-1">
+                {labels?.bandStartLabel || "When does the band go on?"}
+              </label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Band Start Time"
@@ -292,7 +310,9 @@ export function CalendarPicker({
 
             {/* Band Finish Time */}
             <div>
-              <label htmlFor="cal-band-finish-time" className="font-bold text-white block mb-1">When does the band finish?</label>
+              <label htmlFor="cal-band-finish-time" className="font-bold text-white block mb-1">
+                {labels?.bandFinishLabel || "When does the band finish?"}
+              </label>
               <GooeyMessagesDropdown
                 fullWidth={true}
                 placeholder="Select Band Finish Time"
@@ -308,15 +328,18 @@ export function CalendarPicker({
 
         <div className="border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-6">
           <h4 className="font-bold uppercase tracking-[0.15em] text-white/50 mb-4">
-            Event Format
+            {labels?.eventFormatHeading || "Event Format"}
           </h4>
           <div className="flex flex-col gap-3">
             {[
-              { id: "full_band", label: "Full Band", Icon: Guitar, desc: "High energy, full 5-piece concert setup" },
-              { id: "unplugged", label: "Unplugged", Icon: Mic, desc: "Acoustic, intimate stripped-down set" },
-              { id: "private", label: "Private Event", Icon: PartyPopper, desc: "Birthdays, corporate events, weddings" },
-              { id: "custom", label: "Custom Booking", Icon: Sparkles, desc: "Special requests, festivals, hybrid shows" },
+              { id: "full_band", defaultLabel: "Full Band", Icon: Guitar, defaultDesc: "High energy, full 5-piece concert setup" },
+              { id: "unplugged", defaultLabel: "Unplugged", Icon: Mic, defaultDesc: "Acoustic, intimate stripped-down set" },
+              { id: "private", defaultLabel: "Private Event", Icon: PartyPopper, defaultDesc: "Birthdays, corporate events, weddings" },
+              { id: "custom", defaultLabel: "Custom Booking", Icon: Sparkles, defaultDesc: "Special requests, festivals, hybrid shows" },
             ].map(type => {
+              const matchedCustom = labels?.formats?.find(f => f.id === type.id);
+              const displayLabel = matchedCustom?.label || type.defaultLabel;
+              const displayDesc = matchedCustom?.desc || type.defaultDesc;
               const isSelected = selectedType === type.id;
               const TypeIcon = type.Icon;
               return (
@@ -330,8 +353,8 @@ export function CalendarPicker({
                       <TypeIcon className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300 font-bold" : "text-white"}`}>{type.label}</span>
-                      <span className="text-white/80 block ">{type.desc}</span>
+                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300 font-bold" : "text-white"}`}>{displayLabel}</span>
+                      <span className="text-white/80 block ">{displayDesc}</span>
                     </div>
                   </FoolishShrimpButton>
                   {type.id === "custom" && isSelected && (
