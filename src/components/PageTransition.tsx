@@ -662,6 +662,19 @@ function TransitionTunerPanel({
   handleSpeedPreset,
   triggerReplay,
 }: TransitionTunerPanelProps) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      if (search.includes("tuner=true") || search.includes("tuner=1")) {
+        setIsVisible(true);
+      }
+    }
+  }, []);
+
+  if (!isVisible) return null;
+
   return (
     <div
       data-lenis-prevent
