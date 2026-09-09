@@ -727,11 +727,12 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false }: 
       className="snake-itinerary-root"
       ref={sectionRef}
     >
-      {/* ── Inner Backdrop & Tint Overlay (Separated from maskImage to eliminate Chrome compositor white polygon bug) ── */}
+      {/* ── Inner Backdrop & Tint Overlay ── */}
       <div
-        className="absolute inset-0 pointer-events-none z-0"
+        className="absolute inset-0 pointer-events-none z-0 rounded-3xl overflow-hidden"
         style={{
-
+          background: "linear-gradient(180deg, rgba(6, 11, 24, 0.95) 0%, rgba(10, 20, 44, 0.95) 50%, rgba(6, 11, 24, 0.95) 100%)",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
         }}
       />
       {/* ── Header (Inside Blue Container Box) ── */}
