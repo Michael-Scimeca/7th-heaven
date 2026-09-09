@@ -74,22 +74,22 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   clipExitPath: true,
   clipRevealPath: true,
   revealX: 0,
-  revealY: 100,
+  revealY: 40,
   revealScale: 1.00,
-  revealRotation: 4,
+  revealRotation: 0,
   revealOrigin: "center center",
-  revealEase: "expo.out",
-  revealSlantRatio: 0.08,
+  revealEase: "power3.out",
+  revealSlantRatio: 0.04,
   revealFlipSlant: true,
-  revealDurationOffset: 0.25,
-  exitSpeed: 1.35,
-  exitX: -150,
-  exitY: -100,
-  exitScale: 1.1,
-  exitRotation: -5,
+  revealDurationOffset: 0.1,
+  exitSpeed: 0.65,
+  exitX: 0,
+  exitY: -40,
+  exitScale: 1.0,
+  exitRotation: 0,
   exitOrigin: "center center",
-  exitEase: "expo.out",
-  exitSlantRatio: 0.08,
+  exitEase: "power3.out",
+  exitSlantRatio: 0.04,
   exitFlipSlant: true,
 };
 
@@ -196,7 +196,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("7h_page_transition_settings_v14");
+      const saved = localStorage.getItem("7h_page_transition_settings_v15");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
@@ -230,7 +230,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v14", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v15", JSON.stringify(next));
     } catch { }
   };
 
@@ -238,7 +238,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(DEFAULT_SETTINGS);
     settingsRef.current = DEFAULT_SETTINGS;
     try {
-      localStorage.setItem("7h_page_transition_settings_v14", JSON.stringify(DEFAULT_SETTINGS));
+      localStorage.setItem("7h_page_transition_settings_v15", JSON.stringify(DEFAULT_SETTINGS));
     } catch { }
   };
 
@@ -260,7 +260,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v14", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v15", JSON.stringify(next));
     } catch { }
 
     setTimeout(() => {

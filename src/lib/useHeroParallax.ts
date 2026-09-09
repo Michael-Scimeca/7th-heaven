@@ -52,7 +52,7 @@ const LS_SCRUB = "7h_hero_parallax_scrub";
 const LS_FG = "7h_hero_parallax_fg";
 
 export const PARALLAX_DEFAULT_RANGE = 14;
-export const PARALLAX_DEFAULT_SCRUB = 0.6;
+export const PARALLAX_DEFAULT_SCRUB = 0.25;
 export const PARALLAX_DEFAULT_FOREGROUND = true;
 
 /** Video/image scale that leaves enough headroom for a given drift range. */
