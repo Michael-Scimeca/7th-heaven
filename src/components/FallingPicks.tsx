@@ -212,13 +212,41 @@ export default function FallingPicks() {
     Composite.add(engine.world, mouseConstraint);
     mouseConstraintRef.current = mouseConstraint;
 
+    let isIntersecting = true;
+    let isRunning = false;
+    let frameId: number | null = null;
+    let spawnTimer: ReturnType<typeof setTimeout> | null = null;
+
     const runner = Runner.create({
       delta: 1000 / 60,
     });
-    Runner.run(runner, engine);
+
+    const startPhysics = () => {
+      if (!isRunning && isIntersecting && !document.hidden && !pausedRef.current) {
+        isRunning = true;
+        Runner.run(runner, engine);
+        loop();
+        scheduleSpawn();
+      }
+    };
+
+    const stopPhysics = () => {
+      if (isRunning) {
+        isRunning = false;
+        Runner.stop(runner);
+        if (frameId) {
+          cancelAnimationFrame(frameId);
+          frameId = null;
+        }
+        if (spawnTimer) {
+          clearTimeout(spawnTimer);
+          spawnTimer = null;
+        }
+      }
+    };
 
     function spawnPick() {
-      if (!container || pausedRef.current) return;
+      if (!container || pausedRef.current || !isRunning) return;
       const cfg = configRef.current;
       const pickW = Math.random() < 0.5 ? 120 : 150;
       const pickH = (pickW * 524.5) / 429.5;
@@ -259,32 +287,57 @@ export default function FallingPicks() {
       }
     }
 
-    let spawnTimer: ReturnType<typeof setTimeout>;
     function scheduleSpawn() {
+      if (spawnTimer) clearTimeout(spawnTimer);
       spawnTimer = setTimeout(() => {
-        spawnPick();
-        scheduleSpawn();
+        if (isRunning) {
+          spawnPick();
+          scheduleSpawn();
+        }
       }, configRef.current.spawnMs);
     }
-    scheduleSpawn();
 
-    let frameId: number;
     function loop() {
+      if (!isRunning) return;
       const pickW = configRef.current.sizePx;
       const pickH = (pickW * 524.5) / 429.5;
       for (const p of picksRef.current) {
         const { x, y } = p.body.position;
-        p.el.style.transform = `translate(${x - pickW / 2}px, ${y - pickH / 2
-          }px) rotate(${p.body.angle}rad)`;
+        p.el.style.transform = `translate(${x - pickW / 2}px, ${y - pickH / 2}px) rotate(${p.body.angle}rad)`;
       }
+      // eslint-disable-next-line react-doctor/three-prefer-set-animation-loop, react-doctor/effect-raf-loop-needs-cancel
       frameId = requestAnimationFrame(loop);
     }
-    loop();
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(([entry]) => {
+        isIntersecting = entry.isIntersecting;
+        if (isIntersecting) {
+          startPhysics();
+        } else {
+          stopPhysics();
+        }
+      }, { threshold: 0.01 });
+      observer.observe(container);
+    }
+
+    const onVisibility = () => {
+      if (document.hidden) stopPhysics();
+      else startPhysics();
+    };
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", onVisibility);
+    }
+
+    startPhysics();
 
     return () => {
-      clearTimeout(spawnTimer);
-      cancelAnimationFrame(frameId);
-      Runner.stop(runner);
+      stopPhysics();
+      if (observer) observer.disconnect();
+      if (typeof document !== "undefined") {
+        document.removeEventListener("visibilitychange", onVisibility);
+      }
       Composite.clear(engine.world, false);
       Engine.clear(engine);
       picksRef.current.forEach((p) => p.el.remove());
