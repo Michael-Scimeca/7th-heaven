@@ -23,7 +23,9 @@ import CruiseHeroSection from "./components/CruiseHeroSection";
 
 const CruiseCabinsPricingSection = dynamic(() => import("./components/CruiseCabinsPricingSection"), { ssr: false });
 const CruisePortsCatalogSection = dynamic(() => import("./components/CruisePortsCatalogSection"), { ssr: false });
+const CruiseItinerarySection = dynamic(() => import("./components/CruiseItinerarySection"), { ssr: false });
 const CruiseShipExplorerSection = dynamic(() => import("./components/CruiseShipExplorerSection"), { ssr: false });
+const CruiseVideoVaultSection = dynamic(() => import("./components/CruiseVideoVaultSection"), { ssr: false });
 const CruiseFaqSection = dynamic(() => import("./components/CruiseFaqSection"), { ssr: false });
 
 export default function CruisePage() {
@@ -341,12 +343,22 @@ export default function CruisePage() {
             <CruisePortsCatalogSection />
           </LazyMount>
 
-          {/* SECTION 4: SHIP EXPLORER */}
+          {/* SECTION 4: VOYAGE ITINERARY */}
+          <LazyMount minHeight="800px" rootMargin="300px 0px">
+            <CruiseItinerarySection />
+          </LazyMount>
+
+          {/* SECTION 5: SHIP EXPLORER */}
           <LazyMount minHeight="800px" rootMargin="300px 0px">
             <CruiseShipExplorerSection />
           </LazyMount>
 
-          {/* SECTION 5: FAQS */}
+          {/* SECTION 6: VIDEO VAULT & PROMOS */}
+          <LazyMount minHeight="800px" rootMargin="300px 0px">
+            <CruiseVideoVaultSection />
+          </LazyMount>
+
+          {/* SECTION 7: FAQS */}
           <LazyMount minHeight="600px" rootMargin="300px 0px">
             <CruiseFaqSection />
           </LazyMount>
