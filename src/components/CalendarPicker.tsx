@@ -136,8 +136,9 @@ export function CalendarPicker({
         <span className="flex items-center gap-1.5 text-rose-400"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
       </div>
 
-      <div className="grid grid-cols-1 min-[1600px]:grid-cols-[2.2fr_1.2fr_1.6fr] gap-8 mb-12">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 min-[1500px]:grid-cols-[1.8fr_1.05fr_1.35fr] gap-8 mb-12">
+        {/* Row 1, Col 1: Calendar */}
+        <div className="col-span-1 min-[1500px]:col-span-1">
           {/* Month & Year Selection Bar */}
           <div className="flex items-center justify-between bg-transparent border-0 p-0 mb-4">
             <button aria-label="Previous"
@@ -256,85 +257,83 @@ export function CalendarPicker({
           </div>
         </div>
 
-        {/* Columns 2 & 3 wrapper: 2-column grid below 1600px, unwrapped to contents at 1600px+ */}
-        <div className="grid grid-cols-1 md:grid-cols-2 min-[1600px]:grid-cols-2 min-[1600px]:contents gap-8">
-          {/* Column 2: Booking Window */}
-          <div className="border-t md:border-t-0 md:border-l min-[1600px]:border-l border-white/10 pt-6 md:pt-0 md:pl-6">
-            <h4 className="font-bold uppercase tracking-[0.15em] text-white/50 mb-4">
-              {labels?.bookingWindowHeading || "Booking Window"}
-            </h4>
-            <div className="flex flex-col gap-4">
-              {/* Show Start Time */}
-              <div>
-                <label htmlFor="cal-show-start-time" className="font-bold text-white block mb-1">
-                  {labels?.showStartLabel || "When does the show start?"}
-                </label>
-                <GooeyMessagesDropdown
-                  fullWidth={true}
-                  placeholder="Select Show Start Time"
-                  defaultSelectedId={startTime}
-                  customers={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => ({ id: t, name: t }))}
-                  onSelect={(opt) => onStartTimeChange(opt.id)}
-                  className="w-full"
-                />
-              </div>
-
-              {/* Show Finish Time */}
-              <div>
-                <label htmlFor="cal-show-finish-time" className=" font-bold  text-white block mb-1">
-                  {labels?.showFinishLabel || "When does the show finish?"}
-                </label>
-                <GooeyMessagesDropdown
-                  fullWidth={true}
-                  placeholder="Select Show Finish Time"
-                  defaultSelectedId={endTime}
-                  customers={["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(t => ({ id: t, name: t }))}
-                  onSelect={(opt) => onEndTimeChange(opt.id)}
-                  className="w-full"
-                />
-              </div>
-
-              <div className="border-t border-white/10 pt-2" />
-
-              {/* Band Start Time */}
-              <div>
-                <label htmlFor="cal-band-start-time" className=" font-bold text-white block mb-1">
-                  {labels?.bandStartLabel || "When does the band go on?"}
-                </label>
-                <GooeyMessagesDropdown
-                  fullWidth={true}
-                  placeholder="Select Band Start Time"
-                  defaultSelectedId={startTime}
-                  customers={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => ({ id: t, name: t }))}
-                  onSelect={(opt) => onStartTimeChange(opt.id)}
-                  className="w-full"
-                />
-              </div>
-
-              {/* Band Finish Time */}
-              <div>
-                <label htmlFor="cal-band-finish-time" className="font-bold text-white block mb-1">
-                  {labels?.bandFinishLabel || "When does the band finish?"}
-                </label>
-                <GooeyMessagesDropdown
-                  fullWidth={true}
-                  placeholder="Select Band Finish Time"
-                  defaultSelectedId={endTime}
-                  customers={["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(t => ({ id: t, name: t }))}
-                  onSelect={(opt) => onEndTimeChange(opt.id)}
-                  className="w-full"
-                />
-              </div>
-
+        {/* Row 1, Col 2: Booking Window */}
+        <div className="col-span-1 min-[1500px]:col-span-1 border-t md:border-t-0 md:border-l min-[1500px]:border-l border-white/10 pt-6 md:pt-0 md:pl-6">
+          <h4 className="font-bold uppercase tracking-[0.15em] text-white/50 mb-4">
+            {labels?.bookingWindowHeading || "Booking Window"}
+          </h4>
+          <div className="flex flex-col gap-4">
+            {/* Show Start Time */}
+            <div>
+              <label htmlFor="cal-show-start-time" className="font-bold text-white block mb-1">
+                {labels?.showStartLabel || "When does the show start?"}
+              </label>
+              <GooeyMessagesDropdown
+                fullWidth={true}
+                placeholder="Select Show Start Time"
+                defaultSelectedId={startTime}
+                customers={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => ({ id: t, name: t }))}
+                onSelect={(opt) => onStartTimeChange(opt.id)}
+                className="w-full"
+              />
             </div>
-          </div>
 
-          {/* Column 3: Event Format */}
-          <div className="border-t md:border-t-0 md:border-l min-[1600px]:border-l border-white/10 pt-6 md:pt-0 md:pl-6">
-            <h4 className="font-bold uppercase tracking-[0.15em] text-white/50 mb-4">
-              {labels?.eventFormatHeading || "Event Format"}
-            </h4>
-            <div className="flex flex-col gap-3">
+            {/* Show Finish Time */}
+            <div>
+              <label htmlFor="cal-show-finish-time" className=" font-bold  text-white block mb-1">
+                {labels?.showFinishLabel || "When does the show finish?"}
+              </label>
+              <GooeyMessagesDropdown
+                fullWidth={true}
+                placeholder="Select Show Finish Time"
+                defaultSelectedId={endTime}
+                customers={["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(t => ({ id: t, name: t }))}
+                onSelect={(opt) => onEndTimeChange(opt.id)}
+                className="w-full"
+              />
+            </div>
+
+            <div className="border-t border-white/10 pt-2" />
+
+            {/* Band Start Time */}
+            <div>
+              <label htmlFor="cal-band-start-time" className=" font-bold text-white block mb-1">
+                {labels?.bandStartLabel || "When does the band go on?"}
+              </label>
+              <GooeyMessagesDropdown
+                fullWidth={true}
+                placeholder="Select Band Start Time"
+                defaultSelectedId={startTime}
+                customers={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => ({ id: t, name: t }))}
+                onSelect={(opt) => onStartTimeChange(opt.id)}
+                className="w-full"
+              />
+            </div>
+
+            {/* Band Finish Time */}
+            <div>
+              <label htmlFor="cal-band-finish-time" className="font-bold text-white block mb-1">
+                {labels?.bandFinishLabel || "When does the band finish?"}
+              </label>
+              <GooeyMessagesDropdown
+                fullWidth={true}
+                placeholder="Select Band Finish Time"
+                defaultSelectedId={endTime}
+                customers={["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(t => ({ id: t, name: t }))}
+                onSelect={(opt) => onEndTimeChange(opt.id)}
+                className="w-full"
+              />
+            </div>
+
+          </div>
+        </div>
+
+        {/* Row 2: Event Format (spans full width on Row 2 below 1500px, moves to Col 3 at 1500px+) */}
+        <div className="col-span-1 md:col-span-2 min-[1500px]:col-span-1 border-t min-[1500px]:border-t-0 min-[1500px]:border-l border-white/10 pt-6 min-[1500px]:pt-0 min-[1500px]:pl-6">
+          <h4 className="font-bold uppercase tracking-[0.15em] text-white/50 mb-4">
+            {labels?.eventFormatHeading || "Event Format"}
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 min-[1500px]:grid-cols-1 gap-3">
             {[
               { id: "full_band", defaultLabel: "Full Band", Icon: Guitar, defaultDesc: "High energy, full 5-piece concert setup" },
               { id: "unplugged", defaultLabel: "Unplugged", Icon: Mic, defaultDesc: "Acoustic, intimate stripped-down set" },
@@ -380,7 +379,6 @@ export function CalendarPicker({
         </div>
       </div>
     </div>
-  </div>
   );
 }
 
