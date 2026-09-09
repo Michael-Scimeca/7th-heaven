@@ -1,3 +1,5 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 /* eslint-disable react-doctor/no-giant-component */
 "use client";
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
@@ -38,8 +40,23 @@ function PlannerVerifyContent() {
   const [status, setStatus] = useState<"idle" | "requesting" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [sanityContent, setSanityContent] = useState<any>(null);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const emailInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=planner-verify")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((res) => {
+        if (res?.success && res?.data) {
+          setSanityContent(res.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (step === "email") {
@@ -97,8 +114,8 @@ function PlannerVerifyContent() {
   };
 
   const handleKeyDown = (i: number, e: React.KeyboardEvent) => {
-    if (e.key === "Backspace" && !digits[i] && i > 0) inputRefs.current[i - 1]?.focus();
-    if (e.key === "ArrowLeft" && i > 0) inputRefs.current[i - 1]?.focus();
+    if (e.key === "Backspace" && !digits[i] && i> 0) inputRefs.current[i - 1]?.focus();
+    if (e.key === "ArrowLeft" && i> 0) inputRefs.current[i - 1]?.focus();
     if (e.key === "ArrowRight" && i < 5) inputRefs.current[i + 1]?.focus();
   };
 
@@ -175,10 +192,9 @@ function PlannerVerifyContent() {
         {renderBg()}
         <div style={CARD_STYLE}>
 
-          <h1 style={{ color: "#fff", fontWeight: 900, fontSize: 26, margin: "0 0 8px" }}>Planner Access</h1>
+          <h1 style={{ color: "#fff", fontWeight: 900, fontSize: 26, margin: "0 0 8px" }}>{sanityContent?.emailStepTitle || "Planner Access"}</h1>
           <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, margin: "0 0 32px", lineHeight: 1.6 }}>
-            Enter the email you used when booking 7th Heaven.
-            We'll send a 6-digit PIN to verify your identity.
+            {sanityContent?.emailStepSubtitle || "Enter the email you used when booking 7th Heaven. We'll send a 6-digit PIN to verify your identity."}
           </p>
           <form onSubmit={e => { e.preventDefault(); handleRequestPin(email); }}>
             <div className="input-glow-border rounded-lg mb-4">
@@ -208,8 +224,7 @@ function PlannerVerifyContent() {
                 color: "#fff", fontWeight: 800, fontSize: 15,
                 cursor: status === "requesting" ? "not-allowed" : "pointer",
                 boxShadow: "0 0 20px rgba(168,85,247,0.35)",
-              }}
-            >
+              }}>
               {status === "requesting" ? "Sending PIN…" : "Send My PIN →"}
             </button>
           </form>
@@ -243,16 +258,15 @@ function PlannerVerifyContent() {
                 fontSize: 15,
                 textDecoration: "none",
                 boxShadow: "0 0 20px rgba(16,185,129,0.4)"
-              }}
-            >
+              }}>
               Access My Dashboard →
             </Link>
           </div>
         ) : (
           <>
-            <h1 style={{ color: "#fff", fontWeight: 900, fontSize: 26, margin: "0 0 8px" }}>PLANNER ACCESS PIN</h1>
+            <h1 style={{ color: "#fff", fontWeight: 900, fontSize: 26, margin: "0 0 8px" }}>{sanityContent?.heroHeading || sanityContent?.title || "PLANNER ACCESS PIN"}</h1>
             <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, margin: email ? "0 0 6px" : "0 0 24px", lineHeight: 1.6 }}>
-              {email ? "We sent a 6-digit code to:" : "Enter your 6-digit PIN to access your Planner Dashboard"}
+              {email ? "We sent a 6-digit code to:" : (sanityContent?.heroSubheading || sanityContent?.subtitle || "Enter your 6-digit PIN to access your Planner Dashboard")}
             </p>
             {email && (
               <p style={{ color: "#a855f7", fontWeight: 700, fontSize: 14, margin: "0 0 24px", background: "rgba(168,85,247,0.15)", border: "1px solid rgba(168,85,247,0.3)", borderRadius: 8, padding: "6px 12px", display: "inline-block" }}>
@@ -276,11 +290,11 @@ function PlannerVerifyContent() {
                       onBlur={() => setFocusedIndex(null)}
                       onChange={e => handleDigit(i, e.target.value)}
                       onKeyDown={e => handleKeyDown(i, e)}
-                      className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums ${focusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
- : d
- ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
- : ' border-white/10 text-white/40 hover:border-white/40'
- }`}
+                      className={`w-full h-full text-center text-xl    rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums ${focusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
+                        : d
+                          ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
+                          : ' border-white/10 text-white/40 hover:border-white/40'
+                        }`}
                     />
                   </div>
                 ))}
@@ -308,8 +322,7 @@ function PlannerVerifyContent() {
                   boxShadow: pin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
                   transition: "all 0.25s ease",
                   marginBottom: 16,
-                }}
-              >
+                }}>
                 {status === "submitting" ? "Verifying…" : "Access My Dashboard →"}
               </button>
             </form>
@@ -318,16 +331,14 @@ function PlannerVerifyContent() {
               <button aria-label="Action button"
                 onClick={handleResend}
                 disabled={resendStatus !== "idle"}
-                style={{ background: "none", border: "none", color: resendStatus === "sent" ? "#34d399" : "rgba(255,255,255,0.35)", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}
-              >
+                style={{ background: "none", border: "none", color: resendStatus === "sent" ? "#34d399" : "rgba(255,255,255,0.35)", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}>
                 {resendStatus === "sending" ? "Sending…" : resendStatus === "sent" ? "✓ New PIN sent!" : "Resend PIN"}
               </button>
 
               <button aria-label="Action button"
                 type="button"
                 onClick={() => setStep("email")}
-                style={{ display: "block", margin: "8px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 12, cursor: "pointer", textDecoration: "underline" }}
-              >
+                style={{ display: "block", margin: "8px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 12, cursor: "pointer", textDecoration: "underline" }}>
                 Need a PIN sent to your email?
               </button>
             </div>

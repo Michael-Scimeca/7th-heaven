@@ -1,3 +1,5 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 'use client';
 
 import Link from 'next/link';
@@ -60,9 +62,24 @@ export default function VerifyPage() {
   const [result, setResult] = useState<null | 'checking' | 'valid' | 'invalid'>(null);
   const [winnerData, setWinnerData] = useState<{ winner: string; prize: string; entrants: number } | null>(null);
   const [devBypass, setDevBypass] = useState(false);
+  const [sanityContent, setSanityContent] = useState<any>(null);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const verifyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=crew-verify")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((res) => {
+        if (res?.success && res?.data) {
+          setSanityContent(res.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && (window.location.search.includes('demo') || window.location.search.includes('bypass') || window.location.search.includes('preview'))) {
@@ -84,7 +101,7 @@ export default function VerifyPage() {
   };
 
   const handleKeyDown = (idx: number, e: React.KeyboardEvent) => {
-    if (e.key === 'Backspace' && !pin[idx] && idx > 0) {
+    if (e.key === 'Backspace' && !pin[idx] && idx> 0) {
       inputRefs.current[idx - 1]?.focus();
     }
   };
@@ -155,23 +172,20 @@ export default function VerifyPage() {
 
         <div
           className="relative z-10 w-full max-w-sm rounded-lg p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-          style={MODAL_GLASS_STYLE}
-        >
+          style={MODAL_GLASS_STYLE}>
           <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
             <Lock className="w-8 h-8" />
           </div>
-          <h2 className="text-white font-bold uppercase tracking-wide mb-2">Crew Login Required</h2>
-          <p className="mb-6">Sign in with your crew account to access PIN verification.</p>
+          <h2 className="text-white uppercase mb-2">{sanityContent?.loginTitle || "Crew Login Required"}</h2>
+          <p className="mb-6">{sanityContent?.loginSubtitle || "Sign in with your crew account to access PIN verification."}</p>
           <button aria-label="Action button"
             onClick={() => openModal()}
-            className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
-          >
+            className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer">
             Sign In
           </button>
           <button aria-label="Action button"
             onClick={() => setDevBypass(true)}
-            className="w-full mt-3 py-2.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white/80 font-bold uppercase transition-colors cursor-pointer rounded-xl"
-          >
+            className="w-full mt-3 py-2.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white/80 uppercase transition-colors cursor-pointer rounded-xl">
             Preview PIN Inputs →
           </button>
         </div>
@@ -186,15 +200,13 @@ export default function VerifyPage() {
 
         <div
           className="relative z-10 w-full max-w-sm rounded-lg p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-          style={MODAL_GLASS_STYLE}
-        >
+          style={MODAL_GLASS_STYLE}>
 
-          <h2 className="text-white font-bold uppercase tracking-wide mb-2">Crew Only</h2>
+          <h2 className="text-white uppercase mb-2">Crew Only</h2>
           <p className="mb-5">This page is for 7th Heaven crew members only.</p>
           <button aria-label="Action button"
             onClick={() => setDevBypass(true)}
-            className="w-full py-3 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 font-bold uppercase transition-colors cursor-pointer rounded-xl"
-          >
+            className="w-full py-3 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 uppercase transition-colors cursor-pointer rounded-xl">
             Preview PIN Verification Inputs →
           </button>
         </div>
@@ -208,9 +220,9 @@ export default function VerifyPage() {
 
       {/* Header */}
       <div className="text-center mb-8 relative z-10">
-        <p className="font-bold uppercase tracking-[0.3em] mb-1">7th Heaven · Crew</p>
-        <h1 className="text-white font-bold text-2xl uppercase ">Crew PIN Verification</h1>
-        <p className="mt-1">Enter your 6-digit PIN to verify crew access</p>
+        <p className="uppercase tracking-[0.3em] mb-1">{sanityContent?.eyebrow || "7th Heaven · Crew"}</p>
+        <h1 className="text-white text-2xl uppercase">{sanityContent?.heroHeading || sanityContent?.title || "Crew PIN Verification"}</h1>
+        <p className="mt-1">{sanityContent?.heroSubheading || sanityContent?.subtitle || "Enter your 6-digit PIN to verify crew access"}</p>
       </div>
 
       <div className="w-full max-w-sm relative z-10">
@@ -218,7 +230,7 @@ export default function VerifyPage() {
         {/* PIN Input Form */}
         {result !== 'valid' && (
           <div
-            className=" rounded-lg px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
+            className="rounded-lg px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
             style={{
               background: "rgba(18, 10, 34, 0.85)",
               backdropFilter: "blur(32px) saturate(180%)",
@@ -226,9 +238,8 @@ export default function VerifyPage() {
               border: "1px solid rgba(168, 85, 247, 0.4)",
               borderRadius: 24,
               boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-            }}
-          >
-            <p className="font-bold uppercase text-center mb-5">Enter 6-Digit PIN</p>
+            }}>
+            <p className="uppercase text-center mb-5">Enter 6-Digit PIN</p>
 
             <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
               {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
@@ -244,11 +255,11 @@ export default function VerifyPage() {
                     onBlur={() => setFocusedIndex(null)}
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
-                    className={`w-full h-full text-center text-xl font-bold rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums ${focusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
- : digit
- ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
- : ' border-white/10 text-white/40 hover:border-white/40'
- }`}
+                    className={`w-full h-full text-center text-xl    rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums ${focusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
+                      : digit
+                        ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
+                        : ' border-white/10 text-white/40 hover:border-white/40'
+                      }`}
                   />
                 </div>
               ))}
@@ -267,8 +278,7 @@ export default function VerifyPage() {
                 boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
                 transition: "all 0.25s ease",
               }}
-              className="w-full py-3.5 font-bold uppercase cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed"
-            >
+              className="w-full py-3.5 uppercase cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed">
               {result === 'checking' ? 'Checking...' : 'Access My Dashboard →'}
             </button>
 
@@ -288,8 +298,7 @@ export default function VerifyPage() {
                   fontWeight: 700,
                   cursor: "pointer",
                   textDecoration: "underline",
-                }}
-              >
+                }}>
                 Resend Code
               </button>
             </div>
@@ -322,11 +331,10 @@ export default function VerifyPage() {
         {/* VALID */}
         {result === 'valid' && winnerData && (
           <div
-            className=" rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-            style={MODAL_GLASS_STYLE}
-          >
+            className="rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+            style={MODAL_GLASS_STYLE}>
             <div className="bg-purple-600 px-6 py-4 text-center shadow-[0_0_25px_rgba(147,51,234,0.5)]">
-              <p className="font-bold uppercase ">✓ Valid Win</p>
+              <p className="uppercase">✓ Valid Win</p>
             </div>
             <div className="p-6 text-center">
               <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-400 shadow-[0_0_20px_rgba(234,179,8,0.3)]">
@@ -334,31 +342,31 @@ export default function VerifyPage() {
               </div>
 
               <div className="bg-purple-600/10 border border-purple-500/30 px-5 py-3 mb-3">
-                <p className="text-purple-300/60 font-bold uppercase mb-1">Winner Account</p>
-                <p className="text-purple-300 font-bold">{winnerData.winner}</p>
+                <p className="text-purple-300/60 uppercase mb-1">Winner Account</p>
+                <p className="text-purple-300">{winnerData.winner}</p>
               </div>
 
               <div className="bg-white/[0.03] border border-white/10 px-5 py-3 mb-4">
-                <p className="font-bold uppercase mb-1">Prize</p>
-                <p className="font-bold">{winnerData.prize}</p>
+                <p className="uppercase mb-1">Prize</p>
+                <p>{winnerData.prize}</p>
               </div>
 
               {/* PIN confirmation */}
               <div className="flex items-center justify-center gap-1.5 mb-5">
                 {fullPin.split('').map((d, i) => (
                   <div key={`pin-confirm-${i}-${d}`} className="w-9 h-11 bg-black/60 border border-purple-500/40 rounded-lg flex items-center justify-center">
-                    <span className="text-purple-300 font-bold text-lg tabular-nums">{d}</span>
+                    <span className="text-purple-300 text-lg tabular-nums">{d}</span>
                   </div>
                 ))}
               </div>
 
-              <p className="text-emerald-400/90 font-bold mb-6">Award the prize to this fan ✓</p>
+              <p className="text-emerald-400/90 mb-6">Award the prize to this fan ✓</p>
 
-              <Link href="/crew" className="w-full block py-3.5 bg-[var(--color-accent)] hover:bg-emerald-500 text-white font-bold uppercase transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
+              <Link href="/crew" className="w-full block py-3.5 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
                 Access My Dashboard →
               </Link>
 
-              <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold uppercase transition-colors cursor-pointer rounded-xl">
+              <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition-colors cursor-pointer rounded-xl">
                 Verify Another PIN
               </button>
             </div>
@@ -368,17 +376,16 @@ export default function VerifyPage() {
         {/* INVALID */}
         {result === 'invalid' && (
           <div
-            className=" rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-            style={MODAL_GLASS_STYLE}
-          >
+            className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+            style={MODAL_GLASS_STYLE}>
             <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
               <XCircle className="w-8 h-8" />
             </div>
-            <h2 className="text-white font-bold uppercase tracking-wide mb-2">Invalid PIN</h2>
+            <h2 className="text-white uppercase mb-2">Invalid PIN</h2>
             <p className="mb-5">
               This PIN doesn't match any crew access code. Please check your PIN and try again.
             </p>
-            <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold uppercase transition-colors cursor-pointer">
+            <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition-colors cursor-pointer">
               Try Again
             </button>
           </div>
