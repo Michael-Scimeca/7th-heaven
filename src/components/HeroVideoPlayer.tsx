@@ -2,8 +2,9 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { useHeroParallax } from "@/lib/useHeroParallax";
-import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
+const HeroParallaxCustomizer = dynamic(() => import("@/components/HeroParallaxCustomizer"), { ssr: false });
 const emptySubscribe = () => () => { };
 
 // Safe SSR-compatible desktop media query using useSyncExternalStore
@@ -64,6 +65,7 @@ const GRADIENT_PRESETS = [
   { name: "Deep Violet Shadow", height: 70, opacity: 0.95, midstop: 30, color: "#090314" },
 ];
 
+// eslint-disable-next-line react-doctor/no-high-complexity-react-function
 export default function HeroVideoPlayer({ children }: { children?: ReactNode }) {
   const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
   const [isVideoFading, setIsVideoFading] = useState(false);

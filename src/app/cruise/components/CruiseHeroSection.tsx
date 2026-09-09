@@ -2,8 +2,9 @@
 
 import React from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { SectionBadge } from "@/components/SectionBadge";
-import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
+const HeroParallaxCustomizer = dynamic(() => import("@/components/HeroParallaxCustomizer"), { ssr: false });
 import type { HeroParallaxController } from "@/lib/useHeroParallax";
 import type { RefObject } from "react";
 
