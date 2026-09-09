@@ -419,102 +419,9 @@ function CurtainWipeDemo() {
   );
 }
 
-// ---------------------------------------------------------------------------
-// 2. Glitch / RGB-split cut -- the "Metropole -> Acheter du Neuf" style cut.
-//    Label swaps almost instantly; 3 tinted layers jitter apart with a
-//    stepped (not smooth) ease while a jagged clip-path tears them, then
-//    everything resolves clean onto the new content.
-// ---------------------------------------------------------------------------
-function jaggedPolygon(intensity: number) {
-  // A handful of horizontal bands, each independently offset left/right --
-  // intensity 1 = maximum tear, 0 = clean rectangle.
-  const bands = 6;
-  let top = "polygon(";
-  const points: string[] = [];
-  for (let i = 0; i <= bands; i++) {
-    const y = (i / bands) * 100;
-    const jitter = (Math.random() - 0.5) * intensity * 18;
-    points.push(`${0 + jitter}% ${y}%`);
-  }
-  for (let i = bands; i >= 0; i--) {
-    const y = (i / bands) * 100;
-    const jitter = (Math.random() - 0.5) * intensity * 18;
-    points.push(`${100 + jitter}% ${y}%`);
-  }
-  return top + points.join(",") + ")";
-}
 
-function GlitchCutDemo() {
-  const stageRef = useRef<HTMLDivElement>(null);
-  const rLayer = useRef<HTMLDivElement>(null);
-  const gLayer = useRef<HTMLDivElement>(null);
-  const bLayer = useRef<HTMLDivElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const [label, setLabel] = useState("OLD PAGE");
 
-  const play = () => {
-    if (playing) return;
-    setPlaying(true);
 
-    const layers = [rLayer.current!, gLayer.current!, bLayer.current!];
-    gsap.set(layers, { opacity: 1, clipPath: "none", x: 0 });
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        gsap.set(layers, { opacity: 0 });
-        setPlaying(false);
-      },
-    });
-
-    // 1. label swaps instantly, well before the image resolves
-    tl.call(() => setLabel("NEW PAGE"), [], 0.03);
-
-    // 2. peak chaos: jitter + jagged tearing, stepped easing = stutter
-    const proxy = { t: 0 };
-    tl.to(
-      proxy,
-      {
-        t: 1,
-        duration: 0.32,
-        ease: "steps(6)",
-        onUpdate: () => {
-          const intensity = 1 - proxy.t;
-          layers.forEach((el, i) => {
-            const dir = i === 0 ? -1 : i === 2 ? 1 : 0;
-            gsap.set(el, {
-              x: dir * intensity * gsap.utils.random(4, 14),
-              clipPath: jaggedPolygon(intensity),
-            });
-          });
-        },
-        onComplete: () => gsap.set(layers, { x: 0, clipPath: "none" }),
-      },
-      0
-    );
-
-    return tl;
-  };
-
-  return (
-    <DemoFrame label="Glitch / RGB-split cut" onPlay={play} playing={playing}>
-      <div ref={stageRef} className="relative h-full w-full overflow-hidden bg-gradient-to-br from-orange-900 to-red-950">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-black ">{label}</span>
-        </div>
-        {/* RGB-tinted tearing layers, hidden until played */}
-        <div ref={rLayer} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-900 to-red-950 opacity-0 mix-blend-screen" style={{ filter: "sepia(1) saturate(6) hue-rotate(-50deg)" }}>
-          <span className="text-2xl font-black ">{label}</span>
-        </div>
-        <div ref={gLayer} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-900 to-red-950 opacity-0 mix-blend-screen" style={{ filter: "sepia(1) saturate(6) hue-rotate(90deg)" }}>
-          <span className="text-2xl font-black ">{label}</span>
-        </div>
-        <div ref={bLayer} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-900 to-red-950 opacity-0 mix-blend-screen" style={{ filter: "sepia(1) saturate(6) hue-rotate(220deg)" }}>
-          <span className="text-2xl font-black ">{label}</span>
-        </div>
-      </div>
-    </DemoFrame>
-  );
-}
 
 // ---------------------------------------------------------------------------
 // 3. Fade to black, then a straight-edge rise from the bottom -- the
@@ -568,9 +475,8 @@ export default function PreloadersTestPage() {
           page navigation; the other two are the effects pulled from the Stratal Scenography reference video.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-3">
+        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
           <CurtainWipeDemo />
-          <GlitchCutDemo />
           <FadeThenRiseDemo />
         </div>
       </div>
