@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { sanityClient, queries, SanitySiteSettings } from "@/lib/sanity";
+import { sanityClient, queries, fetchPageContent, SanitySiteSettings } from "@/lib/sanity";
 import ContactClient from "./ContactClient";
 
 export const metadata: Metadata = {
@@ -27,7 +27,11 @@ const FALLBACK_CONTACTS = [
 ];
 
 export default async function ContactPage() {
-    const settingsData = await sanityClient.fetch<SanitySiteSettings | null>(queries.siteSettings, {}, { next: { revalidate: 60, tags: ['sanity:settings'] } });
+    const [settingsData, pageContent] = await Promise.all([
+        sanityClient.fetch<SanitySiteSettings | null>(queries.siteSettings, {}, { next: { revalidate: 60, tags: ['sanity:settings'] } }),
+        fetchPageContent("contact")
+    ]);
+
     const settings = settingsData as SanitySiteSettings | null;
     const baseContacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
 
@@ -36,5 +40,8 @@ export default async function ContactPage() {
         contacts.push(MARY_CONTACT);
     }
 
-    return <ContactClient contacts={contacts} />;
+    const title = pageContent?.heroHeading || pageContent?.title || "CONTACT";
+    const subtitle = pageContent?.heroSubheading || "Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.";
+
+    return <ContactClient contacts={contacts} title={title} subtitle={subtitle} />;
 }

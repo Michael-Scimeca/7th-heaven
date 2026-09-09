@@ -91,7 +91,15 @@ function getPhotoForCategory(contact: ContactItem): string {
   return "dickie";
 }
 
-export default function ContactClient({ contacts }: { contacts: ContactItem[] }) {
+export default function ContactClient({
+  contacts,
+  title = "CONTACT",
+  subtitle = "Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details."
+}: {
+  contacts: ContactItem[];
+  title?: string;
+  subtitle?: string;
+}) {
   const [activePhotoId, setActivePhotoId] = useState<string>(DEFAULT_PHOTO_ID);
 
   return (
@@ -101,10 +109,10 @@ export default function ContactClient({ contacts }: { contacts: ContactItem[] })
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] relative z-10">
 
         <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none">
-          CONTACT
+          {title}
         </h1>
-        <p className="  mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl ">
-          Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.
+        <p className="mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl">
+          {subtitle}
         </p>
       </div>
 
