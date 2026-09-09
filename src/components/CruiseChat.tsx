@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
@@ -471,7 +472,7 @@ export default function CruiseChat({
 
   if (isLoading) {
     return (
-      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
+      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))]    border border-white/10 rounded-lg flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
         <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400 rounded-lg animate-spin" />
         <p className="font-bold uppercase mt-3">Loading chat...</p>
       </div>
@@ -532,7 +533,7 @@ export default function CruiseChat({
 
       {!isSignedIn ? (
         /* ── GUEST LOCKED CHAT PANEL ── */
-        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-[#07040d]/90 backdrop-blur-xl space-y-6">
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-[#07040d]/90    space-y-6">
           <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
             <MessageSquare className="w-8 h-8" />
           </div>

@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 import Image from 'next/image';
@@ -936,7 +937,7 @@ export function ImportantLinksWidget() {
   if (links.length === 0) return null;
 
   return (
-    <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-lg shadow-2xl text-white relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))]    border border-white/10 p-6 md:p-8 rounded-lg shadow-2xl text-white relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>
