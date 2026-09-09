@@ -1,0 +1,123 @@
+/* eslint-disable react-doctor/no-array-index-as-key */
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
+"use client";
+
+import React, { useState, useEffect } from "react";
+
+export default function ReturnsClient() {
+  const [sanityContent, setSanityContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=returns")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((res) => {
+        if (res?.success && res?.data) {
+          setSanityContent(res.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  return (
+    <section className="site-container pt-[100px] min-h-screen">
+      <div className="w-full text-left">
+        <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2">
+          {sanityContent?.heroHeading || sanityContent?.title || "Return & Refund Policy"}
+        </h1>
+        <p className="mb-12">
+          {sanityContent?.lastUpdated || sanityContent?.subtitle || "Last Updated: April 12, 2026"}
+        </p>
+
+        <div className="prose-legal flex flex-col gap-10 text-base">
+          {sanityContent?.sections && Array.isArray(sanityContent.sections) && sanityContent.sections.length > 0 ? (
+            sanityContent.sections.map((sec: any, idx: number) => (
+              <div key={sec.sectionId || sec.title || `returns-sec-${idx}`}>
+                <h2 className="mb-3">{sec.title || `${idx + 1}. Policy Section`}</h2>
+                {sec.subtitle && <p className="mb-2 text-white/70">{sec.subtitle}</p>}
+                {sec.body && <div className="whitespace-pre-line">{sec.body}</div>}
+              </div>
+            ))
+          ) : (
+            <>
+              {/* Section 1 */}
+              <div>
+                <h2 className="mb-3">1. Merchandise Table Purchases (Live Concerts)</h2>
+                <p>
+                  All merchandise purchases completed in person at our live concert venues and tour stops are <strong>final sale</strong>.
+                  We do not accept returns, refunds, or size exchanges once a transaction is completed at our physical merch tables.
+                  Please inspect all apparel, CDs, vinyl, and accessories for quality and correct sizing prior to completing your purchase.
+                  In the rare event of a clear manufacturing defect, please contact our crew at the table immediately, or email us at the contact address below within 7 days.
+                </p>
+              </div>
+
+              {/* Section 2 */}
+              <div>
+                <h2 className="mb-3">2. Online Store Orders (Shipped to Home)</h2>
+                <p className="mb-3">
+                  For merchandise purchased directly through our online store (processed via the Shopify Storefront API) and shipped to your home:
+                </p>
+                <ul className="list-disc pl-5 space-y-2">
+                  <li>
+                    You have <strong>14 calendar days</strong> from the delivery confirmation date to request a return or size exchange.
+                  </li>
+                  <li>
+                    To be eligible, items must be unworn, unwashed, unaltered, and in their original packaging with all original product tags intact.
+                  </li>
+                  <li>
+                    Return shipping labels and logistics are the responsibility of the customer. 7th Heaven only covers return shipping costs if the return is a direct result of our fulfillment error (e.g., incorrect size or incorrect item shipped).
+                  </li>
+                  <li>
+                    Once we receive and inspect your returned items, we will notify you of the status. Approved refunds will be automatically credited back to your original payment method within 5 to 7 business days.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Section 3 */}
+              <div>
+                <h2 className="mb-3">3. Merch Table Pickups (Pre-Ordered Online)</h2>
+                <p className="mb-3">
+                  For orders pre-purchased online and designated for pickup at our concert merch tables:
+                </p>
+                <ul className="list-disc pl-5 space-y-2">
+                  <li>
+                    Pickup orders are fully verified via a secure QR code emailed to you. Once verified and scanned, our crew will release the order to you.
+                  </li>
+                  <li>
+                    If you try on a pickup apparel item at the venue and find it does not fit, you may request an immediate size swap at the table, subject to our on-site stock availability.
+                  </li>
+                  <li>
+                    Once you leave the concert venue with your pickup order, the items are governed by our live concert final sale policy and are no longer eligible for returns or refunds.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Section 4 */}
+              <div>
+                <h2 className="mb-3">4. Damaged or Defective Items</h2>
+                <p>
+                  If your online order arrives damaged, defective, or misprinted, please send a brief email to <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a> with your order number and photo evidence of the issue. We will arrange a replacement or issue a full refund at no additional cost.
+                </p>
+              </div>
+
+              {/* Section 5 */}
+              <div>
+                <h2 className="mb-3">5. Contact Information</h2>
+                <p className="mb-2">
+                  If you have any questions about returns, exchanges, or refunds, please reach out to us:
+                </p>
+                <div>
+                  <p>7th Heaven Support</p>
+                  <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
+                  <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com</a></p>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
