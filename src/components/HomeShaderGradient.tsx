@@ -2,7 +2,7 @@
 /* oxlint-disable react-doctor/effect-needs-cleanup */
 /* eslint-disable react-doctor/effect-needs-cleanup */
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useSyncExternalStore } from "react";
 
 const GRADIENT_SETTINGS = {
   colors: [
@@ -122,14 +122,23 @@ function hexToRgba(hex: string, alpha: number) {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
+const mobileSubscribe = (cb: () => void) => {
+  const mq = typeof window !== "undefined" ? window.matchMedia("(max-width: 1023px), (pointer: coarse)") : null;
+  mq?.addEventListener("change", cb);
+  return () => mq?.removeEventListener("change", cb);
+};
+const mobileSnapshot = () => typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches);
+const mobileServerSnapshot = () => false;
+
 function HomeShaderGradientComponent() {
+  const isMobileOrTablet = useSyncExternalStore(mobileSubscribe, mobileSnapshot, mobileServerSnapshot);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const positionLayerRef = useRef<HTMLDivElement>(null);
   const grainCanvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (isMobileOrTablet || !canvasRef.current) return;
 
     // NOTE: a `canvasRef.current.__neatInitialized` DOM-attached guard used
     // to live here, added to stop React Strict Mode's dev-only double-invoke
@@ -485,6 +494,10 @@ function HomeShaderGradientComponent() {
       window.removeEventListener("canvas-settings-changed", handleSettingsChange);
     };
   }, []);
+
+  if (isMobileOrTablet) {
+    return null;
+  }
 
   return (
     <>
