@@ -668,10 +668,10 @@ header,
  7TH HEAVEN — Tailwind v4 Theme Configuration
  ============================================= */
 :root {
-  /* ── Day / Light Mode (Opposite of Night mode, except accent #9333ea) ── */
-  --bg-color: #ffffff;
-  --text-color: #000000;
-  --card-bg: #ffffff;
+  /* ── Dark Ocean Theme Base Colors ── */
+  --bg-color: #05030a;
+  --text-color: #ffffff;
+  --card-bg: rgba(15, 15, 24, 0.95);
   --border-color: rgba(0, 0, 0, 0.12);
   --muted-text: rgba(0, 0, 0, 0.65);
   --placeholder-color: rgba(0, 0, 0, 0.45);
