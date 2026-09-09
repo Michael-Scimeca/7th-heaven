@@ -3426,15 +3426,6 @@ textarea,
 
   .snake-itinerary-cardVisible {
     opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
-
-  .snake-itinerary-cardLeft:not(.snake-itinerary-cardVisible) {
-    transform: translateY(20px);
-  }
-
-  .snake-itinerary-cardRight:not(.snake-itinerary-cardVisible) {
-    transform: translateY(20px);
   }
 
   .snake-itinerary-cardHeader {
