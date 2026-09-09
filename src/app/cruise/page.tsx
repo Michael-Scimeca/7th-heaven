@@ -26,6 +26,7 @@ const CruisePortsCatalogSection = dynamic(() => import("./components/CruisePorts
 const CruiseItinerarySection = dynamic(() => import("./components/CruiseItinerarySection"), { ssr: false });
 const CruiseShipExplorerSection = dynamic(() => import("./components/CruiseShipExplorerSection"), { ssr: false });
 const CruiseVideoVaultSection = dynamic(() => import("./components/CruiseVideoVaultSection"), { ssr: false });
+const CruiseHistorySection = dynamic(() => import("./components/CruiseHistorySection"), { ssr: false });
 const CruiseFaqSection = dynamic(() => import("./components/CruiseFaqSection"), { ssr: false });
 
 export default function CruisePage() {
@@ -358,7 +359,12 @@ export default function CruisePage() {
             <CruiseVideoVaultSection />
           </LazyMount>
 
-          {/* SECTION 7: FAQS */}
+          {/* SECTION 7: 3D HISTORY TIMELINE & VOYAGE LEGACY */}
+          <LazyMount minHeight="900px" rootMargin="300px 0px">
+            <CruiseHistorySection />
+          </LazyMount>
+
+          {/* SECTION 8: FAQS */}
           <LazyMount minHeight="600px" rootMargin="300px 0px">
             <CruiseFaqSection />
           </LazyMount>
