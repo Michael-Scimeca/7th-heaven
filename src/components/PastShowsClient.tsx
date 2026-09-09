@@ -1,7 +1,8 @@
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 /* eslint-disable react-doctor/no-giant-component */
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Music } from "lucide-react";
 import SearchInput from "@/components/SearchInput";
@@ -49,6 +50,21 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
   const [selectedYear, setSelectedYear] = useState<string>("ALL");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
   const [openYears, setOpenYears] = useState<Record<string, boolean>>({});
+  const [sanityContent, setSanityContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=past-shows")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((res) => {
+        if (res?.success && res?.data) {
+          setSanityContent(res.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
 
 
@@ -109,11 +125,11 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6">
           <div>
-            <h1 className="text-[clamp(2rem,4vw,3rem)] font-bold uppercase mb-3">
-              Past Shows Archive
+            <h1 className="text-[clamp(2rem,4vw,3rem)] uppercase mb-3">
+              {sanityContent?.heroHeading || sanityContent?.title || "Past Shows Archive"}
             </h1>
             <p className="max-w-2xl font-medium">
-              A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985.
+              {sanityContent?.heroSubheading || sanityContent?.subtitle || "A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985."}
             </p>
           </div>
 
@@ -125,20 +141,20 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       {/* ── STATS BAR ── */}
       <div className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">{totalShowsCount}+</span>
-          <span className="font-bold uppercase mt-1">Concerts Cataloged</span>
+          <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">{totalShowsCount}+</span>
+          <span className="uppercase mt-1">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">40+</span>
-          <span className="font-bold uppercase mt-1">Years of Live Rock</span>
+          <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">40+</span>
+          <span className="uppercase mt-1">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">500+</span>
-          <span className="font-bold uppercase mt-1">Unique Venues</span>
+          <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">500+</span>
+          <span className="uppercase mt-1">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-bold text-[var(--color-accent)]">5+</span>
-          <span className="font-bold uppercase mt-1">Countries Played</span>
+          <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">5+</span>
+          <span className="uppercase mt-1">Countries Played</span>
         </div>
       </div>
 
@@ -150,24 +166,23 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
-              placeholder="Search venue, city, year..."
+              placeholder={sanityContent?.searchPlaceholder || "Search venue, city, year..."}
               containerClassName="w-full"
             />
           </div>
 
           {/* Years Pill List Next to Search Input */}
           <div className="flex items-center gap-2 flex-wrap max-w-[900px]">
-            <span className="font-bold uppercase shrink-0 mr-1">
-              Jump to Year:
+            <span className="uppercase shrink-0 mr-1">
+              {sanityContent?.jumpToYearLabel || "Jump to Year:"}
             </span>
             <button aria-label="Action button"
               onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1.5 rounded-lg font-bold uppercase transition-colors cursor-pointer ${selectedYear === "All"
+              className={`px-3 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer ${selectedYear === "All"
                 ? "bg-[var(--color-accent)] text-white "
                 : " bg-[#00000029] text-white/70 hover:text-white border-0"
-                }`}
-            >
-              All Years
+                }`}>
+              {sanityContent?.allYearsLabel || "All Years"}
             </button>
             {years.map((y) => (
               <button aria-label="Previous"
@@ -176,26 +191,25 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   setSelectedYear(y.year);
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${selectedYear === y.year ? "bg-[var(--color-accent)] text-white font-bold "
+                className={`px-3 py-1.5 rounded-lg    transition-colors cursor-pointer ${selectedYear === y.year ? "bg-[var(--color-accent)] text-white    "
                   : " bg-[#00000029] text-white/70 hover:text-white border-0"
-                  }`}
-              >
+                  }`}>
                 {y.year}
               </button>
             ))}
           </div>
         </div>
 
-        <div className=" font-semibold mt-3">
-          Showing <span className="font-bold ">{displayedCount}</span> of {totalShowsCount} shows
+        <div className="font-semibold mt-3">
+          Showing <span>{displayedCount}</span> of {totalShowsCount} shows
         </div>
       </div>
 
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-12 text-center my-8">
-          <Music className=" w-11 h-11  text-purple-400mx-auto mb-4" />
-          <h3 className="font-bold mb-2">No Past Shows Found</h3>
+          <Music className="w-11 h-11 text-purple-400mx-auto mb-4" />
+          <h3 className="mb-2">{sanityContent?.noShowsTitle || "No Past Shows Found"}</h3>
           <p className="max-w-md mx-auto mb-6">
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.
           </p>
@@ -205,9 +219,8 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
               setSelectedYear("ALL");
               setSelectedCategory("ALL");
             }}
-            className="px-6 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase hover:bg-[#851de7] transition-colors"
-          >
-            Reset Filters
+            className="px-6 py-2.5 bg-[var(--color-accent)] text-white uppercase hover:bg-[#851de7] transition-colors">
+            {sanityContent?.resetFiltersText || "Reset Filters"}
           </button>
         </div>
       ) : (
@@ -217,19 +230,17 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             return (
               <div
                 key={yGroup.year}
-                className="overflow-hidden"
-              >
+                className="overflow-hidden">
                 {/* Year Header Accordion Bar */}
                 <button aria-label="Action button"
                   onClick={() => toggleYear(yGroup.year)}
-                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left   bg-[#00000029] transition-colors"
-                  style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}
-                >
+                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left bg-[#00000029] transition-colors"
+                  style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}>
                   <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white font-bold rounded-lg">
+                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white rounded-lg">
                       {yGroup.year}
                     </span>
-                    <span className="font-bold ">
+                    <span>
                       {yGroup.shows.length} {yGroup.shows.length === 1 ? "Show" : "Shows"}
                     </span>
                   </div>
@@ -247,9 +258,8 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                       return (
                         <div
                           key={`${yGroup.year}-${idx}`}
-                          className=" py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
-                          style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}
-                        >
+                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
+                          style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
                           {/* Date & Day */}
                           <div className="w-full sm:w-48 shrink-0 font-semibold flex items-center gap-2">
                             <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>
@@ -257,29 +267,29 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                           </div>
 
                           {/* Venue Name */}
-                          <div className="flex-1 font-bold sm:text-base leading-snug">
+                          <div className="flex-1 sm:text-base leading-snug">
                             {show.venue}
                           </div>
 
                           {/* Badges */}
                           <div className="flex items-center gap-1.5 shrink-0 pt-1 sm:pt-0">
                             {isCancelled && (
-                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase bg-rose-500/20 text-rose-600 rounded-lg border border-rose-500/30">
+                              <span className="px-2 py-0.5 text-[10px] uppercase bg-rose-500/20 text-rose-600 rounded-lg border border-rose-500/30">
                                 Cancelled
                               </span>
                             )}
                             {isUnplugged && (
-                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase bg-purple-600/20 text-[var(--color-accent)] rounded-lg border border-purple-500/30">
+                              <span className="px-2 py-0.5 text-[10px] uppercase bg-purple-600/20 text-[var(--color-accent)] rounded-lg border border-purple-500/30">
                                 Unplugged
                               </span>
                             )}
                             {isPrivate && (
-                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] rounded-lg border border-[var(--color-accent)]/30">
+                              <span className="px-2 py-0.5 text-[10px] uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] rounded-lg border border-[var(--color-accent)]/30">
                                 Private Event
                               </span>
                             )}
                             {isCruise && (
-                              <span className="px-2 py-0.5 text-[10px] font-bold uppercase bg-sky-500/20 text-sky-600 rounded-lg border border-sky-500/30">
+                              <span className="px-2 py-0.5 text-[10px] uppercase bg-sky-500/20 text-sky-600 rounded-lg border border-sky-500/30">
                                 Special Tour
                               </span>
                             )}
