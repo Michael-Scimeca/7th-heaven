@@ -1,6 +1,7 @@
+/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
 import Link from "next/link";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
@@ -145,32 +146,61 @@ export default function FAQPage() {
   const [activeTab, setActiveTab] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
+  const [sanityContent, setSanityContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/page-content?key=faq")
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((res) => {
+        if (res?.success && res?.data) {
+          setSanityContent(res.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const toggleExpand = (id: string) => {
     setExpandedItems(prev => (prev[id] ? {} : { [id]: true }));
   };
 
+  const combinedFAQs = useMemo(() => {
+    let list: FAQItem[] = [...FAQ_DATA];
+    if (sanityContent?.faqs && Array.isArray(sanityContent.faqs)) {
+      const sanityItems: FAQItem[] = sanityContent.faqs.map((f: any, idx: number) => ({
+        id: f.id || `sanity-faq-${idx}`,
+        category: f.category || "booking",
+        question: f.question,
+        answer: f.answer,
+      }));
+      list = [...sanityItems, ...list];
+    }
+    return list;
+  }, [sanityContent]);
+
   const filteredFAQs = useMemo(() => {
-    return FAQ_DATA.filter(faq => {
+    return combinedFAQs.filter(faq => {
       const matchesCategory = activeTab === "all" || faq.category === activeTab;
       const matchesSearch =
         faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
         faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [activeTab, searchQuery]);
+  }, [combinedFAQs, activeTab, searchQuery]);
 
   return (
-    <section className="site-container min-h-screen pt-[100px] relative overflow-hidden ">
+    <section className="site-container min-h-screen pt-[100px] relative overflow-hidden">
 
       {/* Page Header */}
       <div className="text-center mb-12">
 
-        <h1 className="text-4xl sm:text-5xl font-bold uppercase mb-4">
-          Frequently Asked Questions
+        <h1 className="text-4xl sm:text-5xl uppercase mb-4">
+          {sanityContent?.heroHeading || sanityContent?.title || "Frequently Asked Questions"}
         </h1>
         <p className="max-w-xl mx-auto font-medium">
-          Got questions about tickets, shipping, our cruise community, or the fan portal? We have answers.
+          {sanityContent?.heroSubheading || sanityContent?.subtitle || "Got questions about tickets, shipping, our cruise community, or the fan portal? We have answers."}
         </p>
       </div>
 
@@ -179,7 +209,7 @@ export default function FAQPage() {
         <SearchInput
           value={searchQuery}
           onChange={setSearchQuery}
-          placeholder="Search questions, keywords, or topics..."
+          placeholder={sanityContent?.searchPlaceholder || "Search questions, keywords, or topics..."}
           containerClassName="w-full"
         />
       </div>
@@ -193,10 +223,9 @@ export default function FAQPage() {
             <button aria-label="Action button"
               key={cat.id}
               onClick={() => setActiveTab(cat.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold transition duration-200 border ${isActive ? "bg-purple-600 border-purple-600 text-white "
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg    transition duration-200 border ${isActive ? "bg-purple-600 border-purple-600 text-white "
                 : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 "
-                }`}
-            >
+                }`}>
               <span className={isActive ? "text-white" : cat.color}>
                 <Icon />
               </span>
@@ -207,8 +236,8 @@ export default function FAQPage() {
       </div>
 
       {/* FAQ Accordion List */}
-      <div className="">
-        {filteredFAQs.length > 0 ? (
+      <div>
+        {filteredFAQs.length> 0 ? (
           filteredFAQs.map((faq) => {
             const isExpanded = !!expandedItems[faq.id];
             return (
@@ -217,13 +246,11 @@ export default function FAQPage() {
                 className="bg-transparent overflow-hidden transition-colors duration-300 border-b border-white/10"
                 style={{
                   borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
-                }}
-              >
+                }}>
                 <button aria-label="Action button"
                   onClick={() => toggleExpand(faq.id)}
-                  className="w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
-                >
-                  <span className="font-bold text-white transition duration-200">
+                  className="w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer">
+                  <span className="text-white transition duration-200">
                     {faq.question}
                   </span>
                   <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-90 text-purple-400" : ""
@@ -235,8 +262,7 @@ export default function FAQPage() {
                 {/* Expanded Answer with smooth grid-rows height transition */}
                 <div
                   className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                    }`}
-                >
+                    }`}>
                   <div className="overflow-hidden">
                     <div className="pb-6 md:text-base text-white/80 bg-transparent">
                       {faq.answer}
@@ -251,7 +277,7 @@ export default function FAQPage() {
             <span className="text-white/20 inline-block mb-4 scale-150">
               <HelpIcon />
             </span>
-            <h3 className="text-white font-bold mb-1">No matches found</h3>
+            <h3 className="text-white mb-1">No matches found</h3>
             <p className="max-w-xs mx-auto">
               We couldn't find any FAQs matching "{searchQuery}". Try using different terms or browse standard categories.
             </p>
@@ -260,16 +286,16 @@ export default function FAQPage() {
       </div>
 
       {/* Live Support Banner */}
-      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left ">
+      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
         <div>
-          <h4 className="text-white font-bold mb-1">Still need help?</h4>
+          <h4 className="text-white mb-1">{sanityContent?.supportTitle || "Still need help?"}</h4>
           <p className="font-medium">
-            Can't find the answer you are looking for? Reach out to our direct support.
+            {sanityContent?.supportBody || "Can't find the answer you are looking for? Reach out to our direct support."}
           </p>
         </div>
         <Link href="/contact">
-          <FoolishShrimpButton className="px-6 py-3 font-bold uppercase whitespace-nowrap">
-            Contact Us
+          <FoolishShrimpButton className="px-6 py-3 uppercase whitespace-nowrap">
+            {sanityContent?.supportCtaText || "Contact Us"}
           </FoolishShrimpButton>
         </Link>
       </div>
