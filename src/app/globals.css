@@ -20,6 +20,8 @@ html.is-page-transitioning *::before,
 html.is-page-transitioning *::after {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  filter: none !important;
 }
 
 body {
@@ -637,11 +639,20 @@ footer#footer {
   box-shadow: none !important;
 }
 
-/* GPU Compositor Layer Promotion — Hardware Accelerate Backdrop Blur & Sticky Overlays */
+/* GPU Compositor Layer Promotion — only elements that actually animate on scroll */
 header,
-#media-category-bar,
-[class*="backdrop-blur"] {
+#media-category-bar {
   will-change: transform;
+  transform: translateZ(0);
+  isolation: isolate;
+  backface-visibility: hidden;
+}
+
+/* Glassmorphism elements: promote only via transform trick, NOT will-change.
+   will-change on backdrop-blur elements wastes a GPU texture slot per-element
+   24/7 even when nothing is animating. translateZ(0) is enough to hint GPU
+   compositing without the permanent memory overhead. */
+[class*="backdrop-blur"] {
   transform: translateZ(0);
   isolation: isolate;
   backface-visibility: hidden;
@@ -5241,7 +5252,10 @@ html.is-preloading body {
   justify-content: center;
   overflow: visible;
   border-radius: 28px 28px 0 0;
-  will-change: transform, filter;
+  /* Removed will-change: transform, filter — will-change: filter holds a permanent
+     GPU texture buffer even when the card is idle; transform: translateZ(0) is
+     sufficient to get compositor-layer benefits without the memory overhead */
+  transform: translateZ(0);
   background: transparent;
   padding-top: 40px;
   margin-bottom: 20px;
