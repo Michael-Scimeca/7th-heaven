@@ -31,7 +31,12 @@ p {
   font-weight: 600;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Switzer', var(--font-barlow-condensed), system-ui, sans-serif;
 }
 
@@ -2327,23 +2332,6 @@ html.tour-sort-stuck #tour-sort-bar {
   overflow: hidden;
 }
 
-/* Keep film grain overlay continuous so no full-screen blend flicker occurs when transitions finish */
-
-.grain-overlay::after {
-  content: "";
-  position: fixed;
-  top: -210px;
-  left: -19vw;
-  width: calc(100vw + 39vw);
-  height: calc(100vh + 590px);
-  background-image: url("/images/site-grain-overlay.png");
-  background-repeat: repeat !important;
-  background-size: 180px 180px !important;
-  opacity: var(--canvas-grain-opacity, 0.28);
-  mix-blend-mode: var(--canvas-grain-blend, overlay);
-  pointer-events: none;
-  animation: filmGrainJitter 0.3s steps(8) infinite !important;
-}
 
 @keyframes filmGrainJitter {
   0% {
