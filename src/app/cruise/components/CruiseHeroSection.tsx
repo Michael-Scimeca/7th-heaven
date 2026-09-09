@@ -17,8 +17,11 @@ interface CruiseHeroSectionProps {
 }
 
 export default function CruiseHeroSection({
+  heroVideoRef,
   heroForegroundRef,
   heroMaskSettings,
+  heroVideoReady,
+  setHeroVideoReady,
   heroParallax,
   setIsPaymentDropdownOpen,
 }: CruiseHeroSectionProps) {
@@ -32,28 +35,37 @@ export default function CruiseHeroSection({
         width: "calc(100% + 2 * var(--page-padding-x))",
       }}
     >
-      {/* Cruise Hero Background Overlay (Hidden for performance testing) */}
+      {/* Cruise Hero Video Background Overlay with Pure Mask Gradient */}
       <div
-        className="hidden absolute inset-0 z-0 overflow-hidden bg-transparent"
+        className="absolute inset-0 z-0 overflow-hidden bg-transparent"
         style={{
           maskImage: "linear-gradient(black 0%, black 82%, transparent 98%)",
           WebkitMaskImage: "linear-gradient(black 0%, black 82%, transparent 98%)",
         }}
       >
-        <Image
-          src="/images/cruise/hero-video-poster.jpg"
-          alt="Cruise Hero"
-          fill
-          sizes="100vw"
-          priority
-          unoptimized
-          className="w-full h-full object-cover"
+        <video
+          ref={heroVideoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/images/cruise/hero-video-poster.jpg"
+          onPlaying={() => setHeroVideoReady?.(true)}
+          {...({ fetchPriority: "high" } as any)}
+          className="w-full h-full object-cover transition-[opacity,object-position,filter] duration-500 ease-out"
           style={{
             objectPosition: "center 40%",
             filter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
             WebkitFilter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
+            opacity: heroVideoReady ? (heroMaskSettings.videoOpacity ?? 100) / 100 : 1,
+            transform: "translateY(0px)",
           }}
-        />
+        >
+          <source src="/movie/cruise-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
+          <source src="/movie/cruise-desktop.mp4" type="video/mp4" media="(min-width: 769px)" />
+          <source src="/movie/cruise.mp4" type="video/mp4" />
+        </video>
       </div>
 
 
