@@ -395,7 +395,7 @@ function HomeShaderGradientComponent() {
     };
 
     return cleanupWebGL;
-  }, []);
+  }, [isMobileOrTablet]);
 
   // Pause the gradient while a page transition is covering the screen --
   // it's fully hidden behind the curtain the whole time anyway, so letting
