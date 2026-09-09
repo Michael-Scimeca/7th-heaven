@@ -118,36 +118,187 @@ const SEED_TOUR_DATES = [
    { venue: 'Old Republic', city: 'Elgin', state: 'IL', date: '2026-05-30', time: '8:00pm', day: 'Sat', notes: 'All Age Outdoor' },
 ];
 
-// POST /api/seed-content — Seeds all site content into Sanity
-// Run once, then delete or protect this route
-export async function POST() {
- try {
-  // ═══ SITE SETTINGS (Singleton) ═══
-  const siteSettings = SEED_SITE_SETTINGS;
+const SEED_PAGE_CONTENTS = [
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-home',
+    pageKey: 'home',
+    title: 'Home Page',
+    heroHeading: '7th Heaven — Official Band Website',
+    heroSubheading: 'Chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of unforgettable live performances.',
+    heroCtaText: 'Play Music',
+    heroCtaLink: '#hero',
+    sections: [
+      { sectionId: 'videos', title: 'Video & Live Media', subtitle: 'Explore 7th Heaven\'s live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax.' },
+      { sectionId: 'logos', title: 'WHO WE\'VE PLAYED WITH & WHERE WE\'VE BEEN FEATURED', subtitle: 'Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications.' },
+      { sectionId: 'news', title: 'Latest Band News', subtitle: 'Stay updated with official announcements, tour updates, new music releases, and exclusive band stories.' },
+      { sectionId: 'merch', title: 'On Sale Now', subtitle: 'Official 7th Heaven Band Gear — Direct Merchant Store & Fast Shipping.', ctaText: 'Shop All →' }
+    ]
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-cruise',
+    pageKey: 'cruise',
+    title: 'Caribbean Cruise',
+    heroHeading: '7th Heaven Caribbean Cruise 2026',
+    heroSubheading: '7 Nights of Tropical Sun, Private Concerts, VIP Parties & Unforgettable Memories Aboard MSC World America'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-book',
+    pageKey: 'book',
+    title: 'Book Us',
+    heroHeading: 'BOOK 7TH HEAVEN FOR YOUR EVENT',
+    heroSubheading: 'Bring 40 years of chart-topping rock, #1 Billboard hits, and high-energy live performance to your festival, venue, corporate event, or private party.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-contact',
+    pageKey: 'contact',
+    title: 'Contact Us',
+    heroHeading: 'CONTACT 7TH HEAVEN',
+    heroSubheading: 'Get in touch with the 7th Heaven team. Select a department below for representative details.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-media',
+    pageKey: 'media',
+    title: 'Media Vault',
+    heroHeading: '7TH HEAVEN MEDIA VAULT',
+    heroSubheading: '40 years of music, live performances, official music videos, and press highlights.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-faq',
+    pageKey: 'faq',
+    title: 'FAQ Page',
+    heroHeading: 'FREQUENTLY ASKED QUESTIONS',
+    heroSubheading: 'Everything you need to know about 7th Heaven shows, booking, merchandise, fan perks, and the annual Caribbean Cruise.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-rock-and-roll-kids',
+    pageKey: 'rock-and-roll-kids',
+    title: "Rock 'n' Roll Kids",
+    heroHeading: "7th Heaven & the Rock 'n' Roll Kids",
+    heroSubheading: 'An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-fan-photo-wall',
+    pageKey: 'fan-photo-wall',
+    title: 'Fan Photo Wall',
+    heroHeading: 'FAN PHOTO WALL',
+    heroSubheading: 'Celebrating 40 years of amazing fans, unforgettable concerts, and memories from the front row.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-shows-past',
+    pageKey: 'shows-past',
+    title: 'Past Shows Archive',
+    heroHeading: 'PAST SHOWS ARCHIVE',
+    heroSubheading: 'Relive 40 years of legendary live performances, festivals, club dates, and stadium shows.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-privacy',
+    pageKey: 'privacy',
+    title: 'Privacy Policy',
+    heroHeading: 'PRIVACY POLICY',
+    heroSubheading: 'How 7th Heaven protects your privacy, personal information, and data across our official web and mobile platforms.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-terms',
+    pageKey: 'terms',
+    title: 'Terms of Service',
+    heroHeading: 'TERMS OF SERVICE',
+    heroSubheading: 'Please read these terms carefully before accessing or using the 7th Heaven official website and services.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-returns',
+    pageKey: 'returns',
+    title: 'Returns Policy',
+    heroHeading: 'RETURNS & REFUNDS POLICY',
+    heroSubheading: 'Our guidelines and policies regarding merchandise returns, exchanges, and customer satisfaction.'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-crew-verify',
+    pageKey: 'crew-verify',
+    title: 'Crew PIN Verify',
+    heroHeading: 'Crew PIN Verification',
+    heroSubheading: 'Enter your 6-digit PIN to verify crew access'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-planner-verify',
+    pageKey: 'planner-verify',
+    title: 'Planner PIN Verify',
+    heroHeading: 'PLANNER ACCESS PIN',
+    heroSubheading: 'Enter your 6-digit PIN to access your Planner Dashboard'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-cruise-verify',
+    pageKey: 'cruise-verify',
+    title: 'Cruise PIN Verify',
+    heroHeading: 'Check Your Email',
+    heroSubheading: 'We sent a 6-digit verification code to'
+  },
+  {
+    _type: 'pageContent',
+    _id: 'pageContent-live',
+    pageKey: 'live',
+    title: 'Live Concert Hub',
+    heroHeading: '7TH HEAVEN LIVE CONCERT HUB',
+    heroSubheading: 'Watch live streams, backstage updates, and exclusive concert broadcasts.'
+  },
+];
 
-  await sanityWriteClient.createOrReplace(siteSettings);
+async function seedAllContent() {
+  // ═══ SITE SETTINGS (Singleton) ═══
+  await sanityWriteClient.createOrReplace(SEED_SITE_SETTINGS);
+
+  // ═══ PAGE CONTENTS (16 Site Pages) ═══
+  await Promise.all(
+    SEED_PAGE_CONTENTS.map(async (pageDoc) => {
+      await sanityWriteClient.createOrReplace(pageDoc as any);
+    })
+  );
 
   // ═══ TOUR DATES ═══
-  // Clear existing
   const existingIds: string[] = await sanityWriteClient.fetch('*[_type == "tourDate"]._id');
   if (existingIds.length > 0) {
-   const tx = sanityWriteClient.transaction();
-   existingIds.forEach((id: string) => tx.delete(id));
-   await tx.commit();
+    const tx = sanityWriteClient.transaction();
+    existingIds.forEach((id: string) => tx.delete(id));
+    await tx.commit();
   }
 
   const tourDates = SEED_TOUR_DATES;
+  await Promise.all(
+    tourDates.map(async (td) => {
+      await sanityWriteClient.create({ _type: 'tourDate', isSoldOut: false, isFestival: false, ...td } as any);
+    })
+  );
 
-  await Promise.all(tourDates.map(async (td) => {
-   await sanityWriteClient.create({ _type: 'tourDate', isSoldOut: false, isFestival: false, ...td } as any);
-  }));
+  return {
+    siteSettings: 1,
+    pageContents: SEED_PAGE_CONTENTS.length,
+    tourDates: tourDates.length,
+  };
+}
 
-  return NextResponse.json({
-   success: true,
-   message: `Seeded: 1 siteSettings + ${tourDates.length} tour dates`,
-  });
- } catch (error: unknown) {
-  const msg = error instanceof Error ? error.message : String(error);
-  return NextResponse.json({ success: false, error: msg }, { status: 500 });
- }
+export async function POST() {
+  try {
+    const stats = await seedAllContent();
+    return NextResponse.json({
+      success: true,
+      message: `Seeded Sanity CMS: ${stats.siteSettings} siteSettings + ${stats.pageContents} pageContents + ${stats.tourDates} tourDates`,
+    });
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ success: false, error: msg }, { status: 500 });
+  }
 }
