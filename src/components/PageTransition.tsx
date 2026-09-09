@@ -376,23 +376,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       window.scrollTo(0, 0);
     }
 
-    // Race: clamp animation end to 30ms after the new page is ready,
-    // so we never overstay if the page loads before exitSpeed expires.
-    const PAGE_READY_GRACE_MS = 30;
-    let pageReadyAt: number | null = null;
-    waitForPageReady().then(() => {
-      pageReadyAt = performance.now();
-    });
-
     let animId = 0;
     const startTime = performance.now();
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
-      // Force-complete 30ms after the new page signals ready
-      const pageReadyElapsed = pageReadyAt !== null ? now - pageReadyAt : -1;
-      const forceDone = pageReadyElapsed >= PAGE_READY_GRACE_MS;
-      const progress = forceDone ? 1 : Math.min(1, Math.max(0, elapsed / durationMs));
+      const progress = Math.min(1, Math.max(0, elapsed / durationMs));
       const p = easeFn(progress);
 
       const vh = typeof window !== "undefined" ? window.innerHeight : 800;
