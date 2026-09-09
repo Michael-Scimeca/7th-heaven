@@ -23,7 +23,7 @@ export default function CruiseFaqSection() {
         {/* FAQs List */}
         <div className="space-y-3 mb-0 text-left max-w-4xl">
           {FAQS_EXTENDED.map((faq, i) => (
-            <div key={faq.q} className="bg-[#59595929] border border-white/10 backdrop-blur-[16px] rounded-lg overflow-hidden">
+            <div key={faq.q} className="bg-[#59595929] border border-white/10 rounded-lg overflow-hidden">
               <button
                 type="button"
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
@@ -35,7 +35,7 @@ export default function CruiseFaqSection() {
                 </div>
               </button>
               {openFaq === i && (
-                <div className="px-5 py-4 bg-[#59595929] border border-white/10 backdrop-blur-[16px]">
+                <div className="px-5 py-4 bg-[#59595929] border border-white/10">
                   <p>{faq.a}</p>
                 </div>
               )}

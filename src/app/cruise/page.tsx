@@ -340,6 +340,16 @@ export default function CruisePage() {
           <LazyMount minHeight="600px" rootMargin="300px 0px">
             <CruisePortsCatalogSection />
           </LazyMount>
+
+          {/* SECTION 4: SHIP EXPLORER */}
+          <LazyMount minHeight="800px" rootMargin="300px 0px">
+            <CruiseShipExplorerSection />
+          </LazyMount>
+
+          {/* SECTION 5: FAQS */}
+          <LazyMount minHeight="600px" rootMargin="300px 0px">
+            <CruiseFaqSection />
+          </LazyMount>
         </>
       )}
     </div>
