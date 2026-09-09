@@ -9,9 +9,13 @@ import { useMember } from "@/context/MemberContext";
 export default function LiveStreamInlineSubscribe({
   className = "",
   maxWidth = "max-w-4xl",
+  title,
+  subtitle,
 }: {
   className?: string;
   maxWidth?: string;
+  title?: string;
+  subtitle?: string;
 }) {
   const { member } = useMember();
   const [name, setName] = useState("");
@@ -89,9 +93,9 @@ export default function LiveStreamInlineSubscribe({
             <Mail className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="font-bold text-white">Verification Email Sent to {email}! ✉️</h4>
+            <h4 className="text-white">Verification Email Sent to {email}! ✉️</h4>
             <p className="text-gray-300 mt-0.5">
-              To prevent unauthorized signups, we sent a verification link to <strong className="text-white ">{email}</strong>. Click the link in your email to activate live alerts!
+              To prevent unauthorized signups, we sent a verification link to <strong className="text-white">{email}</strong>. Click the link in your email to activate live alerts!
             </p>
           </div>
         </div>
@@ -100,8 +104,7 @@ export default function LiveStreamInlineSubscribe({
           href={topicUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-purple-300 hover:text-white font-bold uppercase rounded-lg transition-all border border-purple-500/30 flex items-center gap-2 shrink-0"
-        >
+          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-purple-300 hover:text-white uppercase rounded-lg transition-all border border-purple-500/30 flex items-center gap-2 shrink-0">
           <span>Web Alerts Feed</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </a>
@@ -115,20 +118,20 @@ export default function LiveStreamInlineSubscribe({
         {/* Header Title & Pill */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-3">
-            <div className=" w-11 h-11  rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0 shadow-inner">
+            <div className="w-11 h-11 rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0 shadow-inner">
               <Bell className="w-5 h-5 animate-bounce" />
             </div>
             <div>
-              <h3 className="font-bold text-white uppercase tracking-wider">
-                Crew Member Live Stream Push & Email Alerts
+              <h3 className="text-white uppercase r">
+                {title || "Crew Member Live Stream Push & Email Alerts"}
               </h3>
               <p className="text-purple-200/70">
-                Enter your details below to get instant push notifications on your phone & email whenever a 7th Heaven crew member goes live!
+                {subtitle || "Enter your details below to get instant push notifications on your phone & email whenever a 7th Heaven crew member goes live!"}
               </p>
             </div>
           </div>
 
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-bold uppercase bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] uppercase bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
             <span className="h-2 w-2 rounded-lg bg-emerald-400 animate-ping" />
             100% Free Push Alerts
           </span>
@@ -185,11 +188,11 @@ export default function LiveStreamInlineSubscribe({
             />
             <label htmlFor="inline-terms-toggle" className="text-gray-300/90 cursor-pointer select-none">
               I agree to the{" "}
-              <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
+              <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline hover:text-purple-300">
                 Terms of Service
               </a>{" "}
               &{" "}
-              <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
+              <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline hover:text-purple-300">
                 Privacy Policy
               </a>{" "}
               for instant push & email alerts.
@@ -202,8 +205,7 @@ export default function LiveStreamInlineSubscribe({
               type="submit"
               disabled={loading}
               icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
-              className="w-full py-3 text-white font-bold uppercase flex items-center justify-center gap-2 shadow-lg"
-            >
+              className="w-full py-3 text-white uppercase flex items-center justify-center gap-2 shadow-lg">
               {loading ? "SUBSCRIBING & ENABLING PUSH ALERTS..." : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
             </CosmicRadialButton>
           </div>
