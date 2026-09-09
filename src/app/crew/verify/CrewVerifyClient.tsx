@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useSyncExternalStore } from 'react';
 import { useMember } from '@/context/MemberContext';
 import { ShieldAlert, Lock, Trophy, XCircle } from 'lucide-react';
 
@@ -52,6 +52,8 @@ const MODAL_GLASS_STYLE: React.CSSProperties = {
   backdropFilter: "blur(32px) saturate(180%)",
   WebkitBackdropFilter: "blur(32px) saturate(180%)",
   border: "1px solid var(--color-border-main)",
+};
+
 const PIN_SLOT_IDS = ["slot-0", "slot-1", "slot-2", "slot-3", "slot-4", "slot-5"];
 
 const bypassSubscribe = () => () => {};
@@ -71,6 +73,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
   const [pin, setPin] = useState(['', '', '', '', '', '']);
   const [focusedIndex, setFocusedIndex] = useState<number | null>(0);
   const [result, setResult] = useState<null | 'checking' | 'valid' | 'invalid'>(null);
+  const [winnerData, setWinnerData] = useState<{ winner: string; prize: string; entrants: number; ts?: number } | null>(null);
   const devBypass = useSyncExternalStore(bypassSubscribe, bypassSnapshot, bypassServerSnapshot);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const verifyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
