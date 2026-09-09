@@ -893,7 +893,8 @@ button,
 .btn-neat:hover,
 .btn-primary:hover {
   color: #ffffff;
-  filter: brightness(1.1);
+  /* filter: brightness() forces a per-pixel shader pass — use opacity instead */
+  opacity: 0.88;
   transform: scale(1.05);
 }
 

@@ -25,21 +25,6 @@ export default function CruiseHeroSection({
   heroParallax,
   setIsPaymentDropdownOpen,
 }: CruiseHeroSectionProps) {
-  React.useEffect(() => {
-    const video = heroVideoRef.current;
-    if (!video) return;
-    video.muted = true;
-    video.play().catch(() => {});
-  }, [heroVideoRef]);
-
-  const filterStyle = React.useMemo(() => {
-    const blur = heroMaskSettings?.videoBlur ?? 0;
-    const brightness = heroMaskSettings?.videoBrightness ?? 90;
-    const contrast = heroMaskSettings?.videoContrast ?? 100;
-    if (blur === 0 && brightness === 100 && contrast === 100) return "none";
-    return `blur(${blur}px) brightness(${brightness}%) contrast(${contrast}%)`;
-  }, [heroMaskSettings]);
-
   return (
     <section
       id="cruise-hero"
@@ -50,8 +35,14 @@ export default function CruiseHeroSection({
         width: "calc(100% + 2 * var(--page-padding-x))",
       }}
     >
-      {/* Cruise Hero Video Background Overlay with Pure Hardware-Accelerated Gradient Overlay */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-[#05030a]">
+      {/* Cruise Hero Video Background Overlay with Pure Mask Gradient */}
+      <div
+        className="absolute inset-0 z-0 overflow-hidden bg-transparent"
+        style={{
+          maskImage: "linear-gradient(black 0%, black 82%, transparent 98%)",
+          WebkitMaskImage: "linear-gradient(black 0%, black 82%, transparent 98%)",
+        }}
+      >
         <video
           ref={heroVideoRef}
           autoPlay
@@ -60,33 +51,36 @@ export default function CruiseHeroSection({
           playsInline
           preload="auto"
           poster="/images/cruise/hero-video-poster.jpg"
-          onLoadedData={() => {
-            if (heroVideoRef.current) {
-              heroVideoRef.current.play().catch(() => {});
-            }
-            setHeroVideoReady?.(true);
-          }}
           onPlaying={() => setHeroVideoReady?.(true)}
           {...({ fetchPriority: "high" } as any)}
-          className="w-full h-full object-cover transition-opacity duration-500 ease-out transform-gpu"
+          className="w-full h-full object-cover transition-[opacity,object-position] duration-500 ease-out"
           style={{
             objectPosition: "center 40%",
-            filter: filterStyle,
-            WebkitFilter: filterStyle,
-            opacity: heroVideoReady ? (heroMaskSettings?.videoOpacity ?? 100) / 100 : 1,
+            // Only apply filter when non-neutral — CSS filter on <video> forces a per-frame GPU shader pass
+            filter: (heroMaskSettings.videoBlur > 0 || heroMaskSettings.videoContrast !== 100)
+              ? `blur(${heroMaskSettings.videoBlur}px) contrast(${heroMaskSettings.videoContrast}%)`
+              : "none",
+            opacity: heroVideoReady ? (heroMaskSettings.videoOpacity ?? 100) / 100 : 1,
+            transform: "translateZ(0)",
           }}
         >
-          <source src="/movie/cruise-desktop.mp4" type="video/mp4" />
+          <source src="/movie/cruise-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
+          <source src="/movie/cruise-desktop.mp4" type="video/mp4" media="(min-width: 769px)" />
           <source src="/movie/cruise.mp4" type="video/mp4" />
         </video>
-
-        {/* Hardware Accelerated Bottom Fade Overlay (Replaces GPU FBO mask-image) */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-40 pointer-events-none z-1"
-          style={{
-            background: "linear-gradient(to bottom, rgba(5, 3, 10, 0) 0%, rgba(5, 3, 10, 0.7) 60%, rgba(5, 3, 10, 1) 100%)",
-          }}
-        />
+        {/* Brightness dimming via overlay — cheaper than CSS filter on <video> */}
+        {heroMaskSettings.videoBrightness < 100 && (
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: "#000",
+              opacity: (100 - heroMaskSettings.videoBrightness) / 100,
+              pointerEvents: "none",
+            }}
+          />
+        )}
       </div>
 
 
