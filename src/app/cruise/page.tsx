@@ -32,8 +32,7 @@ export default function CruisePage() {
   const supabase = createClient();
   const { requestTransition } = useTransition();
   const { isLoggedIn, member, openModal } = useMember();
-  const heroVideoRef = useRef<HTMLVideoElement>(null);
-  const [heroVideoReady, setHeroVideoReady] = useState(true);
+
   const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
 
   const [heroMaskSettings, setHeroMaskSettings] = useState(() => {
@@ -73,8 +72,10 @@ export default function CruisePage() {
   }, []);
 
   const heroForegroundRef = useRef<HTMLDivElement>(null);
+  // Parallax disabled on cruise page; mediaRef is required by the hook type but never read
+  const heroMediaRef = useRef<HTMLDivElement>(null);
   const heroParallax = useHeroParallax({
-    mediaRef: heroVideoRef,
+    mediaRef: heroMediaRef,
     foregroundRef: heroForegroundRef,
     triggerSelector: "#cruise-hero",
     enabled: false,
@@ -300,11 +301,8 @@ export default function CruisePage() {
     <div className="min-h-screen bg-transparent text-white pt-[100px]">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
-        heroVideoRef={heroVideoRef}
         heroForegroundRef={heroForegroundRef}
         heroMaskSettings={heroMaskSettings}
-        heroVideoReady={heroVideoReady}
-        setHeroVideoReady={setHeroVideoReady}
         heroParallax={heroParallax}
         setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
       />

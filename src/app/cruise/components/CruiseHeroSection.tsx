@@ -1,27 +1,23 @@
 "use client";
 
-import React, { type RefObject } from "react";
+import React from "react";
 import Image from "next/image";
 import { SectionBadge } from "@/components/SectionBadge";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import type { HeroParallaxController } from "@/lib/useHeroParallax";
+import type { RefObject } from "react";
+
 
 interface CruiseHeroSectionProps {
-  heroVideoRef: RefObject<HTMLVideoElement | null>;
   heroForegroundRef: RefObject<HTMLDivElement | null>;
   heroMaskSettings: any;
-  heroVideoReady: boolean;
-  setHeroVideoReady: (ready: boolean) => void;
   heroParallax: HeroParallaxController;
   setIsPaymentDropdownOpen: (open: boolean) => void;
 }
 
 export default function CruiseHeroSection({
-  heroVideoRef,
   heroForegroundRef,
   heroMaskSettings,
-  heroVideoReady,
-  setHeroVideoReady,
   heroParallax,
   setIsPaymentDropdownOpen,
 }: CruiseHeroSectionProps) {
