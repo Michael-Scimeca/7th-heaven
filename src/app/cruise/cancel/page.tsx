@@ -36,9 +36,9 @@ function CancelContent() {
     return (
       <div className="text-center">
         <span className="text-4xl block mb-4">⚠️</span>
-        <h2 className="font-bold text-white mb-2">Invalid Link</h2>
+        <h2 className="text-white mb-2">Invalid Link</h2>
         <p className="mb-6">This cancel link is missing a token. Please use the link from your confirmation email.</p>
-        <Link href="/cruise" className="text-[var(--color-accent)] font-bold uppercase hover:text-white transition-colors">
+        <Link href="/cruise" className="text-[var(--color-accent)] uppercase hover:text-white transition-colors">
           ← Back to Cruise Page
         </Link>
       </div>
@@ -50,28 +50,28 @@ function CancelContent() {
       {status === "success" ? (
         <>
           <span className="text-4xl block mb-4">✅</span>
-          <h2 className="font-bold text-white mb-2">Signup Cancelled</h2>
+          <h2 className="text-white mb-2">Signup Cancelled</h2>
           <p className="mb-2">
             {name ? `Hey ${name}, your` : "Your"} cruise interest signup has been removed.
           </p>
           <p className="mb-8">A confirmation email has been sent. If you change your mind, you can always sign up again.</p>
-          <Link href="/cruise" className="inline-block px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase transition-colors">
+          <Link href="/cruise" className="inline-block px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase transition-colors">
             Back to Cruise Page
           </Link>
         </>
       ) : status === "error" ? (
         <>
           <span className="text-4xl block mb-4">❌</span>
-          <h2 className="font-bold text-white mb-2">Couldn&apos;t Cancel</h2>
+          <h2 className="text-white mb-2">Couldn&apos;t Cancel</h2>
           <p className="mb-6">{errorMsg || "This link may have already been used or expired."}</p>
-          <Link href="/cruise" className="text-[var(--color-accent)] font-bold uppercase hover:text-white transition-colors">
+          <Link href="/cruise" className="text-[var(--color-accent)] uppercase hover:text-white transition-colors">
             ← Back to Cruise Page
           </Link>
         </>
       ) : (
         <>
           <span className="text-4xl block mb-4">🚢</span>
-          <h2 className="font-bold text-white mb-2">Cancel Your Cruise Signup?</h2>
+          <h2 className="text-white mb-2">Cancel Your Cruise Signup?</h2>
           <p className="mb-8">
             This will remove your interest signup from the 7th Heaven cruise. You can always sign up again later.
           </p>
@@ -79,8 +79,7 @@ function CancelContent() {
             <button aria-label="Action button"
               onClick={handleCancel}
               disabled={status === "cancelling"}
-              className="px-8 py-3 bg-rose-500 hover:bg-rose-400 text-white font-bold uppercase transition-colors disabled:opacity-70 cursor-pointer"
-            >
+              className="px-8 py-3 bg-rose-500 hover:bg-rose-400 text-white uppercase transition-colors disabled:opacity-70 cursor-pointer">
               {status === "cancelling" ? "Cancelling..." : "Yes, Cancel My Signup"}
             </button>
             <Link href="/cruise" className="text-white/30 hover:text-white transition-colors">

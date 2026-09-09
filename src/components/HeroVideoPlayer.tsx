@@ -482,7 +482,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] opacity-90 transition-opacity duration-500"
             style={{
               WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",

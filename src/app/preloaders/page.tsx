@@ -27,22 +27,20 @@ function DemoFrame({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold ">{label}</h2>
+        <h2 className="text-lg font-semibold">{label}</h2>
         <button
           onClick={onPlay}
           disabled={playing}
-          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm   tracking-wide transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
-        >
+          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40">
           {playing ? "Playing…" : "Replay"}
         </button>
       </div>
       <div
         className="relative w-full overflow-hidden rounded-xl border border-white/10 bg-black"
-        style={{ aspectRatio: "16 / 11" }}
-      >
+        style={{ aspectRatio: "16 / 11" }}>
         {/* fixed chrome -- never touched by any transition */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-4 py-2 backdrop-blur-sm">
-          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">
+          <span className="text-[11px] uppercase tracking-[0.2em] text-white/70">
             7th Heaven Studio
           </span>
           <span className="flex gap-1.5">
@@ -221,14 +219,14 @@ function CurtainWipeDemo() {
         <div className="relative h-full w-full bg-black overflow-hidden">
           <div ref={oldRef} className="absolute inset-0 z-0">
             <Image src="/preloader-demo/cruise-v2.jpg" alt="" fill sizes="100vw" unoptimized className="h-full w-full object-cover object-top" />
-            <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs font-bold uppercase tracking-wider text-white/90">
+            <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs uppercase r text-white/90">
               Cruise (old)
             </span>
           </div>
           <div ref={outerRef} className="absolute inset-0 z-10 overflow-hidden" style={{ clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }}>
             <div ref={contentRef} className="relative h-full w-full">
               <Image src="/preloader-demo/book.jpg" alt="" fill sizes="100vw" unoptimized className="h-full w-full object-cover object-top" />
-              <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs font-bold uppercase tracking-wider text-white/90">
+              <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs uppercase r text-white/90">
                 Book (new)
               </span>
             </div>
@@ -238,7 +236,7 @@ function CurtainWipeDemo() {
 
       {/* Tuning panel -- speed / easing / slant, live-wired into play() above */}
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em]   /80">New page reveal</p>
+        <p className="text-[11px] uppercase tracking-[0.2em] /80">New page reveal</p>
         <div className="flex items-center justify-between gap-3">
           <label className="text-white/60">
             Reveal speed <span className="text-white/35">(exit + 0.25s, linked)</span>
@@ -280,10 +278,9 @@ function CurtainWipeDemo() {
           id="reveal-ease"
           value={revealEase}
           onChange={(e) => setRevealEase(e.target.value)}
-          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 text-white/90"
-        >
+          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 text-white/90">
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} className=" text-white">
+            <option key={o.value} value={o.value} className="text-white">
               {o.label}
             </option>
           ))}
@@ -320,7 +317,7 @@ function CurtainWipeDemo() {
       {/* Old-page exit panel -- independent speed/easing/slant/flip, wired
           into the tl.fromTo(oldRef.current, ...) tween in play() above. */}
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia-400/80">Old page exit</p>
+        <p className="text-[11px] uppercase tracking-[0.2em] text-fuchsia-400/80">Old page exit</p>
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="old-duration" className="text-white/60">
             Exit speed
@@ -379,10 +376,9 @@ function CurtainWipeDemo() {
           id="old-ease"
           value={oldEase}
           onChange={(e) => setOldEase(e.target.value)}
-          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 text-white/90"
-        >
+          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 text-white/90">
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} className=" text-white">
+            <option key={o.value} value={o.value} className="text-white">
               {o.label}
             </option>
           ))}
@@ -449,14 +445,14 @@ function FadeThenRiseDemo() {
     <DemoFrame label="Fade to black + bottom rise" onPlay={play} playing={playing}>
       <div className="relative h-full w-full bg-black">
         <div ref={oldRef} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-800 to-teal-950">
-          <span className="text-2xl font-black ">OLD PAGE</span>
+          <span className="text-2xl font-black">OLD PAGE</span>
         </div>
         {/* title stays pinned/visible through the whole fade, like the reference */}
-        <span className="absolute bottom-3 left-4 z-10 text-sm font-black uppercase tracking-widest text-white">
+        <span className="absolute bottom-3 left-4 z-10 text-sm font-black uppercase st text-white">
           old page
         </span>
         <div ref={newRef} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-800 to-slate-950">
-          <span className="text-2xl font-black ">NEW PAGE</span>
+          <span className="text-2xl font-black">NEW PAGE</span>
         </div>
       </div>
     </DemoFrame>
@@ -467,7 +463,7 @@ export default function PreloadersTestPage() {
   return (
     <main className="min-h-screen bg-[#05030a] px-6 py-16 text-white md:px-12">
       <div className="mx-auto max-w-6xl">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">Internal test page</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-white/40">Internal test page</p>
         <h1 className="mt-2 text-4xl font-black md:text-5xl">Preloader / transition test bench</h1>
         <p className="mt-4 max-w-2xl text-white/60">
           Three self-contained transition demos, isolated from real routing so you can play each one back

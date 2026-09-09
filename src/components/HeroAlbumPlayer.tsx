@@ -99,7 +99,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-lg bg-emerald-400 animate-pulse shadow-[0_0_10px_#34d399]" />
-          <span className="uppercase tracking-[0.25em] text-[var(--color-accent)]">
+          <span className="uppercase  text-[var(--color-accent)]">
             Latest Album & Track
           </span>
         </div>

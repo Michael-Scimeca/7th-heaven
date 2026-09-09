@@ -209,29 +209,29 @@ export default function MemberDashboard() {
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
             <div className="p-10">
               <div className="text-center mb-10">
-                <h1 className="text-3xl font-bold mb-3">
-                  Join the <span className=" text-[var(--color-accent)]">Family</span>
+                <h1 className="mb-3">
+                  Join the <span className="text-[var(--color-accent)]">Family</span>
                 </h1>
-                <p className="">
+                <p>
                   Create a Fan Account to access exclusive rewards, secure priority merchandise, and get proximity text alerts when we play in your city.
                 </p>
               </div>
 
               <div className="flex flex-col gap-4">
-                <button aria-label="Action button" onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white font-bold uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+                <button aria-label="Action button" onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
                   Create Fan Account
                 </button>
 
                 <div className="relative py-4 flex items-center justify-center">
                   <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
-                  <span className="relative bg-[var(--color-bg-surface)] px-4 font-bold text-white/30 uppercase ">Already a fan?</span>
+                  <span className="relative bg-[var(--color-bg-surface)] px-4 text-white/30 uppercase">Already a fan?</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)]   text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
+                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
-                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
+                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-[var(--color-accent)] flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
                     Crew Portal
                   </button>
                 </div>
@@ -258,24 +258,24 @@ export default function MemberDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
           <div className="flex items-center gap-5">
-            <div className="relative w-12 h-12 flex items-center justify-center text-xl font-bold bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] text-[var(--color-accent)]">
+            <div className="relative w-12 h-12 flex items-center justify-center text-xl bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] text-[var(--color-accent)]">
               {member!.avatar}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold ">{member!.name}</h1>
+                <h1 className="">{member!.name}</h1>
                 {/* Role label */}
                 {(() => {
                   const role = member?.role ?? 'fan';
                   const cfg = { fan: { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, crew: { label: 'CREW', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, admin: { label: 'ADMIN', cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' };
                   return (
-                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)] font-bold uppercase tracking-[0.15em] border rounded-lg ${cfg.cls}`}>
+                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)]    uppercase tracking-[0.15em] border rounded-lg ${cfg.cls}`}>
                       {cfg.label}
                     </span>
                   );
                 })()}
               </div>
-              <p className="">{member!.email}</p>
+              <p>{member!.email}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -300,12 +300,12 @@ export default function MemberDashboard() {
 
           <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
             <div className="flex items-center gap-3">
-              <Ticket className="w-6 h-6   " />
-              <h2 className="font-bold ">
+              <Ticket className="w-6 h-6" />
+              <h2>
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
             </div>
-            <span className="uppercase font-bold text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Claim PINs</span>
+            <span className="uppercase text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Claim PINs</span>
           </div>
 
           <div className="relative z-10">
@@ -313,8 +313,8 @@ export default function MemberDashboard() {
               if (localInbox.length === 0) {
                 return (
                   <div className="py-6 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
-                    <p className="font-bold">Your wallet is currently empty.</p>
-                    <p className="mt-1 uppercase font-bold">Keep participating in live streams for a chance to win</p>
+                    <p>Your wallet is currently empty.</p>
+                    <p className="mt-1 uppercase">Keep participating in live streams for a chance to win</p>
                   </div>
                 );
               }
@@ -331,11 +331,11 @@ export default function MemberDashboard() {
                           <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : ' bg-[#00000029] border border-white/10'}`}>{msg.icon}</div>
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-bold text-white tracking-wide">{msg.title}</h4>
-                              {msg.isNew && <span className="text-[var(--font-size-2xs)] font-bold uppercase px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+                              <h4 className="text-white">{msg.title}</h4>
+                              {msg.isNew && <span className="text-[var(--font-size-2xs)] uppercase px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-                            <p className="uppercase font-bold mt-1">{msg.time}</p>
+                            <p className="uppercase mt-1">{msg.time}</p>
                           </div>
                         </div>
 
@@ -343,19 +343,19 @@ export default function MemberDashboard() {
                           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
                             {msg.isClaimed ? (
                               <div className="px-5 py-2 border border-white/10 bg-[#00000029] opacity-50 grayscale">
-                                <span className="text-[var(--font-size-2xs)] uppercase font-bold text-white/40 block text-center mb-1">Claimed</span>
-                                <span className=" text-xl font-bold tracking-[0.25em] text-white/30 line-through">{pin}</span>
+                                <span className="text-[var(--font-size-2xs)] uppercase text-white/40 block text-center mb-1">Claimed</span>
+                                <span className="text-xl  text-white/30 line-through">{pin}</span>
                               </div>
                             ) : claimConfirmId === msg.id ? (
                               <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
-                                <p className="font-bold text-red-400 uppercase animate-pulse">Show this to merch crew.</p>
-                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-bold uppercase rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                                <p className="text-red-400 uppercase animate-pulse">Show this to merch crew.</p>
+                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white uppercase rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                                   CLICK TO FLASH & CLAIM
                                 </button>
                                 <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-bold uppercase transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] cursor-pointer">
+                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 uppercase transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}
@@ -378,7 +378,7 @@ export default function MemberDashboard() {
         {/* My Photo Submissions */}
         <div className="mb-10 p-6 bg-white/[0.02] border border-white/10">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-bold">
+            <h2>
               My Photo <span className="gradient-text">Submissions</span>
             </h2>
             <span className="uppercase tracking-[0.15em] text-white/25">Fan Wall Activity</span>
@@ -386,8 +386,8 @@ export default function MemberDashboard() {
 
           {myPhotos.length === 0 ? (
             <div className="py-8 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
-              <p className="font-bold">No photo submissions found.</p>
-              <p className="mt-1 uppercase font-bold">Upload a photo to join the fan wall!</p>
+              <p>No photo submissions found.</p>
+              <p className="mt-1 uppercase">Upload a photo to join the fan wall!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -398,8 +398,7 @@ export default function MemberDashboard() {
                     : photo.approved
                       ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
                       : "border-white/10"
-                    }`}
-                >
+                    }`}>
                   <div className="aspect-[4/3] bg-[#00000029] relative overflow-hidden">
                     <Image width={200} height={200} unoptimized
                       src={photo.src}
@@ -418,7 +417,7 @@ export default function MemberDashboard() {
                           <AlertTriangle className="w-3 h-3" /> Declined
                         </span>
                       ) : (
-                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black text-[0.9rem] uppercase rounded border border-yellow-400/20 font-bold flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black text-[0.9rem] uppercase rounded border border-yellow-400/20 flex items-center gap-1">
                           <Clock className="w-3 h-3" /> Pending
                         </span>
                       )}
@@ -435,7 +434,7 @@ export default function MemberDashboard() {
                     {/* Declined Details block */}
                     {photo.rejected && (
                       <div className="mt-2 p-2.5 bg-red-500/5 border border-red-500/15 rounded-lg text-left">
-                        <p className="text-red-400 font-bold uppercase mb-1">
+                        <p className="text-red-400 uppercase mb-1">
                           Reason for Decline
                         </p>
                         <p className="text-red-200/80 leading-normal font-medium">
@@ -446,7 +445,7 @@ export default function MemberDashboard() {
 
                     <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/10 text-[0.65rem] text-white/30">
                       {photo.venue && <span className="truncate flex items-center gap-1"><MapPin className="w-3 h-3 text-purple-400shrink-0" /> {photo.venue}</span>}
-                      <span className=" ">{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
+                      <span>{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
                     </div>
                   </div>
                 </div>
@@ -463,7 +462,7 @@ export default function MemberDashboard() {
           ].map((s) => (
             <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
               <p className="uppercase mb-1">{s.label}</p>
-              <p className={`font-bold ${s.accent ? " text-[var(--color-accent)]" : ""}`}>
+              <p className={`   ${s.accent ? " text-[var(--color-accent)]" : ""}`}>
                 {s.value}
               </p>
             </div>
@@ -480,7 +479,7 @@ export default function MemberDashboard() {
         {/* My Purchases */}
         <div className="mt-6 p-6 bg-white/[0.02] border border-white/10">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-bold">
+            <h2>
               My <span className="gradient-text">Purchases</span>
             </h2>
             <span className="uppercase tracking-[0.15em] text-white/25">Order History</span>
@@ -503,10 +502,10 @@ export default function MemberDashboard() {
                     {/* Order header */}
                     <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.02] border-b border-white/5">
                       <div className="flex items-center gap-4">
-                        <span className=" text-white/30">{order.id}</span>
+                        <span className="text-white/30">{order.id}</span>
                         <span className="text-white/20">{order.date}</span>
                       </div>
-                      <span className={`uppercase tracking-[0.15em] font-bold ${order.statusColor}`}>
+                      <span className={`uppercase tracking-[0.15em]    ${order.statusColor}`}>
                         {order.status}
                       </span>
                     </div>
@@ -521,7 +520,7 @@ export default function MemberDashboard() {
                               <p className="uppercase tracking-[0.1em]">{item.type}</p>
                             </div>
                           </div>
-                          <span className="font-bold text-white/50">{item.price}</span>
+                          <span className="text-white/50">{item.price}</span>
                         </div>
                       ))}
                     </div>
@@ -538,16 +537,10 @@ export default function MemberDashboard() {
       {/* Full Screen Flash Overlay */}
       {isFlashing && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none" style={{ animation: 'strobe 0.15s ease-in-out infinite' }}>
-          <style>{`
-         @keyframes strobe {
-           0% { background-color: #ffffff; }
-           50% { background-color: #22c55e; }
-           100% { background-color: #ffffff; }
-         }
-       `}</style>
-          <div className=" p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
-            <h1 className="text-5xl sm:text-7xl font-bold text-green-500 uppercase er drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]">WINNER</h1>
-            <p className="font-bold mt-4 uppercase ">CLAIMING PRIZE</p>
+
+          <div className="p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
+            <h1 className="t">WINNER</h1>
+            <p className="mt-4 uppercase">CLAIMING PRIZE</p>
           </div>
         </div>
       )}

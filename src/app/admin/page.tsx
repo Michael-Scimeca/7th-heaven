@@ -110,7 +110,7 @@ export default function AdminGatewayPage() {
   };
 
   const handleKeyDown = (idx: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace" && !pin[idx] && idx> 0) {
+    if (e.key === "Backspace" && !pin[idx] && idx > 0) {
       inputRefs.current[idx - 1]?.focus();
     }
   };
@@ -255,7 +255,7 @@ export default function AdminGatewayPage() {
                 <div className="w-14 h-14 mx-auto mb-4 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)] shadow-[0_0_24px_rgba(147,51,234,0.4)]">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                 </div>
-                <h1 className="text-2xl sm:text-3xl text-white uppercase">
+                <h1 className="">
                   Admin <span className="text-[var(--color-accent)]">Access</span>
                 </h1>
                 <p className="uppercase mt-2">
@@ -354,7 +354,7 @@ export default function AdminGatewayPage() {
           <>
             <div className="text-center mb-8 relative z-10">
               <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
-              <h1 className="text-white text-2xl uppercase">Admin 2FA Verification</h1>
+              <h1 className="">Admin 2FA Verification</h1>
               <p className="mt-1">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
             </div>
 

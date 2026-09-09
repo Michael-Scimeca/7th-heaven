@@ -97,14 +97,14 @@ export default function NotificationsPage() {
   };
 
   return (
-    <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden ">
+    <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden">
       {/* Page Header */}
       <div className="text-center mb-12 max-w-2xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-4 text-purple-700 font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-4 text-purple-700 uppercase r">
           <BellIcon />
           Free &middot; No Phone Number &middot; No Signup
         </div>
-        <h1 className="text-4xl sm:text-5xl font-bold uppercase mb-4">
+        <h1 className="text-4xl sm:text-5xl uppercase mb-4">
           Get Notified <span className="text-purple-600">Instantly</span>
         </h1>
         <p className="font-medium">
@@ -133,10 +133,9 @@ export default function NotificationsPage() {
               aria-label={`Show ${tab.label} alerts`}
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`px-5 py-2.5 rounded-lg font-bold uppercase transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white "
+              className={`px-5 py-2.5 rounded-lg    uppercase transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white "
                 : " bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:border-white/30"
-                }`}
-            >
+                }`}>
               {tab.label}
             </button>
           );
@@ -144,13 +143,13 @@ export default function NotificationsPage() {
       </div>
 
       {/* Main Card */}
-      <div className="max-w-3xl mx-auto bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-10 ">
-        <p className="  text-center mb-8">{activeMeta.blurb}</p>
+      <div className="max-w-3xl mx-auto bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-10">
+        <p className="text-center mb-8">{activeMeta.blurb}</p>
 
         {!info?.configured ? (
           <div className="py-12 text-center max-w-md mx-auto">
-            <p className="font-bold mb-1">Not set up yet</p>
-            <p className="">
+            <p className="mb-1">Not set up yet</p>
+            <p>
               This alert channel hasn&apos;t been configured on the server yet. Check back soon,
               or reach out on the{" "}
               <Link href="/contact" className="underline hover:text-white transition-colors">
@@ -163,10 +162,10 @@ export default function NotificationsPage() {
           <div className="flex flex-col md:flex-row items-center gap-10">
             {/* QR Code */}
             <div className="shrink-0 flex flex-col items-center gap-3">
-              <div className="bg-white p-3 rounded-2xl shadow-lg">
+              <div className="bg-white p-3 rounded-2xl   ">
                 <QRCode value={appDeepLink} size={148} fgColor="#0c0817" bgColor="#ffffff" />
               </div>
-              <p className="font-bold uppercase text-center max-w-[160px]">
+              <p className="uppercase text-center max-w-[160px]">
                 Scan from inside the ntfy app&apos;s &ldquo;+&rdquo; button
               </p>
             </div>
@@ -174,24 +173,22 @@ export default function NotificationsPage() {
             {/* Steps */}
             <div className="flex-1 w-full space-y-5">
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center">1</span>
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center">1</span>
                 <div>
-                  <p className="font-bold mb-2">Get the free ntfy app (or skip it and use your browser)</p>
+                  <p className="mb-2">Get the free ntfy app (or skip it and use your browser)</p>
                   <div className="flex flex-wrap gap-2">
                     <a
                       href="https://apps.apple.com/us/app/ntfy/id1625396347"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white font-bold hover:bg-white/15 transition-colors"
-                    >
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white hover:bg-white/15 transition-colors">
                       <AppleIcon /> App Store
                     </a>
                     <a
                       href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white font-bold hover:bg-white/15 transition-colors"
-                    >
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white hover:bg-white/15 transition-colors">
                       <AndroidIcon /> Google Play
                     </a>
                   </div>
@@ -199,23 +196,21 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center">2</span>
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center">2</span>
                 <div className="flex-1">
-                  <p className="font-bold mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
+                  <p className="mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
                   <div className="flex flex-wrap items-center gap-2">
                     <CosmicRadialButton
                       icon={false}
                       onClick={() => window.open(appDeepLink, "_self")}
-                      className="px-5 py-2.5 font-bold rounded-lg"
-                    >
+                      className="px-5 py-2.5 rounded-lg">
                       Open in ntfy App
                     </CosmicRadialButton>
                     <a
                       href={browserUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-bold text-white hover:text-white underline transition-colors"
-                    >
+                      className="text-white hover:text-white underline transition-colors">
                       Or subscribe in your browser instead
                     </a>
                   </div>
@@ -223,9 +218,9 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center">3</span>
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center">3</span>
                 <div>
-                  <p className="font-bold">
+                  <p>
                     Done. You&apos;ll get a push notification the moment we send one to this channel &mdash;
                     nothing to reply to, nothing that costs you anything.
                   </p>
@@ -235,8 +230,7 @@ export default function NotificationsPage() {
               <button
                 type="button"
                 onClick={handleCopy}
-                className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase text-white/40 hover:text-white/70 transition-colors cursor-pointer pt-1"
-              >
+                className="inline-flex items-center gap-1.5 text-[11px] uppercase text-white/40 hover:text-white/70 transition-colors cursor-pointer pt-1">
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 {copied ? "Copied channel name" : "Copy channel name manually"}
               </button>
@@ -247,7 +241,7 @@ export default function NotificationsPage() {
 
       {/* How it works */}
       <div className="max-w-3xl mx-auto mt-10 text-center">
-        <p className="  ">
+        <p>
           Under the hood this uses ntfy, a free open-source push service &mdash; the site
           publishes a message to a private channel name and anyone subscribed to that
           exact name gets it, with no accounts, ads, or per-message cost on either end.

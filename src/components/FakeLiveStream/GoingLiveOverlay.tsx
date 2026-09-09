@@ -33,22 +33,7 @@ export function GoingLiveOverlay({ onComplete, crew }: { onComplete: () => void;
         transition: 'opacity 0.8s ease',
         opacity: faded ? 0 : 1,
         pointerEvents: faded ? 'none' : 'all',
-      }}
-    >
-      <style>{`
-        @keyframes scan-line {
-          0% { top: 0; opacity: 0.8; }
-          100% { top: 100%; opacity: 0; }
-        }
-        @keyframes ring-expand {
-          0% { transform: scale(0.8); opacity: 0.8; }
-          100% { transform: scale(2); opacity: 0; }
-        }
-        @keyframes blink-dot {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.2; }
-        }
-      `}</style>
+      }}>
 
       {/* Scan line */}
       <div style={{
@@ -143,8 +128,7 @@ export function GoingLiveOverlay({ onComplete, crew }: { onComplete: () => void;
           border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8,
           color: 'rgba(255,255,255,0.4)', fontSize: 12, fontWeight: 700,
           letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
-        }}
-      >
+        }}>
         Skip →
       </button>
 

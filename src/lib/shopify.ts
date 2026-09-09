@@ -3,7 +3,7 @@
  * 
  * Instructions for the Band:
  * 1. Create a Shopify account.
- * 2. Go to Settings > Apps and sales channels > Develop apps.
+ * 2. Go to Settings> Apps and sales channels> Develop apps.
  * 3. Create an app (e.g., "7th Heaven React App").
  * 4. Configure Storefront API Integration and select 'unauthenticated_read_product_listings' and related scopes.
  * 5. Drop the provided Public Access Token into your .env.local file:

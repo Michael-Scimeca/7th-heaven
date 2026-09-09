@@ -43,7 +43,7 @@ export function verifyPin(email: string, pin: string): boolean {
 
   const found = pins[foundIndex];
   // Check expiration
-  if (Date.now() > found.expiresAt) {
+  if (Date.now()> found.expiresAt) {
     // Remove expired pin
     pins.splice(foundIndex, 1);
     fs.writeFileSync(PINS_FILE_PATH, JSON.stringify(pins, null, 2), 'utf8');

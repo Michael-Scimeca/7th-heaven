@@ -72,8 +72,7 @@ export default function NorthCheckoutPage() {
           </p>
           <Link
             href="/payment-test"
-            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase rounded-lg"
-          >
+            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white uppercase rounded-lg">
             ← Back to Shop
           </Link>
         </div>
@@ -86,26 +85,25 @@ export default function NorthCheckoutPage() {
       <div className="site-container max-w-xl mx-auto px-6">
         <Link
           href="/payment-test"
-          className="font-bold uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6"
-        >
+          className="uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
           ← Back to Shop
         </Link>
 
         <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
-            <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
+            <span className="inline-block text-[10px] uppercase  text-[var(--color-accent)] mb-1">
               North (EPX) Browser Post
             </span>
-            <h1 className="text-2xl font-bold uppercase text-white tracking-wide">
+            <h1 className="">
               Card Payment
             </h1>
             {mockMode ? (
-              <p className="text-yellow-300 mt-1 ">
+              <p className="text-yellow-300 mt-1">
                 🧪 Test mode: no real North credentials are configured, so this won&apos;t
                 contact EPX. Use the simulate buttons below instead of a real submit.
               </p>
             ) : (
-              <p className="mt-1 ">
+              <p className="mt-1">
                 Submitting this form sends your card details directly to North&apos;s servers —
                 they never pass through this site. This uses North&apos;s sandbox test card by
                 default.
@@ -118,7 +116,7 @@ export default function NorthCheckoutPage() {
             <div className="mb-6 space-y-2">
               {cart.items.map((item) => (
                 <div key={item.id} className="flex items-center gap-3">
-                  <div className="relative  w-11 h-11  shrink-0 rounded-lg overflow-hidden bg-black/40">
+                  <div className="relative w-11 h-11 shrink-0 rounded-lg overflow-hidden bg-black/40">
                     <Image src={item.imageUrl} alt={item.title} fill sizes="36px" unoptimized className="object-cover" />
                   </div>
                   <span className="text-white/70 flex-1 truncate">
@@ -133,10 +131,10 @@ export default function NorthCheckoutPage() {
           )}
 
           <div className="flex items-center justify-between mb-6 pt-4 border-t border-white/10">
-            <span className="text-white/50 font-bold uppercase tracking-wider">
+            <span className="text-white/50 uppercase r">
               Amount Due
             </span>
-            <span className="text-2xl font-bold text-[var(--color-accent)]">${amount}</span>
+            <span className="text-2xl text-[var(--color-accent)]">${amount}</span>
           </div>
 
           {/* Card fields — shown either way so the UI looks/feels the same,
@@ -144,7 +142,7 @@ export default function NorthCheckoutPage() {
               the account number get used, for the fake masked receipt). */}
           <div className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold uppercase text-white/40 mb-1">
+              <label className="block text-[10px] uppercase text-white/40 mb-1">
                 Account Number
               </label>
               <input
@@ -158,7 +156,7 @@ export default function NorthCheckoutPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase text-white/40 mb-1">
+                <label className="block text-[10px] uppercase text-white/40 mb-1">
                   Expiry (YYMM)
                 </label>
                 <input
@@ -171,7 +169,7 @@ export default function NorthCheckoutPage() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase text-white/40 mb-1">
+                <label className="block text-[10px] uppercase text-white/40 mb-1">
                   CVV
                 </label>
                 <input
@@ -192,16 +190,14 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("approved")}
-                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold uppercase rounded-lg transition-colors disabled:opacity-50"
-              >
+                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black uppercase rounded-lg transition-colors disabled:opacity-50">
                 {simulating === "approved" ? "Simulating…" : `✅ Simulate Approved — $${amount}`}
               </button>
               <button
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("declined")}
-                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold uppercase rounded-lg transition-colors disabled:opacity-50"
-              >
+                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 uppercase rounded-lg transition-colors disabled:opacity-50">
                 {simulating === "declined" ? "Simulating…" : "❌ Simulate Declined"}
               </button>
             </div>
@@ -224,8 +220,7 @@ export default function NorthCheckoutPage() {
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase rounded-lg transition-colors"
-              >
+                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors">
                 Submit Payment — ${amount}
               </button>
             </form>

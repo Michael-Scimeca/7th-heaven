@@ -44,10 +44,10 @@ export async function GET(request: Request) {
     // This week vs last week
     const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
     const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
-    const thisWeek = allFans.filter(f => new Date(f.created_at) >= oneWeekAgo).length;
+    const thisWeek = allFans.filter(f => new Date(f.created_at)>= oneWeekAgo).length;
     const lastWeek = allFans.filter(f => {
       const d = new Date(f.created_at);
-      return d >= twoWeeksAgo && d < oneWeekAgo;
+      return d>= twoWeeksAgo && d < oneWeekAgo;
     }).length;
 
     // Tier breakdown
@@ -89,7 +89,7 @@ export async function GET(request: Request) {
       total,
       thisWeek,
       lastWeek,
-      growthPct: lastWeek > 0 ? Math.round(((thisWeek - lastWeek) / lastWeek) * 100) : thisWeek > 0 ? 100 : 0,
+      growthPct: lastWeek> 0 ? Math.round(((thisWeek - lastWeek) / lastWeek) * 100) : thisWeek> 0 ? 100 : 0,
       tierBreakdown,
       dailySignups,
       topFans,

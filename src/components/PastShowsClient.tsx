@@ -21,6 +21,7 @@ export interface YearGroup {
 interface PastShowsClientProps {
   years: YearGroup[];
   totalShowsCount: number;
+  sanityContent?: any;
 }
 
 const CATEGORIES = [
@@ -45,26 +46,11 @@ const matchesCategory = (show: PastShowItem, categoryId: string) => {
   return true;
 };
 
-export default function PastShowsClient({ years, totalShowsCount }: PastShowsClientProps) {
+export default function PastShowsClient({ years, totalShowsCount, sanityContent }: PastShowsClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedYear, setSelectedYear] = useState<string>("ALL");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
   const [openYears, setOpenYears] = useState<Record<string, boolean>>({});
-  const [sanityContent, setSanityContent] = useState<any>(null);
-
-  useEffect(() => {
-    fetch("/api/page-content?key=past-shows")
-      .then((res) => {
-        if (!res.ok) return null;
-        return res.json();
-      })
-      .then((res) => {
-        if (res?.success && res?.data) {
-          setSanityContent(res.data);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
 
 
@@ -125,7 +111,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6">
           <div>
-            <h1 className="text-[clamp(2rem,4vw,3rem)] uppercase mb-3">
+            <h1 className=" mb-3">
               {sanityContent?.heroHeading || sanityContent?.title || "Past Shows Archive"}
             </h1>
             <p className="max-w-2xl font-medium">

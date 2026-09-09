@@ -117,8 +117,8 @@ export default function CompleteProfilePage() {
     return (
       <div className="min-h-screen text-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className=" w-11 h-11  border-4 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
-          <p className="font-bold uppercase ">Loading your profile...</p>
+          <div className="w-11 h-11 border-4 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
+          <p className="uppercase">Loading your profile...</p>
         </div>
       </div>
     );
@@ -138,11 +138,11 @@ export default function CompleteProfilePage() {
               <div className="w-16 h-16 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center mx-auto mb-4 text-2xl">
                 🎸
               </div>
-              <h1 className="text-xl font-bold mb-2">
+              <h1 className="mb-2">
                 Welcome to the Family
                 {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}!
               </h1>
-              <p className="uppercase ">
+              <p className="uppercase">
                 Let&apos;s finish setting up your profile
               </p>
             </div>
@@ -191,15 +191,14 @@ export default function CompleteProfilePage() {
                   onClick={() => setWantNotifications(!wantNotifications)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40'
                     : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}
-                >
+                    }`}>
                   <SquishyToggle
                     id="complete-profile-notifications"
                     label="Email me when 7th Heaven books a show near me"
                     checked={wantNotifications}
                     onChange={(val) => setWantNotifications(val)}
                   />
-                  <span className="text-white/90 font-bold text-left">
+                  <span className="text-white/90 text-left">
                     📍 Email me when 7th Heaven books a show near me
                   </span>
                 </div>
@@ -226,15 +225,14 @@ export default function CompleteProfilePage() {
                   onClick={() => setWantNewsletter(!wantNewsletter)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40'
                     : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}
-                >
+                    }`}>
                   <SquishyToggle
                     id="complete-profile-newsletter"
                     label="Send me news, show updates & exclusive drops"
                     checked={wantNewsletter}
                     onChange={(val) => setWantNewsletter(val)}
                   />
-                  <span className="text-white/90 font-bold text-left">
+                  <span className="text-white/90 text-left">
                     📧 Send me news, show updates &amp; exclusive drops
                   </span>
                 </div>
@@ -242,7 +240,7 @@ export default function CompleteProfilePage() {
 
               {/* Info callout */}
               <div className="bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3">
-                <p className="  ">
+                <p>
                   💡 <strong className="text-white/50">Tip:</strong> You can always change these preferences later from your Fan Dashboard settings. You can also follow specific shows to get notified about just the ones you care about.
                 </p>
               </div>
@@ -254,12 +252,11 @@ export default function CompleteProfilePage() {
               <button aria-label="Action button"
                 type="submit"
                 disabled={saving}
-                className="w-full py-3 bg-[var(--color-accent)] text-white font-bold uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
-              >
+                className="w-full py-3 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]">
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
 
-              <p className="text-center ">
+              <p className="text-center">
                 By continuing you confirm you are 13+ and agree to our{" "}
                 <Link href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</Link> &amp;{" "}
                 <Link href="/terms" className="underline hover:text-white/40 transition-colors">Terms</Link>.

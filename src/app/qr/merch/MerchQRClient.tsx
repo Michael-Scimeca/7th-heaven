@@ -114,7 +114,7 @@ const FALLBACK_PRODUCTS: MerchProduct[] = [
 
 export default function MerchQRClient({ initialProducts }: { initialProducts: any[] }) {
   // Map Shopify products to MerchProduct interface if present
-  const displayProducts: MerchProduct[] = (initialProducts && initialProducts.length> 0)
+  const displayProducts: MerchProduct[] = (initialProducts && initialProducts.length > 0)
     ? initialProducts.map((p: any) => ({
       id: p.id,
       title: p.title,
@@ -123,7 +123,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       price: p.variants?.edges?.[0]?.node?.price?.amount || "35.00",
       imageUrl: p.images?.edges?.[0]?.node?.url || "/images/merch/merch-logo-tee.png",
       category: "Apparel",
-      inStock: (p.quantityAvailable ?? 1)> 0,
+      inStock: (p.quantityAvailable ?? 1) > 0,
       stockCount: p.quantityAvailable ?? 10,
       sizes: ["S", "M", "L", "XL", "2XL"],
     }))
@@ -165,7 +165,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       if (existing) {
         const parsed: OrderRecord[] = JSON.parse(existing);
         savedOrdersRef.current = parsed;
-        if (parsed.length> 0) {
+        if (parsed.length > 0) {
           setActiveOrder(parsed[0]);
         }
       }
@@ -182,7 +182,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
   const handleOpenCheckout = (product: MerchProduct) => {
     setSelectedProduct(product);
-    if (product.sizes && product.sizes.length> 0) {
+    if (product.sizes && product.sizes.length > 0) {
       setSelectedSize(product.sizes[0]);
     }
     setShowCheckout(true);
@@ -287,7 +287,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             Show Night QR Express Store
           </div>
 
-          <h1 className="text-3xl md:text-5xl uppercase text-white">
+          <h1 className="">
             7th Heaven <span>Merch Express</span>
           </h1>
 
@@ -545,7 +545,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             <form onSubmit={handleCompleteOrder} className="space-y-5">
 
               {/* Size Selector if available */}
-              {selectedProduct.sizes && selectedProduct.sizes.length> 0 && (
+              {selectedProduct.sizes && selectedProduct.sizes.length > 0 && (
                 <div>
                   <span className="uppercase text-white/70 block mb-2">Select Size</span>
                   <div className="flex flex-wrap gap-2">

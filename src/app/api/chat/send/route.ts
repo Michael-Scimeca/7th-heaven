@@ -36,15 +36,15 @@ function checkRateLimit(ip: string): boolean {
   const now = Date.now();
 
   // Prune expired entries every ~100 requests to keep memory tidy
-  if (rateLimit.size > 500) {
+  if (rateLimit.size> 500) {
     for (const [key, val] of rateLimit) {
-      if (now > val.resetTime) rateLimit.delete(key);
+      if (now> val.resetTime) rateLimit.delete(key);
     }
   }
 
   const entry = rateLimit.get(ip) ?? { count: 0, resetTime: now + RATE_WINDOW_MS };
 
-  if (now > entry.resetTime) {
+  if (now> entry.resetTime) {
     entry.count    = 1;
     entry.resetTime = now + RATE_WINDOW_MS;
   } else {
@@ -171,7 +171,7 @@ export async function POST(req: Request) {
     if (typeof content !== 'string' || content.trim().length === 0) {
       return NextResponse.json({ error: 'Message is required.' }, { status: 400 });
     }
-    if (content.length > 500) {
+    if (content.length> 500) {
       return NextResponse.json(
         { error: 'Message must be 500 characters or fewer.' },
         { status: 400 }
@@ -186,9 +186,9 @@ export async function POST(req: Request) {
 
     /* 2.1 ── Consecutive & duplicate check ── */
     const nowMs = Date.now();
-    if (lastMessages.size > 500) {
+    if (lastMessages.size> 500) {
       for (const [key, val] of lastMessages) {
-        if (nowMs - val.timestamp > 60000) lastMessages.delete(key);
+        if (nowMs - val.timestamp> 60000) lastMessages.delete(key);
       }
     }
 
@@ -272,7 +272,7 @@ export async function POST(req: Request) {
       );
     }
     const emojis = content.match(/\p{Emoji_Presentation}/gu) || [];
-    if (emojis.length > 10) {
+    if (emojis.length> 10) {
       return NextResponse.json(
         { error: 'Too many emojis in the message — keep the chat clean!' },
         { status: 403 }

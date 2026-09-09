@@ -51,7 +51,7 @@ export default function CustomScrollbar({
 
     if (showHorizontal) {
       const { scrollWidth, clientWidth, scrollLeft } = el;
-      const scrollable = scrollWidth > clientWidth + 2;
+      const scrollable = scrollWidth> clientWidth + 2;
       setHasScrollableX(scrollable);
       const minThumb = 48;
       const ratio = clientWidth / Math.max(clientWidth, scrollWidth);
@@ -59,7 +59,7 @@ export default function CustomScrollbar({
       const size = scrollable ? Math.min(maxThumb, Math.max(minThumb, ratio * clientWidth)) : minThumb;
       const trackSpace = Math.max(0, clientWidth - size);
       const scrollRange = scrollWidth - clientWidth;
-      const pos = scrollable && scrollRange > 0 ? (scrollLeft / scrollRange) * trackSpace : 0;
+      const pos = scrollable && scrollRange> 0 ? (scrollLeft / scrollRange) * trackSpace : 0;
       if (hThumbRef.current) {
         hThumbRef.current.style.transform = `translate3d(${pos}px, 0, 0)`;
         hThumbRef.current.style.width = `${size}px`;
@@ -71,7 +71,7 @@ export default function CustomScrollbar({
 
     if (showVertical) {
       const { scrollHeight, clientHeight, scrollTop } = el;
-      const scrollable = scrollHeight > clientHeight + 2;
+      const scrollable = scrollHeight> clientHeight + 2;
       setHasScrollableY(scrollable);
       const minThumb = 48;
       const trackBottom = showHorizontal ? thumbWidth + 8 : 4;
@@ -81,7 +81,7 @@ export default function CustomScrollbar({
       const size = scrollable ? Math.min(maxThumb, Math.max(minThumb, ratio * availableHeight)) : minThumb;
       const trackSpace = Math.max(0, availableHeight - size);
       const scrollRange = scrollHeight - clientHeight;
-      const pos = scrollable && scrollRange > 0 ? (scrollTop / scrollRange) * trackSpace : 0;
+      const pos = scrollable && scrollRange> 0 ? (scrollTop / scrollRange) * trackSpace : 0;
       if (vThumbRef.current) {
         vThumbRef.current.style.transform = `translate3d(-50%, ${pos}px, 0)`;
         vThumbRef.current.style.height = `${size}px`;
@@ -221,8 +221,7 @@ export default function CustomScrollbar({
         overflow: "hidden",
       }}
       onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
+      onMouseLeave={() => setIsHovering(false)}>
       {/* Scrollable content with hidden native scrollbar */}
       <div
         ref={containerRef}
@@ -239,8 +238,7 @@ export default function CustomScrollbar({
           // @ts-ignore
           msOverflowStyle: "none",
           WebkitOverflowScrolling: "touch",
-        }}
-      >
+        }}>
         {children}
       </div>
 
@@ -270,8 +268,7 @@ export default function CustomScrollbar({
             borderRadius: 9999,
             cursor: "pointer",
             zIndex: 100,
-          }}
-        >
+          }}>
           <button
             ref={vThumbRef}
             type="button"
@@ -328,8 +325,7 @@ export default function CustomScrollbar({
             borderRadius: 9999,
             cursor: "pointer",
             zIndex: 100,
-          }}
-        >
+          }}>
           <button
             type="button"
             aria-label="Horizontal scrollbar thumb"
@@ -362,8 +358,7 @@ export default function CustomScrollbar({
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
-        }}
-      >
+        }}>
         {inner}
       </div>
     );

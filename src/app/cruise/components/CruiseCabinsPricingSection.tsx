@@ -298,8 +298,23 @@ function CruiseCabinsPricingSectionComponent({
               {/* Richard */}
               <div className="flex flex-col items-center">
                 <div
-                  className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none">
-                  <Image width={408} height={408} unoptimized src="/images/contact/Dickie-contact.png" alt="Richard Hofherr" className="h-full w-auto object-contain object-bottom" />
+                  className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none"
+                  style={{
+                    WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                    maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                  }}>
+                  <Image
+                    width={408}
+                    height={408}
+                    unoptimized
+                    src="/images/contact/Dickie-contact.png"
+                    alt="Richard Hofherr"
+                    className="h-full w-auto object-contain object-bottom"
+                    style={{
+                      WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                      maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                    }}
+                  />
                 </div>
                 <h4 className="text-white uppercase">Richard Hofherr</h4>
                 <div className="mt-2 flex flex-col items-center gap-1 w-full">
@@ -319,8 +334,23 @@ function CruiseCabinsPricingSectionComponent({
               {/* Mary */}
               <div className="flex flex-col items-center">
                 <div
-                  className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none">
-                  <Image width={408} height={408} unoptimized src="/images/contact/Mary-contact.png" alt="Mary Grivas" className="h-full w-auto object-contain object-bottom" />
+                  className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none"
+                  style={{
+                    WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                    maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                  }}>
+                  <Image
+                    width={408}
+                    height={408}
+                    unoptimized
+                    src="/images/contact/Mary-contact.png"
+                    alt="Mary Grivas"
+                    className="h-full w-auto object-contain object-bottom"
+                    style={{
+                      WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                      maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                    }}
+                  />
                 </div>
                 <h4 className="text-white uppercase">Mary Grivas</h4>
                 <div className="mt-2 flex flex-col items-center gap-1 w-full">
@@ -340,8 +370,23 @@ function CruiseCabinsPricingSectionComponent({
               {/* Alan */}
               <div className="flex flex-col items-center">
                 <div
-                  className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none">
-                  <Image width={408} height={408} unoptimized src="/images/contact/Alan-contact.png" alt="Alan McRae" className="h-full w-auto object-contain object-bottom" />
+                  className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none"
+                  style={{
+                    WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                    maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                  }}>
+                  <Image
+                    width={408}
+                    height={408}
+                    unoptimized
+                    src="/images/contact/Alan-contact.png"
+                    alt="Alan McRae"
+                    className="h-full w-auto object-contain object-bottom"
+                    style={{
+                      WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                      maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                    }}
+                  />
                 </div>
                 <h4 className="text-white uppercase">Alan McRae</h4>
                 <div className="mt-2 flex flex-col items-center gap-1 w-full">
@@ -365,7 +410,6 @@ function CruiseCabinsPricingSectionComponent({
             <div className="bg-transparent p-0 relative text-left">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-2">
                 <div>
-                  <span className="uppercase tracking-[0.25em] text-purple-400">Exclusive Group Deal</span>
                   <h3 className="uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
                 </div>
               </div>
@@ -446,7 +490,12 @@ function CruiseCabinsPricingSectionComponent({
             {BANDS_DATA.map((band) => (
               <div key={band.name} className="relative overflow-hidden group bg-transparent border-0 flex flex-col justify-between">
                 {band.photo && (
-                  <div className="w-full h-[315px] sm:h-[370px] relative flex items-end justify-center">
+                  <div
+                    className="w-full h-[315px] sm:h-[370px] relative flex items-end justify-center"
+                    style={{
+                      maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                      WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                    }}>
                     <Image width={400} height={400} unoptimized src={band.photo} alt={band.name} className="w-full h-full object-contain object-bottom" />
                   </div>
                 )}
@@ -464,7 +513,7 @@ function CruiseCabinsPricingSectionComponent({
           </div>
         </section>
       </LazyMount>
-    </div>
+    </div >
   );
 }
 

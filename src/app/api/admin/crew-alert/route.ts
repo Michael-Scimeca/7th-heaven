@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     const targets: { name: string; phone: string; email: string }[] = [];
 
     // 1. Add selected/checked crew members
-    if (Array.isArray(selectedPhones) && selectedPhones.length > 0) {
+    if (Array.isArray(selectedPhones) && selectedPhones.length> 0) {
       const { data: crewProfiles } = await supabase
         .from('profiles')
         .select('full_name, email, phone')
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
 
       for (const phone of selectedPhones) {
         const digits = phone.replace(/\D/g, '');
-        if (digits.length >= 10) {
+        if (digits.length>= 10) {
           const e164 = digits.length === 10 ? `+1${digits}` : `+${digits}`;
           if (!phoneSet.has(e164)) {
             phoneSet.add(e164);
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
         .eq('role', 'admin');
 
       const allRecipients = [...(crewProfiles || []), ...(adminProfiles || [])];
-      const withPhone = allRecipients.filter(p => p.phone?.replace(/\D/g, '').length >= 10);
+      const withPhone = allRecipients.filter(p => p.phone?.replace(/\D/g, '').length>= 10);
 
       for (const p of withPhone) {
         const digits = p.phone.replace(/\D/g, '');
@@ -107,7 +107,7 @@ export async function POST(request: Request) {
 
       for (const phone of customNumbers) {
         const digits = phone.replace(/\D/g, '');
-        if (digits.length >= 10) {
+        if (digits.length>= 10) {
           const e164 = digits.length === 10 ? `+1${digits}` : `+${digits}`;
           if (!phoneSet.has(e164)) {
             phoneSet.add(e164);
@@ -124,12 +124,12 @@ export async function POST(request: Request) {
 
     let sent = 0, failed = 0;
 
-    if (sendSms && accountSid?.startsWith('AC') && authToken && twilioPhone && targets.length > 0) {
+    if (sendSms && accountSid?.startsWith('AC') && authToken && twilioPhone && targets.length> 0) {
       try {
         const twilio = (await import('twilio')).default;
         const client = twilio(accountSid, authToken);
 
-        const recipientListStr = sendAsGroup && targets.length > 0
+        const recipientListStr = sendAsGroup && targets.length> 0
           ? `\n\nGroup: ${targets.map(t => t.name).join(', ')}`
           : '';
 
@@ -362,7 +362,7 @@ export async function GET() {
     const recipients = (allProfiles || []).flatMap(p => {
       if (!isNotBandOnlyMember(p.full_name, p.email)) return [];
       const digits = p.phone ? p.phone.replace(/\D/g, '') : '';
-      const e164 = digits.length >= 10 ? (digits.length === 10 ? `+1${digits}` : `+${digits}`) : '';
+      const e164 = digits.length>= 10 ? (digits.length === 10 ? `+1${digits}` : `+${digits}`) : '';
       return [{
         id: p.id,
         name: p.full_name || p.email,

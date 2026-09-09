@@ -63,17 +63,16 @@ export default function EmailPreviewPage() {
         {/* ── Sidebar ── */}
         <div className="w-[320px] border-r border-white/10 bg-[#08080c] flex flex-col shrink-0 min-h-0 overflow-hidden">
           <div className="p-6 border-b border-white/5">
-            <h1 className="text-lg font-bold text-white mb-1">Email Templates</h1>
-            <p className="">{EMAIL_TEMPLATES.length} templates • {EMAIL_TEMPLATES.filter(t => t.status === 'live').length} live</p>
+            <h1 className=" mb-1">Email Templates</h1>
+            <p>{EMAIL_TEMPLATES.length} templates • {EMAIL_TEMPLATES.filter(t => t.status === 'live').length} live</p>
           </div>
 
           {/* Category tabs */}
           <div className="px-4 pt-4 flex gap-1.5 flex-wrap">
             {categories.map(c => (
               <button aria-label="Action button" key={c} onClick={() => setActiveCategory(c)}
-                className={`px-3 py-1 font-bold uppercase rounded-lg transition-colors cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30   text-white '
-                  }`}
-              >{c}</button>
+                className={`px-3 py-1    uppercase rounded-lg transition-colors cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30   text-white '
+                  }`}>{c}</button>
             ))}
           </div>
 
@@ -83,21 +82,20 @@ export default function EmailPreviewPage() {
               <button aria-label="Action button" key={t.id} onClick={() => setActiveId(t.id)}
                 className={`w-full text-left p-4 transition-colors cursor-pointer group ${activeId === t.id ? 'bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30'
                   : 'border border-transparent'
-                  }`}
-              >
+                  }`}>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className={`font-bold ${activeId === t.id ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
+                  <span className={`   ${activeId === t.id ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
                     {t.name}
                   </span>
-                  <span className={`font-bold uppercase px-2 py-0.5 rounded-lg ${t.status === 'live'
+                  <span className={`   uppercase px-2 py-0.5 rounded-lg ${t.status === 'live'
                     ? 'bg-emerald-500/10 text-[var(--color-accent)] border border-[var(--color-accent)]/30'
                     : 'bg-purple-600/10 text-purple-300 border border-white/20'
                     }`}>
                     {t.status}
                   </span>
                 </div>
-                <p className="  ">{t.description}</p>
-                <span className="text-[var(--color-accent)]/60 font-bold uppercase mt-2 block">{t.category}</span>
+                <p>{t.description}</p>
+                <span className="text-[var(--color-accent)]/60 uppercase mt-2 block">{t.category}</span>
               </button>
             ))}
           </CustomScrollbar>
@@ -108,8 +106,8 @@ export default function EmailPreviewPage() {
           {/* Toolbar */}
           <div className="h-14 border-b border-white/10 bg-[#08080c] flex items-center justify-between px-6 shrink-0">
             <div className="flex items-center gap-3">
-              <h2 className="font-bold text-white">{active.name}</h2>
-              <span className={`font-bold uppercase px-2 py-0.5 rounded-lg ${active.status === 'live'
+              <h2 className="text-white">{active.name}</h2>
+              <span className={`   uppercase px-2 py-0.5 rounded-lg ${active.status === 'live'
                 ? 'bg-emerald-500/10 text-[var(--color-accent)]'
                 : 'bg-purple-600/10 text-purple-300'
                 }`}>{active.status}</span>
@@ -128,8 +126,7 @@ export default function EmailPreviewPage() {
                 <button aria-label="Action button"
                   onClick={handleSendTest}
                   disabled={sending}
-                  className="bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 text-white font-bold uppercase px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
-                >
+                  className="bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 text-white uppercase px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
                   {sending ? "Sending..." : "Send Test"}
                 </button>
               </div>
@@ -138,20 +135,18 @@ export default function EmailPreviewPage() {
 
               <div className="flex items-center gap-2">
                 <button aria-label="Previous" onClick={() => setViewMode("preview")}
-                  className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-colors cursor-pointer ${viewMode === 'preview' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30   text-white '
-                    }`}
-                >Preview</button>
+                  className={`px-3 py-1.5    uppercase rounded-lg transition-colors cursor-pointer ${viewMode === 'preview' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30   text-white '
+                    }`}>Preview</button>
                 <button aria-label="Action button" onClick={() => setViewMode("code")}
-                  className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-colors cursor-pointer ${viewMode === 'code' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30   text-white '
-                    }`}
-                >HTML</button>
+                  className={`px-3 py-1.5    uppercase rounded-lg transition-colors cursor-pointer ${viewMode === 'code' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30   text-white '
+                    }`}>HTML</button>
               </div>
             </div>
           </div>
 
           {/* Feedback Toast */}
           {sendResult && (
-            <div className={`px-6 py-2 font-bold uppercase text-center animate-[fade-in_0.3s_ease-out] ${sendResult.success ? 'bg-emerald-500/10 text-[var(--color-accent)] border-b border-[var(--color-accent)]/30' : 'bg-red-500/10 text-red-400 border-b border-red-500/20'
+            <div className={`px-6 py-2    uppercase text-center animate-[fade-in_0.3s_ease-out] ${sendResult.success ? 'bg-emerald-500/10 text-[var(--color-accent)] border-b border-[var(--color-accent)]/30' : 'bg-red-500/10 text-red-400 border-b border-red-500/20'
               }`}>
               {sendResult.message}
             </div>
@@ -161,7 +156,7 @@ export default function EmailPreviewPage() {
           <div className="flex-1 overflow-y-auto bg-[var(--color-bg-card)] flex justify-center p-8">
             {viewMode === "preview" ? (
               <div className="w-full max-w-[620px]">
-                <div className=" overflow-hidden border border-white/5">
+                <div className="overflow-hidden border border-white/5">
                   <iframe
                     srcDoc={html}
                     className="w-full border-0"
@@ -172,7 +167,7 @@ export default function EmailPreviewPage() {
                 </div>
               </div>
             ) : (
-              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/10 p-6 text-white/50 overflow-x-auto whitespace-pre-wrap ">
+              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/10 p-6 text-white/50 overflow-x-auto whitespace-pre-wrap">
                 {html}
               </pre>
             )}

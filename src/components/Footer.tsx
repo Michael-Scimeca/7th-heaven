@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import TransitionLink from "@/components/TransitionLink";
 import { Smartphone, Check, Bell } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 import { useState, useEffect } from "react";
 import { useSettings } from "@/lib/useSettings";
@@ -72,6 +72,7 @@ const formatPhone = (value: string) => {
 export function Footer() {
   const { member, openModal } = useMember();
   const router = useRouter();
+  const pathname = usePathname();
   const isPlanner = member?.role === 'event_planner';
 
   const [nlEmail, setNlEmail] = useState('');
@@ -82,8 +83,6 @@ export function Footer() {
   const [smsZip, setSmsZip] = useState('');
   const [smsDistance, setSmsDistance] = useState('50');
   const [smsStatus, setSmsStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
-
-
 
   const [endorsements, setEndorsements] = useState(FALLBACK_ENDORSEMENTS);
   const [socialLinks, setSocialLinks] = useState(FALLBACK_SOCIAL_LINKS);
@@ -109,20 +108,20 @@ export function Footer() {
     if (data.bookingEmail) setBookingEmail(data.bookingEmail);
   }, [settings]);
 
-
-
   // Hide footer when the overlay is at full coverage (isCovered=true).
   // This is driven by the overlay animation event — not the route change —
   // so it stays perfectly in sync with the transition reveal.
   const { isCovered } = useTransition();
 
+  if (pathname?.startsWith("/studio")) return null;
+
   return (
+
     <footer
       className={`relative pb-8 overflow-hidden ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
- }`}
+        }`}
       id="footer"
-      suppressHydrationWarning
-    >
+      suppressHydrationWarning>
 
       <div className="relative z-10 site-container">
         {/* Proximity Distance & Free Push Alerts Section */}
@@ -131,8 +130,8 @@ export function Footer() {
         </div>
 
         {/* Endorsements */}
-        <div className=" py-8 text-left">
-          <p className="font-bold uppercase tracking-[0.3em] mb-6 sm:mb-8">Official Gear Endorsements</p>
+        <div className="py-8 text-left">
+          <p className="uppercase tracking-[0.3em] mb-6 sm:mb-8">Official Gear Endorsements</p>
           <div className="flex flex-wrap justify-start items-center gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6">
             {endorsements.map((brand) => (
               <Image width={200} height={200} unoptimized
@@ -153,11 +152,11 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-1">
               {footerLinks.map((link, i) => (
                 <span key={link.href} className="flex items-center">
-                  <TransitionLink href={link.href} className="text-[13px] font-semibold tracking-wide text-white/70 hover:text-white transition-colors">
+                  <TransitionLink href={link.href} className="text-[13px] font-semibold text-white/70 hover:text-white transition-colors">
                     {link.label}
                   </TransitionLink>
                   {i < footerLinks.length - 1 && (
-                    <span className="text-[var(--color-accent)] mx-2 text-[13px] font-bold">/</span>
+                    <span className="text-[var(--color-accent)] mx-2 text-[13px]">/</span>
                   )}
                 </span>
               ))}
@@ -167,11 +166,11 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-1">
               {socialLinks.map((link, i) => (
                 <span key={link.name} className="flex items-center">
-                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold tracking-wide !text-white hover:!text-white/80 transition-colors" style={{ color: '#ffffff' }}>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold !text-white hover:!text-white/80 transition-colors" style={{ color: '#ffffff' }}>
                     {link.name}
                   </a>
                   {i < socialLinks.length - 1 && (
-                    <span className="text-[var(--color-accent)] mx-2 text-[13px] font-bold">/</span>
+                    <span className="text-[var(--color-accent)] mx-2 text-[13px]">/</span>
                   )}
                 </span>
               ))}
@@ -185,8 +184,7 @@ export function Footer() {
             href="https://michaelscimeca.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="tracking-wide !text-white hover:text-white transition-colors"
-          >
+            className="tracking-wide !text-white hover:text-white transition-colors">
             Hey Mom Look I Built This Thing
           </a>
         </div>

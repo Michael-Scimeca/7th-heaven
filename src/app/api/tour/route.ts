@@ -36,7 +36,7 @@ export async function GET() {
     deduplicated.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
 
     // Only shift if the first show date is in an older year (e.g. 2025 or earlier)
-    if (deduplicated.length > 0 && deduplicated[0].date && deduplicated[0].date.startsWith('2025')) {
+    if (deduplicated.length> 0 && deduplicated[0].date && deduplicated[0].date.startsWith('2025')) {
       const firstShowDate = new Date(deduplicated[0].date + 'T12:00:00');
       const targetDate = new Date('2026-05-20T12:00:00');
       const diffTime = targetDate.getTime() - firstShowDate.getTime();

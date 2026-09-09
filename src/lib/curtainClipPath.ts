@@ -40,7 +40,7 @@ function edgePoints(progress: number, slantFrac: number): { leftY: number; right
 
   let leftP: number;
   let rightP: number;
-  if (slantFrac >= 0) {
+  if (slantFrac>= 0) {
     rightP = clamp01(progress / span);
     leftP = clamp01((progress - d) / span);
   } else {
@@ -141,7 +141,7 @@ export function buildStagedCurtainClipPath(
  * open at the bottom-left for the ENTIRE hold, before the wipe even
  * starts. The real site's hold is genuinely flat/solid (confirmed: many
  * frames of the recording before the wipe starts show zero reveal at
- * either edge) — my 15 measured sample points all came from p >= ~0.026
+ * either edge) — my 15 measured sample points all came from p>= ~0.026
  * (2.6% progress), so the raw ratio model was never actually validated
  * near p=0, it just happened to extrapolate to something plausible-looking
  * that turned out wrong. Fixed by ramping the ratio in linearly over the

@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
     const nearbyShows = (shows || []).flatMap((show: any) => {
       if (!show.latitude || !show.longitude) return [];
       const dist = haversine(userLat!, userLng!, show.latitude, show.longitude);
-      if (dist > radius) return [];
+      if (dist> radius) return [];
       return [{
         ...show,
         distanceMiles: Math.round(dist),

@@ -24,8 +24,7 @@ export function CalendarBadgeIcon({
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`select-none ${className}`}
-    >
+      className={`select-none ${className}`}>
       <defs>
         {/* Drop shadow underneath calendar card */}
         <filter id="cal-badge-shadow" x="-10%" y="-10%" width="125%" height="125%">
@@ -64,8 +63,7 @@ export function CalendarBadgeIcon({
           fontSize="13"
           fontWeight="800"
           fontFamily="system-ui, -apple-system, sans-serif"
-          letterSpacing="0.05em"
-        >
+          letterSpacing="0.05em">
           {month.toUpperCase()}
         </text>
 
@@ -85,8 +83,7 @@ export function CalendarBadgeIcon({
           fontWeight="900"
           fontFamily="system-ui, -apple-system, sans-serif"
           textAnchor="middle"
-          dominantBaseline="central"
-        >
+          dominantBaseline="central">
           {day}
         </text>
       </g>

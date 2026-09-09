@@ -32,19 +32,8 @@ const FALLBACK_NEWS: NewsItem[] = [
   },
 ];
 
-export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
-  const [sanityContent, setSanityContent] = useState<any>(null);
+export default function HomeNewsSection({ items, sanityContent }: { items?: NewsItem[]; sanityContent?: any }) {
 
-  useEffect(() => {
-    fetch("/api/page-content?key=home")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data?.success && data?.data) {
-          setSanityContent(data.data);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   const newsItems = items && items.length > 0 ? items : FALLBACK_NEWS;
   const featured = newsItems[0];

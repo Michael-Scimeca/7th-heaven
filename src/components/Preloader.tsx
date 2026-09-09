@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import Logo from "@/components/Logo";
 import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
@@ -51,6 +52,7 @@ function shouldSkip(): boolean {
 }
 
 export default function Preloader() {
+  const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>(() => (shouldSkip() ? "done" : "loading"));
   const [count, setCount] = useState<number>(0);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -178,7 +180,7 @@ export default function Preloader() {
     };
   }, []);
 
-  if (phase === "done") return null;
+  if (pathname?.startsWith("/studio") || phase === "done") return null;
 
   return (
     <div
@@ -195,12 +197,10 @@ export default function Preloader() {
         backgroundColor: CURTAIN_BG,
         clipPath: buildDecayingSlantClipPath(0, WIPE_SLANT_RATIO),
         pointerEvents: "none",
-      }}
-    >
+      }}>
       <div
         ref={contentRef}
-        className="preloader-content flex flex-col items-center justify-center text-center p-6 select-none z-10"
-      >
+        className="preloader-content flex flex-col items-center justify-center text-center p-6 select-none z-10">
         {/* Brandmark Logo */}
         <div className="mb-4">
           <Logo className="w-24 sm:w-32 h-auto text-white animate-[fade-in_0.4s_ease-out_both]" />
@@ -208,13 +208,13 @@ export default function Preloader() {
 
         {/* Subtitle */}
         <div className="mb-8">
-          <p className="text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase text-purple-300/80">
+          <p className="text-[10px] sm:text-xs tracking-[0.3em] uppercase">
             Digital Experience • 40 Years of Rock
           </p>
         </div>
 
         {/* Exo Ape Style Numerical Counter */}
-        <div className="font-bold text-4xl sm:text-6xl text-white er tabular-nums drop-shadow-lg">
+        <div className="text-4xl sm:text-6xl text-white er tabular-nums drop-  ">
           {String(count).padStart(2, "0")}<span className="text-purple-400 text-2xl sm:text-3xl ml-0.5">%</span>
         </div>
       </div>

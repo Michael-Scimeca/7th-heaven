@@ -98,7 +98,7 @@ export async function POST(request: Request) {
           .from("show_attendance")
           .select("*", { count: "exact", head: true })
           .eq("show_id", showId);
-        if (count && count > 0) {
+        if (count && count> 0) {
           lines.push(`🔥 ${count} fan${count === 1 ? "" : "s"} already going!`);
         }
       }
@@ -134,7 +134,7 @@ export async function POST(request: Request) {
     let nearbySubscribers: { phone: string }[] = [];
     let allSubscribersCount = 0;
 
-    if (customPhoneList.length > 0) {
+    if (customPhoneList.length> 0) {
       // Use custom recipients list directly
       nearbySubscribers = customPhoneList.map(phone => ({ phone }));
       allSubscribersCount = customPhoneList.length;

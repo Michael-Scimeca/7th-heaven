@@ -39,7 +39,7 @@ export default function CruiseFaqSection({ sanityContent }: CruiseFaqSectionProp
                 type="button"
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/10 transition-colors cursor-pointer rounded-none border-none bg-transparent">
-                <span className="text-white pr-4">{faq.q}</span>
+                <span className="text-white pr-4 font-bold">{faq.q}</span>
                 <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 shrink-0 ${openFaq === i ? 'rotate-90 text-purple-400' : ''}`}>
                   <ChevronRight className="w-4 h-4" />
                 </div>

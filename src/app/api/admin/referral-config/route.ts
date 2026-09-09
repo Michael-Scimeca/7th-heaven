@@ -39,7 +39,7 @@ export async function GET() {
         const parsed = typeof milestonesRow.value === "string"
           ? JSON.parse(milestonesRow.value)
           : milestonesRow.value;
-        if (Array.isArray(parsed) && parsed.length > 0) milestones = parsed;
+        if (Array.isArray(parsed) && parsed.length> 0) milestones = parsed;
       } catch {}
     }
 

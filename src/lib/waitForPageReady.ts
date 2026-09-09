@@ -46,7 +46,7 @@ export async function waitForPageReady(): Promise<void> {
       const target = document.querySelector("main") || document.body;
       const textLength = (target.innerText || target.textContent || "").trim().length;
 
-      if (textLength > 10) {
+      if (textLength> 10) {
         finish();
       } else {
         poll(check);

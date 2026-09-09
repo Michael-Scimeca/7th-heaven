@@ -285,10 +285,9 @@ export default function ShowPageClient({
           : isMe
             ? "border-purple-500/40 bg-purple-500/5"
             : `border-white/[0.06] bg-white/[0.02]   border-white/10  ${tierGlow[tier] || ""}`
-          }`}
-      >
+          }`}>
         {/* Avatar */}
-        <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 font-bold border-2 ${isAnon ? " border-white/10 text-white/30" : tierColors[tier] || " border-white/10 text-white "} bg-white/[0.04]`}>
+        <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0    border-2 ${isAnon ? " border-white/10 text-white/30" : tierColors[tier] || " border-white/10 text-white "} bg-white/[0.04]`}>
           {!isAnon && a.profiles?.profile_photo_url ? (
             <Image width={200} height={200} unoptimized src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover rounded-lg" />
           ) : isAnon ? "👤" : initials}
@@ -296,18 +295,18 @@ export default function ShowPageClient({
 
         {/* Info */}
         <div className="flex-1 min-w-0">
-          <p className="font-bold truncate">
+          <p className="truncate">
             {isAnon ? "Anonymous Fan" : (a.profiles?.full_name || "Fan")}
-            {isMe && <span className="ml-2 text-[var(--font-size-2xs)] uppercase text-[var(--color-accent)] font-bold">You</span>}
+            {isMe && <span className="ml-2 text-[var(--font-size-2xs)] uppercase text-[var(--color-accent)]">You</span>}
           </p>
           <div className="flex items-center gap-2 mt-0.5">
             {!isAnon && tier !== "Bronze" && (
-              <span className={`text-[var(--font-size-2xs)] font-bold uppercase ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}>{tier}</span>
+              <span className={`text-[var(--font-size-2xs)]    uppercase ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}>{tier}</span>
             )}
             {a.status === "there" ? (
-              <span className="text-[var(--font-size-2xs)] font-bold uppercase text-[var(--color-accent)]">✓ Here Now</span>
+              <span className="text-[var(--font-size-2xs)] uppercase text-[var(--color-accent)]">✓ Here Now</span>
             ) : (
-              <span className="text-[var(--font-size-2xs)] font-bold uppercase text-white/25">Going</span>
+              <span className="text-[var(--font-size-2xs)] uppercase text-white/25">Going</span>
             )}
           </div>
         </div>
@@ -329,7 +328,7 @@ export default function ShowPageClient({
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
                     <span className="relative inline-flex rounded-lg h-3 w-3 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                   </span>
-                  <span className="font-bold text-white uppercase tracking-wide">
+                  <span className="text-white uppercase">
                     🎥 {feed.host} is LIVE from the show
                     {feed.title && feed.title !== "Crew Broadcast" ? ` — ${feed.title}` : ""}
                   </span>
@@ -337,7 +336,7 @@ export default function ShowPageClient({
                     <span className="text-red-300/70">{feed.viewers} watching</span>
                   )}
                 </div>
-                <span className="px-4 py-1.5 bg-red-500 text-white font-bold uppercase rounded-lg group-hover:bg-white group-hover:text-red-600 transition-colors shrink-0">
+                <span className="px-4 py-1.5 bg-red-500 text-white uppercase rounded-lg group-hover:bg-white group-hover:text-red-600 transition-colors shrink-0">
                   Watch Now →
                 </span>
               </Link>
@@ -350,7 +349,7 @@ export default function ShowPageClient({
       <div className="relative bg-gradient-to-b from-[#0d0718] to-[#050505] border-b border-white/10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,10,61,0.2)_0%,_transparent_60%)]" />
         <div className="site-container py-14 md:py-20 relative z-10">
-          <Link href="/#tour" className="inline-flex items-center gap-2 uppercase text-white/30   text-white transition-colors mb-8 font-bold">
+          <Link href="/#tour" className="inline-flex items-center gap-2 uppercase text-white/30 text-white transition-colors mb-8">
             ← All Shows
           </Link>
 
@@ -370,29 +369,29 @@ export default function ShowPageClient({
                 )}
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-bold leading-none mb-3">{show.venue_name}</h1>
-              <p className="">{show.city}{show.state ? `, ${show.state}` : ""}</p>
+              <h1 className="mb-3">{show.venue_name}</h1>
+              <p>{show.city}{show.state ? `, ${show.state}` : ""}</p>
               <p className="mt-1">{dateStr}</p>
 
               {/* Detail pills */}
               <div className="flex flex-wrap items-center gap-2 mt-4">
                 {show.doors_time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 font-bold uppercase text-white">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 uppercase text-white">
                     🚪 Doors {show.doors_time}
                   </span>
                 )}
                 {show.time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 font-bold uppercase text-white">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 uppercase text-white">
                     🎸 Show {show.time}
                   </span>
                 )}
                 {show.all_ages !== null && (
-                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border font-bold uppercase ${show.all_ages ? "bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]" : "bg-purple-600/10 border-purple-500/30 text-purple-300"}`}>
+                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border    uppercase ${show.all_ages ? "bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]" : "bg-purple-600/10 border-purple-500/30 text-purple-300"}`}>
                     {show.all_ages ? "✅ All Ages" : "🔞 21+"}
                   </span>
                 )}
                 {show.cover && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 font-bold uppercase text-white">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10 uppercase text-white">
                     💵 Cover: {show.cover}
                   </span>
                 )}
@@ -408,8 +407,7 @@ export default function ShowPageClient({
                       onClick={handleRsvp}
                       disabled={rsvpLoading}
                       id="rsvp-btn"
-                      className="px-8 py-4 font-bold uppercase transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/10 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
-                    >
+                      className="px-8 py-4 uppercase transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/10 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400">
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
                   ) : (
@@ -418,8 +416,7 @@ export default function ShowPageClient({
                       disabled={rsvpLoading}
                       icon={false}
                       id="rsvp-btn"
-                      className="px-8 py-4 font-bold uppercase disabled:opacity-50"
-                    >
+                      className="px-8 py-4 uppercase disabled:opacity-50">
                       {rsvpLoading ? "…" : "🎸 I'm Going"}
                     </CosmicRadialButton>
                   )}
@@ -437,10 +434,10 @@ export default function ShowPageClient({
                   )}
                 </>
               )}
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 font-bold uppercase border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors text-center">
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 uppercase border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors text-center">
                 📍 Directions
               </a>
-              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 font-bold uppercase border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors">
+              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 uppercase border border-white/10 text-white hover:border-white/30 hover:text-white transition-colors">
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
             </div>
@@ -459,18 +456,18 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/10 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-lg blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-white/10 rounded-lg text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)] uppercase mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-white/10 rounded-lg text-[var(--font-size-2xs)] text-[var(--color-accent)] uppercase mb-4">
                     Missed this show?
                   </span>
-                  <h3 className="font-bold text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
-                  <p className="   mb-6">
-                    Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className=" text-white ">{show.venue_name}</strong>.
+                  <h3 className="text-white uppercase mb-2">Notify Me Next Time</h3>
+                  <p className="mb-6">
+                    Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className="text-white">{show.venue_name}</strong>.
                   </p>
                 </div>
                 <div>
                   {notifySuccess ? (
                     <div className="p-4 bg-emerald-500/10 border border-white/10 text-center">
-                      <p className="text-emerald-400 font-bold">✓ Successfully subscribed!</p>
+                      <p className="text-emerald-400">✓ Successfully subscribed!</p>
                       <p className="mt-1">We will alert you when new dates are announced.</p>
                     </div>
                   ) : (
@@ -490,8 +487,7 @@ export default function ShowPageClient({
                           type="submit"
                           disabled={notifyLoading}
                           icon={false}
-                          className="px-6 py-3 text-white font-bold uppercase disabled:opacity-50 shrink-0 rounded-lg"
-                        >
+                          className="px-6 py-3 text-white uppercase disabled:opacity-50 shrink-0 rounded-lg">
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
                         </CosmicRadialButton>
                       </div>
@@ -505,10 +501,10 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/10 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-lg blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-lg text-[var(--font-size-2xs)] font-bold text-red-400 uppercase mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-lg text-[var(--font-size-2xs)] text-red-400 uppercase mb-4">
                     Live Performance
                   </span>
-                  <h3 className="font-bold text-white uppercase tracking-wide mb-3">Live Show Clips</h3>
+                  <h3 className="text-white uppercase mb-3">Live Show Clips</h3>
                 </div>
                 <div className="aspect-video w-full overflow-hidden border border-white/10 bg-black">
                   <iframe
@@ -528,29 +524,28 @@ export default function ShowPageClient({
           <button aria-label="Action button"
             id="attendee-toggle-btn"
             onClick={() => setAttendeeListOpen(!attendeeListOpen)}
-            className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06]   border-white/10 transition-colors mb-1 group cursor-pointer"
-          >
+            className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] border-white/10 transition-colors mb-1 group cursor-pointer">
             <div className="flex items-center gap-6">
               <div className="text-left">
-                <p className="uppercase font-bold mb-1">Fans Going</p>
-                <p className="font-bold">{goingCount}</p>
+                <p className="uppercase mb-1">Fans Going</p>
+                <p>{goingCount}</p>
               </div>
               {thereCount > 0 && (
                 <>
                   <div className="w-px h-10 bg-white/10" />
                   <div className="text-left">
-                    <p className="uppercase text-[var(--color-accent)]/60 font-bold mb-1">Here Now</p>
-                    <p className="font-bold">{thereCount}</p>
+                    <p className="uppercase text-[var(--color-accent)]/60 mb-1">Here Now</p>
+                    <p>{thereCount}</p>
                   </div>
                 </>
               )}
               {totalCount === 0 && (
-                <p className="font-bold">Be the first to RSVP!</p>
+                <p>Be the first to RSVP!</p>
               )}
             </div>
             <div className="flex items-center gap-3">
               {!isLoggedIn && (
-                <span className="font-bold uppercase text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">
+                <span className="uppercase text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">
                   Login to RSVP
                 </span>
               )}
@@ -571,9 +566,8 @@ export default function ShowPageClient({
                     <button aria-label="Action button"
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`px-4 py-1.5 font-bold uppercase transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30   text-white "
-                        }`}
-                    >
+                      className={`px-4 py-1.5    uppercase transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30   text-white "
+                        }`}>
                       {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}
                     </button>
                   ))}
@@ -583,7 +577,7 @@ export default function ShowPageClient({
               {totalCount === 0 ? (
                 <div className="py-16 flex flex-col items-center">
                   <span className="text-5xl mb-4 opacity-20">🎸</span>
-                  <p className="font-bold">Nobody&apos;s RSVPed yet.</p>
+                  <p>Nobody&apos;s RSVPed yet.</p>
                   <p className="mt-2">Be the first — hit &ldquo;I&apos;m Going&rdquo; above!</p>
                 </div>
               ) : filteredAttendees.length === 0 ? (
@@ -605,7 +599,7 @@ export default function ShowPageClient({
           {!isPast && (
             <div className="mt-12 p-8 bg-white/[0.02] border border-white/[0.06] text-center">
               <p className="mb-1">Know someone who might be going?</p>
-              <p className="font-bold mb-6">Share this show page</p>
+              <p className="mb-6">Share this show page</p>
 
               {/* QR Code */}
               <div className="flex flex-col items-center mb-8">
@@ -618,21 +612,19 @@ export default function ShowPageClient({
                     level="M"
                   />
                 </div>
-                <p className="uppercase font-bold">Scan to open the show page</p>
+                <p className="uppercase">Scan to open the show page</p>
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <CosmicRadialButton
                   onClick={copyLink}
                   icon={false}
-                  className="px-6 py-3 text-white font-bold rounded-lg"
-                >
+                  className="px-6 py-3 text-white rounded-lg">
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </CosmicRadialButton>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="px-6 py-3 border border-white/10 text-white/50 font-bold uppercase hover:border-white/30 hover:text-white transition-colors"
-                >
+                  className="px-6 py-3 border border-white/10 text-white/50 uppercase hover:border-white/30 hover:text-white transition-colors">
                   💬 Text a Friend
                 </a>
               </div>

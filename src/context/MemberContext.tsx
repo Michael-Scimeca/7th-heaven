@@ -63,9 +63,9 @@ export function useMember() {
 }
 
 function getTier(points: number): Member["tier"] {
-  if (points >= 5000) return "Platinum";
-  if (points >= 2000) return "Gold";
-  if (points >= 500) return "Silver";
+  if (points>= 5000) return "Platinum";
+  if (points>= 2000) return "Gold";
+  if (points>= 500) return "Silver";
   return "Bronze";
 }
 

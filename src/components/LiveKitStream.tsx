@@ -17,8 +17,7 @@ interface LiveKitStreamProps {
 // Error boundary to catch LiveKit SDK internal errors without crashing the page
 class LiveKitErrorBoundary extends React.Component<
   { children: React.ReactNode; fallback?: React.ReactNode },
-  { hasError: boolean; error: Error | null }
-> {
+  { hasError: boolean; error: Error | null }> {
   constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -34,11 +33,10 @@ class LiveKitErrorBoundary extends React.Component<
       return this.props.fallback || (
         <div className="h-full flex items-center justify-center bg-black/40">
           <div className="text-center">
-            <p className="">Stream connection interrupted</p>
+            <p>Stream connection interrupted</p>
             <button aria-label="Action button"
               onClick={() => this.setState({ hasError: false, error: null })}
-              className="mt-2 text-[var(--color-accent)] underline hover:text-[var(--color-accent)]"
-            >
+              className="mt-2 text-[var(--color-accent)] underline hover:text-[var(--color-accent)]">
               Retry
             </button>
           </div>
@@ -124,7 +122,7 @@ export function LiveKitStream({
     return (
       <div className={`flex items-center justify-center bg-black/40 p-8 ${className}`}>
         <div className="text-center">
-          <p className="text-red-400   mb-2 flex items-center justify-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Stream Error</p>
+          <p className="text-red-400 mb-2 flex items-center justify-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Stream Error</p>
           <p className="max-w-sm">{error}</p>
         </div>
       </div>
@@ -136,7 +134,7 @@ export function LiveKitStream({
       <div className={`flex items-center justify-center bg-black/40 ${className}`}>
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin mx-auto mb-3" />
-          <p className="">Connecting to stream...</p>
+          <p>Connecting to stream...</p>
         </div>
       </div>
     );
@@ -156,8 +154,7 @@ export function LiveKitStream({
       onDisconnected={onDisconnected}
       className={className}
       data-lk-theme="default"
-      style={{ height: '100%' }}
-    >
+      style={{ height: '100%' }}>
       <RoomAudioRenderer />
       <LiveKitErrorBoundary>
         {isPublisher ? <PublisherView lk={lk} /> : <ViewerView lk={lk} room={room} />}
@@ -201,7 +198,7 @@ function PublisherView({ lk }: { lk: any }) {
   return (
     <div className="h-full flex flex-col">
       <div className="flex-1 relative">
-        {localCameraTrack.length > 0 ? (
+        {localCameraTrack.length> 0 ? (
           <div style={{ height: '100%', position: 'relative' }}>
             <ParticipantTile trackRef={localCameraTrack[0]} style={{ height: '100%', width: '100%' }} />
           </div>
@@ -235,14 +232,14 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
   const remoteParticipants = participants.filter((p: any) => !p.isLocal);
 
   if (remoteCameraTracks.length === 0) {
-    if (remoteParticipants.length > 0) {
+    if (remoteParticipants.length> 0) {
       return (
         <div className="h-full flex items-center justify-center">
           <div className="text-center">
             <div className="w-24 h-24 mx-auto mb-4 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center">
-              <Mic className="w-8 h-8   " />
+              <Mic className="w-8 h-8" />
             </div>
-            <p className="font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>
+            <p>{remoteParticipants[0]?.name || 'Crew'} is Live</p>
             <p className="mt-1">Camera is warming up or in audio-only mode</p>
           </div>
         </div>
@@ -254,7 +251,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin mx-auto mb-3" />
           <p className="font-medium">Connecting to stream...</p>
-          <p className=" mt-1 opacity-40">Room ID: {room}</p>
+          <p className="mt-1 opacity-40">Room ID: {room}</p>
           <p className="mt-1">Crew members will appear when they go live</p>
         </div>
       </div>
@@ -265,8 +262,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
     <div className="h-full relative">
       <GridLayout
         tracks={remoteCameraTracks}
-        style={{ height: '100%' }}
-      >
+        style={{ height: '100%' }}>
         <ParticipantTile />
       </GridLayout>
     </div>

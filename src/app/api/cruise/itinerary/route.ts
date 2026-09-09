@@ -124,7 +124,7 @@ export async function GET(req: Request) {
       }
     }
     
-    if (Array.isArray(parsed) && parsed.length >= 8) {
+    if (Array.isArray(parsed) && parsed.length>= 8) {
       return NextResponse.json(parsed);
     }
     return NextResponse.json(DEFAULT_CARIBBEAN_ITINERARY);

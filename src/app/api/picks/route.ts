@@ -55,7 +55,7 @@ export async function GET(req: Request) {
     }
 
     const totalOwned = (picks || []).length;
-    const uniqueTypes = Object.values(grouped).filter((g) => g.count > 0).length;
+    const uniqueTypes = Object.values(grouped).filter((g) => g.count> 0).length;
 
     return NextResponse.json({
       picks: picks || [],

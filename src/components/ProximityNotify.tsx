@@ -14,7 +14,7 @@ import CosmicRadialButton from "@/components/CosmicRadialButton";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import { GlowInput } from "@/components/GlowInput";
 import IphoneClipMask from "@/components/IphoneClipMask";
-import { User, Mail, MapPin, Sliders, Music, Check } from "lucide-react";
+import { User, Mail, MapPin, Sliders, Music, Check, Guitar } from "lucide-react";
 
 const RADIUS_OPTIONS = [
   { value: "15", label: "15 Mi" },
@@ -25,14 +25,14 @@ const RADIUS_OPTIONS = [
 ];
 
 const SHOW_TYPES = [
-  { id: "all", label: "All Shows", icon: "🎸" },
-  { id: "full", label: "Full Band", icon: "🟣" },
-  { id: "unplugged", label: "Unplugged", icon: "🟣" },
-  { id: "outdoor", label: "Outdoor", icon: "🟢" },
-  { id: "casino", label: "Casino", icon: "🟡" },
-  { id: "tv", label: "TV", icon: "🔵" },
-  { id: "fundraiser", label: "Fundraiser", icon: "🔴" },
-  { id: "special", label: "Special", icon: "💗" },
+  { id: "all", label: "All Shows", color: "#c084fc", iconType: "guitar" },
+  { id: "full", label: "Full Band", color: "#a855f7" },
+  { id: "unplugged", label: "Unplugged", color: "#c084fc" },
+  { id: "outdoor", label: "Outdoor", color: "#34d399" },
+  { id: "casino", label: "Casino", color: "#fbbf24" },
+  { id: "tv", label: "TV", color: "#60a5fa" },
+  { id: "fundraiser", label: "Fundraiser", color: "#f43f5e" },
+  { id: "special", label: "Special", color: "#f472b6" },
 ];
 
 interface ProximityNotifyProps {
@@ -50,12 +50,11 @@ interface ProximityNotifyProps {
 function CrispCheckIcon() {
   return (
     <svg
-      className="w-3.5 h-3.5 text-pink-300 ml-0.5 shrink-0 inline-block drop-shadow-[0_0_6px_rgba(244,114,182,0.5)]"
+      className="w-3.5 h-3.5 text-pink-300 ml-0.5 shrink-0 inline-block "
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
+      aria-hidden="true">
       <path
         d="M3.25 8.25L6.5 11.5L12.75 4.75"
         stroke="currentColor"
@@ -249,8 +248,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 insetTopPercent={0}
                 insetBottomPercent={0}
                 borderRadiusPx={48}
-                className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center md:justify-end"
-              >
+                className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center md:justify-end">
                 <div className="relative w-full h-full max-h-[900px] aspect-[9/18] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-black flex items-center justify-center transition-opacity duration-300">
                   <video
                     ref={phoneVideoRef}
@@ -280,7 +278,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0 md:pl-0">
             {/* Header Title */}
             <div>
-              <h2 className="lg:text-6xl font-bold text-white mb-3">
+              <h2 className="lg:text-6xl text-white mb-3">
                 Never Miss a Show
               </h2>
               <p className="text-purple-200/70 max-w-xl">
@@ -296,7 +294,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <p className="text-amber-200/60 uppercase font-semibold mb-0.5">
                     Countries
                   </p>
-                  <p className="font-bold text-amber-200 ">
+                  <p className="text-amber-200">
                     7
                   </p>
                 </div>
@@ -305,7 +303,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <p className="text-amber-200/60 uppercase font-semibold mb-0.5">
                     Impressions
                   </p>
-                  <p className="font-bold text-amber-200 ">
+                  <p className="text-amber-200">
                     2,100,000
                   </p>
                 </div>
@@ -317,7 +315,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <p className="text-amber-200/60 uppercase font-semibold mb-0.5">
                     Followers &amp; Fans
                   </p>
-                  <p className="font-bold text-amber-200 ">
+                  <p className="text-amber-200">
                     +18,000
                   </p>
                 </div>
@@ -326,7 +324,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <p className="text-amber-200/60 uppercase font-semibold mb-0.5">
                     Live Engagements
                   </p>
-                  <p className="font-bold text-amber-200 ">
+                  <p className="text-amber-200">
                     160,000
                   </p>
                 </div>
@@ -341,17 +339,17 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     <div className="w-12 h-12 rounded-lg bg- purple-white/20 flex items-center justify-center text-purple-400">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                     </div>
-                    <span className="text-white font-bold text-xl">Check your email!</span>
+                    <span className="text-white text-xl">Check your email!</span>
                   </div>
                   <p className="text-purple-200/70 mb-1">We&apos;ve sent a confirmation link to your inbox.</p>
-                  <p className="">Click the link to confirm your account and start getting show alerts.</p>
+                  <p>Click the link to confirm your account and start getting show alerts.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="bg-transparent p-0 space-y-4">
                   {/* Input Fields (Matching Footer Setup) */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block font-bold uppercase text-purple-300/80 mb-1 flex items-center gap-1">
+                      <label className="block uppercase mb-1 flex items-center gap-1">
                         Full Name
                       </label>
                       <GlowInput
@@ -363,7 +361,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       />
                     </div>
                     <div>
-                      <label className="block text- font-bold uppercase text-purple-300/80 mb-1 flex items-center gap-1">
+                      <label className="block text- uppercase mb-1 flex items-center gap-1">
                         Email address
                       </label>
                       <GlowInput
@@ -376,7 +374,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
                     <div className="sm:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-3">
                       <div className="w-full sm:w-[220px]">
-                        <label className="block font-bold uppercase text-purple-300/80 mb-1 flex items-center gap-1">
+                        <label className="block uppercase mb-1 flex items-center gap-1">
                           Zip Code / City
                         </label>
                         <GlowInput
@@ -388,7 +386,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         />
                       </div>
                       <div className="w-full flex-1">
-                        <label className="block font-bold uppercase text-purple-300/80 mb-1 flex items-center gap-1">
+                        <label className="block uppercase mb-1 flex items-center gap-1">
                           Distance Radius
                         </label>
                         <div className="inline-flex flex-wrap gap-1 items-center w-fit max-w-full">
@@ -400,8 +398,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                                 type="button"
                                 onClick={() => setRadius(opt.value)}
                                 isActive={active}
-                                className="!w-auto px-2.5 py-1.5 font-bold text-xs"
-                              >
+                                className="!w-auto px-2.5 py-1.5 text-xs">
                                 {opt.label}
                               </FoolishShrimpButton>
                             );
@@ -413,7 +410,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
                   {/* Show Type Preferences */}
                   <div className="pt-2 border-t border-white/10 space-y-1.5">
-                    <label className="block  font-bold uppercase text-purple-300/80 flex items-center gap-1">
+                    <label className="block uppercase flex items-center gap-1">
                       Notification Types
                     </label>
                     <div className="flex flex-wrap gap-1.5">
@@ -430,9 +427,18 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                               setSelectedShowTypes(next.length === 0 ? ["all"] : next);
                             }}
                             isActive={isSelected}
-                            className="!w-auto inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold"
-                          >
-                            <span>{type.icon}</span>
+                            className="!w-auto inline-flex items-center gap-1 px-2.5 py-1.5 text-xs">
+                            {type.iconType === "guitar" ? (
+                              <Guitar className="w-3.5 h-3.5 text-purple-300 shrink-0 inline-block" />
+                            ) : (
+                              <span
+                                className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
+                                style={{
+                                  backgroundColor: type.color,
+                                  boxShadow: `0 0 6px ${type.color}80`,
+                                }}
+                              />
+                            )}
                             <span>{type.label}</span>
                             {isSelected && <CrispCheckIcon />}
                           </FoolishShrimpButton>
@@ -445,8 +451,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <div className="pt-2 space-y-2">
                     <div
                       className="flex items-start gap-2.5 cursor-pointer text-left w-full select-none"
-                      onClick={() => setAgreeTerms(!agreeTerms)}
-                    >
+                      onClick={() => setAgreeTerms(!agreeTerms)}>
                       <div className="shrink-0 mt-0.5">
                         <SquishyToggle
                           id="agree-terms"
@@ -455,7 +460,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           onChange={setAgreeTerms}
                         />
                       </div>
-                      <span className="text-white/40 ">
+                      <span className="text-white/40">
                         I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
                       </span>
                     </div>
@@ -466,8 +471,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     type="submit"
                     icon={false}
                     disabled={status === "loading" || !agreeTerms}
-                    className="w-full uppercase font-bold cursor-pointer transition disabled:opacity-60"
-                  >
+                    className="w-full uppercase cursor-pointer transition disabled:opacity-60">
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
                   </CosmicRadialButton>
 

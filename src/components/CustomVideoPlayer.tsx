@@ -203,8 +203,7 @@ export default function CustomVideoPlayer({
       ref={containerRef}
       className="relative w-full h-full bg-black overflow-hidden select-none group/player cursor-pointer"
       onMouseMove={resetHideTimer}
-      onClick={togglePlay}
-    >
+      onClick={togglePlay}>
       {/* Embedded Video Player Container (Full-bleed Cover Sizing) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none flex items-center justify-center">
         <div
@@ -232,12 +231,11 @@ export default function CustomVideoPlayer({
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30 animate-ping duration-500">
           <CosmicRadialButton
             icon={false}
-            className="w-20 h-20 !rounded-full !p-0 flex items-center justify-center text-white shadow-[0_0_40px_rgba(168,85,247,0.8)] border border-purple-300/40"
-          >
+            className="w-20 h-20 !rounded-full !p-0 flex items-center justify-center text-white shadow-[0_0_40px_rgba(168,85,247,0.8)] border border-purple-300/40">
             {centerAnim === "play" ? (
-              <Play className=" w-11 h-11  fill-white ml-1" />
+              <Play className="w-11 h-11 fill-white ml-1" />
             ) : (
-              <Pause className=" w-11 h-11  fill-white" />
+              <Pause className="w-11 h-11 fill-white" />
             )}
           </CosmicRadialButton>
         </div>
@@ -247,13 +245,12 @@ export default function CustomVideoPlayer({
       <div
         className={`absolute top-0 inset-x-0 z-30 p-4 bg-gradient-to-b from-black/80 via-black/40 to-transparent flex items-center justify-between transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
           }`}
-        onClick={(e) => e.stopPropagation()}
-      >
+        onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-2 max-w-[80%]">
-          <span className="font-bold uppercase text-[var(--color-accent)] bg-black/60 px-2 py-0.5 rounded border border-white/10">
+          <span className="uppercase text-[var(--color-accent)] bg-black/60 px-2 py-0.5 rounded border border-white/10">
             Now Playing
           </span>
-          <h4 className="font-bold text-white tracking-wide truncate drop-shadow">
+          <h4 className="text-white truncate drop-shadow">
             {title}
           </h4>
         </div>
@@ -261,9 +258,8 @@ export default function CustomVideoPlayer({
         {onClose && (
           <button
             onClick={onClose}
-            className="p-2 !rounded-full bg-black/60 text-white/80 hover:text-white hover:bg-white/20 transition-all border border-white/10 hover:scale-110 cursor-pointer shadow-lg"
-            aria-label="Close Player"
-          >
+            className="p-2 !rounded-full bg-black/60 text-white/80 hover:text-white hover:bg-white/20 transition-all border border-white/10   "
+            aria-label="Close Player">
             <X className="w-6 h-6" />
           </button>
         )}
@@ -273,14 +269,12 @@ export default function CustomVideoPlayer({
       <div
         className={`absolute bottom-0 inset-x-0 z-30 px-4 pb-4 pt-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
           }`}
-        onClick={(e) => e.stopPropagation()}
-      >
+        onClick={(e) => e.stopPropagation()}>
         {/* Custom Progress Bar */}
         <div
           ref={progressRef}
           onClick={handleProgressClick}
-          className="relative w-full h-1.5 bg-white/20 hover:h-2.5 transition-[height] duration-200 cursor-pointer rounded-lg mb-3 group/timeline"
-        >
+          className="relative w-full h-1.5 bg-white/20 hover:h-2.5 transition-[height] duration-200 cursor-pointer rounded-lg mb-3 group/timeline">
           {/* Buffered Progress */}
           <div
             className="absolute top-0 left-0 h-full bg-white/30 rounded-lg"
@@ -306,9 +300,8 @@ export default function CustomVideoPlayer({
             <CosmicRadialButton
               onClick={togglePlay}
               icon={false}
-              className=" w-11 h-11  !rounded-full !p-0 text-white flex items-center justify-center transition-transform cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
-              aria-label={isPlaying ? "Pause" : "Play"}
-            >
+              className="w-11 h-11 !rounded-full !p-0 text-white flex items-center justify-center transition-transform cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
+              aria-label={isPlaying ? "Pause" : "Play"}>
               {isPlaying ? (
                 <Pause className="w-5 h-5 fill-white" />
               ) : (
@@ -320,8 +313,7 @@ export default function CustomVideoPlayer({
             <button
               onClick={() => seekRelative(-10)}
               className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-              title="Rewind 10s"
-            >
+              title="Rewind 10s">
               <RotateCcw className="w-4 h-4" />
             </button>
 
@@ -329,13 +321,12 @@ export default function CustomVideoPlayer({
             <button
               onClick={() => seekRelative(10)}
               className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-              title="Forward 10s"
-            >
+              title="Forward 10s">
               <RotateCw className="w-4 h-4" />
             </button>
 
             {/* Time Counter */}
-            <span className=" font-bold text-white/80 tabular-nums ml-1">
+            <span className="text-white/80 tabular-nums ml-1">
               {formatTime(currentTime)} <span className="text-white/40">/</span> {formatTime(duration)}
             </span>
           </div>
@@ -346,13 +337,11 @@ export default function CustomVideoPlayer({
             <div
               className="relative flex items-center gap-2"
               onMouseEnter={() => setShowVolume(true)}
-              onMouseLeave={() => setShowVolume(false)}
-            >
+              onMouseLeave={() => setShowVolume(false)}>
               <button
                 onClick={toggleMute}
                 className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                aria-label={isMuted ? "Unmute" : "Mute"}
-              >
+                aria-label={isMuted ? "Unmute" : "Mute"}>
                 {isMuted || volume === 0 ? (
                   <VolumeX className="w-4 h-4 text-purple-400" />
                 ) : (
@@ -362,8 +351,7 @@ export default function CustomVideoPlayer({
 
               <div
                 className={`flex items-center transition-[width,opacity] duration-300 overflow-hidden ${showVolume ? "w-20 opacity-100" : "w-0 opacity-0"
-                  }`}
-              >
+                  }`}>
                 <input
                   type="range"
                   min={0}
@@ -387,8 +375,7 @@ export default function CustomVideoPlayer({
             <button
               onClick={toggleFullscreen}
               className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-              aria-label="Toggle Fullscreen"
-            >
+              aria-label="Toggle Fullscreen">
               {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
             </button>
           </div>

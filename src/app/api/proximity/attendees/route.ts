@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     const validAttendees = (attendees || []).filter((a: any) => {
       if (a.status === 'there' && a.checked_in_at) {
         const checkInTime = new Date(a.checked_in_at).getTime();
-        if (now - checkInTime > TWELVE_HOURS_MS) return false; // Expired
+        if (now - checkInTime> TWELVE_HOURS_MS) return false; // Expired
       }
       return true;
     });

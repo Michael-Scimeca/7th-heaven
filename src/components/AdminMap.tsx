@@ -16,8 +16,7 @@ L.Icon.Default.mergeOptions({
 
 class MapErrorBoundary extends React.Component<
   { children: React.ReactNode },
-  { hasError: boolean }
-> {
+  { hasError: boolean }> {
   constructor(props: any) {
     super(props);
     this.state = { hasError: false };
@@ -35,11 +34,10 @@ class MapErrorBoundary extends React.Component<
     if (this.state.hasError) {
       return (
         <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border border-white/10 flex flex-col items-center justify-center gap-3">
-          <p className="">Map reloading...</p>
+          <p>Map reloading...</p>
           <button aria-label="Action button"
             onClick={() => this.setState({ hasError: false })}
-            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase rounded cursor-pointer border-none"
-          >
+            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white uppercase rounded cursor-pointer border-none">
             Reset Map
           </button>
         </div>
@@ -109,8 +107,7 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
           zoomControl={false}
           scrollWheelZoom={false}
           dragging={true}
-          doubleClickZoom={false}
-        >
+          doubleClickZoom={false}>
           <MapResizeTrigger isVisible={isVisible} />
           <TileLayer
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
@@ -132,11 +129,10 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
                   fillColor: color,
                   fillOpacity: 0.7,
                   weight: 2,
-                }}
-              >
+                }}>
                 <Tooltip direction="top" offset={[0, -10]} opacity={1} className="custom-tooltip">
                   <div className="font-sans">
-                    <p className="font-bold uppercase text-black m-0">{loc.city}</p>
+                    <p className="uppercase text-black m-0">{loc.city}</p>
                     <p className="text-black/70 m-0">{loc.percentage}% of Traffic</p>
                   </div>
                 </Tooltip>

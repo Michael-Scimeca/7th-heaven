@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await query;
 
-    if (!error && data && data.length > 0) {
+    if (!error && data && data.length> 0) {
       return NextResponse.json({ notes: data });
     }
   } catch (err) {

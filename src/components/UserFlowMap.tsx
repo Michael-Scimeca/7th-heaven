@@ -168,17 +168,17 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const scheme = COLOR_SCHEMES[data.system || "pink"];
 
   return (
-    <div className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white font-bold shadow-2xlbackdrop-blur-[18px] cursor-pointer transition duration-300`}>
+    <div className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white    shadow-2xlbackdrop-blur-[18px] cursor-pointer transition duration-300`}>
       <div className="flex items-center justify-between gap-1 border-b border-white/10 pb-1.5 mb-2">
-        <span className="px-2.5 py-0.5 rounded-lg bg-black/40    text-[12px] font-bold">
+        <span className="px-2.5 py-0.5 rounded-lg bg-black/40 text-[12px]">
           ROOT 0.0
         </span>
-        <span className="px-2 py-0.5 rounded bg-white/20 text-white text-[12px] uppercase tracking-wider">
+        <span className="px-2 py-0.5 rounded bg-white/20 text-white text-[12px] uppercase r">
           PUBLIC HUB
         </span>
       </div>
-      <h2 className="uppercase font-bold flex items-center justify-center gap-2">
-        <Globe className="w-5 h-5   " />
+      <h2 className="uppercase flex items-center justify-center gap-2">
+        <Globe className="w-5 h-5" />
         <span>Home Page (/)</span>
       </h2>
       <p className="font-normal mt-1">
@@ -199,7 +199,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
       <div className="flex items-center justify-between gap-1 mb-1.5 border-b border-white/10 pb-1.5">
-        <span className={`px-2 py-0.5 rounded text-[12px] font-bold uppercase ${scheme.badge}`}>
+        <span className={`px-2 py-0.5 rounded text-[12px]    uppercase ${scheme.badge}`}>
           HEADER NAV
         </span>
         <span className={`w-2 h-2 rounded-lg ${scheme.dot}`} />
@@ -209,12 +209,12 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
         <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border border-white/10 ${scheme.badge}`}>
           <IconComp className="w-4 h-4 text-white" />
         </div>
-        <h3 className="font-bold text-white uppercase truncate">
+        <h3 className="text-white uppercase truncate">
           {data.label}
         </h3>
       </div>
 
-      <code className="text-[10px]   /90 block truncate">
+      <code className="text-[10px] /90 block truncate">
         {data.sub}
       </code>
 
@@ -231,7 +231,7 @@ function DecisionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
       <div className="flex items-center justify-center gap-1.5">
         <GitBranch className="w-3.5 h-3.5 text-amber-300 shrink-0" />
-        <span className="font-bold text-amber-200 uppercase truncate">
+        <span className="text-amber-200 uppercase truncate">
           {data.label}
         </span>
       </div>
@@ -260,17 +260,17 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-1 mb-0.5">
-            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ${scheme.badge}`}>
+            <span className={`px-1.5 py-0.5 rounded text-[9px]    uppercase ${scheme.badge}`}>
               {data.kind.toUpperCase()}
             </span>
             <span className={`w-1.5 h-1.5 rounded-lg ${scheme.dot}`} />
           </div>
 
-          <h4 className="font-bold text-white uppercase truncate">
+          <h4 className="text-white uppercase truncate">
             {data.label}
           </h4>
 
-          <code className="text-[10px]   /80 block truncate mt-0.5">
+          <code className="text-[10px] /80 block truncate mt-0.5">
             {data.sub}
           </code>
         </div>
@@ -304,13 +304,13 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-1 mb-1">
-            <span className="px-1.5 py-0.5 rounded bg-amber-500/25 text-amber-300 border border-amber-500/40 text-[9px] font-bold uppercase ">
+            <span className="px-1.5 py-0.5 rounded bg-amber-500/25 text-amber-300 border border-amber-500/40 text-[9px] uppercase">
               ✉ EMAIL TOUCHPOINT
             </span>
             <span className="w-1.5 h-1.5 rounded-lg bg-amber-400" />
           </div>
 
-          <h4 className="font-bold text-white uppercase truncate">
+          <h4 className="text-white uppercase truncate">
             {data.label}
           </h4>
 
@@ -491,13 +491,13 @@ export default function UserFlowMap() {
   }, []);
 
   return (
-    <div className="relative w-full h-[850px] rounded-lg border border-purple-500/30 bg-[#050505] overflow-hidden shadow-2xl backdrop-blur-[45px]">
+    <div className="relative w-full h-[850px] rounded-lg border border-purple-500/30 bg-[#050505] overflow-hidden   backdrop-blur-[45px]">
 
       {/* Header Info Bar */}
       <div className="absolute top-0 left-0 right-0 z-10 bg-black/90 backdrop-blur-[45px] border-b border-white/10 px-4 py-2.5 flex items-center justify-between pointer-events-none select-none">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-lg bg-pink-400 animate-pulse" />
-          <span className="font-bold uppercase text-white">
+          <span className="uppercase text-white">
             7th Heaven User Flow & Architecture Tree Map
           </span>
         </div>
@@ -518,8 +518,7 @@ export default function UserFlowMap() {
         fitView
         fitViewOptions={{ padding: 0.08 }}
         colorMode="dark"
-        className="pt-10"
-      >
+        className="pt-10">
         <Background color="#1e1b4b" gap={20} size={1} />
         <Controls className="!bg-black/80 ! border-white/10 !text-white ! rounded-lg overflow-hidden" />
         <MiniMap
@@ -548,8 +547,8 @@ export default function UserFlowMap() {
       </ReactFlow>
 
       {/* Bottom Color Legend */}
-      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 bg-black/90 border border-white/10 px-4 py-2 rounded-lg backdrop-blur-xl font-bold uppercase ">
-        <span className="text-white/40 text-[12px] ">Legend:</span>
+      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 bg-black/90 border border-white/10 px-4 py-2 rounded-lg backdrop-blur-xl uppercase">
+        <span className="text-white/40 text-[12px]">Legend:</span>
         <span className="flex items-center gap-1.5 text-pink-300 text-[10px]"><span className="w-2 h-2 rounded-lg bg-pink-400" /> Home</span>
         <span className="flex items-center gap-1.5 text-teal-300 text-[10px]"><span className="w-2 h-2 rounded-lg bg-teal-400" /> Merch</span>
         <span className="flex items-center gap-1.5 text-sky-300 text-[10px]"><span className="w-2 h-2 rounded-lg bg-sky-400" /> Shows</span>
@@ -566,30 +565,29 @@ export default function UserFlowMap() {
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
               <div>
-                <span className="px-2 py-0.5 rounded bg- purple-white/20 text-purple-300 text-[12px] font-bold uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded bg- purple-white/20 text-purple-300 text-[12px] uppercase r">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
-                <h3 className="font-bold uppercase text-white mt-1">
+                <h3 className="uppercase text-white mt-1">
                   {selectedNode.data.label}
                 </h3>
-                <code className="    block mt-0.5">
+                <code className="block mt-0.5">
                   {selectedNode.data.sub}
                 </code>
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white hover:text-white hover:bg-white/20 transition"
-              >
+                className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white hover:text-white hover:bg-white/20 transition">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Summary */}
             <div className="space-y-2">
-              <span className="text-[10px] font-bold uppercase text-white/40 block">
+              <span className="text-[10px] uppercase text-white/40 block">
                 Technical Summary
               </span>
-              <p className="   bg-white/[0.03] p-3 rounded-lg border border-white/10">
+              <p className="bg-white/[0.03] p-3 rounded-lg border border-white/10">
                 {selectedNode.data.details?.summary || `Interactive ${selectedNode.data.label} node step in the 7th Heaven web app.`}
               </p>
             </div>
@@ -597,7 +595,7 @@ export default function UserFlowMap() {
             {/* Email Subject Info */}
             {selectedNode.data.details?.emailSubject && (
               <div className="space-y-1.5">
-                <span className="text-[10px] font-bold uppercase text-amber-300 block">
+                <span className="text-[10px] uppercase text-amber-300 block">
                   ✉ Transactional Email Subject Line
                 </span>
                 <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg text-amber-200">
@@ -612,16 +610,14 @@ export default function UserFlowMap() {
             {selectedNode.data.sub.startsWith("/") ? (
               <button
                 onClick={() => router.push(selectedNode.data.sub.split("?")[0])}
-                className="w-full py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase transition flex items-center justify-center gap-2 shadow-lg"
-              >
+                className="w-full py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white uppercase transition flex items-center justify-center gap-2   ">
                 <span>Visit Route ({selectedNode.data.sub.split("?")[0]})</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             ) : (
               <button
                 onClick={() => setSelectedNode(null)}
-                className="w-full py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 font-bold uppercase transition"
-              >
+                className="w-full py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 uppercase transition">
                 Close Inspector
               </button>
             )}

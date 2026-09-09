@@ -60,18 +60,17 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   return (
     <div
       title={data.description || data.title}
-      className={`${isSmall ? "w-[190px]" : "w-60"} rounded-lg border border-white/10 bg-[#0d0d14] overflow-hidden select-none transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/40 ${accent.ring} group`}
-    >
+      className={`${isSmall ? "w-[190px]" : "w-60"} rounded-lg border border-white/10 bg-[#0d0d14] overflow-hidden select-none transition-all duration-150 hover:-translate-y-0.5 hover:   hover:shadow-black/40 ${accent.ring} group`}>
       <Handle type="target" position={Position.Top} className={`!w-2 !h-2 ${accent.bar} !border-0`} />
 
       <Link href={targetPath} className="block cursor-pointer">
         <div className={`h-1 w-full ${accent.bar}`} />
 
         <div className="flex items-center justify-between gap-1 px-2 py-1">
-          <span className={`font-bold ${isSmall ? "text-[10px]" : " text-[12px] "} tracking-wide uppercase truncate ${accent.text}`}>
+          <span className={`   ${isSmall ? "text-[10px]" : " text-[12px] "}   uppercase truncate ${accent.text}`}>
             {data.header}
           </span>
-          <span className={`shrink-0 px-1 py-[1px] rounded text-[7px] font-bold ${accent.chip}`}>
+          <span className={`shrink-0 px-1 py-[1px] rounded text-[7px]    ${accent.chip}`}>
             {BADGE_LABEL[data.badgeType || "PORTAL"]}
           </span>
         </div>
@@ -88,7 +87,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
               className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity duration-150 block"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-white/20 text-[12px] ">
+            <div className="w-full h-full flex items-center justify-center text-white/20 text-[12px]">
               {targetPath}
             </div>
           )}
@@ -1614,13 +1613,13 @@ export default function VisualSitemapClient() {
       `}</style>
 
       {/* Header bar with View Selector Tabs */}
-      <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-lg backdrop-blur-xl">
+      <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4   rounded-lg backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold ">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white">
             7H
           </div>
           <div>
-            <h1 className="font-bold text-base text-white uppercase">
+            <h1 className="">
               {activeTab === "ARCH"
                 ? "7th Heaven Site Directory & Direct Vertical Booking PIN Flow"
                 : activeTab === "BOOKING"
@@ -1629,7 +1628,7 @@ export default function VisualSitemapClient() {
                     ? "Cruise Reservation & Security PIN Flow"
                     : "Fan Account Signup & PIN Verification Flow"}
             </h1>
-            <p className="">
+            <p>
               {activeTab === "ARCH"
                 ? "Direct Vertical Flow under Book Us: Form ➔ Planner PIN Verification Module ➔ Planner Security PIN Email ➔ Enter PIN ➔ Planner Dashboard"
                 : activeTab === "BOOKING"
@@ -1645,44 +1644,40 @@ export default function VisualSitemapClient() {
         <div className="flex items-center gap-2 bg-black/60 p-1.5 rounded-lg border border-white/10">
           <button
             onClick={() => setActiveTab("ARCH")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "ARCH"
-              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+            className={`px-3.5 py-1.5 rounded-lg    flex items-center gap-1.5 transition-all ${activeTab === "ARCH"
+              ? "bg-purple-600 text-white    border border-purple-400/50"
               : " text-white hover:text-white   bg-[#00000029] "
-              }`}
-          >
+              }`}>
             <Layers className="w-3.5 h-3.5 text-purple-300" />
             <span>Full Architecture</span>
           </button>
 
           <button
             onClick={() => setActiveTab("BOOKING")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "BOOKING"
-              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+            className={`px-3.5 py-1.5 rounded-lg    flex items-center gap-1.5 transition-all ${activeTab === "BOOKING"
+              ? "bg-purple-600 text-white    border border-purple-400/50"
               : " text-white hover:text-white   bg-[#00000029] "
-              }`}
-          >
-            <Calendar className="w-3.5 h-3.5   " />
+              }`}>
+            <Calendar className="w-3.5 h-3.5" />
             <span>Booking Flow</span>
           </button>
 
           <button
             onClick={() => setActiveTab("CRUISE")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "CRUISE"
-              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+            className={`px-3.5 py-1.5 rounded-lg    flex items-center gap-1.5 transition-all ${activeTab === "CRUISE"
+              ? "bg-purple-600 text-white    border border-purple-400/50"
               : " text-white hover:text-white   bg-[#00000029] "
-              }`}
-          >
+              }`}>
             <Ship className="w-3.5 h-3.5 text-amber-300" />
             <span>Cruise Flow</span>
           </button>
 
           <button
             onClick={() => setActiveTab("FAN_SIGNUP")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP"
-              ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+            className={`px-3.5 py-1.5 rounded-lg    flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP"
+              ? "bg-purple-600 text-white    border border-purple-400/50"
               : " text-white hover:text-white   bg-[#00000029] "
-              }`}
-          >
+              }`}>
             <UserPlus className="w-3.5 h-3.5 text-pink-300" />
             <span>Fan Signup Flow</span>
           </button>
@@ -1691,8 +1686,7 @@ export default function VisualSitemapClient() {
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-lg border border-white/10 bg-[#00000029] text-white font-bold hover:bg-white/10 transition flex items-center gap-1 ml-1"
-          >
+            className="px-3 py-1.5 rounded-lg border border-white/10 bg-[#00000029] text-white hover:bg-white/10 transition flex items-center gap-1 ml-1">
             <span>XML</span>
             <ExternalLink className="w-3 h-3" />
           </a>
@@ -1700,7 +1694,7 @@ export default function VisualSitemapClient() {
       </div>
 
       {/* Interactive Flow Canvas */}
-      <div className="max-w-[1700px] mx-auto h-[calc(100vh-180px)] min-h-[650px] rounded-lg border border-white/10 bg-[#09090f] overflow-hidden shadow-2xl relative">
+      <div className="max-w-[1700px] mx-auto h-[calc(100vh-180px)] min-h-[650px] rounded-lg border border-white/10 bg-[#09090f] overflow-hidden   relative">
         <ReactFlow
           key={activeTab}
           nodes={nodes}
@@ -1711,8 +1705,7 @@ export default function VisualSitemapClient() {
           fitViewOptions={{ padding: 0.15 }}
           minZoom={0.03}
           maxZoom={1.5}
-          colorMode="dark"
-        >
+          colorMode="dark">
           <Background color="#1e1b2e" gap={24} size={1} />
           <Controls className="!bg-black/90 ! border-white/10 !text-white ! rounded-lg overflow-hidden !shadow-2xl" />
           <MiniMap

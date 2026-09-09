@@ -56,9 +56,8 @@ export default function HeroParallaxCustomizer({
         <button
           aria-label="Open Parallax Customizer"
           onClick={() => setIsPxUiOpen(true)}
-          className=" w-11 h-11  rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
-          title="Open Parallax Customizer"
-        >
+          className="w-11 h-11 rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+          title="Open Parallax Customizer">
           <svg
             width="18"
             height="18"
@@ -68,8 +67,7 @@ export default function HeroParallaxCustomizer({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-white/80 group-hover:text-[var(--color-accent)] transition-colors duration-300"
-          >
+            className="text-white/80 group-hover:text-[var(--color-accent)] transition-colors duration-300">
             <polygon points="12 2 2 7 12 12 22 7 12 2" />
             <polyline points="2 17 12 22 22 17" />
             <polyline points="2 12 12 17 22 12" />
@@ -80,18 +78,17 @@ export default function HeroParallaxCustomizer({
           {/* Header */}
           <div className="flex items-center justify-between border-b border-white/10 pb-2">
             <div className="flex flex-col">
-              <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-bold uppercase text-[var(--color-accent)]">
+              <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] uppercase text-[var(--color-accent)]">
                 Parallax Tester
               </span>
-              <span className=" text-white/40 uppercase font-semibold">
+              <span className="text-white/40 uppercase font-semibold">
                 Applies to every hero site-wide
               </span>
             </div>
             <button
               aria-label="Close Parallax Customizer"
               onClick={() => setIsPxUiOpen(false)}
-              className="w-6 h-6 rounded-lg hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
-            >
+              className="w-6 h-6 rounded-lg hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -101,17 +98,16 @@ export default function HeroParallaxCustomizer({
 
           {/* Presets */}
           <div className="space-y-1.5">
-            <span className="font-bold text-white/45 uppercase block">Presets</span>
+            <span className="text-white/45 uppercase block">Presets</span>
             <div className="flex flex-wrap gap-1.5">
               {PARALLAX_PRESETS.map((preset) => (
                 <button
                   key={preset.name}
                   aria-label={`Apply ${preset.name} preset`}
                   onClick={() => updatePxRange(preset.range)}
-                  className={`px-2 py-1 font-bold uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
+                  className={`px-2 py-1    uppercase rounded border transition-colors cursor-pointer ${pxRange === preset.range ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]"
                     : " bg-[#00000029] border-white/10 text-white hover:bg-white/10 hover:border-white/10"
-                    }`}
-                >
+                    }`}>
                   {preset.name}
                 </button>
               ))}
@@ -120,9 +116,9 @@ export default function HeroParallaxCustomizer({
 
           {/* Depth (range) Slider */}
           <div className="space-y-1.5">
-            <div className="flex justify-between font-bold text-white/45 uppercase tracking-wider">
+            <div className="flex justify-between text-white/45 uppercase r">
               <span>Depth</span>
-              <span className="text-[var(--color-accent)] font-bold">±{pxRange}%</span>
+              <span className="text-[var(--color-accent)]">±{pxRange}%</span>
             </div>
             <input
               aria-label="Parallax depth"
@@ -138,9 +134,9 @@ export default function HeroParallaxCustomizer({
 
           {/* Scrub (smoothing) Slider */}
           <div className="space-y-1.5">
-            <div className="flex justify-between font-bold text-white/45 uppercase tracking-wider">
+            <div className="flex justify-between text-white/45 uppercase r">
               <span>Smoothing</span>
-              <span className="text-[var(--color-accent)] font-bold">{pxScrub.toFixed(1)}s</span>
+              <span className="text-[var(--color-accent)]">{pxScrub.toFixed(1)}s</span>
             </div>
             <input
               aria-label="Parallax smoothing"
@@ -160,9 +156,8 @@ export default function HeroParallaxCustomizer({
             onClick={() => updatePxForeground(!pxForeground)}
             className={`w-full flex items-center justify-between px-3 py-2 rounded border transition-colors cursor-pointer ${pxForeground ? "bg-[var(--color-purple-primary)]/20 border-[var(--color-border-purple)] text-white"
               : " bg-[#00000029] border-white/10 text-white hover:bg-white/10"
-              }`}
-          >
-            <span className="font-bold uppercase tracking-wider">Foreground Counter-Drift</span>
+              }`}>
+            <span className="uppercase r">Foreground Counter-Drift</span>
             <span className={`w-8 h-4 rounded-lg relative transition-colors ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}>
               <span
                 className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-transform ${pxForeground ? "translate-x-4" : "translate-x-0.5"
@@ -174,13 +169,13 @@ export default function HeroParallaxCustomizer({
           {/* Active Values HUD */}
           <div className="bg-white/[0.02] border border-white/10 rounded-lg p-2 text-white/40 space-y-0.5">
             <div>
-              Depth: <span className="text-white font-bold">±{pxRange}%</span>
+              Depth: <span className="text-white">±{pxRange}%</span>
             </div>
             <div>
-              Smoothing: <span className="text-white font-bold">{pxScrub.toFixed(1)}s</span>
+              Smoothing: <span className="text-white">{pxScrub.toFixed(1)}s</span>
             </div>
             <div>
-              Foreground drift: <span className="text-white font-bold">{pxForeground ? "on" : "off"}</span>
+              Foreground drift: <span className="text-white">{pxForeground ? "on" : "off"}</span>
             </div>
           </div>
 
@@ -188,8 +183,7 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Copy parallax settings"
             onClick={copyPxSettings}
-            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold text-[var(--font-size-2xs)] uppercase transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
-          >
+            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black text-[var(--font-size-2xs)] uppercase transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
             {pxCopied ? (
               <>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scaleIn_0.15s_ease-out]">

@@ -28,11 +28,11 @@ function Counter({ end, label, sublabel }: { end: number; label: string; sublabe
   }, [end]);
   return (
     <div ref={ref} className="text-center px-6 py-8">
-      <div className="text-6xl md:text-7xl font-bold text-white tabular-nums leading-none" style={{ fontStyle: "italic" }}>
+      <div className="text-6xl md:text-7xl text-white tabular-nums leading-none" style={{ fontStyle: "italic" }}>
         {count}<span style={{ color: "#851DEF" }}>+</span>
       </div>
-      <div className="text-base font-bold uppercase tracking-[0.15em] text-white mt-2">{label}</div>
-      {sublabel && <div className="text-white/30 mt-1 max-w-[180px] mx-auto ">{sublabel}</div>}
+      <div className="text-base uppercase tracking-[0.15em] text-white mt-2">{label}</div>
+      {sublabel && <div className="text-white/30 mt-1 max-w-[180px] mx-auto">{sublabel}</div>}
     </div>
   );
 }
@@ -56,11 +56,11 @@ export default function FeaturesPage() {
         </div>
 
         <div className="relative max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-lg bg-[var(--color-accent)]/10 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase tracking-[0.25em] mb-10">
+          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-lg bg-[var(--color-accent)]/10 border border-[#851DEF]/30 text-[#c084fc] uppercase   mb-10">
             Full Platform Overview · All Features Live & Documented
           </div>
 
-          <h1 className="text-6xl font-bold uppercase text-white mb-6 leading-[0.9] " style={{ fontStyle: "italic" }}>
+          <h1 className="text-6xl uppercase text-white mb-6 leading-[0.9]" style={{ fontStyle: "italic" }}>
             Everything<br /><span style={{ color: "#851DEF" }}>Built In.</span>
           </h1>
 
@@ -75,12 +75,12 @@ export default function FeaturesPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-base uppercase tracking-[0.12em] rounded-lg transition-colors hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               <span className="w-2 h-2 rounded-lg bg-white animate-pulse" />Watch Live
             </Link>
-            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Book The Band →</Link>
-            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Fan Dashboard →</Link>
-            <a href="#all-features" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)] font-bold text-base uppercase tracking-[0.12em] rounded-lg transition-colors">View All Features ↓</a>
+            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Book The Band →</Link>
+            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Fan Dashboard →</Link>
+            <a href="#all-features" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)] text-base uppercase tracking-[0.12em] rounded-lg transition-colors">View All Features ↓</a>
           </div>
         </div>
       </section>
@@ -99,8 +99,8 @@ export default function FeaturesPage() {
       <section className="py-24 px-6 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
-            <span className=" text-[var(--color-accent)]">✦</span>
-            <h2 className="font-bold uppercase text-white" style={{ fontStyle: "italic" }}>Flagship Features</h2>
+            <span className="text-[var(--color-accent)]">✦</span>
+            <h2 className="uppercase text-white" style={{ fontStyle: "italic" }}>Flagship Features</h2>
           </div>
           <p className="mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -114,7 +114,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="font-bold uppercase text-white" style={{ fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
+            <h2 className="uppercase text-white" style={{ fontStyle: "italic" }}>All {FEATURES.length} Features</h2>
           </div>
           <p className="mb-10">Filter by category. Every feature card includes a full description, bullet list, business impact statement, and expandable technical breakdown.</p>
 
@@ -123,9 +123,9 @@ export default function FeaturesPage() {
               const count = cat.key === "all" ? FEATURES.length : FEATURES.filter(f => f.category.includes(cat.key as Category)).length;
               return (
                 <button aria-label="Action button" key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg    uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
-                  <span className={`ml-1 px-1.5 py-0.5 rounded-lg font-bold ${activeCategory === cat.key ? "bg-white/20 text-white" : " bg-[#00000029] text-white/30"}`}>{count}</span>
+                  <span className={`ml-1 px-1.5 py-0.5 rounded-lg    ${activeCategory === cat.key ? "bg-white/20 text-white" : " bg-[#00000029] text-white/30"}`}>{count}</span>
                 </button>
               );
             })}
@@ -142,7 +142,7 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-white/30">◈</span>
-            <h2 className="font-bold uppercase text-white" style={{ fontStyle: "italic" }}>Built With</h2>
+            <h2 className="uppercase text-white" style={{ fontStyle: "italic" }}>Built With</h2>
           </div>
           <p className="mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -150,7 +150,7 @@ export default function FeaturesPage() {
               <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] border-white/10 hover:bg-white/[0.04] transition-colors cursor-default">
                 <div className="w-11 h-11 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
-                  <div className="text-base font-bold uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
+                  <div className="text-base uppercase" style={{ color: t.color }}>{t.name}</div>
                   <p className="mt-0.5">{t.desc}</p>
                 </div>
               </div>
@@ -167,7 +167,7 @@ export default function FeaturesPage() {
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
-          <h2 className="text-6xl md:text-8xl font-bold uppercase text-white mb-4 leading-none" style={{ fontStyle: "italic" }}>
+          <h2 className="text-6xl md:text-8xl uppercase text-white mb-4 leading-none" style={{ fontStyle: "italic" }}>
             Ready to<br /><span style={{ color: "#851DEF" }}>Experience It?</span>
           </h2>
           <p className="mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>
@@ -176,14 +176,13 @@ export default function FeaturesPage() {
             <CosmicRadialButton
               icon={false}
               onClick={() => window.location.href = "/fans"}
-              className="px-8 py-4 text-white font-bold text-base tracking-[0.15em] rounded-lg"
-            >
+              className="px-8 py-4 text-white text-base tracking-[0.15em] rounded-lg">
               Join as a Fan →
             </CosmicRadialButton>
-            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Watch Live</Link>
-            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">See Tour Dates</Link>
-            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Book the Band</Link>
-            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-bold text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Contact Us</Link>
+            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Watch Live</Link>
+            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.15em] rounded-lg transition-colors">See Tour Dates</Link>
+            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Book the Band</Link>
+            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Contact Us</Link>
           </div>
         </div>
       </section>

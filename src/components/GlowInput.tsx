@@ -61,8 +61,7 @@ export function GlowSelect({
     <div className={`input-glow-border ${rounded} ${wrapperClassName} relative`}>
       <select
         {...props}
-        className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white px-4 py-2.5 pr-10 outline-none transition-[border-color,background-color,box-shadow] cursor-pointer appearance-none ${className}`}
-      >
+        className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white px-4 py-2.5 pr-10 outline-none transition-[border-color,background-color,box-shadow] cursor-pointer appearance-none ${className}`}>
         {children}
       </select>
       <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">

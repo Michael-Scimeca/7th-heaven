@@ -68,7 +68,7 @@
   "shadows": {
     "-- ": "none",
     "--  ": "none",
-    "--shadow-lg": "none",
+    "--  ": "none",
     "--shadow-accent-glow": "none"
   },
   "breakpoints": {

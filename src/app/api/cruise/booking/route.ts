@@ -56,7 +56,7 @@ export async function PUT(req: NextRequest) {
       originalNotes = originalNotes.split('Guest Details: [')[0].trim();
     }
     
-    const guestDetails = guests && guests.length > 0 ? JSON.stringify(guests) : null;
+    const guestDetails = guests && guests.length> 0 ? JSON.stringify(guests) : null;
     const newNotes = originalNotes ? `${originalNotes}${guestDetails ? `\n\nGuest Details: ${guestDetails}` : ''}` : (guestDetails ? `Guest Details: ${guestDetails}` : null);
 
     const updatePayload: any = {

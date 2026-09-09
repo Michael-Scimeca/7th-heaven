@@ -192,7 +192,7 @@ const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
   if (lower.includes('francesca')) return '/images/crew/francesca.png';
   if (lower.includes('john')) return '/images/crew/john_doe.png';
 
-  if (avatar && !avatar.includes('ui-avatars.com') && avatar.trim().length> 0) {
+  if (avatar && !avatar.includes('ui-avatars.com') && avatar.trim().length > 0) {
     return avatar;
   }
 
@@ -274,13 +274,13 @@ function compressImage(file: File, maxWidth = 300, maxHeight = 300): Promise<str
         const canvas = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
-        if (width> height) {
-          if (width> maxWidth) {
+        if (width > height) {
+          if (width > maxWidth) {
             height = Math.round((height * maxWidth) / width);
             width = maxWidth;
           }
         } else {
-          if (height> maxHeight) {
+          if (height > maxHeight) {
             width = Math.round((width * maxHeight) / height);
             height = maxHeight;
           }
@@ -468,7 +468,7 @@ const parseTimeString = (timeStr: string) => {
       const isAM = clean.includes('AM');
       const numbers = clean.replace(/[A-Z\\s]/g, '').trim().split(':');
       let hour = parseInt(numbers[0], 10);
-      let minute = numbers.length> 1 ? parseInt(numbers[1], 10) : 0;
+      let minute = numbers.length > 1 ? parseInt(numbers[1], 10) : 0;
 
       if (isPM && hour !== 12) hour += 12;
       if (isAM && hour === 12) hour = 0;
@@ -488,7 +488,7 @@ const parseTimeString = (timeStr: string) => {
 const formatHour = (hourDecimal: number) => {
   const h = Math.floor(hourDecimal);
   const m = Math.round((hourDecimal - h) * 60);
-  const period = h>= 12 ? 'PM' : 'AM';
+  const period = h >= 12 ? 'PM' : 'AM';
   let displayHour = h % 12;
   if (displayHour === 0) displayHour = 12;
   const displayMinute = m === 0 ? '' : `:${String(m).padStart(2, '0')}`;
@@ -1371,7 +1371,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   // Memoize formatted upcoming tour dates to avoid calling new Date() and toLocaleDateString 146 times on every single render!
   const upcomingTourDatesWithLabels = useMemo(() => {
     const todayStr = new Date().toISOString().split('T')[0];
-    const upcoming = tourDates.filter(show => !show.date || show.date>= todayStr);
+    const upcoming = tourDates.filter(show => !show.date || show.date >= todayStr);
 
     // Deduplicate shows by date and venue name
     const seen = new Set<string>();
@@ -1458,7 +1458,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       const diffTime = Math.abs(end.getTime() - start.getTime());
       let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-      if (diffDays> 62) diffDays = 62; // Safe upper bound
+      if (diffDays > 62) diffDays = 62; // Safe upper bound
 
       for (let i = 0; i < diffDays; i++) {
         const d = new Date(start);
@@ -1487,7 +1487,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     if (calendarRange === '4weeks') {
       numDays = 28;
     } else if (calendarRange === 'month') {
-      const isBridgeToJanuary = currentWeekStart.getMonth() === 11 && currentWeekStart.getDate()> 20;
+      const isBridgeToJanuary = currentWeekStart.getMonth() === 11 && currentWeekStart.getDate() > 20;
       const targetYear = isBridgeToJanuary ? currentWeekStart.getFullYear() + 1 : currentWeekStart.getFullYear();
       const targetMonth = isBridgeToJanuary ? 0 : currentWeekStart.getMonth();
       start = new Date(targetYear, targetMonth, 1);
@@ -1593,8 +1593,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       const aWeekShifts = schedules.filter(s => activeWeekDateSet.has(s.date || '') && s.crewId === a.id && !s.isTimeOff && s.crewId !== 'openshifts');
       const bWeekShifts = schedules.filter(s => activeWeekDateSet.has(s.date || '') && s.crewId === b.id && !s.isTimeOff && s.crewId !== 'openshifts');
 
-      const aHasWeekShift = aWeekShifts.length> 0;
-      const bHasWeekShift = bWeekShifts.length> 0;
+      const aHasWeekShift = aWeekShifts.length > 0;
+      const bHasWeekShift = bWeekShifts.length > 0;
 
       if (aHasWeekShift && !bHasWeekShift) return -1;
       if (!aHasWeekShift && bHasWeekShift) return 1;
@@ -1719,10 +1719,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           const todayStr = new Date().toISOString().split('T')[0];
           const upcoming = freshTourDates
-            .filter((show: any) => show.date && show.date>= todayStr)
+            .filter((show: any) => show.date && show.date >= todayStr)
             .sort((a: any, b: any) => a.date.localeCompare(b.date));
 
-          if (upcoming.length> 0) {
+          if (upcoming.length > 0) {
             const firstShowDate = upcoming[0].date;
             const chosen = new Date(firstShowDate + 'T12:00:00');
             const day = chosen.getDay();
@@ -1996,7 +1996,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       let smsStatus = '';
       let emailStatus = '';
 
-      if (sendSms && phones.length> 0) {
+      if (sendSms && phones.length > 0) {
         const smsRes = await fetch('/api/admin/crew-alert', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2011,7 +2011,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         smsStatus = `SMS sent to ${phones.length} crew. `;
       }
 
-      if (sendEmail && emails.length> 0) {
+      if (sendEmail && emails.length > 0) {
         await Promise.all(
           emails.map(async (email) => {
             const emailRes = await fetch('/api/email', {
@@ -2418,7 +2418,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
         // 6. Itinerary
         const itinVal = settingsMap['cruise_itinerary'];
-        if (itinVal && Array.isArray(itinVal) && itinVal.length> 0) {
+        if (itinVal && Array.isArray(itinVal) && itinVal.length > 0) {
           itineraryRef.current = itinVal;
         } else {
           itineraryRef.current = [];
@@ -2484,7 +2484,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       if (data) {
         setAdminChatMessages(data.reverse());
-        if (adminTabRef.current !== 'cruise' && data.length> 0) {
+        if (adminTabRef.current !== 'cruise' && data.length > 0) {
           setUnreadCruiseChat(data.length);
         }
       }
@@ -2580,7 +2580,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             if (saved) {
               try {
                 const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed) && parsed.length> 0) {
+                if (Array.isArray(parsed) && parsed.length > 0) {
                   currentSchedules = parsed;
                 } else {
                   currentSchedules = defaultShifts;
@@ -2596,10 +2596,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           const todayStr = new Date().toISOString().split('T')[0];
           const upcoming = freshTourDates
-            .filter((show: any) => show.date && show.date>= todayStr)
+            .filter((show: any) => show.date && show.date >= todayStr)
             .sort((a: any, b: any) => a.date.localeCompare(b.date));
 
-          if (upcoming.length> 0) {
+          if (upcoming.length > 0) {
             const firstShowDate = upcoming[0].date;
             const chosen = new Date(firstShowDate + 'T12:00:00');
             const day = chosen.getDay();
@@ -3086,7 +3086,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   const METRICS = [
     { label: "Total Registered Users", value: users.length.toString(), trend: "Live", color: "text-emerald-400" },
     { label: "Active Live Streams", value: feeds.length.toString(), trend: "Live", color: " text-[var(--color-accent)]" },
-    { label: "Booking Requests", value: pendingBookings.length.toString(), trend: pendingBookings.length> 0 ? "Action Needed" : "Clear", color: pendingBookings.length> 0 ? "text-purple-300" : "text-emerald-400" },
+    { label: "Booking Requests", value: pendingBookings.length.toString(), trend: pendingBookings.length > 0 ? "Action Needed" : "Clear", color: pendingBookings.length > 0 ? "text-purple-300" : "text-emerald-400" },
     { label: "Server Status", value: "Online", trend: "Stable", color: "text-emerald-400" },
   ];
 
@@ -3787,7 +3787,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
                     <p className="uppercase tracking-[0.15em] mb-2">Avg Price</p>
-                    <p>${shopifyData.summary.totalInventory> 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
+                    <p>${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
                     <p className="mt-1 uppercase">Per unit</p>
                   </div>
                 </div>
@@ -3856,7 +3856,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="bg-black/30 border border-white/10 p-5">
                     <p className="uppercase tracking-[0.15em] mb-2">Net Revenue</p>
                     <p>${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                    {shopifyData.summary.totalRefunded> 0 && (
+                    {shopifyData.summary.totalRefunded > 0 && (
                       <p className="text-rose-400 mt-1 uppercase">
                         -${shopifyData.summary.totalRefunded.toFixed(2)} refunded
                       </p>
@@ -3925,7 +3925,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             .slice(-14)
                             .map(([date, amount]: [string, any], idx: number) => {
                               const maxRevenue = Math.max(...Object.values(shopifyData.dailyRevenue).map(Number));
-                              const pct = maxRevenue> 0 ? (amount / maxRevenue) * 100 : 0;
+                              const pct = maxRevenue > 0 ? (amount / maxRevenue) * 100 : 0;
                               return (
                                 <div key={`daily-rev-${date}`} className="flex items-center gap-3">
                                   <span className="text-[0.9rem] text-white/30 w-16 shrink-0">
@@ -3980,7 +3980,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               </td>
                               <td className="px-4 py-3">
                                 <div className="truncate max-w-[120px]">{order.customer.name}</div>
-                                {order.customer.ordersCount> 1 && (
+                                {order.customer.ordersCount > 1 && (
                                   <span className="text-[0.5rem] text-[var(--color-accent)] uppercase">Repeat ({order.customer.ordersCount}×)</span>
                                 )}
                               </td>
@@ -4012,7 +4012,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
 
                 {/* Product Inventory (always shown in orders mode too) */}
-                {shopifyData.products && shopifyData.products.length> 0 && (
+                {shopifyData.products && shopifyData.products.length > 0 && (
                   <div className="bg-black/20 border border-white/10 overflow-hidden mt-8">
                     <div className="p-4 border-b border-white/10 flex items-center justify-between">
                       <h4 className="flex items-center gap-2"> Product Inventory</h4>
@@ -5066,7 +5066,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <div className="text-center text-[12px] text-white/40 font-semibold uppercase">Today 9:41 AM</div>
 
                         {/* SMS Bubble */}
-                        <div className="bg-[#242333] text-white/90 p-3.5 rounded-lg rounded-tl-xs border border-white/10 shadow-lg text-[11px] whitespace-pre-wrap">
+                        <div className="bg-[#242333] text-white/90 p-3.5 rounded-lg rounded-tl-xs border border-white/10    text-[11px] whitespace-pre-wrap">
                           {smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview || (
                             <span className="text-white/40">Select an upcoming show above or type a custom message to preview the SMS...</span>
                           )}
@@ -5459,10 +5459,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     const showVenueTarget = showTarget ? (showTarget.venue || showTarget.venue_name) : undefined;
     const showTimeTarget = showTarget ? (showTarget.time || '5:00 PM - 10:00 PM') : undefined;
 
-    const previewRecipientsList = (checkedRecipientsForPreview.length> 0 ? checkedRecipientsForPreview : allCrewCombined).map(r => {
+    const previewRecipientsList = (checkedRecipientsForPreview.length > 0 ? checkedRecipientsForPreview : allCrewCombined).map(r => {
       const dayShifts = schedulesByDateAndCrew[smsSelectedShowDate || '']?.[r.id] || [];
-      const roleStr = dayShifts.length> 0 ? Array.from(new Set(dayShifts.map(s => s.role))).join(', ') : (r.role ? r.role.toUpperCase() : 'CREW');
-      const timeStr = dayShifts.length> 0 ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ') : '5:00 PM - 10:00 PM';
+      const roleStr = dayShifts.length > 0 ? Array.from(new Set(dayShifts.map(s => s.role))).join(', ') : (r.role ? r.role.toUpperCase() : 'CREW');
+      const timeStr = dayShifts.length > 0 ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ') : '5:00 PM - 10:00 PM';
       return {
         name: r.name,
         phone: r.phone || '(555) 234-5678',
@@ -5638,7 +5638,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         setEditingDutyMemberId={setEditingDutyMemberId}
                                         presetRoles={presetRoles}
                                         memberId={r.id}
-                                        position={rIndex>= rArr.length / 2 ? 'top' : 'bottom'}
+                                        position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
                                       />
                                     )}
                                   </div>
@@ -5825,7 +5825,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                               />
                                             ) : (
                                               <div
-                                                className="w-7 h-7 rounded-full border border-purple-400/40 shadow-sm shrink-0 flex items-center justify-center text-[10px] text-white uppercase font-sans"
+                                                className="w-7 h-7 rounded-full border border-purple-400/40   shrink-0 flex items-center justify-center text-[10px] text-white uppercase font-sans"
                                                 style={{ backgroundColor: getAvatarColor(r.name) }}>
                                                 {getFirstAndLastInitials(r.name)}
                                               </div>
@@ -5856,7 +5856,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                 setEditingDutyMemberId={setEditingDutyMemberId}
                                                 presetRoles={presetRoles}
                                                 memberId={r.id}
-                                                position={rIndex>= rArr.length / 2 ? 'top' : 'bottom'}
+                                                position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
                                               />
                                             )}
                                           </button>
@@ -5918,13 +5918,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         {crewAlertResult.success
                           ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
                           : ` ${crewAlertResult.error}`}
-                        {crewAlertResult.failed> 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
+                        {crewAlertResult.failed > 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
                       </p>
                     )}
                     <button
                       disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
                       onClick={async () => {
-                        const sendCount = selectedCrewPhones.length> 0 ? selectedCrewPhones.length : recipients.length;
+                        const sendCount = selectedCrewPhones.length > 0 ? selectedCrewPhones.length : recipients.length;
                         if (crewAlertSendingRef.current) return;
                         const isAll = selectedCrewPhones.length === 0;
                         if (!confirm(isAll
@@ -6069,13 +6069,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {crewAlertResult.success
                         ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
                         : ` ${crewAlertResult.error}`}
-                      {crewAlertResult.failed> 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
+                      {crewAlertResult.failed > 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
                     </p>
                   )}
                   <button
                     disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
                     onClick={async () => {
-                      const sendCount = selectedCrewPhones.length> 0 ? selectedCrewPhones.length : recipients.length;
+                      const sendCount = selectedCrewPhones.length > 0 ? selectedCrewPhones.length : recipients.length;
                       if (crewAlertSendingRef.current) return;
                       const isAll = selectedCrewPhones.length === 0;
                       if (!confirm(isAll
@@ -6301,7 +6301,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       showDate: bandSmsSelectedShowDate || undefined,
       showVenue: bandShowVenueTarget,
       showTime: bandShowTimeTarget,
-      recipients: checkedBandRecipientsList.length> 0 ? checkedBandRecipientsList : undefined
+      recipients: checkedBandRecipientsList.length > 0 ? checkedBandRecipientsList : undefined
     });
 
     return (
@@ -6336,14 +6336,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="flex items-center gap-2">
                       <SectionBadge
                         label={`Select All (${allBandCombined.length})`}
-                        isActive={selectedBandPhones.length === allBandCombined.length && allBandCombined.length> 0}
+                        isActive={selectedBandPhones.length === allBandCombined.length && allBandCombined.length > 0}
                         onClick={() => {
                           const allKeys = allBandCombined.flatMap(b => { const k = normalizePhoneNumber(b.phone) || b.id || b.name; return k ? [k] : []; });
                           setSelectedBandPhones(allKeys);
                         }}
                         className="cursor-pointer"
                       />
-                      {selectedBandPhones.length> 0 && (
+                      {selectedBandPhones.length > 0 && (
                         <SectionBadge
                           label="Clear All"
                           onClick={() => setSelectedBandPhones([])}
@@ -6601,7 +6601,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <div className="flex flex-col gap-2 bg-black/20 border border-white/10 p-3 max-h-[220px] overflow-y-auto custom-scrollbar">
                           {checkedRecipients.map(r => {
                             const dayShifts = schedulesByDateAndCrew[smsSelectedShowDate || '']?.[r.id] || [];
-                            const timeFrameStr = dayShifts.length> 0
+                            const timeFrameStr = dayShifts.length > 0
                               ? dayShifts.map(s => formatTimeFrame(s.startHour, s.endHour)).join(', ')
                               : ((r as any).time || '5:00 PM - 10:00 PM');
                             const phoneDisplay = r.phone || '(555) 234-5678';
@@ -6757,7 +6757,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {blastResult && (
                     <p className={`   ${blastResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                       {blastResult.success ? ` Sent to ${blastResult.sent} fans` : ` ${blastResult.error}`}
-                      {blastResult.failed> 0 && <span className="text-rose-400 ml-2">({blastResult.failed} failed)</span>}
+                      {blastResult.failed > 0 && <span className="text-rose-400 ml-2">({blastResult.failed} failed)</span>}
                     </p>
                   )}
                 </div>
@@ -7515,7 +7515,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     const signups = cruiseStats.recentSignups || [];
     const allEmails = signups.flatMap((s: any) => s.email ? [s.email] : []);
     const cruiseSelectedEmailsSet = new Set(cruiseSelectedEmails);
-    const allSelected = allEmails.length> 0 && allEmails.every((e: string) => cruiseSelectedEmailsSet.has(e));
+    const allSelected = allEmails.length > 0 && allEmails.every((e: string) => cruiseSelectedEmailsSet.has(e));
 
     const toggleEmail = (email: string) => {
       setCruiseSelectedEmails(prev =>
@@ -7629,14 +7629,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
 
               {/* Email action bar */}
-              {signups.length> 0 && (
+              {signups.length > 0 && (
                 <div className="flex items-center justify-between bg-black/20 px-4 py-3 border-t border-r border-l border-white/5">
                   <div className="flex items-center gap-3">
                     <button aria-label="Select all passenger emails" onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40   ' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/25'}`}>
                       {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                     </button>
                     <span className="text-[0.9rem] text-white/40 uppercase">
-                      {cruiseSelectedEmails.length> 0 ? `${cruiseSelectedEmails.length} selected` : 'Select passengers'}
+                      {cruiseSelectedEmails.length > 0 ? `${cruiseSelectedEmails.length} selected` : 'Select passengers'}
                     </span>
                   </div>
                   <button
@@ -7644,13 +7644,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     disabled={cruiseSelectedEmails.length === 0}
                     className="px-4 py-2 bg-purple-600/15 hover:bg-purple-600/25 border border-purple-500/30 text-purple-300 text-[0.9rem] uppercase rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
-                    Email {cruiseSelectedEmails.length> 0 ? `(${cruiseSelectedEmails.length})` : ''}
+                    Email {cruiseSelectedEmails.length > 0 ? `(${cruiseSelectedEmails.length})` : ''}
                   </button>
                 </div>
               )}
 
               {/* Email compose panel */}
-              {cruiseEmailOpen && cruiseSelectedEmails.length> 0 && (
+              {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
                 <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
                   <div className="flex items-center justify-between">
                     <p className="uppercase /60">Compose Cruise Email</p>
@@ -7696,7 +7696,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {cruiseEmailResult && (
                         <p className={`   ${cruiseEmailResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                           {cruiseEmailResult.success ? ` Sent to ${cruiseEmailResult.sent} passenger${cruiseEmailResult.sent !== 1 ? 's' : ''}` : ` ${cruiseEmailResult.error}`}
-                          {cruiseEmailResult.failed> 0 && <span className="text-rose-400 ml-2">({cruiseEmailResult.failed} failed)</span>}
+                          {cruiseEmailResult.failed > 0 && <span className="text-rose-400 ml-2">({cruiseEmailResult.failed} failed)</span>}
                         </p>
                       )}
                     </div>
@@ -7756,7 +7756,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <p className="text-xs text-white/70 font-mono truncate">{s.phone || '—'}</p>
                         {/* Party size + date */}
                         <div>
-                          <p className="text-xs font-semibold text-white/90">{s.partySize> 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                          <p className="text-xs font-semibold text-white/90">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
                           <p className="text-[11px] text-white/40">{s.date}</p>
                         </div>
                         {/* Checked off */}
@@ -7811,7 +7811,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     const hasInternalOverlap = (tfs: { startHour: number; endHour: number }[]) => {
       for (let i = 0; i < tfs.length; i++) {
         for (let j = i + 1; j < tfs.length; j++) {
-          if (tfs[i].startHour < tfs[j].endHour && tfs[i].endHour> tfs[j].startHour) {
+          if (tfs[i].startHour < tfs[j].endHour && tfs[i].endHour > tfs[j].startHour) {
             return true;
           }
         }
@@ -7820,7 +7820,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     };
 
     // Internal overlap validation
-    if (activeAssignments.length> 0) {
+    if (activeAssignments.length > 0) {
       for (const [crewId, details] of activeAssignments) {
         const tfs = (crewId === draggedCrewMemberId || !details.customized)
           ? dropTimeFrames
@@ -7859,11 +7859,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       // When editing a specific shift, remove only that shift. Otherwise, update touched crew shifts.
       if (editingShiftId) {
         updated = updated.filter(item => item.id !== editingShiftId);
-      } else if (touchedCrewIds.size> 0) {
+      } else if (touchedCrewIds.size > 0) {
         updated = updated.filter(item => !(item.date === activeDropDay && touchedCrewIds.has(item.crewId) && !item.isTimeOff));
       }
 
-      if (activeAssignments.length> 0) {
+      if (activeAssignments.length > 0) {
         activeAssignments.forEach(([crewId, details], idx) => {
           const tfs = (crewId === draggedCrewMemberId || !details.customized)
             ? dropTimeFrames
@@ -7937,7 +7937,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       return updated;
     });
 
-    if (dropTimeFrames.length> 0) {
+    if (dropTimeFrames.length > 0) {
       saveCustomRole(dropTimeFrames[0].role);
     }
     setActiveDropDay(null);
@@ -7957,7 +7957,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     return dayShifts.filter(s =>
       s.id !== excludeShiftId &&
       s.startHour < endHour &&
-      s.endHour> startHour
+      s.endHour > startHour
     );
   };
 
@@ -8017,9 +8017,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   function renderCrewSchedule() {
     const todayStr = new Date().toISOString().split('T')[0];
     const upcoming = tourDates
-      .filter((show: any) => show.date && show.date>= todayStr)
+      .filter((show: any) => show.date && show.date >= todayStr)
       .sort((a: any, b: any) => a.date.localeCompare(b.date));
-    const nextShowDate = upcoming.length> 0 ? upcoming[0].date : null;
+    const nextShowDate = upcoming.length > 0 ? upcoming[0].date : null;
 
     const handleQuickAutoSendSms = async (dateStr: string) => {
       selectShowForSms(dateStr);
@@ -8149,7 +8149,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       return {
         maxHours,
         over,
-        status: over> 0 ? (over>= 8 ? 'critical' : 'warning') : 'ok'
+        status: over > 0 ? (over >= 8 ? 'critical' : 'warning') : 'ok'
       };
     };
 
@@ -8260,7 +8260,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     };
 
     const formatHourWIW = (h: number) => {
-      const isPM = h>= 12;
+      const isPM = h >= 12;
       let displayHour = Math.floor(h % 12);
       if (displayHour === 0) displayHour = 12;
       const m = Math.round((h - Math.floor(h)) * 60);
@@ -8334,7 +8334,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         const draggedShift = schedules.find(s => s.id === shiftId);
         if (draggedShift && crewId !== 'openshifts') {
           const overlapping = getOverlappingShifts(crewId, dateStr, draggedShift.startHour, draggedShift.endHour, shiftId);
-          if (overlapping.length> 0) {
+          if (overlapping.length > 0) {
             const member = crewMembers.find(c => c.id === crewId);
             const memberName = member ? member.name : crewId;
             showAlert(`Cannot reassign shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${dateStr}.`, "Reassignment Error", "error");
@@ -8381,7 +8381,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       let loadedTimeFrames = [{ startHour: 12, endHour: 17, role: defaultRole || 'SERVER', tags: [] as string[] }];
       if (crewId && crewId !== 'openshifts') {
         const existing = schedules.filter(s => s.date === dateStr && s.crewId === crewId && !s.isTimeOff);
-        if (existing.length> 0) {
+        if (existing.length > 0) {
           loadedTimeFrames = existing.map(s => ({
             id: s.id,
             startHour: s.startHour,
@@ -8638,7 +8638,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </span>
                     ))
                   ) : null}
-                  {shift.tags && shift.tags.length> 0 && shift.tags.flatMap((tag: string) => {
+                  {shift.tags && shift.tags.length > 0 && shift.tags.flatMap((tag: string) => {
                     if (tag === shift.role || STANDARD_ROLE_TAGS_SET.has(tag.toUpperCase())) return [];
                     return [(
                       <span
@@ -8839,7 +8839,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div
             style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${240 + filteredDays.length * 144}px` }}
             className="w-full flex flex-col text-left select-none bg-transparent">
-            <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/55 backdrop-blur-xl border-b border-white/10 shadow-lg">
+            <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/55 backdrop-blur-xl border-b border-white/10   ">
               <div className="flex w-full border-r border-[var(--border-color)] bg-transparent text-[10px] r">
                 <div className="p-1.5 w-60 shrink-0 border-r border-[var(--border-color)] border-b border-[var(--border-color)] flex items-center bg-[var(--color-bg-card)]">
                   <div className="flex items-center gap-2 pl-1">
@@ -9127,7 +9127,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <div className="flex flex-col gap-1.5 min-h-[48px] w-full">
                               {dayShifts.map(shift => renderShiftCard(shift))}
                             </div>
-                            {dayShifts.length> 0 && (
+                            {dayShifts.length > 0 && (
                               <button
                                 type="button"
                                 onClick={(e) => {
@@ -9193,7 +9193,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     const draggedShift = schedules.find(s => s.id === shiftId);
                     if (draggedShift && draggedShift.crewId !== 'openshifts') {
                       const overlapping = getOverlappingShifts(draggedShift.crewId, day.dateStr, draggedShift.startHour, draggedShift.endHour, shiftId);
-                      if (overlapping.length> 0) {
+                      if (overlapping.length > 0) {
                         const member = crewMembers.find(c => c.id === draggedShift.crewId);
                         const memberName = member ? member.name : draggedShift.crewId;
                         showAlert(`Cannot move shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${day.dateStr}.`, "Shift Move Error", "error");
@@ -9321,7 +9321,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         const draggedShift = schedules.find(s => s.id === shiftId);
                         if (draggedShift && draggedShift.crewId !== 'openshifts') {
                           const overlapping = getOverlappingShifts(draggedShift.crewId, day.dateStr, draggedShift.startHour, draggedShift.endHour, shiftId);
-                          if (overlapping.length> 0) {
+                          if (overlapping.length > 0) {
                             const member = crewMembers.find(c => c.id === draggedShift.crewId);
                             const memberName = member ? member.name : draggedShift.crewId;
                             showAlert(`Cannot move shift: ${memberName} already has an overlapping shift (${overlapping[0].time}) scheduled on ${day.dateStr}.`, "Shift Move Error", "error");
@@ -9659,7 +9659,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="absolute top-full left-0 mt-1 z-50 bg-[#1a1a22] border border-white/10 min-w-[320px] max-h-[850px] overflow-y-auto py-1.5 custom-scrollbar">
                         {(() => {
                           const todayStr = new Date().toISOString().split('T')[0];
-                          const upcomingTourDates = tourDates.filter(show => !show.date || show.date>= todayStr);
+                          const upcomingTourDates = tourDates.filter(show => !show.date || show.date >= todayStr);
                           if (upcomingTourDates.length === 0) {
                             return <div className="px-4 py-3 text-[var(--font-size-2xs)] text-white/30">No upcoming tour dates synced yet</div>;
                           }
@@ -9725,12 +9725,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button
                     type="button"
                     onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
-                    className={`px-3 py-1.5 border    rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount> 0 ? 'border-purple-500/40 bg-purple-500/15 text-purple-300    shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
+                    className={`px-3 py-1.5 border    rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? 'border-purple-500/40 bg-purple-500/15 text-purple-300    shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
                       : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
                       }`}
                     title="Search & advanced filters by person, venue, date range, and event type">
                     <span></span> {isFiltersPanelExpanded ? 'HIDE FILTERS' : 'FILTERS'}
-                    {activeFiltersCount> 0 && (
+                    {activeFiltersCount > 0 && (
                       <span className="px-1.5 py-0.5 bg-purple-600 text-white rounded-full leading-none">
                         {activeFiltersCount}
                       </span>
@@ -9750,7 +9750,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     onChange={(val) => setColorCodingMode(val as any)}
                   />
 
-                  {activeFiltersCount> 0 && (
+                  {activeFiltersCount > 0 && (
                     <button
                       type="button"
                       onClick={() => {
@@ -9770,7 +9770,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   )}
 
                   {/*  Clear All Shifts / Start Fresh Button */}
-                  {schedules.length> 0 && (
+                  {schedules.length > 0 && (
                     <button
                       type="button"
                       onClick={() => {
@@ -9964,7 +9964,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         Showing <strong className="text-purple-300 font-extrabold">{filteredCrewMembers.length}</strong> crew rows
                       </span>
                     </div>
-                    {activeFiltersCount> 0 && (
+                    {activeFiltersCount > 0 && (
                       <div className="flex items-center gap-2">
                         <span className="text-purple-300/80 font-semibold">Filters active</span>
                         <button
@@ -10207,7 +10207,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         editingShift.endHour,
                                         editingShift.id
                                       );
-                                      const isOverlapping = overlaps.length> 0;
+                                      const isOverlapping = overlaps.length > 0;
 
                                       return (
                                         <div key={member.id} className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-black/30 hover:bg-black/40 transition-colors border border-white/5">
@@ -10360,7 +10360,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         assignment.endHour,
                                         editingShiftId || undefined
                                       );
-                                      const isOverlapping = overlaps.length> 0;
+                                      const isOverlapping = overlaps.length > 0;
 
                                       return (
                                         <div
@@ -10451,7 +10451,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                 <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative rounded-lg animate-[fadeIn_0.2s_ease]">
                                                   <div className="flex items-center justify-between">
                                                     <span className="uppercase text-purple-300 font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
-                                                    {dropTimeFrames.length> 1 && (
+                                                    {dropTimeFrames.length > 1 && (
                                                       <button
                                                         type="button"
                                                         onClick={() => {
@@ -10578,7 +10578,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                       }}
                                                       fullWidth
                                                     />
-                                                    {tf.tags && tf.tags.length> 0 && (
+                                                    {tf.tags && tf.tags.length > 0 && (
                                                       <div className="flex flex-wrap gap-1 mt-1.5">
                                                         {tf.tags.map(tag => (
                                                           <span
@@ -10827,7 +10827,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   />
 
                   <div
-                    className="bg-[#0a00653b] backdrop-blur-2xl relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
+                    className="bg-[#0a00653b] backdrop-blur-2xl relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between   animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
                     onClick={(e) => e.stopPropagation()}>
                     {/* Modal Header */}
                     <div className="p-5 border-b border-white/10 bg-transparent flex items-start justify-between shrink-0">
@@ -10885,7 +10885,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           ...prev,
                                           [m.id]: {
                                             active: act,
-                                            timeFrames: (prev[m.id]?.timeFrames && prev[m.id]?.timeFrames!.length> 0)
+                                            timeFrames: (prev[m.id]?.timeFrames && prev[m.id]?.timeFrames!.length > 0)
                                               ? prev[m.id]?.timeFrames!
                                               : [{ startHour: 17.0, endHour: 22.0, role: m.role || 'STAGE HAND' }]
                                           }
@@ -10923,7 +10923,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           <span className="uppercase text-purple-300 font-extrabold" style={{ fontSize: '9.5px' }}>
                                             Time Frame {tfIdx + 1}
                                           </span>
-                                          {(setting.timeFrames || []).length> 1 && (
+                                          {(setting.timeFrames || []).length > 1 && (
                                             <button
                                               type="button"
                                               onClick={() => {
@@ -10975,7 +10975,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                             <GooeyMessagesDropdown
                                               placeholder="Select End Time"
                                               selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "10 PM"}
-                                              options={generateTimeOptions().filter(opt => opt.value> tf.startHour).map(opt => opt.label)}
+                                              options={generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => opt.label)}
                                               onChange={(selectedLabel) => {
                                                 const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
                                                 if (!found) return;
@@ -11132,7 +11132,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       onClick={() => setSelectedShowCrewDate(null)}
                     />
 
-                    <div className="bg-[#0a00653b] backdrop-blur-2xl relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10">
+                    <div className="bg-[#0a00653b] backdrop-blur-2xl relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between   animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10">
 
                       {/* Header */}
                       <div className="p-5 border-b border-white/10 bg-transparent flex items-start justify-between shrink-0">
@@ -11316,7 +11316,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
           <div>
             <div className="flex items-center flex-wrap gap-2.5 mb-1">
-              <h1 className="text-xl !normal-case">
+              <h1 className="">
                 {effectiveAdmin.name ? effectiveAdmin.name.toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase()) : ''}
               </h1>
               <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300 text-[0.9rem] uppercase animate-pulse">
@@ -11349,9 +11349,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
               className="px-5 py-2 text-[10px] uppercase cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap">
               <span>Cruise</span>
-              {unreadCruiseChat> 0 && adminTab !== 'cruise' && (
+              {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
                 <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-600 text-white text-[0.55rem] px-1 border border-white shrink-0 ml-0.5">
-                  {unreadCruiseChat> 99 ? '99+' : unreadCruiseChat}
+                  {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
                 </span>
               )}
             </FoolishShrimpButton>
@@ -11829,7 +11829,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
 
                 {/* Recent Signups */}
-                {(cruiseStats.recentSignups?.length ?? 0)> 0 && (
+                {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
                   <div>
                     <p className="uppercase mb-2">Recent Signups</p>
                     <div className="max-h-[550px] min-h-[320px] overflow-y-auto custom-admin-scrollbar space-y-1.5 pr-1">
@@ -11844,7 +11844,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           </div>
                           <div className="text-right shrink-0">
                             <p>{s.phone || '—'}</p>
-                            <p>{s.partySize> 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                            <p>{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
                           </div>
                         </div>
                       ))}
@@ -11966,7 +11966,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
                     </div>
 
-                    {selectedQrProduct.variants && selectedQrProduct.variants.length> 0 && (
+                    {selectedQrProduct.variants && selectedQrProduct.variants.length > 0 && (
                       <div>
                         <label htmlFor="admin-qr-variant-select" className="block text-[0.65rem] text-white uppercase mb-1.5">
                           {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}

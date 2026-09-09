@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
       // Max 15MB for videos, 10MB for images
       const maxSize = isVideo ? 15 * 1024 * 1024 : 10 * 1024 * 1024;
-      if (file.size > maxSize) return null;
+      if (file.size> maxSize) return null;
 
       let finalFilename = '';
       let fileTypeField: 'image' | 'video' = 'image';

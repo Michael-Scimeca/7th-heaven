@@ -11,15 +11,13 @@ export interface FoolishShrimpAlwaysButtonProps
 
 export const FoolishShrimpAlwaysButton = React.forwardRef<
   HTMLButtonElement,
-  FoolishShrimpAlwaysButtonProps
->(({ children = "Button", className = "", icon, ...props }, ref) => {
+  FoolishShrimpAlwaysButtonProps>(({ children = "Button", className = "", icon, ...props }, ref) => {
   return (
     <button
       ref={ref}
       type="button"
       className={`uiverse-foolish-shrimp always ${className}`}
-      {...props}
-    >
+      {...props}>
       <div className="points_wrapper">
         <i className="point" />
         <i className="point" />

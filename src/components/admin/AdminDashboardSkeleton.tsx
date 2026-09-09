@@ -13,7 +13,7 @@ export function AdminDashboardSkeleton() {
         </div>
         <div className="flex items-center gap-3">
           <div className="w-24 h-8 rounded-lg bg-white/10 animate-pulse" />
-          <div className=" w-11 h-11  rounded-lg bg- purple-white/20 animate-pulse" />
+          <div className="w-11 h-11 rounded-lg bg- purple-white/20 animate-pulse" />
         </div>
       </div>
 
@@ -34,8 +34,7 @@ export function AdminDashboardSkeleton() {
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="p-5 rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur-md space-y-3"
-          >
+            className="p-5 rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur-md space-y-3">
             <div className="w-24 h-3 rounded bg-white/10 animate-pulse" />
             <div className="w-16 h-7 rounded bg-white/20 animate-pulse" />
             <div className="w-20 h-3 rounded bg-emerald-500/20 animate-pulse" />
@@ -61,8 +60,7 @@ export function AdminDashboardSkeleton() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="rounded-xl border border-white/10 bg-white/[0.02] p-6 space-y-4"
-            >
+              className="rounded-xl border border-white/10 bg-white/[0.02] p-6 space-y-4">
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="w-48 h-6 rounded bg-white/20 animate-pulse" />
                 <div className="w-20 h-6 rounded-lg bg-white/10 animate-pulse" />

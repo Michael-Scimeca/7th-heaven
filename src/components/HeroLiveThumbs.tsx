@@ -108,7 +108,7 @@ export default function HeroLiveThumbs() {
   }, [fetchPosts]);
 
   const filteredMedia = posts.filter((p) => p.image_url || p.video_url);
-  const mediaPosts = filteredMedia.length> 0 ? filteredMedia : mockThumbs;
+  const mediaPosts = filteredMedia.length > 0 ? filteredMedia : mockThumbs;
 
   if (!mounted) {
     return null;
@@ -118,7 +118,7 @@ export default function HeroLiveThumbs() {
     return (
       <button aria-label="Action button"
         onClick={handleOpen}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-bg-surface)]/80 border border-white/10 border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] active:scale-95 transition-colors duration-300 backdrop-blur-[45px] select-none group cursor-pointer">
+        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-bg-surface)]/80 border border-white/10 border-white/10 backdrop-blur-[45px] select-none group cursor-pointer">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
           <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-600" />
@@ -185,7 +185,7 @@ export default function HeroLiveThumbs() {
             <span className="text-white text-[var(--font-size-2xs)] uppercase tracking-[0.18em] whitespace-nowrap">
               Crew Streaming
             </span>
-            {mediaPosts.length> 2 && (
+            {mediaPosts.length > 2 && (
               <Link
                 href="/live"
                 className="text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:underline whitespace-nowrap">
@@ -226,7 +226,7 @@ export default function HeroLiveThumbs() {
                     priority={idx === 0}
                     quality={65}
                     sizes="220px"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90"
+                    className="w-full h-full object-cover brightness-90"
                   />
 
                   {/* Red gradient bottom fade */}

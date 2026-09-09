@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
       sent,
       failed,
       total: signups.length,
-      errors: errors.length > 0 ? errors : undefined,
+      errors: errors.length> 0 ? errors : undefined,
       push: pushResult,
     });
   } catch (err: any) {

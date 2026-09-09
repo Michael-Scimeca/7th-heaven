@@ -16,7 +16,7 @@ export default function LiveStatusSign() {
         const allRooms = data.rooms || [];
         const visibleRooms = allRooms.filter((r: any) => r.showOnHomepage);
 
-        if (visibleRooms.length > 0) {
+        if (visibleRooms.length> 0) {
           setIsLive(true);
           setLiveCount(visibleRooms.length);
         } else {
@@ -51,13 +51,13 @@ export default function LiveStatusSign() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-500" />
             </span>
-            <span className="font-bold uppercase text-white">Live Now</span>
+            <span className="uppercase text-white">Live Now</span>
           </div>
 
           <div className="h-4 w-px bg-white/10" />
 
           <div className="flex items-center gap-3">
-            <span className="font-bold text-white tracking-wide uppercase">
+            <span className="text-white uppercase">
               {liveCount} Active {liveCount === 1 ? 'Feed' : 'Feeds'}
             </span>
             <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#00000029] border border-white/10 group-hover:bg-red-500 group-hover:border-red-500 transition-colors duration-300">

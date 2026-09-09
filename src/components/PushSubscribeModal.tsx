@@ -90,22 +90,19 @@ export default function PushSubscribeModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1 rounded-lg bg-[#00000029] hover:bg-white/10"
-        >
+          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1 rounded-lg bg-[#00000029] hover:bg-white/10">
           <X className="w-5 h-5" />
         </button>
 
         {!subscribed ? (
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/40 shadow-inner">
-                <Bell className="w-6 h-6 text-yellow-300 animate-bounce" />
-              </div>
+
               <div>
-                <h3 className="font-bold text-white tracking-wide">
+                <h3 className="text-white">
                   Live Stream Push Alerts
                 </h3>
-                <span className="font-bold uppercase text-purple-400">
+                <span className="uppercase text-purple-400">
                   7th Heaven Official Notifications
                 </span>
               </div>
@@ -123,7 +120,7 @@ export default function PushSubscribeModal({
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block font-bold uppercase text-gray-300 mb-1.5">
+                <label className="block uppercase text-gray-300 mb-1.5">
                   Your Full Name
                 </label>
                 <div className="relative w-full">
@@ -144,7 +141,7 @@ export default function PushSubscribeModal({
               </div>
 
               <div>
-                <label className="block font-bold uppercase text-gray-300 mb-1.5">
+                <label className="block uppercase text-gray-300 mb-1.5">
                   Your Email Address
                 </label>
                 <div className="relative w-full">
@@ -174,11 +171,11 @@ export default function PushSubscribeModal({
                 />
                 <label htmlFor="modal-terms-toggle" className="text-gray-300/90 leading-normal cursor-pointer select-none">
                   I agree to the{" "}
-                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
+                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline hover:text-purple-300">
                     Terms of Service
                   </a>{" "}
                   and{" "}
-                  <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-bold underline hover:text-purple-300">
+                  <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline hover:text-purple-300">
                     Privacy Policy
                   </a>{" "}
                   to receive live stream push & email notifications.
@@ -189,34 +186,32 @@ export default function PushSubscribeModal({
                 <CosmicRadialButton
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 text-white font-bold uppercase flex items-center justify-center gap-2"
-                >
-                  {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS 🔔"}
+                  className="w-full py-3.5 text-white uppercase flex items-center justify-center gap-2">
+                  {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS "}
                 </CosmicRadialButton>
               </div>
             </form>
 
             <div className="mt-6 border-t border-white/10 pt-4 text-center">
-              <p className="  ">
+              <p>
                 🔒 100% Free · We value your privacy. Every alert email includes a 1-click unsubscribe link.
               </p>
             </div>
           </div>
         ) : (
           <div className="py-6 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-4 shadow-lg">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-4   ">
               <Check className="w-8 h-8" />
             </div>
-            <h3 className="font-bold text-white mb-2">You&apos;re Subscribed! 🔔</h3>
+            <h3 className="text-white mb-2">You&apos;re Subscribed! 🔔</h3>
             <p className="text-gray-300 max-w-sm mx-auto mb-6">
-              We sent a welcome confirmation email to <strong className="text-white ">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
+              We sent a welcome confirmation email to <strong className="text-white">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
             </p>
 
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase rounded-lg transition-colors"
-            >
+              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white uppercase rounded-lg transition-colors">
               DONE
             </button>
           </div>

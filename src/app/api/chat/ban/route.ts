@@ -85,7 +85,7 @@ export async function POST(req: Request) {
 
     // Calculate expiry
     let expires_at: string | null = null;
-    if (typeof duration_minutes === 'number' && duration_minutes > 0) {
+    if (typeof duration_minutes === 'number' && duration_minutes> 0) {
       const exp = new Date(Date.now() + duration_minutes * 60 * 1000);
       expires_at = exp.toISOString();
     }

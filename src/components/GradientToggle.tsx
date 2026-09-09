@@ -54,8 +54,7 @@ export function GradientToggle({
   return (
     <label
       htmlFor={toggleId}
-      className={`inline-flex items-center gap-3 select-none cursor-pointer group ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
-    >
+      className={`inline-flex items-center gap-3 select-none cursor-pointer group ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}>
       <div className="squishy-toggle relative inline-block w-[50px] h-[28px] shrink-0 rounded-lg overflow-hidden p-[3px] transition-all duration-300 shadow-inner border border-white/25 bg-black/50">
         <input
           id={toggleId}
@@ -80,7 +79,7 @@ export function GradientToggle({
       </div>
 
       {label && (
-        <span className={`font-bold transition-colors text-left ${checked ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
+        <span className={`   transition-colors text-left ${checked ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
           {label}
         </span>
       )}

@@ -27,7 +27,7 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
 
   // Build guest roster rows
   let guestRosterHtml = '';
-  if (guestList && guestList.length > 0) {
+  if (guestList && guestList.length> 0) {
     const guestRows = guestList.map((g, i) => {
       const isChild = g.type === 'child';
       const badge = isChild
@@ -101,7 +101,7 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
       </p>
       <p style="margin:0 0 16px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">
         Thanks for signing up for the <strong style="color:#fff;">7th Heaven Caribbean Cruise</strong>!
-        We've got you down for <strong style="color:#8a1cfc;">${guests} ${guests > 1 ? 'people' : 'person'}</strong> in your group.
+        We've got you down for <strong style="color:#8a1cfc;">${guests} ${guests> 1 ? 'people' : 'person'}</strong> in your group.
       </p>
       <p style="margin:0 0 24px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">
         This is <strong style="color:#fff;">not a booking</strong> — it's a free interest signup. The more fans who sign up,
@@ -143,7 +143,7 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
           <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Duration</td><td style="color:#fff;font-size:13px;font-weight:600;">7 Nights</td></tr>
           <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Islands</td><td style="color:#fff;font-size:13px;font-weight:600;">Cozumel · Grand Cayman · Roatán</td></tr>
           <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Shows</td><td style="color:#fff;font-size:13px;font-weight:600;">6 Live Performances</td></tr>
-          <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Your Group</td><td style="color:#8a1cfc;font-size:13px;font-weight:700;">${guests} ${guests > 1 ? 'people' : 'person'}</td></tr>
+          <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Your Group</td><td style="color:#8a1cfc;font-size:13px;font-weight:700;">${guests} ${guests> 1 ? 'people' : 'person'}</td></tr>
         </table>
       </div>
     </div>
@@ -224,7 +224,7 @@ export async function POST(req: NextRequest) {
     const cancelToken = generateCancelToken();
 
     // Build guest details JSON for storage — sanitize each guest
-    const guestDetails = guests && guests.length > 0
+    const guestDetails = guests && guests.length> 0
       ? JSON.stringify(guests.map((g: any) => ({
           name: sanitizeName(g.name),
           email: g.email ? g.email.toLowerCase().trim() : null,
@@ -327,7 +327,7 @@ card2_amount: ${encrypt(card2.amountCharged)}
     });
 
     // Send notification emails to each additional guest in parallel
-    if (guests && guests.length > 0) {
+    if (guests && guests.length> 0) {
       await Promise.all(guests.map(async (guest: any) => {
         if (guest.email) {
           try {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import nextDynamic from "next/dynamic";
+import { fetchPageContent } from "@/lib/sanity";
 import { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
 const LogoTicker = nextDynamic(() => import("@/components/LogoTicker"));
 
@@ -15,17 +16,16 @@ const HomeLogosSection = nextDynamic(() => import("@/components/HomeLogosSection
 
 import LazySection from "@/components/LazySection";
 
-// Fully static page — no server-side data fetching
-// All dynamic data (shows, announcements) is loaded client-side by HomeDataLoader
-// This guarantees <50ms TTFB from Netlify's Edge CDN on every request
-export const dynamic = "force-static";
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "7th Heaven — Official Band Website",
   description: "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of unforgettable live performances.",
 };
 
-export default function Home() {
+export default async function Home() {
+  const sanityContent = await fetchPageContent("home");
+
   return (
     <div id="home-page">
       {/* ====== HERO (Full 100vh Viewport Height) ====== */}
@@ -40,7 +40,7 @@ export default function Home() {
         }}>
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
         <div id="hero-card" className="relative w-full h-full max-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
-          <HeroVideoPlayer />
+          <HeroVideoPlayer sanityContent={sanityContent} />
         </div>
       </section>
 
@@ -49,28 +49,29 @@ export default function Home() {
 
       {/* ====== FEATURED VIDEO SHOWCASE ====== */}
       <LazySection fallbackHeight="500px">
-        <HomeVideoShowcase />
+        <HomeVideoShowcase sanityContent={sanityContent} />
       </LazySection>
 
       {/* ====== SLIDEUP STACK SECTION ====== */}
       <LazySection fallbackHeight="600px">
-        <SlideupSection />
+        <SlideupSection sanityContent={sanityContent} />
       </LazySection>
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
       <LazySection fallbackHeight="180px" id="logos" className="relative w-full py-section-fluid">
-        <HomeLogosSection />
+        <HomeLogosSection sanityContent={sanityContent} />
       </LazySection>
 
       {/* ====== LATEST BAND NEWS ====== */}
       <LazySection fallbackHeight="400px">
-        <HomeNewsSection />
+        <HomeNewsSection sanityContent={sanityContent} />
       </LazySection>
 
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
       <LazySection fallbackHeight="400px">
-        <HomeMerch />
+        <HomeMerch sanityContent={sanityContent} />
       </LazySection>
     </div>
   );
 }
+

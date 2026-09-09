@@ -10,45 +10,41 @@ export default function NotFound() {
                 {/* Glitch 404 number */}
                 <div className="relative mb-8">
                     <h1
-                        className="text-6xl font-bold leading-none er text-transparent select-none"
+                        className="text-6xl leading-none er text-transparent select-none"
                         style={{
                             WebkitTextStroke: "2px rgba(255,10,61,0.3)",
-                        }}
-                    >
+                        }}>
                         404
                     </h1>
                     <h1
-                        className="absolute inset-0 text-6xl font-bold leading-none er text-[var(--color-accent)] select-none animate-pulse"
-                        style={{ opacity: 0.15 }}
-                    >
+                        className="absolute inset-0 text-6xl leading-none er text-[var(--color-accent)] select-none animate-pulse"
+                        style={{ opacity: 0.15 }}>
                         404
                     </h1>
                 </div>
 
-                <h2 className="font-bold uppercase text-white mb-3">
-                    Page Not <span className=" text-[var(--color-accent)]">Found</span>
+                <h2 className=" mb-3">
+                    Page Not <span className="text-[var(--color-accent)]">Found</span>
                 </h2>
 
-                <p className="mb-10 max-w-sm mx-auto ">
+                <p className="mb-10 max-w-sm mx-auto">
                     The page you&apos;re looking for doesn&apos;t exist or has been moved. Let&apos;s get you back on track.
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         href="/"
-                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold uppercase tracking-[0.15em] rounded-lg hover:brightness-110 transition-transform shadow-lg"
-                    >
+                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white uppercase tracking-[0.15em] rounded-lg hover:brightness-110 transition-transform   ">
                         Back to Home
                     </Link>
                     <Link
                         href="/#tour"
-                        className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 font-bold uppercase tracking-[0.15em] transition-colors"
-                    >
+                        className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 uppercase tracking-[0.15em] transition-colors">
                         View Tour Dates
                     </Link>
                 </div>
 
-                <p className="mt-16 uppercase tracking-[0.25em] font-bold">
+                <p className="mt-16 uppercase ">
                     7th Heaven — Lost in the mix
                 </p>
             </div>

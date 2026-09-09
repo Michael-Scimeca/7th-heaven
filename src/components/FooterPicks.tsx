@@ -125,7 +125,7 @@ export default function FooterPicks() {
       Composite.add(engine.world, body);
       picks.push({ body, el });
 
-      while (picks.length > CONFIG.maxPicks) {
+      while (picks.length> CONFIG.maxPicks) {
         const old = picks.shift();
         if (old) {
           Composite.remove(engine.world, old.body);
@@ -155,11 +155,11 @@ export default function FooterPicks() {
       const containerHeight = container.clientHeight;
       const pickW = CONFIG.sizePx;
       const pickH = (pickW * 524.5) / 429.5;
-      for (let i = picks.length - 1; i >= 0; i--) {
+      for (let i = picks.length - 1; i>= 0; i--) {
         const p = picks[i];
         const { x, y } = p.body.position;
 
-        if (y - pickH / 2 > containerHeight + 40) {
+        if (y - pickH / 2> containerHeight + 40) {
           Composite.remove(engine.world, p.body);
           p.el.remove();
           picks.splice(i, 1);

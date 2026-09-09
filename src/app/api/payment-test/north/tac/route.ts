@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
           { status: 409 }
         );
       }
-      if (item.quantity > available) {
+      if (item.quantity> available) {
         return NextResponse.json(
           {
             error: `Only ${available} left of ${item.title} (${item.variantLabel}) — update your cart.`,

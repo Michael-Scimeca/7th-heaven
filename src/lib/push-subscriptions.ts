@@ -173,7 +173,7 @@ export async function sendWebPushNotification(
       // 2. Distance Radius Check
       if (filterOptions.distanceMiles !== undefined && sub.radius && sub.radius !== "all") {
         const maxRadius = parseFloat(sub.radius);
-        if (!isNaN(maxRadius) && filterOptions.distanceMiles > maxRadius) {
+        if (!isNaN(maxRadius) && filterOptions.distanceMiles> maxRadius) {
           return false;
         }
       }

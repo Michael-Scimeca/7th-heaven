@@ -87,9 +87,9 @@ export default function LiveStreamInlineSubscribe({
 
   if (subscribed) {
     return (
-      <div className={`w-full ${maxWidth} p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] backdrop-blur-xl text-white shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 ${className}`}>
+      <div className={`w-full ${maxWidth} p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] backdrop-blur-xl text-white   flex flex-col sm:flex-row items-center justify-between gap-4 ${className}`}>
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0 shadow-lg animate-pulse">
+          <div className="w-12 h-12 rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0    animate-pulse">
             <Mail className="w-6 h-6" />
           </div>
           <div>
@@ -205,7 +205,7 @@ export default function LiveStreamInlineSubscribe({
               type="submit"
               disabled={loading}
               icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
-              className="w-full py-3 text-white uppercase flex items-center justify-center gap-2 shadow-lg">
+              className="w-full py-3 text-white uppercase flex items-center justify-center gap-2   ">
               {loading ? "SUBSCRIBING & ENABLING PUSH ALERTS..." : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
             </CosmicRadialButton>
           </div>

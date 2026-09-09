@@ -79,8 +79,7 @@ export function SquishyToggle({
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className={`squishy-toggle relative inline-block h-[30px] w-[52px] shrink-0 select-none overflow-hidden rounded-full border border-white/25 bg-black/50 shadow-inner ${disabled ?'opacity-50 cursor-not-allowed' : ''} ${className}`}
-    >
+      className={`squishy-toggle relative inline-block h-[30px] w-[52px] shrink-0 select-none overflow-hidden rounded-full border border-white/25 bg-black/50 shadow-inner ${disabled ?'opacity-50 cursor-not-allowed' : ''} ${className}`}>
       <input
         id={id}
         type="checkbox"

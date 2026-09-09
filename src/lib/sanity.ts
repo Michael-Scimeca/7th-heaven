@@ -197,7 +197,7 @@ export const queries = {
 
  // Tour Dates
  allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, playTime, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
- upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, city, state, date, time, playTime, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
+ upcomingTourDates: `*[_type == "tourDate" && date>= now()] | order(date asc) { _id, venue, city, state, date, time, playTime, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
 
  // Band Members
  allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact, order }`,
@@ -217,7 +217,7 @@ export const queries = {
 
  // Page Content
  pageContentByKey: (pageKey: string) => ({
-  query: `*[_type == "pageContent" && pageKey == $pageKey][0]`,
+  query: `*[_type == "pageContent" && pageKey == $pageKey] | order(_updatedAt desc)[0]`,
   params: { pageKey },
  }),
 
@@ -226,16 +226,28 @@ export const queries = {
 };
 
 // ─── Fetch helpers ───
-export async function fetchSanity<T>(query: string, params?: Record<string, unknown>): Promise<T> {
- return sanityClient.fetch<T>(query, params || {});
+export async function fetchSanity<T>(query: string, params?: Record<string, unknown>): Promise<T | null> {
+  try {
+    const fetchPromise = sanityClient.fetch<T>(query, params || {}, { next: { revalidate: 60 } });
+    const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 3000));
+    return (await Promise.race([fetchPromise, timeoutPromise])) as T;
+  } catch {
+    return null;
+  }
 }
 
 /**
  * Fetch dynamic page content by pageKey (e.g. 'home', 'cruise', 'book', 'contact', 'media').
  */
 export async function fetchPageContent(pageKey: string): Promise<SanityPageContent | null> {
- const { query, params } = queries.pageContentByKey(pageKey);
- return sanityClient.fetch<SanityPageContent | null>(query, params);
+  const { query, params } = queries.pageContentByKey(pageKey);
+  try {
+    const fetchPromise = sanityClient.fetch<SanityPageContent | null>(query, params, { next: { revalidate: 60 } });
+    const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 3000));
+    return await Promise.race([fetchPromise, timeoutPromise]);
+  } catch {
+    return null;
+  }
 }
 
 

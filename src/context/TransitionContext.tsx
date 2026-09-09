@@ -48,6 +48,10 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
 
   const requestTransition = useCallback(
     (href: string) => {
+      const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+      if (href.startsWith("/studio") || currentPath.startsWith("/studio")) {
+        return;
+      }
       setPendingHref(href);
       setMode("covering");
     },

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import Logo from "@/components/Logo";
@@ -178,6 +178,7 @@ function solveEase(name: string): (t: number) => number {
 
 export default function PageTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { mode, pendingHref, setMode, clearPendingHref, requestTransition } = useTransition();
 
   const outerRef = useRef<HTMLDivElement>(null);
@@ -544,7 +545,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const handleGlobalClick = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement)?.closest<HTMLAnchorElement>("a[href]");
+      const el = e.target as HTMLElement;
+      if (!el || el.tagName === "BUTTON" || el.closest("button")) return;
+      const target = el.closest<HTMLAnchorElement>("a[href]");
       if (!target) return;
 
       const href = target.getAttribute("href");
@@ -552,6 +555,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       if (target.target === "_blank" || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
 
       const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+      if (currentPath.startsWith("/studio") || href.startsWith("/studio")) return;
       if (href === currentPath) return;
 
       try {
@@ -566,7 +570,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       const target = (e.target as HTMLElement)?.closest<HTMLAnchorElement>("a[href]");
       if (!target) return;
       const href = target.getAttribute("href");
-      if (href && href.startsWith("/")) {
+      const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+      if (currentPath.startsWith("/studio")) return;
+      if (href && href.startsWith("/") && !href.startsWith("/studio")) {
         try {
           router.prefetch(href);
         } catch { }
@@ -584,6 +590,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const revealOffset = settings.revealDurationOffset !== undefined ? settings.revealDurationOffset : 0.25;
   const revealDuration = (settings.exitSpeed + revealOffset) * settings.speedMult;
   const exitDuration = settings.exitSpeed * settings.speedMult;
+
+  if (pathname?.startsWith("/studio")) {
+    return <>{children}</>;
+  }
 
   return (
     <>
@@ -606,8 +616,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           position: "relative",
           width: "100%",
           minHeight: "100vh",
-        }}
-      >
+        }}>
         <div
           ref={contentRef}
           className="exoape-page-inner transform-gpu"
@@ -615,8 +624,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             width: "100%",
             minHeight: "100vh",
             transformOrigin: "center center",
-          }}
-        >
+          }}>
           {children}
         </div>
       </div>
@@ -680,10 +688,9 @@ function TransitionTunerPanel({
       data-lenis-prevent
       onWheel={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
-      className="fixed bottom-20 right-4 z-[99999] flex flex-col gap-2 rounded-2xl border border-white/20 bg-black/95 p-3.5 shadow-2xl backdrop-blur-md text-white text-xs select-none pointer-events-auto max-w-[320px] w-[320px] max-h-[75vh] overflow-y-auto overscroll-contain custom-scrollbar"
-    >
+      className="fixed bottom-20 right-4 z-[99999] flex flex-col gap-2 rounded-2xl border border-white/20 bg-black/95 p-3.5   backdrop-blur-md text-white text-xs select-none pointer-events-auto max-w-[320px] w-[320px] max-h-[75vh] overflow-y-auto overscroll-contain custom-scrollbar">
       <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
-        <div className="flex items-center gap-1.5 font-bold tracking-wider uppercase text-[11px] text-purple-400">
+        <div className="flex items-center gap-1.5 r uppercase text-[11px] text-purple-400">
           <span className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
           Transition Tuner UI
         </div>
@@ -691,14 +698,12 @@ function TransitionTunerPanel({
           <button
             onClick={resetDefaults}
             title="Reset all settings to default"
-            className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded border border-white/15 text-white/50 hover:text-white hover:border-white/30 transition bg-white/5"
-          >
+            className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded border border-white/15 text-white/50 hover:text-white hover:border-white/30 transition bg-white/5">
             Reset
           </button>
           <button
             onClick={() => setShowControls(!showControls)}
-            className="text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/30 transition bg-purple-950/40"
-          >
+            className="text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/30 transition bg-purple-950/40">
             {showControls ? "Collapse" : "Expand"}
           </button>
         </div>
@@ -710,29 +715,26 @@ function TransitionTunerPanel({
           <div className="grid grid-cols-3 gap-1 rounded-xl bg-white/5 p-1 border border-white/10">
             <button
               onClick={() => setActiveTab("master")}
-              className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${activeTab === "master"
-                  ? "bg-purple-600 text-white shadow"
-                  : "text-white/60 hover:text-white hover:bg-white/5"
-                }`}
-            >
+              className={`py-1.5 rounded-lg text-[10px]    uppercase  r transition ${activeTab === "master"
+                ? "bg-purple-600 text-white shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+                }`}>
               ⚡ Master
             </button>
             <button
               onClick={() => setActiveTab("exit")}
-              className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${activeTab === "exit"
-                  ? "bg-fuchsia-600 text-white shadow"
-                  : "text-white/60 hover:text-white hover:bg-white/5"
-                }`}
-            >
+              className={`py-1.5 rounded-lg text-[10px]    uppercase  r transition ${activeTab === "exit"
+                ? "bg-fuchsia-600 text-white shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+                }`}>
               📤 Exit Path
             </button>
             <button
               onClick={() => setActiveTab("reveal")}
-              className={`py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition ${activeTab === "reveal"
-                  ? "bg-cyan-600 text-white shadow"
-                  : "text-white/60 hover:text-white hover:bg-white/5"
-                }`}
-            >
+              className={`py-1.5 rounded-lg text-[10px]    uppercase  r transition ${activeTab === "reveal"
+                ? "bg-cyan-600 text-white shadow"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+                }`}>
               📥 Reveal Path
             </button>
           </div>
@@ -755,8 +757,8 @@ function TransitionTunerPanel({
           {/* ── SLOW-MO SPEED & REPLAY SECTION (ALWAYS VISIBLE) ── */}
           <div className="flex flex-col gap-2 rounded-xl border border-purple-500/20 bg-purple-950/20 p-3">
             <div className="flex items-center justify-between text-[11px] font-mono">
-              <span className="text-white/70 font-bold uppercase tracking-wider text-[10px] text-purple-400">Slow-Mo Speed</span>
-              <strong className="text-purple-300 font-bold">{settings.speedMult}x</strong>
+              <span className="text-white/70 uppercase r text-[10px] text-purple-400">Slow-Mo Speed</span>
+              <strong className="text-purple-300">{settings.speedMult}x</strong>
             </div>
 
             <div className="flex items-center gap-1">
@@ -764,11 +766,10 @@ function TransitionTunerPanel({
                 <button
                   key={m}
                   onClick={() => handleSpeedPreset(m)}
-                  className={`flex-1 py-1 rounded text-[10px] font-bold font-mono transition ${settings.speedMult === m
-                      ? "bg-purple-600 text-white shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black font-extrabold"
-                      : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
-                    }`}
-                >
+                  className={`flex-1 py-1 rounded text-[10px]    font-mono transition ${settings.speedMult === m
+                    ? "bg-purple-600 text-white shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black font-extrabold"
+                    : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
+                    }`}>
                   {m}x
                 </button>
               ))}
@@ -786,8 +787,7 @@ function TransitionTunerPanel({
 
             <button
               onClick={triggerReplay}
-              className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-[11px] uppercase tracking-wider shadow-lg transition active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer"
-            >
+              className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[11px] uppercase r    transition active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer">
               <span>🎬 Replay Transition ({settings.speedMult}x)</span>
             </button>
           </div>
@@ -807,7 +807,7 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-purple-500/30 bg-purple-950/30 p-3">
       <div className="flex items-center justify-between border-b border-purple-500/20 pb-2">
-        <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-purple-300">
+        <p className="text-[11px] uppercase tracking-[0.15em] text-purple-300">
           Master Path & Sync
         </p>
         <span className="text-[9px] font-mono text-purple-400 bg-purple-900/60 px-1.5 py-0.5 rounded border border-purple-500/30">
@@ -848,7 +848,7 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
 
       <div className="flex items-center justify-between text-[11px] pt-1">
         <span className="text-white/70">Base duration</span>
-        <span className="font-mono text-purple-300 font-bold">{(exitDuration || 0).toFixed(2)}s</span>
+        <span className="font-mono text-purple-300">{(exitDuration || 0).toFixed(2)}s</span>
       </div>
       <input
         type="range"
@@ -868,8 +868,7 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
           id="master-ease-select"
           value={settings.exitEase}
           onChange={(e) => updateSetting("exitEase", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-purple-400"
-        >
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-purple-400">
           {EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">
               {o.label}
@@ -908,7 +907,7 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
 function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-fuchsia-500/20 bg-fuchsia-950/20 p-3">
-      <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-fuchsia-400 border-b border-fuchsia-500/20 pb-1.5">
+      <p className="text-[11px] uppercase tracking-[0.15em] text-fuchsia-400 border-b border-fuchsia-500/20 pb-1.5">
         Old Page Exit Controls
       </p>
 
@@ -930,8 +929,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           id="exit-ease-select"
           value={settings.exitEase}
           onChange={(e) => updateSetting("exitEase", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-fuchsia-400"
-        >
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-fuchsia-400">
           {EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">
               {o.label}
@@ -1018,8 +1016,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           id="exit-origin-select"
           value={settings.exitOrigin}
           onChange={(e) => updateSetting("exitOrigin", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-fuchsia-400"
-        >
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-fuchsia-400">
           {ORIGIN_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">
               {o.label}
@@ -1034,7 +1031,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
 function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-cyan-500/20 bg-cyan-950/20 p-3">
-      <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-cyan-400 border-b border-cyan-500/20 pb-1.5">
+      <p className="text-[11px] uppercase tracking-[0.15em] text-cyan-400 border-b border-cyan-500/20 pb-1.5">
         New Page Reveal Controls
       </p>
 
@@ -1056,8 +1053,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           id="reveal-ease-select"
           value={settings.revealEase}
           onChange={(e) => updateSetting("revealEase", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-cyan-400"
-        >
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-cyan-400">
           {EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">
               {o.label}
@@ -1144,8 +1140,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           id="reveal-origin-select"
           value={settings.revealOrigin || "center center"}
           onChange={(e) => updateSetting("revealOrigin", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-cyan-400"
-        >
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-cyan-400">
           {ORIGIN_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">
               {o.label}

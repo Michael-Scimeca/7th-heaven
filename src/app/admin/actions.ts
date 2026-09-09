@@ -334,7 +334,7 @@ export async function seed20CrewMembers() {
 
     // Check if profile with this email or phone already exists to avoid auth error
     const { data: existing } = await supabaseAdmin.from('profiles').select('id, full_name').eq('email', email);
-    if (existing && existing.length > 0) {
+    if (existing && existing.length> 0) {
       return {
         id: existing[0].id,
         name: existing[0].full_name || name,

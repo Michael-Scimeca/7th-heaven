@@ -68,7 +68,7 @@ export default function HomeDataLoader() {
     const data = settings as { announcement?: Announcement } | null;
     if (data?.announcement?.isActive && data.announcement.text) {
       const exp = data.announcement.expiresAt;
-      if (!exp || new Date(exp) > new Date()) {
+      if (!exp || new Date(exp)> new Date()) {
         setAnnouncement(data.announcement);
       }
     }
@@ -82,7 +82,7 @@ export default function HomeDataLoader() {
       .then(data => {
         // /api/tour returns a plain array
         const raw: Record<string, unknown>[] = Array.isArray(data) ? data : [];
-        if (raw.length > 0) {
+        if (raw.length> 0) {
           const now = new Date();
           const mapped: Show[] = raw.map(s => ({
             day: (s.day as string) || "TBD",
@@ -104,10 +104,10 @@ export default function HomeDataLoader() {
           const upcoming = mapped.filter(s => {
             try {
               const d = new Date((s.startDate || s.date) + "T23:59:59");
-              return d >= now;
+              return d>= now;
             } catch { return true; }
           });
-          setShows(upcoming.length > 0 ? upcoming : mapped);
+          setShows(upcoming.length> 0 ? upcoming : mapped);
         }
       })
       .catch(() => { })

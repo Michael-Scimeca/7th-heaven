@@ -1,31 +1,19 @@
 /* eslint-disable react-doctor/no-array-index-as-key */
-/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 
-export default function TermsClient() {
-  const [sanityContent, setSanityContent] = useState<any>(null);
+interface TermsClientProps {
+  sanityContent?: any;
+}
 
-  useEffect(() => {
-    fetch("/api/page-content?key=terms")
-      .then((res) => {
-        if (!res.ok) return null;
-        return res.json();
-      })
-      .then((res) => {
-        if (res?.success && res?.data) {
-          setSanityContent(res.data);
-        }
-      })
-      .catch(() => {});
-  }, []);
+export default function TermsClient({ sanityContent }: TermsClientProps) {
 
   return (
     <section className="site-container pt-[100px] min-h-screen text-left">
       <div className="mb-12 text-left">
-        <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2">
+        <h1 className=" mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Terms of Service"}
         </h1>
         <p>

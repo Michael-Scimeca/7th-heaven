@@ -59,8 +59,7 @@ export default function GradientText({
       )}
       <div
         className={`text-content ${animClass} ${pauseOnHover ? "pause-hover" : ""}`}
-        style={gradientStyle}
-      >
+        style={gradientStyle}>
         {children}
       </div>
     </div>

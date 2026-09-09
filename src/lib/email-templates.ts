@@ -9,7 +9,7 @@ function sanitize(str: string | undefined | null): string {
 function getInitials(name: string | undefined | null): string {
   if (!name) return 'C';
   const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length >= 2) {
+  if (parts.length>= 2) {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   }
   return name.trim().slice(0, 2).toUpperCase();
@@ -245,7 +245,7 @@ export function cruiseConfirmation(b: {
   const cancelUrl = `https://7thheavenband.com/cruise/cancel?token=${b.cancelToken}`;
 
   let guestRosterHtml = '';
-  if (b.guests && b.guests.length > 0) {
+  if (b.guests && b.guests.length> 0) {
     const guestRows = b.guests.map((g, i) => {
       const isChild = g.type === 'child';
       const badge = isChild
@@ -283,7 +283,7 @@ export function cruiseConfirmation(b: {
 </div>
     <div style="background-color:#111118;background:#111118;border:1px solid rgba(138,28,252,0.3);border-radius:16px;padding:32px;margin-bottom:24px;"><p style="margin:0 0 16px;color:#fff;font-size:16px;">Hey <strong>${b.name}</strong>,</p>
       <p style="margin:0 0 16px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">Thanks for signing up for the <strong style="color:#fff;">7th Heaven Caribbean Cruise</strong>!
-        We've got you down for <strong style="color:#8a1cfc;">${b.guestCount} ${b.guestCount > 1 ? 'people' : 'person'}</strong> in your group.
+        We've got you down for <strong style="color:#8a1cfc;">${b.guestCount} ${b.guestCount> 1 ? 'people' : 'person'}</strong> in your group.
 </p>
       <p style="margin:0 0 24px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">This is <strong style="color:#fff;">not a booking</strong> — it's a free interest signup. The more fans who sign up,
         the better group rate we can negotiate with cruise management.
@@ -300,7 +300,7 @@ export function cruiseConfirmation(b: {
           <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Duration</td><td style="color:#fff;font-size:13px;font-weight:600;">7 Nights</td></tr>
           <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Islands</td><td style="color:#fff;font-size:13px;font-weight:600;">Cozumel · Grand Cayman · Roatán</td></tr>
           <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Shows</td><td style="color:#fff;font-size:13px;font-weight:600;">6 Live Performances</td></tr>
-          <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Your Group</td><td style="color:#8a1cfc;font-size:13px;font-weight:700;">${b.guestCount} ${b.guestCount > 1 ? 'people' : 'person'}</td></tr>
+          <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Your Group</td><td style="color:#8a1cfc;font-size:13px;font-weight:700;">${b.guestCount} ${b.guestCount> 1 ? 'people' : 'person'}</td></tr>
         </table>
 </div>
 </div>
@@ -964,7 +964,7 @@ export function crewHoursSummary(b: {
 </div>
 </div>
 
-        ${b.shifts && b.shifts.length > 0 ? `
+        ${b.shifts && b.shifts.length> 0 ? `
           <div style="margin-top:24px;border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;"><p style="margin:0 0 12px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Working Schedule Details</p>
             <table style="width:100%;border-collapse:collapse;font-size:13px;">${b.shifts.map((s, idx) => `
                 <tr style="${idx < b.shifts!.length - 1 ? 'border-bottom:1px solid rgba(255,255,255,0.04);' : ''}"><td style="padding:10px 0;vertical-align:top;width:120px;"><strong style="color:#fff;font-size:12px;">${sanitize(s.date)}</strong>
@@ -1065,7 +1065,7 @@ export function crewSmsDispatchedAlert(b: {
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://7thheavenband.com';
   let recipientList = b.recipients;
   if (!Array.isArray(recipientList) || recipientList.length === 0) {
-    const fallbackNames = Array.isArray(b.sentToNames) && b.sentToNames.length > 0
+    const fallbackNames = Array.isArray(b.sentToNames) && b.sentToNames.length> 0
       ? b.sentToNames
       : ['None (All Crew)'];
     recipientList = fallbackNames.map(name => ({
@@ -1390,7 +1390,7 @@ export function pushWelcomeEmail(data: {
   const nameDisplay = data.name ? sanitize(data.name) : '7th Heaven Fan';
   const zipDisplay = data.zip ? sanitize(data.zip) : 'Your Area';
   const radiusDisplay = data.radius && data.radius !== 'all' ? `${data.radius} Miles` : 'All Show Radius';
-  const typesDisplay = data.selectedTypes && data.selectedTypes.length > 0 ? data.selectedTypes.map(t => t.toUpperCase()).join(', ') : 'All Show Types';
+  const typesDisplay = data.selectedTypes && data.selectedTypes.length> 0 ? data.selectedTypes.map(t => t.toUpperCase()).join(', ') : 'All Show Types';
 
   const tdLabel = 'padding:6px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;vertical-align:top;';
   const tdVal = 'padding:6px 0;color:#fff;font-size:14px;font-weight:600;';

@@ -15,8 +15,7 @@ export interface CosmicRadialButtonProps extends SparkleGenerateButtonProps {
 
 export const CosmicRadialButton = React.forwardRef<
   HTMLButtonElement,
-  CosmicRadialButtonProps
->(
+  CosmicRadialButtonProps>(
   (
     {
       children,

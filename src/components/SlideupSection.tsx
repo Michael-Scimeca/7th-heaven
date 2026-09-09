@@ -126,22 +126,11 @@ const SLIDES: {
     },
   ];
 
-export default function SlideupSection({ showIntro = false }: { showIntro?: boolean }) {
-  const [sanityContent, setSanityContent] = useState<any>(null);
+export default function SlideupSection({ showIntro = false, sanityContent }: { showIntro?: boolean; sanityContent?: any }) {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lastStateRef = useRef<{ overlap: number; scale: number; translateY: number; masked: boolean }[]>([]);
 
-  useEffect(() => {
-    fetch("/api/page-content?key=home")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data?.success && data?.data) {
-          setSanityContent(data.data);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   const activeSlides = SLIDES.map((slide, idx) => {
     const sanitySection = sanityContent?.sections?.[idx];

@@ -64,7 +64,7 @@ export async function GET(request: Request) {
     const referrerIds = Object.values(referrerMap).flatMap(r => r.referrer_id ? [r.referrer_id] : []);
 
     let nameMap: Record<string, string> = {};
-    if (referrerIds.length > 0) {
+    if (referrerIds.length> 0) {
       const { data: profiles } = await supabaseAdmin
         .from("profiles")
         .select("id, full_name, email")

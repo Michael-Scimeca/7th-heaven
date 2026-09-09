@@ -5,7 +5,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect, useRef, useMemo, useCallback, useSyncExternalStore } from "react";
-import { Plus, X, MessageSquare, Printer, Edit, Mic, MapPin, CalendarDays, Bell, Mail, Car, ParkingCircle, ParkingSquare, Search } from "lucide-react";
+import { Plus, X, MessageSquare, Edit, Mic, MapPin, CalendarDays, Bell, Mail, Car, ParkingCircle, ParkingSquare, Search } from "lucide-react";
 import { SanityTourDate } from "@/lib/sanity";
 import dynamic from "next/dynamic";
 const TourMap = dynamic(() => import("./TourMap"), { ssr: false });
@@ -117,7 +117,7 @@ function getShowIcon(show: any): string {
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
-const selectClass = "appearance-none bg-transparent border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.5rem] font-bold uppercase  text-white cursor-pointer transition-all duration-200 focus:outline-none";
+const selectClass = "appearance-none bg-transparent border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.5rem]    uppercase  text-white cursor-pointer transition-all duration-200 focus:outline-none";
 const activeSelect = "!border-[var(--color-accent)] ! text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
@@ -761,75 +761,6 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     setSearchQuery("");
   };
 
-  // ── Print Tour List ──────────────────────────────────────────────────────────
-  const handlePrintTourList = useCallback(() => {
-    const showsToPrint = filtered;
-    if (showsToPrint.length === 0) return;
-
-    // Build filter summary line
-    const filterParts: string[] = [];
-    if (activeMonth !== "All") filterParts.push(activeMonth);
-    if (activeCity !== "All") filterParts.push(activeCity);
-    if (searchQuery) filterParts.push(`"${searchQuery}"`);
-    const filterLine = filterParts.length > 0
-      ? `<p style="font-size:11px;color:#888;margin:0 0 16px;font-style:  ">Filtered by: ${filterParts.join(' · ')}</p>`
-      : '';
-
-    const rows = showsToPrint.map((show: any) => {
-      const location = show.city ? `${show.city}${show.state ? `, ${show.state}` : ''}` : '';
-      const isPast = isShowOver(show);
-      return `
-        <tr style="${isPast ? 'opacity:0.45;' : ''}border-bottom:1px solid #eee">
-          <td style="padding:7px 10px;font-weight:700;color:#7c3aed;text-transform:uppercase;font-size:11px;white-space:nowrap">${show.day || ''}</td>
-          <td style="padding:7px 10px;white-space:nowrap">${show.date || ''}</td>
-          <td style="padding:7px 10px;font-weight:700">${show.venue || ''}</td>
-          <td style="padding:7px 10px;color:#555">${location}</td>
-          <td style="padding:7px 10px;white-space:nowrap">${show.time || ''}</td>
-          <td style="padding:7px 10px;font-size:11px;color:#888">${show.info || show.notes || ''}</td>
-        </tr>`;
-    }).join('');
-
-    const html = `<!DOCTYPE html>
-<html><head>
-<title>7th Heaven — Tour Dates</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Switzer', system-ui, sans-serif; color: #1a1a1a; padding: 40px; max-width: 1100px; margin: 0 auto; }
-  h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
-  .subtitle { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead th { text-align: left; padding: 8px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #999; border-bottom: 2px solid #222; }
-  tbody tr:last-child { border-bottom: none; }
-  .footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid #ddd; font-size: 10px; color: #aaa; display: flex; justify-content: space-between; }
-  @media print {
-    body { padding: 20px; }
-    @page { margin: 0.5in; }
-  }
-</style>
-</head><body>
-<h1>7th Heaven — Tour Dates</h1>
-<p class="subtitle">${showsToPrint.length} show${showsToPrint.length !== 1 ? 's' : ''} · Printed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-${filterLine}
-<table>
-  <thead><tr>
-    <th>Day</th><th>Date</th><th>Venue</th><th>City</th><th>Time</th><th>Info</th>
-  </tr></thead>
-  <tbody>${rows}</tbody>
-</table>
-<div class="footer">
-  <span>7thheaven.band</span>
-  <span>Generated from 7thheaven.band/shows</span>
-</div>
-</body></html>`;
-
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(html);
-      printWindow.document.close();
-      // Give fonts a moment to load before triggering print
-      setTimeout(() => printWindow.print(), 400);
-    }
-  }, [filtered, activeMonth, activeCity, searchQuery]);
 
   const showCount = filtered.length;
 
@@ -909,8 +840,7 @@ ${filterLine}
           '--tour-row-padding': tourRowPadding,
           '--tour-row-height': tourRowHeight,
           '--tour-row-gap': tourRowGap,
-        } as React.CSSProperties}
-      >
+        } as React.CSSProperties}>
         <div className="w-full relative site-container">
 
           {!hideMap && (
@@ -920,8 +850,7 @@ ${filterLine}
                 transform: 'translateZ(0)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
-              }}
-            >
+              }}>
               <LazySection fallbackHeight="350px">
                 <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
               </LazySection>
@@ -944,12 +873,12 @@ ${filterLine}
                     </div>
 
                     {/* Venue name */}
-                    <h2 className="font-[var(--font-heading)] font-bold text-white leading-[1] mb-4 uppercase">
+                    <h2 className="text-white leading-[1] mb-4 uppercase">
                       {upNext.venue}
                     </h2>
 
                     {/* Date + Location + Time */}
-                    <div className="flex items-center gap-2 text-[clamp(0.75rem,1.2vw,0.85rem)] text-white/90 font-bold whitespace-nowrap">
+                    <div className="flex items-center gap-2 text-[clamp(0.75rem,1.2vw,0.85rem)] text-white/90 whitespace-nowrap">
                       <span>
                         {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
                       </span>
@@ -980,7 +909,7 @@ ${filterLine}
                       )}
                     </div>
                     {upNext.info && (
-                      <p className="mt-3 font-bold uppercase tracking-[0.15em]">
+                      <p className="mt-3 uppercase tracking-[0.15em]">
                         {upNext.info}
                       </p>
                     )}
@@ -994,41 +923,34 @@ ${filterLine}
                     />
                     <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full">
                       {upNext.mapUrl && (
-                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] font-bold uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-map">
+                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-map">
                           <span>Directions</span>
                         </a>
                       )}
                       {upNext.websiteUrl && (
-                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] font-bold uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-website">
+                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-website">
                           Website
                         </a>
                       )}
                       <div className="relative calendar-dropdown-container">
                         <button aria-label="Next"
                           onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                          className="flex items-center gap-1 text-[11px] md:text-[13px] font-bold uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
-                          id="upnext-calendar-btn"
-                        >
+                          className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
+                          id="upnext-calendar-btn">
                           Add to Calendar
                         </button>
                         {activeCalDropdownId === 'upnext' && (
-                          <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 z-50 min-w-[170px] ">
-                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     transition-colors text-left w-full">Google Calendar</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     transition-colors text-left w-full">Apple / iCal</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     transition-colors text-left w-full">Outlook</a>
+                          <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 z-50 min-w-[170px]">
+                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full">Google Calendar</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full">Apple / iCal</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full">Outlook</a>
                             <button aria-label="Action button"
                               onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
-                              className="flex items-center gap-2.5 px-4 py-2.5 font-bold uppercase     transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
-                            >SMS / Text Alerts</button>
+                              className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer">SMS / Text Alerts</button>
                           </div>
                         )}
                       </div>
-                      <button aria-label="Next"
-                        onClick={handlePrintTourList}
-                        className="flex items-center gap-1 text-[11px] md:text-[13px] font-bold uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
-                      >
-                        Print Tour List
-                      </button>
+
                     </div>
                   </div>
                 </div>
@@ -1041,8 +963,7 @@ ${filterLine}
               {member?.role === 'admin' && (
                 <button aria-label="Action button"
                   onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
-                  className="text-[0.7rem] font-bold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-[var(--color-accent)] hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
-                >
+                  className="text-[0.7rem] uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-[var(--color-accent)] hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20">
                   <Plus className="w-3.5 h-3.5" /> Add Show
                 </button>
               )}
@@ -1050,8 +971,7 @@ ${filterLine}
               {hasActiveFilters && (
                 <button aria-label="Action button"
                   onClick={clearAll}
-                  className=" text-[0.9rem] font-bold uppercase text-[var(--color-accent)] hover:text-white border border-[var(--color-accent)re] hover:border-[rgba(255,10,61,0.6)] rounded-lg px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]"
-                >Clear</button>
+                  className="text-[0.9rem] uppercase text-[var(--color-accent)] hover:text-white border border-[var(--color-accent)re] hover:border-[rgba(255,10,61,0.6)] rounded-lg px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]">Clear</button>
               )}
             </div>
           </div>
@@ -1079,7 +999,7 @@ ${filterLine}
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
             <div className={`flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 w-full items-center`}>
               {/* Column 1: DAY */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold uppercase ">Day</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] uppercase">Day</span>
 
               {/* Column 2: MONTH Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1092,7 +1012,7 @@ ${filterLine}
               </div>
 
               {/* Column 3: PLACE / VENUE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold uppercase ">Place</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] uppercase">Place</span>
 
               {/* Column 4: CITY Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1105,13 +1025,13 @@ ${filterLine}
               </div>
 
               {/* Column 5: TIME */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold uppercase ">Time</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase">Time</span>
 
               {/* Column 6: MAP/CAL */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold uppercase text-center">Map/Cal</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase text-center">Map/Cal</span>
 
               {/* Column 7: WEBSITE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold uppercase text-right">Website</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase text-right">Website</span>
             </div>
           </div>
 
@@ -1138,23 +1058,22 @@ ${filterLine}
                   {/* Desktop Row Layout */}
                   <div
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
-                    id={rowId}
-                  >
-                    <span className="font-[var(--font-heading)] font-bold text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
-                    <span className="text-white font-bold text-[clamp(15px,1.5vw,23px)] whitespace-nowrap">{show.date}</span>
-                    <span className="font-bold text-white text-[clamp(15px,1.5vw,23px)]">{show.venue}</span>
-                    <span className="text-white/80   text-[clamp(13px,1.2vw,19px)]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    id={rowId}>
+                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
+                    <span className="text-white text-[clamp(15px,1.5vw,23px)] whitespace-nowrap">{show.date}</span>
+                    <span className="text-white text-[clamp(15px,1.5vw,23px)]">{show.venue}</span>
+                    <span className="text-white/80 text-[clamp(13px,1.2vw,19px)]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
                     <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)]">
                       {(show.doorsTime || show.time || show.playTime) ? (
                         <div className="flex flex-col gap-0.5">
-                          {show.doorsTime && <span className="text-white   whitespace-nowrap">Doors: {show.doorsTime}</span>}
-                          {show.playTime && <span className="text-rose-400 font-bold text-[0.92rem] whitespace-nowrap">Show: {show.playTime}</span>}
-                          {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70   whitespace-nowrap">Event: {show.time}</span>}
-                          {!show.doorsTime && !show.playTime && show.time && <span className="text-white font-bold text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">{show.time}</span>}
+                          {show.doorsTime && <span className="text-white whitespace-nowrap">Doors: {show.doorsTime}</span>}
+                          {show.playTime && <span className="text-rose-400 text-[0.92rem] whitespace-nowrap">Show: {show.playTime}</span>}
+                          {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70 whitespace-nowrap">Event: {show.time}</span>}
+                          {!show.doorsTime && !show.playTime && show.time && <span className="text-white text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">{show.time}</span>}
                         </div>
                       ) : null}
                       {isShowToday(show) && (
-                        <span className="font-bold uppercase text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
+                        <span className="uppercase text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
                           {getCountdownString(show)}
                         </span>
                       )}
@@ -1169,8 +1088,7 @@ ${filterLine}
                               title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
                               className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
                                 : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
-                                }`}
-                            >
+                                }`}>
                               {subscribingId === show._id ? (
                                 <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-lg animate-spin" />
                               ) : subscribedShowIdsSet.has(show._id) ? (
@@ -1190,8 +1108,7 @@ ${filterLine}
                                 return (
                                   <span
                                     title="No Directions Link"
-                                    className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none"
-                                  >
+                                    className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none">
                                     <MapPin className="w-5.5 h-5.5" />
                                   </span>
                                 );
@@ -1206,8 +1123,7 @@ ${filterLine}
                                   rel="noopener noreferrer"
                                   title="Get Directions"
                                   style={{ color: cfg.color }}
-                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity"
-                                >
+                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity">
                                   <MapPin className="w-5.5 h-5.5" />
                                 </a>
                               );
@@ -1222,8 +1138,7 @@ ${filterLine}
                                 return (
                                   <span
                                     title="No Parking Link"
-                                    className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none"
-                                  >
+                                    className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none">
                                     <Car className="w-5.5 h-5.5" />
                                   </span>
                                 );
@@ -1236,8 +1151,7 @@ ${filterLine}
                                   rel="noopener noreferrer"
                                   title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
                                   style={{ color: cfg.color }}
-                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity"
-                                >
+                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity">
                                   <Car className="w-5.5 h-5.5" />
                                 </a>
                               );
@@ -1249,24 +1163,18 @@ ${filterLine}
                             </button>
                             {activeCalDropdownId === rowId && (
                               <div className="absolute right-0 mt-2 bg-white border border-black/15 py-1.5 z-50 min-w-[150px] text-black">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 font-bold uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 font-bold uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 font-bold uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">Outlook</a>
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">Outlook</a>
                                 <button aria-label="Action button"
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 font-bold uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
-                                >
+                                  className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans">
                                   <MessageSquare className="w-3.5 h-3.5 text-purple-600" /> SMS / Text Alerts
                                 </button>
-                                <button aria-label="Action button"
-                                  onClick={() => { setActiveCalDropdownId(null); handlePrintTourList(); }}
-                                  className="flex items-center gap-2 px-4 py-2 font-bold uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
-                                >
-                                  <Printer className="w-3.5 h-3.5 text-purple-600" /> Print Tour List
-                                </button>
+
                               </div>
                             )}
                           </div>
@@ -1280,9 +1188,8 @@ ${filterLine}
                           target="_blank"
                           rel="noopener noreferrer"
                           title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
-                          className="inline-flex items-center justify-center whitespace-nowrap font-bold uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer"
-                          style={{ fontSize: websiteBtnFontSize }}
-                        >
+                          className="inline-flex items-center justify-center whitespace-nowrap uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer"
+                          style={{ fontSize: websiteBtnFontSize }}>
                           Website
                         </a>
                       )}
@@ -1290,14 +1197,12 @@ ${filterLine}
                         <div className="flex items-center gap-1 shrink-0 ml-1">
                           <button aria-label="Action button"
                             onClick={() => handleEditClick(show)}
-                            className="px-2 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase rounded transition-colors cursor-pointer font-sans"
-                          >
+                            className="px-2 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] uppercase rounded transition-colors cursor-pointer font-sans">
                             Edit
                           </button>
                           <button aria-label="Action button"
                             onClick={() => handleDeleteShow(show._id)}
-                            className="px-2 py-1 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase rounded transition-colors cursor-pointer font-sans"
-                          >
+                            className="px-2 py-1 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] uppercase rounded transition-colors cursor-pointer font-sans">
                             Del
                           </button>
                         </div>
@@ -1308,13 +1213,12 @@ ${filterLine}
                   {/* Mobile/Tablet Card Layout */}
                   <div
                     className={`tour-row-item relative lg:hidden flex flex-col gap-3.5 pt-4 pb-4 my-2 text-[var(--color-text-secondary)] ${isHighlighted ? " animate-pulse" : isUpNext ? "" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
-                    id={`${rowId}-mobile`}
-                  >
+                    id={`${rowId}-mobile`}>
 
                     {/* Header Row: Date Badge & Time */}
-                    <div className="flex items-center justify-between gap-2 ">
+                    <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white font-bold uppercase whitespace-nowrap">
+                        <span className="px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white uppercase whitespace-nowrap">
                           {show.day} • {show.date}
                         </span>
                       </div>
@@ -1322,24 +1226,24 @@ ${filterLine}
                         {(show.doorsTime || show.time || show.playTime) && (
                           <div className="flex items-center gap-1.5 flex-wrap justify-end">
                             {show.doorsTime && (
-                              <span className="text-white text-[11px]   px-2 py-0.5 bg-[#00000029] border border-white/10 rounded0lg whitespace-nowrap">
+                              <span className="text-white text-[11px] px-2 py-0.5 bg-[#00000029] border border-white/10 rounded0lg whitespace-nowrap">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
                             {show.playTime && (
-                              <span className="text-purple-300 text-[11px] font-bold px-2 py-0.5 bg-purple-500/15 border border-purple-500/25 rounded-lg whitespace-nowrap">
+                              <span className="text-purple-300 text-[11px] px-2 py-0.5 bg-purple-500/15 border border-purple-500/25 rounded-lg whitespace-nowrap">
                                 Show: {show.playTime}
                               </span>
                             )}
                             {show.time && !show.playTime && (
-                              <span className="text-white/90 font-bold px-2 py-0.5 bg-white/10 border border-white/10 rounded-lg whitespace-nowrap">
+                              <span className="text-white/90 px-2 py-0.5 bg-white/10 border border-white/10 rounded-lg whitespace-nowrap">
                                 {show.time}
                               </span>
                             )}
                           </div>
                         )}
                         {isShowToday(show) && (
-                          <span className="font-bold uppercase text-rose-500 animate-pulse">
+                          <span className="uppercase text-rose-500 animate-pulse">
                             {getCountdownString(show)}
                           </span>
                         )}
@@ -1348,7 +1252,7 @@ ${filterLine}
 
                     {/* Details: Venue & Location */}
                     <div className="pt-0.5">
-                      <h4 className="font-bold text-white uppercase ">{show.venue}</h4>
+                      <h4 className="text-white uppercase">{show.venue}</h4>
                       {(show.city || show.state) && (
                         <p className="flex items-center gap-1.5 mt-1 font-semibold">
                           <MapPin className="w-4 h-4 text-purple-400 shrink-0" />
@@ -1359,20 +1263,20 @@ ${filterLine}
 
                     {/* Tags Row */}
                     {!isPrivate && (
-                      <div className="flex items-center gap-2 flex-wrap sm:text-base font-bold">
-                        <span className="">{getShowIcon(show)}</span>
+                      <div className="flex items-center gap-2 flex-wrap sm:text-base">
+                        <span>{getShowIcon(show)}</span>
                         {show.info && <span className="sm:text-base text-white/70 font-medium">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                          <span className="font-bold text-purple-300 uppercase">All Ages</span>
+                          <span className="text-purple-300 uppercase">All Ages</span>
                         )}
                         {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                          <span className="font-bold text-red-400 uppercase">21+</span>
+                          <span className="text-red-400 uppercase">21+</span>
                         )}
                         {getShowTags(show).map(tag => {
                           if (tag === "All Ages" || tag === "21+") return null;
                           let tagColors = "text-[var(--color-accent)]";
                           return (
-                            <span key={tag} className={`font-bold uppercase ${tagColors}`}>{tag}</span>
+                            <span key={tag} className={`   uppercase ${tagColors}`}>{tag}</span>
                           );
                         })}
                       </div>
@@ -1389,8 +1293,7 @@ ${filterLine}
                             return (
                               <span
                                 title="No Directions Link"
-                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border border-white/10 text-white/20 font-bold opacity-25 cursor-not-allowed pointer-events-none select-none"
-                              >
+                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border border-white/10 text-white/20 opacity-25 cursor-not-allowed pointer-events-none select-none">
                                 <MapPin className="w-3.5 h-3.5 text-white/20" />
                                 <span>Map</span>
                               </span>
@@ -1403,9 +1306,8 @@ ${filterLine}
                             <CosmicRadialButton
                               onClick={() => window.open(gUrl, '_blank', 'noopener,noreferrer')}
                               icon={<MapPin className="w-3.5 h-3.5 text-white" />}
-                              className="flex-1 !py-2 !px-3 !text-xs !font-bold"
-                              title="Get Directions"
-                            >
+                              className="flex-1 !py-2 !px-3 !text-xs !"
+                              title="Get Directions">
                               Map
                             </CosmicRadialButton>
                           );
@@ -1418,8 +1320,7 @@ ${filterLine}
                             return (
                               <span
                                 title="No Parking Link"
-                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border border-white/10 text-white/20 font-bold opacity-25 cursor-not-allowed pointer-events-none select-none"
-                              >
+                                className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-white/5 border border-white/10 text-white/20 opacity-25 cursor-not-allowed pointer-events-none select-none">
                                 <Car className="w-3.5 h-3.5 text-white/20" />
                                 <span>Ride / Park</span>
                               </span>
@@ -1432,8 +1333,7 @@ ${filterLine}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
-                              className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-purple-600/30 border border-purple-400/30 text-white font-bold transition-all hover:bg-purple-600/60 active:scale-95"
-                            >
+                              className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-purple-600/30 border border-purple-400/30 text-white transition-all hover:bg-purple-600/60 active:scale-95">
                               <Car className="w-3.5 h-3.5 text-purple-300" />
                               <span>Ride / Park</span>
                             </a>
@@ -1445,8 +1345,7 @@ ${filterLine}
                             onClick={() => handleToggleNotification(show)}
                             disabled={subscribingId === show._id}
                             title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                            className="p-2  w-11 h-11  flex items-center justify-center rounded-lg border shrink-0 bg-purple-600/30 border-purple-400/30 text-white hover:bg-purple-600/60 transition-all active:scale-95"
-                          >
+                            className="p-2 w-11 h-11 flex items-center justify-center rounded-lg border shrink-0 bg-purple-600/30 border-purple-400/30 text-white hover:bg-purple-600/60 transition-all active:scale-95">
                             {subscribingId === show._id ? (
                               <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-lg animate-spin" />
                             ) : (
@@ -1458,21 +1357,20 @@ ${filterLine}
                         {/* Calendar Add */}
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
-                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className=" w-11 h-11  flex items-center justify-center rounded-lg bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
+                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-11 h-11 flex items-center justify-center rounded-lg bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
                               <div className="absolute left-0 mt-2 border border-white/10 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-[45px] font-sans">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 font-bold uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 font-bold uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 font-bold uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
                                 <button aria-label="Action button"
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 font-bold uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 mt-1 pt-2 cursor-pointer font-sans"
-                                >
+                                  className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 mt-1 pt-2 cursor-pointer font-sans">
                                   <MessageSquare className="w-3.5 h-3.5 text-purple-400" /> SMS / Text Alerts
                                 </button>
                               </div>
@@ -1493,8 +1391,7 @@ ${filterLine}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={show.notes ? `Parking & Directions:\n${show.notes}` : 'Get Directions & Parking'}
-                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap font-bold uppercase h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)]   border-white/10 transition-colors rounded-lg text-center"
-                            >
+                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap uppercase h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] border-white/10 transition-colors rounded-lg text-center">
                               <MapPin className="w-3.5 h-3.5 shrink-0" />
                               Directions{show.notes ? ' & Parking' : ''}
                             </a>
@@ -1506,8 +1403,8 @@ ${filterLine}
                     {/* Admin Actions */}
                     {member?.role === 'admin' && show._id && (
                       <div className="flex items-center gap-1.5 shrink-0">
-                        <button aria-label="Action button" onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 font-bold uppercase rounded transition-colors cursor-pointer"><Edit className="w-3.5 h-3.5 inline mr-1" /> Edit</button>
-                        <button aria-label="Action button" onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 font-bold uppercase rounded transition-colors cursor-pointer"><X className="w-3.5 h-3.5 inline mr-1" /> Del</button>
+                        <button aria-label="Action button" onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 uppercase rounded transition-colors cursor-pointer"><Edit className="w-3.5 h-3.5 inline mr-1" /> Edit</button>
+                        <button aria-label="Action button" onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 uppercase rounded transition-colors cursor-pointer"><X className="w-3.5 h-3.5 inline mr-1" /> Del</button>
                       </div>
                     )}
                   </div>
@@ -1521,8 +1418,7 @@ ${filterLine}
             <div className="flex justify-center pt-8 pb-16 relative z-20">
               <CosmicRadialButton
                 onClick={() => setDisplayLimit(null)}
-                className="!px-8 !py-3.5 !text-xs sm:!text-sm !font-extrabold"
-              >
+                className="!px-8 !py-3.5 !text-xs sm:!text-sm !font-extrabold">
                 Load The Rest ({filtered.length - displayLimit} More Shows)
               </CosmicRadialButton>
             </div>
@@ -1530,7 +1426,7 @@ ${filterLine}
 
           {filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--color-text-muted)]">
-              <p className="">No shows match your filters.</p>
+              <p>No shows match your filters.</p>
               <button aria-label="Action button" onClick={clearAll} className="mt-4 text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
                 Clear all filters
               </button>
@@ -1546,12 +1442,11 @@ ${filterLine}
             <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
             <div className="p-6 md:p-8 text-left">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-bold text-white flex items-center gap-2">
+                <h3 className="text-white flex items-center gap-2">
                   <span className="flex items-center gap-1.5">{editingShow ? <><Edit className="w-5 h-5" /> Edit Show Date</> : <><Plus className="w-5 h-5" /> Add New Show Date</>}</span>
                 </h3>
                 <button aria-label="Action button"
-                  onClick={() => setIsModalOpen(false)}
-                >
+                  onClick={() => setIsModalOpen(false)}>
                   ✕ Close
                 </button>
               </div>
@@ -1565,12 +1460,12 @@ ${filterLine}
               <form onSubmit={handleSaveShow} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="tour-form-venue" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
+                    <label htmlFor="tour-form-venue" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Venue Name *</label>
                     <input aria-label="Input field" id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
                       placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="tour-form-date" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
+                    <label htmlFor="tour-form-date" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Event Date *</label>
                     <input aria-label="Input field" id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
                       className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
@@ -1578,12 +1473,12 @@ ${filterLine}
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="sm:col-span-2">
-                    <label htmlFor="tour-form-city" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
+                    <label htmlFor="tour-form-city" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">City *</label>
                     <input aria-label="Input field" id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
                       placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="tour-form-state" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
+                    <label htmlFor="tour-form-state" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">State *</label>
                     <input aria-label="Input field" id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
                       placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
@@ -1591,22 +1486,22 @@ ${filterLine}
 
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                   <div>
-                    <label htmlFor="tour-form-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
+                    <label htmlFor="tour-form-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Show Time</label>
                     <input aria-label="Input field" id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
                       placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="tour-form-doors-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
+                    <label htmlFor="tour-form-doors-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Doors Open</label>
                     <input aria-label="Input field" id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
                       placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="tour-form-play-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
+                    <label htmlFor="tour-form-play-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Band Plays</label>
                     <input aria-label="Input field" id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
                       placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="tour-form-cover" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
+                    <label htmlFor="tour-form-cover" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Cover / Admission</label>
                     <input aria-label="Input field" id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
                       placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
@@ -1614,12 +1509,12 @@ ${filterLine}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="tour-form-ticket-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
+                    <label htmlFor="tour-form-ticket-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Ticket Link (URL)</label>
                     <input aria-label="Input field" id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
                       placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="tour-form-directions-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions / Google Maps (URL)</label>
+                    <label htmlFor="tour-form-directions-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Directions / Google Maps (URL)</label>
                     <input aria-label="Input field" id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
                       placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
@@ -1627,25 +1522,25 @@ ${filterLine}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="tour-form-parking-url" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Parking Directions Link (URL)</label>
+                    <label htmlFor="tour-form-parking-url" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Directions Link (URL)</label>
                     <input aria-label="Input field" id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
                       placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="tour-form-parking-info" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Parking Info / Notes</label>
+                    <label htmlFor="tour-form-parking-info" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Info / Notes</label>
                     <input aria-label="Input field" id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
                       placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="tour-form-notes" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
+                  <label htmlFor="tour-form-notes" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Notes / Description</label>
                   <textarea aria-label="Text input" id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
                     placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/10 my-2">
-                  <div className="flex items-center gap-2 font-bold uppercase text-white/80 cursor-pointer select-none">
+                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                     <SquishyToggle
                       id="tour-all-ages-toggle"
                       label="All Ages Show"
@@ -1654,7 +1549,7 @@ ${filterLine}
                     />
                     <span>All Ages Show</span>
                   </div>
-                  <div className="flex items-center gap-2 font-bold uppercase text-white/80 cursor-pointer select-none">
+                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                     <SquishyToggle
                       id="tour-is-festival-toggle"
                       label="Is Festival"
@@ -1663,7 +1558,7 @@ ${filterLine}
                     />
                     <span>Is Festival</span>
                   </div>
-                  <div className="flex items-center gap-2 font-bold uppercase text-white/80 cursor-pointer select-none">
+                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                     <SquishyToggle
                       id="tour-is-private-toggle"
                       label="Private Event"
@@ -1672,7 +1567,7 @@ ${filterLine}
                     />
                     <span>Private Event</span>
                   </div>
-                  <div className="flex items-center gap-2 font-bold uppercase text-white/80 cursor-pointer select-none">
+                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                     <SquishyToggle
                       id="tour-is-unplugged-toggle"
                       label="Unplugged Show"
@@ -1681,7 +1576,7 @@ ${filterLine}
                     />
                     <span>Unplugged Show</span>
                   </div>
-                  <div className="flex items-center gap-2 font-bold uppercase text-white/80 cursor-pointer select-none">
+                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                     <SquishyToggle
                       id="tour-is-outdoor-toggle"
                       label="Outdoor Show"
@@ -1690,7 +1585,7 @@ ${filterLine}
                     />
                     <span>Outdoor Show</span>
                   </div>
-                  <div className="flex items-center gap-2 font-bold uppercase text-white/80 cursor-pointer select-none">
+                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                     <SquishyToggle
                       id="tour-is-casino-toggle"
                       label="Casino Show"
@@ -1699,7 +1594,7 @@ ${filterLine}
                     />
                     <span>Casino Show</span>
                   </div>
-                  <div className="flex items-center gap-2 font-bold uppercase text-white/80 cursor-pointer select-none">
+                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                     <SquishyToggle
                       id="tour-is-special-event-toggle"
                       label="Special Event"
@@ -1712,11 +1607,11 @@ ${filterLine}
 
                 <div className="flex gap-3 pt-4 border-t border-white/5">
                   <button aria-label="Action button" type="button" onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white font-bold uppercase transition-colors cursor-pointer">
+                    className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white uppercase transition-colors cursor-pointer">
                     Cancel
                   </button>
                   <button aria-label="Action button" type="submit" disabled={submitting}
-                    className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 text-white font-bold uppercase transition-colors disabled:opacity-50 cursor-pointer">
+                    className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-colors disabled:opacity-50 cursor-pointer">
                     {submitting ? "Saving..." : "Save Show"}
                   </button>
                 </div>
@@ -1736,14 +1631,14 @@ ${filterLine}
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className=" w-11 h-11  bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center">
+                  <div className="w-11 h-11 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[var(--color-accent)]" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-white font-bold">Set Up Alerts</h3>
-                    <p className="uppercase tracking-wider">{notifyPopupShow.venue}</p>
+                    <h3 className="text-white">Set Up Alerts</h3>
+                    <p className="uppercase r">{notifyPopupShow.venue}</p>
                   </div>
                 </div>
                 <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-lg bg-[#00000029] hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
@@ -1758,7 +1653,7 @@ ${filterLine}
               </div>
 
               {/* What would you like? */}
-              <p className="uppercase tracking-[0.15em] mb-2 font-bold">What would you like to be notified about?</p>
+              <p className="uppercase tracking-[0.15em] mb-2">What would you like to be notified about?</p>
 
               <div className="flex flex-col gap-2">
                 {/* This show */}
@@ -1767,16 +1662,15 @@ ${filterLine}
                   onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                     : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}
-                >
+                    }`}>
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
                     <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="font-bold flex items-center gap-1.5"><Mic className="w-3.5 h-3.5   " /> This specific show</p>
-                    <p className="">Reminders & updates for {notifyPopupShow.venue}</p>
+                    <p className="flex items-center gap-1.5"><Mic className="w-3.5 h-3.5" /> This specific show</p>
+                    <p>Reminders & updates for {notifyPopupShow.venue}</p>
                   </div>
                 </button>
 
@@ -1786,16 +1680,15 @@ ${filterLine}
                   onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                     : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}
-                >
+                    }`}>
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
                     <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="font-bold flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5   " /> Shows near me</p>
-                    <p className="">Get emailed when we book near your area</p>
+                    <p className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Shows near me</p>
+                    <p>Get emailed when we book near your area</p>
                   </div>
                 </button>
 
@@ -1805,16 +1698,15 @@ ${filterLine}
                   onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                     : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}
-                >
+                    }`}>
                   <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
                     <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="font-bold flex items-center gap-1.5"><Mail className="w-3.5 h-3.5   " /> Newsletter & exclusives</p>
-                    <p className="">News, drops & merch updates</p>
+                    <p className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Newsletter & exclusives</p>
+                    <p>News, drops & merch updates</p>
                   </div>
                 </button>
               </div>
@@ -1828,15 +1720,13 @@ ${filterLine}
               <div className="flex gap-2 mt-4">
                 <button aria-label="Action button"
                   onClick={() => setNotifyPopupShow(null)}
-                  className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white font-bold uppercase rounded-lg transition-colors cursor-pointer"
-                >
+                  className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white uppercase rounded-lg transition-colors cursor-pointer">
                   Cancel
                 </button>
                 <button aria-label="Action button"
                   onClick={handleNotifyConfirm}
                   disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
-                  className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5"
-                >
+                  className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5">
                   {subscribingId ? 'Saving...' : <><Bell className="w-3.5 h-3.5" /> Enable Alerts</>}
                 </button>
               </div>
@@ -1851,24 +1741,22 @@ ${filterLine}
 
             {/* Header */}
             <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-              <h3 className="text-white font-bold uppercase tracking-wider">Font Tester</h3>
+              <h3 className="text-white uppercase r">Font Tester</h3>
               <button aria-label="Action button"
                 onClick={() => setIsFontCustomizerOpen(false)}
-                className="text-white/40 hover:text-white cursor-pointer bg-[#00000029] hover:bg-white/10 rounded-lg w-6 h-6 flex items-center justify-center transition-colors"
-              >
+                className="text-white/40 hover:text-white cursor-pointer bg-[#00000029] hover:bg-white/10 rounded-lg w-6 h-6 flex items-center justify-center transition-colors">
                 ✕
               </button>
             </div>
 
             {/* Font Family */}
             <div className="mb-5">
-              <label htmlFor="tour-font-style" className="block text-white/50 uppercase font-bold mb-2">Font Style</label>
+              <label htmlFor="tour-font-style" className="block text-white/50 uppercase mb-2">Font Style</label>
               <select aria-label="Select option"
                 id="tour-font-style"
                 value={tourFontFamily}
                 onChange={(e) => setTourFontFamily(e.target.value)}
-                className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
-              >
+                className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer">
                 <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Switzer (Default)</option>
                 <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
                 <option value="Inter" className="bg-[var(--color-bg-surface)] text-white">Inter</option>
@@ -1883,8 +1771,8 @@ ${filterLine}
             {/* Font Size */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-font-size-slider" className="text-white/50 uppercase font-bold tracking-wider">Font Size</label>
-                <span className="text-[var(--color-accent)] font-bold ">{tourFontSize}</span>
+                <label htmlFor="tour-font-size-slider" className="text-white/50 uppercase r">Font Size</label>
+                <span className="text-[var(--color-accent)]">{tourFontSize}</span>
               </div>
               <input aria-label="Input field"
                 id="tour-font-size-slider"
@@ -1905,8 +1793,8 @@ ${filterLine}
             {/* Website Button Font Size */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-website-btn-size-slider" className="text-white/50 uppercase font-bold tracking-wider">Website Button Size</label>
-                <span className="text-[var(--color-accent)] font-bold ">{websiteBtnFontSize}</span>
+                <label htmlFor="tour-website-btn-size-slider" className="text-white/50 uppercase r">Website Button Size</label>
+                <span className="text-[var(--color-accent)]">{websiteBtnFontSize}</span>
               </div>
               <input aria-label="Input field"
                 id="tour-website-btn-size-slider"
@@ -1931,8 +1819,8 @@ ${filterLine}
             {/* Row Padding */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-row-padding-slider" className="text-white/50 uppercase font-bold tracking-wider">Row Padding</label>
-                <span className="text-[var(--color-accent)] font-bold ">{tourRowPadding}</span>
+                <label htmlFor="tour-row-padding-slider" className="text-white/50 uppercase r">Row Padding</label>
+                <span className="text-[var(--color-accent)]">{tourRowPadding}</span>
               </div>
               <input aria-label="Input field"
                 id="tour-row-padding-slider"
@@ -1953,8 +1841,8 @@ ${filterLine}
             {/* Row Spacing */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-row-spacing-slider" className="text-white/50 uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
-                <span className="text-[var(--color-accent)] font-bold ">{tourRowGap}</span>
+                <label htmlFor="tour-row-spacing-slider" className="text-white/50 uppercase r">Row Spacing (Margin)</label>
+                <span className="text-[var(--color-accent)]">{tourRowGap}</span>
               </div>
               <input aria-label="Input field"
                 id="tour-row-spacing-slider"
@@ -1975,8 +1863,8 @@ ${filterLine}
             {/* Row Height */}
             <div className="mb-5">
               <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-row-height-slider" className="text-white/50 uppercase font-bold tracking-wider">Row Height</label>
-                <span className="text-[var(--color-accent)] font-bold ">{tourRowHeight}</span>
+                <label htmlFor="tour-row-height-slider" className="text-white/50 uppercase r">Row Height</label>
+                <span className="text-[var(--color-accent)]">{tourRowHeight}</span>
               </div>
               <input aria-label="Input field"
                 id="tour-row-height-slider"
@@ -1997,7 +1885,7 @@ ${filterLine}
             {/* Map Fade Mask Controls */}
             <div className="mb-5 pt-4 border-t border-white/10">
               <div className="flex items-center justify-between mb-3">
-                <label className="text-white uppercase font-bold tracking-wider">Map Fade Mask</label>
+                <label className="text-white uppercase r">Map Fade Mask</label>
                 <SquishyToggle
                   id="map-fade-mask-toggle"
                   label="Map Fade Mask"
@@ -2014,8 +1902,8 @@ ${filterLine}
                   {/* Map Top Fade Distance */}
                   <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-top-slider" className="text-white/50 uppercase font-bold tracking-wider">Top Fade Clip</label>
-                      <span className="text-[var(--color-accent)] font-bold ">{mapMaskTop}px</span>
+                      <label htmlFor="map-mask-top-slider" className="text-white/50 uppercase r">Top Fade Clip</label>
+                      <span className="text-[var(--color-accent)]">{mapMaskTop}px</span>
                     </div>
                     <input aria-label="Input field"
                       id="map-mask-top-slider"
@@ -2040,8 +1928,8 @@ ${filterLine}
                   {/* Map Bottom Fade Distance */}
                   <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-bottom-slider" className="text-white/50 uppercase font-bold tracking-wider">Bottom Fade Clip</label>
-                      <span className="text-[var(--color-accent)] font-bold ">{mapMaskBottom}px</span>
+                      <label htmlFor="map-mask-bottom-slider" className="text-white/50 uppercase r">Bottom Fade Clip</label>
+                      <span className="text-[var(--color-accent)]">{mapMaskBottom}px</span>
                     </div>
                     <input aria-label="Input field"
                       id="map-mask-bottom-slider"
@@ -2066,8 +1954,8 @@ ${filterLine}
                   {/* Map Left Fade Distance */}
                   <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-left-slider" className="text-white/50 uppercase font-bold tracking-wider">Left Fade Clip</label>
-                      <span className="text-[var(--color-accent)] font-bold ">{mapMaskLeft}px</span>
+                      <label htmlFor="map-mask-left-slider" className="text-white/50 uppercase r">Left Fade Clip</label>
+                      <span className="text-[var(--color-accent)]">{mapMaskLeft}px</span>
                     </div>
                     <input aria-label="Input field"
                       id="map-mask-left-slider"
@@ -2092,8 +1980,8 @@ ${filterLine}
                   {/* Map Right Fade Distance */}
                   <div className="mb-3">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-right-slider" className="text-white/50 uppercase font-bold tracking-wider">Right Fade Clip</label>
-                      <span className="text-[var(--color-accent)] font-bold ">{mapMaskRight}px</span>
+                      <label htmlFor="map-mask-right-slider" className="text-white/50 uppercase r">Right Fade Clip</label>
+                      <span className="text-[var(--color-accent)]">{mapMaskRight}px</span>
                     </div>
                     <input aria-label="Input field"
                       id="map-mask-right-slider"
@@ -2131,8 +2019,7 @@ ${filterLine}
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
-                className="py-2.5 bg-[#00000029] border border-white/10 hover:bg-white/10 rounded-lg text-white font-bold uppercase cursor-pointer transition-colors animate-all"
-              >
+                className="py-2.5 bg-[#00000029] border border-white/10 hover:bg-white/10 rounded-lg text-white uppercase cursor-pointer transition-colors animate-all">
                 {copied ? "Copied! ✓" : "Copy CSS"}
               </button>
               <button aria-label="Action button"
@@ -2144,8 +2031,7 @@ ${filterLine}
                   localStorage.setItem("7h_tour_row_height", tourRowHeight);
                   setIsFontCustomizerOpen(false);
                 }}
-                className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(255,10,61,0.9)] rounded-lg text-white font-bold uppercase cursor-pointer transition-colors"
-              >
+                className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(255,10,61,0.9)] rounded-lg text-white uppercase cursor-pointer transition-colors">
                 Apply & Save
               </button>
             </div>

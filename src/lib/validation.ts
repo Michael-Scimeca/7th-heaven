@@ -76,7 +76,7 @@ export function isValidEmail(email: unknown): email is string {
 export function isValidPhone(phone: unknown): phone is string {
   if (typeof phone !== "string") return false;
   const digits = phone.replace(/\D/g, "");
-  return digits.length >= 10 && digits.length <= 15;
+  return digits.length>= 10 && digits.length <= 15;
 }
 
 /** Format a raw phone string into (555) 123-4567 display format */

@@ -353,8 +353,7 @@ export default function FallingPicks() {
   return (
     <div
       ref={containerRef}
-      className="relative h-screen w-screen overflow-hidden bg-black"
-    >
+      className="relative h-screen w-screen overflow-hidden bg-black">
       <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center">
         <svg viewBox="0 0 514.28 93.04" className="h-auto w-[400px]">
           <g fill="white">
@@ -372,17 +371,16 @@ export default function FallingPicks() {
       <div className="pointer-events-auto absolute right-4 top-4 z-50 w-64 select-none">
         <button
           onClick={() => setPanelOpen((v) => !v)}
-          className="mb-2 rounded-lg bg-purple-600/90 px-3 py-1.5 font-semibold text-white shadow-lg backdrop-blur transition hover:bg-purple-500"
-        >
+          className="mb-2 rounded-lg bg-purple-600/90 px-3 py-1.5 font-semibold text-white    backdrop-blur transition hover:bg-purple-500">
           {panelOpen ? "Hide controls" : "Show controls"}
         </button>
 
         {panelOpen && (
           <div className="flex max-h-[85vh] flex-col gap-3 overflow-y-auto rounded-lg border border-white/10 bg-black/70 p-4 pr-3 backdrop-blur [scrollbar-color:theme(colors.purple.500)_rgba(255,255,255,0.08)] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]: rounded-lg [&::-webkit-scrollbar-thumb]:bg-purple-500/80 [&::-webkit-scrollbar-track]: bg-[#00000029]">
-            <p className="font-semibold uppercase tracking-wide">
+            <p className="font-semibold uppercase">
               Spawning
             </p>
-            <p className="">
+            <p>
               Size now alternates randomly between 120px and 150px per pick.
             </p>
             <Slider
@@ -412,7 +410,7 @@ export default function FallingPicks() {
               format={(v) => v.toFixed(2)}
             />
 
-            <p className="mt-1 font-semibold uppercase tracking-wide">
+            <p className="mt-1 font-semibold uppercase">
               Forces
             </p>
             <Slider
@@ -441,7 +439,7 @@ export default function FallingPicks() {
               format={(v) => `${v.toFixed(2)}x`}
             />
 
-            <p className="mt-1 font-semibold uppercase tracking-wide">
+            <p className="mt-1 font-semibold uppercase">
               Material
             </p>
             <Slider
@@ -490,7 +488,7 @@ export default function FallingPicks() {
               format={(v) => v.toFixed(4)}
             />
 
-            <p className="mt-1 font-semibold uppercase tracking-wide">
+            <p className="mt-1 font-semibold uppercase">
               Interaction
             </p>
             <Slider
@@ -506,20 +504,17 @@ export default function FallingPicks() {
             <div className="mt-1 flex gap-2">
               <button
                 onClick={() => setPaused((p) => !p)}
-                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5   text-white hover:bg-white/20"
-              >
+                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-white hover:bg-white/20">
                 {paused ? "Resume" : "Pause"}
               </button>
               <button
                 onClick={() => setClearSignal((n) => n + 1)}
-                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5   text-white hover:bg-white/20"
-              >
+                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-white hover:bg-white/20">
                 Clear
               </button>
               <button
                 onClick={() => setConfig(DEFAULTS)}
-                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5   text-white hover:bg-white/20"
-              >
+                className="flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-white hover:bg-white/20">
                 Reset
               </button>
             </div>

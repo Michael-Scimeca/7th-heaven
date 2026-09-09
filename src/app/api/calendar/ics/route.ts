@@ -7,7 +7,7 @@ const parseTime = (timeStr: string, defaultHour: number) => {
     const isAM = clean.includes('AM');
     const numbers = clean.replace(/[A-Z\s]/g, '').split(':');
     let hour = parseInt(numbers[0], 10);
-    let minute = numbers.length > 1 ? parseInt(numbers[1], 10) : 0;
+    let minute = numbers.length> 1 ? parseInt(numbers[1], 10) : 0;
     if (isPM && hour !== 12) hour += 12;
     if (isAM && hour === 12) hour = 0;
     return { hour, minute };

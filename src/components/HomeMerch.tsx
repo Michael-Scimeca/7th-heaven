@@ -56,22 +56,11 @@ const DEMO_PRODUCTS: ShopifyProduct[] = [
   },
 ];
 
-export default function HomeMerch() {
+export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
   const { requestTransition } = useTransition();
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sanityContent, setSanityContent] = useState<any>(null);
 
-  useEffect(() => {
-    fetch("/api/page-content?key=home")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data?.success && data?.data) {
-          setSanityContent(data.data);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   const loadInventory = useCallback(async () => {
     try {

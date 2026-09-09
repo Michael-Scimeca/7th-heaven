@@ -72,8 +72,7 @@ export default function IphoneClipMask({
         WebkitClipPath: `inset(${top}% ${leftRight}% ${bottom}% ${leftRight}% round ${clipRoundPx}px)`,
         borderRadius: `${borderRadiusPx}px`,
         ...style,
-      }}
-    >
+      }}>
       {children}
     </div>
   );

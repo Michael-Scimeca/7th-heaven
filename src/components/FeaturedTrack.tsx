@@ -254,22 +254,22 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
         {/* Header */}
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1 h-1 rounded-lg bg-cyan-400 animate-pulse" />
-          <span className=" font-bold uppercase   ">Now Playing</span>
+          <span className="uppercase">Now Playing</span>
         </div>
 
         {locked ? (
           <div className="flex items-center gap-2">
-            <div className=" w-11 h-11  rounded-lg bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center shrink-0">🔒</div>
+            <div className="w-11 h-11 rounded-lg bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
-              <p className="font-bold truncate">Exclusive Fan Drop</p>
-              <button aria-label="Action button" type="button" onClick={() => openModal('login')} className=" font-bold text-[var(--color-accent)] hover:text-white uppercase transition-colors cursor-pointer mt-0.5">Login to unlock</button>
+              <p className="truncate">Exclusive Fan Drop</p>
+              <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--color-accent)] hover:text-white uppercase transition-colors cursor-pointer mt-0.5">Login to unlock</button>
             </div>
           </div>
         ) : (
           <>
             <div className="flex items-center gap-2.5">
               {/* Mini vinyl */}
-              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative  w-11 h-11  shrink-0 rounded-lg border border-white/10 flex items-center justify-center cursor-pointer group overflow-hidden">
+              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative w-11 h-11 shrink-0 rounded-lg border border-white/10 flex items-center justify-center cursor-pointer group overflow-hidden">
                 <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
                 <div className="relative z-10 w-4 h-4 rounded-lg bg-black/80 flex items-center justify-center">
                   {isPlaying ? (
@@ -282,7 +282,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
               {/* Track info */}
               <div className="flex-1 min-w-0">
-                <h4 className="font-bold text-white truncate uppercase">
+                <h4 className="text-white truncate uppercase">
                   {track.title}
                 </h4>
                 {currentSong && (
@@ -313,7 +313,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
             {/* Mini progress bar */}
             <div className="mt-2 flex items-center gap-2">
-              <span className="text-[var(--font-size-5xs)] font-bold text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
+              <span className="text-[var(--font-size-5xs)] text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
               <div className="relative flex-1 h-[2px] bg-white/10 rounded-lg">
                 <input aria-label="Input field"
                   type="range"
@@ -328,7 +328,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                 />
               </div>
-              <span className="text-[var(--font-size-5xs)] font-bold text-white/30 min-w-[22px] text-right">{duration ? formatTime(duration) : '0:00'}</span>
+              <span className="text-[var(--font-size-5xs)] text-white/30 min-w-[22px] text-right">{duration ? formatTime(duration) : '0:00'}</span>
             </div>
 
             {/* Mini playlist list */}
@@ -346,15 +346,14 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                       }}
                       className={`w-full flex items-center justify-between p-1.5 rounded text-left transition-colors cursor-pointer ${isActive ? 'bg-[var(--color-accent)]/15 text-white'
                         : 'text-white/40 hover:bg-white/[0.02] hover:text-white/70'
-                        }`}
-                    >
-                      <span className=" font-bold truncate pr-2">
+                        }`}>
+                      <span className="truncate pr-2">
                         {String(idx + 1).padStart(2, '0')}. {song.title}
                       </span>
                       {isActive && isPlaying ? (
-                        <span className="text-[var(--font-size-5xs)] text-[var(--color-accent)] font-bold animate-pulse uppercase shrink-0">Playing</span>
+                        <span className="text-[var(--font-size-5xs)] text-[var(--color-accent)] animate-pulse uppercase shrink-0">Playing</span>
                       ) : (
-                        <span className="text-[var(--font-size-5xs)] text-white/25 uppercase   shrink-0">MP3</span>
+                        <span className="text-[var(--font-size-5xs)] text-white/25 uppercase shrink-0">MP3</span>
                       )}
                     </button>
                   );
@@ -386,34 +385,32 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
           {/* Header */}
           <div className="flex items-center gap-3 mb-6 justify-center">
             <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)] animate-ping" />
-            <span className="font-bold uppercase tracking-[0.25em] text-[var(--color-accent)]">Latest Track Drop</span>
+            <span className="uppercase  text-[var(--color-accent)]">Latest Track Drop</span>
           </div>
 
           {locked ? (
             /* Locked Panel (Fans Only, logged out) */
-            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300   border-white/10 ">
+            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300 border-white/10">
               <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center text-2xl shadow-inner text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
-              <h3 className="font-bold uppercase er text-white mb-2">
+              <h3 className="uppercase er text-white mb-2">
                 Exclusive Fan Release
               </h3>
-              <p className="   max-w-md mx-auto mb-8">
+              <p className="max-w-md mx-auto mb-8">
                 The band dropped an exclusive new song or soundtrack just for our registered fans. Sign in or sign up free to unlock listening!
               </p>
               <div className="flex justify-center gap-4">
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => openModal('login')}
-                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] shadow-[var(--color-accent)]/20 cursor-pointer"
-                >
+                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg  cursor-pointer">
                   Log In
                 </button>
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => openModal('signup')}
-                  className="px-8 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white font-bold uppercase rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                >
+                  className="px-8 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white uppercase rounded-lg cursor-pointer">
                   Join Fan Club
                 </button>
               </div>
@@ -433,10 +430,10 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
                 {/* Track Details */}
                 <div className="flex-1 text-center md:text-left min-w-0">
-                  <span className=" text-[0.9rem] uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-white/10 px-2 py-0.5 rounded-lg font-bold">
+                  <span className="text-[0.9rem] uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-white/10 px-2 py-0.5 rounded-lg">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
-                  <h4 className="font-bold text-white mt-2 truncate uppercase">
+                  <h4 className="text-white mt-2 truncate uppercase">
                     {track.title}
                   </h4>
                   {currentSong && (
@@ -472,7 +469,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
               {/* Progress Bar & Seek */}
               <div className="mt-8 flex items-center gap-4">
-                <span className=" font-bold text-white/45 min-w-[32px]">
+                <span className="text-white/45 min-w-[32px]">
                   {formatTime(currentTime)}
                 </span>
 
@@ -487,13 +484,12 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   />
                   <div
                     className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
-                    style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-                  >
+                    style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}>
                     <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-lg shadow-[0_0_10px_rgba(255,255,255,0.6)] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
 
-                <span className=" font-bold text-white/45 min-w-[32px] text-right">
+                <span className="text-white/45 min-w-[32px] text-right">
                   {duration ? formatTime(duration) : '0:00'}
                 </span>
               </div>
@@ -505,8 +501,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   <button aria-label="Action button"
                     type="button"
                     onClick={togglePlay}
-                    className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center active:scale-95 transition-colors cursor-pointer"
-                  >
+                    className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center active:scale-95 transition-colors cursor-pointer">
                     {isPlaying ? (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                     ) : (
@@ -516,7 +511,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
                   {/* Close timer (if temporary) */}
                   {track.expires_at && (
-                    <div className="text-white/30 uppercase font-bold flex items-center gap-1.5 bg-white/[0.02] border border-white/10 px-3 py-1.5 rounded-lg">
+                    <div className="text-white/30 uppercase flex items-center gap-1.5 bg-white/[0.02] border border-white/10 px-3 py-1.5 rounded-lg">
                       🕒 Drop Expires: {new Date(track.expires_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   )}
@@ -525,11 +520,10 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   <button aria-label="Action button"
                     type="button"
                     onClick={toggleCompressor}
-                    className={`text-[0.65rem] uppercase font-bold flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
+                    className={`text-[0.65rem] uppercase    flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
                       : 'bg-white/[0.02] border-white/10 text-white/40 hover:text-white/70 hover:border-white/10'
                       }`}
-                    title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response"
-                  >
+                    title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response">
                     <span className={`w-1.5 h-1.5 rounded-lg ${isCompressorActive ? 'bg-cyan-400 animate-pulse' : 'bg-white/20'}`} />
                     Mastering Compressor {isCompressorActive ? 'ON ⚡' : 'OFF'}
                   </button>
@@ -568,7 +562,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
               {/* EP / Album Playlist tracks */}
               {track.songs && track.songs.length > 0 && (
                 <div className="mt-8 pt-6 border-t border-white/10 space-y-3">
-                  <span className="block text-[0.65rem] font-bold uppercase text-white/35">Drop Playlist</span>
+                  <span className="block text-[0.65rem] uppercase text-white/35">Drop Playlist</span>
                   <div className="space-y-1 max-h-[180px] overflow-y-auto pr-1">
                     {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                       const isActive = idx === currentSongIndex;
@@ -582,19 +576,18 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                           }}
                           className={`w-full text-left flex items-center justify-between p-3 border cursor-pointer select-none transition-colors duration-300 ${isActive ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 text-white shadow-[0_0_15px_rgba(255,10,61,0.08)]'
                             : 'bg-transparent border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
-                            }`}
-                        >
+                            }`}>
                           <div className="flex items-center gap-3.5 min-w-0">
-                            <span className={` font-bold w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
+                            <span className={`    w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
                               {isActive ? '▶' : String(idx + 1).padStart(2, '0')}
                             </span>
-                            <span className={`  truncate ${isActive ? 'font-bold' : ''}`}>{song.title}</span>
+                            <span className={`  truncate ${isActive ? '  ' : ''}`}>{song.title}</span>
                           </div>
                           <div className="flex items-center gap-3 shrink-0">
                             {isActive && isPlaying && (
-                              <span className="text-[0.55rem] uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded-lg font-bold animate-pulse border border-[var(--color-accent)]/30">Playing</span>
+                              <span className="text-[0.55rem] uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded-lg animate-pulse border border-[var(--color-accent)]/30">Playing</span>
                             )}
-                            <span className="text-[0.55rem] text-white/25 uppercase font-bold ">MP3</span>
+                            <span className="text-[0.55rem] text-white/25 uppercase">MP3</span>
                           </div>
                         </button>
                       );

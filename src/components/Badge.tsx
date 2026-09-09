@@ -25,9 +25,9 @@ const VARIANT_CLASSES: Record<NonNullable<BadgeProps["variant"]>, string> = {
 };
 
 const SIZE_CLASSES: Record<NonNullable<BadgeProps["size"]>, string> = {
-  sm: "px-3 py-1 text-xs tracking-wider",
-  md: "px-5 py-2 text-sm tracking-wide",
-  lg: "px-7 py-2.5 text-base tracking-wide",
+  sm: "px-3 py-1 text-xs  r",
+  md: "px-5 py-2 text-sm  ",
+  lg: "px-7 py-2.5 text-base  ",
 };
 
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
@@ -47,13 +47,10 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       <span
         ref={ref}
         onClick={onClick}
-        className={`inline-flex items-center justify-center rounded-full font-bold uppercase select-none transition-all duration-200 ${
-          onClick ? "cursor-pointer active:scale-95" : ""
-        } ${VARIANT_CLASSES[variant] || VARIANT_CLASSES.purple} ${
-          SIZE_CLASSES[size] || SIZE_CLASSES.md
-        } ${className}`}
-        {...props}
-      >
+        className={`inline-flex items-center justify-center rounded-full    uppercase select-none transition-all duration-200 ${onClick ? "cursor-pointer active:scale-95" : ""
+          } ${VARIANT_CLASSES[variant] || VARIANT_CLASSES.purple} ${SIZE_CLASSES[size] || SIZE_CLASSES.md
+          } ${className}`}
+        {...props}>
         {children || label || "CEO / BOOKING / BANDS"}
       </span>
     );

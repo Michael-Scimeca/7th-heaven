@@ -59,16 +59,15 @@ export const CrewAvatar = React.memo(({ member }: { member: any }) => {
         src={avatarUrl}
         alt={name}
         onError={() => setImgError(true)}
-        className=" w-11 h-11  rounded-full object-cover border border-white/10 shrink-0 "
+        className="w-11 h-11 rounded-full object-cover border border-white/10 shrink-0"
       />
     );
   }
 
   return (
     <div
-      className=" w-11 h-11  bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center font-bold shrink-0 text-white select-none border border-white/10"
-      style={{ color: '#ffffff' }}
-    >
+      className="w-11 h-11 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center shrink-0 text-white select-none border border-white/10"
+      style={{ color: '#ffffff' }}>
       {initials}
     </div>
   );
@@ -95,18 +94,17 @@ export const SidebarDateButton = React.memo(({
         : isActiveWeek
           ? ' bg-[#00000029] '
           : 'bg-transparent'
-        }`}
-    >
+        }`}>
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
-        <span className=" text-[9px] font-bold text-white/40 uppercase ">{show.dayLabel}</span>
-        <span className={` text-[11px] font-bold ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
+        <span className="text-[9px] text-white/40 uppercase">{show.dayLabel}</span>
+        <span className={` text-[11px]    ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`font-bold truncate ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
+        <p className={`   truncate ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
           {show.venue || show.venue_name}
         </p>
         {show.city && (
-          <p className="truncate ">{show.city}{show.state ? `, ${show.state}` : ''}</p>
+          <p className="truncate">{show.city}{show.state ? `, ${show.state}` : ''}</p>
         )}
       </div>
     </button>
@@ -117,7 +115,7 @@ SidebarDateButton.displayName = 'SidebarDateButton';
 export const formatHour = (hourDecimal: number) => {
   const h = Math.floor(hourDecimal);
   const m = Math.round((hourDecimal - h) * 60);
-  const period = h >= 12 ? 'PM' : 'AM';
+  const period = h>= 12 ? 'PM' : 'AM';
   let displayHour = h % 12;
   if (displayHour === 0) displayHour = 12;
   const displayMinute = m === 0 ? '' : `:${String(m).padStart(2, '0')}`;

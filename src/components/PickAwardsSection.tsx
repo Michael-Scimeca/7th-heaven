@@ -129,7 +129,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
   return (
     <div className="mb-6 p-6 bg-white border border-black/10 text-black">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="font-bold text-black">
+        <h2 className="text-black">
           Pick <span className="gradient-text">Awards</span>
         </h2>
         <span className="uppercase tracking-[0.15em] text-black/40">Collect Picks · Enter Lotteries</span>
@@ -149,23 +149,22 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 key={pick.id}
                 onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
                 className={`relative p-3 border text-center transition-colors ${pick.owned > 0 ? selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
-                  : "border-black/10 bg-gray-50 hover:border-black/25 hover:scale-[1.02] cursor-pointer"
+                  : "border-black/10 bg-gray-50 hover:border-black/25 cursor-pointer"
                   : "border-black/10 bg-gray-100/50 opacity-40 grayscale cursor-default"
-                  }`}
-              >
+                  }`}>
                 <div className="relative mx-auto w-16 h-16 mb-2">
                   <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-full h-full object-contain" />
                   {pick.owned > 1 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center font-bold bg-[var(--color-accent)] text-white rounded">
+                    <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center bg-[var(--color-accent)] text-white rounded">
                       ×{pick.owned}
                     </span>
                   )}
                 </div>
-                <p className="font-bold text-black/80 truncate">{pick.name}</p>
-                <p className={`font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
+                <p className="text-black/80 truncate">{pick.name}</p>
+                <p className={`   uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
                 {pick.owned === 0 && (
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                    <span className="font-bold text-black/60 uppercase tracking-[0.15em] bg-gray-200/90 px-2 py-1 rounded ">Locked</span>
+                    <span className="text-black/60 uppercase tracking-[0.15em] bg-gray-200/90 px-2 py-1 rounded">Locked</span>
                   </div>
                 )}
               </button>
@@ -180,16 +179,16 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               <div className="mb-6 p-4 border border-white/10 bg-[var(--color-accent)]/5 rounded-lg animate-[fadeIn_0.2s_ease]">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className=" w-11 h-11  object-contain" />
+                    <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-11 h-11 object-contain" />
                     <div>
-                      <h3 className="font-bold text-black">{pick.name}</h3>
-                      <p className={`font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
+                      <h3 className="text-black">{pick.name}</h3>
+                      <p className={`   uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
                     </div>
                   </div>
                   <button aria-label="Action button" onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black cursor-pointer"><X className="w-4 h-4" /></button>
                 </div>
                 <div className="space-y-1.5">
-                  <p className="text-black/50 uppercase tracking-[0.15em] font-bold">History</p>
+                  <p className="text-black/50 uppercase tracking-[0.15em]">History</p>
                   {pick.picks.slice(0, 5).map((p: any) => (
                     <div key={p.id || p.created_at} className="flex items-center gap-2 text-black/70 bg-gray-50 px-3 py-1.5 rounded">
                       <span className="flex items-center gap-1.5"><Gift className="w-3.5 h-3.5 text-purple-600" /> {REASON_LABELS[p.awarded_reason] || "Awarded"}</span>
@@ -207,15 +206,15 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Collection Stats */}
           <div className="flex items-center gap-6 mb-6 p-3 bg-gray-50 border border-black/10 rounded-lg">
             <div>
-              <p className="uppercase tracking-[0.15em] text-black/40 font-bold">Total Picks</p>
-              <p className="font-bold">{totalOwned}</p>
+              <p className="uppercase tracking-[0.15em] text-black/40">Total Picks</p>
+              <p>{totalOwned}</p>
             </div>
             <div>
-              <p className="uppercase tracking-[0.15em] text-black/40 font-bold">Unique Types</p>
-              <p className="font-bold text-black">{uniqueTypes}/{totalTypes}</p>
+              <p className="uppercase tracking-[0.15em] text-black/40">Unique Types</p>
+              <p className="text-black">{uniqueTypes}/{totalTypes}</p>
             </div>
             <div className="ml-auto text-right">
-              <p className="uppercase tracking-[0.15em] text-black/40 font-bold">How to earn</p>
+              <p className="uppercase tracking-[0.15em] text-black/40">How to earn</p>
               <p className="text-black/60">Attend shows · Merch purchases · Social shares · Referrals</p>
             </div>
           </div>
@@ -223,7 +222,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Visit Merch Table CTA */}
           <div className="mb-6 p-4 border border-black/10 bg-gray-50 rounded-lg flex items-center gap-3 border-dashed">
             <Dices className="w-6 h-6 text-purple-600 shrink-0" />
-            <p className="text-black/60 uppercase tracking-[0.15em] font-bold">
+            <p className="text-black/60 uppercase tracking-[0.15em]">
               Visit the merch table at any show to enter your picks into the lottery
             </p>
           </div>
@@ -231,7 +230,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Active Lotteries */}
           {lotteries.length > 0 && (
             <div>
-              <h3 className="font-bold text-black/70 uppercase tracking-[0.15em] mb-3 flex items-center gap-1.5"><Dices className="w-4 h-4 text-purple-600" /> Active Lotteries</h3>
+              <h3 className="text-black/70 uppercase tracking-[0.15em] mb-3 flex items-center gap-1.5"><Dices className="w-4 h-4 text-purple-600" /> Active Lotteries</h3>
               <div className="space-y-3">
                 {lotteries.map((lottery: any) => (
                   <div
@@ -240,22 +239,20 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       : lottery.isEligible
                         ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
                         : "border-black/10 bg-gray-50"
-                      }`}
-                  >
+                      }`}>
                     <div className="flex items-center justify-between mb-2">
                       <div>
-                        <h4 className="font-bold text-black">{lottery.name}</h4>
+                        <h4 className="text-black">{lottery.name}</h4>
                         <p className="text-black/50">{lottery.prize}</p>
                       </div>
                       <div className="text-right">
                         {lottery.isEntered ? (
-                          <span className="font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-lg border border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
+                          <span className="text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-lg border border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
                         ) : lottery.isEligible ? (
                           <button aria-label="Action button"
                             onClick={() => handleEnterLottery(lottery.id)}
                             disabled={enteringLottery === lottery.id}
-                            className="px-4 py-2 bg-[var(--color-purple-glow)] border border-[var(--color-border-purple)] text-[var(--color-purple-light)] font-bold text-[var(--font-size-xs)] uppercase tracking-[0.15em] rounded-lg hover:bg-[var(--color-purple-glow)] transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_10px_var(--color-purple-glow)]"
-                          >
+                            className="px-4 py-2 bg-[var(--color-purple-glow)] border border-[var(--color-border-purple)] text-[var(--color-purple-light)] text-[var(--font-size-xs)] uppercase tracking-[0.15em] rounded-lg hover:bg-[var(--color-purple-glow)] transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_10px_var(--color-purple-glow)]">
                             {enteringLottery === lottery.id ? "Entering..." : "Enter Lottery"}
                           </button>
                         ) : (
@@ -296,7 +293,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
 
               {/* Lottery result message */}
               {lotteryMsg && (
-                <div className={`mt-3 p-3 rounded-lg border font-bold ${lotteryMsg.ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"}`}>
+                <div className={`mt-3 p-3 rounded-lg border    ${lotteryMsg.ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"}`}>
                   {lotteryMsg.msg}
                 </div>
               )}

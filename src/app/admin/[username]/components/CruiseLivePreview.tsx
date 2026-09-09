@@ -23,15 +23,15 @@ export function CruiseLivePreview({
     return (
       <div className="bg-black/60 border border-white/10 rounded-lg p-5 shadow-inner min-h-[220px]">
         <div className="flex items-center gap-3 mb-4 pb-3 border-b border-white/10">
-          <div className=" w-11 h-11  rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-purple-300 font-bold">
+          <div className="w-11 h-11 rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
             7H
           </div>
           <div>
-            <div className="font-bold text-white flex items-center gap-2">
+            <div className="text-white flex items-center gap-2">
               7th Heaven Official
               <span className="text-[12px] bg- purple-white/20 text-purple-300 px-1.5 py-0.5 rounded uppercase">Admin Post</span>
             </div>
-            <div className="text-[10px] text-white/40 ">Just now • Cruise Wall Feed</div>
+            <div className="text-[10px] text-white/40">Just now • Cruise Wall Feed</div>
           </div>
         </div>
         <div
@@ -43,9 +43,9 @@ export function CruiseLivePreview({
   }
 
   return (
-    <div className="bg-[#0f0a1c] text-white rounded-lg overflow-hidden shadow-2xl border border-white/10 font-sans min-h-[300px]">
+    <div className="bg-[#0f0a1c] text-white rounded-lg overflow-hidden   border border-white/10 font-sans min-h-[300px]">
       <div className="bg-[#180e2b] text-white px-4 py-2.5 flex items-center justify-between border-b border-white/10">
-        <span className="font-bold text-[11px] uppercase text-purple-300">📧 Email Dispatch Mockup</span>
+        <span className="text-[11px] uppercase text-purple-300">📧 Email Dispatch Mockup</span>
         <span className="text-[10px] text-white/50">To: All Cruise Guests</span>
       </div>
       <div className="p-4 bg-[#140b24] border-b border-white/10 text-purple-200 text-[11px]">

@@ -2,9 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { SectionBadge } from "@/components/SectionBadge";
-const HeroParallaxCustomizer = dynamic(() => import("@/components/HeroParallaxCustomizer"), { ssr: false });
+import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import type { HeroParallaxController } from "@/lib/useHeroParallax";
 import type { RefObject } from "react";
 
@@ -27,7 +26,7 @@ export default function CruiseHeroSection({
   return (
     <section
       id="cruise-hero"
-      className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-8 md:pb-16 text-white min-h-[35vh] md:min-h-[36vh] lg:min-h-[620px]"
+      className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-8 md:pb-16 text-white min-h-[35vh] md:min-h-[36vh] lg:min-h-[620px] site-container"
       style={{
         marginLeft: "calc(-1 * var(--page-padding-x))",
         marginRight: "calc(-1 * var(--page-padding-x))",
@@ -88,7 +87,7 @@ export default function CruiseHeroSection({
         </div>
 
         {/* Main Title: Cruise Name */}
-        <h1 className="uppercase er text-white leading-none">
+        <h1 className="">
           {sanityContent?.heroHeading || (
             <>7TH HEAVEN <span className="inline-block pr-[0.15em]">FAN CRUISE</span></>
           )}

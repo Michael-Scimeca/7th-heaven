@@ -49,7 +49,10 @@ export default function GlobalError({
       error.message?.includes("Hydration") ||
       error.message?.includes("hydration") ||
       error.message?.includes("Module not found") ||
-      error.message?.includes("Cannot find module");
+      error.message?.includes("Cannot find module") ||
+      error.name === "ChunkLoadError" ||
+      error.message?.includes("ChunkLoadError") ||
+      error.message?.includes("Failed to load chunk");
 
     if (isDomError && !resetAttempted.current) {
       resetAttempted.current = true;
@@ -74,16 +77,14 @@ export default function GlobalError({
             justifyContent: "center",
             fontFamily: "sans-serif",
             padding: "20px",
-          }}
-        >
+          }}>
           <div style={{ textAlign: "center", maxWidth: "400px" }}>
             <h1
               style={{
                 color: "#f43f5e",
                 textTransform: "uppercase",
                 letterSpacing: "0.1em",
-              }}
-            >
+              }}>
               Critical System Error
             </h1>
             <p
@@ -92,8 +93,7 @@ export default function GlobalError({
                 fontSize: "14px",
                 lineHeight: "1.6",
                 marginBottom: "30px",
-              }}
-            >
+              }}>
               A critical error occurred in the application root. Our development
               team (Mikey) has been notified automatically.
             </p>
@@ -110,8 +110,7 @@ export default function GlobalError({
                 letterSpacing: "0.1em",
                 fontSize: "12px",
                 fontWeight: "bold",
-              }}
-            >
+              }}>
               Reload Application
             </button>
           </div>

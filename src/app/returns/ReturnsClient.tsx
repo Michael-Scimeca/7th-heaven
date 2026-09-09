@@ -1,25 +1,14 @@
+/* eslint-disable react-doctor/duplicate-jsx-subtree */
 /* eslint-disable react-doctor/no-array-index-as-key */
-/* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-export default function ReturnsClient() {
-  const [sanityContent, setSanityContent] = useState<any>(null);
+interface ReturnsClientProps {
+  sanityContent?: any;
+}
 
-  useEffect(() => {
-    fetch("/api/page-content?key=returns")
-      .then((res) => {
-        if (!res.ok) return null;
-        return res.json();
-      })
-      .then((res) => {
-        if (res?.success && res?.data) {
-          setSanityContent(res.data);
-        }
-      })
-      .catch(() => {});
-  }, []);
+export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
 
   return (
     <section className="site-container pt-[100px] min-h-screen">

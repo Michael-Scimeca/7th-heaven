@@ -37,7 +37,7 @@ interface SiteChatMsg {
 
 const fmt = (s: number) => {
   const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sc = s % 60;
-  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(sc).padStart(2, "0")}`;
+  if (h> 0) return `${h}:${String(m).padStart(2, "0")}:${String(sc).padStart(2, "0")}`;
   return `${m}:${String(sc).padStart(2, "0")}`;
 };
 
@@ -450,7 +450,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     return acc;
   }, {} as Record<string, number>);
 
-  if (isLoading) return <div className="min-h-screen " />;
+  if (isLoading) return <div className="min-h-screen" />;
 
   const member = MEMBER_SEEDS[slug];
   const studioPath = `/crew-${defaultMemberId || slug}/studio`;
@@ -464,16 +464,16 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {/* Identity */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className=" w-11 h-11  rounded-lg bg-emerald-700 flex items-center justify-center font-bold border border-emerald-500/30">
+              <div className="w-11 h-11 rounded-lg bg-emerald-700 flex items-center justify-center border border-emerald-500/30">
                 {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-lg border-2 border-[#030303] ${isLive ? "bg-red-500 shadow-[0_0_6px_#ef4444]" : "bg-slate-600"}`} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold">{displayName}</span>
-                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] font-bold uppercase rounded">Crew HQ</span>
-                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 font-bold uppercase rounded"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
+                <span>{displayName}</span>
+                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] uppercase rounded">Crew HQ</span>
+                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 uppercase rounded"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
               </div>
               <span className="text-white/25">{email}</span>
             </div>
@@ -483,18 +483,18 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {isLive && (
             <div className="hidden md:flex items-center gap-6 px-6 py-2 bg-red-950/30 border border-red-500/20">
               <div className="text-center">
-                <p className="font-bold text-red-400">{viewerCount.toLocaleString()}</p>
-                <p className="uppercase ">Viewers</p>
+                <p className="text-red-400">{viewerCount.toLocaleString()}</p>
+                <p className="uppercase">Viewers</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
-                <p className="font-bold">{fmt(liveDuration)}</p>
-                <p className="uppercase ">Duration</p>
+                <p>{fmt(liveDuration)}</p>
+                <p className="uppercase">Duration</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
-                <p className="font-bold text-yellow-400">{chatRate}/min</p>
-                <p className="uppercase ">Chat Rate</p>
+                <p className="text-yellow-400">{chatRate}/min</p>
+                <p className="uppercase">Chat Rate</p>
               </div>
             </div>
           )}
@@ -504,8 +504,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <select aria-label="Select option"
               className="bg-[var(--color-bg-card)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
               onChange={e => { if (e.target.value) requestTransition(e.target.value); }}
-              value={`/crew-${defaultMemberId || slug}`}
-            >
+              value={`/crew-${defaultMemberId || slug}`}>
               {Object.values(MEMBER_SEEDS).map(m => (
                 <option key={m.id} value={`/crew-${m.id}`}>{m.name}</option>
               ))}
@@ -513,10 +512,9 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             <Link
               href={studioPath}
-              className={`flex items-center gap-2 px-5 py-2 font-bold uppercase transition-colors ${isLive ? "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]"
+              className={`flex items-center gap-2 px-5 py-2    uppercase transition-colors ${isLive ? "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]"
                 : "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
-                }`}
-            >
+                }`}>
               <span>{isLive ? "🔴" : "🎥"}</span>
               {isLive ? "Manage Stream" : "Create Live Feed"}
             </Link>
@@ -532,16 +530,16 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           <div className="relative flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
             {/* Profile */}
             <div className="flex items-center gap-5">
-              <div className="w-20 h-20 bg-emerald-800 flex items-center justify-center text-2xl font-bold border border-emerald-500/25">
+              <div className="w-20 h-20 bg-emerald-800 flex items-center justify-center text-2xl border border-emerald-500/25">
                 {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div>
-                <p className="font-bold ">{displayName}</p>
+                <p>{displayName}</p>
                 <p className="font-semibold">{member?.role || "Crew"}</p>
                 <p className="mt-0.5">{email}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] font-bold uppercase rounded">7th Heaven</span>
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] font-bold uppercase rounded">Active Crew</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] uppercase rounded">7th Heaven</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] uppercase rounded">Active Crew</span>
                 </div>
               </div>
             </div>
@@ -555,7 +553,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 { label: "Chat Msgs", value: msgs.filter(m => m.room.includes(slug)).length.toString(), icon: "💬", color: "#9333ea" },
               ].map(({ label, value, icon, color }) => (
                 <div key={label} className="text-center px-5 py-3 bg-white/[0.03] border border-white/[0.06] min-w-[80px]">
-                  <p className="font-bold" style={{ color }}>{value}</p>
+                  <p  style={{ color }}>{value}</p>
                   <p className="mt-0.5">{icon} {label}</p>
                 </div>
               ))}
@@ -564,12 +562,11 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             {/* Launch CTA */}
             <Link
               href={studioPath}
-              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24 font-bold uppercase text-center transition-colors border ${isLive ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
+              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24    uppercase text-center transition-colors border ${isLive ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
                 : "bg-white/[0.04] border-white/10 text-white hover:bg-white/[0.08] hover:text-white   border-white/10 "
-                }`}
-            >
+                }`}>
               <span className="text-3xl">{isLive ? "📡" : "🎥"}</span>
-              <span className=" ">{isLive ? "Live\nStudio" : "Create\nLive Feed"}</span>
+              <span>{isLive ? "Live\nStudio" : "Create\nLive Feed"}</span>
             </Link>
           </div>
         </div>
@@ -581,21 +578,20 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
           {/* ── LEFT COLUMN: SITE-WIDE MONITOR & POLICIES ─────── */}
           <div className="flex flex-col gap-5 flex-1 min-w-0">
-            <div className=" border border-white/[0.07] overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
+            <div className="border border-white/[0.07] overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
 
               {/* Feed header */}
               <div className="px-5 py-3.5 border-b border-white/[0.06] flex-shrink-0">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold">📡 Site-Wide Chat Monitor</span>
-                    <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-white/30 ">{msgs.length} msgs</span>
+                    <span>📡 Site-Wide Chat Monitor</span>
+                    <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-white/30">{msgs.length} msgs</span>
                     <span className="w-2 h-2 rounded-lg bg-emerald-500 animate-pulse" title="Live" />
                     <button aria-label="Action button"
                       onClick={toggleSimulator}
-                      className={`ml-2 px-2.5 py-1 rounded-lg font-bold uppercase transition-colors cursor-pointer border ${simActive ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
+                      className={`ml-2 px-2.5 py-1 rounded-lg    uppercase transition-colors cursor-pointer border ${simActive ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
                         : " bg-[#00000029] border border-white/10 text-white/40   text-white "
-                        }`}
-                    >
+                        }`}>
                       {simActive ? "⚡ Sim Active" : "Start Sim"}
                     </button>
                   </div>
@@ -612,8 +608,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     <select aria-label="Select option"
                       value={roleFilter}
                       onChange={e => setRoleFilter(e.target.value)}
-                      className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
-                    >
+                      className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer">
                       <option value="all">All Roles</option>
                       <option value="flagged">🚩 Flagged</option>
                       <option value="warned">⚠️ Warned</option>
@@ -626,20 +621,18 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="flex items-center gap-2 mt-3 flex-wrap">
                   <button aria-label="Action button"
                     onClick={() => setRoomFilter("all")}
-                    className={`px-3 py-1 rounded-lg font-bold uppercase transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35   text-white "
-                      }`}
-                  >
+                    className={`px-3 py-1 rounded-lg    uppercase transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35   text-white "
+                      }`}>
                     All Rooms ({msgs.length})
                   </button>
                   {KNOWN_ROOMS.map(room => (
                     <button aria-label="Action button"
                       key={room.id}
                       onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
-                      className={`flex items-center gap-1 px-3 py-1 rounded-lg font-bold uppercase transition-colors cursor-pointer border ${roomFilter === room.id ? "text-white border-opacity-100"
+                      className={`flex items-center gap-1 px-3 py-1 rounded-lg    uppercase transition-colors cursor-pointer border ${roomFilter === room.id ? "text-white border-opacity-100"
                         : "border-white/[0.08] text-white/30   text-white "
                         }`}
-                      style={roomFilter === room.id ? { borderColor: room.color, background: room.color + "20", color: room.color } : {}}
-                    >
+                      style={roomFilter === room.id ? { borderColor: room.color, background: room.color + "20", color: room.color } : {}}>
                       {room.icon} {room.label} {roomCounts[room.id] ? `(${roomCounts[room.id]})` : ""}
                     </button>
                   ))}
@@ -651,7 +644,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 {filteredMsgs.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full gap-3 text-white/20">
                     <span className="text-4xl">📭</span>
-                    <p className="">No messages yet</p>
+                    <p>No messages yet</p>
                   </div>
                 ) : (
                   filteredMsgs.map((msg) => {
@@ -663,34 +656,31 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       <div
                         key={msg.id}
                         className={`flex items-start gap-3 px-5 py-3 border-b border-white/[0.03] hover:bg-white/[0.015] transition-colors group ${isFlagged ? "bg-yellow-500/[0.04]" : ""
-                          } ${isBanned ? "opacity-30" : ""}`}
-                      >
+                          } ${isBanned ? "opacity-30" : ""}`}>
                         {/* Avatar */}
                         <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center font-bold shrink-0 mt-0.5"
-                          style={{ background: roleColor + "22", color: roleColor }}
-                        >
+                          className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
+                          style={{ background: roleColor + "22", color: roleColor }}>
                           {(msg.sender_avatar || msg.sender_name || "??").slice(0, 2).toUpperCase()}
                         </div>
 
                         {/* Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                            <span className="text-[var(--font-size-2xs)] font-bold" style={{ color: roleColor }}>
+                            <span className="text-[var(--font-size-2xs)]" style={{ color: roleColor }}>
                               {msg.sender_name}
                             </span>
                             <span
-                              className=" font-bold px-1.5 py-0.5 rounded-lg"
-                              style={{ background: room.color + "20", color: room.color, border: `1px solid ${room.color}40` }}
-                            >
+                              className="px-1.5 py-0.5 rounded-lg"
+                              style={{ background: room.color + "20", color: room.color, border: `1px solid ${room.color}40` }}>
                               {room.icon} {room.label}
                             </span>
-                            <span className=" text-white/20 ">
+                            <span className="text-white/20">
                               {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                             </span>
-                            {isFlagged && <span className=" text-yellow-400 font-bold">🚩 flagged</span>}
-                            {warned.has(msg.sender_name) && <span className=" text-purple-300 font-bold">⚠️ warned</span>}
-                            {isBanned && <span className=" text-red-400 font-bold">🚫 banned</span>}
+                            {isFlagged && <span className="text-yellow-400">🚩 flagged</span>}
+                            {warned.has(msg.sender_name) && <span className="text-purple-300">⚠️ warned</span>}
+                            {isBanned && <span className="text-red-400">🚫 banned</span>}
                           </div>
                           <p className="break-words">{msg.content}</p>
                         </div>
@@ -701,30 +691,25 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                             onClick={() => handleFlag(msg.id)}
                             title="Flag message"
                             className={`px-2 py-1 rounded-lg border transition-colors cursor-pointer ${isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"
-                              }`}
-                          >🚩</button>
+                              }`}>🚩</button>
                           <button aria-label="Action button"
                             onClick={() => handleWarn(msg.sender_name, msg.room)}
                             title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
                             className={`px-2 py-1 rounded-lg border transition-colors cursor-pointer ${warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"
-                              }`}
-                          >⚠️</button>
+                              }`}>⚠️</button>
                           <button aria-label="Action button"
                             onClick={() => handleBan(msg.sender_name, msg.room)}
                             title={isBanned ? "Unban user" : "Ban user"}
                             className={`px-2 py-1 rounded-lg border transition-colors cursor-pointer ${isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"
-                              }`}
-                          >🚫</button>
+                              }`}>🚫</button>
                           <button aria-label="Action button"
                             onClick={() => handleKick(msg.id, msg.sender_name, msg.room)}
                             title="Remove Fan Completely"
-                            className="px-2 py-1 rounded-lg border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer"
-                          >🚪</button>
+                            className="px-2 py-1 rounded-lg border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer">🚪</button>
                           <button aria-label="Action button"
                             onClick={() => handleDeleteMsg(msg.id)}
                             title="Delete message"
-                            className="px-2 py-1 rounded-lg border border-white/[0.08] text-white/30   bg-[#00000029] transition-colors cursor-pointer"
-                          >🗑</button>
+                            className="px-2 py-1 rounded-lg border border-white/[0.08] text-white/30 bg-[#00000029] transition-colors cursor-pointer">🗑</button>
                         </div>
                       </div>
                     );
@@ -744,20 +729,20 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               </div>
 
               {/* Chat Moderation Panel */}
-              <div className=" border border-white/[0.07] overflow-hidden">
+              <div className="border border-white/[0.07] overflow-hidden">
                 <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
-                  <div className=" w-11 h-11  bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
+                  <div className="w-11 h-11 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                   <div>
-                    <h3 className="font-bold tracking-wide text-white">Chat Moderation & Policies</h3>
-                    <p className="font-bold uppercase ">Custom Flagged Keywords & Filters</p>
+                    <h3 className="text-white">Chat Moderation & Policies</h3>
+                    <p className="uppercase">Custom Flagged Keywords & Filters</p>
                   </div>
                 </div>
 
                 <div className="p-4 space-y-4">
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="flex-1 min-w-0 w-full space-y-2">
-                      <h4 className="font-bold uppercase ">🔍 Custom Flagged Keywords</h4>
-                      <p className="">
+                      <h4 className="uppercase">🔍 Custom Flagged Keywords</h4>
+                      <p>
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>
 
@@ -767,36 +752,33 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           value={newCustomWord}
                           onChange={e => setNewCustomWord(e.target.value)}
                           placeholder="e.g. ticket-scalper"
-                          className="flex-1 bg-black/60 border border-white/10 px-4 py-2.5 text-white outline-none focus:border-[#ec4899]/50 font-bold"
+                          className="flex-1 bg-black/60 border border-white/10 px-4 py-2.5 text-white outline-none focus:border-[#ec4899]/50"
                         />
                         <button aria-label="Action button"
                           type="submit"
-                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-bold uppercase transition-colors cursor-pointer"
-                        >
+                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black uppercase transition-colors cursor-pointer">
                           Add Keyword
                         </button>
                       </form>
                     </div>
 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                      <p className="font-bold uppercase ">Active Custom Filters</p>
+                      <p className="uppercase">Active Custom Filters</p>
                       {customWords.length === 0 ? (
                         <div className="text-center py-6 border border-dashed border-white/10 bg-white/[0.01]">
-                          <p className="">No custom keywords configured.</p>
+                          <p>No custom keywords configured.</p>
                         </div>
                       ) : (
                         <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
                           {customWords.map(word => (
                             <span
                               key={word}
-                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-[#00000029] border border-white/10 font-bold text-white/80"
-                            >
+                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-[#00000029] border border-white/10 text-white/80">
                               <span>{word}</span>
                               <button aria-label="Action button"
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="w-5 h-5 flex items-center justify-center rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer"
-                              >
+                                className="w-5 h-5 flex items-center justify-center rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
                                 &times;
                               </button>
                             </span>
@@ -819,37 +801,36 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               }`}>
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="text-base font-bold">🎥 Broadcast Studio</span>
-                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 font-bold uppercase"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
+                  <span className="text-base">🎥 Broadcast Studio</span>
+                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 uppercase"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
                 </div>
 
                 {isLive ? (
                   <div className="space-y-3 mb-4">
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-white/40">Viewers</span>
-                      <span className="font-bold text-red-400">{viewerCount.toLocaleString()}</span>
+                      <span className="text-red-400">{viewerCount.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-white/40">Duration</span>
-                      <span className="font-bold ">{fmt(liveDuration)}</span>
+                      <span>{fmt(liveDuration)}</span>
                     </div>
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-white/40">Chat Rate</span>
-                      <span className="font-bold text-yellow-400">{chatRate}/min</span>
+                      <span className="text-yellow-400">{chatRate}/min</span>
                     </div>
                   </div>
                 ) : (
-                  <p className="mb-4 ">
+                  <p className="mb-4">
                     Launch your broadcast studio to go live, manage chat, run raffles, and drop merch in real-time.
                   </p>
                 )}
 
                 <Link
                   href={studioPath}
-                  className={`w-full flex items-center justify-center gap-2 py-3 font-bold uppercase transition-colors ${isLive ? "bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
+                  className={`w-full flex items-center justify-center gap-2 py-3    uppercase transition-colors ${isLive ? "bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
                     : "bg-white text-black hover:bg-white/90"
-                    }`}
-                >
+                    }`}>
                   {isLive ? "🔴 Manage Live Stream" : "🎥 Create Live Feed"}
                 </Link>
 
@@ -857,8 +838,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <Link
                     href={`/live/${defaultMemberId || slug}`}
                     target="_blank"
-                    className="w-full mt-2 flex items-center justify-center gap-1 py-2 font-bold border border-white/10 text-white/40 hover:text-white   border-white/10 transition-colors"
-                  >
+                    className="w-full mt-2 flex items-center justify-center gap-1 py-2 border border-white/10 text-white/40 hover:text-white border-white/10 transition-colors">
                     👁 View Fan Feed ↗
                   </Link>
                 )}
@@ -866,8 +846,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Quick Analytics */}
-            <div className=" border border-white/[0.07] p-5">
-              <h3 className="font-bold uppercase text-white/25 mb-4">My Analytics</h3>
+            <div className="border border-white/[0.07] p-5">
+              <h3 className="uppercase text-white/25 mb-4">My Analytics</h3>
               <div className="space-y-3">
                 {[
                   { label: "All-Time Revenue", value: `$${salesRevenue.toLocaleString("en", { minimumFractionDigits: 0 })}`, color: "#10b981" },
@@ -877,24 +857,23 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 ].map(({ label, value, color }) => (
                   <div key={label} className="flex items-center justify-between p-3 bg-white/[0.025]">
                     <span className="text-white/40">{label}</span>
-                    <span className="font-bold" style={{ color }}>{value}</span>
+                    <span  style={{ color }}>{value}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Crew Notes */}
-            <div className=" border border-white/[0.07] p-5 flex-1">
+            <div className="border border-white/[0.07] p-5 flex-1">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h3 className="font-bold">📝 Notes for Admin</h3>
+                  <h3>📝 Notes for Admin</h3>
                   <p className="mt-0.5">Saved to Supabase</p>
                 </div>
                 <button aria-label="Action button"
                   onClick={handleSaveNotes}
-                  className={`px-4 py-1.5 rounded-lg font-bold uppercase cursor-pointer transition-colors ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : " bg-[#00000029] text-white/40 border border-white/[0.08] hover:text-white"
-                    }`}
-                >
+                  className={`px-4 py-1.5 rounded-lg    uppercase cursor-pointer transition-colors ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : " bg-[#00000029] text-white/40 border border-white/[0.08] hover:text-white"
+                    }`}>
                   {notesSaved ? "✓ Saved" : "Save"}
                 </button>
               </div>
@@ -902,7 +881,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 value={crewNotes}
                 onChange={e => setCrewNotes(e.target.value)}
                 placeholder="Stream notes, incidents, requests for admin…"
-                className="w-full h-32 bg-[#040408] border border-white/[0.07] p-3 text-white/70 placeholder:text-white/15 resize-none outline-none focus:border-[var(--color-accent)]/35 transition-colors "
+                className="w-full h-32 bg-[#040408] border border-white/[0.07] p-3 text-white/70 placeholder:text-white/15 resize-none outline-none focus:border-[var(--color-accent)]/35 transition-colors"
               />
             </div>
 
@@ -918,10 +897,9 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   key={label}
                   href={href}
                   target={external ? "_blank" : undefined}
-                  className="flex items-center gap-2 p-3 border border-white/[0.07]   border-white/10 hover:bg-white/[0.02] transition-colors group"
-                >
+                  className="flex items-center gap-2 p-3 border border-white/[0.07] border-white/10 hover:bg-white/[0.02] transition-colors group">
                   <span className="text-lg">{icon}</span>
-                  <span className="font-bold text-white/40 group-hover:text-white transition-colors">{label}</span>
+                  <span className="text-white/40 group-hover:text-white transition-colors">{label}</span>
                 </Link>
               ))}
             </div>

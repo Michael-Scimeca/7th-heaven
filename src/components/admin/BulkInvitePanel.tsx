@@ -219,9 +219,8 @@ export default function BulkInvitePanel() {
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
             className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent border-white/10 ${isDragging ? "scale-[0.99]"
- : "border-black/20 ]"
- }`}
-          >
+              : "border-black/20 ]"
+              }`}>
             <input aria-label="Input field"
               type="file"
               ref={fileInputRef}
@@ -230,7 +229,7 @@ export default function BulkInvitePanel() {
               className="hidden"
             />
             <span className="text-3xl mb-3 block"></span>
-            <p className="text-black font-bold uppercase tracking-wider">Drag & Drop CSV File</p>
+            <p className="text-black uppercase r">Drag & Drop CSV File</p>
             <p className="text-black/60 mt-1.5 max-w-xs">
               Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
             </p>
@@ -240,15 +239,14 @@ export default function BulkInvitePanel() {
                 e.stopPropagation();
                 fileInputRef.current?.click();
               }}
-              className="mt-4 !py-2 !px-5 font-bold uppercase text-white shadow-lg"
-            >
+              className="mt-4 !py-2 !px-5 uppercase text-white   ">
               Browse Files
             </CosmicRadialButton>
           </button>
 
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col gap-3">
-            <label htmlFor="bulk-invite-text-input" className="uppercase tracking-[0.15em] text-white/70 font-bold">Copy-Paste Contact List</label>
+            <label htmlFor="bulk-invite-text-input" className="uppercase tracking-[0.15em] text-white/70">Copy-Paste Contact List</label>
             <div className="input-glow-border rounded-lg w-full">
               <textarea aria-label="Text input"
                 id="bulk-invite-text-input"
@@ -263,8 +261,7 @@ export default function BulkInvitePanel() {
               type="button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full justify-center !py-3 !px-5 font-bold uppercase text-white shadow-lg disabled:opacity-30"
-            >
+              className="w-full justify-center !py-3 !px-5 uppercase text-white    disabled:opacity-30">
               Parse & Import List
             </CosmicRadialButton>
           </div>
@@ -277,7 +274,7 @@ export default function BulkInvitePanel() {
             <div className="flex items-center gap-3">
               <span className="text-2xl"></span>
               <div>
-                <p className="text-black font-bold uppercase ">Parsed Invite Roster</p>
+                <p className="text-black uppercase">Parsed Invite Roster</p>
                 <p className="text-black/60 mt-0.5 font-semibold">Found {invites.length} prospective fans to invite.</p>
               </div>
             </div>
@@ -287,16 +284,14 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={clearList}
                 disabled={sending}
-                className="px-4 py-2 font-bold uppercase text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30"
-              >
+                className="px-4 py-2 uppercase text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30">
                 Clear List
               </button>
               <CosmicRadialButton
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
-                className="!py-3 !px-6 font-bold uppercase !text-white disabled:opacity-40"
-              >
+                className="!py-3 !px-6 uppercase !text-white disabled:opacity-40">
                 {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
               </CosmicRadialButton>
             </div>
@@ -305,10 +300,10 @@ export default function BulkInvitePanel() {
           {/* Results Toast */}
           {results && (
             <div className={`p-4 border flex items-center gap-3 ${results.failed > 0 ? "bg-rose-50 border-rose-200 text-rose-800"
- : "bg-emerald-50 border-emerald-200 text-emerald-800"
- }`}>
+              : "bg-emerald-50 border-emerald-200 text-emerald-800"
+              }`}>
               <span className="text-lg">{results.failed > 0 ? "" : ""}</span>
-              <p className="font-bold uppercase ">
+              <p className="uppercase">
                 Dispatched: {results.success} invites sent successfully{results.failed > 0 && `, ${results.failed} failed`}.
               </p>
             </div>
@@ -319,37 +314,36 @@ export default function BulkInvitePanel() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-black/5 text-black/70 uppercase text-[0.65rem] border-b border-black/10">
-                  <th className="py-3 px-4 font-bold">Email</th>
-                  <th className="py-3 px-4 font-bold">Name</th>
-                  <th className="py-3 px-4 font-bold text-right">Status</th>
+                  <th className="py-3 px-4">Email</th>
+                  <th className="py-3 px-4">Name</th>
+                  <th className="py-3 px-4 text-right">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-black/5">
                 {invites.map((inv) => (
                   <tr key={inv.email} className="hover:bg-black/[0.01] transition-colors">
-                    <td className="py-3.5 px-4 font-bold text-black">{inv.email}</td>
-                    <td className="py-3.5 px-4 text-black/70 font-semibold">{inv.name || <span className=" text-black/30">N/A</span>}</td>
+                    <td className="py-3.5 px-4 text-black">{inv.email}</td>
+                    <td className="py-3.5 px-4 text-black/70 font-semibold">{inv.name || <span className="text-black/30">N/A</span>}</td>
                     <td className="py-3.5 px-4 text-right">
                       {inv.status === "pending" && (
-                        <span className="px-2.5 py-1 bg-black/5 text-black/60 rounded-lg font-bold uppercase text-[0.55rem]">
+                        <span className="px-2.5 py-1 bg-black/5 text-black/60 rounded-lg uppercase text-[0.55rem]">
                           Pending
                         </span>
                       )}
                       {inv.status === "sending" && (
-                        <span className="px-2.5 py-1 bg-[var(--color-accent)] text-[var(--color-accent)] rounded-lg font-bold uppercase text-[0.55rem] animate-pulse">
+                        <span className="px-2.5 py-1 bg-[var(--color-accent)] text-[var(--color-accent)] rounded-lg uppercase text-[0.55rem] animate-pulse">
                           Sending…
                         </span>
                       )}
                       {inv.status === "success" && (
-                        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg font-bold uppercase text-[0.55rem] border border-emerald-300">
+                        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg uppercase text-[0.55rem] border border-emerald-300">
                           Sent
                         </span>
                       )}
                       {inv.status === "failed" && (
                         <span
                           title={inv.error}
-                          className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-lg font-bold uppercase text-[0.55rem] border border-rose-300 cursor-help"
-                        >
+                          className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-lg uppercase text-[0.55rem] border border-rose-300 cursor-help">
                           Failed
                         </span>
                       )}

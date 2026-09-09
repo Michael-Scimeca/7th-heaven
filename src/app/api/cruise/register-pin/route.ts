@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Check expiry
-      if (new Date() > new Date(pending.expires_at)) {
+      if (new Date()> new Date(pending.expires_at)) {
         return NextResponse.json({ error: 'Verification code has expired. Please register again.' }, { status: 400 });
       }
 

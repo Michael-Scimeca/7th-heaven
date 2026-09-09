@@ -41,8 +41,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           <div className="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
             <label
               htmlFor={inputId}
-              className=" text-white block "
-            >
+              className="text-white block">
               {label}
               {required && " *"}
             </label>

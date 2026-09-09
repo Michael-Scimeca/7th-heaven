@@ -67,10 +67,10 @@ export async function GET(req: Request) {
       let progress = 0;
 
       if (l.requirement_type === "min_picks") {
-        isEligible = totalPicks >= l.requirement_value;
+        isEligible = totalPicks>= l.requirement_value;
         progress = Math.min(100, (totalPicks / l.requirement_value) * 100);
       } else if (l.requirement_type === "all_rarities") {
-        isEligible = uniqueTypes >= l.requirement_value;
+        isEligible = uniqueTypes>= l.requirement_value;
         progress = Math.min(100, (uniqueTypes / l.requirement_value) * 100);
       }
 
@@ -80,7 +80,7 @@ export async function GET(req: Request) {
       if (endsAt) {
         const diff = endsAt.getTime() - now.getTime();
         const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-        endsIn = days > 0 ? `${days} day${days !== 1 ? "s" : ""}` : "Ended";
+        endsIn = days> 0 ? `${days} day${days !== 1 ? "s" : ""}` : "Ended";
       }
 
       return {
@@ -150,9 +150,9 @@ export async function POST(req: Request) {
 
     let eligible = false;
     if (lottery.requirement_type === "min_picks") {
-      eligible = totalPicks >= lottery.requirement_value;
+      eligible = totalPicks>= lottery.requirement_value;
     } else if (lottery.requirement_type === "all_rarities") {
-      eligible = uniqueTypes >= lottery.requirement_value;
+      eligible = uniqueTypes>= lottery.requirement_value;
     }
 
     if (!eligible) {

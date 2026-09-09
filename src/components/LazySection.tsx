@@ -49,8 +49,7 @@ export default function LazySection({
       style={{
         ...style,
         minHeight: isVisible ? undefined : fallbackHeight,
-      }}
-    >
+      }}>
       {isVisible ? children : null}
     </div>
   );

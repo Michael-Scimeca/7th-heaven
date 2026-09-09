@@ -67,7 +67,7 @@ export default function DirectMessageChat() {
 
   // Mark all admin messages as read when opening the drawer
   useEffect(() => {
-    if (open && messages.length > 0 && typeof window !== "undefined") {
+    if (open && messages.length> 0 && typeof window !== "undefined") {
       const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms_v1") || localStorage.getItem("7h_dms") || "[]");
       let changed = false;
       const updated = dms.map((m) => {
@@ -119,8 +119,7 @@ export default function DirectMessageChat() {
       {/* Floating Chat Bubble Button */}
       <button aria-label="Action button"
         onClick={() => setOpen(!open)}
-        className="relative w-12 h-12 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] transition-colors text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(255,10,61,0.5)] border border-white/10 group"
-      >
+        className="relative w-12 h-12 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] transition-colors text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(255,10,61,0.5)] border border-white/10 group">
         {open ? (
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
         ) : (
@@ -128,8 +127,8 @@ export default function DirectMessageChat() {
         )}
 
         {/* Pulse unread count badge */}
-        {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-600 text-white font-bold w-5 h-5 rounded-lg flex items-center justify-center border-2 border-[#050505]">
+        {unreadCount> 0 && (
+          <span className="absolute -top-1 -right-1 bg-red-600 text-white w-5 h-5 rounded-lg flex items-center justify-center border-2 border-[#050505]">
             {unreadCount}
           </span>
         )}
@@ -142,8 +141,8 @@ export default function DirectMessageChat() {
           <div className="p-3.5 bg-white/[0.02] border-b border-white/10 flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse" />
             <div className="flex flex-col text-left">
-              <span className="font-bold uppercase text-[var(--color-accent)]">Direct Message</span>
-              <span className="font-bold text-white uppercase ">Admin Support Chat</span>
+              <span className="uppercase text-[var(--color-accent)]">Direct Message</span>
+              <span className="text-white uppercase">Admin Support Chat</span>
             </div>
           </div>
 
@@ -152,7 +151,7 @@ export default function DirectMessageChat() {
             {messages.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-4">
                 <span className="text-2xl mb-1.5 opacity-25">💬</span>
-                <p className="font-bold uppercase tracking-wider">No messages yet</p>
+                <p className="uppercase r">No messages yet</p>
                 <p className="mt-1 max-w-[180px]">Ask admin any questions or wait for their direct support ping.</p>
               </div>
             ) : (
@@ -162,25 +161,23 @@ export default function DirectMessageChat() {
                   <div
                     key={msg.id}
                     className={`flex flex-col max-w-[85%] ${isAdminMsg ? "mr-auto text-left" : "ml-auto text-right"
- }`}
-                  >
+                      }`}>
                     {/* Sender tag */}
                     <div className={`flex items-center gap-1 mb-1 ${isAdminMsg ? '' : 'justify-end'}`}>
-                      <span className={`text-[8px] font-bold uppercase px-1 py-0.5 rounded border leading-none ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
- }`}>
+                      <span className={`text-[8px]    uppercase px-1 py-0.5 rounded border leading-none ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
+                        }`}>
                         {isAdminMsg ? 'ADMIN' : 'YOU'}
                       </span>
                     </div>
                     {/* Text bubble */}
                     <div
-                      className={`p-2.5 font-bold !text-white ${isAdminMsg ? "bg-[var(--color-purple-primary)] rounded-tl-xs"
- : "bg-cyan-500 border border-cyan-400/50 rounded-tr-xs"
- }`}
-                    >
+                      className={`p-2.5    !text-white ${isAdminMsg ? "bg-[var(--color-purple-primary)] rounded-tl-xs"
+                        : "bg-cyan-500 border border-cyan-400/50 rounded-tr-xs"
+                        }`}>
                       {msg.text}
                     </div>
                     {/* Timestamp */}
-                    <span className="text-[10px] !text-gray-700 font-sans font-bold leading-none mt-1 ">
+                    <span className="text-[10px] !text-gray-700 font-sans leading-none mt-1">
                       {new Date(msg.timestamp).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",

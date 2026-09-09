@@ -1,8 +1,9 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Bell, MapPin, Check, Sliders, Music, Mail, User } from "lucide-react";
+import { Bell, MapPin, Check, Sliders, Music, Mail, User, Guitar } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import { GlowInput } from "@/components/GlowInput";
@@ -20,14 +21,14 @@ const RADIUS_OPTIONS = [
 ];
 
 const SHOW_TYPES = [
-  { id: "all", label: "All Shows", icon: "🎸" },
-  { id: "full", label: "Full Band", icon: "🟣" },
-  { id: "unplugged", label: "Unplugged", icon: "🟣" },
-  { id: "outdoor", label: "Outdoor", icon: "🟢" },
-  { id: "casino", label: "Casino", icon: "🟡" },
-  { id: "tv", label: "TV", icon: "🔵" },
-  { id: "fundraiser", label: "Fundraiser", icon: "🔴" },
-  { id: "special", label: "Special", icon: "💗" },
+  { id: "all", label: "All Shows", color: "#c084fc", iconType: "guitar" },
+  { id: "full", label: "Full Band", color: "#a855f7" },
+  { id: "unplugged", label: "Unplugged", color: "#c084fc" },
+  { id: "outdoor", label: "Outdoor", color: "#34d399" },
+  { id: "casino", label: "Casino", color: "#fbbf24" },
+  { id: "tv", label: "TV", color: "#60a5fa" },
+  { id: "fundraiser", label: "Fundraiser", color: "#f43f5e" },
+  { id: "special", label: "Special", color: "#f472b6" },
 ];
 
 // Convert VAPID public key to Uint8Array for PushManager
@@ -71,12 +72,11 @@ async function createSubscription(): Promise<PushSubscription | null> {
 function CrispCheckIcon() {
   return (
     <svg
-      className="w-3.5 h-3.5 text-pink-300 ml-0.5 shrink-0 inline-block drop-shadow-[0_0_6px_rgba(244,114,182,0.5)]"
+      className="w-3.5 h-3.5 text-pink-300 ml-0.5 shrink-0 inline-block"
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
+      aria-hidden="true">
       <path
         d="M3.25 8.25L6.5 11.5L12.75 4.75"
         stroke="currentColor"
@@ -229,10 +229,10 @@ export default function FooterProximityAlerts() {
         <div className="flex items-center gap-3">
 
           <div>
-            <h3 className="font-[var(--font-heading)] font-bold uppercase text-white flex items-center gap-2">
+            <h3 className="uppercase text-white flex items-center gap-2">
               Proximity & Show Alert Filters
             </h3>
-            <p className="">
+            <p>
               Get notified only for shows within your distance & preferences
             </p>
           </div>
@@ -240,41 +240,41 @@ export default function FooterProximityAlerts() {
       </div>
 
       {status === "error" && errorMsg && (
-        <div className="mb-4 px-4 py-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 font-bold">
+        <div className="mb-4 px-4 py-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300">
           ⚠️ {errorMsg}
         </div>
       )}
 
       {permission === "denied" && (
-        <div className="mb-4 px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 font-bold">
+        <div className="mb-4 px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300">
           🔒 Notifications are blocked in your browser settings. Enable them to receive show alerts.
         </div>
       )}
 
       <div className="flex flex-wrap items-end gap-6 mb-6 relative z-10">
         <div className="shrink-0 w-full sm:w-[300px]">
-          <label className="block font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
-            Full Name <span className="text-white/30 normal-case   tracking-normal">(optional)</span>
+          <label className="block uppercase mb-2 flex items-center gap-1.5">
+            Full Name <span className="text-white/30 normal-case tracking-normal">(optional)</span>
           </label>
           <GlowInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" wrapperClassName="w-full sm:w-[300px]" />
         </div>
 
         <div className="shrink-0 w-full sm:w-[300px]">
-          <label className="block  font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
+          <label className="block mb-2 flex items-center gap-1.5">
             Your Zip Code / City
           </label>
           <GlowInput type="text" value={zip} onChange={(e) => setZip(e.target.value)} placeholder="e.g. 60056 or Chicago" wrapperClassName="w-full sm:w-[300px]" />
         </div>
 
         <div className="shrink-0 w-full sm:w-[300px]">
-          <label className="block font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
-            Email <span className="text-white/30 normal-case   tracking-normal">(optional)</span>
+          <label className="block mb-2 flex items-center gap-1.5">
+            Email <span className="text-white/30 normal-case tracking-normal">(optional)</span>
           </label>
           <GlowInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" wrapperClassName="w-full sm:w-[300px]" />
         </div>
 
         <div className="shrink-0 w-full lg:w-auto">
-          <label className="block  font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
+          <label className="block mb-2 flex items-center gap-1.5">
             Maximum Distance Radius
           </label>
           <div className="inline-flex flex-wrap gap-1.5 w-fit max-w-full">
@@ -286,8 +286,7 @@ export default function FooterProximityAlerts() {
                   type="button"
                   onClick={() => setRadius(opt.value)}
                   isActive={isSelected}
-                  className="!w-auto px-3.5 py-2 font-bold text-xs"
-                >
+                  className="!w-auto px-3.5 py-2 text-xs">
                   {opt.label}
                 </FoolishShrimpButton>
               );
@@ -297,7 +296,7 @@ export default function FooterProximityAlerts() {
       </div>
 
       <div className="mb-6 relative z-10">
-        <label className="block font-bold uppercase text-purple-300/80 mb-2 flex items-center gap-1.5">
+        <label className="block mb-2 flex items-center gap-1.5">
           Which Types of Show Notifications?
         </label>
         <div className="flex flex-wrap gap-2">
@@ -309,9 +308,18 @@ export default function FooterProximityAlerts() {
                 type="button"
                 onClick={() => toggleType(type.id)}
                 isActive={isSelected}
-                className="!w-auto inline-flex items-center gap-1.5 px-3.5 py-2 font-bold text-xs"
-              >
-                <span>{type.icon}</span>
+                className="!w-auto inline-flex items-center gap-1.5 px-3.5 py-2 text-xs">
+                {type.iconType === "guitar" ? (
+                  <Guitar className="w-3.5 h-3.5 text-purple-300 shrink-0 inline-block" />
+                ) : (
+                  <span
+                    className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
+                    style={{
+                      backgroundColor: type.color,
+                      boxShadow: `0 0 6px ${type.color}80`,
+                    }}
+                  />
+                )}
                 <span>{type.label}</span>
                 {isSelected && <CrispCheckIcon />}
               </FoolishShrimpButton>
@@ -330,22 +338,21 @@ export default function FooterProximityAlerts() {
       <div className="pt-5 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
         {permission === "granted" ? (
           <div className="flex items-center gap-3 shrink-0 flex-nowrap">
-            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold uppercase whitespace-nowrap shrink-0">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 uppercase whitespace-nowrap shrink-0">
               <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
             </span>
             <CosmicRadialButton
               icon={false}
               onClick={handleSavePrefs}
               disabled={isBusy}
-              className="!px-6 !py-3 !text-xs ! font-bold uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
-            >
+              className="!px-6 !py-3 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
               <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                 {status === "saving" ? (
                   <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
                 ) : status === "saved" ? (
-                  <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap font-bold">Saved!</span></>
+                  <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap">Saved!</span></>
                 ) : (
-                  <span className="whitespace-nowrap font-bold">Save Preferences</span>
+                  <span className="whitespace-nowrap">Save Preferences</span>
                 )}
               </span>
             </CosmicRadialButton>
@@ -355,24 +362,23 @@ export default function FooterProximityAlerts() {
             icon={false}
             onClick={handleEnableAlerts}
             disabled={isBusy || permission === "denied"}
-            className="!px-6 !py-3.5 !text-xs ! font-bold uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap"
-          >
+            className="!px-6 !py-3.5 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
             <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
               {status === "saving" ? (
                 <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
               ) : status === "saved" ? (
-                <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap font-bold">Preferences Saved!</span></>
+                <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap">Preferences Saved!</span></>
               ) : (
                 <>
                   <Bell className="w-4 h-4 text-amber-300 shrink-0" />
-                  <span className="whitespace-nowrap font-bold">ENABLE ALERTS ({radius === "all" ? "ALL SHOWS" : `${radius} MI`})</span>
+                  <span className="whitespace-nowrap">ENABLE ALERTS ({radius === "all" ? "ALL SHOWS" : `${radius} MI`})</span>
                 </>
               )}
             </span>
           </CosmicRadialButton>
         )}
 
-        <p className="font-bold uppercase tracking-wider">
+        <p className="uppercase r">
           {permission === "granted"
             ? "Your notifications are enabled. Update filters above and save anytime."
             : "Click to enable instant browser & proximity alerts for nearby shows."}

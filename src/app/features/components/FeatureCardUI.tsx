@@ -21,8 +21,7 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
         onClick={() => setExpanded(true)}
         className={`relative w-full aspect-video overflow-hidden border-2 transition-colors duration-300 cursor-pointer group ${isPurple ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
           : " border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
-          }`}
-      >
+          }`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image width={200} height={200} unoptimized
           src={src}
@@ -44,7 +43,7 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
         </div>
         {/* Label */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
-          <span className={`font-bold uppercase tracking-[0.15em] px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
+          <span className={`   uppercase tracking-[0.15em] px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
             : "bg-black/50 border-white/10 text-white/80"
             }`}>
             ▶ Live Preview
@@ -56,19 +55,17 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
       {expanded && (
         <div
           className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-[45px] flex items-center justify-center p-4 md:p-8"
-          onClick={() => setExpanded(false)}
-        >
+          onClick={() => setExpanded(false)}>
           <div className="relative max-w-6xl w-full">
             {/* Close Button */}
             <button aria-label="Action button"
               onClick={() => setExpanded(false)}
-              className="absolute -top-12 right-0 text-white hover:text-white font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer"
-            >
+              className="absolute -top-12 right-0 text-white hover:text-white uppercase flex items-center gap-2 transition-colors cursor-pointer">
               Close <span className="text-lg">✕</span>
             </button>
             {/* Title */}
             <div className="mb-4">
-              <h3 className="font-bold text-white uppercase tracking-wide" style={{ fontStyle: "italic" }}>
+              <h3 className="text-white uppercase" style={{ fontStyle: "italic" }}>
                 {title} <span style={{ color: "#851DEF" }}>Demo</span>
               </h3>
             </div>
@@ -103,13 +100,13 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div className="flex items-start justify-between gap-3">
           <span className="text-5xl leading-none">{f.icon}</span>
           {isPurple && (
-            <span className="text-base px-3 py-1 rounded-lg bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] font-bold uppercase shrink-0">✦ Flagship</span>
+            <span className="text-base px-3 py-1 rounded-lg bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] uppercase shrink-0">✦ Flagship</span>
           )}
         </div>
 
         {/* Titles */}
         <div>
-          <h3 className="font-bold text-white uppercase tracking-wide mb-1.5" style={{ fontStyle: "italic" }}>{f.title}</h3>
+          <h3 className="text-white uppercase mb-1.5" style={{ fontStyle: "italic" }}>{f.title}</h3>
           <p className={`font-semibold ${isPurple ? "text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
         </div>
 
@@ -117,17 +114,17 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         {f.demo && <DemoPreview src={f.demo} title={f.title} isPurple={isPurple} />}
 
         {/* Description */}
-        <p className="  ">{f.description}</p>
+        <p>{f.description}</p>
 
         {/* Why it matters */}
         <div className={`p-4 rounded-lg border text-base ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/20 text-[#c084fc]/80" : "bg-white/[0.03] border-white/[0.07] text-white/40"}`}>
-          <span className="font-bold uppercase text-white/50 block mb-1.5">Why it matters</span>
+          <span className="uppercase text-white/50 block mb-1.5">Why it matters</span>
           {f.whyItMatters}
         </div>
 
         {/* Bullets */}
         <div>
-          <p className="font-bold uppercase mb-3">What it does</p>
+          <p className="uppercase mb-3">What it does</p>
           <ul className="space-y-2">
             {f.bullets.map((b) => (
               <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg text-white">
@@ -142,16 +139,15 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div>
           <button aria-label="Action button"
             onClick={() => setExpanded(v => !v)}
-            className={`flex items-center gap-2 text-base font-bold uppercase transition-colors cursor-pointer ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white/70"}`}
-          >
+            className={`flex items-center gap-2 text-base    uppercase transition-colors cursor-pointer ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white/70"}`}>
             <span className={`transition-transform duration-200 ${expanded ? "rotate-90" : "rotate-0"}`}>▶</span>
             How It Works
           </button>
           {expanded && (
             <div className="mt-3 space-y-2.5">
               {Array.from(f.howItWorks, (h, i) => ({ h, i })).map(({ h, i }) => (
-                <div key={i} className="flex items-start gap-3 text-base text-white/40 ">
-                  <span className={`shrink-0 w-5 h-5 rounded-lg flex items-center justify-center font-bold mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : " bg-[#00000029] text-white/30"}`}>{i + 1}</span>
+                <div key={i} className="flex items-start gap-3 text-base text-white/40">
+                  <span className={`shrink-0 w-5 h-5 rounded-lg flex items-center justify-center    mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : " bg-[#00000029] text-white/30"}`}>{i + 1}</span>
                   {h}
                 </div>
               ))}
@@ -171,7 +167,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
 
       {/* Footer link */}
       {f.link && (
-        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base font-bold uppercase transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : " border-white/10 text-white/25 hover:text-white   bg-[#00000029] "}`}>
+        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base    uppercase transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : " border-white/10 text-white/25 hover:text-white   bg-[#00000029] "}`}>
           Explore live →
         </Link>
       )}

@@ -133,23 +133,12 @@ interface SmooothyInstance {
   update?: () => void;
 }
 
-export default function HomeVideoShowcase() {
-  const [sanityContent, setSanityContent] = useState<any>(null);
+export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: any }) {
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [startIndex, setStartIndex] = useState(0);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [activeSettingsTab, setActiveSettingsTab] = useState<"smooothy" | "layout" | "motion" | "video" | "style" | "ui">("smooothy");
 
-  useEffect(() => {
-    fetch("/api/page-content?key=home")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data?.success && data?.data) {
-          setSanityContent(data.data);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);

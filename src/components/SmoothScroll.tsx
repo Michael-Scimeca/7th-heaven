@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/three-prefer-set-animation-loop */
 "use client";
 
 import { useEffect } from "react";
@@ -6,10 +7,11 @@ import Lenis from "lenis";
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isDashboard = pathname?.startsWith("/admin") || pathname?.startsWith("/crew") || pathname?.startsWith("/planner");
+  const isDashboard = pathname?.startsWith("/admin") || pathname?.startsWith("/crew") || pathname?.startsWith("/planner") || pathname?.startsWith("/studio");
 
   useEffect(() => {
-    if (typeof window === "undefined" || isDashboard || window.innerWidth < 768) return;
+    const isTouchDevice = typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches);
+    if (typeof window === "undefined" || isDashboard || isTouchDevice) return;
 
     const lenis = new Lenis({
       duration: 1.2,

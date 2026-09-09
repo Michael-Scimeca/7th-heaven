@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     const violence = score("general_violence_very_graphic");
 
     // Hard block thresholds
-    if (sexualExplicit > 0.4 || hateVisual > 0.6 || violence > 0.7) {
+    if (sexualExplicit> 0.4 || hateVisual> 0.6 || violence> 0.7) {
       return NextResponse.json({
         action: "block",
         reason: "explicit_content",
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
     }
 
     // Soft flag thresholds — send to admin review queue
-    if (sexualSuggestive > 0.55 || sexualExplicit > 0.15) {
+    if (sexualSuggestive> 0.55 || sexualExplicit> 0.15) {
       return NextResponse.json({
         action: "flag",
         reason: "suggestive_content",

@@ -225,17 +225,15 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
             type="button"
             onClick={handleCopyEmails}
             icon={false}
-            className="px-3.5 py-2 font-bold uppercase cursor-pointer whitespace-nowrap"
-            title="Copy all email addresses for BCC email dispatch"
-          >
+            className="px-3.5 py-2 uppercase cursor-pointer whitespace-nowrap"
+            title="Copy all email addresses for BCC email dispatch">
             {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
           </CosmicRadialButton>
 
           <button aria-label="Action button"
             type="button"
             onClick={handleExportCSV}
-            className="px-3.5 py-2 bg-[#00000029] hover:bg-white/10 border-none text-white font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap"
-          >
+            className="px-3.5 py-2 bg-[#00000029] hover:bg-white/10 border-none text-white uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap">
             <span></span> Export CSV
           </button>
         </div>
@@ -254,7 +252,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       <div className="border-none overflow-hidden bg-transparent relative">
         <div className="w-full text-left">
           {/* Fixed Header Row */}
-          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 font-bold uppercase text-white border-b border-white/10 select-none]">
+          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 uppercase text-white border-b border-white/10 select-none]">
             <div>Name</div>
             <div>Email Address</div>
             <div>Role</div>
@@ -271,43 +269,41 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 </div>
               ) : (
                 filteredUsers.map(user => (
-                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2   bg-[#00000029] transition-colors border-b border-white/10">
-                    <div className="font-bold text-white truncate flex items-center gap-2.5">
+                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 bg-[#00000029] transition-colors border-b border-white/10">
+                    <div className="text-white truncate flex items-center gap-2.5">
                       {(() => {
                         const avatarSrc = resolveMemberAvatar(user.name, user.avatar);
                         return avatarSrc ? (
                           <img
                             src={avatarSrc}
                             alt={user.name}
-                            className=" w-11 h-11  rounded-full object-cover shrink-0 border border-white/10 shadow-x"
+                            className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/10 shadow-x"
                             onError={(e) => {
                               (e.currentTarget as HTMLElement).style.display = 'none';
                             }}
                           />
                         ) : (
                           <div
-                            className={` w-11 h-11  rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans border border-white/20`}
-                          >
+                            className={` w-11 h-11  rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans border border-white/20`}>
                             {getInitials(user.name)}
                           </div>
                         );
                       })()}
                       <span className="truncate">{user.name}</span>
                     </div>
-                    <div className="text-white font-bold select-all truncate">
+                    <div className="text-white select-all truncate">
                       {user.email}
                     </div>
-                    <div className="py-1 text-white font-bold rouned-lgtracking-wider">
+                    <div className="py-1 text-white rouned-lgtracking-wider">
                       {user.role}
                     </div>
-                    <div className=" text-white/50 font-semibold truncate">
+                    <div className="text-white/50 font-semibold truncate">
                       {user.phone || "—"}
                     </div>
                     <div className="text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white font-bold rounded-lg transition-colors inline-flex items-center gap-1"
-                      >
+                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white rounded-lg transition-colors inline-flex items-center gap-1">
                         Email
                       </a>
                     </div>

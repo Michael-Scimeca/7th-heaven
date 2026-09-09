@@ -51,7 +51,7 @@ export function getNorthConfig(): NorthConfig {
     if (!val) missing.push(key);
   }
 
-  if (missing.length > 0) {
+  if (missing.length> 0) {
     throw new Error(
       `North (EPX) is not configured — missing env var(s): ${missing.join(", ")}. ` +
         `Add them to .env.local (see the North section near the Stripe config).`

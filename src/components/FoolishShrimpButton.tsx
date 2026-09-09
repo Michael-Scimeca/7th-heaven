@@ -12,8 +12,7 @@ export interface FoolishShrimpButtonProps extends SparkleGenerateButtonProps {
 
 export const FoolishShrimpButton = React.forwardRef<
   HTMLButtonElement,
-  FoolishShrimpButtonProps
->(({ children = "Credits", className = "", icon, isActive, ...props }, ref) => {
+  FoolishShrimpButtonProps>(({ children = "Credits", className = "", icon, isActive, ...props }, ref) => {
   return (
     <SparkleGenerateButton ref={ref} active={isActive} className={className} {...props}>
       {children}
@@ -25,8 +24,7 @@ FoolishShrimpButton.displayName = "FoolishShrimpButton";
 
 export const FoolishShrimpAlwaysButton = React.forwardRef<
   HTMLButtonElement,
-  FoolishShrimpButtonProps
->(({ children = "Credits", className = "", icon, ...props }, ref) => {
+  FoolishShrimpButtonProps>(({ children = "Credits", className = "", icon, ...props }, ref) => {
   return (
     <SparkleGenerateButton ref={ref} active={true} className={className} {...props}>
       {children}

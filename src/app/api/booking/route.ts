@@ -46,7 +46,7 @@ function buildPlannerEmailHtml(booking: any) {
   const td2 = `padding:8px 0;color:#fff;font-size:14px;font-weight:600;`;
 
   let scheduleHtml = "";
-  if (Array.isArray(booking.bookingSlots) && booking.bookingSlots.length > 0) {
+  if (Array.isArray(booking.bookingSlots) && booking.bookingSlots.length> 0) {
     scheduleHtml = booking.bookingSlots.map((s: any, idx: number) => {
       const dateStr = new Date(s.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       const typeLabel = eventTypeLabels[s.eventType] || s.eventType;
@@ -78,7 +78,7 @@ function buildPlannerEmailHtml(booking: any) {
       </div>`;
     }).join("");
   } else {
-    const legacyDate = Array.isArray(booking.eventDates) && booking.eventDates.length > 0
+    const legacyDate = Array.isArray(booking.eventDates) && booking.eventDates.length> 0
       ? booking.eventDates.map((d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })).join(', ')
       : (booking.eventDate ? new Date(booking.eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD');
     const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(booking.bookingId)}&date=${encodeURIComponent(booking.eventDate || '')}&venue=${encodeURIComponent(booking.venueName || '')}&city=${encodeURIComponent(booking.venueCity)}&state=${encodeURIComponent(booking.venueState)}&eventType=${encodeURIComponent(booking.eventType)}&startTime=${encodeURIComponent(booking.startTime || '')}&endTime=${encodeURIComponent(booking.endTime || '')}`;
@@ -160,7 +160,7 @@ function buildAdminNotificationHtml(booking: any) {
   const td2 = `padding:6px 0;color:#fff;font-size:14px;font-weight:600;`;
 
   let scheduleHtml = "";
-  if (Array.isArray(booking.bookingSlots) && booking.bookingSlots.length > 0) {
+  if (Array.isArray(booking.bookingSlots) && booking.bookingSlots.length> 0) {
     scheduleHtml = booking.bookingSlots.map((s: any, idx: number) => {
       const dateStr = new Date(s.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       const typeLabel = eventTypeLabels[s.eventType] || s.eventType;
@@ -192,7 +192,7 @@ function buildAdminNotificationHtml(booking: any) {
       </div>`;
     }).join("");
   } else {
-    const legacyDate = Array.isArray(booking.eventDates) && booking.eventDates.length > 0
+    const legacyDate = Array.isArray(booking.eventDates) && booking.eventDates.length> 0
       ? booking.eventDates.map((d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })).join(', ')
       : (booking.eventDate ? new Date(booking.eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD');
     const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(booking.bookingId)}&date=${encodeURIComponent(booking.eventDate || '')}&venue=${encodeURIComponent(booking.venueName || '')}&city=${encodeURIComponent(booking.venueCity)}&state=${encodeURIComponent(booking.venueState)}&eventType=${encodeURIComponent(booking.eventType)}&startTime=${encodeURIComponent(booking.startTime || '')}&endTime=${encodeURIComponent(booking.endTime || '')}`;
@@ -359,12 +359,12 @@ export async function POST(request: Request) {
 
     // Validate required fields
     const bookingSlots = Array.isArray(data.bookingSlots) ? data.bookingSlots : [];
-    const eventDates: string[] = Array.isArray(data.eventDates) && data.eventDates.length > 0 
+    const eventDates: string[] = Array.isArray(data.eventDates) && data.eventDates.length> 0 
       ? data.eventDates 
       : (data.eventDate ? [data.eventDate] : []);
 
-    const hasSlots = bookingSlots.length > 0;
-    const hasLegacyDates = eventDates.length > 0;
+    const hasSlots = bookingSlots.length> 0;
+    const hasLegacyDates = eventDates.length> 0;
 
     if (!data.name || !data.email || (!hasSlots && !hasLegacyDates) || !data.venueCity || !data.venueState) {
       return NextResponse.json(
@@ -403,7 +403,7 @@ export async function POST(request: Request) {
         }));
 
     const inserts = slotsToInsert.map((slot: any, idx: number) => {
-      const bookingId = slotsToInsert.length > 1 ? `${baseBookingId}-${idx + 1}` : baseBookingId;
+      const bookingId = slotsToInsert.length> 1 ? `${baseBookingId}-${idx + 1}` : baseBookingId;
       const cancelToken = crypto.randomBytes(24).toString('hex');
       
       const detailsObj = {

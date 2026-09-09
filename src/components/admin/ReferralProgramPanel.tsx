@@ -156,15 +156,15 @@ export default function ReferralProgramPanel() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <p className="uppercase font-bold text-purple-300 mb-0.5">Fan Engagement</p>
-            <h3 className="text-white font-bold"> Referral Program</h3>
+            <p className="uppercase text-purple-300 mb-0.5">Fan Engagement</p>
+            <h3 className="text-white"> Referral Program</h3>
             <p className="mt-0.5">
               Toggle visibility, configure milestone rewards, and track top referrers
             </p>
           </div>
           <div className="flex items-center gap-3">
             {enabled && (
-              <span className="font-bold uppercase text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
+              <span className="uppercase text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
                 Live
               </span>
             )}
@@ -174,7 +174,7 @@ export default function ReferralProgramPanel() {
         {/*  Program Toggle  */}
         <div className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.05] mb-6">
           <div>
-            <p className="font-bold">Show referral program to fans</p>
+            <p>Show referral program to fans</p>
             <p className="mt-0.5">
               When disabled, the referral section is hidden from the Fan Dashboard
             </p>
@@ -191,29 +191,28 @@ export default function ReferralProgramPanel() {
         {/*  Metrics Strip  */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="p-4 bg-white/[0.02] border border-white/10 text-center">
-            <p className="font-bold text-purple-300">{totalReferrals}</p>
-            <p className="uppercase font-bold mt-1">Total Referrals</p>
+            <p className="text-purple-300">{totalReferrals}</p>
+            <p className="uppercase mt-1">Total Referrals</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/10 text-center">
-            <p className="font-bold">{totalConverted}</p>
-            <p className="uppercase font-bold mt-1">Converted</p>
+            <p>{totalConverted}</p>
+            <p className="uppercase mt-1">Converted</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/10 text-center">
-            <p className="font-bold">{leaderboard.length}</p>
-            <p className="uppercase font-bold mt-1">Active Referrers</p>
+            <p>{leaderboard.length}</p>
+            <p className="uppercase mt-1">Active Referrers</p>
           </div>
         </div>
 
         {/*  Milestone Rewards Editor  */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
-            <p className="uppercase tracking-[0.15em] font-bold">
+            <p className="uppercase tracking-[0.15em]">
               Milestone Rewards
             </p>
             <button aria-label="Action button"
               onClick={() => setShowAddForm(!showAddForm)}
-              className="uppercase font-bold text-purple-300 hover:text-purple-200 transition-colors cursor-pointer"
-            >
+              className="uppercase text-purple-300 hover:text-purple-200 transition-colors cursor-pointer">
               {showAddForm ? "Cancel" : "+ Add Tier"}
             </button>
           </div>
@@ -223,13 +222,12 @@ export default function ReferralProgramPanel() {
             {Array.from(milestones, (m, i) => ({ m, i })).map(({ m, i }) => (
               <div
                 key={m.threshold}
-                className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/10 group"
-              >
+                className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/10 group">
                 <div className="flex items-center gap-3">
                   <span className="text-lg">{m.emoji}</span>
                   <div>
-                    <p className="font-bold">
-                      <span className="text-purple-300 font-bold">{m.threshold}</span> referrals →{" "}
+                    <p>
+                      <span className="text-purple-300">{m.threshold}</span> referrals →{" "}
                       {m.reward}
                     </p>
                   </div>
@@ -237,8 +235,7 @@ export default function ReferralProgramPanel() {
                 <button aria-label="Action button"
                   onClick={() => removeMilestone(i)}
                   className="text-white/20 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
-                  title="Remove"
-                >
+                  title="Remove">
 
                 </button>
               </div>
@@ -248,12 +245,12 @@ export default function ReferralProgramPanel() {
           {/* Add new milestone form */}
           {showAddForm && (
             <div className="p-4 border border-white/10 bg-purple-600/[0.04] space-y-3">
-              <p className="uppercase text-purple-300 font-bold">
+              <p className="uppercase text-purple-300">
                 New Milestone
               </p>
               <div className="flex items-center gap-3">
                 <div>
-                  <label htmlFor="referral-new-threshold" className="text-[var(--font-size-2xs)] uppercase text-white/30 font-bold block mb-1">
+                  <label htmlFor="referral-new-threshold" className="text-[var(--font-size-2xs)] uppercase text-white/30 block mb-1">
                     Referrals Needed
                   </label>
                   <input aria-label="Input field"
@@ -266,7 +263,7 @@ export default function ReferralProgramPanel() {
                   />
                 </div>
                 <div className="flex-1">
-                  <label htmlFor="referral-new-reward" className="text-[var(--font-size-2xs)] uppercase text-white/30 font-bold block mb-1">
+                  <label htmlFor="referral-new-reward" className="text-[var(--font-size-2xs)] uppercase text-white/30 block mb-1">
                     Reward
                   </label>
                   <input aria-label="Input field"
@@ -279,7 +276,7 @@ export default function ReferralProgramPanel() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="referral-new-emoji" className="text-[var(--font-size-2xs)] uppercase text-white/30 font-bold block mb-1">
+                  <label htmlFor="referral-new-emoji" className="text-[var(--font-size-2xs)] uppercase text-white/30 block mb-1">
                     Emoji
                   </label>
                   <input aria-label="Input field"
@@ -293,8 +290,7 @@ export default function ReferralProgramPanel() {
                 <button aria-label="Action button"
                   onClick={addMilestone}
                   disabled={!newReward || newThreshold < 1}
-                  className="self-end px-4 py-2 bg-purple-600 text-white font-bold uppercase disabled:opacity-40 hover:bg-purple-500 transition-colors cursor-pointer"
-                >
+                  className="self-end px-4 py-2 bg-purple-600 text-white uppercase disabled:opacity-40 hover:bg-purple-500 transition-colors cursor-pointer">
                   Add
                 </button>
               </div>
@@ -305,27 +301,25 @@ export default function ReferralProgramPanel() {
           <button aria-label="Action button"
             onClick={saveMilestones}
             disabled={saving}
-            className={`w-full mt-3 py-3 font-bold uppercase transition-colors cursor-pointer ${saved ? "bg-[var(--color-accent)] text-white"
- : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
- }`}
-          >
+            className={`w-full mt-3 py-3    uppercase transition-colors cursor-pointer ${saved ? "bg-[var(--color-accent)] text-white"
+              : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
+              }`}>
             {saved ? " Milestones Saved" : saving ? "Saving…" : "Save Milestones"}
           </button>
         </div>
 
         {/*  Fan-Facing Preview  */}
         <div className="p-4 border border-white/10 bg-purple-600/[0.04] mb-6">
-          <p className="uppercase text-purple-300 font-bold mb-3">
+          <p className="uppercase text-purple-300 mb-3">
             Fan-facing preview
           </p>
           <div className="flex items-center gap-2">
             {milestones.map((m) => (
               <div
                 key={m.threshold}
-                className="flex-1 text-center p-2 bg-white/[0.02] border border-white/10 rounded-lg"
-              >
-                <p className="font-bold text-purple-300">{m.threshold}</p>
-                <p className="font-bold uppercase mt-0.5">
+                className="flex-1 text-center p-2 bg-white/[0.02] border border-white/10 rounded-lg">
+                <p className="text-purple-300">{m.threshold}</p>
+                <p className="uppercase mt-0.5">
                   {m.emoji} {m.reward}
                 </p>
               </div>
@@ -336,7 +330,7 @@ export default function ReferralProgramPanel() {
         {/*  Leaderboard  */}
         <div>
           {(() => {
-            const displayLeaderboard = leaderboard.length > 0 ? leaderboard : [
+            const displayLeaderboard = leaderboard.length> 0 ? leaderboard : [
               { referrer_id: "1", referrer_code: "MIKE2026", name: "Michael Scimeca", total: 12, signed_up: 10, rewarded: 2, pending: 0, recent: ["alex@example.com", "sarah@example.com"] },
               { referrer_id: "2", referrer_code: "NICK7H", name: "Nick Cox", total: 8, signed_up: 7, rewarded: 1, pending: 0, recent: ["charlie@example.com"] },
               { referrer_id: "3", referrer_code: "RICHARD7H", name: "Richard Hofherr", total: 5, signed_up: 4, rewarded: 1, pending: 0, recent: ["dave@example.com"] }
@@ -349,7 +343,7 @@ export default function ReferralProgramPanel() {
             return (
               <>
                 <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-                  <p className="uppercase tracking-[0.15em] font-bold">
+                  <p className="uppercase tracking-[0.15em]">
                     Top Referrers
                   </p>
                   <div className="flex items-center gap-3">
@@ -367,7 +361,7 @@ export default function ReferralProgramPanel() {
                       placeholder="Select Referrer"
                       fullWidth={false}
                     />
-                    <span className="text-[var(--font-size-2xs)] text-white/20 uppercase font-bold whitespace-nowrap">
+                    <span className="text-[var(--font-size-2xs)] text-white/20 uppercase whitespace-nowrap">
                       {filteredLeaderboard.length} referrer{filteredLeaderboard.length !== 1 ? "s" : ""}
                     </span>
                   </div>
@@ -376,7 +370,7 @@ export default function ReferralProgramPanel() {
                 {filteredLeaderboard.length === 0 ? (
                   <div className="py-8 flex flex-col items-center border border-dashed border-white/10 bg-white/[0.02]">
                     <span className="text-3xl mb-2 opacity-20"></span>
-                    <p className="font-bold">No referrals found</p>
+                    <p>No referrals found</p>
                     <p className="mt-1">
                       Try selecting a different referrer from the dropdown.
                     </p>
@@ -386,7 +380,7 @@ export default function ReferralProgramPanel() {
                     {filteredLeaderboard.map((entry, i) => {
                       // Determine which milestones have been hit
                       const milestonesHit = milestones.filter(
-                        (m) => entry.total >= m.threshold
+                        (m) => entry.total>= m.threshold
                       );
                       const nextMilestone = milestones.find(
                         (m) => entry.total < m.threshold
@@ -402,36 +396,33 @@ export default function ReferralProgramPanel() {
                                   : entry.referrer_code
                               )
                             }
-                            className="w-full text-left cursor-pointer"
-                          >
+                            className="w-full text-left cursor-pointer">
                             <div
                               className={`flex items-center justify-between p-3 border ${i === 0 ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
- : i === 1
- ? " border-white/10 bg-white/[0.02]"
- : i === 2
- ? " border-white/10 bg-white/[0.015]"
- : " border-white/10 bg-white/[0.01]"
- }`}
-                            >
+                                : i === 1
+                                  ? " border-white/10 bg-white/[0.02]"
+                                  : i === 2
+                                    ? " border-white/10 bg-white/[0.015]"
+                                    : " border-white/10 bg-white/[0.01]"
+                                }`}>
                               <div className="flex items-center gap-3">
                                 {/* Rank badge */}
                                 <div
-                                  className={`w-8 h-8 flex items-center justify-center font-bold text-[var(--font-size-sm)] shrink-0 ${i === 0 ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
- : i === 1
- ? "bg-white/10 text-white border border-white/10"
- : i === 2
- ? " bg-[#00000029] text-white/40 border border-white/5"
- : "text-white/20"
- }`}
-                                >
+                                  className={`w-8 h-8 flex items-center justify-center    text-[var(--font-size-sm)] shrink-0 ${i === 0 ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
+                                    : i === 1
+                                      ? "bg-white/10 text-white border border-white/10"
+                                      : i === 2
+                                        ? " bg-[#00000029] text-white/40 border border-white/5"
+                                        : "text-white/20"
+                                    }`}>
                                   {i + 1}
                                 </div>
 
                                 <div>
-                                  <p className="font-bold">
+                                  <p>
                                     {entry.name}
                                   </p>
-                                  <p className=" ">
+                                  <p>
                                     {entry.referrer_code}
                                   </p>
                                 </div>
@@ -443,9 +434,8 @@ export default function ReferralProgramPanel() {
                                   {milestonesHit.map((m, mi) => (
                                     <span
                                       key={mi}
-                                      className=""
-                                      title={`${m.threshold}: ${m.reward}`}
-                                    >
+                                      
+                                      title={`${m.threshold}: ${m.reward}`}>
                                       {m.emoji}
                                     </span>
                                   ))}
@@ -453,10 +443,10 @@ export default function ReferralProgramPanel() {
 
                                 {/* Count */}
                                 <div className="text-right">
-                                  <p className="font-bold text-purple-300">
+                                  <p className="text-purple-300">
                                     {entry.total}
                                   </p>
-                                  <p className="uppercase font-bold">
+                                  <p className="uppercase">
                                     referrals
                                   </p>
                                 </div>
@@ -470,26 +460,26 @@ export default function ReferralProgramPanel() {
                               {/* Stats */}
                               <div className="flex gap-4">
                                 <div>
-                                  <span className="text-[var(--font-size-2xs)] uppercase text-white/30 font-bold">
+                                  <span className="text-[var(--font-size-2xs)] uppercase text-white/30">
                                     Converted
                                   </span>
-                                  <p className="font-bold">
+                                  <p>
                                     {entry.signed_up}
                                   </p>
                                 </div>
                                 <div>
-                                  <span className="text-[var(--font-size-2xs)] uppercase text-white/30 font-bold">
+                                  <span className="text-[var(--font-size-2xs)] uppercase text-white/30">
                                     Rewarded
                                   </span>
-                                  <p className="font-bold text-yellow-400">
+                                  <p className="text-yellow-400">
                                     {entry.rewarded}
                                   </p>
                                 </div>
                                 <div>
-                                  <span className="text-[var(--font-size-2xs)] uppercase text-white/30 font-bold">
+                                  <span className="text-[var(--font-size-2xs)] uppercase text-white/30">
                                     Pending
                                   </span>
-                                  <p className="font-bold">
+                                  <p>
                                     {entry.pending}
                                   </p>
                                 </div>
@@ -499,10 +489,10 @@ export default function ReferralProgramPanel() {
                               {nextMilestone && (
                                 <div>
                                   <div className="flex items-center justify-between mb-1">
-                                    <span className="text-[var(--font-size-2xs)] uppercase text-white/30 font-bold">
+                                    <span className="text-[var(--font-size-2xs)] uppercase text-white/30">
                                       Next: {nextMilestone.emoji} {nextMilestone.reward}
                                     </span>
-                                    <span className="text-purple-300 font-bold">
+                                    <span className="text-purple-300">
                                       {entry.total}/{nextMilestone.threshold}
                                     </span>
                                   </div>
@@ -518,17 +508,16 @@ export default function ReferralProgramPanel() {
                               )}
 
                               {/* Recent invites */}
-                              {entry.recent.length > 0 && (
+                              {entry.recent.length> 0 && (
                                 <div>
-                                  <span className="text-[var(--font-size-2xs)] uppercase text-white/30 font-bold">
+                                  <span className="text-[var(--font-size-2xs)] uppercase text-white/30">
                                     Recent Invites
                                   </span>
                                   <div className="mt-1 flex flex-wrap gap-1">
                                     {entry.recent.map((email, ei) => (
                                       <span
                                         key={ei}
-                                        className="px-2 py-0.5 bg-[#00000029] border border-white/10 text-white/40 "
-                                      >
+                                        className="px-2 py-0.5 bg-[#00000029] border border-white/10 text-white/40">
                                         {email}
                                       </span>
                                     ))}
@@ -537,12 +526,11 @@ export default function ReferralProgramPanel() {
                               )}
 
                               {/* Admin actions */}
-                              {milestonesHit.length > 0 &&
-                                entry.signed_up > 0 && (
+                              {milestonesHit.length> 0 &&
+                                entry.signed_up> 0 && (
                                   <button aria-label="Action button"
                                     onClick={() => markRewarded(entry.referrer_code)}
-                                    className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 font-bold uppercase hover:bg-yellow-500/20 transition-colors cursor-pointer"
-                                  >
+                                    className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 uppercase hover:bg-yellow-500/20 transition-colors cursor-pointer">
                                     Mark Rewards as Claimed
                                   </button>
                                 )}

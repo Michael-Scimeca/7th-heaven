@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     const tomorrowStr = new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
     const shows = await sanityClient.fetch(
-      `*[_type == "tourDate" && date >= $today && date <= $tomorrow && !isPrivate && !("private" in tags) && !("corporate" in tags)] | order(date asc, time asc) {
+      `*[_type == "tourDate" && date>= $today && date <= $tomorrow && !isPrivate && !("private" in tags) && !("corporate" in tags)] | order(date asc, time asc) {
         _id, venue, city, state, date, time, playTime, day,
         doorsTime, allAges, cover, lat, lng
       }`,
@@ -90,7 +90,7 @@ export async function POST(request: Request) {
       }
 
       // Show should be in the future and within the blast window
-      return showDateTime > now && showDateTime <= windowEnd;
+      return showDateTime> now && showDateTime <= windowEnd;
     });
 
     if (showsInWindow.length === 0) {

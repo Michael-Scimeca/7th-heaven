@@ -533,7 +533,7 @@ export function Header() {
               <Logo className="w-full h-full text-current transition-colors duration-[250ms] pointer-events-auto" />
             </div>
           </TransitionLink>
-          <nav className="hidden md:flex md:flex-1 md:justify-start items-center gap-3 lg:gap-5 xl:gap-8 relative z-50">
+          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-3 lg:gap-5 xl:gap-8 relative z-50">
             {leftNavLinks.map((link) => {
               const active = isNavActive(link.href);
               return (
@@ -554,7 +554,7 @@ export function Header() {
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
-              className={`hidden md:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 z-50 ${isNavActive("/live")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 z-50 ${isNavActive("/live")
                 ? "!text-[#9333ea] active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}>
@@ -564,7 +564,7 @@ export function Header() {
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
-              className={`hidden md:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/cruise")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/cruise")
                 ? "!text-[#9333ea] active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}>
@@ -574,7 +574,7 @@ export function Header() {
             {/* Book Us link */}
             <TransitionLink
               href="/book"
-              className={`hidden md:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/book")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/book")
                 ? "!text-[#9333ea] active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}>
@@ -584,7 +584,7 @@ export function Header() {
             {/* Contact link */}
             <TransitionLink
               href="/contact"
-              className={`hidden md:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/contact")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/contact")
                 ? "!text-[#9333ea] active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}>
@@ -664,7 +664,7 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="flex md:hidden w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 items-center justify-center relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0 shrink-0"
+              className="flex lg:hidden w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 items-center justify-center relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0 shrink-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle">

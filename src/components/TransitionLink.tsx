@@ -34,7 +34,7 @@ export default function TransitionLink({
 
   const handlePrefetch = useCallback(() => {
     const targetHref = typeof href === "string" ? href : href.pathname ?? "";
-    if (targetHref && !targetHref.includes("#")) {
+    if (targetHref && !targetHref.includes("#") && !targetHref.startsWith("/studio")) {
       router.prefetch(targetHref);
     }
   }, [href, router]);
@@ -47,7 +47,7 @@ export default function TransitionLink({
     }
 
     const targetHref = typeof href === "string" ? href : href.pathname ?? "";
-    if (!targetHref || targetHref.includes("#")) return; // anchor scroll, not a page change
+    if (!targetHref || targetHref.includes("#") || targetHref.startsWith("/studio")) return; // anchor scroll or studio link
     const currentPathname = typeof window !== "undefined" ? window.location.pathname : "";
     if (targetHref === currentPathname) return; // already there
 
@@ -84,8 +84,7 @@ export default function TransitionLink({
         handlePrefetch();
       }}
       className={className}
-      {...rest}
-    >
+      {...rest}>
       {children}
     </Link>
   );

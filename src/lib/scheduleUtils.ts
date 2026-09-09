@@ -27,7 +27,7 @@ export interface Shift {
 export function formatHour(decimalHour: number): string {
   const h = Math.floor(decimalHour);
   const m = Math.round((decimalHour - h) * 60);
-  const period = h >= 12 && h < 24 ? 'PM' : 'AM';
+  const period = h>= 12 && h < 24 ? 'PM' : 'AM';
   let displayHour = h % 12;
   if (displayHour === 0) displayHour = 12;
   const displayMinutes = m < 10 ? `0${m}` : `${m}`;
@@ -50,12 +50,12 @@ export function checkShiftOverlap(
   const overlappingShifts = existingShifts.filter(shift => {
     if (excludeShiftId && shift.id === excludeShiftId) return false;
     if (shift.isTimeOff) return false;
-    // Overlap condition: start < shift.end && end > shift.start
-    return newStart < shift.endHour && newEnd > shift.startHour;
+    // Overlap condition: start < shift.end && end> shift.start
+    return newStart < shift.endHour && newEnd> shift.startHour;
   });
 
   return {
-    hasOverlap: overlappingShifts.length > 0,
+    hasOverlap: overlappingShifts.length> 0,
     overlappingShifts,
   };
 }
@@ -102,8 +102,8 @@ export function sortCrewMembers(
       // 2. Visible week active shift prioritization
       const aWeekShifts = schedules.filter(s => weekDateSet.has(s.date) && s.crewId === a.id && !s.isTimeOff && s.crewId !== 'openshifts');
       const bWeekShifts = schedules.filter(s => weekDateSet.has(s.date) && s.crewId === b.id && !s.isTimeOff && s.crewId !== 'openshifts');
-      const aHasWeek = aWeekShifts.length > 0;
-      const bHasWeek = bWeekShifts.length > 0;
+      const aHasWeek = aWeekShifts.length> 0;
+      const bHasWeek = bWeekShifts.length> 0;
 
       if (aHasWeek && !bHasWeek) return -1;
       if (!aHasWeek && bHasWeek) return 1;

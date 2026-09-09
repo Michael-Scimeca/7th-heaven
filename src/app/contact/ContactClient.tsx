@@ -108,10 +108,10 @@ export default function ContactClient({
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] relative z-10">
 
-        <h1 className="text-[clamp(2.5rem,6vh,7.5rem)] font-bold uppercase er text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-none">
+        <h1 className="">
           {title}
         </h1>
-        <p className="mt-[clamp(0.25rem,0.8vh,0.75rem)] max-w-2xl">
+        <p className="mt-3 mb-6 max-w-2xl">
           {subtitle}
         </p>
       </div>
@@ -132,8 +132,7 @@ export default function ContactClient({
                   key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
                   onMouseEnter={() => setActivePhotoId(photoForThisCard)}
                   onClick={() => setActivePhotoId(photoForThisCard)}
-                  className="pb-[clamp(0.4rem,1.2vh,1rem)] border-b border-white/10"
-                >
+                  className="pb-[clamp(0.4rem,1.2vh,1rem)] border-b border-white/10">
                   {/* Category Pill */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
                     <SectionBadge
@@ -144,7 +143,7 @@ export default function ContactClient({
 
                   {/* Name & Title / Note */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <h3 className="font-bold text-white leading-snug">
+                    <h3 className="text-white leading-snug">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
                   </div>
@@ -155,8 +154,7 @@ export default function ContactClient({
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-flex items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] font-bold text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap"
-                      >
+                        className="inline-flex items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] fo text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
                         <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
                           {contact.email}
                         </span>
@@ -167,8 +165,7 @@ export default function ContactClient({
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/-/g, "")}`}
-                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !text-white font-bold hover:text-[var(--color-accent)] transition-colors duration-150 group/link w-fit whitespace-nowrap"
-                      >
+                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !text-white hover:text-[var(--color-accent)] transition-colors duration-150 group/link w-fit whitespace-nowrap">
                         <span className="whitespace-nowrap">{contact.phone}</span>
                       </a>
                     )}
@@ -185,8 +182,7 @@ export default function ContactClient({
           style={{
             WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
             maskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
-          }}
-        >
+          }}>
           {ALL_PHOTOS.map((photo) => {
             const isActive = activePhotoId === photo.id;
             return (
@@ -194,8 +190,7 @@ export default function ContactClient({
                 key={photo.id}
                 className={`absolute inset-0 transition-[opacity,transform,filter] duration-500 ease-out flex items-end justify-end ${isActive ? "opacity-100 scale-100 filter-none"
                   : "opacity-0 scale-95 filter blur-sm"
-                  }`}
-              >
+                  }`}>
                 <picture className="w-full h-full flex items-end justify-end pointer-events-none">
                   <source media="(max-width: 768px)" srcSet={photo.mobile} />
                   <source media="(min-width: 769px)" srcSet={photo.desktop} />
@@ -203,7 +198,7 @@ export default function ContactClient({
                   <img
                     src={photo.desktop}
                     alt={photo.alt}
-                    className={`max-w-full max-h-full object-contain object-bottom pointer-events-none drop-shadow-2xl origin-bottom-right ${photo.scaleClass}`}
+                    className={`max-w-full max-h-full object-contain object-bottom pointer-events-none drop-  origin-bottom-right ${photo.scaleClass}`}
                   />
                 </picture>
               </div>

@@ -144,8 +144,8 @@ export async function requireAdmin(_req: Request): Promise<NextResponse | null> 
 /** Detect likely bot/spam submissions via timing and honeypot field */
 export function isSpam(body: Record<string, unknown>): boolean {
   // Honeypot: bots fill hidden fields, humans don't
-  if (body._hp && String(body._hp).length > 0) return true;
-  if (body.website && String(body.website).length > 0) return true;
+  if (body._hp && String(body._hp).length> 0) return true;
+  if (body.website && String(body.website).length> 0) return true;
   // Block suspiciously fast submissions (< 2s from page load)
   if (body._t && typeof body._t === "number") {
     const elapsed = Date.now() - body._t;

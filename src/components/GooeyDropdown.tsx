@@ -80,8 +80,8 @@ function hexToRgba(color: string, alpha: number = 1.0): string {
   if (c.length === 3) c = c.split("").map((x) => x + x).join("");
   const num = parseInt(c, 16);
   if (isNaN(num)) return color;
-  const r = (num >> 16) & 255;
-  const g = (num >> 8) & 255;
+  const r = (num>> 16) & 255;
+  const g = (num>> 8) & 255;
   const b = num & 255;
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
@@ -237,8 +237,7 @@ export default function GooeyDropdown({
           style={{ color: textColor }}
           onClick={toggle}
           aria-haspopup="menu"
-          aria-expanded={open}
-        >
+          aria-expanded={open}>
           <span>{label}</span>
           {showChevron && (
             <svg
@@ -247,8 +246,7 @@ export default function GooeyDropdown({
               viewBox="0 0 10 6"
               fill="none"
               className="gooey-drop-chevron"
-              data-open={open}
-            >
+              data-open={open}>
               <path
                 d="M1 1L5 5L9 1"
                 stroke={chevronColor}
@@ -270,9 +268,8 @@ export default function GooeyDropdown({
             width: panelWidth,
             paddingTop: triggerSize.height + 6,
             maxHeight: maxHeight ? targetHeight + triggerSize.height : undefined,
-            overflowY: maxHeight && contentHeight > maxHeight ? "auto" : "visible",
-          }}
-        >
+            overflowY: maxHeight && contentHeight> maxHeight ? "auto" : "visible",
+          }}>
           {items.map((item, i) => {
             const delay = open ? 70 + i * 45 : 0;
             return (
@@ -283,8 +280,7 @@ export default function GooeyDropdown({
                     role="menuitem"
                     tabIndex={open ? 0 : -1}
                     style={{ color: panelTextColor ?? textColor }}
-                    onClick={() => setOpen(false)}
-                  >
+                    onClick={() => setOpen(false)}>
                     {item.label}
                   </a>
                 ) : (
@@ -296,8 +292,7 @@ export default function GooeyDropdown({
                     onClick={() => {
                       item.onClick?.();
                       setOpen(false);
-                    }}
-                  >
+                    }}>
                     {item.label}
                   </button>
                 )}

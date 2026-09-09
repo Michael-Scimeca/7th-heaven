@@ -136,13 +136,12 @@ export default function GooeyMessagesDropdown({
     <div
       ref={wrapRef}
       className={`relative ${fullWidth ? "w-full block" : "inline-block"} ${open ? "z-[99999]" : "z-10"
-        } [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
-    >
+        } [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}>
       {/* Hidden SVG Gooey Filter Definition */}
 
 
       {label && (
-        <label className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase block mb-1">
+        <label className="text-[0.65rem] text-black/60 dark:text-white/40 uppercase block mb-1">
           {label}
         </label>
       )}
@@ -153,8 +152,8 @@ export default function GooeyMessagesDropdown({
         disabled={disabled}
         className={`backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border border-white/10 min-h-[30px] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"
           } ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"} rounded-lg ${open
-            ? "bg-[#a855f71f] text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
-            : "bg-[#a855f71f] border-white/10 text-white/90 hover:bg-[#221547]"
+            ? "bg-[#a855f71f] font-bold text-white shadow-[0_0_25px_rgba(105,23,191,0.6)]"
+            : "bg-[#a855f71f] font-bold border-white/10 text-white/90 hover:bg-[#221547]"
           } ${noBorder ? "!border-none" : ""
           } flex items-center gap-3 cursor-pointer transition-[background-color,border-color,transform,box-shadow] duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={() => setOpen((o) => !o)}
@@ -162,11 +161,9 @@ export default function GooeyMessagesDropdown({
         aria-expanded={open}
         aria-label={triggerText}
         id={id || "gooey-toggle"}
-        name={name}
-      >
+        name={name}>
         <span
-          className={`font-bold  text-white whitespace-normal break-words flex-1 ${triggerTextClassName}`}
-        >
+          className={`    text-white whitespace-normal break-words flex-1 ${triggerTextClassName}`}>
           {triggerText}
         </span>
         <svg
@@ -180,8 +177,7 @@ export default function GooeyMessagesDropdown({
           strokeLinejoin="round"
           className={`shrink-0 text-white/80 transition-transform duration-300 ease-out ${open ? "rotate-90 text-white" : "rotate-0"
             }`}
-          aria-hidden="true"
-        >
+          aria-hidden="true">
           <path d="M4 2l4 4-4 4" />
         </svg>
       </button>
@@ -190,12 +186,11 @@ export default function GooeyMessagesDropdown({
       {open && (
         <div
           className="absolute !left-0 top-full mt-1.5 min-w-full w-max max-w-md bg-[#120826]/95 border border-purple-500/40 rounded-lg p-1 shadow-[0_25px_60px_rgba(0,0,0,0.95)]backdrop-blur-[18px] z-[99999] overflow-hidden transition-[opacity,transform] duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
-          role="listbox"
-        >
+          role="listbox">
           {(title || badge) && (
             <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/10 mb-1">
-              {title && <span className="font-bold uppercase text-purple-300">{title}</span>}
-              {badge && <span className="text-[10px] font-bold text-white/50">{badge}</span>}
+              {title && <span className="uppercase text-purple-300">{title}</span>}
+              {badge && <span className="text-[10px] text-white/50">{badge}</span>}
             </div>
           )}
 
@@ -205,8 +200,7 @@ export default function GooeyMessagesDropdown({
               ref={listRef}
               onScroll={handleScroll}
               className="max-h-48 overflow-y-auto no-scrollbar space-y-1 pr-3"
-              data-lenis-prevent="true"
-            >
+              data-lenis-prevent="true">
               {normalizedCustomers.map((c) => {
                 const isSelected = c.id === activeSelectedId;
                 return (
@@ -215,7 +209,7 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none font-bold uppercase transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? "text-white bg- purple-white/20 "
+                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none    uppercase transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? "text-white bg- purple-white/20 "
                       : "text-white/80 hover:text-white hover:bg- purple-white/20"
                       }`}
                     onClick={() => {
@@ -223,9 +217,8 @@ export default function GooeyMessagesDropdown({
                       onSelect?.(c);
                       onChange?.(c.id);
                       setOpen(false);
-                    }}
-                  >
-                    <span className="pr-2 font-bold uppercase whitespace-normal break-words ">
+                    }}>
+                    <span className="pr-2 uppercase whitespace-normal break-words">
                       {c.name}
                     </span>
                     {isSelected && (

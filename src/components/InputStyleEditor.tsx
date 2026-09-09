@@ -295,12 +295,12 @@ a:hover {
             {/* Modal Header */}
             <div className="p-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
               <div className="flex items-center gap-3">
-                <div className=" w-11 h-11  rounded-lg bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center   ">
+                <div className="w-11 h-11 rounded-lg bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center">
                   <Sliders className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold uppercase    ">Style Customization Studio</h3>
-                  <p className="">Form inputs, checkboxes, headings, p tags & links</p>
+                  <h3 className="uppercase">Style Customization Studio</h3>
+                  <p>Form inputs, checkboxes, headings, p tags & links</p>
                 </div>
               </div>
 
@@ -308,17 +308,15 @@ a:hover {
                 <button
                   aria-label="Reset to defaults"
                   onClick={() => setSettings(DEFAULT_INPUT_SETTINGS)}
-                  className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 hover:text-white font-bold transition-colors flex items-center gap-1.5 border border-white/10"
-                  title="Reset to defaults"
-                >
+                  className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 hover:text-white transition-colors flex items-center gap-1.5 border border-white/10"
+                  title="Reset to defaults">
                   <RotateCcw className="w-3.5 h-3.5" />
                   Reset
                 </button>
                 <button
                   aria-label="Close modal"
                   onClick={() => setIsOpen(false)}
-                  className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
-                >
+                  className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer">
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -326,62 +324,55 @@ a:hover {
 
             {/* Presets Bar */}
             <div className="px-5 py-3 border-b border-white/10 bg-black/40 flex items-center gap-2 overflow-x-auto">
-              <span className="text-[10px] font-bold uppercase text-white/40 shrink-0 mr-1 flex items-center gap-1">
+              <span className="text-[10px] uppercase text-white/40 shrink-0 mr-1 flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-yellow-400" /> Presets:
               </span>
               {PRESETS.map((p) => (
                 <button
                   key={p.name}
                   onClick={() => setSettings((prev) => ({ ...prev, ...p.settings }))}
-                  className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 text-white/80     border border-white/10 hover:border-cyan-400/40 font-bold transition-all shrink-0 cursor-pointer"
-                >
+                  className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 text-white/80 border border-white/10 hover:border-cyan-400/40 transition-all shrink-0 cursor-pointer">
                   {p.name}
                 </button>
               ))}
             </div>
 
             {/* View Tabs */}
-            <div className="flex border-b border-white/10 font-bold">
+            <div className="flex border-b border-white/10">
               <button
                 onClick={() => setActiveTab("controls")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "controls" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
-                  }`}
-              >
+                  }`}>
                 <Sliders className="w-3.5 h-3.5" /> Inputs
               </button>
               <button
                 onClick={() => setActiveTab("search")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "search" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
-                  }`}
-              >
+                  }`}>
                 <Search className="w-3.5 h-3.5" /> Search Bar
               </button>
               <button
                 onClick={() => setActiveTab("checkboxes")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "checkboxes" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
-                  }`}
-              >
+                  }`}>
                 <CheckSquare className="w-3.5 h-3.5" /> Checkboxes
               </button>
               <button
                 onClick={() => setActiveTab("typography")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "typography" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
-                  }`}
-              >
+                  }`}>
                 <Type className="w-3.5 h-3.5" /> Typography & Tags
               </button>
               <button
                 onClick={() => setActiveTab("preview")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "preview" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
-                  }`}
-              >
+                  }`}>
                 <Eye className="w-3.5 h-3.5" /> Sandbox
               </button>
               <button
                 onClick={() => setActiveTab("css")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "css" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
-                  }`}
-              >
+                  }`}>
                 <Layers className="w-3.5 h-3.5" /> CSS
               </button>
             </div>
@@ -392,13 +383,13 @@ a:hover {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Background & Blur */}
                   <div className="space-y-4 p-4 bg-[#00000029] rounded-lg border border-white/10">
-                    <h4 className="font-bold uppercase text-purple-400flex items-center gap-2">
+                    <h4 className="uppercase text-purple-400flex items-center gap-2">
                       🎨 Background & Blur
                     </h4>
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Fill Opacity</span>
-                        <span className="   ">{Math.round(settings.bgOpacity * 100)}%</span>
+                        <span>{Math.round(settings.bgOpacity * 100)}%</span>
                       </label>
                       <input
                         type="range" min="0" max="1" step="0.01"
@@ -411,7 +402,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Backdrop Blur</span>
-                        <span className="   ">{settings.blurAmount}px</span>
+                        <span>{settings.blurAmount}px</span>
                       </label>
                       <input
                         type="range" min="0" max="40" step="1"
@@ -442,13 +433,13 @@ a:hover {
 
                   {/* Border & Geometry */}
                   <div className="space-y-4 p-4 bg-[#00000029] rounded-lg border border-white/10">
-                    <h4 className="font-bold uppercase text-purple-400flex items-center gap-2">
+                    <h4 className="uppercase text-purple-400flex items-center gap-2">
                       📐 Border & Geometry
                     </h4>
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Border Width</span>
-                        <span className="   ">{settings.borderWidth}px</span>
+                        <span>{settings.borderWidth}px</span>
                       </label>
                       <input
                         type="range" min="0" max="6" step="1"
@@ -461,7 +452,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Corner Radius</span>
-                        <span className="   ">{settings.borderRadius}px</span>
+                        <span>{settings.borderRadius}px</span>
                       </label>
                       <input
                         type="range" min="0" max="36" step="1"
@@ -486,13 +477,13 @@ a:hover {
 
                   {/* Focus Glow & Colors */}
                   <div className="space-y-4 p-4 bg-[#00000029] rounded-lg border border-white/10">
-                    <h4 className="font-bold uppercase text-purple-400flex items-center gap-2">
+                    <h4 className="uppercase text-purple-400flex items-center gap-2">
                       ✨ Focus Glow & Color
                     </h4>
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Focus Glow Opacity</span>
-                        <span className="   ">{Math.round(settings.focusGlowOpacity * 100)}%</span>
+                        <span>{Math.round(settings.focusGlowOpacity * 100)}%</span>
                       </label>
                       <input
                         type="range" min="0" max="1" step="0.05"
@@ -515,13 +506,13 @@ a:hover {
 
                   {/* Padding & Spacing */}
                   <div className="space-y-4 p-4 bg-[#00000029] rounded-lg border border-white/10">
-                    <h4 className="font-bold uppercase text-purple-400flex items-center gap-2">
+                    <h4 className="uppercase text-purple-400flex items-center gap-2">
                       📏 Spacing & Padding
                     </h4>
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Vertical Padding</span>
-                        <span className="   ">{settings.paddingY}px</span>
+                        <span>{settings.paddingY}px</span>
                       </label>
                       <input
                         type="range" min="6" max="24" step="1"
@@ -534,7 +525,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Horizontal Padding</span>
-                        <span className="   ">{settings.paddingX}px</span>
+                        <span>{settings.paddingX}px</span>
                       </label>
                       <input
                         type="range" min="8" max="32" step="1"
@@ -550,7 +541,7 @@ a:hover {
               {activeTab === "search" && (
                 <div className="space-y-6">
                   <div className="space-y-4 p-4 bg-[#00000029] rounded-lg border border-white/10">
-                    <h4 className="font-bold uppercase text-purple-400flex items-center gap-2">
+                    <h4 className="uppercase text-purple-400flex items-center gap-2">
                       🔍 Search Bar & Left Icon Styling
                     </h4>
 
@@ -561,7 +552,7 @@ a:hover {
                           type="color"
                           value={settings.searchIconColor?.startsWith("#") ? settings.searchIconColor : "#ffffff"}
                           onChange={(e) => update("searchIconColor", e.target.value)}
-                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -575,7 +566,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Icon Opacity</span>
-                        <span className="   ">{Math.round((settings.searchIconOpacity ?? 0.5) * 100)}%</span>
+                        <span>{Math.round((settings.searchIconOpacity ?? 0.5) * 100)}%</span>
                       </label>
                       <input
                         type="range" min="0.1" max="1" step="0.05"
@@ -588,7 +579,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Icon Left Offset</span>
-                        <span className="   ">{settings.searchIconLeft ?? 16}px</span>
+                        <span>{settings.searchIconLeft ?? 16}px</span>
                       </label>
                       <input
                         type="range" min="8" max="36" step="2"
@@ -601,7 +592,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Icon Vertical Alignment (Nudge Down)</span>
-                        <span className="   ">+{settings.searchIconTopOffset ?? 1.5}px</span>
+                        <span>+{settings.searchIconTopOffset ?? 1.5}px</span>
                       </label>
                       <input
                         type="range" min="-6" max="6" step="0.5"
@@ -614,7 +605,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Text Left Padding (Icon Clearance)</span>
-                        <span className="   ">{settings.searchPaddingLeft ?? 48}px</span>
+                        <span>{settings.searchPaddingLeft ?? 48}px</span>
                       </label>
                       <input
                         type="range" min="32" max="80" step="2"
@@ -627,7 +618,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Text Right Padding</span>
-                        <span className="   ">{settings.searchPaddingRight ?? 48}px</span>
+                        <span>{settings.searchPaddingRight ?? 48}px</span>
                       </label>
                       <input
                         type="range" min="24" max="80" step="2"
@@ -640,7 +631,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Vertical Padding (Height)</span>
-                        <span className="   ">{settings.searchPaddingY ?? 14}px</span>
+                        <span>{settings.searchPaddingY ?? 14}px</span>
                       </label>
                       <input
                         type="range" min="6" max="24" step="1"
@@ -653,7 +644,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Search Bar Max Width</span>
-                        <span className="   ">{settings.searchMaxWidth ?? 500}px</span>
+                        <span>{settings.searchMaxWidth ?? 500}px</span>
                       </label>
                       <input
                         type="range" min="300" max="900" step="20"
@@ -666,7 +657,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Search Corner Radius</span>
-                        <span className="   ">{settings.searchRadius ?? 12}px</span>
+                        <span>{settings.searchRadius ?? 12}px</span>
                       </label>
                       <input
                         type="range" min="0" max="32" step="2"
@@ -678,7 +669,7 @@ a:hover {
 
                     {/* Live Search Bar Preview */}
                     <div className="pt-3 border-t border-white/10">
-                      <p className="font-bold uppercase mb-2">Live Search Bar Preview</p>
+                      <p className="uppercase mb-2">Live Search Bar Preview</p>
                       <div className="input-glow-border rounded-xl">
                         <div className="relative flex items-center">
                           <div
@@ -687,8 +678,7 @@ a:hover {
                               left: `${settings.searchIconLeft ?? 16}px`,
                               color: settings.searchIconColor || "#ffffff",
                               opacity: settings.searchIconOpacity ?? 0.5,
-                            }}
-                          >
+                            }}>
                             <Search className="w-4 h-4" />
                           </div>
                           <input
@@ -714,7 +704,7 @@ a:hover {
               {activeTab === "checkboxes" && (
                 <div className="space-y-6">
                   <div className="space-y-4 p-4 bg-[#00000029] rounded-lg border border-white/10">
-                    <h4 className="font-bold uppercase text-purple-400flex items-center gap-2">
+                    <h4 className="uppercase text-purple-400flex items-center gap-2">
                       ☑️ Checkbox Input Styling
                     </h4>
 
@@ -725,7 +715,7 @@ a:hover {
                           type="color"
                           value={settings.checkboxAccentColor.startsWith("#") ? settings.checkboxAccentColor : "#c084fc"}
                           onChange={(e) => update("checkboxAccentColor", e.target.value)}
-                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -739,7 +729,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Checkbox Dimension Size</span>
-                        <span className="   ">{settings.checkboxSize}px</span>
+                        <span>{settings.checkboxSize}px</span>
                       </label>
                       <input
                         type="range" min="12" max="32" step="1"
@@ -752,7 +742,7 @@ a:hover {
                     <div>
                       <label className="text-white/70 justify-between flex mb-1">
                         <span>Checkbox Corner Radius</span>
-                        <span className="   ">{settings.checkboxRadius}px</span>
+                        <span>{settings.checkboxRadius}px</span>
                       </label>
                       <input
                         type="range" min="0" max="16" step="1"
@@ -764,7 +754,7 @@ a:hover {
 
                     {/* Live Checkbox Preview */}
                     <div className="pt-3 border-t border-white/10">
-                      <p className="font-bold uppercase mb-2">Live Checkbox Preview</p>
+                      <p className="uppercase mb-2">Live Checkbox Preview</p>
                       <div className="space-y-2">
                         <div className="flex items-center gap-3 text-white cursor-pointer select-none">
                           <SquishyToggle id="editor-preview-1" label="Drop on ALL live streams" checked={true} onChange={() => { }} />
@@ -783,7 +773,7 @@ a:hover {
               {activeTab === "typography" && (
                 <div className="space-y-6">
                   <div className="space-y-4 p-4 bg-[#00000029] rounded-lg border border-white/10">
-                    <h4 className="font-bold uppercase text-purple-400flex items-center gap-2">
+                    <h4 className="uppercase text-purple-400flex items-center gap-2">
                       🔤 Typography & Tag Styling
                     </h4>
 
@@ -794,7 +784,7 @@ a:hover {
                           type="color"
                           value={settings.headingColor.startsWith("#") ? settings.headingColor : "#ffffff"}
                           onChange={(e) => update("headingColor", e.target.value)}
-                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -812,7 +802,7 @@ a:hover {
                           type="color"
                           value={settings.pTextColor.startsWith("#") ? settings.pTextColor : "#ffffff"}
                           onChange={(e) => update("pTextColor", e.target.value)}
-                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -830,7 +820,7 @@ a:hover {
                           type="color"
                           value={settings.linkColor.startsWith("#") ? settings.linkColor : "#c084fc"}
                           onChange={(e) => update("linkColor", e.target.value)}
-                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -848,7 +838,7 @@ a:hover {
                           type="color"
                           value={settings.linkHoverColor.startsWith("#") ? settings.linkHoverColor : "#e879f9"}
                           onChange={(e) => update("linkHoverColor", e.target.value)}
-                          className=" w-11 h-11  bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -861,10 +851,10 @@ a:hover {
 
                     {/* Live Typography Preview */}
                     <div className="pt-3 border-t border-white/10 space-y-2">
-                      <p className="font-bold uppercase mb-1">Live Typography Preview</p>
+                      <p className="uppercase mb-1">Live Typography Preview</p>
                       <h1>Sample H1 Main Title Header</h1>
                       <h3>Sample H3 Section Subtitle</h3>
-                      <p>This is a live preview paragraph demonstrating paragraph text styling with an <button type="button" className="   font-bold underline cursor-pointer">Interactive Custom Link</button> embedded inside.</p>
+                      <p>This is a live preview paragraph demonstrating paragraph text styling with an <button type="button" className="underline cursor-pointer">Interactive Custom Link</button> embedded inside.</p>
                     </div>
                   </div>
                 </div>
@@ -872,21 +862,21 @@ a:hover {
 
               {activeTab === "preview" && (
                 <div className="p-6 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black rounded-lg border border-cyan-500/20 space-y-4">
-                  <h4 className="font-bold uppercase   ">Live Input Testing Sandbox</h4>
+                  <h4 className="uppercase">Live Input Testing Sandbox</h4>
                   <div className="space-y-3">
                     <div>
-                      <label className="font-bold uppercase text-white block mb-1">Full Name</label>
+                      <label className="uppercase text-white block mb-1">Full Name</label>
                       <input type="text" aria-label="Full Name" placeholder="John Smith..." className="form-input w-full" />
                     </div>
                     <div>
-                      <label className="font-bold uppercase text-white block mb-1">Select Event Type</label>
+                      <label className="uppercase text-white block mb-1">Select Event Type</label>
                       <select aria-label="Select Event Type" className="form-input w-full cursor-pointer">
                         <option value="1" className="bg-[#0c0817] text-white">Full Band Concert</option>
                         <option value="2" className="bg-[#0c0817] text-white">Unplugged Acoustic</option>
                       </select>
                     </div>
                     <div>
-                      <label className="font-bold uppercase text-white block mb-1">Special Requests</label>
+                      <label className="uppercase text-white block mb-1">Special Requests</label>
                       <textarea rows={2} aria-label="Special Requests" placeholder="Add notes here..." className="form-input w-full" />
                     </div>
                     <div className="pt-2 border-t border-white/10">
@@ -902,16 +892,15 @@ a:hover {
               {activeTab === "css" && (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold uppercase   ">Generated Global CSS Rules</span>
+                    <span className="uppercase">Generated Global CSS Rules</span>
                     <button
                       onClick={copyCSS}
-                      className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40    font-bold transition-all flex items-center gap-1.5 cursor-pointer"
-                    >
+                      className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 transition-all flex items-center gap-1.5 cursor-pointer">
                       {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                       {copied ? "Copied to Clipboard!" : "Copy CSS"}
                     </button>
                   </div>
-                  <pre className="p-4 bg-black/80 border border-white/10 rounded-lg   /90 overflow-x-auto max-h-[300px] ">
+                  <pre className="p-4 bg-black/80 border border-white/10 rounded-lg /90 overflow-x-auto max-h-[300px]">
                     {generatedCSS}
                   </pre>
                 </div>
@@ -923,8 +912,7 @@ a:hover {
               <span className="text-white/50">Changes apply live to all forms, checkboxes, headings, p tags & links across the site.</span>
               <button
                 onClick={() => setIsOpen(false)}
-                className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-purple-600 hover:brightness-110 text-white font-bold rounded-lg uppercase transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)] cursor-pointer"
-              >
+                className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-purple-600 hover:brightness-110 text-white rounded-lg uppercase transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)] cursor-pointer">
                 Done
               </button>
             </div>

@@ -69,17 +69,17 @@ function NorthResultContent() {
     <div className="min-h-screen bg-transparent text-white pt-32 pb-24 flex items-center justify-center px-6">
       <div className="max-w-md w-full">
         <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
-          {loading && <p className="">Loading payment result…</p>}
+          {loading && <p>Loading payment result…</p>}
 
           {!loading && (hadError || fetchError || !id) && (
             <>
               <div className="w-16 h-16 mx-auto mb-4 bg-rose-500/10 border-2 border-rose-500/30 rounded-lg flex items-center justify-center">
                 <span className="text-2xl">⚠️</span>
               </div>
-              <h1 className="text-xl font-bold uppercase text-white mb-2">
+              <h1 className="mb-2">
                 Couldn&apos;t Load Result
               </h1>
-              <p className="  ">
+              <p>
                 {fetchError ||
                   "We couldn't find a record of this transaction. If a charge went through, check your bank statement and contact us."}
               </p>
@@ -91,11 +91,10 @@ function NorthResultContent() {
               <div
                 className={`w-16 h-16 mx-auto mb-4 rounded-lg flex items-center justify-center border-2 ${succeeded ? "bg-emerald-500/10 border-emerald-500/30"
                   : "bg-rose-500/10 border-rose-500/30"
-                  }`}
-              >
+                  }`}>
                 <span className="text-2xl">{succeeded ? "✅" : "❌"}</span>
               </div>
-              <h1 className="text-xl font-bold uppercase text-white mb-2">
+              <h1 className="mb-2">
                 {succeeded ? "Payment Succeeded" : "Payment Failed"}
               </h1>
               {succeeded ? (
@@ -104,7 +103,7 @@ function NorthResultContent() {
                   {result.maskedAccountNbr && <p>Account: {result.maskedAccountNbr}</p>}
                 </div>
               ) : (
-                <p className="">
+                <p>
                   Reason: {result.authRespText || "Unknown error"}
                 </p>
               )}
@@ -113,8 +112,7 @@ function NorthResultContent() {
 
           <Link
             href="/payment-test"
-            className="inline-block mt-6 px-5 py-2.5 bg-[var(--color-accent)] text-white font-bold uppercase rounded-lg"
-          >
+            className="inline-block mt-6 px-5 py-2.5 bg-[var(--color-accent)] text-white uppercase rounded-lg">
             {succeeded ? "Back to Shop" : "Try Again"}
           </Link>
         </div>

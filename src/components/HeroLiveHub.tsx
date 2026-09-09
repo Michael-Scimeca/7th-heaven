@@ -102,7 +102,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
         // Calculate total viewers across visible rooms
         const total = rooms.reduce((acc: number, r: any) => acc + (r.numParticipants || 0), 0);
         // If real viewers is 0 but rooms exist, show a small random number for "hype"
-        viewerCountRef.current = total || (rooms.length> 0 ? Math.floor(Math.random() * 20) + 5 : 0);
+        viewerCountRef.current = total || (rooms.length > 0 ? Math.floor(Math.random() * 20) + 5 : 0);
       }
     } catch (err) {
       console.error("Live rooms check failed", err);
@@ -171,7 +171,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
 
 
           {/* Multi-Stream Links (If 2+ streams) */}
-          {activeLiveRooms.length> 1 && (
+          {activeLiveRooms.length > 1 && (
             <div className="flex flex-wrap gap-2 mb-4 animate-[fade-in_0.5s_ease-out]">
               <span className="text-white/30 uppercase self-center mr-2">Alternative Feeds:</span>
               {activeLiveRooms.slice(1).map((room, idx) => (
@@ -225,9 +225,9 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             )}
 
             {/* Real-time Live Overlay */}
-            {activeLiveRooms.length> 0 && (
+            {activeLiveRooms.length > 0 && (
               <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="text-center p-8 scale-90 group-hover:scale-100 transition-transform duration-500">
+                <div className="text-center p-8">
                   <div className="mb-4 inline-flex items-center gap-2 bg-red-600 text-white px-4 py-1 rounded-lg uppercase shadow-red-600/20">
                     <span className="w-2 h-2 bg-white rounded-lg animate-pulse" />
                     Live Now
@@ -242,7 +242,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
           </div>
 
           {/* Thumbnails */}
-          {mediaPosts.length> 1 && (
+          {mediaPosts.length > 1 && (
             <div className="grid grid-cols-4 sm:grid-cols-5 gap-1.5 mt-2">
               {mediaPosts.slice(0, 5).map((post) => {
                 const isActive = selectedMedia?.id === post.id;
@@ -256,7 +256,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                     onClick={() => setSelectedMedia(post)}
                     className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06]   border-white/10 "
                       }`}>
-                    {thumbSrc && <Image width={200} height={200} unoptimized src={thumbSrc} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
+                    {thumbSrc && <Image width={200} height={200} unoptimized src={thumbSrc} alt="7th Heaven Media" className="w-full h-full object-cover" />}
                     {isVideo && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="white" className="opacity-80"><path d="M8 5v14l11-7z" /></svg>

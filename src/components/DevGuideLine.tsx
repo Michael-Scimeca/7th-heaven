@@ -29,25 +29,22 @@ export default function DevGuideLine() {
       {/* Horizontal laser guide line */}
       <div
         className="fixed left-0 right-0 z-[999999] pointer-events-none transition-colors duration-150"
-        style={{ top: `${topPos}px` }}
-      >
+        style={{ top: `${topPos}px` }}>
         {/* Bright laser line */}
         <div className="w-full h-[2px] bg-cyan-400 shadow-[0_0_12px_#22d3ee,0_0_4px_#22d3ee]" />
 
         {/* Developer badge indicator */}
-        <div className="absolute right-6 top-1 pointer-events-auto flex items-center gap-2 bg-black/95 border border-cyan-400/60    px-3 py-1 text-[11px] font-bold rounded-lg shadow-[0_0_20px_rgba(34,211,238,0.3)] backdrop-blur-[45px] select-none z-[9999999]">
+        <div className="absolute right-6 top-1 pointer-events-auto flex items-center gap-2 bg-black/95 border border-cyan-400/60 px-3 py-1 text-[11px] rounded-lg shadow-[0_0_20px_rgba(34,211,238,0.3)] backdrop-blur-[45px] select-none z-[9999999]">
           <span className="w-2 h-2 rounded-lg bg-cyan-400 animate-pulse" />
           <span>DEV GUIDE: {topPos}PX</span>
           <button aria-label="Previous"
             onClick={(e) => { e.stopPropagation(); setTopPos((prev) => (prev === 122 ? 120 : 122)); }}
-            className="ml-1 px-2 py-0.5 bg-cyan-500/20 hover:bg-cyan-500/40    border border-cyan-400/40 rounded text-[10px] uppercase font-bold transition-colors cursor-pointer"
-          >
+            className="ml-1 px-2 py-0.5 bg-cyan-500/20 hover:bg-cyan-500/40 border border-cyan-400/40 rounded text-[10px] uppercase transition-colors cursor-pointer">
             Toggle {topPos === 122 ? "120px" : "122px"}
           </button>
           <button aria-label="Previous"
             onClick={(e) => { e.stopPropagation(); setShowVerticalGuides((prev) => !prev); }}
-            className="ml-1 px-2 py-0.5 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 text-[var(--color-accent)] border border-[var(--color-accent)]/40 rounded text-[10px] uppercase font-bold transition-colors cursor-pointer"
-          >
+            className="ml-1 px-2 py-0.5 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 text-[var(--color-accent)] border border-[var(--color-accent)]/40 rounded text-[10px] uppercase transition-colors cursor-pointer">
             Guides: {showVerticalGuides ? "ON" : "OFF"}
           </button>
           <button aria-label="Previous"
@@ -56,9 +53,8 @@ export default function DevGuideLine() {
               e.preventDefault();
               setEnabled(false);
             }}
-            className="ml-1.5 px-2 py-1 text-purple-400hover:text-red-400 hover:bg-red-500/20 rounded font-bold transition-colors cursor-pointer leading-none z-[9999999]"
-            title="Hide guide overlay (Press Alt+G to restore)"
-          >
+            className="ml-1.5 px-2 py-1 text-purple-400hover:text-red-400 hover:bg-red-500/20 rounded transition-colors cursor-pointer leading-none z-[9999999]"
+            title="Hide guide overlay (Press Alt+G to restore)">
             ✕
           </button>
         </div>
@@ -69,7 +65,7 @@ export default function DevGuideLine() {
         <div className="fixed inset-0 z-[999998] pointer-events-none overflow-hidden">
           {/* Left guideline (25px mobile, 32px desktop) */}
           <div className="absolute top-0 bottom-0 left-[25px] md:left-[32px] w-[1px] bg-cyan-400/80 shadow-[0_0_8px_#22d3ee]">
-            <span className="absolute top-2 left-1 bg-cyan-950/90    text-[12px] font-bold px-1.5 py-0.5 rounded border border-cyan-400/40 whitespace-nowrap">
+            <span className="absolute top-2 left-1 bg-cyan-950/90 text-[12px] px-1.5 py-0.5 rounded border border-cyan-400/40 whitespace-nowrap">
               <span className="md:hidden">25px Left</span>
               <span className="hidden md:inline">32px Left</span>
             </span>
@@ -77,7 +73,7 @@ export default function DevGuideLine() {
 
           {/* Right guideline (25px mobile, 32px desktop) */}
           <div className="absolute top-0 bottom-0 right-[25px] md:right-[32px] w-[1px] bg-cyan-400/80 shadow-[0_0_8px_#22d3ee]">
-            <span className="absolute top-2 right-1 bg-cyan-950/90    text-[12px] font-bold px-1.5 py-0.5 rounded border border-cyan-400/40 whitespace-nowrap">
+            <span className="absolute top-2 right-1 bg-cyan-950/90 text-[12px] px-1.5 py-0.5 rounded border border-cyan-400/40 whitespace-nowrap">
               <span className="md:hidden">25px Right</span>
               <span className="hidden md:inline">32px Right</span>
             </span>

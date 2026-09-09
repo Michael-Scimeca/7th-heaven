@@ -19,6 +19,17 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Eliminate 300ms tap delay & gray tap flash on touch devices */
+button,
+a,
+input,
+select,
+textarea,
+[role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ── Kill backdrop-filter during page transitions ───────────────────────────
    backdrop-filter forces the GPU to read every pixel behind the element on
    each composited frame. With 46+ backdrop-filter elements on screen and a

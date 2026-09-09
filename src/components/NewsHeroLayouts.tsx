@@ -60,7 +60,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <span className="uppercase text-purple-400 px-3 py-1 border border-cyan-500/20">
                 OPTION 2A — CLASSIC DARK GLASS
               </span>
-              <h1 className="text-4xl md:text-5xl uppercase text-white mt-4 mb-4">
+              <h1 className="mt-4 mb-4">
                 7th Heaven <br /><span>Band News</span>
               </h1>
               <p className="mb-6">
@@ -88,7 +88,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <span className="uppercase">
                 OPTION 2B — PHOTO BOX RIGHT
               </span>
-              <h1 className="text-3xl md:text-4xl text-white uppercase mt-3 mb-3">
+              <h1 className="mt-3 mb-3">
                 Band Bulletins <span>&</span> Updates
               </h1>
               <p>
@@ -107,7 +107,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 </div>
                 <h2 className="text-white mb-4">{featured.title}</h2>
                 <p className="mb-6">{featured.content}</p>
-                <button aria-label="Action button" type="button" className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer shadow-lg shadow-purple-600/30">
+                <button aria-label="Action button" type="button" className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer    shadow-purple-600/30">
                   Read Full Story →
                 </button>
               </div>
@@ -135,7 +135,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             {/* Right Branding */}
             <div className="lg:col-span-5">
               <span className="text-purple-400 uppercase">Official Channel</span>
-              <h1 className="text-4xl md:text-5xl uppercase text-white mt-2 mb-4">
+              <h1 className=" mt-2 mb-4">
                 7th Heaven <br /><span>News Feed</span>
               </h1>
               <p>
@@ -153,7 +153,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             {/* Left Column */}
             <div className="lg:col-span-5 p-8 md:p-12 bg-[#090512] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-cyan-500/30">
               <span className="uppercase text-purple-400mb-2">OPTION 2D — NEON LINE DIVIDER</span>
-              <h1 className="text-3xl md:text-4xl uppercase text-white">
+              <h1 className="">
                 7th Heaven <br /><span>Dispatch</span>
               </h1>
               <p className="mt-4">
@@ -183,7 +183,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 uppercase inline-block">
                   OPTION 2E — STACKED BADGE
                 </span>
-                <h1 className="text-3xl uppercase text-white">
+                <h1 className="">
                   Band Updates
                 </h1>
                 <p>
@@ -209,7 +209,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <span className="uppercase text-purple-400block mb-2">
                 OPTION 2F — BORDERLESS EDITORIAL
               </span>
-              <h1 className="text-4xl uppercase text-white leading-none">
+              <h1 className="">
                 Latest <br /><span>Headlines</span>
               </h1>
             </div>

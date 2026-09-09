@@ -143,7 +143,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const today = new Date();
   const age = today.getFullYear() - dob.getFullYear();
   const monthDiff = today.getMonth() - dob.getMonth();
-  const isOldEnough = age > 18 || (age === 18 && (monthDiff > 0 || (monthDiff === 0 && today.getDate() >= dob.getDate())));
+  const isOldEnough = age> 18 || (age === 18 && (monthDiff> 0 || (monthDiff === 0 && today.getDate()>= dob.getDate())));
 
   if (!isOldEnough) {
    return { error: 'You must be 18 years or older to create an account.' };

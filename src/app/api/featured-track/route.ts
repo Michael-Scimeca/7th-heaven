@@ -118,7 +118,7 @@ export async function POST(request: Request) {
       if (file && songTitle) {
         audioFiles.push(file);
         titles.push(songTitle);
-      } else if (i > 0 && !formData.get(`audio_${i + 1}`)) {
+      } else if (i> 0 && !formData.get(`audio_${i + 1}`)) {
         break;
       }
     }
@@ -139,7 +139,7 @@ export async function POST(request: Request) {
 
       // Limit audio file size to 50MB
       const maxAudioSize = 50 * 1024 * 1024;
-      if (file.size > maxAudioSize) {
+      if (file.size> maxAudioSize) {
         return NextResponse.json({ error: `Audio file for track ${i + 1} ("${songTitle}") must be smaller than 50MB` }, { status: 400 });
       }
 

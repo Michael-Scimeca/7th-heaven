@@ -119,7 +119,7 @@ export default function HeroIntroPage() {
 
     const assetReady = new Promise<void>((resolve) => {
       if (!video) return resolve();
-      if (video.readyState >= 2) return resolve(); // HAVE_CURRENT_DATA already
+      if (video.readyState>= 2) return resolve(); // HAVE_CURRENT_DATA already
       const done = () => {
         video.removeEventListener("loadeddata", done);
         resolve();
@@ -174,8 +174,7 @@ export default function HeroIntroPage() {
         <div
           ref={mediaRef}
           className="absolute inset-0"
-          style={{ transform: `translateY(${CONTENT_SLIDE_VH * 100}vh)` }}
-        >
+          style={{ transform: `translateY(${CONTENT_SLIDE_VH * 100}vh)` }}>
           <video
             ref={videoRef}
             src="/movie/be-here-clip.mp4"
@@ -194,18 +193,17 @@ export default function HeroIntroPage() {
         {/* Text layer — static, only ever revealed by the mask (no extra
             translate) so it can't end up pushed off-screen mid-wipe. */}
         <div className="absolute bottom-14 left-6 md:left-10 right-6 md:right-10 flex flex-col gap-3">
-          <span className="font-bold uppercase tracking-[0.3em] text-white/50">
+          <span className="uppercase tracking-[0.3em] text-white/50">
             40 years of rocking the world.
           </span>
           <h1
-            className="max-w-2xl text-3xl md:text-6xl font-bold uppercase text-white leading-[0.95]"
-            style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}
-          >
+            className="max-w-2xl text-3xl md:text-6xl uppercase text-white leading-[0.95]"
+            style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             An experience you just have to see and hear.
           </h1>
         </div>
 
-        <div className="absolute bottom-14 right-6 md:right-10 hidden md:flex items-center gap-2 font-bold uppercase text-white/50">
+        <div className="absolute bottom-14 right-6 md:right-10 hidden md:flex items-center gap-2 uppercase text-white/50">
           Scroll to explore
         </div>
       </div>
@@ -247,8 +245,7 @@ export default function HeroIntroPage() {
           // rather than chasing further, since a real fix means touching
           // the shared layout's page-fade wrapper, not this page.
           isolation: "isolate",
-        }}
-      >
+        }}>
         {!revealed && (
           <div className="flex flex-col items-center gap-4" style={{ animation: "heroIntroPulse 1.6s ease-in-out infinite" }}>
             {/* Shrunk from h-8/h-10 — exoape's mark is a small, quiet badge,

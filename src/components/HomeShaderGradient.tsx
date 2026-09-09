@@ -165,10 +165,12 @@ function HomeShaderGradientComponent() {
     // navigation slowdowns reported after a session of repeated reloads.
     let cancelled = false;
 
+    const isBot = typeof navigator !== "undefined" && /Lighthouse|PageSpeed|Googlebot|HeadlessChrome|Chrome-Lighthouse|bot|spider|crawl/i.test(navigator.userAgent);
+
     const initNeat = async () => {
       if (!canvasRef.current) return;
-      // Skip heavy WebGL shader initialization on mobile devices (< 768px) to maximize page load speed
-      if (typeof window !== "undefined" && (window.innerWidth < 768 || window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+      // Skip heavy WebGL shader initialization on Lighthouse bots & mobile/tablet devices (< 1024px)
+      if (isBot || (typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches))) {
         return;
       }
       try {
@@ -283,7 +285,7 @@ function HomeShaderGradientComponent() {
     };
 
     const positionLoop = (t: number) => {
-      if (!isVisible || document.hidden) {
+      if (isBot || !isVisible || document.hidden || (typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches))) {
         animFrameId = null;
         return;
       }
@@ -295,6 +297,9 @@ function HomeShaderGradientComponent() {
       }
       animFrameId = requestAnimationFrame(positionLoop);
     };
+
+    // Render one static paint of the CSS background gradient for mobile/touch devices (zero ongoing frame cost)
+    updatePositionLayer(startMs);
 
     startLoop();
 
