@@ -106,11 +106,11 @@ function CircleVideoNode({
   return (
     <video
       ref={videoRef}
-      src={src}
+      src={`${src}#t=0.001`}
       loop
       muted
       playsInline
-      preload="metadata"
+      preload="auto"
       className="w-full h-full object-cover rounded-lg pointer-events-none scale-125 transition-transform duration-500"
     >
       <track kind="captions" />

@@ -4197,7 +4197,7 @@
                 "width": 101,
                 "height": 46
               },
-              "snippet": "<button type=\"button\" class=\"backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border bo…\" aria-haspopup=\"listbox\" aria-expanded=\"false\" aria-label=\"MONTH\" id=\"gooey-toggle\">",
+              "snippet": "<button type=\"button\" class=\"   bg-[#a855f71f] border-[#ffffff1a] relative z-50 border bo…\" aria-haspopup=\"listbox\" aria-expanded=\"false\" aria-label=\"MONTH\" id=\"gooey-toggle\">",
               "nodeLabel": "MONTH"
             },
             "subItems": {
@@ -4278,7 +4278,7 @@
                 "width": 89,
                 "height": 46
               },
-              "snippet": "<button type=\"button\" class=\"backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border bo…\" aria-haspopup=\"listbox\" aria-expanded=\"false\" aria-label=\"50 mi\" id=\"gooey-toggle\">",
+              "snippet": "<button type=\"button\" class=\"   bg-[#a855f71f] border-[#ffffff1a] relative z-50 border bo…\" aria-haspopup=\"listbox\" aria-expanded=\"false\" aria-label=\"50 mi\" id=\"gooey-toggle\">",
               "nodeLabel": "50 MI"
             },
             "subItems": {
@@ -5574,7 +5574,7 @@
                 "width": 86,
                 "height": 46
               },
-              "snippet": "<button type=\"button\" class=\"backdrop-blur-xl bg-[#a855f71f] border-[#ffffff1a] relative z-50 border bo…\" aria-haspopup=\"listbox\" aria-expanded=\"false\" aria-label=\"CITY\" id=\"gooey-toggle\">",
+              "snippet": "<button type=\"button\" class=\"   bg-[#a855f71f] border-[#ffffff1a] relative z-50 border bo…\" aria-haspopup=\"listbox\" aria-expanded=\"false\" aria-label=\"CITY\" id=\"gooey-toggle\">",
               "nodeLabel": "CITY"
             },
             "subItems": {
