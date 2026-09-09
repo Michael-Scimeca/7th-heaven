@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 /* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
 /* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
 'use client';
@@ -80,7 +81,7 @@ type ItineraryDay = {
   colorTheme: string;
   photo?: string;
 };
-type Props = { itinerary: ItineraryDay[] };
+type Props = { itinerary: ItineraryDay[]; hideHeader?: boolean };
 
 function CircleVideoNode({
   src,
@@ -234,7 +235,7 @@ const fadeAudioOut = (audio: HTMLAudioElement | null, durationMs = 800) => {
   requestAnimationFrame(fade);
 };
 
-export default function CruiseSnakeItinerary({ itinerary }: Props) {
+export default function CruiseSnakeItinerary({ itinerary, hideHeader = false }: Props) {
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('alternating');
   const [showSettings, setShowSettings] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
@@ -734,10 +735,12 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         }}
       />
       {/* ── Header (Inside Blue Container Box) ── */}
-      <div className="snake-itinerary-header">
-        <span className="snake-itinerary-eyebrow"><span>—</span> Your Voyage <span>—</span></span>
-        <h2 id="itinerary" className="snake-itinerary-title">Official Itinerary</h2>
-      </div>
+      {!hideHeader && (
+        <div className="snake-itinerary-header">
+          <span className="snake-itinerary-eyebrow"><span>—</span> Your Voyage <span>—</span></span>
+          <h2 id="itinerary" className="snake-itinerary-title">Official Itinerary</h2>
+        </div>
+      )}
 
       {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
       {showSettings && mounted && createPortal(

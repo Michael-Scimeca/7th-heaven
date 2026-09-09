@@ -46,6 +46,7 @@ export default function CruiseItinerarySection() {
           <CruiseSnakeItinerary
             key={`itin-${activeItinYear}`}
             itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)}
+            hideHeader
           />
         </div>
       </div>
