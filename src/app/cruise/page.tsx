@@ -20,13 +20,12 @@ import dynamic from "next/dynamic";
 import LazyMount from "@/components/LazyMount";
 
 import CruiseHeroSection from "./components/CruiseHeroSection";
-
-const CruiseCabinsPricingSection = dynamic(() => import("./components/CruiseCabinsPricingSection"), { ssr: false });
-const CruisePortsCatalogSection = dynamic(() => import("./components/CruisePortsCatalogSection"), { ssr: false });
-const CruiseItinerarySection = dynamic(() => import("./components/CruiseItinerarySection"), { ssr: false });
-const CruiseShipExplorerSection = dynamic(() => import("./components/CruiseShipExplorerSection"), { ssr: false });
-const CruiseVideoVaultSection = dynamic(() => import("./components/CruiseVideoVaultSection"), { ssr: false });
-const CruiseFaqSection = dynamic(() => import("./components/CruiseFaqSection"), { ssr: false });
+import CruiseCabinsPricingSection from "./components/CruiseCabinsPricingSection";
+import CruisePortsCatalogSection from "./components/CruisePortsCatalogSection";
+import CruiseItinerarySection from "./components/CruiseItinerarySection";
+import CruiseShipExplorerSection from "./components/CruiseShipExplorerSection";
+import CruiseVideoVaultSection from "./components/CruiseVideoVaultSection";
+import CruiseFaqSection from "./components/CruiseFaqSection";
 
 export default function CruisePage() {
   const supabase = createClient();
