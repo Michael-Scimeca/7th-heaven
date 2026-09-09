@@ -56,14 +56,6 @@ export default function CruiseHeroSection({
         />
       </div>
 
-      {/* Top Dark Gradient Overlay for Nav Header Legibility */}
-      <div
-        className="absolute top-0 left-0 right-0 pointer-events-none z-[1] hero-top-dark-gradient"
-        style={{
-          height: `${heroMaskSettings.topGradientHeight ?? 240}px`,
-          background: `linear-gradient(to bottom, rgba(6, 6, 12, ${(heroMaskSettings.topGradientOpacity ?? 85) / 100}) 0%, rgba(6, 6, 12, ${((heroMaskSettings.topGradientOpacity ?? 85) * 0.45) / 100}) 55%, transparent 100%)`,
-        }}
-      />
 
       {/* Shared across every hero on the site — see src/lib/useHeroParallax.ts */}
       <HeroParallaxCustomizer {...heroParallax} />
