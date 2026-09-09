@@ -165,6 +165,30 @@ export interface SanitySiteSettings {
  navLinks: { href: string; label: string }[];
 }
 
+export interface SanityPageContent {
+  _id: string;
+  _type: "pageContent";
+  pageKey: string;
+  title: string;
+  heroHeading?: string;
+  heroSubheading?: string;
+  heroCtaText?: string;
+  heroCtaLink?: string;
+  sections?: {
+    sectionId?: string;
+    title?: string;
+    subtitle?: string;
+    body?: string;
+    ctaText?: string;
+    ctaLink?: string;
+    image?: SanityImageSource;
+  }[];
+  faqs?: {
+    question: string;
+    answer: string;
+  }[];
+}
+
 // ─── GROQ Queries ───
 export const queries = {
  // News
@@ -191,6 +215,12 @@ export const queries = {
   params: { category },
  }),
 
+ // Page Content
+ pageContentByKey: (pageKey: string) => ({
+  query: `*[_type == "pageContent" && pageKey == $pageKey][0]`,
+  params: { pageKey },
+ }),
+
  // Site Settings (singleton)
  siteSettings: `*[_type == "siteSettings"][0]`,
 };
@@ -199,6 +229,15 @@ export const queries = {
 export async function fetchSanity<T>(query: string, params?: Record<string, unknown>): Promise<T> {
  return sanityClient.fetch<T>(query, params || {});
 }
+
+/**
+ * Fetch dynamic page content by pageKey (e.g. 'home', 'cruise', 'book', 'contact', 'media').
+ */
+export async function fetchPageContent(pageKey: string): Promise<SanityPageContent | null> {
+ const { query, params } = queries.pageContentByKey(pageKey);
+ return sanityClient.fetch<SanityPageContent | null>(query, params);
+}
+
 
 /**
  * Fetch a single band member by slug.
