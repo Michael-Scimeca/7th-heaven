@@ -341,6 +341,21 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       const clone = contentRef.current.cloneNode(true) as HTMLElement;
       clone.style.transform = "none";
       clone.querySelectorAll("iframe").forEach((iframe) => iframe.remove());
+      clone.querySelectorAll("video").forEach((v) => {
+        const poster = v.getAttribute("poster");
+        if (poster) {
+          const img = document.createElement("img");
+          img.src = poster;
+          img.className = v.className;
+          img.style.cssText = v.style.cssText;
+          v.replaceWith(img);
+        } else {
+          try {
+            v.pause();
+          } catch { }
+          v.remove();
+        }
+      });
       snapshotInner.appendChild(clone);
     }
     snapshotOuter.appendChild(snapshotInner);
