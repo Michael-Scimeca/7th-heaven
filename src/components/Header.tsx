@@ -273,13 +273,19 @@ export function Header() {
     // rather than clearing/restoring the transform to measure it.
     const originY = window.innerHeight / 2 - getUntransformedViewportTop(content);
 
+    const isMobileOrTouch = typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches);
+
     if (overlayVisible) {
-      content.style.transition = `transform ${OVERLAY_TRANSITION_MS}ms ${PAGE_RECEDE_EASE}`;
-      content.style.transformOrigin = `50% ${originY}px`;
-      content.style.transform = "scale(1.3) rotate(7deg) translateY(50vh)";
+      if (!isMobileOrTouch) {
+        content.style.transition = `transform ${OVERLAY_TRANSITION_MS}ms ${PAGE_RECEDE_EASE}`;
+        content.style.transformOrigin = `50% ${originY}px`;
+        content.style.transform = "scale(1.3) rotate(7deg) translateY(50vh)";
+      }
     } else {
-      content.style.transition = `transform ${OVERLAY_TRANSITION_MS}ms ${PAGE_RECEDE_EASE}`;
-      content.style.transform = "scale(1) rotate(0deg) translateY(0)";
+      if (!isMobileOrTouch) {
+        content.style.transition = `transform ${OVERLAY_TRANSITION_MS}ms ${PAGE_RECEDE_EASE}`;
+        content.style.transform = "scale(1) rotate(0deg) translateY(0)";
+      }
       const timer = setTimeout(() => {
         content.style.transform = "";
         content.style.transition = "";
