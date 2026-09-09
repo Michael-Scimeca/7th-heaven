@@ -10,7 +10,12 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   const isDashboard = pathname?.startsWith("/admin") || pathname?.startsWith("/crew") || pathname?.startsWith("/planner") || pathname?.startsWith("/studio");
 
   useEffect(() => {
-    const isTouchDevice = typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches);
+    const isTouchDevice = typeof window !== "undefined" && (
+      window.innerWidth < 1024 ||
+      window.matchMedia("(pointer: coarse)").matches ||
+      "ontouchstart" in window ||
+      (navigator && navigator.maxTouchPoints > 0)
+    );
     if (typeof window === "undefined" || isDashboard || isTouchDevice) return;
 
     const lenis = new Lenis({
