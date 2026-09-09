@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Switzer';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+}
+
 html {
   background-color: #05030a;
   color: #ffffff;

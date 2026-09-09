@@ -500,6 +500,8 @@ export function Header() {
               ? "bg-blue-600"
               : "bg-[var(--color-accent)]";
 
+  if (pathname?.startsWith("/studio")) return null;
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none bg-transparent text-white`}
@@ -522,25 +524,23 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-center group transition-colors duration-300 pt-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/"
+            className={`shrink-0 min-w-0 flex items-center justify-center group transition-colors duration-[250ms] pt-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/"
               ? "!text-[#9333ea] active cursor-default"
               : "cursor-pointer"
               }`}
             title="7th Heaven — Go to Home Page">
             <div className="w-[clamp(130px,13.5vw,250px)] h-[clamp(24px,2.5vw,46px)] flex items-center justify-center pointer-events-auto select-none transition-[width,height] duration-150">
-              <Logo className="w-full h-full text-current transition-colors duration-200 pointer-events-auto" />
+              <Logo className="w-full h-full text-current transition-colors duration-[250ms] pointer-events-auto" />
             </div>
           </TransitionLink>
-
-          {/* ── LEFT NAV GROUP (Desktop>= 1024px) ── */}
-          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-5 xl:gap-8 relative z-50">
+          <nav className="hidden md:flex md:flex-1 md:justify-start items-center gap-3 lg:gap-5 xl:gap-8 relative z-50">
             {leftNavLinks.map((link) => {
               const active = isNavActive(link.href);
               return (
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors duration-200 relative ${active ? "!text-[#9333ea] active cursor-default"
+                  className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors duration-200 relative ${active ? "!text-[#9333ea] active cursor-default"
                     : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                     }`}>
                   {link.label}
@@ -550,11 +550,11 @@ export function Header() {
           </nav>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
+          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 md:flex-1 ml-auto shrink-0 relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 z-50 ${isNavActive("/live")
+              className={`hidden md:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 z-50 ${isNavActive("/live")
                 ? "!text-[#9333ea] active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}>
@@ -564,7 +564,7 @@ export function Header() {
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/cruise")
+              className={`hidden md:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/cruise")
                 ? "!text-[#9333ea] active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}>
@@ -574,7 +574,7 @@ export function Header() {
             {/* Book Us link */}
             <TransitionLink
               href="/book"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/book")
+              className={`hidden md:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/book")
                 ? "!text-[#9333ea] active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}>
@@ -584,7 +584,7 @@ export function Header() {
             {/* Contact link */}
             <TransitionLink
               href="/contact"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/contact")
+              className={`hidden md:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/contact")
                 ? "!text-[#9333ea] active cursor-default"
                 : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
                 }`}>
@@ -592,7 +592,7 @@ export function Header() {
             </TransitionLink>
 
             {/* Cart Icon — only shown if something is in cart */}
-            {cartCount> 0 && (
+            {cartCount > 0 && (
               <TransitionLink
                 href="/payment-test"
                 className="relative !text-white/80 hover:!text-[#9333ea] transition-colors p-0.5 mx-0.5 shrink-0 flex items-center justify-center"
@@ -664,7 +664,7 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="flex lg:hidden w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 items-center justify-center relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0 shrink-0"
+              className="flex md:hidden w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 items-center justify-center relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0 shrink-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle">

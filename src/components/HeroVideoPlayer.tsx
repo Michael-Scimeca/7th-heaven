@@ -3,18 +3,17 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
-import dynamic from "next/dynamic";
 import { useHeroParallax } from "@/lib/useHeroParallax";
-const HeroParallaxCustomizer = dynamic(() => import("@/components/HeroParallaxCustomizer"), { ssr: false });
+import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 const emptySubscribe = () => () => { };
 
 // Safe SSR-compatible desktop media query using useSyncExternalStore
 const mqSubscribe = (cb: () => void) => {
-  const mq = typeof window !== "undefined" ? window.matchMedia("(min-width: 768px)") : null;
+  const mq = typeof window !== "undefined" ? window.matchMedia("(min-width: 1024px)") : null;
   mq?.addEventListener("change", cb);
   return () => mq?.removeEventListener("change", cb);
 };
-const mqSnapshot = () => typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
+const mqSnapshot = () => typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches;
 const mqServerSnapshot = () => false; // Server always returns false (no video on SSR)
 import type { ReactNode, ComponentType } from "react";
 import Image from "next/image";
@@ -67,8 +66,7 @@ const GRADIENT_PRESETS = [
 ];
 
 // eslint-disable-next-line react-doctor/no-high-complexity-react-function
-export default function HeroVideoPlayer({ children }: { children?: ReactNode }) {
-  const [sanityContent, setSanityContent] = useState<any>(null);
+export default function HeroVideoPlayer({ children, sanityContent }: { children?: ReactNode; sanityContent?: any }) {
   const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
   const [isVideoFading, setIsVideoFading] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
@@ -76,16 +74,6 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [snapshots, setSnapshots] = useState<string[]>([]);
 
-  useEffect(() => {
-    fetch("/api/page-content?key=home")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data?.success && data?.data) {
-          setSanityContent(data.data);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   // SSR-safe desktop detection — server always returns false, client reads matchMedia
   const isDesktop = useSyncExternalStore(mqSubscribe, mqSnapshot, mqServerSnapshot);

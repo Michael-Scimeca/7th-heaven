@@ -167,6 +167,10 @@ function HomeShaderGradientComponent() {
 
     const initNeat = async () => {
       if (!canvasRef.current) return;
+      // Skip heavy WebGL shader initialization on mobile devices (< 768px) to maximize page load speed
+      if (typeof window !== "undefined" && (window.innerWidth < 768 || window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+        return;
+      }
       try {
         const { NeatGradient } = await import("@firecms/neat");
         if (cancelled || neatInstance || !canvasRef.current) return;
@@ -285,7 +289,7 @@ function HomeShaderGradientComponent() {
       }
       const baseCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40;
       const frameCap = isScrolling ? baseCap * 2 : baseCap;
-      if (t - lastFrameTime > frameCap) {
+      if (t - lastFrameTime> frameCap) {
         updatePositionLayer(t);
         lastFrameTime = t;
       }
@@ -305,7 +309,7 @@ function HomeShaderGradientComponent() {
           const h = 256;
           const intensity = GRADIENT_SETTINGS.grainIntensity;
           ctx.clearRect(0, 0, w, h);
-          if (intensity > 0) {
+          if (intensity> 0) {
             const imgData = ctx.createImageData(w, h);
             const data = imgData.data;
             for (let i = 0; i < data.length; i += 4) {

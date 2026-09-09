@@ -160,13 +160,10 @@ export default function RootLayout({
          * 'Switzer' first, with those fonts kept as the fallback chain if
          * this stylesheet ever fails to load. --font-rockstar (the brand
          * wordmark font) is untouched on purpose. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
-        <link
-          rel="preload"
-          as="style"
-          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
-        />
         <link
           rel="stylesheet"
           href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
