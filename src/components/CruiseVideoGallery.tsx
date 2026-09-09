@@ -207,7 +207,7 @@ export default function CruiseVideoGallery() {
         </p>
 
         {/* Category Filters */}
-        {categories.length> 1 && (
+        {categories.length > 1 && (
           <div className="flex flex-wrap gap-2.5 justify-center mt-8">
             {categories.map(cat => (
               <FoolishShrimpButton
@@ -251,13 +251,13 @@ export default function CruiseVideoGallery() {
                   <CosmicRadialButton
                     icon={false}
                     isActive
-                    className="w-14 h-14 rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    className="w-14 h-14 rounded-full !p-0 flex items-center justify-center">
                     <Play className="w-6 h-6 fill-white text-white ml-0.5" />
                   </CosmicRadialButton>
                 </div>
 
                 <div className="absolute top-3 left-3 z-10">
-                  <SectionBadge label={vid.category} />
+                  <SectionBadge label={vid.category} className="!bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
                 </div>
               </div>
 
@@ -274,10 +274,13 @@ export default function CruiseVideoGallery() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1.5 uppercase text-purple-400 pt-3 border-t border-white/10">
-                  <span>Watch Video Tour</span>
-
+                <div className="pt-3 border-t border-white/10">
+                  <div className="w-full py-2.5 px-4 rounded-xl bg-purple-600/20 group-hover:bg-purple-600/35 border border-purple-400/30 text-purple-200 group-hover:text-white group-hover:border-purple-400/60 font-semibold text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(168,85,247,0.15)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.35)]">
+                    <Play className="w-3.5 h-3.5 fill-purple-300 group-hover:fill-white transition-colors" />
+                    <span>Watch Video Tour</span>
+                  </div>
                 </div>
+
               </div>
             </div>
           ))}

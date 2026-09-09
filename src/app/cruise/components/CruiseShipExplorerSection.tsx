@@ -30,7 +30,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
         </div>
 
         {/* Specs & Dimensions */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 text-left">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 text-left font-bold">
           {[
             { label: "Gross Tonnage", value: "248,663 GT" },
             { label: "Total Length", value: "1,196.9 Feet" },
@@ -80,7 +80,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                  <SectionBadge label={item.category} className="self-start mb-1.5" />
+                  <SectionBadge label={item.category} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
                   <p className="leading-snug">{item.title}</p>
                 </div>
               </div>
@@ -158,7 +158,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
               <div key={food.name} className="relative rounded-lg overflow-hidden group border border-black/10 h-48 md:h-56">
                 <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
                 <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                  <SectionBadge label={food.tag} className="self-start mb-1.5" />
+                  <SectionBadge label={food.tag} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
                   <p className="leading-snug">{food.name}</p>
                 </div>
               </div>
@@ -241,7 +241,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
               <div key={item.name} className="relative overflow-hidden rounded-lg group border border-black/10 h-48 md:h-56">
                 <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                  <SectionBadge label={item.tag} className="self-start mb-1.5" />
+                  <SectionBadge label={item.tag} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
                   <p className="leading-snug">{item.name}</p>
                 </div>
               </div>

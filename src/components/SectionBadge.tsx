@@ -19,6 +19,12 @@ export function SectionBadge({
   ...props
 }: SectionBadgeProps) {
   const isInteractive = Boolean(onClick);
+  const hasCustomBg = className.includes("bg-");
+  const defaultBg = hasCustomBg
+    ? ""
+    : isActive
+      ? "bg-[#e1e6ff29] hover:bg-white/1"
+      : "bg-[#e1e6ff29] hover:bg-white/10";
 
   return (
     <span
@@ -35,13 +41,9 @@ export function SectionBadge({
           }
           : undefined
       }
-      className={`inline-flex items-center justify-center !text-[11px] !leading-[11px] !font-bold uppercase tracking-wider transition-all duration-200 ${isInteractive ? "cursor-pointer active:scale-95 select-none" : ""
-        } ${isActive
-          ? "bg-[#e1e6ff29] text-white border  border-white/10  hover:border-purple-400/50 hover:bg-white/1"
-          : "bg-[#e1e6ff29] text-white border  border-white/10  hover:border-purple-400/50 hover:bg-white/10"
-        } px-3.5 py-1.5 rounded-full whitespace-nowrap w-fit ${className}`}
-      {...props}
-    >
+      className={`inline-flex items-center justify-center !text-[11px] !leading-[11px] font-bold uppercase transition-all duration-200 ${isInteractive ? "cursor-pointer active:scale-95 select-none" : ""
+        } ${defaultBg} text-white border border-white/10 hover:border-purple-400/50 px-3.5 py-1.5 rounded-full whitespace-nowrap w-fit ${className}`}
+      {...props}>
       {children || label}
     </span>
   );
