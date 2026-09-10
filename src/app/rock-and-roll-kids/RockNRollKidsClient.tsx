@@ -441,7 +441,13 @@ export default function RockNRollKidsClient({
               className="w-full h-auto object-contain rounded-xl"
             />
           </div>
-
+          <div className="mt-8 mb-4 text-left w-full">
+            <h2 className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide font-sans mb-3 text-left">
+              {sanityContent?.storyHeading ||
+                sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.title ||
+                "Story & Concept"}
+            </h2>
+          </div>
           {/* Character Roster Info Cards Grid under the image */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left pt-4 mb-12">
             {charactersList.map((char: any) => (
@@ -479,11 +485,7 @@ export default function RockNRollKidsClient({
               {/* LEFT COLUMN: Story Content & Featured Singles Tabs */}
               <div className="lg:col-span-5 space-y-6">
                 <div className="space-y-3">
-                  <h2 className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide font-sans mb-3">
-                    {sanityContent?.storyHeading ||
-                      sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.title ||
-                      "Story & Concept"}
-                  </h2>
+
                   <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed">
                     <p className="font-sans">
                       {sanityContent?.storyParagraph1 ||
