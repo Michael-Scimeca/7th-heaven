@@ -193,6 +193,11 @@ const SEED_PAGE_CONTENTS = [
         body: 'We have been working with a team of skilled people that are helping us build a new animated series based on 7th heaven. The show is based on the band as young kids, who bring positivity to other kids, which are called “The Rock and Roll Kids”. We are working to create this as an animated TV series and comic books, games, apps, videos and original music. In a world filled with so much negativity, we want to bring a breath of fresh air to kids and help influence them in a positive light thru rock and roll music.'
       },
       {
+        sectionId: 'characters',
+        title: 'Character Roster',
+        subtitle: 'Band Members & Cast'
+      },
+      {
         sectionId: 'comics',
         title: 'Comic Books & Publications',
         subtitle: 'Printed Comics & E-Books',
