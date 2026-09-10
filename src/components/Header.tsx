@@ -457,6 +457,23 @@ export function Header() {
                 ? `/cruise/${member?.username || "dashboard"}`
                 : `/fans/${member?.username || "me"}`;
 
+  const studioHref = (() => {
+    if (!pathname || pathname === "/" || pathname.startsWith("/studio")) return "/studio/structure/pageContent;homePage";
+    if (pathname.startsWith("/cruise")) return "/studio/structure/pageContent;caribbeanCruise";
+    if (pathname.startsWith("/live")) return "/studio/structure/pageContent;liveConcertHub";
+    if (pathname.startsWith("/contact")) return "/studio/structure/pageContent;contactUs";
+    if (pathname.startsWith("/media")) return "/studio/structure/pageContent;mediaVault";
+    if (pathname.startsWith("/book")) return "/studio/structure/pageContent;bookUs";
+    if (pathname.startsWith("/fan-photo-wall")) return "/studio/structure/pageContent;fanPhotoWall";
+    if (pathname.startsWith("/rock-and-roll-kids")) return "/studio/structure/pageContent;rockAndRollKids";
+    if (pathname.startsWith("/faq")) return "/studio/structure/pageContent;faqPage";
+    if (pathname.startsWith("/shows")) return "/studio/structure/pageContent;pastShowsArchive";
+    if (pathname.startsWith("/privacy")) return "/studio/structure/pageContent;privacyPolicy";
+    if (pathname.startsWith("/terms")) return "/studio/structure/pageContent;termsOfService";
+    if (pathname.startsWith("/returns")) return "/studio/structure/pageContent;returnsPolicy";
+    return "/studio";
+  })();
+
   const isMichael =
     (displayName && displayName.toLowerCase().includes("michael")) ||
     (member?.email && member.email.toLowerCase().includes("michael")) ||
@@ -829,7 +846,7 @@ export function Header() {
                       { href: "/payment-test", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
                       { href: "/fan-photo-wall", label: "FAN WALL" },
-                      ...(showUserAuth ? [{ href: "/studio", label: "STUDIO" }] : []),
+                      ...(showUserAuth ? [{ href: studioHref, label: "STUDIO" }] : []),
                       { href: "/live", label: "LIVE" },
                       { href: "/cruise", label: "CRUISE" },
                       { href: "/book", label: "BOOK US" },
@@ -839,7 +856,7 @@ export function Header() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase leading-[1.02] transition-colors duration-300 ${link.href === "/studio" ? "underline underline-offset-8 decoration-[#c084fc] decoration-4" : ""} ${effectivePathname === link.href ? "!text-[#c084fc] active cursor-default" : "!text-white hover:!text-[#c084fc] cursor-pointer"
+                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase leading-[1.02] transition-colors duration-300 ${link.href === studioHref ? "underline underline-offset-8 decoration-[#c084fc] decoration-4" : ""} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith("/studio")) ? "!text-[#c084fc] active cursor-default" : "!text-white hover:!text-[#c084fc] cursor-pointer"
                           }`}
                         style={{
                           // exoape's own per-link reveal: rotate:7deg -> 0 and
