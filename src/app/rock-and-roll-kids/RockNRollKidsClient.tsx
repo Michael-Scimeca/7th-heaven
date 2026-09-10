@@ -478,17 +478,24 @@ export default function RockNRollKidsClient({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* LEFT COLUMN: Story Content & Featured Singles Tabs */}
               <div className="lg:col-span-5 space-y-6">
-                <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed">
-                  <p className="font-sans">
-                    {sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "about"
-                    )?.subtitle || ABOUT_DATA.paragraph1}
-                  </p>
-                  <p className="font-normal">
-                    {sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "about"
-                    )?.body || ABOUT_DATA.paragraph2}
-                  </p>
+                <div className="space-y-3">
+                  <h2 className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide font-sans mb-3">
+                    {sanityContent?.storyHeading ||
+                      sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.title ||
+                      "Story & Concept"}
+                  </h2>
+                  <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed">
+                    <p className="font-sans">
+                      {sanityContent?.storyParagraph1 ||
+                        sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.subtitle ||
+                        ABOUT_DATA.paragraph1}
+                    </p>
+                    <p className="font-normal">
+                      {sanityContent?.storyParagraph2 ||
+                        sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.body ||
+                        ABOUT_DATA.paragraph2}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Animated Singles Quick Select Buttons */}

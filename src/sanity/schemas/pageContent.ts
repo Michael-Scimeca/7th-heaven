@@ -31,6 +31,26 @@ const pageContent = {
       rows: 3,
     },
     {
+      name: "storyHeading",
+      title: "Story & Concept Section Heading",
+      type: "string",
+      hidden: ({ document }: any) => document?.pageKey !== "rock-and-roll-kids",
+    },
+    {
+      name: "storyParagraph1",
+      title: "Story / Concept Paragraph 1",
+      type: "text",
+      rows: 4,
+      hidden: ({ document }: any) => document?.pageKey !== "rock-and-roll-kids",
+    },
+    {
+      name: "storyParagraph2",
+      title: "Story / Concept Paragraph 2",
+      type: "text",
+      rows: 4,
+      hidden: ({ document }: any) => document?.pageKey !== "rock-and-roll-kids",
+    },
+    {
       name: "heroCtaText",
       title: "Hero Button Text",
       type: "string",
