@@ -31,7 +31,12 @@ function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
     if (!canvas || typeof IntersectionObserver === "undefined") return;
     const observer = new IntersectionObserver(
       ([entry]) => {
+        const wasVisible = stateRef.current.isVisible;
         stateRef.current.isVisible = entry.isIntersecting;
+        if (entry.isIntersecting && !wasVisible) {
+          cancelAnimationFrame(stateRef.current.rafId);
+          stateRef.current.rafId = requestAnimationFrame((ts) => drawRef.current(ts / 1000));
+        }
       },
       { threshold: 0.05 }
     );
@@ -40,9 +45,8 @@ function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
   }, []);
 
   const draw = useCallback((time: number) => {
-    // Skip off-screen rendering or during page transitions — frees frame budget for main thread
-    if (!stateRef.current.isVisible || (window as any).__pageTransitionActive) {
-      stateRef.current.rafId = requestAnimationFrame((ts) => drawRef.current(ts / 1000));
+    // Stop loop when off-screen, tab hidden, or page transitioning
+    if (!stateRef.current.isVisible || document.hidden || (window as any).__pageTransitionActive) {
       return;
     }
     const canvas = canvasRef.current;

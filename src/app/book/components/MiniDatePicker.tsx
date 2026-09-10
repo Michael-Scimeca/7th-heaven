@@ -94,7 +94,7 @@ export function MiniDatePicker({ label, value, onChange }: MiniDatePickerProps) 
                 {Array.from({ length: daysCount }).map((_, i) => {
                   const d = new Date(year, month, i + 1);
                   d.setHours(0, 0, 0, 0);
-                  const ds = d.toISOString().split('T')[0];
+                  const ds = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
                   const isPast = d < today;
                   const isSel = value === ds;
                   return (

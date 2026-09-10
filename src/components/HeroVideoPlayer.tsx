@@ -339,17 +339,10 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   useEffect(() => {
     const video = videoRef.current;
     if (video && !isYouTube) {
-      const setTimeAt10 = () => {
-        if (video.currentTime < 10) {
-          try { video.currentTime = 10; } catch (_) { }
-        }
-      };
       const handlePlayStart = () => {
-        setTimeAt10();
-        // 3. Smoothly fade back in once new video starts playing
         setIsVideoFading(false);
+        setVideoReady(true);
       };
-      video.addEventListener("loadedmetadata", setTimeAt10, { once: true });
       video.addEventListener("canplay", handlePlayStart, { once: true });
       video.addEventListener("playing", handlePlayStart, { once: true });
       video.load();
@@ -357,9 +350,9 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
         handlePlayStart();
       }).catch(() => {
         setIsVideoFading(false);
+        setVideoReady(true);
       });
       return () => {
-        video.removeEventListener("loadedmetadata", setTimeAt10);
         video.removeEventListener("canplay", handlePlayStart);
         video.removeEventListener("playing", handlePlayStart);
       };

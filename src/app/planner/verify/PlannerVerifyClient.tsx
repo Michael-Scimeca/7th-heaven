@@ -23,7 +23,7 @@ const renderBg = () => (
         pointerEvents: "none"
       }}
     />
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(4px)", zIndex: 1, pointerEvents: "none" }} />
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)", zIndex: 1, pointerEvents: "none" }} />
   </div>
 );
 
@@ -484,6 +484,7 @@ const CONTAINER_STYLE: React.CSSProperties = {
   background: "rgba(10, 10, 18, 0.85)",
   border: "1px solid rgba(168, 85, 247, 0.3)",
   backdropFilter: "blur(24px)",
+  WebkitBackdropFilter: "blur(24px)",
   textAlign: "center",
   boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
   position: "relative",

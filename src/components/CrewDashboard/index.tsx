@@ -1757,74 +1757,77 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   // FakeLiveStream uses `7h_live_${memberId}` so we must match that key exactly.
   const seenBcMsgIds = useRef<Set<string>>(new Set());
   useEffect(() => {
-    if (!userId) return;
-    const bcSlug = defaultMemberId || memberSlug;
-    const channelKey = `7h_live_${bcSlug}`;
-    const bc = new BroadcastChannel(channelKey);
-    bcRef.current = bc;
+    if (!userId || typeof window === "undefined" || typeof BroadcastChannel === "undefined") return;
+    let bc: BroadcastChannel | null = null;
+    try {
+      const bcSlug = defaultMemberId || memberSlug;
+      const channelKey = `7h_live_${bcSlug}`;
+      bc = new BroadcastChannel(channelKey);
+      bcRef.current = bc;
 
-    // Listen for incoming messages from FakeLiveStream (demo chat, etc.)
-    bc.onmessage = (evt) => {
-      const { type, payload } = evt.data ?? {};
-      if (!type) return;
+      // Listen for incoming messages from FakeLiveStream (demo chat, etc.)
+      bc.onmessage = (evt) => {
+        const { type, payload } = evt.data ?? {};
+        if (!type) return;
 
-      if (type === 'CUSTOM_WORDS_SYNC') {
-        setCustomWords(payload);
-      }
+        if (type === 'CUSTOM_WORDS_SYNC') {
+          setCustomWords(payload);
+        }
 
-      if (type === 'CHAT_MSG' && payload) {
-        // Receive chat messages from the fan page demo
-        if (seenBcMsgIds.current.has(payload.id)) return;
-        seenBcMsgIds.current.add(payload.id);
-        setPosts(prev => {
-          if (prev.find(m => m.id === payload.id)) return prev;
-          const next = [...prev, payload as ChatMsg];
-          return next.length > 100 ? next.slice(-100) : next;
-        });
-      }
+        if (type === 'CHAT_MSG' && payload) {
+          // Receive chat messages from the fan page demo
+          if (seenBcMsgIds.current.has(payload.id)) return;
+          seenBcMsgIds.current.add(payload.id);
+          setPosts(prev => {
+            if (prev.find(m => m.id === payload.id)) return prev;
+            const next = [...prev, payload as ChatMsg];
+            return next.length > 100 ? next.slice(-100) : next;
+          });
+        }
 
-      if (type === 'MOD_WARN' && payload) {
-        setWarnedUsers(s => new Set(s).add(payload.username));
-      }
+        if (type === 'MOD_WARN' && payload) {
+          setWarnedUsers(s => new Set(s).add(payload.username));
+        }
 
-      if (type === 'MOD_BAN' && payload) {
-        setBannedUsers(s => new Set(s).add(payload.username));
-      }
+        if (type === 'MOD_BAN' && payload) {
+          setBannedUsers(s => new Set(s).add(payload.username));
+        }
 
-      if (type === 'DELETE_MSG' && payload) {
-        setPosts(prev => prev.filter(p => p.id !== payload.id));
-      }
+        if (type === 'DELETE_MSG' && payload) {
+          setPosts(prev => prev.filter(p => p.id !== payload.id));
+        }
 
-      if (type === 'MOD_SYSTEM_MSG' && payload) {
-        if (seenBcMsgIds.current.has(payload.id)) return;
-        seenBcMsgIds.current.add(payload.id);
-        setPosts(prev => {
-          if (prev.find(m => m.id === payload.id)) return prev;
-          const next = [...prev, payload as ChatMsg];
-          return next.length > 100 ? next.slice(-100) : next;
-        });
-      }
+        if (type === 'MOD_SYSTEM_MSG' && payload) {
+          if (seenBcMsgIds.current.has(payload.id)) return;
+          seenBcMsgIds.current.add(payload.id);
+          setPosts(prev => {
+            if (prev.find(m => m.id === payload.id)) return prev;
+            const next = [...prev, payload as ChatMsg];
+            return next.length > 100 ? next.slice(-100) : next;
+          });
+        }
 
-      if (type === 'VIEWER_COUNT') {
-        setViewerCount(payload);
-      }
+        if (type === 'VIEWER_COUNT') {
+          setViewerCount(payload);
+        }
 
-      if (type === 'ORDER_CREATED' && payload) {
-        setOrders(prev => prev.find(o => o.id === payload.id) ? prev : [payload, ...prev]);
-        showToast(
-          `${payload.customer} purchased ${payload.item}${payload.size ? ` (${payload.size})` : ''} via ${payload.source}!`,
-          'success',
-          '🛍️ New Order Received'
-        );
-        try {
-          const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-500.wav");
-          audio.volume = 0.4;
-          audio.play();
-        } catch { }
-      }
-    };
+        if (type === 'ORDER_CREATED' && payload) {
+          setOrders(prev => prev.find(o => o.id === payload.id) ? prev : [payload, ...prev]);
+          showToast(
+            `${payload.customer} purchased ${payload.item}${payload.size ? ` (${payload.size})` : ''} via ${payload.source}!`,
+            'success',
+            '🛍️ New Order Received'
+          );
+          try {
+            const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-500.wav");
+            audio.volume = 0.4;
+            audio.play();
+          } catch { }
+        }
+      };
+    } catch { }
 
-    return () => { bc.close(); bcRef.current = null; };
+    return () => { try { bc?.close(); } catch { } bcRef.current = null; };
   }, [userId, defaultMemberId, memberSlug]);
 
 

@@ -393,11 +393,11 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
 
                 {/* Viewer + time pills */}
                 <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1fae5" }}>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1fae5" }}>
                     <span className="w-1.5 h-1.5 rounded-lg bg-emerald-400" />
                     {(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers
                   </div>
-                  <div className="px-2.5 py-1 rounded-lg" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
+                  <div className="px-2.5 py-1 rounded-lg" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
                     {getElapsed(room.creationTime)}
                   </div>
                 </div>

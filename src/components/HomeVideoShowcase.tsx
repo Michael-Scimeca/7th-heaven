@@ -296,7 +296,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
       // carousel is scrolled out of view (see isInViewRef above).
       let animId: number | null = null;
       const renderLoop = () => {
-        if (!isInViewRef.current) {
+        if (!isInViewRef.current || document.hidden) {
           animId = null;
           return;
         }
@@ -308,17 +308,21 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
       };
 
       const startLoopIfNeeded = () => {
-        if (isInViewRef.current && !animId) {
+        if (isInViewRef.current && !document.hidden && !animId) {
           // eslint-disable-next-line react-doctor/three-prefer-set-animation-loop
           animId = requestAnimationFrame(renderLoop);
         }
       };
 
       startLoopIfNeeded();
-      const intervalId = setInterval(startLoopIfNeeded, 500);
+
+      const onVisChange = () => {
+        if (!document.hidden && isInViewRef.current) startLoopIfNeeded();
+      };
+      document.addEventListener("visibilitychange", onVisChange);
 
       return () => {
-        clearInterval(intervalId);
+        document.removeEventListener("visibilitychange", onVisChange);
         if (animId) cancelAnimationFrame(animId);
         try {
           smooothyInstanceRef.current?.destroy?.();

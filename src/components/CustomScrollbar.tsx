@@ -111,16 +111,10 @@ export default function CustomScrollbar({
     });
     ro.observe(el);
 
-    const mo = new MutationObserver(() => {
-      setTimeout(updateThumb, 50);
-    });
-    mo.observe(el, { childList: true, subtree: true });
-
     return () => {
       clearTimeout(timer);
       el.removeEventListener("scroll", onScroll);
       ro.disconnect();
-      mo.disconnect();
       cancelAnimationFrame(rafRef.current);
     };
   }, [updateThumb]);
@@ -265,6 +259,7 @@ export default function CustomScrollbar({
             bottom: (showHorizontal && hasScrollableX) ? thumbWidth + 8 : 4,
             width: 7,
             backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
             borderRadius: 9999,
             cursor: "pointer",
             zIndex: 100,
@@ -288,6 +283,7 @@ export default function CustomScrollbar({
               cursor: isDragging ? "grabbing" : "grab",
               pointerEvents: "auto",
               backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
 
             }}
           />

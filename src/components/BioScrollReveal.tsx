@@ -54,9 +54,6 @@ function BioScrollRevealComponent({
       });
     }, containerRef);
 
-    // Refresh triggers to ensure correct layout calculations
-    ScrollTrigger.refresh();
-
     return () => {
       ctx.revert();
     };

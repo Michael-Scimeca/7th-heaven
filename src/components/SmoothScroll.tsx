@@ -33,7 +33,9 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     let rafId: number;
     function raf(time: number) {
-      lenis.raf(time);
+      if (!document.hidden) {
+        lenis.raf(time);
+      }
       rafId = requestAnimationFrame(raf);
     }
     rafId = requestAnimationFrame(raf);

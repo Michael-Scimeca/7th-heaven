@@ -119,7 +119,9 @@ export default function Preloader() {
         duration: WIPE_DURATION,
         ease: EXO_EASE,
         onUpdate: () => {
-          overlay.style.clipPath = buildDecayingSlantClipPath(proxy.p, WIPE_SLANT_RATIO);
+          const clipVal = buildDecayingSlantClipPath(proxy.p, WIPE_SLANT_RATIO);
+          overlay.style.clipPath = clipVal;
+          (overlay.style as any).webkitClipPath = clipVal;
         },
         onComplete: () => {
           if (cancelled) return;

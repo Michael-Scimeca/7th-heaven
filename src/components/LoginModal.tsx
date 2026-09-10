@@ -1,5 +1,6 @@
 "use client";
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 /* oxlint-disable react-doctor/no-giant-component */
 
 import { useReducer, useEffect, useCallback, useRef, useState } from "react";
@@ -224,8 +225,6 @@ export default function LoginModal() {
     prevIsOpenRef.current = isModalOpen;
   }, [isModalOpen, modalLoginRole, setLoginRole]);
 
-  // DEBUG: Track modalMode changes
-  console.log('[LoginModal] render — modalMode:', modalMode, '| isModalOpen:', isModalOpen);
 
   if (!isModalOpen) return null;
 

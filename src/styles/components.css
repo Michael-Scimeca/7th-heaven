@@ -1,0 +1,305 @@
+/* =============================================
+   FEATURE & COMPONENT SPECIFIC STYLES
+   ============================================= */
+
+/* AuroraText */
+.aurora-text-aurora {
+  background-size: 200% auto;
+  animation-name: aurora-gradient-spin;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* GooeyDropdown */
+.gooey-drop-wrap {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+.gooey-drop-wrap[data-open="true"] {
+  z-index: 9999 !important;
+}
+
+.gooey-drop-portalRoot {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.gooey-drop-svgDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.gooey-drop-shapes {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gooey-drop-triggerShape,
+.gooey-drop-panelShape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+
+.gooey-drop-triggerShape {
+  border-radius: 999px;
+}
+
+.gooey-drop-panelShape,
+.gooey-drop-triggerShape {
+  transition: none;
+}
+
+.gooey-drop-content {
+  position: relative;
+  z-index: 1;
+}
+
+.gooey-drop-trigger {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.gooey-drop-chevron {
+  transition: transform 320ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.gooey-drop-chevron[data-open="true"] {
+  transform: rotate(180deg);
+}
+
+.gooey-drop-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  list-style: none;
+  margin: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.gooey-drop-menu[data-open="true"] {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.gooey-drop-menu li {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 220ms ease, transform 220ms ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.gooey-drop-menu li:last-child {
+  border-bottom: none;
+}
+
+.gooey-drop-menu[data-open="true"] li {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gooey-drop-menu a,
+.gooey-drop-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: inherit;
+  transition: background-color 150ms ease;
+}
+
+.gooey-drop-menu a:hover,
+.gooey-drop-menu button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* GooeyMessagesDropdown */
+.gooey-msg-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.gooey-msg-trigger {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: #1a1a1a;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  transition: transform 200ms ease;
+}
+
+.gooey-msg-trigger:hover {
+  transform: scale(1.05);
+}
+
+.gooey-msg-portalRoot {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  font-family: "Inter", var(--font-inter, sans-serif);
+}
+
+.gooey-msg-svgDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.gooey-msg-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.gooey-msg-buttonShape,
+.gooey-msg-panelShape {
+  position: absolute;
+  background: #a855f71f !important;
+}
+
+.gooey-msg-buttonShape {
+  border-radius: 999px;
+}
+
+.gooey-msg-panelShape {
+  transition: width 420ms cubic-bezier(0.65, 0, 0.35, 1), height 420ms cubic-bezier(0.65, 0, 0.35, 1), left 420ms cubic-bezier(0.65, 0, 0.35, 1), top 420ms cubic-bezier(0.65, 0, 0.35, 1), border-radius 420ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.gooey-msg-panel {
+  position: absolute;
+  background: transparent;
+  padding: 12px 20px 20px;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 220ms ease 80ms, transform 220ms ease 80ms;
+}
+
+.gooey-msg-panel[data-open="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* DirectMessageChat */
+.dm-chat-svgDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.dm-chat-shapes {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dm-chat-triggerShape,
+.dm-chat-panelShape {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.dm-chat-triggerShape {
+  border-radius: 999px;
+}
+
+.dm-chat-panelShape {
+  transition: width 420ms cubic-bezier(0.65, 0, 0.35, 1), height 420ms cubic-bezier(0.65, 0, 0.35, 1), bottom 420ms cubic-bezier(0.65, 0, 0.35, 1), border-radius 420ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* CruiseSnakeItinerary */
+.snake-itinerary-root {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  box-sizing: border-box;
+  background: transparent;
+  overflow-y: visible;
+  position: relative;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(transparent 0px, black 30px, black calc(100% - 140px), transparent 100%);
+  mask-image: linear-gradient(transparent 0px, black 30px, black calc(100% - 140px), transparent 100%);
+  background-image: linear-gradient(transparent 0%, rgb(6, 11, 24) 90px, rgb(10, 20, 44) 50%, rgb(6, 11, 24) calc(100% - 160px), transparent 100%);
+}
+
+.snake-itinerary-waterCurrent {
+  animation: flowCurrent 3s linear infinite;
+}
+
+.snake-itinerary-waterHighlight {
+  animation: flowHighlight 2s linear infinite;
+}
+
+.snake-itinerary-header {
+  text-align: center;
+  margin-bottom: 56px;
+  position: relative;
+  z-index: 1;
+}
+
+.snake-itinerary-eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  margin-bottom: 16px;
+}
+
+.snake-itinerary-title {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1;
+}

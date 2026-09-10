@@ -29,30 +29,18 @@ export async function waitForPageReady(): Promise<void> {
     } catch {}
   }
 
-  // 2. Fast DOM text / layout ready check
+  // 2. Fast paint readiness check via double requestAnimationFrame (no synchronous .innerText reflow)
   return new Promise<void>((resolve) => {
-    let resolved = false;
-    const finish = () => {
-      if (resolved) return;
-      resolved = true;
-      clearTimeout(deadline);
-      poll(() => resolve());
-    };
-
-    const deadline = setTimeout(finish, MAX_WAIT_MS);
-
-    const check = () => {
-      if (resolved) return;
-      const target = document.querySelector("main") || document.body;
-      const textLength = (target.innerText || target.textContent || "").trim().length;
-
-      if (textLength> 10) {
-        finish();
-      } else {
-        poll(check);
-      }
-    };
-
-    poll(check);
+    if (typeof window === "undefined") {
+      resolve();
+      return;
+    }
+    const deadline = setTimeout(resolve, MAX_WAIT_MS);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        clearTimeout(deadline);
+        resolve();
+      });
+    });
   });
 }

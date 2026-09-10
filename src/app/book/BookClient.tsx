@@ -648,11 +648,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
           // Persist phone number to user account if logged in
           if (isLoggedIn && member && formData.phone) {
-            const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
-            if (accounts[member.email]) {
-              accounts[member.email].phone = formData.phone;
-              localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
-            }
+            try {
+              const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
+              if (accounts[member.email]) {
+                accounts[member.email].phone = formData.phone;
+                localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
+              }
+            } catch { }
           }
 
           // Stripe mode: redirect to Stripe Checkout

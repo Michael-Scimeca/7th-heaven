@@ -2063,8 +2063,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     </div>
 
                     {/* Gradient Blur Fade Overlays */}
-                    <div className="pointer-events-none absolute top-[44px] left-0 right-0 h-6 backdrop-blur-[9px] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] z-10" />
-                    <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 backdrop-blur-[9px] [mask-image:linear-gradient(to_top,black_0%,transparent_100%)] z-10" />
+                    <div className="pointer-events-none absolute top-[44px] left-0 right-0 h-6 backdrop-blur-[9px] [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] z-10" />
+                    <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 backdrop-blur-[9px] [mask-image:linear-gradient(to_top,black_0%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_top,black_0%,transparent_100%)] z-10" />
 
                     <CustomScrollbar className="flex-1 min-h-0 flex flex-col gap-0.5" direction="vertical">
                       {(() => {

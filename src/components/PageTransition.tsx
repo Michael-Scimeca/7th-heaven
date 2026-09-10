@@ -363,18 +363,37 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     snapshotOuter.appendChild(snapshotOverlay);
     document.body.appendChild(snapshotOuter);
 
+    const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+
+    // Pre-apply clip-path and initial transforms synchronously BEFORE router.push
+    // to prevent 1-frame unclipped render flicker
+    const initialExitClip = s.clipExitPath
+      ? buildExitClipPath(0, s.exitSlantRatio, s.exitFlipSlant, vh)
+      : "none";
+    snapshotOuter.style.clipPath = initialExitClip;
+    (snapshotOuter.style as any).webkitClipPath = initialExitClip;
+
+    if (outerRef.current) {
+      outerRef.current.style.willChange = "clip-path";
+      const initialRevealClip = s.clipRevealPath
+        ? buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant, vh)
+        : "none";
+      outerRef.current.style.clipPath = initialRevealClip;
+      (outerRef.current.style as any).webkitClipPath = initialRevealClip;
+    }
+
     if (contentRef.current) {
       contentRef.current.style.willChange = "transform";
       contentRef.current.style.transformOrigin = s.revealOrigin || "center center";
-    }
-    if (outerRef.current) {
-      outerRef.current.style.willChange = "clip-path";
+      const curY = s.revealY ?? 100;
+      const curRot = s.revealRotation ?? 4;
+      const curX = s.revealX || 0;
+      const curScale = s.revealScale || 1.0;
+      contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
     }
 
     // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
     router.push(pendingHref);
-    // Defer scrollTo by one rAF — calling it on the same frame as router.push
-    // forces a layout recalc that interrupts the compositor and causes a click/flash
     if (typeof window !== "undefined") {
       requestAnimationFrame(() => window.scrollTo(0, 0));
     }
@@ -391,9 +410,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
       // 1. Snapshot outer clip path & inner transform
       if (snapshotOuter) {
-        snapshotOuter.style.clipPath = s.clipExitPath
+        const exitClip = s.clipExitPath
           ? buildExitClipPath(p, s.exitSlantRatio, s.exitFlipSlant, vh)
           : "none";
+        snapshotOuter.style.clipPath = exitClip;
+        (snapshotOuter.style as any).webkitClipPath = exitClip;
       }
 
       if (snapshotInner) {
@@ -413,9 +434,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
       // 2. Incoming page clip path
       if (outerRef.current) {
-        outerRef.current.style.clipPath = s.clipRevealPath
+        const revealClip = s.clipRevealPath
           ? buildRevealClipPath(p, s.revealSlantRatio, s.revealFlipSlant, vh)
           : "none";
+        outerRef.current.style.clipPath = revealClip;
+        (outerRef.current.style as any).webkitClipPath = revealClip;
       }
 
       // 3. Incoming page contentRef transform (y: 100 -> 0, rotation: 4 -> 0)
@@ -441,6 +464,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
         if (outerRef.current) {
           outerRef.current.style.clipPath = "";
+          (outerRef.current.style as any).webkitClipPath = "";
           outerRef.current.style.willChange = "";
         }
         if (contentRef.current) {
@@ -675,7 +699,12 @@ function TransitionTunerPanel({
   useEffect(() => {
     if (typeof window !== "undefined") {
       const search = window.location.search;
-      if (search.includes("tuner=true") || search.includes("tuner=1")) {
+      if (search.includes("tuner=false")) return;
+      if (
+        search.includes("tuner") ||
+        window.location.hostname === "localhost" ||
+        process.env.NODE_ENV === "development"
+      ) {
         setIsVisible(true);
       }
     }

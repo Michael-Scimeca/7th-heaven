@@ -1247,7 +1247,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         {/* ── TOP BAR ── */}
         <div
           className="shrink-0 flex items-center justify-between gap-2 site-container"
-          style={{ backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           {/* Left */}
           <div className="flex items-center gap-3 min-w-0">
             <Link
@@ -1431,7 +1431,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                     <div
                       className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold animate-in fade-in"
-                      style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.85)' }}>
+                      style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.85)' }}>
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
                       </svg>
@@ -1452,6 +1452,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   style={{
                     background: 'rgba(0,0,0,0.6)',
                     backdropFilter: 'blur(8px)',
+                    WebkitBackdropFilter: 'blur(8px)',
                     color: reactionsVisible ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.3)',
                   }}>
                   {reactionsVisible ? 'Hide Reactions' : 'Show Reactions'}
@@ -1462,7 +1463,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               <div className="absolute top-2 sm:top-3 right-2 sm:right-3 z-30">
                 <div
                   className="px-2.5 py-1 rounded-lg r"
-                  style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.8)' }}>
+                  style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.8)' }}>
                   ⏱ {formatTime(elapsed)}
                 </div>
               </div>
@@ -1481,6 +1482,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       style={{
                         background: 'linear-gradient(135deg, rgba(88,28,135,0.8), rgba(255,10,61,0.4))',
                         backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
                       }}>
                       <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)] animate-ping shrink-0" />
                       <span className="text-[var(--color-accent)] shrink-0">Now Playing:</span>
@@ -1659,6 +1661,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       style={{
                         background: 'rgba(0,0,0,0.88)',
                         backdropFilter: 'blur(16px)',
+                        WebkitBackdropFilter: 'blur(16px)',
                         border: `1px solid ${activeMerchDrop.product.color}55`,
                         boxShadow: `0 0 30px ${activeMerchDrop.product.color}22`,
                       }}>
@@ -1735,6 +1738,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   style={{
                     background: 'rgba(0,0,0,0.82)',
                     backdropFilter: 'blur(14px)',
+                    WebkitBackdropFilter: 'blur(14px)',
                     border: `1px solid ${spotlight.account.color}55`,
                     boxShadow: `0 0 24px ${spotlight.account.color}18`,
                   }}>
@@ -2401,6 +2405,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               className="w-full lg:w-[360px] xl:w-[400px] flex-1 lg:flex-none flex flex-col min-h-0 overflow-hidden"
               style={{
                 backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
                 borderLeft: '1px solid rgba(255,255,255,0.08)',
               }}>
               {/* Chat header with Tab toggling */}

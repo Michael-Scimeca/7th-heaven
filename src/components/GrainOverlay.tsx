@@ -3,5 +3,5 @@
  * Pure CSS pseudo-element, pointer-events disabled so it never blocks clicks.
  */
 export function GrainOverlay() {
-  return <div className="grain-overlay" aria-hidden="true" />;
+  return null;
 }

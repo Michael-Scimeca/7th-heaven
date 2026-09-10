@@ -1,0 +1,64 @@
+/* =============================================
+   PAGE TRANSITIONS, KEYFRAMES & PRELOADER ANIMATIONS
+   ============================================= */
+
+@keyframes aurora-gradient-spin {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+  }
+  25% {
+    background-position: 50% 100%;
+    transform: rotate(5deg) scale(1.1);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: rotate(-3deg) scale(0.95);
+  }
+  75% {
+    background-position: 50% 0%;
+    transform: rotate(3deg) scale(1.05);
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+  }
+}
+
+@keyframes flowCurrent {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -120;
+  }
+}
+
+@keyframes flowHighlight {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -192;
+  }
+}
+
+/* Conic Border Light Beam Animation */
+@keyframes borderBeamRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Map Marker Bounce Animation */
+@keyframes markerBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}

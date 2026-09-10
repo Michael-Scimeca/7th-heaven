@@ -16,7 +16,6 @@ import Providers from "@/components/Providers";
 import DraftModeExtras from "@/components/DraftModeExtras";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import SmoothScroll from "@/components/SmoothScroll";
-import { GrainOverlay } from "@/components/GrainOverlay";
 import Preloader from "@/components/Preloader";
 import PageTransition from "@/components/PageTransition";
 import dynamic from "next/dynamic";
@@ -48,6 +47,7 @@ const PRELOAD_SCRIPT_CONTENT = "";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://7thheavenband.com"),
+  manifest: "/manifest.json",
   title: "7th Heaven — Official Website",
   description:
     "7th heaven is an experience you just have to see and hear! Charted #1 on the Midwest Billboard Charts three times with 7 major radio hits. 40 years of rocking the world.",

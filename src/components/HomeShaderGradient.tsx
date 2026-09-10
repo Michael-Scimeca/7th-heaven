@@ -203,7 +203,7 @@ function HomeShaderGradientComponent() {
             links.forEach((l) => l.remove());
           }
           document.querySelectorAll('a[href*="neat"], a[href*="firecms"], .neat-link').forEach((l) => l.remove());
-        }, 50);
+        }, 100);
       } catch (e) {
         console.warn("NeatGradient init fallback:", e);
       }
@@ -395,6 +395,7 @@ function HomeShaderGradientComponent() {
     };
 
     return cleanupWebGL;
+    // eslint-disable-next-line react-doctor/exhaustive-deps
   }, [isMobileOrTablet]);
 
   // Pause the gradient while a page transition is covering the screen --

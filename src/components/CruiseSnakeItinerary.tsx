@@ -106,7 +106,7 @@ function CircleVideoNode({
   return (
     <video
       ref={videoRef}
-      src={`${src}#t=0.001`}
+      src={src}
       loop
       muted
       playsInline

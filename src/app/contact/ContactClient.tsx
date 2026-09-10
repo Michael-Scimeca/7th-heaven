@@ -188,8 +188,7 @@ export default function ContactClient({
             return (
               <div
                 key={photo.id}
-                className={`absolute inset-0 transition-[opacity,transform,filter] duration-500 ease-out flex items-end justify-end ${isActive ? "opacity-100 scale-100 filter-none"
-                  : "opacity-0 scale-95 filter blur-sm"
+                className={`absolute inset-0 transition-opacity duration-300 ease-out flex items-end justify-end ${isActive ? "opacity-100 z-10 pointer-events-auto" : "opacity-0 z-0 pointer-events-none"
                   }`}>
                 <picture className="w-full h-full flex items-end justify-end pointer-events-none">
                   <source media="(max-width: 768px)" srcSet={photo.mobile} />
@@ -198,7 +197,10 @@ export default function ContactClient({
                   <img
                     src={photo.desktop}
                     alt={photo.alt}
-                    className={`max-w-full max-h-full object-contain object-bottom pointer-events-none drop-  origin-bottom-right ${photo.scaleClass}`}
+                    loading="eager"
+                    fetchPriority={isActive ? "high" : "low"}
+                    decoding="sync"
+                    className={`max-w-full max-h-full object-contain object-bottom pointer-events-none origin-bottom-right ${photo.scaleClass}`}
                   />
                 </picture>
               </div>

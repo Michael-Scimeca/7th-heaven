@@ -171,10 +171,11 @@ export function useHeroParallax({
       // the whole transform and the zoom never drops.
       gsap.fromTo(
         media,
-        { yPercent: -pxRange, scale },
+        { yPercent: -pxRange, scale, force3D: true },
         {
           yPercent: pxRange,
           scale,
+          force3D: true,
           ease: "none",
           scrollTrigger: {
             trigger: triggerSelector,
@@ -191,9 +192,10 @@ export function useHeroParallax({
       if (pxForeground && foregroundRef?.current) {
         gsap.fromTo(
           foregroundRef.current,
-          { yPercent: halfRange },
+          { yPercent: halfRange, force3D: true },
           {
             yPercent: -halfRange,
+            force3D: true,
             ease: "none",
             scrollTrigger: {
               trigger: triggerSelector,
@@ -204,11 +206,6 @@ export function useHeroParallax({
           }
         );
       }
-
-      const rafId = requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
-      return () => cancelAnimationFrame(rafId);
     });
 
     return () => ctx.revert();
