@@ -556,9 +556,9 @@ export function Header() {
             {showUserAuth && (
               <TransitionLink
                 href="/studio"
-                className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors duration-200 relative ${isNavActive("/studio")
-                  ? "!text-[#9333ea] active cursor-default"
-                  : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+                className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-all duration-200 relative inline-flex items-center pb-0.5 border-b-2 ${isNavActive("/studio")
+                  ? "!text-[#c084fc] border-[#c084fc] active cursor-default"
+                  : "!text-[#c084fc] hover:!text-white border-[#c084fc]/70 hover:border-white cursor-pointer"
                   }`}>
                 STUDIO
               </TransitionLink>
@@ -839,7 +839,7 @@ export function Header() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase leading-[1.02] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc] active cursor-default" : "!text-white hover:!text-[#c084fc] cursor-pointer"
+                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase leading-[1.02] transition-colors duration-300 ${link.href === "/studio" ? "underline underline-offset-8 decoration-[#c084fc] decoration-4" : ""} ${effectivePathname === link.href ? "!text-[#c084fc] active cursor-default" : "!text-white hover:!text-[#c084fc] cursor-pointer"
                           }`}
                         style={{
                           // exoape's own per-link reveal: rotate:7deg -> 0 and
