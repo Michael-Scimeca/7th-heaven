@@ -53,7 +53,6 @@ const ALL_SITE_ROUTES: RouteItem[] = [
   { path: "/fans/complete-profile", type: "Static", label: "Complete Fan Profile", category: "Fan Portal", icon: UserCheck },
   { path: "/fans/sample_fan", type: "Dynamic", label: "Fan Profile View", category: "Fan Portal", icon: UserCheck },
   { path: "/fan-photo-wall", type: "Static", label: "Fan Photo Wall", category: "Fan Portal", icon: UserCheck },
-  { path: "/picks", type: "Static", label: "Guitar Pick Collector", category: "Fan Portal", icon: Sparkles },
   { path: "/planner", type: "Static", label: "Show Planner Portal", category: "Fan Portal", icon: UserCheck },
   { path: "/planner/verify", type: "Static", label: "Planner Verification", category: "Fan Portal", icon: UserCheck },
 
