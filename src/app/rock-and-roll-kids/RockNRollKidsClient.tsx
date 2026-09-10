@@ -441,12 +441,24 @@ export default function RockNRollKidsClient({
               className="w-full h-auto object-contain rounded-xl"
             />
           </div>
-          <div className="mt-8 mb-4 text-left w-full">
+          <div className="mt-8 mb-8 text-left w-full space-y-3">
             <h2 className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide font-sans mb-3 text-left">
               {sanityContent?.storyHeading ||
                 sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.title ||
                 "Story & Concept"}
             </h2>
+            <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed max-w-4xl">
+              <p className="font-sans">
+                {sanityContent?.storyParagraph1 ||
+                  sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.subtitle ||
+                  ABOUT_DATA.paragraph1}
+              </p>
+              <p className="font-normal">
+                {sanityContent?.storyParagraph2 ||
+                  sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.body ||
+                  ABOUT_DATA.paragraph2}
+              </p>
+            </div>
           </div>
           {/* Character Roster Info Cards Grid under the image */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left pt-4 mb-12">
@@ -479,25 +491,18 @@ export default function RockNRollKidsClient({
         </section>
 
         <div className="site-container space-y-16">
-          {/* ── UNIFIED HERO SHOWCASE: ABOUT & CONCEPT (LEFT) + VIDEO MATRIX (RIGHT) ── */}
+          {/* ── UNIFIED VIDEO MATRIX SHOWCASE ── */}
           <section className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              {/* LEFT COLUMN: Story Content & Featured Singles Tabs */}
+              {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
               <div className="lg:col-span-5 space-y-6">
                 <div className="space-y-3">
-
-                  <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed">
-                    <p className="font-sans">
-                      {sanityContent?.storyParagraph1 ||
-                        sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.subtitle ||
-                        ABOUT_DATA.paragraph1}
-                    </p>
-                    <p className="font-normal">
-                      {sanityContent?.storyParagraph2 ||
-                        sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.body ||
-                        ABOUT_DATA.paragraph2}
-                    </p>
-                  </div>
+                  <h3 className="text-white text-xl sm:text-2xl font-bold uppercase tracking-wide font-sans mb-1">
+                    Featured Animated Singles
+                  </h3>
+                  <p className="text-white/70 text-sm">
+                    Select a song below to switch the animated music video player.
+                  </p>
                 </div>
 
                 {/* Animated Singles Quick Select Buttons */}
