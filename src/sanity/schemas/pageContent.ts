@@ -136,6 +136,7 @@ const pageContent = {
       name: "musicSingles",
       title: "Music Singles / Videos",
       type: "array",
+      hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
       of: [
         {
           type: "object",
@@ -183,6 +184,7 @@ const pageContent = {
       name: "faqs",
       title: "Page FAQs",
       type: "array",
+      hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
       of: [
         {
           type: "object",
