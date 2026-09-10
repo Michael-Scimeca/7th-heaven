@@ -63,13 +63,13 @@ const pageContent = {
       name: "heroCtaText",
       title: "Hero Button Text",
       type: "string",
-      hidden: ({ document }: any) => document?.pageKey === "rock-and-roll-kids" || document?.title?.toLowerCase()?.includes("rock"),
+      hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
     },
     {
       name: "heroCtaLink",
       title: "Hero Button Link",
       type: "string",
-      hidden: ({ document }: any) => document?.pageKey === "rock-and-roll-kids" || document?.title?.toLowerCase()?.includes("rock"),
+      hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
     },
     {
       name: "heroBannerImage",
@@ -92,8 +92,18 @@ const pageContent = {
             { name: "title", title: "Section Title", type: "string" },
             { name: "subtitle", title: "Section Subtitle", type: "string" },
             { name: "body", title: "Body Copy", type: "text", rows: 4 },
-            { name: "ctaText", title: "CTA Button Text", type: "string" },
-            { name: "ctaLink", title: "CTA Button Link", type: "string" },
+            {
+              name: "ctaText",
+              title: "CTA Button Text",
+              type: "string",
+              hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
+            },
+            {
+              name: "ctaLink",
+              title: "CTA Button Link",
+              type: "string",
+              hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
+            },
             { name: "image", title: "Section Image", type: "image", options: { hotspot: true } },
           ],
           preview: {
