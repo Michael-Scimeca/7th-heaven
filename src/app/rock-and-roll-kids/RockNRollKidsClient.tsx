@@ -566,10 +566,12 @@ export default function RockNRollKidsClient({
           <section className="space-y-6 pt-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
               <div>
-
-                <h2 className="text-white font-sans text-2xl sm:text-3xl font-bold uppercase">
+                <h2 className="text-white font-sans text-2xl sm:text-3xl font-bold uppercase mb-1">
                   {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
                 </h2>
+                <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl mt-1.5">
+                  {comicsSection?.subtitle || comicsSection?.body || "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
+                </p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -628,10 +630,12 @@ export default function RockNRollKidsClient({
           <section className="space-y-6 pt-6 border-t border-white/10">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
               <div>
-
-                <h2 className="font-sans text-white text-2xl sm:text-3xl font-bold uppercase">
+                <h2 className="font-sans text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
                   {foundersSection?.title || "Series Founders & Contact"}
                 </h2>
+                <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl mt-1.5">
+                  {foundersSection?.subtitle || foundersSection?.body || "Meet the series creators and art team behind 7th Heaven & The Rock 'n' Roll Kids."}
+                </p>
               </div>
             </div>
 
