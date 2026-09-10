@@ -23,9 +23,9 @@ export default function ExoTextReveal({
 
   return (
     <Tag className={`exo-text-reveal ${className}`}>
-      {lineArray.map((line, idx) => (
+      {lineArray.map((line) => (
         <span
-          key={`line-${idx}-${line.slice(0, 10)}`}
+          key={`line-${line}`}
           className="exo-text-line-wrap block overflow-hidden py-[0.05em] transform-gpu"
         >
           <span className="exo-text-line-inner block transform-gpu">
