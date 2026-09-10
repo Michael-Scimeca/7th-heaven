@@ -450,9 +450,6 @@ export default function RockNRollKidsClient({
               <p className="font-sans">
                 {aboutSection?.subtitle || ABOUT_DATA.paragraph1}
               </p>
-              <p className="font-normal">
-                {aboutSection?.body || ABOUT_DATA.paragraph2}
-              </p>
             </div>
           </div>
           {/* Character Roster Info Cards Grid under the image */}
@@ -562,24 +559,14 @@ export default function RockNRollKidsClient({
 
           {/* ── COMIC BOOKS & EPISODES CATALOG (12 ITEMS GRID) ── */}
           <section className="space-y-6 pt-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="border-b border-white/10 pb-4">
               <div>
                 <h2 className="text-white font-sans text-2xl sm:text-3xl font-bold uppercase mb-1">
                   {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
                 </h2>
                 <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl mt-1.5">
-                  {comicsSection?.subtitle || comicsSection?.body || "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
+                  {comicsSection?.subtitle || "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
                 </p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <a
-                  href={comicsSection?.ctaLink || "https://www.amazon.com/dp/B096TJNDWR"}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  <FoolishShrimpButton>
-                    {comicsSection?.ctaText || "Paperback Book Series on Amazon"}
-                  </FoolishShrimpButton>
-                </a>
               </div>
             </div>
 
