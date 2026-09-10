@@ -186,25 +186,35 @@ export const SparkleGenerateButton = React.forwardRef<
         const p = circleTemplate.cloneNode(true) as SVGCircleElement;
         dotsSvg.appendChild(p);
 
+        const initialR = gsap.utils.random(0.8, 1.6);
+        const startX = gsap.utils.random(width * 0.15, width * 0.85);
+        const startY = height * 0.5;
+
+        // Set initial SVG geometry ONCE (no layout recalculations during loop)
         gsap.set(p, {
           attr: {
-            cx: gsap.utils.random(width * 0.15, width * 0.85),
-            cy: height * 0.5,
-            r: 0,
+            cx: startX,
+            cy: startY,
+            r: initialR,
           },
+          x: 0,
+          y: 0,
+          scale: 1,
+          transformOrigin: "center center",
         });
 
         const durationRandom = gsap.utils.random(5, 7);
+        const targetY = -height * gsap.utils.random(0.2, 0.5);
+
+        // Animate purely using hardware-accelerated CSS transforms (x, y, scale)
         const tl = gsap.timeline();
         tl.to(
           p,
           {
             duration: durationRandom,
             rotation: i % 2 === 0 ? 100 : -100,
-            attr: {
-              r: gsap.utils.random(0.8, 1.6),
-              cy: -height * gsap.utils.random(0.2, 0.5),
-            },
+            y: targetY,
+            scale: gsap.utils.random(1.1, 1.4),
             physics2D: {
               angle: -90,
               gravity: gsap.utils.random(-1, -2.5),
@@ -217,9 +227,9 @@ export const SparkleGenerateButton = React.forwardRef<
           {
             duration: durationRandom / 3,
             ease: "power2.in",
-            x: 0,
-            y: 0,
-            attr: { cx: width / 2, cy: height / 2, r: 0 },
+            x: width / 2 - startX,
+            y: height / 2 - startY,
+            scale: 0,
           },
           "-=" + durationRandom / 4
         );
