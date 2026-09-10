@@ -406,6 +406,7 @@ export default function RockNRollKidsClient({
 }) {
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
 
+  const aboutSection = sanityContent?.sections?.find((s: any) => s.sectionId === "about");
   const comicsSection = sanityContent?.sections?.find((s: any) => s.sectionId === "comics");
   const foundersSection = sanityContent?.sections?.find((s: any) => s.sectionId === "founders");
   const productsList = getProductsList(sanityContent);
@@ -443,17 +444,14 @@ export default function RockNRollKidsClient({
           </div>
           <div className="mt-8 mb-8 text-left w-full space-y-3">
             <h2 className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide font-sans mb-3 text-left">
-              {sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.title ||
-                "Story & Concept"}
+              {aboutSection?.title || "Story & Concept"}
             </h2>
             <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed max-w-4xl">
               <p className="font-sans">
-                {sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.subtitle ||
-                  ABOUT_DATA.paragraph1}
+                {aboutSection?.subtitle || ABOUT_DATA.paragraph1}
               </p>
               <p className="font-normal">
-                {sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.body ||
-                  ABOUT_DATA.paragraph2}
+                {aboutSection?.body || ABOUT_DATA.paragraph2}
               </p>
             </div>
           </div>

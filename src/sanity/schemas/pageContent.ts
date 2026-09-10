@@ -34,13 +34,11 @@ const pageContent = {
       name: "heroCtaText",
       title: "Hero Button Text",
       type: "string",
-      hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
     },
     {
       name: "heroCtaLink",
       title: "Hero Button Link",
       type: "string",
-      hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
     },
     {
       name: "heroBannerImage",
@@ -67,13 +65,11 @@ const pageContent = {
               name: "ctaText",
               title: "CTA Button Text",
               type: "string",
-              hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
             },
             {
               name: "ctaLink",
               title: "CTA Button Link",
               type: "string",
-              hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
             },
             { name: "image", title: "Section Image", type: "image", options: { hotspot: true } },
           ],

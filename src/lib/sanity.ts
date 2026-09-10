@@ -242,7 +242,8 @@ export async function fetchSanity<T>(query: string, params?: Record<string, unkn
 export async function fetchPageContent(pageKey: string): Promise<SanityPageContent | null> {
   const { query, params } = queries.pageContentByKey(pageKey);
   try {
-    const fetchPromise = sanityClient.fetch<SanityPageContent | null>(query, params, { next: { revalidate: 60 } });
+    const clientToUse = process.env.SANITY_API_TOKEN ? sanityWriteClient : sanityClient;
+    const fetchPromise = clientToUse.fetch<SanityPageContent | null>(query, params, { cache: "no-store", next: { revalidate: 0 } });
     const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 3000));
     return await Promise.race([fetchPromise, timeoutPromise]);
   } catch {
