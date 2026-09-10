@@ -34,11 +34,13 @@ const pageContent = {
       name: "heroCtaText",
       title: "Hero Button Text",
       type: "string",
+      hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
     },
     {
       name: "heroCtaLink",
       title: "Hero Button Link",
       type: "string",
+      hidden: ({ document }: any) => (document?.pageKey || document?._id || "").toLowerCase().includes("rock"),
     },
     {
       name: "heroBannerImage",
