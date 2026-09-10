@@ -572,8 +572,8 @@ export function Header() {
             })}
             {showUserAuth && (
               <TransitionLink
-                href="/studio"
-                className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-all duration-200 relative inline-flex items-center pb-0.5 border-b-2 ${isNavActive("/studio")
+                href={studioHref}
+                className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-all duration-200 relative inline-flex items-center pb-0.5 border-b-2 ${effectivePathname.startsWith("/studio")
                   ? "!text-[#c084fc] border-[#c084fc] active cursor-default"
                   : "!text-[#c084fc] hover:!text-white border-[#c084fc]/70 hover:border-white cursor-pointer"
                   }`}>
