@@ -416,9 +416,14 @@ export default function RockNRollKidsClient({
   const videosList = musicSinglesList.filter((v: any) => v.id !== selectedVideo);
 
   return (
-    <div className="min-h-screen text-white pt-[100px] overflow-x-hidden">
+    <div className="min-h-screen w-full text-white pt-[100px] pb-16 overflow-x-hidden bg-gradient-to-b from-[#240642] via-[#100326] via-45% to-[#05030a] relative">
+      {/* Ambient Gradient Glow Orbs for Mobile, Tablet & Desktop */}
+      <div className="absolute top-0 inset-x-0 h-[600px] sm:h-[800px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-600/20 via-purple-900/10 to-transparent pointer-events-none z-0" />
+      <div className="absolute top-[400px] -left-32 w-80 h-80 sm:w-96 sm:h-96 bg-purple-600/15 rounded-full blur-3xl pointer-events-none z-0" />
+      <div className="absolute top-[800px] -right-32 w-80 h-80 sm:w-96 sm:h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none z-0" />
+
       {/* ── NEON ARCADE SYNTHWAVE MATRIX (PERMANENT LAYOUT) ── */}
-      <div>
+      <div className="relative z-10">
         {/* Hero Header */}
         <section className="relative site-container text-center space-y-6">
           <div className="flex justify-end">
