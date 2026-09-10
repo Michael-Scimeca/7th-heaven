@@ -216,6 +216,22 @@ const SEED_PAGE_CONTENTS = [
       { id: "ab", title: "Art Book", badge: "Art Book", desc: "Exclusive concept sketches, character designs, storyboards, and development artwork from RNR Studios.", amazonUrl: "https://www.amazon.com/7th-Heaven-RocknRoll-Kids-Introduction/dp/1718876688/ref=sr_1_2?s=books&ie=UTF8&qid=1526169915&sr=1-2", coverImg: "/images/comics/71d2WbDeBHL._SL1360_.jpg" },
       { id: "vol1", title: "Comic Book - Vol. 1", badge: "Comic Book Vol. 1", desc: "The complete volume 1 anthology combining multiple episode issues, full-color pages, and bonus poster art.", amazonUrl: "https://www.amazon.com/dp/B096TJNDWR", coverImg: "/images/comics/71d2WbDeBHL._SL1360_.jpg" }
     ],
+    characters: [
+      { name: "Barefoot Rocker", role: "Lead Guitarist", desc: "Blonde hair, shades, and barefoot energy. Plays lightning-fast lead guitar solos and brings fearless optimism." },
+      { name: "Cap Bassist", role: "Bass Guitarist", desc: "Baseball cap backwards, driving deep basslines that keep the groove locked down in every battle." },
+      { name: "Power Drummer", role: "Drums & Percussion", desc: "The heartbeat of the band. Thunderous rhythms and high-tempo beats that power up the kids' magical music energy." },
+      { name: "Headband Shredder", role: "Rhythm Guitarist", desc: "Red headband and heavy rhythm chords. Crafts catchy riffs that solve problems and unite the crowd." },
+      { name: "Frontman Kid", role: "Lead Vocalist", desc: "Black hat and infectious mic vocals. Leads the team with powerful anthems of kindness and rock attitude." },
+      { name: "Big Sam", role: "Culinary & Backstage", desc: "Red shirt chef keeping the band energized with great meals and warm backstage hospitality." },
+      { name: "XEC Record Boss", role: "Corporate Executive", desc: "Purple-skinned corporate villain who tries to control the music business until the kids show him true rock positivity." },
+      { name: "Security & Drone Ops", role: "Stage & Tour Crew", desc: "Dedicated crew with security gear and high-tech flying video drones capturing concert magic from above." }
+    ],
+    musicSingles: [
+      { title: "Land Of Confusion", subtitle: "Animated Official Music Video", tag: "Theme Song", desc: "The band's iconic animated cover of Genesis' classic anthem. Blending hard-hitting rock riffs with vibrant superhero visuals.", youtubeId: "3ZhqLJDRxQ8", youtubeUrl: "https://www.youtube.com/watch?v=3ZhqLJDRxQ8" },
+      { title: "Who Are You", subtitle: "Season 1 Featured Track", tag: "Featured Single", desc: "A high-energy rock anthem empowering kids to stay authentic, embrace their unique talents, and overcome peer pressure.", youtubeId: "97tX0sM3vE8", youtubeUrl: "https://www.youtube.com/watch?v=97tX0sM3vE8" },
+      { title: "What You Give", subtitle: "Social Consciousness Single", tag: "Inspirational Anthem", desc: "An uplifting message about kindness, giving back to your community, and spreading light through hard work and rock 'n' roll.", youtubeId: "J3_lX9S5k4o", youtubeUrl: "https://www.youtube.com/watch?v=J3_lX9S5k4o" },
+      { title: "Time of Our Lives", subtitle: "Animated Concert Finale", tag: "Concert Anthem", desc: "The grand finale song showcasing the Rock 'N' Roll Kids on stage performing live for cheering crowds.", youtubeId: "W3dkLd9UkZU", youtubeUrl: "https://www.youtube.com/watch?v=W3dkLd9UkZU" }
+    ],
     founders: [
       { name: "Richard Hofherr", role: "Founder and songwriter of 7th heaven", desc: "Co-creator of 7th Heaven & The Rock 'n' Roll Kids animated series, comics, and video games.", phone: "(847) 551-5363", email: "Rich777@aol.com", mobileImg: "/images/contact/Dickie-contact-mobile.png", desktopImg: "/images/members/desktop-richy.png" },
       { name: "Roy Adorjan", role: "Lead Animator & Character Designer", desc: "Co-creator and art director for 7th Heaven & The Rock 'n' Roll Kids.", email: "info@minimartians.com", mobileImg: "/images/comics/roy-mobile.png", desktopImg: "/images/comics/desktop-roy.png" }
