@@ -271,7 +271,7 @@ function MerchDashboard() {
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <p className="text-pink-500 uppercase tracking-[0.3em]">7th Heaven</p>
-            <h1 className="">Merch Table</h1>
+            <h1>Merch Table</h1>
           </div>
           <div className="flex items-center gap-2">
             {pendingPickups.length > 0 && (

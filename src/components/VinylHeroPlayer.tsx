@@ -683,7 +683,7 @@ export default function VinylHeroPlayer({
                           : "text-white bg-[#d946ef]/25 border border-[#d946ef]/60 shadow-[0_0_14px_rgba(217,70,239,0.9)] hover:bg-[#d946ef]/50 hover:border-[#d946ef] hover:shadow-[0_0_20px_rgba(217,70,239,1)]"
                           }`}
                         title="Toggle Playlist">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                           <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
                           <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
                         </svg>

@@ -78,7 +78,7 @@ function PaymentTestContent() {
             <span className="inline-block uppercase   text-[var(--color-accent)] mb-1">
               Stripe Test Mode
             </span>
-            <h1 className="">
+            <h1>
               Payment Test Page
             </h1>
             <p className="mt-1">

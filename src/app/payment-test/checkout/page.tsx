@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -94,7 +95,7 @@ export default function NorthCheckoutPage() {
             <span className="inline-block text-[10px] uppercase  text-[var(--color-accent)] mb-1">
               North (EPX) Browser Post
             </span>
-            <h1 className="">
+            <h1>
               Card Payment
             </h1>
             {mockMode ? (

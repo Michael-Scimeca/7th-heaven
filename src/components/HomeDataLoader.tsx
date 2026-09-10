@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import { useSettings } from "@/lib/useSettings";
 import dynamic from "next/dynamic";
-import LazySection from "@/components/LazySection";
+import { ensureUpcomingTourDates, isShowOver } from "@/lib/tour-helpers";
 
 const TourList = dynamic(() => import("@/components/TourList"));
 const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"));
@@ -83,7 +83,7 @@ const FALLBACK_SHOWS: Show[] = [
 ];
 
 export default function HomeDataLoader() {
-  const [shows, setShows] = useState<Show[]>(FALLBACK_SHOWS);
+  const [shows, setShows] = useState<Show[]>(() => ensureUpcomingTourDates(FALLBACK_SHOWS));
   const [announcement, setAnnouncement] = useState<Announcement | null>(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -96,7 +96,7 @@ export default function HomeDataLoader() {
     const data = settings as { announcement?: Announcement } | null;
     if (data?.announcement?.isActive && data.announcement.text) {
       const exp = data.announcement.expiresAt;
-      if (!exp || new Date(exp)> new Date()) {
+      if (!exp || new Date(exp) > new Date()) {
         setAnnouncement(data.announcement);
       }
     }
@@ -110,8 +110,7 @@ export default function HomeDataLoader() {
       .then(data => {
         // /api/tour returns a plain array
         const raw: Record<string, unknown>[] = Array.isArray(data) ? data : [];
-        if (raw.length> 0) {
-          const now = new Date();
+        if (raw.length > 0) {
           const mapped: Show[] = raw.map(s => ({
             day: (s.day as string) || "TBD",
             date: s.date as string,
@@ -128,21 +127,16 @@ export default function HomeDataLoader() {
             lat: s.lat as number | undefined,
             lng: s.lng as number | undefined,
           }));
-          // Filter to upcoming shows
-          const upcoming = mapped.filter(s => {
-            try {
-              const d = new Date((s.startDate || s.date) + "T23:59:59");
-              return d>= now;
-            } catch { return true; }
-          });
-          setShows(upcoming.length> 0 ? upcoming : mapped);
+          const ensured = ensureUpcomingTourDates(mapped);
+          const upcoming = ensured.filter(s => !isShowOver(s));
+          setShows(upcoming.length > 0 ? upcoming : ensured);
         }
       })
       .catch(() => { })
       .finally(() => setLoaded(true));
   }, []);
 
-  const nextShow = shows.find(s => s.city) || shows[0];
+  const nextShow = shows.find(s => s.city && !isShowOver(s)) || shows[0];
 
   return (
     <>

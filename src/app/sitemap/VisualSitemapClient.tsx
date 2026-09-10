@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import React, { useState } from "react";
@@ -1619,7 +1620,7 @@ export default function VisualSitemapClient() {
             7H
           </div>
           <div>
-            <h1 className="">
+            <h1>
               {activeTab === "ARCH"
                 ? "7th Heaven Site Directory & Direct Vertical Booking PIN Flow"
                 : activeTab === "BOOKING"

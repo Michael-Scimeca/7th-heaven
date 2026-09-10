@@ -568,7 +568,7 @@ export default function CruiseDashboard() {
 
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
-            <h1 className="">Cruise Hub</h1>
+            <h1>Cruise Hub</h1>
             <p className="uppercase mt-1">Exclusive Passenger Community</p>
           </div>
 

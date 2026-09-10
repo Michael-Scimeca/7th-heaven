@@ -896,7 +896,7 @@ export default function AudioPlayerSection() {
               className="relative w-[46px] h-[46px] rounded-lg overflow-hidden shrink-0 cursor-pointer group shadow-[4px_0_15px_rgba(0,0,0,0.5)] z-20 border-0 p-0"
               onClick={togglePlay}>
               {activeAlbum?.image ? (
-                <Image src={activeAlbum.image} alt="Cover" fill sizes="46px" style={{ objectFit: 'cover' }} className="" />
+                <Image src={activeAlbum.image} alt="Cover" fill sizes="46px" style={{ objectFit: 'cover' }} />
               ) : (
                 <div className="w-full h-full bg-[var(--color-bg-card)]" />
               )}

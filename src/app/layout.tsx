@@ -29,8 +29,7 @@ const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"));
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
 import { ThemeTokens } from "@/lib/theme-tokens";
-
-
+import { fetchSanity, queries, getMediaUrl, SanitySiteSettings } from "@/lib/sanity";
 
 // Runs on EVERY full document load, matching the reference site. Gating this
 // on sessionStorage (as an earlier version did) meant refreshes and direct URL
@@ -45,57 +44,71 @@ import { ThemeTokens } from "@/lib/theme-tokens";
 // window. Going straight to the page is strictly better for them.
 const PRELOAD_SCRIPT_CONTENT = "";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://7thheavenband.com"),
-  manifest: "/manifest.json",
-  title: "7th Heaven — Official Website",
-  description:
-    "7th heaven is an experience you just have to see and hear! Charted #1 on the Midwest Billboard Charts three times with 7 major radio hits. 40 years of rocking the world.",
-  keywords: [
-    "7th Heaven",
-    "7th heaven band",
-    "rock band",
-    "Chicago band",
-    "live music",
-    "concert",
-    "entertainment",
-  ],
-  icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await fetchSanity<SanitySiteSettings>(queries.siteSettings);
+
+  const title =
+    settings?.seo?.metaTitle ||
+    (settings?.tagline ? `7th Heaven — ${settings.tagline}` : "7th Heaven — Official Website");
+
+  const description =
+    settings?.seo?.metaDescription ||
+    settings?.bioIntro ||
+    "7th heaven is an experience you just have to see and hear! Charted #1 on the Midwest Billboard Charts three times with 7 major radio hits. 40 years of rocking the world.";
+
+  const ogImageUrl = settings?.seo?.ogImage
+    ? getMediaUrl(settings.seo.ogImage, "/images/logos/7thheavenlogo.jpg")
+    : "/images/logos/7thheavenlogo.jpg";
+
+  return {
+    metadataBase: new URL("https://7thheavenband.com"),
+    manifest: "/manifest.json",
+    title,
+    description,
+    keywords: [
+      "7th Heaven",
+      "7th heaven band",
+      "rock band",
+      "Chicago band",
+      "live music",
+      "concert",
+      "entertainment",
     ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
-    shortcut: ["/favicon.ico"],
-  },
-  openGraph: {
-    title: "7th Heaven — Official Website",
-    description:
-      "7th heaven is an experience you just have to see and hear! 40 years of rocking the world.",
-    type: "website",
-    url: "https://7thheavenband.com",
-    siteName: "7th Heaven",
-    images: [
-      {
-        url: "/images/logos/7thheavenlogo.jpg",
-        width: 1200,
-        height: 630,
-        alt: "7th Heaven Logo",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@7thheavenband",
-    title: "7th Heaven — Official Website",
-    description:
-      "7th heaven is an experience you just have to see and hear! 40 years of rocking the world.",
-    images: ["/images/logos/7thheavenlogo.jpg"],
-  },
-};
+    icons: {
+      icon: [
+        { url: "/favicon.ico" },
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+        { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      ],
+      apple: [
+        { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      ],
+      shortcut: ["/favicon.ico"],
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: "https://7thheavenband.com",
+      siteName: "7th Heaven",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: "7th Heaven Logo",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@7thheavenband",
+      title,
+      description,
+      images: [ogImageUrl],
+    },
+  };
+}
 
 // MusicGroup Structured Data for Google
 const BAND_LD = {

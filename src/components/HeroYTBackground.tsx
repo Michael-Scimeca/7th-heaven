@@ -43,14 +43,14 @@ export default function HeroYTBackground({ videoId }: HeroYTBackgroundProps) {
             loop: 1,
             playlist: videoId,
             mute: 1,
-            start: 10,
+            start: 7,
             origin: typeof window !== "undefined" ? window.location.origin : "",
           },
           events: {
             onReady: (e: any) => {
               try {
                 e.target.mute();
-                e.target.seekTo(10, true);
+                e.target.seekTo(7, true);
                 e.target.playVideo();
               } catch {}
             },

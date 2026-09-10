@@ -273,14 +273,6 @@ export default function CruiseVideoGallery() {
                     </p>
                   )}
                 </div>
-
-                <div className="pt-3 border-t border-white/10">
-                  <div className="w-full py-2.5 px-4 rounded-xl bg-purple-600/20 group-hover:bg-purple-600/35 border border-purple-400/30 text-purple-200 group-hover:text-white group-hover:border-purple-400/60 font-semibold text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(168,85,247,0.15)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.35)]">
-                    <Play className="w-3.5 h-3.5 fill-purple-300 group-hover:fill-white transition-colors" />
-                    <span>Watch Video Tour</span>
-                  </div>
-                </div>
-
               </div>
             </div>
           ))}

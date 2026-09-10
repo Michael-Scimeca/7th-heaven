@@ -3,13 +3,15 @@
 import Image from 'next/image';
 import staticVideoCategories from "../../../public/data/videos.json";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { Plus, X, Video as VideoIcon, CheckCircle2, Play, Search } from "lucide-react";
 import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import AddCmsButton from "@/components/AddCmsButton";
 
 const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
 const AudioPlayer = dynamic(() => import("@/components/AudioPlayer"), { ssr: false });
@@ -137,6 +139,11 @@ function extractYouTubeId(urlOrId: string): string {
 export default function MediaClient({ sanityContent }: { sanityContent?: any }) {
   const { member } = useMember();
   const isAdmin = member?.role === 'admin' || member?.role === 'crew';
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   const [categories, setCategories] = useState<VideoCategory[]>(staticVideoCategories as VideoCategory[]);
   const [playingVideo, setPlayingVideo] = useState<Video | null>(null);
@@ -153,11 +160,35 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
   const [newTitle, setNewTitle] = useState("");
   const [newUrl, setNewUrl] = useState("");
   const [newCategory, setNewCategory] = useState("Official Music Videos");
+  const [customCategories, setCustomCategories] = useState<string[]>([]);
+  const [isCustomCategory, setIsCustomCategory] = useState(false);
+  const [customCategoryInput, setCustomCategoryInput] = useState("");
   const [newYear, setNewYear] = useState(() => new Date().getFullYear().toString());
   const [newDuration, setNewDuration] = useState("3:30");
   const [newDesc, setNewDesc] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const availableCategories = React.useMemo(() => {
+    const defaults = [
+      "Official Music Videos",
+      "TV Appearances",
+      "Full Concerts",
+      "Cover Songs",
+      "Songs In Movies & TV",
+      "Cruise Videos",
+      "College Shows",
+      "Misc. / Various",
+      "Live Footage",
+      "Medley's",
+      "Live Feeds",
+    ];
+    const fromCategories: string[] = [];
+    for (let i = 0; i < categories.length; i++) {
+      if (categories[i].category) fromCategories.push(categories[i].category);
+    }
+    return Array.from(new Set([...defaults, ...fromCategories, ...customCategories]));
+  }, [categories, customCategories]);
 
   const fetchCategories = useCallback(async () => {
     try {
@@ -296,12 +327,18 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
   const handleAddVideoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isAdmin) return;
     const parsedId = extractYouTubeId(newUrl);
     if (!parsedId || parsedId.length !== 11) {
       alert("Please enter a valid 11-character YouTube video URL or ID.");
       return;
     }
+
+    const targetCategory = (isCustomCategory ? customCategoryInput : newCategory).trim();
+    if (!targetCategory) {
+      alert("Please select or enter a video category.");
+      return;
+    }
+
     setSubmitting(true);
 
     const videoObj = {
@@ -310,11 +347,11 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
       year: parseInt(newYear, 10) || new Date().getFullYear(),
       duration: newDuration.trim() || "3:30",
       description: newDesc.trim(),
-      category: newCategory,
+      category: targetCategory,
     };
 
     try {
-      await fetch("/api/videos", {
+      const res = await fetch("/api/videos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -327,14 +364,22 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         }),
       });
 
+      if (!res.ok) {
+        throw new Error("Failed to save video to Sanity.");
+      }
+
       const rawLocal = localStorage.getItem("7th_heaven_custom_videos_v1");
       const existing: any[] = rawLocal ? JSON.parse(rawLocal) : [];
       const updated = [videoObj, ...existing.filter((v: any) => v.id !== videoObj.id)];
       localStorage.setItem("7th_heaven_custom_videos_v1", JSON.stringify(updated));
 
+      if (isCustomCategory && customCategoryInput.trim()) {
+        setCustomCategories((prev) => Array.from(new Set([...prev, customCategoryInput.trim()])));
+      }
+
       setCategories((prev) => {
         const next = [...prev];
-        let cat = next.find((c) => c.category === videoObj.category);
+        let cat = next.find((c) => c.category.toLowerCase() === videoObj.category.toLowerCase());
         if (!cat) {
           cat = { category: videoObj.category, videos: [] };
           next.push(cat);
@@ -347,13 +392,15 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
       setActiveFilter(videoObj.category.toUpperCase());
       setIsAddModalOpen(false);
+      setIsCustomCategory(false);
+      setCustomCategoryInput("");
       setNewTitle("");
       setNewUrl("");
       setNewDesc("");
-      setToastMessage(`🎉 Video "${videoObj.title}" successfully added!`);
+      setToastMessage(`🎉 Video "${videoObj.title}" successfully added under "${videoObj.category}"!`);
       setTimeout(() => setToastMessage(null), 4500);
-    } catch {
-      alert("Failed to save video.");
+    } catch (err: any) {
+      alert(err?.message || "Failed to save video.");
     } finally {
       setSubmitting(false);
     }
@@ -364,7 +411,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
       <div className="site-container relative z-10">
         {/* ── CENTERED PAGE TITLE ── */}
         <div className="text-center mb-6">
-          <h1 className="">
+          <h1>
             {sanityContent?.heroHeading || sanityContent?.title || "7TH HEAVEN MEDIA VAULT"}
           </h1>
           <p className="mt-2 max-w-xl mx-auto">
@@ -385,14 +432,10 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             placeholder={sanityContent?.searchPlaceholder || "Search Media..."}
             containerClassName="w-full sm:w-[320px]"
           />
-          {isAdmin && (
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white uppercase rounded-md transition-all cursor-pointer shrink-0 animate-[fade-in_0.2s_ease-out]">
-              <Plus className="w-4 h-4" />
-              <span>{sanityContent?.addVideoButtonText || "Add Video"}</span>
-            </button>
-          )}
+          <AddCmsButton
+            label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
+            onClick={() => setIsAddModalOpen(true)}
+          />
         </div>
 
         {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
@@ -523,17 +566,17 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
       )}
 
       {/* Add Video Modal */}
-      {isAdmin && isAddModalOpen && (
+      {mounted && isAddModalOpen && createPortal(
         <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
           <div className="bg-[#0f0921] border border-purple-500/40 rounded-2xl w-full max-w-lg overflow-hidden p-6 relative shadow-2xl">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
                   <VideoIcon className="w-4 h-4 text-purple-300" />
                 </div>
                 <div>
-                  <h3 className="uppercase text-white">{sanityContent?.modalTitle || "Add Video to Media Vault"}</h3>
-                  <p className="uppercase">{sanityContent?.modalSubtitle || "Syncs to Sanity CMS & Media Hub"}</p>
+                  <h3 className="uppercase text-white font-bold">{sanityContent?.modalTitle || "Add Video to Media Vault"}</h3>
+                  <p className="uppercase text-xs text-purple-300/70">{sanityContent?.modalSubtitle || "Syncs to Sanity CMS & Media Hub"}</p>
                 </div>
               </div>
               <button
@@ -579,7 +622,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                           <span>Valid Video Link Detected</span>
                         </div>
-                        <p className="mt-0.5">ID: {parsed}</p>
+                        <p className="mt-0.5 text-xs text-purple-200/80">ID: {parsed}</p>
                       </div>
                     </div>
                   );
@@ -603,24 +646,54 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] uppercase text-purple-300 mb-1">
-                    Category <span className="text-pink-400">*</span>
-                  </label>
-                  <select
-                    value={newCategory}
-                    onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-purple-400">
-                    <option value="Official Music Videos">Official Music Videos</option>
-                    <option value="TV Appearances">TV Appearances</option>
-                    <option value="Full Concerts">Full Concerts</option>
-                    <option value="Cover Songs">Cover Songs</option>
-                    <option value="Songs In Movies & TV">Songs In Movies & TV</option>
-                    <option value="Cruise Videos">Cruise Videos</option>
-                    <option value="College Shows">College Shows</option>
-                    <option value="Misc. / Various">Misc. / Various</option>
-                    <option value="Live Footage">Live Footage</option>
-                    <option value="Medley's">Medley's</option>
-                  </select>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-[10px] uppercase text-purple-300">
+                      Category <span className="text-pink-400">*</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsCustomCategory(!isCustomCategory);
+                        if (!isCustomCategory) {
+                          setCustomCategoryInput("");
+                        }
+                      }}
+                      className="text-[10px] font-medium text-purple-400 hover:text-purple-300 transition-colors cursor-pointer"
+                    >
+                      {isCustomCategory ? "← Select List" : "+ New Category"}
+                    </button>
+                  </div>
+
+                  {isCustomCategory ? (
+                    <input
+                      type="text"
+                      required
+                      value={customCategoryInput}
+                      onChange={(e) => setCustomCategoryInput(e.target.value)}
+                      placeholder="e.g. Acoustic Sessions"
+                      className="w-full bg-black/60 border border-purple-500/50 rounded-lg px-3 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 text-sm"
+                    />
+                  ) : (
+                    <select
+                      value={newCategory}
+                      onChange={(e) => {
+                        if (e.target.value === "__CUSTOM__") {
+                          setIsCustomCategory(true);
+                          setCustomCategoryInput("");
+                        } else {
+                          setNewCategory(e.target.value);
+                        }
+                      }}
+                      className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-purple-400 cursor-pointer text-sm"
+                    >
+                      {availableCategories.map((cat) => (
+                        <option key={cat} value={cat}>
+                          {cat}
+                        </option>
+                      ))}
+                      <option value="__CUSTOM__">✨ + Add Custom Category...</option>
+                    </select>
+                  )}
                 </div>
 
                 <div>
@@ -654,21 +727,22 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 text-white/70 hover:text-white transition-colors">
+                  className="px-4 py-2 text-white/70 hover:text-white transition-colors cursor-pointer">
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white uppercase rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2">
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white uppercase rounded-lg font-bold text-xs tracking-wider transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] cursor-pointer disabled:opacity-50 flex items-center gap-2">
                   {submitting
                     ? (sanityContent?.modalSavingText || "Saving to Sanity...")
-                    : (sanityContent?.modalSubmitText || "Publish Video to Vault")}
+                    : (sanityContent?.modalSubmitText || "+ PUBLISH VIDEO TO SANITY")}
                 </button>
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

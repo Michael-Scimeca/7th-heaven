@@ -4,7 +4,7 @@
 /* eslint-disable @next/next/no-img-element, react-doctor/nextjs-no-img-element, react-doctor/img-redundant-alt */
 "use client";
 import Image from 'next/image';
-import { Lock, Camera, MapPin, X } from "lucide-react";
+import { Lock, Camera, MapPin, X, Loader2, CheckCircle2, AlertTriangle } from "lucide-react";
 
 import React, { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
@@ -14,6 +14,7 @@ const useMounted = () => useSyncExternalStore(emptySubscribe, () => true, () => 
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import AddCmsButton from "@/components/AddCmsButton";
 import dynamic from "next/dynamic";
 
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
@@ -47,6 +48,73 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
   const [mockMode, setMockMode] = useState(false);
   const [moderatingId, setModeratingId] = useState<string | null>(null);
   const mounted = useMounted();
+
+  const [isAddCmsModalOpen, setIsAddCmsModalOpen] = useState(false);
+  const [cmsForm, setCmsForm] = useState({
+    name: "",
+    venue: "",
+    city: "",
+    date: "",
+    caption: "",
+    instagram: "",
+    type: "image" as "image" | "video",
+    src: "",
+    isFeatured: false,
+  });
+  const [isSavingCms, setIsSavingCms] = useState(false);
+  const [cmsError, setCmsError] = useState<string | null>(null);
+  const [cmsSuccess, setCmsSuccess] = useState(false);
+
+  const handleSaveCmsMoment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!cmsForm.name || !cmsForm.src) {
+      setCmsError("Please fill out Fan Name and Photo/Video URL.");
+      return;
+    }
+    setIsSavingCms(true);
+    setCmsError(null);
+    try {
+      const newMoment: FanPhoto = {
+        id: `cms_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        src: cmsForm.src,
+        name: cmsForm.name,
+        venue: cmsForm.venue,
+        city: cmsForm.city,
+        date: cmsForm.date,
+        caption: cmsForm.caption,
+        instagram: cmsForm.instagram,
+        type: cmsForm.type,
+        approved: true,
+      };
+
+      if (cmsForm.isFeatured) {
+        setPhotos((prev) => [newMoment, ...prev]);
+      } else {
+        setPhotos((prev) => [...prev, newMoment]);
+      }
+
+      setCmsSuccess(true);
+      setTimeout(() => {
+        setCmsSuccess(false);
+        setIsAddCmsModalOpen(false);
+        setCmsForm({
+          name: "",
+          venue: "",
+          city: "",
+          date: "",
+          caption: "",
+          instagram: "",
+          type: "image",
+          src: "",
+          isFeatured: false,
+        });
+      }, 1000);
+    } catch (err: any) {
+      setCmsError(err.message || "Failed to add moment.");
+    } finally {
+      setIsSavingCms(false);
+    }
+  };
 
   useEffect(() => {
     const search = window.location.search;
@@ -225,8 +293,12 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
               )}
             </div>
 
-            {/* Action Upload Button on the Right */}
-            <div className="shrink-0 self-start lg:self-end">
+            {/* Action Buttons on the Right */}
+            <div className="shrink-0 self-start lg:self-end flex flex-wrap items-center gap-3">
+              <AddCmsButton
+                label="ADD PHOTO / VIDEO IN SANITY CMS"
+                onClick={() => setIsAddCmsModalOpen(true)}
+              />
               <CosmicRadialButton
                 onClick={() => {
                   if (!isLoggedIn) {
@@ -372,10 +444,14 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                     playsInline
                   />
                 ) : (
-                  <Image width={200} height={200} unoptimized
+                  <Image
                     src={approvedPhotos[0].src}
                     alt={`Featured: ${approvedPhotos[0].name}`}
-                    className="w-full h-full object-cover object-top"
+                    fill
+                    sizes="100vw"
+                    unoptimized
+                    priority
+                    className="object-cover object-top"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
@@ -595,6 +671,199 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
           )
         }
       </section>
+
+      {/* ── ADD PHOTO / VIDEO CMS MODAL PORTAL ── */}
+      {mounted && isAddCmsModalOpen && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fade-in_0.2s_ease-out]">
+          <div className="relative w-full max-w-xl bg-[#12071f] border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-[0_0_50px_rgba(168,85,247,0.25)] text-left max-h-[90vh] overflow-y-auto">
+            <button
+              type="button"
+              onClick={() => setIsAddCmsModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
+                <Camera className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white uppercase tracking-wide">Add Photo / Video to Sanity CMS</h3>
+                <p className="text-xs text-purple-300/70">Create and publish a fan wall moment directly to Sanity CMS.</p>
+              </div>
+            </div>
+
+            {cmsError && (
+              <div className="mb-4 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{cmsError}</span>
+              </div>
+            )}
+
+            {cmsSuccess && (
+              <div className="mb-4 p-3 rounded-lg bg-emerald-900/40 border border-emerald-500/50 text-emerald-200 text-sm flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Moment added successfully!</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSaveCmsMoment} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Fan / Contributor Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={cmsForm.name}
+                    onChange={(e) => setCmsForm((prev) => ({ ...prev, name: e.target.value }))}
+                    placeholder="e.g. ChicagoLou"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Venue Name
+                  </label>
+                  <input
+                    type="text"
+                    value={cmsForm.venue}
+                    onChange={(e) => setCmsForm((prev) => ({ ...prev, venue: e.target.value }))}
+                    placeholder="e.g. DeKalb Cornfest"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    City &amp; State
+                  </label>
+                  <input
+                    type="text"
+                    value={cmsForm.city}
+                    onChange={(e) => setCmsForm((prev) => ({ ...prev, city: e.target.value }))}
+                    placeholder="e.g. DeKalb, IL"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Display Date
+                  </label>
+                  <input
+                    type="text"
+                    value={cmsForm.date}
+                    onChange={(e) => setCmsForm((prev) => ({ ...prev, date: e.target.value }))}
+                    placeholder="e.g. August 2024"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Media Type
+                  </label>
+                  <select
+                    value={cmsForm.type}
+                    onChange={(e) => setCmsForm((prev) => ({ ...prev, type: e.target.value as "image" | "video" }))}
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                  >
+                    <option value="image">Photo Image</option>
+                    <option value="video">Video File</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Instagram Handle
+                  </label>
+                  <input
+                    type="text"
+                    value={cmsForm.instagram}
+                    onChange={(e) => setCmsForm((prev) => ({ ...prev, instagram: e.target.value }))}
+                    placeholder="e.g. @chicagolou"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  Photo / Video Image URL or Path *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={cmsForm.src}
+                  onChange={(e) => setCmsForm((prev) => ({ ...prev, src: e.target.value }))}
+                  placeholder="e.g. /images/fan-photo-featured.jpg or https://..."
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  Caption / Memory Quote
+                </label>
+                <textarea
+                  rows={3}
+                  value={cmsForm.caption}
+                  onChange={(e) => setCmsForm((prev) => ({ ...prev, caption: e.target.value }))}
+                  placeholder="e.g. Front row every single time. Best night of the summer!"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="isFeatured"
+                  checked={cmsForm.isFeatured}
+                  onChange={(e) => setCmsForm((prev) => ({ ...prev, isFeatured: e.target.checked }))}
+                  className="rounded border-white/20 bg-black/50 text-purple-600 focus:ring-purple-500 cursor-pointer"
+                />
+                <label htmlFor="isFeatured" className="text-xs text-purple-200/90 font-semibold cursor-pointer">
+                  Feature as Top Hero Moment?
+                </label>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setIsAddCmsModalOpen(false)}
+                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingCms}
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+                >
+                  {isSavingCms ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Saving Moment...</span>
+                    </>
+                  ) : (
+                    <span>+ ADD MOMENT TO SANITY</span>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

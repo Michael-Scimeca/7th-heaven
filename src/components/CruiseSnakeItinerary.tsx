@@ -759,7 +759,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
               <span className="text-xl">⚙️</span>
               <div>
                 <h3 className="text-white font-bold uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
-                <p className="">All real-time physics tuning parameters</p>
+                <p>All real-time physics tuning parameters</p>
               </div>
             </div>
             <button aria-label="Action button"

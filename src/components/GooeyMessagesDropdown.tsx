@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -163,7 +164,7 @@ export default function GooeyMessagesDropdown({
         id={id || "gooey-toggle"}
         name={name}>
         <span
-          className={`    text-white whitespace-normal break-words flex-1 ${triggerTextClassName}`}>
+          className={`    text-white whitespace-normal break-words flex-1 font-bold ${triggerTextClassName}`}>
           {triggerText}
         </span>
         <svg
@@ -209,7 +210,7 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full !m-0 text-left px-3 py-2 !rounded-none    uppercase transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? "text-white bg- purple-white/20 "
+                    className={`w-full !m-0 text-left px-3 pb-2 !rounded-none     uppercase transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? "text-white bg- purple-white/20 "
                       : "text-white/80 hover:text-white hover:bg- purple-white/20"
                       }`}
                     onClick={() => {
@@ -218,7 +219,7 @@ export default function GooeyMessagesDropdown({
                       onChange?.(c.id);
                       setOpen(false);
                     }}>
-                    <span className="pr-2 uppercase whitespace-normal break-words">
+                    <span className="pr-2 uppercase whitespace-normal text-[14px] break-words">
                       {c.name}
                     </span>
                     {isSelected && (

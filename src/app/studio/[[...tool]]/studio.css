@@ -4,11 +4,16 @@
 [data-ui="Card"],
 div[class*="StyledCard"],
 div[class*="StyledBox"] {
-  background-color: rgba(18, 18, 24, 0.1) !important;
+  background-color: rgba(18, 18, 24, 0.4) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
 }
 
 [data-ui="Root"] {
   background-color: rgba(12, 10, 9, 0.1) !important;
+}
+
+div[class*="StyledBox"] div div[class*="StyledBox"] {
+  /* background-color: transparent !important; */
+
 }

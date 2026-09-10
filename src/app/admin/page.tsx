@@ -255,7 +255,7 @@ export default function AdminGatewayPage() {
                 <div className="w-14 h-14 mx-auto mb-4 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)] shadow-[0_0_24px_rgba(147,51,234,0.4)]">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                 </div>
-                <h1 className="">
+                <h1>
                   Admin <span className="text-[var(--color-accent)]">Access</span>
                 </h1>
                 <p className="uppercase mt-2">

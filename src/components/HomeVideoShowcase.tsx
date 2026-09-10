@@ -1,18 +1,24 @@
 /* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
-/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer */
-/* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer */
+/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer, react-doctor/no-high-complexity-react-function, react-doctor/js-flatmap-filter */
+/* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer, react-doctor/no-high-complexity-react-function, react-doctor/js-flatmap-filter */
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import {
   X,
   Play,
+  Plus,
+  Video as VideoIcon,
+  CheckCircle2,
 } from "lucide-react";
 import Smooothy, { damp } from "smooothy";
 import CosmicRadialButton from "./CosmicRadialButton";
 import { SectionBadge } from "./SectionBadge";
+import { useMember } from "@/context/MemberContext";
+import AddCmsButton from "./AddCmsButton";
 
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
 
@@ -133,11 +139,155 @@ interface SmooothyInstance {
   update?: () => void;
 }
 
+function extractYouTubeId(urlOrId: string): string {
+  const match = urlOrId.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (match && match[1]) return match[1];
+  const clean = urlOrId.trim();
+  if (clean.length === 11 && /^[\w-]+$/.test(clean)) return clean;
+  return clean;
+}
+
 export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: any }) {
+  const { member } = useMember();
+  const isAdmin = member?.role === 'admin' || member?.role === 'crew';
+
+  const [videos, setVideos] = useState<ShowcaseCategoryVideo[]>(CATEGORY_SHOWCASE);
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [startIndex, setStartIndex] = useState(0);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [activeSettingsTab, setActiveSettingsTab] = useState<"smooothy" | "layout" | "motion" | "video" | "style" | "ui">("smooothy");
+
+  // Add Video Modal State
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newUrl, setNewUrl] = useState("");
+  const [newCategory, setNewCategory] = useState("Official Music Videos");
+  const [customCategories, setCustomCategories] = useState<string[]>([]);
+  const [isCustomCategory, setIsCustomCategory] = useState(false);
+  const [customCategoryInput, setCustomCategoryInput] = useState("");
+  const [newYear, setNewYear] = useState(() => new Date().getFullYear().toString());
+  const [newDuration, setNewDuration] = useState("3:30");
+  const [newDesc, setNewDesc] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [modalError, setModalError] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const availableCategories = useMemo(() => {
+    const defaults = [
+      "Official Music Videos",
+      "TV Appearances",
+      "Full Concerts",
+      "Cover Songs",
+      "Songs In Movies & TV",
+      "Cruise Videos",
+      "College Shows",
+      "Live Footage",
+      "Medley's",
+      "Misc. / Various",
+      "Live Feeds",
+    ];
+    const fromVideos: string[] = [];
+    for (let i = 0; i < videos.length; i++) {
+      if (videos[i].category) fromVideos.push(videos[i].category);
+    }
+    return Array.from(new Set([...defaults, ...fromVideos, ...customCategories]));
+  }, [videos, customCategories]);
+
+  // Hydrate live videos from Sanity
+  useEffect(() => {
+    fetch("/api/videos")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data?.success && Array.isArray(data.videos) && data.videos.length > 0) {
+          const sanityItems: ShowcaseCategoryVideo[] = data.videos.map((sv: any) => ({
+            id: sv.youtubeId,
+            title: sv.title,
+            category: sv.category || "Official Music Videos",
+            badges: [sv.category?.toUpperCase() || "FEATURED", "SANITY"],
+            viewCount: "Sanity",
+            year: sv.year || new Date().getFullYear(),
+            duration: sv.duration || "3:30",
+            previewStart: 0,
+            previewEnd: 30,
+          }));
+
+          setVideos((prev) => {
+            const existingIds = new Set(sanityItems.map((v) => v.id));
+            const remainingDefault = prev.filter((v) => !existingIds.has(v.id));
+            return [...sanityItems, ...remainingDefault];
+          });
+        }
+      })
+      .catch(() => { });
+  }, []);
+
+  const handleAddVideoSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setModalError(null);
+
+    const parsedId = extractYouTubeId(newUrl);
+    if (!parsedId || parsedId.length !== 11) {
+      setModalError("Please enter a valid 11-character YouTube video URL or ID.");
+      return;
+    }
+
+    const targetCategory = (isCustomCategory ? customCategoryInput : newCategory).trim();
+    if (!targetCategory) {
+      setModalError("Please select or enter a video category.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/videos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: newTitle.trim(),
+          youtubeUrl: parsedId,
+          category: targetCategory,
+          year: parseInt(newYear, 10) || new Date().getFullYear(),
+          duration: newDuration.trim() || "3:30",
+          description: newDesc.trim(),
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        const addedVid: ShowcaseCategoryVideo = {
+          id: data.video.id,
+          title: data.video.title,
+          category: data.video.category,
+          badges: [data.video.category.toUpperCase(), "NEW"],
+          viewCount: "New",
+          year: data.video.year,
+          duration: data.video.duration,
+          previewStart: 0,
+          previewEnd: 30,
+        };
+
+        if (isCustomCategory && customCategoryInput.trim()) {
+          setCustomCategories((prev) => Array.from(new Set([...prev, customCategoryInput.trim()])));
+        }
+
+        setVideos((prev) => [addedVid, ...prev.filter((v) => v.id !== addedVid.id)]);
+        setIsAddModalOpen(false);
+        setIsCustomCategory(false);
+        setCustomCategoryInput("");
+        setNewTitle("");
+        setNewUrl("");
+        setNewDesc("");
+        setToastMessage(`🎉 Video "${addedVid.title}" successfully added under "${addedVid.category}"!`);
+        setTimeout(() => setToastMessage(null), 4500);
+      } else {
+        setModalError(data.error || "Failed to save video to Sanity.");
+      }
+    } catch {
+      setModalError("Network error. Failed to save video.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
 
   const trackRef = useRef<HTMLDivElement>(null);
@@ -227,7 +377,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
     return () => observer.disconnect();
   }, []);
 
-  const totalVideos = CATEGORY_SHOWCASE.length;
+  const totalVideos = videos.length;
 
   // Initialize and dynamically update Smooothy Instance live with ALL 16 Smooothy API options
   useEffect(() => {
@@ -496,12 +646,19 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
             <h2 className="mb-2.5 font-sans text-white">
-              {sanityContent?.videoShowcaseTitle || sanityContent?.title || "Video & Live Media"}
+              {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
             <p className="text-purple-200/75 font-normal mb-5">
-              {sanityContent?.videoShowcaseSubtitle || sanityContent?.subtitle || "Explore 7th Heaven's live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax."}
+              {sanityContent?.videoShowcaseSubtitle || "Explore 7th Heaven's live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax."}
             </p>
           </div>
+          {isAdmin && (
+            <AddCmsButton
+              label="ADD VIDEO"
+              onClick={() => setIsAddModalOpen(true)}
+              className="self-start lg:self-auto"
+            />
+          )}
         </div>
       </div>
 
@@ -518,13 +675,13 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
             ? {}
             : { marginLeft: `-${gapPx / 2}px`, marginRight: `-${gapPx / 2}px`, width: `calc(100% + ${gapPx}px)` })
         }}>
-        {CATEGORY_SHOWCASE.map((video, idx) => {
+        {videos.map((video, idx) => {
           const start = video.previewStart ?? previewStartSec;
           const end = start + previewDurationSec;
 
           return (
             <div
-              key={video.id}
+              key={video.id + idx}
               className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
               style={{
                 width: smooothyVertical
@@ -630,6 +787,183 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
           );
         })}
       </div>
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-[99999] bg-gradient-to-r from-purple-900/90 to-pink-900/90 border border-purple-400/50 text-white px-6 py-3.5 rounded-xl shadow-2xl backdrop-blur-md flex items-center gap-3 animate-fade-in">
+          <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
+          <span className="font-semibold text-sm">{toastMessage}</span>
+        </div>
+      )}
+
+      {/* Add Video Modal */}
+      {isAddModalOpen && typeof window !== "undefined" && createPortal(
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+          <div className="relative w-full max-w-xl bg-neutral-900 border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl text-white max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setIsAddModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
+                <VideoIcon className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white">Add Video to Sanity</h3>
+                <p className="text-xs text-purple-300/70">Publish a new YouTube video directly to the Sanity database.</p>
+              </div>
+            </div>
+
+            {modalError && (
+              <div className="mb-4 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm">
+                {modalError}
+              </div>
+            )}
+
+            <form onSubmit={handleAddVideoSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  Video Title *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                  placeholder="e.g. 7th Heaven - Live at Summerfest"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  YouTube URL or Video ID *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newUrl}
+                  onChange={(e) => setNewUrl(e.target.value)}
+                  placeholder="e.g. https://www.youtube.com/watch?v=BzHUNTZ66zY or BzHUNTZ66zY"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80">
+                      Category *
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsCustomCategory(!isCustomCategory);
+                        if (!isCustomCategory) {
+                          setCustomCategoryInput("");
+                        }
+                      }}
+                      className="text-xs font-medium text-purple-400 hover:text-purple-300 transition-colors cursor-pointer"
+                    >
+                      {isCustomCategory ? "← Select List" : "+ New Category"}
+                    </button>
+                  </div>
+
+                  {isCustomCategory ? (
+                    <input
+                      type="text"
+                      required
+                      value={customCategoryInput}
+                      onChange={(e) => setCustomCategoryInput(e.target.value)}
+                      placeholder="e.g. Acoustic Sessions"
+                      className="w-full bg-black/50 border border-purple-500/50 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 text-sm"
+                    />
+                  ) : (
+                    <select
+                      value={newCategory}
+                      onChange={(e) => {
+                        if (e.target.value === "__CUSTOM__") {
+                          setIsCustomCategory(true);
+                          setCustomCategoryInput("");
+                        } else {
+                          setNewCategory(e.target.value);
+                        }
+                      }}
+                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                    >
+                      {availableCategories.map((cat) => (
+                        <option key={cat} value={cat}>
+                          {cat}
+                        </option>
+                      ))}
+                      <option value="__CUSTOM__">✨ + Add Custom Category...</option>
+                    </select>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Year
+                  </label>
+                  <input
+                    type="number"
+                    value={newYear}
+                    onChange={(e) => setNewYear(e.target.value)}
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Duration
+                  </label>
+                  <input
+                    type="text"
+                    value={newDuration}
+                    onChange={(e) => setNewDuration(e.target.value)}
+                    placeholder="3:30"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  Description
+                </label>
+                <textarea
+                  rows={3}
+                  value={newDesc}
+                  onChange={(e) => setNewDesc(e.target.value)}
+                  placeholder="Optional description or concert highlights..."
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
+                >
+                  {submitting ? "Saving..." : "+ SAVE VIDEO TO SANITY"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>,
+        document.body
+      )}
     </section>
   );
 }

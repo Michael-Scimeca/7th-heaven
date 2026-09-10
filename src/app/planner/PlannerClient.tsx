@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useSyncExternalStore, useCallback, useRef } from "react";
@@ -160,7 +161,7 @@ export default function PlannerClient() {
           {/* Hero Header */}
           <div className="relative rounded-lg p-8 sm:p-12 text-center overflow-hidden">
             <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-              <h1 className="">
+              <h1>
                 Planner <span className="text-[#c27aff]">Portal</span>
               </h1>
               <p>
@@ -279,7 +280,7 @@ export default function PlannerClient() {
                   <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors rounded-lg">+ New Booking</Link>
                 </div>
                 <div className="flex items-center gap-3 mb-1">
-                  <h1 className="">{booking.eventName}</h1>
+                  <h1>{booking.eventName}</h1>
                 </div>
                 <p className="font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
                 <p className="mb-6">Booked by <span className="text-white/80 font-semibold">{member?.name}</span></p>

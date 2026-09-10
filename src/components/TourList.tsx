@@ -5,11 +5,12 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect, useRef, useMemo, useCallback, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { Plus, X, MessageSquare, Edit, Mic, MapPin, CalendarDays, Bell, Mail, Car, ParkingCircle, ParkingSquare, Search } from "lucide-react";
 import { SanityTourDate } from "@/lib/sanity";
 import dynamic from "next/dynamic";
 const TourMap = dynamic(() => import("./TourMap"), { ssr: false });
-import { isShowOver, typeConfig, getShowType, getShowDateTime } from "@/lib/tour-helpers";
+import { isShowOver, typeConfig, getShowType, getShowDateTime, ensureUpcomingTourDates } from "@/lib/tour-helpers";
 import CountdownTimer from "./CountdownTimer";
 import { useMember } from "@/context/MemberContext";
 const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDropdown"), { ssr: false });
@@ -17,6 +18,7 @@ import { SquishyToggle } from "@/components/SquishyToggle";
 import LazySection from "@/components/LazySection";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import { SectionBadge } from "@/components/SectionBadge";
+import AddCmsButton from "./AddCmsButton";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
@@ -364,6 +366,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     setModalError(null);
   }, []);
 
+  const handleAddShowClick = useCallback(() => {
+    setEditingShow(null);
+    populateForm(null);
+    setModalError(null);
+    setIsModalOpen(true);
+  }, [populateForm]);
+
   const handleEditClick = (show: any) => {
     setEditingShow(show);
     populateForm(show);
@@ -607,8 +616,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   const displayShows = useMemo(() => {
     const rawList = (initialShows && initialShows.length > 0) ? initialShows : shows;
+    const ensuredList = ensureUpcomingTourDates(rawList);
     // Sort chronologically by date and time to support same-day multi-time setups
-    const list = [...rawList];
+    const list = [...ensuredList];
     list.sort((a, b) => {
       const timeA = parseShowDateTime(a.date, a.time, a.startDate).getTime();
       const timeB = parseShowDateTime(b.date, b.time, b.startDate).getTime();
@@ -619,8 +629,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   // Filter shows by time (exclude past shows by default unless showPastShows is true)
   const activeShowsByTime = useMemo(() => {
-    const upcoming = displayShows.filter(s => showPastShows || !isShowOver(s));
-    return upcoming.length > 0 ? upcoming : displayShows;
+    return displayShows.filter(s => showPastShows || !isShowOver(s));
   }, [displayShows, showPastShows]);
 
   // Derive filter options from current upcoming tour dates list
@@ -909,7 +918,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       )}
                     </div>
                     {upNext.info && (
-                      <p className="mt-3 uppercase tracking-[0.15em]">
+                      <p className="mt-3 uppercase">
                         {upNext.info}
                       </p>
                     )}
@@ -923,19 +932,19 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     />
                     <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full">
                       {upNext.mapUrl && (
-                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-map">
+                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)]  !underline decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-map">
                           <span>Directions</span>
                         </a>
                       )}
                       {upNext.websiteUrl && (
-                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-website">
+                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] !underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-website">
                           Website
                         </a>
                       )}
                       <div className="relative calendar-dropdown-container">
                         <button aria-label="Next"
                           onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                          className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
+                          className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer font-bold"
                           id="upnext-calendar-btn">
                           Add to Calendar
                         </button>
@@ -961,11 +970,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           <div className="flex items-center justify-end">
             <div className="flex items-center gap-3">
               {member?.role === 'admin' && (
-                <button aria-label="Action button"
-                  onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
-                  className="text-[0.7rem] uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-[var(--color-accent)] hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20">
-                  <Plus className="w-3.5 h-3.5" /> Add Show
-                </button>
+                <AddCmsButton
+                  label="ADD SHOW"
+                  onClick={handleAddShowClick}
+                />
               )}
 
               {hasActiveFilters && (
@@ -999,7 +1007,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
             <div className={`flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 w-full items-center`}>
               {/* Column 1: DAY */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] uppercase">Day</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] uppercase font-bold">Day</span>
 
               {/* Column 2: MONTH Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1012,7 +1020,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Column 3: PLACE / VENUE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] uppercase">Place</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] uppercase font-bold">Place</span>
 
               {/* Column 4: CITY Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1025,13 +1033,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Column 5: TIME */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase">Time</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase  font-bold">Time</span>
 
               {/* Column 6: MAP/CAL */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase text-center">Map/Cal</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase text-center font-bold">Map/Cal</span>
 
               {/* Column 7: WEBSITE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase text-right">Website</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase font-bold text-right">Website</span>
             </div>
           </div>
 
@@ -1059,11 +1067,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <div
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}>
-                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
-                    <span className="text-white text-[clamp(15px,1.5vw,23px)] whitespace-nowrap">{show.date}</span>
-                    <span className="text-white text-[clamp(15px,1.5vw,23px)]">{show.venue}</span>
-                    <span className="text-white/80 text-[clamp(13px,1.2vw,19px)]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
-                    <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)]">
+                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap font-bold">{show.day}</span>
+                    <span className="text-white text-[clamp(15px,1.5vw,23px)] whitespace-nowrap font-bold">{show.date}</span>
+                    <span className="text-white text-[clamp(15px,1.5vw,23px)] font-bold">{show.venue}</span>
+                    <span className="text-white/80 text-[clamp(13px,1.2vw,19px)] font-bold">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)] font-bold">
                       {(show.doorsTime || show.time || show.playTime) ? (
                         <div className="flex flex-col gap-0.5">
                           {show.doorsTime && <span className="text-white whitespace-nowrap">Doors: {show.doorsTime}</span>}
@@ -1188,7 +1196,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           target="_blank"
                           rel="noopener noreferrer"
                           title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
-                          className="inline-flex items-center justify-center whitespace-nowrap uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer"
+                          className="inline-flex items-center justify-center whitespace-nowrap uppercase text-[var(--color-accent)] !underline font-bold decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer font-bold "
                           style={{ fontSize: websiteBtnFontSize }}>
                           Website
                         </a>
@@ -1433,611 +1441,619 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             </div>
           )}
         </div>
-      </section>
+      </section >
 
       {/* Show Edit/Add Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto font-sans">
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-lg w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
-            <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
-            <div className="p-6 md:p-8 text-left">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-white flex items-center gap-2">
-                  <span className="flex items-center gap-1.5">{editingShow ? <><Edit className="w-5 h-5" /> Edit Show Date</> : <><Plus className="w-5 h-5" /> Add New Show Date</>}</span>
-                </h3>
-                <button aria-label="Action button"
-                  onClick={() => setIsModalOpen(false)}>
-                  ✕ Close
-                </button>
+      {
+        isModalOpen && typeof window !== "undefined" && createPortal(
+          <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto font-sans">
+            <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-lg w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
+              <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
+              <div className="p-6 md:p-8 text-left">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-white flex items-center gap-2">
+                    <span className="flex items-center gap-1.5">{editingShow ? <><Edit className="w-5 h-5" /> Edit Show Date</> : <><Plus className="w-5 h-5" /> Add New Show Date</>}</span>
+                  </h3>
+                  <button aria-label="Action button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="p-2 text-white/50 hover:text-white transition-colors cursor-pointer">
+                    ✕ Close
+                  </button>
+                </div>
+
+                {modalError && (
+                  <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 mb-6">
+                    {modalError}
+                  </div>
+                )}
+
+                <form onSubmit={handleSaveShow} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="tour-form-venue" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Venue Name *</label>
+                      <input aria-label="Input field" id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
+                        placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                    <div>
+                      <label htmlFor="tour-form-date" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Event Date *</label>
+                      <input aria-label="Input field" id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
+                        className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="sm:col-span-2">
+                      <label htmlFor="tour-form-city" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">City *</label>
+                      <input aria-label="Input field" id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
+                        placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                    <div>
+                      <label htmlFor="tour-form-state" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">State *</label>
+                      <input aria-label="Input field" id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
+                        placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                    <div>
+                      <label htmlFor="tour-form-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Show Time</label>
+                      <input aria-label="Input field" id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
+                        placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                    <div>
+                      <label htmlFor="tour-form-doors-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Doors Open</label>
+                      <input aria-label="Input field" id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
+                        placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                    <div>
+                      <label htmlFor="tour-form-play-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Band Plays</label>
+                      <input aria-label="Input field" id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
+                        placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                    <div>
+                      <label htmlFor="tour-form-cover" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Cover / Admission</label>
+                      <input aria-label="Input field" id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
+                        placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="tour-form-ticket-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Ticket Link (URL)</label>
+                      <input aria-label="Input field" id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
+                        placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                    <div>
+                      <label htmlFor="tour-form-directions-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Directions / Google Maps (URL)</label>
+                      <input aria-label="Input field" id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
+                        placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="tour-form-parking-url" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Directions Link (URL)</label>
+                      <input aria-label="Input field" id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
+                        placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                    <div>
+                      <label htmlFor="tour-form-parking-info" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Info / Notes</label>
+                      <input aria-label="Input field" id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
+                        placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="tour-form-notes" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Notes / Description</label>
+                    <textarea aria-label="Text input" id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
+                      placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/10 my-2">
+                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                      <SquishyToggle
+                        id="tour-all-ages-toggle"
+                        label="All Ages Show"
+                        checked={formAllAges}
+                        onChange={setFormAllAges}
+                      />
+                      <span>All Ages Show</span>
+                    </div>
+                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                      <SquishyToggle
+                        id="tour-is-festival-toggle"
+                        label="Is Festival"
+                        checked={formIsFestival}
+                        onChange={setFormIsFestival}
+                      />
+                      <span>Is Festival</span>
+                    </div>
+                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                      <SquishyToggle
+                        id="tour-is-private-toggle"
+                        label="Private Event"
+                        checked={formIsPrivate}
+                        onChange={setFormIsPrivate}
+                      />
+                      <span>Private Event</span>
+                    </div>
+                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                      <SquishyToggle
+                        id="tour-is-unplugged-toggle"
+                        label="Unplugged Show"
+                        checked={formIsUnplugged}
+                        onChange={setFormIsUnplugged}
+                      />
+                      <span>Unplugged Show</span>
+                    </div>
+                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                      <SquishyToggle
+                        id="tour-is-outdoor-toggle"
+                        label="Outdoor Show"
+                        checked={formIsOutdoor}
+                        onChange={setFormIsOutdoor}
+                      />
+                      <span>Outdoor Show</span>
+                    </div>
+                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                      <SquishyToggle
+                        id="tour-is-casino-toggle"
+                        label="Casino Show"
+                        checked={formIsCasino}
+                        onChange={setFormIsCasino}
+                      />
+                      <span>Casino Show</span>
+                    </div>
+                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                      <SquishyToggle
+                        id="tour-is-special-event-toggle"
+                        label="Special Event"
+                        checked={formIsSpecialEvent}
+                        onChange={setFormIsSpecialEvent}
+                      />
+                      <span>Special Event</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 pt-4 border-t border-white/5">
+                    <button aria-label="Action button" type="button" onClick={() => setIsModalOpen(false)}
+                      className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white uppercase transition-colors cursor-pointer">
+                      Cancel
+                    </button>
+                    <button aria-label="Action button" type="submit" disabled={submitting}
+                      className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-colors disabled:opacity-50 cursor-pointer">
+                      {submitting ? "Saving..." : "Save Show"}
+                    </button>
+                  </div>
+                </form>
               </div>
+            </div>
+          </div>,
+          document.body
+        )
+      }
 
-              {modalError && (
-                <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 mb-6">
-                  {modalError}
-                </div>
-              )}
+      {
+        notifyPopupShow && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm cursor-default" onClick={() => setNotifyPopupShow(null)}>
+            <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease] text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
+              {/* Accent bar */}
+              <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
 
-              <form onSubmit={handleSaveShow} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="tour-form-venue" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Venue Name *</label>
-                    <input aria-label="Input field" id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
-                      placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+              <div className="p-6">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[var(--color-accent)]" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-white">Set Up Alerts</h3>
+                      <p className="uppercase r">{notifyPopupShow.venue}</p>
+                    </div>
                   </div>
-                  <div>
-                    <label htmlFor="tour-form-date" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Event Date *</label>
-                    <input aria-label="Input field" id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
-                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="sm:col-span-2">
-                    <label htmlFor="tour-form-city" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">City *</label>
-                    <input aria-label="Input field" id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
-                      placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
-                  <div>
-                    <label htmlFor="tour-form-state" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">State *</label>
-                    <input aria-label="Input field" id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
-                      placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
+                  <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-lg bg-[#00000029] hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                  </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                  <div>
-                    <label htmlFor="tour-form-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Show Time</label>
-                    <input aria-label="Input field" id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
-                      placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
-                  <div>
-                    <label htmlFor="tour-form-doors-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Doors Open</label>
-                    <input aria-label="Input field" id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
-                      placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
-                  <div>
-                    <label htmlFor="tour-form-play-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Band Plays</label>
-                    <input aria-label="Input field" id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
-                      placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
-                  <div>
-                    <label htmlFor="tour-form-cover" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Cover / Admission</label>
-                    <input aria-label="Input field" id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
-                      placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
+                {/* Show info */}
+                <div className="bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 mb-4">
+                  <p className="font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
+                  <p className="mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="tour-form-ticket-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Ticket Link (URL)</label>
-                    <input aria-label="Input field" id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
-                      placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
-                  <div>
-                    <label htmlFor="tour-form-directions-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Directions / Google Maps (URL)</label>
-                    <input aria-label="Input field" id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
-                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
+                {/* What would you like? */}
+                <p className="uppercase tracking-[0.15em] mb-2">What would you like to be notified about?</p>
+
+                <div className="flex flex-col gap-2">
+                  {/* This show */}
+                  <button aria-label="Action button"
+                    type="button"
+                    onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
+                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                      : 'bg-white/[0.02] border-white/10   border-white/10 '
+                      }`}>
+                    <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                      }`}>
+                      <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
+                        }`} />
+                    </span>
+                    <div className="text-left">
+                      <p className="flex items-center gap-1.5"><Mic className="w-3.5 h-3.5" /> This specific show</p>
+                      <p>Reminders & updates for {notifyPopupShow.venue}</p>
+                    </div>
+                  </button>
+
+                  {/* Proximity shows */}
+                  <button aria-label="Action button"
+                    type="button"
+                    onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
+                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                      : 'bg-white/[0.02] border-white/10   border-white/10 '
+                      }`}>
+                    <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                      }`}>
+                      <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
+                        }`} />
+                    </span>
+                    <div className="text-left">
+                      <p className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Shows near me</p>
+                      <p>Get emailed when we book near your area</p>
+                    </div>
+                  </button>
+
+                  {/* Newsletter */}
+                  <button aria-label="Action button"
+                    type="button"
+                    onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
+                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                      : 'bg-white/[0.02] border-white/10   border-white/10 '
+                      }`}>
+                    <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                      }`}>
+                      <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
+                        }`} />
+                    </span>
+                    <div className="text-left">
+                      <p className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Newsletter & exclusives</p>
+                      <p>News, drops & merch updates</p>
+                    </div>
+                  </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="tour-form-parking-url" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Directions Link (URL)</label>
-                    <input aria-label="Input field" id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
-                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
-                  <div>
-                    <label htmlFor="tour-form-parking-info" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Info / Notes</label>
-                    <input aria-label="Input field" id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
-                      placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
-                  </div>
-                </div>
+                {/* Sending to email */}
+                <p className="mt-3 text-center">
+                  Notifications will be sent to <span className="text-white/40 font-semibold">{member?.email}</span>
+                </p>
 
-                <div>
-                  <label htmlFor="tour-form-notes" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Notes / Description</label>
-                  <textarea aria-label="Text input" id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
-                    placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/10 my-2">
-                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
-                    <SquishyToggle
-                      id="tour-all-ages-toggle"
-                      label="All Ages Show"
-                      checked={formAllAges}
-                      onChange={setFormAllAges}
-                    />
-                    <span>All Ages Show</span>
-                  </div>
-                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
-                    <SquishyToggle
-                      id="tour-is-festival-toggle"
-                      label="Is Festival"
-                      checked={formIsFestival}
-                      onChange={setFormIsFestival}
-                    />
-                    <span>Is Festival</span>
-                  </div>
-                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
-                    <SquishyToggle
-                      id="tour-is-private-toggle"
-                      label="Private Event"
-                      checked={formIsPrivate}
-                      onChange={setFormIsPrivate}
-                    />
-                    <span>Private Event</span>
-                  </div>
-                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
-                    <SquishyToggle
-                      id="tour-is-unplugged-toggle"
-                      label="Unplugged Show"
-                      checked={formIsUnplugged}
-                      onChange={setFormIsUnplugged}
-                    />
-                    <span>Unplugged Show</span>
-                  </div>
-                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
-                    <SquishyToggle
-                      id="tour-is-outdoor-toggle"
-                      label="Outdoor Show"
-                      checked={formIsOutdoor}
-                      onChange={setFormIsOutdoor}
-                    />
-                    <span>Outdoor Show</span>
-                  </div>
-                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
-                    <SquishyToggle
-                      id="tour-is-casino-toggle"
-                      label="Casino Show"
-                      checked={formIsCasino}
-                      onChange={setFormIsCasino}
-                    />
-                    <span>Casino Show</span>
-                  </div>
-                  <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
-                    <SquishyToggle
-                      id="tour-is-special-event-toggle"
-                      label="Special Event"
-                      checked={formIsSpecialEvent}
-                      onChange={setFormIsSpecialEvent}
-                    />
-                    <span>Special Event</span>
-                  </div>
-                </div>
-
-                <div className="flex gap-3 pt-4 border-t border-white/5">
-                  <button aria-label="Action button" type="button" onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white uppercase transition-colors cursor-pointer">
+                {/* Actions */}
+                <div className="flex gap-2 mt-4">
+                  <button aria-label="Action button"
+                    onClick={() => setNotifyPopupShow(null)}
+                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white uppercase rounded-lg transition-colors cursor-pointer">
                     Cancel
                   </button>
-                  <button aria-label="Action button" type="submit" disabled={submitting}
-                    className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-colors disabled:opacity-50 cursor-pointer">
-                    {submitting ? "Saving..." : "Save Show"}
+                  <button aria-label="Action button"
+                    onClick={handleNotifyConfirm}
+                    disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
+                    className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5">
+                    {subscribingId ? 'Saving...' : <><Bell className="w-3.5 h-3.5" /> Enable Alerts</>}
                   </button>
                 </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {notifyPopupShow && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm cursor-default" onClick={() => setNotifyPopupShow(null)}>
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease] text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
-            {/* Accent bar */}
-            <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
-
-            <div className="p-6">
-              {/* Header */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[var(--color-accent)]" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-white">Set Up Alerts</h3>
-                    <p className="uppercase r">{notifyPopupShow.venue}</p>
-                  </div>
-                </div>
-                <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-lg bg-[#00000029] hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
-                </button>
-              </div>
-
-              {/* Show info */}
-              <div className="bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 mb-4">
-                <p className="font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
-                <p className="mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
-              </div>
-
-              {/* What would you like? */}
-              <p className="uppercase tracking-[0.15em] mb-2">What would you like to be notified about?</p>
-
-              <div className="flex flex-col gap-2">
-                {/* This show */}
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
-                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}>
-                  <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                    }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
-                      }`} />
-                  </span>
-                  <div className="text-left">
-                    <p className="flex items-center gap-1.5"><Mic className="w-3.5 h-3.5" /> This specific show</p>
-                    <p>Reminders & updates for {notifyPopupShow.venue}</p>
-                  </div>
-                </button>
-
-                {/* Proximity shows */}
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
-                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}>
-                  <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                    }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
-                      }`} />
-                  </span>
-                  <div className="text-left">
-                    <p className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Shows near me</p>
-                    <p>Get emailed when we book near your area</p>
-                  </div>
-                </button>
-
-                {/* Newsletter */}
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
-                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}>
-                  <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                    }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
-                      }`} />
-                  </span>
-                  <div className="text-left">
-                    <p className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Newsletter & exclusives</p>
-                    <p>News, drops & merch updates</p>
-                  </div>
-                </button>
-              </div>
-
-              {/* Sending to email */}
-              <p className="mt-3 text-center">
-                Notifications will be sent to <span className="text-white/40 font-semibold">{member?.email}</span>
-              </p>
-
-              {/* Actions */}
-              <div className="flex gap-2 mt-4">
-                <button aria-label="Action button"
-                  onClick={() => setNotifyPopupShow(null)}
-                  className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white uppercase rounded-lg transition-colors cursor-pointer">
-                  Cancel
-                </button>
-                <button aria-label="Action button"
-                  onClick={handleNotifyConfirm}
-                  disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
-                  className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5">
-                  {subscribingId ? 'Saving...' : <><Bell className="w-3.5 h-3.5" /> Enable Alerts</>}
-                </button>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
       {/* ── Font Customizer Modal/Panel ── */}
-      {isFontCustomizerOpen && (
-        <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">
-          <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 p-6 md:p-8 relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
+      {
+        isFontCustomizerOpen && (
+          <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">
+            <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 p-6 md:p-8 relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
 
-            {/* Header */}
-            <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-              <h3 className="text-white uppercase r">Font Tester</h3>
-              <button aria-label="Action button"
-                onClick={() => setIsFontCustomizerOpen(false)}
-                className="text-white/40 hover:text-white cursor-pointer bg-[#00000029] hover:bg-white/10 rounded-lg w-6 h-6 flex items-center justify-center transition-colors">
-                ✕
-              </button>
-            </div>
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
+                <h3 className="text-white uppercase r">Font Tester</h3>
+                <button aria-label="Action button"
+                  onClick={() => setIsFontCustomizerOpen(false)}
+                  className="text-white/40 hover:text-white cursor-pointer bg-[#00000029] hover:bg-white/10 rounded-lg w-6 h-6 flex items-center justify-center transition-colors">
+                  ✕
+                </button>
+              </div>
 
-            {/* Font Family */}
-            <div className="mb-5">
-              <label htmlFor="tour-font-style" className="block text-white/50 uppercase mb-2">Font Style</label>
-              <select aria-label="Select option"
-                id="tour-font-style"
-                value={tourFontFamily}
-                onChange={(e) => setTourFontFamily(e.target.value)}
-                className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer">
-                <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Switzer (Default)</option>
-                <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
-                <option value="Inter" className="bg-[var(--color-bg-surface)] text-white">Inter</option>
-                <option value="Montserrat" className="bg-[var(--color-bg-surface)] text-white">Montserrat</option>
-                <option value="Outfit" className="bg-[var(--color-bg-surface)] text-white">Outfit</option>
-                <option value="Syne" className="bg-[var(--color-bg-surface)] text-white">Syne</option>
-                <option value="Playfair Display" className="bg-[var(--color-bg-surface)] text-white">Playfair Display</option>
-                <option value="Courier New" className="bg-[var(--color-bg-surface)] text-white">Monospace</option>
-              </select>
-            </div>
+              {/* Font Family */}
+              <div className="mb-5">
+                <label htmlFor="tour-font-style" className="block text-white/50 uppercase mb-2">Font Style</label>
+                <select aria-label="Select option"
+                  id="tour-font-style"
+                  value={tourFontFamily}
+                  onChange={(e) => setTourFontFamily(e.target.value)}
+                  className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer">
+                  <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Switzer (Default)</option>
+                  <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
+                  <option value="Inter" className="bg-[var(--color-bg-surface)] text-white">Inter</option>
+                  <option value="Montserrat" className="bg-[var(--color-bg-surface)] text-white">Montserrat</option>
+                  <option value="Outfit" className="bg-[var(--color-bg-surface)] text-white">Outfit</option>
+                  <option value="Syne" className="bg-[var(--color-bg-surface)] text-white">Syne</option>
+                  <option value="Playfair Display" className="bg-[var(--color-bg-surface)] text-white">Playfair Display</option>
+                  <option value="Courier New" className="bg-[var(--color-bg-surface)] text-white">Monospace</option>
+                </select>
+              </div>
 
-            {/* Font Size */}
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-font-size-slider" className="text-white/50 uppercase r">Font Size</label>
-                <span className="text-[var(--color-accent)]">{tourFontSize}</span>
-              </div>
-              <input aria-label="Input field"
-                id="tour-font-size-slider"
-                type="range"
-                min="10"
-                max="24"
-                value={parseInt(tourFontSize) || 13}
-                onChange={(e) => setTourFontSize(`${e.target.value}px`)}
-                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-              />
-              <div className="flex justify-between text-white/30 mt-0.5">
-                <span>10px</span>
-                <span>17px</span>
-                <span>24px</span>
-              </div>
-            </div>
-
-            {/* Website Button Font Size */}
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-website-btn-size-slider" className="text-white/50 uppercase r">Website Button Size</label>
-                <span className="text-[var(--color-accent)]">{websiteBtnFontSize}</span>
-              </div>
-              <input aria-label="Input field"
-                id="tour-website-btn-size-slider"
-                type="range"
-                min="8"
-                max="22"
-                value={parseInt(websiteBtnFontSize) || 10}
-                onChange={(e) => {
-                  const v = `${e.target.value}px`;
-                  setWebsiteBtnFontSize(v);
-                  localStorage.setItem("7h_tour_website_btn_font_size", v);
-                }}
-                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-              />
-              <div className="flex justify-between text-white/30 mt-0.5">
-                <span>8px</span>
-                <span>15px</span>
-                <span>22px</span>
-              </div>
-            </div>
-
-            {/* Row Padding */}
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-row-padding-slider" className="text-white/50 uppercase r">Row Padding</label>
-                <span className="text-[var(--color-accent)]">{tourRowPadding}</span>
-              </div>
-              <input aria-label="Input field"
-                id="tour-row-padding-slider"
-                type="range"
-                min="0"
-                max="40"
-                value={parseInt(tourRowPadding) || 0}
-                onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
-                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-              />
-              <div className="flex justify-between text-white/30 mt-0.5">
-                <span>0px</span>
-                <span>20px</span>
-                <span>40px</span>
-              </div>
-            </div>
-
-            {/* Row Spacing */}
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-row-spacing-slider" className="text-white/50 uppercase r">Row Spacing (Margin)</label>
-                <span className="text-[var(--color-accent)]">{tourRowGap}</span>
-              </div>
-              <input aria-label="Input field"
-                id="tour-row-spacing-slider"
-                type="range"
-                min="0"
-                max="30"
-                value={parseInt(tourRowGap) || 0}
-                onChange={(e) => setTourRowGap(`${e.target.value}px`)}
-                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-              />
-              <div className="flex justify-between text-white/30 mt-0.5">
-                <span>0px</span>
-                <span>15px</span>
-                <span>30px</span>
-              </div>
-            </div>
-
-            {/* Row Height */}
-            <div className="mb-5">
-              <div className="flex justify-between items-center mb-1.5">
-                <label htmlFor="tour-row-height-slider" className="text-white/50 uppercase r">Row Height</label>
-                <span className="text-[var(--color-accent)]">{tourRowHeight}</span>
-              </div>
-              <input aria-label="Input field"
-                id="tour-row-height-slider"
-                type="range"
-                min="30"
-                max="100"
-                value={parseInt(tourRowHeight) || 40}
-                onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
-                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-              />
-              <div className="flex justify-between text-white/30 mt-0.5">
-                <span>30px</span>
-                <span>65px</span>
-                <span>100px</span>
-              </div>
-            </div>
-
-            {/* Map Fade Mask Controls */}
-            <div className="mb-5 pt-4 border-t border-white/10">
-              <div className="flex items-center justify-between mb-3">
-                <label className="text-white uppercase r">Map Fade Mask</label>
-                <SquishyToggle
-                  id="map-fade-mask-toggle"
-                  label="Map Fade Mask"
-                  checked={mapMaskEnabled}
-                  onChange={(checked) => {
-                    setMapMaskEnabled(checked);
-                    localStorage.setItem("7h_tour_map_mask_enabled", String(checked));
-                  }}
+              {/* Font Size */}
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-1.5">
+                  <label htmlFor="tour-font-size-slider" className="text-white/50 uppercase r">Font Size</label>
+                  <span className="text-[var(--color-accent)]">{tourFontSize}</span>
+                </div>
+                <input aria-label="Input field"
+                  id="tour-font-size-slider"
+                  type="range"
+                  min="10"
+                  max="24"
+                  value={parseInt(tourFontSize) || 13}
+                  onChange={(e) => setTourFontSize(`${e.target.value}px`)}
+                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
                 />
+                <div className="flex justify-between text-white/30 mt-0.5">
+                  <span>10px</span>
+                  <span>17px</span>
+                  <span>24px</span>
+                </div>
               </div>
 
-              {mapMaskEnabled && (
-                <>
-                  {/* Map Top Fade Distance */}
-                  <div className="mb-3">
-                    <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-top-slider" className="text-white/50 uppercase r">Top Fade Clip</label>
-                      <span className="text-[var(--color-accent)]">{mapMaskTop}px</span>
-                    </div>
-                    <input aria-label="Input field"
-                      id="map-mask-top-slider"
-                      type="range"
-                      min="0"
-                      max="150"
-                      value={mapMaskTop}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        setMapMaskTop(val);
-                        localStorage.setItem("7h_tour_map_mask_top", String(val));
-                      }}
-                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-                    />
-                    <div className="flex justify-between text-white/30 mt-0.5">
-                      <span>0px</span>
-                      <span>75px</span>
-                      <span>150px</span>
-                    </div>
-                  </div>
+              {/* Website Button Font Size */}
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-1.5">
+                  <label htmlFor="tour-website-btn-size-slider" className="text-white/50 uppercase r">Website Button Size</label>
+                  <span className="text-[var(--color-accent)]">{websiteBtnFontSize}</span>
+                </div>
+                <input aria-label="Input field"
+                  id="tour-website-btn-size-slider"
+                  type="range"
+                  min="8"
+                  max="22"
+                  value={parseInt(websiteBtnFontSize) || 10}
+                  onChange={(e) => {
+                    const v = `${e.target.value}px`;
+                    setWebsiteBtnFontSize(v);
+                    localStorage.setItem("7h_tour_website_btn_font_size", v);
+                  }}
+                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                />
+                <div className="flex justify-between text-white/30 mt-0.5">
+                  <span>8px</span>
+                  <span>15px</span>
+                  <span>22px</span>
+                </div>
+              </div>
 
-                  {/* Map Bottom Fade Distance */}
-                  <div className="mb-3">
-                    <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-bottom-slider" className="text-white/50 uppercase r">Bottom Fade Clip</label>
-                      <span className="text-[var(--color-accent)]">{mapMaskBottom}px</span>
-                    </div>
-                    <input aria-label="Input field"
-                      id="map-mask-bottom-slider"
-                      type="range"
-                      min="0"
-                      max="150"
-                      value={mapMaskBottom}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        setMapMaskBottom(val);
-                        localStorage.setItem("7h_tour_map_mask_bottom", String(val));
-                      }}
-                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-                    />
-                    <div className="flex justify-between text-white/30 mt-0.5">
-                      <span>0px</span>
-                      <span>75px</span>
-                      <span>150px</span>
-                    </div>
-                  </div>
+              {/* Row Padding */}
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-1.5">
+                  <label htmlFor="tour-row-padding-slider" className="text-white/50 uppercase r">Row Padding</label>
+                  <span className="text-[var(--color-accent)]">{tourRowPadding}</span>
+                </div>
+                <input aria-label="Input field"
+                  id="tour-row-padding-slider"
+                  type="range"
+                  min="0"
+                  max="40"
+                  value={parseInt(tourRowPadding) || 0}
+                  onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
+                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                />
+                <div className="flex justify-between text-white/30 mt-0.5">
+                  <span>0px</span>
+                  <span>20px</span>
+                  <span>40px</span>
+                </div>
+              </div>
 
-                  {/* Map Left Fade Distance */}
-                  <div className="mb-3">
-                    <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-left-slider" className="text-white/50 uppercase r">Left Fade Clip</label>
-                      <span className="text-[var(--color-accent)]">{mapMaskLeft}px</span>
-                    </div>
-                    <input aria-label="Input field"
-                      id="map-mask-left-slider"
-                      type="range"
-                      min="0"
-                      max="150"
-                      value={mapMaskLeft}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        setMapMaskLeft(val);
-                        localStorage.setItem("7h_tour_map_mask_left", String(val));
-                      }}
-                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-                    />
-                    <div className="flex justify-between text-white/30 mt-0.5">
-                      <span>0px</span>
-                      <span>75px</span>
-                      <span>150px</span>
-                    </div>
-                  </div>
+              {/* Row Spacing */}
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-1.5">
+                  <label htmlFor="tour-row-spacing-slider" className="text-white/50 uppercase r">Row Spacing (Margin)</label>
+                  <span className="text-[var(--color-accent)]">{tourRowGap}</span>
+                </div>
+                <input aria-label="Input field"
+                  id="tour-row-spacing-slider"
+                  type="range"
+                  min="0"
+                  max="30"
+                  value={parseInt(tourRowGap) || 0}
+                  onChange={(e) => setTourRowGap(`${e.target.value}px`)}
+                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                />
+                <div className="flex justify-between text-white/30 mt-0.5">
+                  <span>0px</span>
+                  <span>15px</span>
+                  <span>30px</span>
+                </div>
+              </div>
 
-                  {/* Map Right Fade Distance */}
-                  <div className="mb-3">
-                    <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="map-mask-right-slider" className="text-white/50 uppercase r">Right Fade Clip</label>
-                      <span className="text-[var(--color-accent)]">{mapMaskRight}px</span>
-                    </div>
-                    <input aria-label="Input field"
-                      id="map-mask-right-slider"
-                      type="range"
-                      min="0"
-                      max="150"
-                      value={mapMaskRight}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        setMapMaskRight(val);
-                        localStorage.setItem("7h_tour_map_mask_right", String(val));
-                      }}
-                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-                    />
-                    <div className="flex justify-between text-white/30 mt-0.5">
-                      <span>0px</span>
-                      <span>75px</span>
-                      <span>150px</span>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
+              {/* Row Height */}
+              <div className="mb-5">
+                <div className="flex justify-between items-center mb-1.5">
+                  <label htmlFor="tour-row-height-slider" className="text-white/50 uppercase r">Row Height</label>
+                  <span className="text-[var(--color-accent)]">{tourRowHeight}</span>
+                </div>
+                <input aria-label="Input field"
+                  id="tour-row-height-slider"
+                  type="range"
+                  min="30"
+                  max="100"
+                  value={parseInt(tourRowHeight) || 40}
+                  onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
+                  className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                />
+                <div className="flex justify-between text-white/30 mt-0.5">
+                  <span>30px</span>
+                  <span>65px</span>
+                  <span>100px</span>
+                </div>
+              </div>
 
-            {/* Code telemetry */}
-            <div className="bg-black/40 border border-white/10 rounded-lg p-3.5 mb-5 text-white select-all whitespace-pre-wrap">
-              {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
-            </div>
+              {/* Map Fade Mask Controls */}
+              <div className="mb-5 pt-4 border-t border-white/10">
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-white uppercase r">Map Fade Mask</label>
+                  <SquishyToggle
+                    id="map-fade-mask-toggle"
+                    label="Map Fade Mask"
+                    checked={mapMaskEnabled}
+                    onChange={(checked) => {
+                      setMapMaskEnabled(checked);
+                      localStorage.setItem("7h_tour_map_mask_enabled", String(checked));
+                    }}
+                  />
+                </div>
 
-            {/* Action buttons */}
-            <div className="grid grid-cols-2 gap-3">
-              <button aria-label="Action button"
-                onClick={() => {
-                  navigator.clipboard.writeText(`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`);
-                  setCopied(true);
-                  setTimeout(() => setCopied(false), 2000);
-                }}
-                className="py-2.5 bg-[#00000029] border border-white/10 hover:bg-white/10 rounded-lg text-white uppercase cursor-pointer transition-colors animate-all">
-                {copied ? "Copied! ✓" : "Copy CSS"}
-              </button>
-              <button aria-label="Action button"
-                onClick={() => {
-                  localStorage.setItem("7h_tour_font_size", tourFontSize);
-                  localStorage.setItem("7h_tour_font_family", tourFontFamily);
-                  localStorage.setItem("7h_tour_row_padding", tourRowPadding);
-                  localStorage.setItem("7h_tour_row_gap", tourRowGap);
-                  localStorage.setItem("7h_tour_row_height", tourRowHeight);
-                  setIsFontCustomizerOpen(false);
-                }}
-                className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(255,10,61,0.9)] rounded-lg text-white uppercase cursor-pointer transition-colors">
-                Apply & Save
-              </button>
+                {mapMaskEnabled && (
+                  <>
+                    {/* Map Top Fade Distance */}
+                    <div className="mb-3">
+                      <div className="flex justify-between items-center mb-1">
+                        <label htmlFor="map-mask-top-slider" className="text-white/50 uppercase r">Top Fade Clip</label>
+                        <span className="text-[var(--color-accent)]">{mapMaskTop}px</span>
+                      </div>
+                      <input aria-label="Input field"
+                        id="map-mask-top-slider"
+                        type="range"
+                        min="0"
+                        max="150"
+                        value={mapMaskTop}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value, 10);
+                          setMapMaskTop(val);
+                          localStorage.setItem("7h_tour_map_mask_top", String(val));
+                        }}
+                        className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                      />
+                      <div className="flex justify-between text-white/30 mt-0.5">
+                        <span>0px</span>
+                        <span>75px</span>
+                        <span>150px</span>
+                      </div>
+                    </div>
+
+                    {/* Map Bottom Fade Distance */}
+                    <div className="mb-3">
+                      <div className="flex justify-between items-center mb-1">
+                        <label htmlFor="map-mask-bottom-slider" className="text-white/50 uppercase r">Bottom Fade Clip</label>
+                        <span className="text-[var(--color-accent)]">{mapMaskBottom}px</span>
+                      </div>
+                      <input aria-label="Input field"
+                        id="map-mask-bottom-slider"
+                        type="range"
+                        min="0"
+                        max="150"
+                        value={mapMaskBottom}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value, 10);
+                          setMapMaskBottom(val);
+                          localStorage.setItem("7h_tour_map_mask_bottom", String(val));
+                        }}
+                        className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                      />
+                      <div className="flex justify-between text-white/30 mt-0.5">
+                        <span>0px</span>
+                        <span>75px</span>
+                        <span>150px</span>
+                      </div>
+                    </div>
+
+                    {/* Map Left Fade Distance */}
+                    <div className="mb-3">
+                      <div className="flex justify-between items-center mb-1">
+                        <label htmlFor="map-mask-left-slider" className="text-white/50 uppercase r">Left Fade Clip</label>
+                        <span className="text-[var(--color-accent)]">{mapMaskLeft}px</span>
+                      </div>
+                      <input aria-label="Input field"
+                        id="map-mask-left-slider"
+                        type="range"
+                        min="0"
+                        max="150"
+                        value={mapMaskLeft}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value, 10);
+                          setMapMaskLeft(val);
+                          localStorage.setItem("7h_tour_map_mask_left", String(val));
+                        }}
+                        className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                      />
+                      <div className="flex justify-between text-white/30 mt-0.5">
+                        <span>0px</span>
+                        <span>75px</span>
+                        <span>150px</span>
+                      </div>
+                    </div>
+
+                    {/* Map Right Fade Distance */}
+                    <div className="mb-3">
+                      <div className="flex justify-between items-center mb-1">
+                        <label htmlFor="map-mask-right-slider" className="text-white/50 uppercase r">Right Fade Clip</label>
+                        <span className="text-[var(--color-accent)]">{mapMaskRight}px</span>
+                      </div>
+                      <input aria-label="Input field"
+                        id="map-mask-right-slider"
+                        type="range"
+                        min="0"
+                        max="150"
+                        value={mapMaskRight}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value, 10);
+                          setMapMaskRight(val);
+                          localStorage.setItem("7h_tour_map_mask_right", String(val));
+                        }}
+                        className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                      />
+                      <div className="flex justify-between text-white/30 mt-0.5">
+                        <span>0px</span>
+                        <span>75px</span>
+                        <span>150px</span>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Code telemetry */}
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3.5 mb-5 text-white select-all whitespace-pre-wrap">
+                {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
+              </div>
+
+              {/* Action buttons */}
+              <div className="grid grid-cols-2 gap-3">
+                <button aria-label="Action button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }}
+                  className="py-2.5 bg-[#00000029] border border-white/10 hover:bg-white/10 rounded-lg text-white uppercase cursor-pointer transition-colors animate-all">
+                  {copied ? "Copied! ✓" : "Copy CSS"}
+                </button>
+                <button aria-label="Action button"
+                  onClick={() => {
+                    localStorage.setItem("7h_tour_font_size", tourFontSize);
+                    localStorage.setItem("7h_tour_font_family", tourFontFamily);
+                    localStorage.setItem("7h_tour_row_padding", tourRowPadding);
+                    localStorage.setItem("7h_tour_row_gap", tourRowGap);
+                    localStorage.setItem("7h_tour_row_height", tourRowHeight);
+                    setIsFontCustomizerOpen(false);
+                  }}
+                  className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(255,10,61,0.9)] rounded-lg text-white uppercase cursor-pointer transition-colors">
+                  Apply & Save
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </>
   );
 }

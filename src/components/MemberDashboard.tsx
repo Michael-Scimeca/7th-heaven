@@ -263,7 +263,7 @@ export default function MemberDashboard() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="">{member!.name}</h1>
+                <h1>{member!.name}</h1>
                 {/* Role label */}
                 {(() => {
                   const role = member?.role ?? 'fan';

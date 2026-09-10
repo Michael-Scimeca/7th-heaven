@@ -385,12 +385,6 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   }, [isYouTube, videoSrc]);
 
   // ── Parallax: background video drifts slower than the page as you scroll ────
-  // Desktop-only (matches the perf gating used elsewhere in this component),
-  // skipped for the YouTube-embed path, and respects prefers-reduced-motion
-  // — all handled inside the shared hook. `videoSrc` is passed as the
-  // remountKey because the <video> element remounts (via `key={videoSrc}`
-  // below) on every album switch, which needs the animation to rebind to
-  // the fresh DOM node even though `enabled` itself doesn't change.
   const parallax = useHeroParallax({
     mediaRef: videoRef,
     foregroundRef,
@@ -406,15 +400,15 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
   const handleLoadedMetadata = useCallback(() => {
     const video = videoRef.current;
-    if (video && video.currentTime < 10) {
-      try { video.currentTime = 10; } catch (_) { }
+    if (video && video.currentTime < 7) {
+      try { video.currentTime = 7; } catch (_) { }
     }
   }, []);
 
   const handleCanPlay = useCallback(() => {
     const video = videoRef.current;
-    if (video && video.currentTime < 10) {
-      try { video.currentTime = 10; } catch (_) { }
+    if (video && video.currentTime < 7) {
+      try { video.currentTime = 7; } catch (_) { }
     }
     captureFrame();
   }, [captureFrame]);
@@ -422,9 +416,9 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   const handleTimeUpdate = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
-    const START_TIME = 10;
+    const START_TIME = 7;
     const MAX_DURATION = 8; // Exactly 8 seconds long loop
-    if (video.currentTime>= START_TIME + MAX_DURATION || video.currentTime < START_TIME) {
+    if (video.currentTime >= START_TIME + MAX_DURATION || video.currentTime < START_TIME) {
       try {
         video.currentTime = START_TIME;
       } catch (_) { }
@@ -434,8 +428,8 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   const handleHeroClick = useCallback(() => {
     const video = videoRef.current;
     if (video) {
-      if (video.currentTime < 10) {
-        video.currentTime = 10;
+      if (video.currentTime < 7) {
+        video.currentTime = 7;
       }
       video.muted = true;
       video.play().catch(() => { });

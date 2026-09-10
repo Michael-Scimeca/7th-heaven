@@ -11322,7 +11322,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
           <div>
             <div className="flex items-center flex-wrap gap-2.5 mb-1">
-              <h1 className="">
+              <h1>
                 {effectiveAdmin.name ? effectiveAdmin.name.toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase()) : ''}
               </h1>
               <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300 text-[0.9rem] uppercase animate-pulse">

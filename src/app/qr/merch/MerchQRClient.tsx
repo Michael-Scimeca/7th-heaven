@@ -287,7 +287,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             Show Night QR Express Store
           </div>
 
-          <h1 className="">
+          <h1>
             7th Heaven <span>Merch Express</span>
           </h1>
 

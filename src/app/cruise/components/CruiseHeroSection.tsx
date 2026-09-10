@@ -24,6 +24,7 @@ export default function CruiseHeroSection({
 }: CruiseHeroSectionProps) {
   const desktopVideoUrl = sanityContent?.heroVideoUrl || "/movie/cruise-desktop.mp4";
   const mobileVideoUrl = sanityContent?.heroVideoMobileUrl || "/movie/cruise-mobile.mp4";
+  const posterUrl = sanityContent?.heroPosterUrl || "/images/cruise/hero-video-poster.jpg";
 
   return (
     <section
@@ -40,7 +41,7 @@ export default function CruiseHeroSection({
           WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
         }}>
         <video
-          poster="/images/cruise/hero-video-poster.jpg"
+          poster={posterUrl}
           autoPlay
           loop
           muted
@@ -52,7 +53,7 @@ export default function CruiseHeroSection({
           <source src={desktopVideoUrl} media="(min-width: 768px)" type="video/mp4" />
           {/* Image Fallback for unsupported video browsers */}
           <Image
-            src="/images/cruise/hero-video-poster.jpg"
+            src={posterUrl}
             alt="7th Heaven Fan Cruise hero"
             fill
             priority
@@ -91,7 +92,7 @@ export default function CruiseHeroSection({
         </div>
 
         {/* Main Title: Cruise Name */}
-        <h1 className="">
+        <h1>
           {sanityContent?.heroHeading || (
             <>7TH HEAVEN <span className="inline-block pr-[0.15em]">FAN CRUISE</span></>
           )}

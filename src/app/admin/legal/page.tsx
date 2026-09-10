@@ -346,7 +346,7 @@ export default function AdminLegalPage() {
               </span>
               <span className="text-white/40">Website Inspection & Regulatory Framework</span>
             </div>
-            <h1 className="">
+            <h1>
               Legal & Compliance <span className="gradient-text">Inspection Hub</span>
             </h1>
             <p className="mt-2 max-w-3xl font-sans">

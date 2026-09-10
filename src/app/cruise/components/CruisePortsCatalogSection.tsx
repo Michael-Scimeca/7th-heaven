@@ -17,6 +17,8 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
   const [spotlightHoveredImage, setSpotlightHoveredImage] = useState<string | null>(null);
   const portCarouselRef = useRef<HTMLDivElement>(null);
 
+  const portsList = sanityContent?.ports?.length ? sanityContent.ports : PORTS_DATA;
+
   const sectionTitle = sanityContent?.sections?.find((s: any) => s.sectionId === "ports")?.title || "Ports of Call Catalog";
   const sectionTagline = sanityContent?.sections?.find((s: any) => s.sectionId === "ports")?.subtitle || "Destination Explorer";
 
@@ -36,7 +38,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
             {/* LAYOUT 1: GRID VIEW */}
             {portLayoutMode === "grid" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
-                {PORTS_DATA.map((port, idx) => {
+                {portsList.map((port: any, idx: number) => {
                   const currentImg = activePortImages[port.name] || port.image;
                   return (
                     <div key={`grid-${port.name}`} className="flex flex-col justify-between group rounded-2xl ">

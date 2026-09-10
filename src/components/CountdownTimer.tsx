@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getShowDateTime } from "@/lib/tour-helpers";
 
 interface CountdownTimerProps {
   targetDate: string;
@@ -14,64 +15,13 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
   const [isHappening, setIsHappening] = useState(false);
 
   useEffect(() => {
-    const getTarget = (): Date => {
-      if (!targetDate) return new Date();
-
-      let d: Date;
-
-      // 1. If ISO date string (YYYY-MM-DD)
-      if (/^\d{4}-\d{2}-\d{2}/.test(targetDate)) {
-        d = new Date(targetDate.length === 10 ? `${targetDate}T20:00:00` : targetDate);
-      } else {
-        // 2. Remove duplicate years if caller passed e.g. "Aug 15, 2026, 2026"
-        const cleanDateStr = targetDate.replace(/,\s*\d{4}.*$/, "").trim();
-
-        // Try parsing direct clean string
-        d = new Date(cleanDateStr);
-
-        // If direct parse failed, append current year
-        if (isNaN(d.getTime())) {
-          d = new Date(`${cleanDateStr}, ${new Date().getFullYear()}`);
-        }
-
-        // If still invalid, try matching "Month Day" pattern
-        if (isNaN(d.getTime())) {
-          const match = targetDate.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}/i);
-          if (match) {
-            d = new Date(`${match[0]}, ${new Date().getFullYear()}`);
-          }
-        }
-      }
-
-      if (isNaN(d.getTime())) {
-        d = new Date();
-      }
-
-      // Parse targetTime if provided
-      if (targetTime) {
-        const match = targetTime.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
-        if (match) {
-          let h = parseInt(match[1], 10);
-          const m = parseInt(match[2] || "0", 10);
-          const ampm = match[3]?.toLowerCase();
-          if (ampm === "pm" && h !== 12) h += 12;
-          if (ampm === "am" && h === 12) h = 0;
-          if (!isNaN(h) && !isNaN(m) && h>= 0 && h <= 23 && m>= 0 && m <= 59) {
-            d.setHours(h, m, 0, 0);
-          }
-        }
-      }
-
-      return d;
-    };
-
     const update = () => {
       const now = new Date().getTime();
-      const targetObj = getTarget();
+      const targetObj = getShowDateTime(undefined, targetDate, targetTime);
       const targetTimeMs = targetObj.getTime();
 
-      // Guard against NaN
-      if (isNaN(targetTimeMs)) {
+      // Guard against invalid date
+      if (!targetTimeMs || isNaN(targetTimeMs)) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: 0 });
         setIsHappening(false);
         return;
@@ -81,14 +31,14 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
 
       if (isNaN(diff) || diff <= 0) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: 0 });
-        setIsHappening(now>= targetTimeMs && now < targetTimeMs + (4 * 60 * 60 * 1000));
+        setIsHappening(now >= targetTimeMs && now < targetTimeMs + (4 * 60 * 60 * 1000));
         return;
       }
 
       setIsHappening(false);
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60)) / (1000 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
       setTimeLeft({

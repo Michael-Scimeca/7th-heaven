@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -293,7 +294,7 @@ export default function PlannerDashboard() {
                 <div className="w-14 h-14 mx-auto mb-5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
                   <ClipboardList className="w-6 h-6 text-[var(--color-accent)]" />
                 </div>
-                <h1 className="">
+                <h1>
                   Planner <span className="text-[var(--color-accent)]">Portal</span>
                 </h1>
                 <p className="uppercase mt-2">

@@ -142,17 +142,18 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
   };
 
   const combinedFAQs = useMemo(() => {
-    let list: FAQItem[] = [...FAQ_DATA];
-    if (sanityContent?.faqs && Array.isArray(sanityContent.faqs)) {
+    if (sanityContent?.faqs && Array.isArray(sanityContent.faqs) && sanityContent.faqs.length > 0) {
       const sanityItems: FAQItem[] = sanityContent.faqs.map((f: any, idx: number) => ({
-        id: f.id || `sanity-faq-${idx}`,
+        id: f.id || f._key || `sanity-faq-${idx}`,
         category: f.category || "booking",
         question: f.question,
         answer: f.answer,
       }));
-      list = [...sanityItems, ...list];
+      const sanityQuestions = new Set(sanityItems.map(s => s.question.toLowerCase().trim()));
+      const fallbackRemaining = FAQ_DATA.filter(f => !sanityQuestions.has(f.question.toLowerCase().trim()));
+      return [...sanityItems, ...fallbackRemaining];
     }
-    return list;
+    return FAQ_DATA;
   }, [sanityContent]);
 
   const filteredFAQs = useMemo(() => {

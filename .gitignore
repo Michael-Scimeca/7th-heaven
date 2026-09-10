@@ -58,6 +58,8 @@ sim_curl2.sh
 
 # large demo assets / recordings
 /public/demos/
+.unlighthouse
+
 
 # Local Netlify folder
 .netlify

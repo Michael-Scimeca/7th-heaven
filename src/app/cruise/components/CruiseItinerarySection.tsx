@@ -13,6 +13,9 @@ interface CruiseItinerarySectionProps {
 export default function CruiseItinerarySection({ sanityContent }: CruiseItinerarySectionProps) {
   const [activeItinYear, setActiveItinYear] = useState<2027 | 2028>(2027);
 
+  const rawItin2027 = sanityContent?.itinerary2027?.length ? sanityContent.itinerary2027 : ITINERARY_2027;
+  const rawItin2028 = sanityContent?.itinerary2028?.length ? sanityContent.itinerary2028 : ITINERARY_2028;
+
   return (
     <section id="itinerary" className="pt-20 pb-12 relative z-20" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <div className="w-full mx-auto">
@@ -49,7 +52,7 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
         <div className="w-full overflow-x-hidden">
           <CruiseSnakeItinerary
             key={`itin-${activeItinYear}`}
-            itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)}
+            itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? rawItin2027 : rawItin2028)}
             hideHeader
           />
         </div>

@@ -18,10 +18,16 @@ import LazySection from "@/components/LazySection";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "7th Heaven — Official Band Website",
-  description: "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of unforgettable live performances.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await fetchPageContent("home");
+  return {
+    title: content?.seo?.metaTitle || content?.title || "7th Heaven — Official Band Website",
+    description:
+      content?.seo?.metaDescription ||
+      content?.heroSubheading ||
+      "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of unforgettable live performances.",
+  };
+}
 
 export default async function Home() {
   const sanityContent = await fetchPageContent("home");

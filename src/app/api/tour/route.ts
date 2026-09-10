@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { sanityFetch } from "@/sanity/live";
 import { queries, SanityTourDate } from "@/lib/sanity";
+import { ensureUpcomingTourDates } from "@/lib/tour-helpers";
 
 // Cache tour dates for 5 minutes — avoids a Sanity fetch on every page load
 export const revalidate = 300;
@@ -35,35 +36,9 @@ export async function GET() {
     // Sort shows by date ascending
     deduplicated.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
 
-    // Only shift if the first show date is in an older year (e.g. 2025 or earlier)
-    if (deduplicated.length> 0 && deduplicated[0].date && deduplicated[0].date.startsWith('2025')) {
-      const firstShowDate = new Date(deduplicated[0].date + 'T12:00:00');
-      const targetDate = new Date('2026-05-20T12:00:00');
-      const diffTime = targetDate.getTime() - firstShowDate.getTime();
-      const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+    const ensured = ensureUpcomingTourDates(deduplicated);
 
-      const shifted = deduplicated.map(s => {
-        if (!s.date) return s;
-        const d = new Date(s.date + 'T12:00:00');
-        d.setDate(d.getDate() + diffDays);
-
-        const yyyy = d.getFullYear();
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        const newDateStr = `${yyyy}-${mm}-${dd}`;
-
-        const weekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-        const newDay = weekdays[d.getDay()];
-
-        return { ...s, date: newDateStr, day: newDay };
-      });
-
-      return NextResponse.json(shifted, {
-        headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' }
-      });
-    }
-
-    return NextResponse.json(deduplicated, {
+    return NextResponse.json(ensured, {
       headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' }
     });
   } catch (error) {

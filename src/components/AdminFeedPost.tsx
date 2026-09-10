@@ -134,7 +134,7 @@ export default function AdminFeedPost() {
             </span>
             <span className="uppercase tracking-[0.15em] text-red-400">Collaborative Live Feed</span>
           </div>
-          <h1 className="">Post to Feed</h1>
+          <h1>Post to Feed</h1>
           <p className="mt-1">Updates are synchronized across all crew devices</p>
         </div>
 

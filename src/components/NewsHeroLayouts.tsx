@@ -153,7 +153,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             {/* Left Column */}
             <div className="lg:col-span-5 p-8 md:p-12 bg-[#090512] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-cyan-500/30">
               <span className="uppercase text-purple-400mb-2">OPTION 2D — NEON LINE DIVIDER</span>
-              <h1 className="">
+              <h1>
                 7th Heaven <br /><span>Dispatch</span>
               </h1>
               <p className="mt-4">
@@ -183,7 +183,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 uppercase inline-block">
                   OPTION 2E — STACKED BADGE
                 </span>
-                <h1 className="">
+                <h1>
                   Band Updates
                 </h1>
                 <p>
@@ -209,7 +209,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <span className="uppercase text-purple-400block mb-2">
                 OPTION 2F — BORDERLESS EDITORIAL
               </span>
-              <h1 className="">
+              <h1>
                 Latest <br /><span>Headlines</span>
               </h1>
             </div>

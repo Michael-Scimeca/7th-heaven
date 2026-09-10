@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { sanityClient, queries, fetchPageContent, SanitySiteSettings } from "@/lib/sanity";
 import ContactClient from "./ContactClient";
 
-export const metadata: Metadata = {
-    title: "Contact — 7th Heaven",
-    description: "Contact 7th heaven for booking, press inquiries, technical & production advance.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await fetchPageContent("contact");
+  return {
+    title: content?.seo?.metaTitle || (content?.title ? `${content.title} — 7th Heaven` : "Contact — 7th Heaven"),
+    description: content?.seo?.metaDescription || content?.heroSubheading || "Contact 7th Heaven for booking, press inquiries, technical & production advance.",
+  };
+}
 
 export const revalidate = 60;
 
@@ -33,7 +36,11 @@ export default async function ContactPage() {
     ]);
 
     const settings = settingsData as SanitySiteSettings | null;
-    const baseContacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
+    const baseContacts = pageContent?.contacts?.length
+      ? pageContent.contacts
+      : settings?.contacts?.length
+      ? settings.contacts
+      : FALLBACK_CONTACTS;
 
     const contacts = [...baseContacts];
     if (!contacts.some(c => c.email?.toLowerCase().includes("mary@ntdvacations.com"))) {

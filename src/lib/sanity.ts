@@ -111,6 +111,12 @@ export interface SanityVideo {
  viewCount?: string;
 }
 
+export interface SanitySeo {
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImage?: SanityImageSource;
+}
+
 export interface SanitySiteSettings {
  _id: string;
  _type: "siteSettings";
@@ -163,6 +169,7 @@ export interface SanitySiteSettings {
   year: number;
  }[];
  navLinks: { href: string; label: string }[];
+ seo?: SanitySeo;
 }
 
 export interface SanityPageContent {
@@ -170,8 +177,18 @@ export interface SanityPageContent {
   _type: "pageContent";
   pageKey: string;
   title: string;
+  seo?: SanitySeo;
   heroHeading?: string;
   heroSubheading?: string;
+  contacts?: { category: string; company?: string; name?: string; email: string; phone: string; note?: string }[];
+  videoShowcaseTitle?: string;
+  videoShowcaseSubtitle?: string;
+  logosBadge?: string;
+  logosSubtitle?: string;
+  newsTitle?: string;
+  newsSubtitle?: string;
+  artistLogos?: { alt?: string; name?: string; image?: any; src?: string }[];
+  pressLogos?: { alt?: string; name?: string; image?: any; src?: string }[];
   heroCtaText?: string;
   heroCtaLink?: string;
   sections?: {

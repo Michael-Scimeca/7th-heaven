@@ -1,11 +1,14 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
-import { Ship, Globe, Map, Video, FileText, Film, Flame, AlertTriangle, Check, HelpCircle, CreditCard, Calendar as CalendarIcon, Compass } from "lucide-react";
+import { Ship, Globe, Map, Video, FileText, Film, Flame, AlertTriangle, Check, HelpCircle, CreditCard, Calendar as CalendarIcon, Compass, X, Plus, Loader2, CheckCircle2 } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import LazyMount from "@/components/LazyMount";
+import AddCmsButton from "@/components/AddCmsButton";
 import { BANDS_DATA } from "../cruiseData";
 import { formatPhoneDisplay } from "@/lib/validation";
 
@@ -61,6 +64,71 @@ function CruiseCabinsPricingSectionComponent({
   const [activePriceYear, setActivePriceYear] = useState<2027 | 2028>(2027);
   const [stateroomTab, setStateroomTab] = useState<"suites" | "balcony" | "ocean" | "interior">("suites");
   const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
+
+  const mounted = React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+
+  const [isAddRoomModalOpen, setIsAddRoomModalOpen] = useState(false);
+  const [addedCabins, setAddedCabins] = useState<any[]>([]);
+  const [roomForm, setRoomForm] = useState({
+    code: "N5",
+    title: "",
+    year: "2027",
+    price: "",
+    badge: "Available",
+    status: "info",
+    inclusions: "Gratuities Included",
+    imagePath: "/images/cruise/n5.jpg",
+  });
+  const [isSavingRoom, setIsSavingRoom] = useState(false);
+  const [roomError, setRoomError] = useState<string | null>(null);
+  const [roomSuccess, setRoomSuccess] = useState(false);
+
+  const handleSaveRoom = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!roomForm.title || !roomForm.price) {
+      setRoomError("Please enter Stateroom Title and Price per Person.");
+      return;
+    }
+    setIsSavingRoom(true);
+    setRoomError(null);
+    try {
+      const res = await fetch("/api/admin/cruise-cabins", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(roomForm),
+      });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || "Failed to save stateroom");
+      }
+      const data = await res.json();
+
+      setAddedCabins((prev) => [...prev, data.cabin]);
+      setRoomSuccess(true);
+      setTimeout(() => {
+        setRoomSuccess(false);
+        setIsAddRoomModalOpen(false);
+        setRoomForm({
+          code: "N5",
+          title: "",
+          year: String(activePriceYear),
+          price: "",
+          badge: "Available",
+          status: "info",
+          inclusions: "Gratuities Included",
+          imagePath: "/images/cruise/n5.jpg",
+        });
+      }, 1000);
+    } catch (err: any) {
+      setRoomError(err.message || "Network error. Failed to save.");
+    } finally {
+      setIsSavingRoom(false);
+    }
+  };
 
   return (
     <div className="site-container">
@@ -218,13 +286,15 @@ function CruiseCabinsPricingSectionComponent({
             <div className="relative text-left rounded-2xl pr-4 sm:pr-6 py-2">
               <div className="flex items-center gap-3 mb-4">
                 <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
-                <h3 className="uppercase text-white">Booking Policy</h3>
+                <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.bookingPolicyTitle || "Booking Policy"}</h3>
               </div>
               <p className="text-purple-400 uppercase mb-4">
-                Book through us to participate &amp; lock in best rates
+                {sanityContent?.cruiseInfo?.bookingPolicyHeading || "Book through us to participate & lock in best rates"}
               </p>
               <p className="mb-4">
-                To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.
+                {sanityContent?.cruiseInfo?.bookingPolicyBody || (
+                  <>To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.</>
+                )}
               </p>
               <ul className="space-y-2.5 text-white/80 mb-6">
                 <li className="flex items-start gap-2">
@@ -241,10 +311,10 @@ function CruiseCabinsPricingSectionComponent({
                 </li>
               </ul>
               <div className="pt-3 border-t border-white/10 space-y-1.5">
-                <p><strong>Email:</strong> <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-white underline transition-colors">info@NTDVacations.com</a></p>
-                <p><strong>Call Us:</strong> (877) 683-9753 - opt 5</p>
-                <p><CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> $250/person ($500/room).</p>
-                <p className="mt-1"><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? "Oct 1, 2026" : "Oct 1, 2027"}.</p>
+                <p><strong>Email:</strong> <a href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`} className="text-purple-400 hover:text-white underline transition-colors">{sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}</a></p>
+                <p><strong>Call Us:</strong> {sanityContent?.cruiseInfo?.bookingPhone || "(877) 683-9753 - opt 5"}</p>
+                <p><CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> {sanityContent?.cruiseInfo?.depositInfo || "$250/person ($500/room)."}</p>
+                <p className="mt-1"><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? (sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026") : (sanityContent?.cruiseInfo?.finalPayment2028 || "Oct 1, 2027")}.</p>
               </div>
             </div>
 
@@ -252,11 +322,11 @@ function CruiseCabinsPricingSectionComponent({
             <div className="relative text-left rounded-2xl pr-4 sm:pr-6 py-2">
               <div className="flex items-center gap-3 mb-4">
                 <Compass className="w-6 h-6 text-purple-400 shrink-0" />
-                <h3 className="uppercase text-white">Passport Guidelines</h3>
+                <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.passportTitle || "Passport Guidelines"}</h3>
               </div>
-              <p className="text-purple-400 uppercase mb-4">Essential travel document guidelines</p>
+              <p className="text-purple-400 uppercase mb-4">{sanityContent?.cruiseInfo?.passportSubheading || "Essential travel document guidelines"}</p>
               <div className="space-y-4 text-white/80">
-                <p>A physical passport book valid for 6 months post-cruise is <strong className="text-white underline inline-block">highly recommended</strong> for all travelers.</p>
+                <p>{sanityContent?.cruiseInfo?.passportBody || "A physical passport book valid for 6 months post-cruise is highly recommended for all travelers."}</p>
                 <p>For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable.</p>
               </div>
             </div>
@@ -265,9 +335,9 @@ function CruiseCabinsPricingSectionComponent({
             <div className="relative text-left pr-4 sm:pr-6 py-2">
               <div className="flex items-center gap-3 mb-4">
                 <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
-                <h3 className="uppercase text-white">Cancellation Policy</h3>
+                <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.cancellationTitle || "Cancellation Policy"}</h3>
               </div>
-              <p className="text-purple-400 uppercase mb-4">Refund terms before booking</p>
+              <p className="text-purple-400 uppercase mb-4">{sanityContent?.cruiseInfo?.cancellationSubheading || "Refund terms before booking"}</p>
               <div className="space-y-4 text-white/80">
                 <div>
                   <h4 className="text-white uppercase mb-1">Group Rate Rooms:</h4>
@@ -295,113 +365,83 @@ function CruiseCabinsPricingSectionComponent({
               Official Cruise Concierge &amp; Booking Team
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 pt-6 text-center">
-              {/* Richard */}
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none"
-                  style={{
-                    WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                    maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                  }}>
-                  <Image
-                    width={408}
-                    height={408}
-                    unoptimized
-                    src="/images/contact/Dickie-contact.png"
-                    alt="Richard Hofherr"
-                    className="h-full w-auto object-contain object-bottom"
-                    style={{
-                      WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                      maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                    }}
-                  />
-                </div>
-                <h4 className="text-white uppercase">Richard Hofherr</h4>
-                <div className="mt-2 flex flex-col items-center gap-1 w-full">
-                  <SectionBadge label="CEO / Booking / Bands" isActive />
-                  <p className="text-white/70 mt-0.5">Marketing / Media</p>
-                </div>
-                <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
-                  <a href="tel:8475515363" className="!text-white hover:text-white/80 transition-colors">
-                    <span>(847) 551-5363</span>
-                  </a>
-                  <a href="mailto:info@NTDVacations.com" className="text-purple-400 hover:text-purple-300 transition-colors">
-                    <span>info@NTDVacations.com</span>
-                  </a>
-                </div>
-              </div>
+              {((sanityContent?.founders?.length ? sanityContent.founders : sanityContent?.contacts?.length ? sanityContent.contacts : null) || [
+                {
+                  name: "RICHARD HOFHERR",
+                  role: "CEO / BOOKING / BANDS",
+                  desc: "Marketing / Media",
+                  phone: "(847) 551-5363",
+                  email: "info@NTDVacations.com",
+                },
+                {
+                  name: "MARY GRIVAS",
+                  role: "GROUP EXCURSIONS / GROUP HOTELS",
+                  desc: "Group Air / Charters / Shuttles",
+                  phone: "(877) 683-9753 - Ext 5",
+                  email: "Mary@NTDVacations.com",
+                },
+                {
+                  name: "ALAN MCRAE",
+                  role: "SCHEDULE",
+                  desc: "Activities / Logistics",
+                  phone: "(630) 842-9129",
+                  email: "alan@NTDVacations.com",
+                },
+              ]).map((member: any) => {
+                const nameStr = member.name || "Team Member";
+                const roleStr = member.role || member.category || "Concierge";
+                const descStr = member.desc || member.company || "";
+                const phoneStr = member.phone || "";
+                const emailStr = member.email || "";
+                
+                const photoSrc =
+                  nameStr.toLowerCase().includes("mary") || nameStr.toLowerCase().includes("grivas")
+                    ? "/images/contact/Mary-contact.png"
+                    : nameStr.toLowerCase().includes("alan") || nameStr.toLowerCase().includes("mcrae")
+                    ? "/images/contact/Alan-contact.png"
+                    : "/images/contact/Dickie-contact.png";
 
-              {/* Mary */}
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none"
-                  style={{
-                    WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                    maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                  }}>
-                  <Image
-                    width={408}
-                    height={408}
-                    unoptimized
-                    src="/images/contact/Mary-contact.png"
-                    alt="Mary Grivas"
-                    className="h-full w-auto object-contain object-bottom"
-                    style={{
-                      WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                      maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                    }}
-                  />
-                </div>
-                <h4 className="text-white uppercase">Mary Grivas</h4>
-                <div className="mt-2 flex flex-col items-center gap-1 w-full">
-                  <SectionBadge label="Group Excursions / Group Hotels" isActive />
-                  <p className="text-white/70 mt-0.5">Group Air / Charters / Shuttles</p>
-                </div>
-                <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
-                  <a href="tel:8776839753" className="!text-white hover:text-white/80 transition-colors">
-                    <span>(877) 683-9753 - Ext 5</span>
-                  </a>
-                  <a href="mailto:Mary@NTDVacations.com" className="text-purple-400 hover:text-purple-300 transition-colors">
-                    <span>Mary@NTDVacations.com</span>
-                  </a>
-                </div>
-              </div>
-
-              {/* Alan */}
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none"
-                  style={{
-                    WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                    maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                  }}>
-                  <Image
-                    width={408}
-                    height={408}
-                    unoptimized
-                    src="/images/contact/Alan-contact.png"
-                    alt="Alan McRae"
-                    className="h-full w-auto object-contain object-bottom"
-                    style={{
-                      WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                      maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                    }}
-                  />
-                </div>
-                <h4 className="text-white uppercase">Alan McRae</h4>
-                <div className="mt-2 flex flex-col items-center gap-1 w-full">
-                  <SectionBadge label="Schedule" isActive />
-                  <p className="text-white/70 mt-0.5">Activities / Logistics</p>
-                </div>
-                <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
-                  <a href="tel:6308429129" className="!text-white hover:text-white/80 transition-colors">
-                    <span>(630) 842-9129</span>
-                  </a>
-                  <a href="mailto:alan@NTDVacations.com" className="text-purple-400 hover:text-purple-300 transition-colors">
-                    <span>alan@NTDVacations.com</span>
-                  </a>
-                </div>
-              </div>
+                return (
+                  <div key={nameStr + emailStr} className="flex flex-col items-center">
+                    <div
+                      className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none"
+                      style={{
+                        WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                        maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                      }}>
+                      <Image
+                        width={408}
+                        height={408}
+                        unoptimized
+                        src={photoSrc}
+                        alt={nameStr}
+                        className="h-full w-auto object-contain object-bottom"
+                        style={{
+                          WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                          maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                        }}
+                      />
+                    </div>
+                    <h4 className="text-white uppercase">{nameStr}</h4>
+                    <div className="mt-2 flex flex-col items-center gap-1 w-full">
+                      <SectionBadge label={roleStr} isActive />
+                      {descStr && <p className="text-white/70 mt-0.5">{descStr}</p>}
+                    </div>
+                    <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
+                      {phoneStr && (
+                        <a href={`tel:${phoneStr.replace(/[^0-9]/g, "")}`} className="!text-white hover:text-white/80 transition-colors">
+                          <span>{phoneStr}</span>
+                        </a>
+                      )}
+                      {emailStr && (
+                        <a href={`mailto:${emailStr}`} className="text-purple-400 hover:text-purple-300 transition-colors">
+                          <span>{emailStr}</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -412,10 +452,29 @@ function CruiseCabinsPricingSectionComponent({
                 <div>
                   <h3 className="uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
                 </div>
+                <AddCmsButton
+                  label="ADD / EDIT ROOMS IN SANITY CMS"
+                  onClick={() => setIsAddRoomModalOpen(true)}
+                />
               </div>
 
               <div key={`group-${activePriceYear}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-[fade-in_0.35s_ease-out_both]">
-                {(activePriceYear === 2027
+                {((([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]).length > 0
+                  ? ([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]).flatMap((c: any) =>
+                      String(c.year) === String(activePriceYear)
+                        ? [{
+                            code: c.code,
+                            title: c.title,
+                            price: c.price,
+                            status: c.status,
+                            badge: c.badge,
+                            image: c.imagePath || c.image || "/images/cruise/q2_interior_plus.jpg",
+                            inclusions: c.inclusions,
+                            selectValue: c.selectValue || `group_${(c.code || "room").toLowerCase()}`,
+                          }]
+                        : []
+                    )
+                  : null) || (activePriceYear === 2027
                   ? [
                     { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", selectValue: "group_n5" },
                     { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
@@ -432,9 +491,9 @@ function CruiseCabinsPricingSectionComponent({
                     { code: "D2", title: "Ocean View Balcony", price: "$2,492.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d2" },
                     { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,522.98", status: "info", badge: "Available", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_i1" },
                   ]
-                ).map((room) => (
+                )).map((room: any, idx: number) => (
                   <div
-                    key={room.code || room.selectValue}
+                    key={(room.code || room.selectValue) + idx}
                     onClick={() => handleSelectCabin(room.selectValue)}
                     className="w-full text-left bg-transparent border-0 rounded-lg overflow-hidden flex flex-col justify-between cursor-pointer group shadow-none">
                     <div>
@@ -513,6 +572,189 @@ function CruiseCabinsPricingSectionComponent({
           </div>
         </section>
       </LazyMount>
+
+      {/* ── ADD ROOM MODAL PORTAL ── */}
+      {mounted && isAddRoomModalOpen && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fade-in_0.2s_ease-out]">
+          <div className="relative w-full max-w-xl bg-[#12071f] border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-[0_0_50px_rgba(168,85,247,0.25)] text-left max-h-[90vh] overflow-y-auto">
+            <button
+              type="button"
+              onClick={() => setIsAddRoomModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
+                <Ship className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white uppercase tracking-wide">Add Stateroom to Sanity CMS</h3>
+                <p className="text-xs text-purple-300/70">Create and publish a stateroom rate card directly to Sanity CMS.</p>
+              </div>
+            </div>
+
+            {roomError && (
+              <div className="mb-4 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{roomError}</span>
+              </div>
+            )}
+
+            {roomSuccess && (
+              <div className="mb-4 p-3 rounded-lg bg-emerald-900/40 border border-emerald-500/50 text-emerald-200 text-sm flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Stateroom saved successfully to Sanity!</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSaveRoom} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Stateroom Title *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={roomForm.title}
+                    onChange={(e) => setRoomForm((prev) => ({ ...prev, title: e.target.value }))}
+                    placeholder="e.g. Ocean View Balcony"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Category Code *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={roomForm.code}
+                    onChange={(e) => setRoomForm((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
+                    placeholder="e.g. D4, N5, IF, GS"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Cruise Year *
+                  </label>
+                  <select
+                    value={roomForm.year}
+                    onChange={(e) => setRoomForm((prev) => ({ ...prev, year: e.target.value }))}
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                  >
+                    <option value="2027">2027 (Star of the Seas)</option>
+                    <option value="2028">2028 (Legend of the Seas)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Price Per Person (USD) *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={roomForm.price}
+                    onChange={(e) => setRoomForm((prev) => ({ ...prev, price: e.target.value }))}
+                    placeholder="e.g. $2,433.27"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Availability Badge Text
+                  </label>
+                  <input
+                    type="text"
+                    value={roomForm.badge}
+                    onChange={(e) => setRoomForm((prev) => ({ ...prev, badge: e.target.value }))}
+                    placeholder="e.g. 5 Cabins Left! or Available"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    Badge Status Color
+                  </label>
+                  <select
+                    value={roomForm.status}
+                    onChange={(e) => setRoomForm((prev) => ({ ...prev, status: e.target.value }))}
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                  >
+                    <option value="info">Info / Cyan (Available)</option>
+                    <option value="warning">Warning / Amber (Few Left)</option>
+                    <option value="soldout">Sold Out / Red</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  Inclusions &amp; Perks
+                </label>
+                <input
+                  type="text"
+                  value={roomForm.inclusions}
+                  onChange={(e) => setRoomForm((prev) => ({ ...prev, inclusions: e.target.value }))}
+                  placeholder="e.g. Gratuities Included"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  Image Path / URL
+                </label>
+                <input
+                  type="text"
+                  value={roomForm.imagePath}
+                  onChange={(e) => setRoomForm((prev) => ({ ...prev, imagePath: e.target.value }))}
+                  placeholder="e.g. /images/cruise/d1_ocean_view_balcony.jpg"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setIsAddRoomModalOpen(false)}
+                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingRoom}
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+                >
+                  {isSavingRoom ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Saving to Sanity...</span>
+                    </>
+                  ) : (
+                    <span>+ ADD STATEROOM TO SANITY</span>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>,
+        document.body
+      )}
     </div >
   );
 }

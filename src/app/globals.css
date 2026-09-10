@@ -668,7 +668,7 @@ header,
   transform: translateZ(0);
   backface-visibility: hidden;
   padding: 12px 0 20px 0;
-  margin-bottom: 20px;
+
 }
 
 /* Sticky Tour Sort Bar — 100vw full-width glass backdrop-filter blur when stuck below header */
@@ -2386,8 +2386,20 @@ html.tour-sort-stuck #tour-sort-bar {
 }
 
 /* ── Header logo responsive positioning & hover ── */
-#header-logo {
+#header-logo,
+#header-logo *,
+#header-logo svg,
+#header-logo path,
+#header-logo polygon {
   pointer-events: auto;
+  filter: none !important;
+  -webkit-filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  drop-shadow: none !important;
+}
+
+#header-logo {
   cursor: pointer;
 }
 
@@ -2427,6 +2439,10 @@ html.tour-sort-stuck #tour-sort-bar {
 #header-logo:not(.active):hover polygon {
   color: #9333ea !important;
   fill: #9333ea !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
 }
 
 /* Hide Next.js development indicator badge (N) & Neat Gradient Watermark Link */

@@ -5,51 +5,51 @@
 import React, { useEffect, useRef, useSyncExternalStore } from "react";
 
 const GRADIENT_SETTINGS = {
+  colorMovePeriod: 12,
   colors: [
-    { color: '#800583', enabled: true, posX: 20, posY: 20, size: 70, opacity: 0.7, moveX: 100, moveY: 100 },
-    { color: '#133EA6', enabled: true, posX: 40, posY: 30, size: 60, opacity: 0.7, moveX: 120, moveY: 80 },
-    { color: '#1C004E', enabled: true, posX: 60, posY: 50, size: 65, opacity: 0.7, moveX: 90, moveY: 110 },
-    { color: '#7C11BB', enabled: true, posX: 30, posY: 70, size: 75, opacity: 0.7, moveX: 110, moveY: 90 },
-    { color: '#571694', enabled: true, posX: 70, posY: 80, size: 80, opacity: 0.7, moveX: 80, moveY: 120 },
-    { color: '#631A6F', enabled: true, posX: 80, posY: 30, size: 55, opacity: 0.7, moveX: 130, moveY: 70 },
+    { color: '#151150', enabled: true, posX: 15, posY: 20, moveX: 120, moveY: 90, opacity: 0.6, size: 50 },
+    { color: '#850FB7', enabled: true, posX: 35, posY: 45, moveX: 140, moveY: 100, opacity: 0.6, size: 50 },
+    { color: '#A43E17', enabled: true, posX: 55, posY: 30, moveX: 110, moveY: 85, opacity: 0.6, size: 50 },
+    { color: '#4A1B6F', enabled: true, posX: 75, posY: 65, moveX: 130, moveY: 110, opacity: 0.6, size: 50 },
+    { color: '#611EBD', enabled: true, posX: 30, posY: 75, moveX: 125, moveY: 95, opacity: 0.6, size: 50 },
+    { color: '#600C7F', enabled: true, posX: 70, posY: 85, moveX: 135, moveY: 105, opacity: 0.6, size: 50 },
   ],
-  colorMovePeriod: 4,
-  speed: 3,
-  horizontalPressure: 3,
-  verticalPressure: 3,
-  waveFrequencyX: 1.5,
-  waveFrequencyY: 2.0,
-  waveAmplitude: 0.6,
+  speed: 4,
+  horizontalPressure: 4,
+  verticalPressure: 4,
+  waveFrequencyX: 0,
+  waveFrequencyY: 0,
+  waveAmplitude: 0,
   secondaryWaveEnabled: false,
   secondaryWaveFrequencyX: 3,
   secondaryWaveFrequencyY: 3,
   secondaryWaveAmplitude: 5,
   secondaryWaveSpeed: 0.6,
   secondaryWaveAngle: 1,
-  shadows: 10,
-  highlights: 10,
-  colorBrightness: 0.5,
-  colorSaturation: 10,
+  shadows: 5,
+  highlights: 3,
+  colorBrightness: 0.7,
+  colorSaturation: -2,
   wireframe: false,
   antialias: false,
   colorBlending: 10,
-  backgroundColor: '#05030a',
-  backgroundAlpha: 0,
+  backgroundColor: '#000000',
+  backgroundAlpha: 1,
   grainScale: 0,
   grainSparsity: 0,
   grainIntensity: 0,
-  grainSpeed: 1,
+  grainSpeed: 10,
   resolution: 2,
-  renderScale: 0.45,
-  yOffset: 50041,
+  renderScale: 2,
+  yOffset: 64903,
   yOffsetWaveMultiplier: 0,
-  yOffsetColorMultiplier: 10.1,
-  yOffsetFlowMultiplier: 7,
-  flowDistortionA: 2.2,
-  flowDistortionB: 3.8,
-  flowScale: 0.5,
-  flowEase: 0.22,
-  flowEnabled: true,
+  yOffsetColorMultiplier: 3.1,
+  yOffsetFlowMultiplier: 7.2,
+  flowDistortionA: 2.4,
+  flowDistortionB: 5.9,
+  flowScale: 4.1,
+  flowEase: 0,
+  flowEnabled: false,
   enableProceduralTexture: false,
   transparentTextureVoid: false,
   textureMode: 'bitmap',
@@ -69,8 +69,8 @@ const GRADIENT_SETTINGS = {
   domainWarpEnabled: false,
   domainWarpIntensity: 0,
   domainWarpScale: 3,
-  vignetteIntensity: 0.4,
-  vignetteRadius: 0.4,
+  vignetteIntensity: 1,
+  vignetteRadius: 0.8,
   fresnelEnabled: false,
   fresnelPower: 2,
   fresnelIntensity: 0.5,
@@ -104,14 +104,14 @@ const GRADIENT_SETTINGS = {
   cylinderFade: 0.08,
   ribbonFade: 0.05,
   flatShading: true,
-  cameraLock: false,
+  cameraLock: true,
   cameraX: 0,
   cameraY: 0,
   cameraZ: 0,
   cameraRotationX: 0,
-  cameraRotationY: 0.021,
+  cameraRotationY: 0,
   cameraRotationZ: 0,
-  cameraZoom: 1.1,
+  cameraZoom: 1,
 };
 
 function hexToRgba(hex: string, alpha: number) {
@@ -280,21 +280,28 @@ function HomeShaderGradientComponent() {
 
     const updatePositionLayer = (t: number) => {
       if (!positionLayerRef.current) return;
-      const periodMs = GRADIENT_SETTINGS.colorMovePeriod * 1000;
+      const periodMs = (GRADIENT_SETTINGS.colorMovePeriod || 12) * 1000;
       const basePhase = (((t - startMs) % periodMs) / periodMs) * Math.PI * 2;
-      const winW = cachedWinW;
-      const winH = cachedWinH;
+      const winW = cachedWinW || 1920;
+      const winH = cachedWinH || 1080;
 
-      const layers = GRADIENT_SETTINGS.colors.flatMap((c, idx) => {
+      const layers = GRADIENT_SETTINGS.colors.flatMap((c: any, idx: number) => {
         if (!c.enabled) return [];
         const phase = basePhase + idx * (Math.PI / 4);
-        const mx = (c.moveX / winW) * 100;
-        const my = (c.moveY / winH) * 100;
+        const posX = c.posX ?? (15 + (idx * 15) % 70);
+        const posY = c.posY ?? (20 + (idx * 25) % 60);
+        const moveX = c.moveX ?? 120;
+        const moveY = c.moveY ?? 90;
+        const opacity = c.opacity ?? 0.6;
+        const size = c.size ?? 50;
 
-        const xPct = c.posX + Math.sin(phase) * mx;
-        const yPct = c.posY + Math.cos(phase * 0.8) * my;
+        const mx = (moveX / winW) * 100;
+        const my = (moveY / winH) * 100;
 
-        return `radial-gradient(circle at ${xPct.toFixed(2)}% ${yPct.toFixed(2)}%, ${hexToRgba(c.color, c.opacity)} 0%, transparent ${c.size}%)`;
+        const xPct = posX + Math.sin(phase) * mx;
+        const yPct = posY + Math.cos(phase * 0.8) * my;
+
+        return `radial-gradient(circle at ${xPct.toFixed(2)}% ${yPct.toFixed(2)}%, ${hexToRgba(c.color, opacity)} 0%, transparent ${size}%)`;
       });
 
       positionLayerRef.current.style.background = layers.join(", ");

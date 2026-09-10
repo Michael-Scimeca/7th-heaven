@@ -5,10 +5,13 @@ import PastShowsClient from "@/components/PastShowsClient";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Past Shows & Concert Archive (1985–Present) | 7th Heaven",
-  description: "Explore 7th Heaven's historical performance archive containing over 1,200 past concerts, festivals, casinos, and events played since 1985.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await fetchPageContent("past-shows");
+  return {
+    title: content?.seo?.metaTitle || (content?.title ? `${content.title} | 7th Heaven` : "Past Shows & Concert Archive (1985–Present) | 7th Heaven"),
+    description: content?.seo?.metaDescription || content?.heroSubheading || "Explore 7th Heaven's historical performance archive containing over 1,200 past concerts, festivals, casinos, and events played since 1985.",
+  };
+}
 
 export default async function PastShowsPage() {
   const sanityContent = await fetchPageContent("past-shows");

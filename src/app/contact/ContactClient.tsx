@@ -1,10 +1,12 @@
 "use client";
 /* eslint-disable react-doctor/nextjs-no-img-element */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Mail, Phone, Sparkles } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
+import { useMember } from "@/context/MemberContext";
+import AddCmsButton from "@/components/AddCmsButton";
 
 export interface ContactItem {
   category: string;
@@ -101,19 +103,35 @@ export default function ContactClient({
   subtitle?: string;
 }) {
   const [activePhotoId, setActivePhotoId] = useState<string>(DEFAULT_PHOTO_ID);
+  const { member } = useMember();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (member?.role === "admin" || member?.role === "crew" || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"))) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  }, [member?.role]);
 
   return (
     <section id="contact-page" className="site-container relative flex flex-col pt-[100px] min-h-[calc(100vh-100px)] pb-0 overflow-hidden">
 
       {/* Hero Header */}
       <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] relative z-10">
-
-        <h1 className="">
-          {title}
-        </h1>
-        <p className="mt-3 mb-6 max-w-2xl">
-          {subtitle}
-        </p>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <h1>{title}</h1>
+            <p className="mt-3 max-w-2xl">{subtitle}</p>
+          </div>
+          {isAdmin && (
+            <AddCmsButton
+              label="EDIT IN SANITY"
+              onClick={() => window.open("/studio/structure/pageContent;contactUs", "_blank")}
+              className="self-start sm:self-auto shrink-0"
+            />
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10 flex-1">

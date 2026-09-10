@@ -64,3 +64,79 @@ export function isShowOver(show: { startDate?: string; date: string; time: strin
   const showDateTime = getShowDateTime(show.startDate, show.date, show.time);
   return showDateTime.getTime() + (4 * 60 * 60 * 1000) < Date.now();
 }
+
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+const DAY_NAMES = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+export function ensureUpcomingTourDates<T extends { date: string; startDate?: string; time?: string; day?: string }>(shows: T[]): T[] {
+  if (!shows || shows.length === 0) return shows;
+
+  const now = new Date();
+  const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+  // Helper to format date into "Month Day" (e.g. "September 10")
+  const formatDateToMonthDay = (dt: Date) => {
+    const month = MONTH_NAMES[dt.getMonth()];
+    const day = dt.getDate();
+    return `${month} ${day}`;
+  };
+
+  // Check if there are any upcoming shows on or after today
+  const hasUpcoming = shows.some(s => {
+    const dt = getShowDateTime(s.startDate, s.date, s.time);
+    return dt.getTime() + (4 * 60 * 60 * 1000) >= now.getTime();
+  });
+
+  if (hasUpcoming) {
+    // Format date string to "Month Day" if it's in YYYY-MM-DD format
+    return shows.map(s => {
+      if (/^\d{4}-\d{2}-\d{2}/.test(s.date)) {
+        const dt = getShowDateTime(s.startDate || s.date, s.date, s.time);
+        if (!isNaN(dt.getTime()) && dt.getTime() > 0) {
+          const formatted = formatDateToMonthDay(dt);
+          const yyyy = dt.getFullYear();
+          const mm = String(dt.getMonth() + 1).padStart(2, '0');
+          const dd = String(dt.getDate()).padStart(2, '0');
+          return {
+            ...s,
+            startDate: s.startDate || `${yyyy}-${mm}-${dd}`,
+            date: formatted,
+            day: s.day || DAY_NAMES[dt.getDay()],
+          };
+        }
+      }
+      return s;
+    });
+  }
+
+  // If ALL shows are in the past, shift the schedule forward so the first show starts today
+  const firstShowDt = getShowDateTime(shows[0].startDate, shows[0].date, shows[0].time);
+  if (isNaN(firstShowDt.getTime()) || firstShowDt.getTime() === 0) return shows;
+
+  const firstShowMidnight = new Date(firstShowDt.getFullYear(), firstShowDt.getMonth(), firstShowDt.getDate()).getTime();
+  const diffMs = todayMidnight - firstShowMidnight;
+  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  return shows.map(s => {
+    const dt = getShowDateTime(s.startDate, s.date, s.time);
+    if (isNaN(dt.getTime()) || dt.getTime() === 0) return s;
+
+    const newDt = new Date(dt.getTime() + diffDays * 24 * 60 * 60 * 1000);
+    const yyyy = newDt.getFullYear();
+    const mm = String(newDt.getMonth() + 1).padStart(2, '0');
+    const dd = String(newDt.getDate()).padStart(2, '0');
+    const newStartDate = `${yyyy}-${mm}-${dd}`;
+    const newDayName = DAY_NAMES[newDt.getDay()];
+    const newDateStr = formatDateToMonthDay(newDt);
+
+    return {
+      ...s,
+      startDate: newStartDate,
+      date: newDateStr,
+      day: newDayName,
+    };
+  });
+}
