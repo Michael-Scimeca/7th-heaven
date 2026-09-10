@@ -22,27 +22,46 @@ export default function CruiseHeroSection({
   setIsPaymentDropdownOpen,
   sanityContent,
 }: CruiseHeroSectionProps) {
+  const videoUrl = sanityContent?.heroVideoUrl;
+
   return (
     <section
       id="cruise-hero"
       className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-8 md:pb-16 text-white min-h-[35vh] md:min-h-[36vh] lg:min-h-[620px] site-container">
-      {/* Full-bleed background image & dimming overlay wrapper */}
+      {/* Full-bleed background image & video wrapper with bottom gradient mask */}
       <div
         className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
         style={{
           marginLeft: "calc(-1 * var(--page-padding-x))",
           marginRight: "calc(-1 * var(--page-padding-x))",
           width: "calc(100% + 2 * var(--page-padding-x))",
+          maskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
         }}>
-        <Image
-          src="/images/cruise/hero-video-poster.jpg"
-          alt="7th Heaven Fan Cruise hero"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "center 40%" }}
-        />
+        {videoUrl ? (
+          <video
+            src={videoUrl}
+            poster="/images/cruise/hero-video-poster.jpg"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: "center 40%" }}
+          />
+        ) : (
+          <Image
+            src="/images/cruise/hero-video-poster.jpg"
+            alt="7th Heaven Fan Cruise hero"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+            style={{ objectPosition: "center 40%" }}
+          />
+        )}
+
         {/* Brightness dimming overlay */}
         {heroMaskSettings.videoBrightness < 100 && (
           <div
