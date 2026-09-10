@@ -22,13 +22,14 @@ export default function CruiseHeroSection({
   setIsPaymentDropdownOpen,
   sanityContent,
 }: CruiseHeroSectionProps) {
-  const videoUrl = sanityContent?.heroVideoUrl;
+  const desktopVideoUrl = sanityContent?.heroVideoUrl || "/movie/cruise-desktop.mp4";
+  const mobileVideoUrl = sanityContent?.heroVideoMobileUrl || "/movie/cruise-mobile.mp4";
 
   return (
     <section
       id="cruise-hero"
       className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-8 md:pb-16 text-white min-h-[35vh] md:min-h-[36vh] lg:min-h-[620px] site-container">
-      {/* Full-bleed background image & video wrapper with bottom gradient mask */}
+      {/* Full-bleed background video & mask wrapper */}
       <div
         className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
         style={{
@@ -38,19 +39,18 @@ export default function CruiseHeroSection({
           maskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
         }}>
-        {videoUrl ? (
-          <video
-            src={videoUrl}
-            poster="/images/cruise/hero-video-poster.jpg"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: "center 40%" }}
-          />
-        ) : (
+        <video
+          poster="/images/cruise/hero-video-poster.jpg"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="w-full h-full object-cover"
+          style={{ objectPosition: "center 40%" }}>
+          <source src={mobileVideoUrl} media="(max-width: 767px)" type="video/mp4" />
+          <source src={desktopVideoUrl} media="(min-width: 768px)" type="video/mp4" />
+          {/* Image Fallback for unsupported video browsers */}
           <Image
             src="/images/cruise/hero-video-poster.jpg"
             alt="7th Heaven Fan Cruise hero"
@@ -60,7 +60,7 @@ export default function CruiseHeroSection({
             className="object-cover"
             style={{ objectPosition: "center 40%" }}
           />
-        )}
+        </video>
 
         {/* Brightness dimming overlay */}
         {heroMaskSettings.videoBrightness < 100 && (
