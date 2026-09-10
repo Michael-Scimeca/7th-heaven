@@ -97,32 +97,30 @@ function buildRevealClipPath(
   progress: number,
   ratio: number,
   flip: boolean,
-  vh: number = typeof window !== "undefined" ? window.innerHeight : 800,
   rampFraction = 0.05
 ): string {
   const p = Math.min(1, Math.max(0, progress));
-  const mainY = vh * (1 - p);
+  const mainY = 100 * (1 - p);
   const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
   const leadY = mainY / (1 + rampedRatio);
   const leftY = flip ? leadY : mainY;
   const rightY = flip ? mainY : leadY;
-  return `polygon(0px ${leftY.toFixed(1)}px, 100% ${rightY.toFixed(1)}px, 100% 99999px, 0px 99999px)`;
+  return `polygon(0% ${leftY.toFixed(2)}%, 100% ${rightY.toFixed(2)}%, 100% 100%, 0% 100%)`;
 }
 
 function buildExitClipPath(
   progress: number,
   ratio: number,
   flip: boolean,
-  vh: number = typeof window !== "undefined" ? window.innerHeight : 800,
   rampFraction = 0.05
 ): string {
   const p = Math.min(1, Math.max(0, progress));
-  const mainY = vh * (1 - p);
+  const mainY = 100 * (1 - p);
   const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
   const leadY = mainY / (1 + rampedRatio);
   const leftY = flip ? leadY : mainY;
   const rightY = flip ? mainY : leadY;
-  return `polygon(0px 0px, 100% 0px, 100% ${rightY.toFixed(1)}px, 0px ${leftY.toFixed(1)}px)`;
+  return `polygon(0% 0%, 100% 0%, 100% ${rightY.toFixed(2)}%, 0% ${leftY.toFixed(2)}%)`;
 }
 
 function shouldSkip(): boolean {
@@ -497,6 +495,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       document.documentElement.classList.remove("is-page-transitioning");
       if (outerRef.current) {
         outerRef.current.style.clipPath = "";
+        (outerRef.current.style as any).webkitClipPath = "";
         outerRef.current.style.willChange = "";
       }
       if (contentRef.current) {
@@ -542,7 +541,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         outerRef.current.style.inset = "";
         outerRef.current.style.zIndex = "";
         outerRef.current.style.overflow = "";
-        outerRef.current.style.clipPath = "none";
+        outerRef.current.style.clipPath = "";
+        (outerRef.current.style as any).webkitClipPath = "";
         outerRef.current.style.willChange = "";
       }
       if (contentRef.current) {
@@ -560,6 +560,25 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     }, watchdogMs);
     return () => clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
+
+  // Safari WebKit Resize Fix: Ensure container styles reset cleanly on resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (mode === "idle") {
+        if (outerRef.current) {
+          outerRef.current.style.clipPath = "";
+          (outerRef.current.style as any).webkitClipPath = "";
+          outerRef.current.style.willChange = "";
+        }
+        if (contentRef.current) {
+          contentRef.current.style.transform = "";
+          contentRef.current.style.willChange = "";
+        }
+      }
+    };
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
   }, [mode]);
 
   const requestTransitionRef = useRef(requestTransition);
