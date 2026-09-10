@@ -553,6 +553,16 @@ export function Header() {
                 </TransitionLink>
               );
             })}
+            {showUserAuth && (
+              <TransitionLink
+                href="/studio"
+                className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors duration-200 relative ${isNavActive("/studio")
+                  ? "!text-[#9333ea] active cursor-default"
+                  : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+                  }`}>
+                STUDIO
+              </TransitionLink>
+            )}
           </nav>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
@@ -819,6 +829,7 @@ export function Header() {
                       { href: "/payment-test", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
                       { href: "/fan-photo-wall", label: "FAN WALL" },
+                      ...(showUserAuth ? [{ href: "/studio", label: "STUDIO" }] : []),
                       { href: "/live", label: "LIVE" },
                       { href: "/cruise", label: "CRUISE" },
                       { href: "/book", label: "BOOK US" },
