@@ -443,19 +443,16 @@ export default function RockNRollKidsClient({
           </div>
           <div className="mt-8 mb-8 text-left w-full space-y-3">
             <h2 className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide font-sans mb-3 text-left">
-              {sanityContent?.storyHeading ||
-                sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.title ||
+              {sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.title ||
                 "Story & Concept"}
             </h2>
             <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed max-w-4xl">
               <p className="font-sans">
-                {sanityContent?.storyParagraph1 ||
-                  sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.subtitle ||
+                {sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.subtitle ||
                   ABOUT_DATA.paragraph1}
               </p>
               <p className="font-normal">
-                {sanityContent?.storyParagraph2 ||
-                  sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.body ||
+                {sanityContent?.sections?.find((s: any) => s.sectionId === "about")?.body ||
                   ABOUT_DATA.paragraph2}
               </p>
             </div>
@@ -569,9 +566,7 @@ export default function RockNRollKidsClient({
           <section className="space-y-6 pt-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
               <div>
-                <span className="text-purple-400 font-sans text-xs uppercase tracking-widest block mb-1">
-                  {comicsSection?.subtitle || "Printed Comics & E-Books"}
-                </span>
+
                 <h2 className="text-white font-sans text-2xl sm:text-3xl font-bold uppercase">
                   {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
                 </h2>
@@ -633,9 +628,7 @@ export default function RockNRollKidsClient({
           <section className="space-y-6 pt-6 border-t border-white/10">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
               <div>
-                <span className="text-purple-400 font-sans text-xs uppercase tracking-widest block mb-1">
-                  {foundersSection?.subtitle || "Series Creators"}
-                </span>
+
                 <h2 className="font-sans text-white text-2xl sm:text-3xl font-bold uppercase">
                   {foundersSection?.title || "Series Founders & Contact"}
                 </h2>
