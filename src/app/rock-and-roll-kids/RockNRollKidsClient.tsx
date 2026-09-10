@@ -624,6 +624,18 @@ export default function RockNRollKidsClient({
               </div>
             </div>
 
+            {foundersSection?.image && (
+              <div className="relative w-full rounded-2xl overflow-hidden pt-2">
+                <Image
+                  src={getMediaUrl(foundersSection.image)}
+                  alt={foundersSection?.title || "Series Founders"}
+                  width={1200}
+                  height={400}
+                  className="w-full h-auto object-contain rounded-xl"
+                />
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
               {foundersList.map((founder: any) => (
                 <div key={founder.name} className="flex flex-col space-y-4 group">
