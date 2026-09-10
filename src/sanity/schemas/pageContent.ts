@@ -41,6 +41,13 @@ const pageContent = {
       type: "string",
     },
     {
+      name: "heroBannerImage",
+      title: "Hero Banner Image",
+      type: "image",
+      options: { hotspot: true },
+      description: "Full width hero banner image (e.g. all characters cast lineup)",
+    },
+    {
       name: "sections",
       title: "Page Sections",
       type: "array",
@@ -60,6 +67,96 @@ const pageContent = {
           ],
           preview: {
             select: { title: "title", subtitle: "sectionId" },
+          },
+        },
+      ],
+    },
+    {
+      name: "characters",
+      title: "Character Roster",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          name: "characterItem",
+          title: "Character",
+          fields: [
+            { name: "name", title: "Character Name", type: "string" },
+            { name: "role", title: "Band / Stage Role", type: "string" },
+            { name: "desc", title: "Description", type: "text", rows: 3 },
+            { name: "image", title: "Character Image", type: "image", options: { hotspot: true } },
+          ],
+          preview: {
+            select: { title: "name", subtitle: "role" },
+          },
+        },
+      ],
+    },
+    {
+      name: "products",
+      title: "Products / Books / Comics",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          name: "productItem",
+          title: "Book / Product Item",
+          fields: [
+            { name: "title", title: "Book Title", type: "string" },
+            { name: "badge", title: "Badge / Tag", type: "string" },
+            { name: "desc", title: "Description", type: "text", rows: 3 },
+            { name: "amazonUrl", title: "Amazon / Buy URL", type: "string" },
+            { name: "coverImg", title: "Cover Image", type: "image", options: { hotspot: true } },
+          ],
+          preview: {
+            select: { title: "title", subtitle: "badge" },
+          },
+        },
+      ],
+    },
+    {
+      name: "musicSingles",
+      title: "Music Singles / Videos",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          name: "singleItem",
+          title: "Single / Video",
+          fields: [
+            { name: "title", title: "Track Title", type: "string" },
+            { name: "subtitle", title: "Subtitle", type: "string" },
+            { name: "tag", title: "Tag / Category", type: "string" },
+            { name: "desc", title: "Description", type: "text", rows: 3 },
+            { name: "youtubeId", title: "YouTube Video ID", type: "string" },
+            { name: "youtubeUrl", title: "YouTube Link", type: "string" },
+          ],
+          preview: {
+            select: { title: "title", subtitle: "tag" },
+          },
+        },
+      ],
+    },
+    {
+      name: "founders",
+      title: "Series Creators / Founders",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          name: "founderItem",
+          title: "Founder / Creator",
+          fields: [
+            { name: "name", title: "Name", type: "string" },
+            { name: "role", title: "Role", type: "string" },
+            { name: "desc", title: "Bio / Description", type: "text", rows: 3 },
+            { name: "phone", title: "Phone", type: "string" },
+            { name: "email", title: "Email", type: "string" },
+            { name: "desktopImg", title: "Desktop Image", type: "image", options: { hotspot: true } },
+            { name: "mobileImg", title: "Mobile Image", type: "image", options: { hotspot: true } },
+          ],
+          preview: {
+            select: { title: "name", subtitle: "role" },
           },
         },
       ],

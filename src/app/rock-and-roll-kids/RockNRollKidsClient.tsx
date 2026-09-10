@@ -330,6 +330,75 @@ const DEFAULT_FOUNDERS = [
   },
 ];
 
+function getProductsList(sanityContent: any) {
+  const comicsSection = sanityContent?.sections?.find((s: any) => s.sectionId === "comics");
+  const sanityProducts = sanityContent?.products || comicsSection?.items || sanityContent?.books;
+  if (!sanityProducts || sanityProducts.length === 0) return ALL_PRODUCTS;
+  return sanityProducts.map((p: any, i: number) => {
+    const fallback = ALL_PRODUCTS[i % ALL_PRODUCTS.length];
+    return {
+      id: p._id || p.id || `prod-${i}`,
+      title: p.title || fallback.title,
+      subtitle: p.subtitle || fallback.subtitle,
+      desc: p.desc || p.description || fallback.desc,
+      amazonUrl: p.amazonUrl || p.buyLink || fallback.amazonUrl,
+      coverImg: getMediaUrl(p.coverImg || p.image || p.coverImage, fallback.coverImg),
+      badge: p.badge || p.tag || fallback.badge,
+    };
+  });
+}
+
+function getCharactersList(sanityContent: any) {
+  const charactersSection = sanityContent?.sections?.find((s: any) => s.sectionId === "characters");
+  const sanityCharacters = sanityContent?.characters || charactersSection?.items;
+  if (!sanityCharacters || sanityCharacters.length === 0) return mainCharacters;
+  return sanityCharacters.map((c: any, i: number) => {
+    const fallback = mainCharacters[i % mainCharacters.length];
+    return {
+      role: c.role || fallback.role,
+      name: c.name || fallback.name,
+      image: getMediaUrl(c.image, fallback.image),
+      desc: c.desc || c.description || fallback.desc,
+      icon: fallback.icon,
+      color: fallback.color,
+    };
+  });
+}
+
+function getMusicSinglesList(sanityContent: any) {
+  const sanitySingles = sanityContent?.musicSingles || sanityContent?.singles;
+  if (!sanitySingles || sanitySingles.length === 0) return FEATURED_MUSIC_SINGLES;
+  return sanitySingles.map((s: any, i: number) => {
+    const fallback = FEATURED_MUSIC_SINGLES[i % FEATURED_MUSIC_SINGLES.length];
+    return {
+      id: s.youtubeId || s.id || fallback.id,
+      title: s.title || fallback.title,
+      subtitle: s.subtitle || fallback.subtitle,
+      tag: s.tag || fallback.tag,
+      desc: s.desc || s.description || fallback.desc,
+      youtubeUrl: s.youtubeUrl || `https://www.youtube.com/watch?v=${s.youtubeId || s.id || fallback.id}`,
+    };
+  });
+}
+
+function getFoundersList(sanityContent: any) {
+  const foundersSection = sanityContent?.sections?.find((s: any) => s.sectionId === "founders");
+  const sanityFounders = sanityContent?.founders || foundersSection?.founders;
+  if (!sanityFounders || sanityFounders.length === 0) return DEFAULT_FOUNDERS;
+  return sanityFounders.map((f: any, i: number) => {
+    const fallback = DEFAULT_FOUNDERS[i % DEFAULT_FOUNDERS.length];
+    return {
+      name: f.name || fallback.name,
+      role: f.role || fallback.role,
+      desc: f.desc || f.description || fallback.desc,
+      phone: f.phone || fallback.phone,
+      email: f.email || fallback.email,
+      mobileImg: getMediaUrl(f.mobileImg || f.imageMobile || f.image, fallback.mobileImg),
+      desktopImg: getMediaUrl(f.desktopImg || f.imageDesktop || f.image, fallback.desktopImg),
+    };
+  });
+}
+
 export default function RockNRollKidsClient({
   sanityContent,
 }: {
@@ -337,86 +406,13 @@ export default function RockNRollKidsClient({
 }) {
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
 
-  // ── SANITY CMS DYNAMIC DATA MAPPINGS WITH FULL FALLBACKS ──
-  const comicsSection = sanityContent?.sections?.find(
-    (s: any) => s.sectionId === "comics"
-  );
-  const sanityProducts =
-    sanityContent?.products || comicsSection?.items || sanityContent?.books;
-  const productsList =
-    sanityProducts && sanityProducts.length > 0
-      ? sanityProducts.map((p: any, i: number) => {
-          const fallback = ALL_PRODUCTS[i % ALL_PRODUCTS.length];
-          return {
-            id: p._id || p.id || `prod-${i}`,
-            title: p.title || fallback.title,
-            subtitle: p.subtitle || fallback.subtitle,
-            desc: p.desc || p.description || fallback.desc,
-            amazonUrl: p.amazonUrl || p.buyLink || fallback.amazonUrl,
-            coverImg: getMediaUrl(p.coverImg || p.image || p.coverImage, fallback.coverImg),
-            badge: p.badge || p.tag || fallback.badge,
-          };
-        })
-      : ALL_PRODUCTS;
-
-  const charactersSection = sanityContent?.sections?.find(
-    (s: any) => s.sectionId === "characters"
-  );
-  const sanityCharacters = sanityContent?.characters || charactersSection?.items;
-  const charactersList =
-    sanityCharacters && sanityCharacters.length > 0
-      ? sanityCharacters.map((c: any, i: number) => {
-          const fallback = mainCharacters[i % mainCharacters.length];
-          return {
-            role: c.role || fallback.role,
-            name: c.name || fallback.name,
-            image: getMediaUrl(c.image, fallback.image),
-            desc: c.desc || c.description || fallback.desc,
-            icon: fallback.icon,
-            color: fallback.color,
-          };
-        })
-      : mainCharacters;
-
-  const sanitySingles = sanityContent?.musicSingles || sanityContent?.singles;
-  const musicSinglesList =
-    sanitySingles && sanitySingles.length > 0
-      ? sanitySingles.map((s: any, i: number) => {
-          const fallback = FEATURED_MUSIC_SINGLES[i % FEATURED_MUSIC_SINGLES.length];
-          return {
-            id: s.youtubeId || s.id || fallback.id,
-            title: s.title || fallback.title,
-            subtitle: s.subtitle || fallback.subtitle,
-            tag: s.tag || fallback.tag,
-            desc: s.desc || s.description || fallback.desc,
-            youtubeUrl: s.youtubeUrl || `https://www.youtube.com/watch?v=${s.youtubeId || s.id || fallback.id}`,
-          };
-        })
-      : FEATURED_MUSIC_SINGLES;
-
-  const foundersSection = sanityContent?.sections?.find(
-    (s: any) => s.sectionId === "founders"
-  );
-  const sanityFounders = sanityContent?.founders || foundersSection?.founders;
-  const foundersList =
-    sanityFounders && sanityFounders.length > 0
-      ? sanityFounders.map((f: any, i: number) => {
-          const fallback = DEFAULT_FOUNDERS[i % DEFAULT_FOUNDERS.length];
-          return {
-            name: f.name || fallback.name,
-            role: f.role || fallback.role,
-            desc: f.desc || f.description || fallback.desc,
-            phone: f.phone || fallback.phone,
-            email: f.email || fallback.email,
-            mobileImg: getMediaUrl(f.mobileImg || f.imageMobile || f.image, fallback.mobileImg),
-            desktopImg: getMediaUrl(f.desktopImg || f.imageDesktop || f.image, fallback.desktopImg),
-          };
-        })
-      : DEFAULT_FOUNDERS;
-
-  const videosList = musicSinglesList.filter(
-    (v: any) => v.id !== selectedVideo
-  );
+  const comicsSection = sanityContent?.sections?.find((s: any) => s.sectionId === "comics");
+  const foundersSection = sanityContent?.sections?.find((s: any) => s.sectionId === "founders");
+  const productsList = getProductsList(sanityContent);
+  const charactersList = getCharactersList(sanityContent);
+  const musicSinglesList = getMusicSinglesList(sanityContent);
+  const foundersList = getFoundersList(sanityContent);
+  const videosList = musicSinglesList.filter((v: any) => v.id !== selectedVideo);
 
   return (
     <div className="min-h-screen text-white pt-[100px] overflow-x-hidden">
@@ -436,7 +432,7 @@ export default function RockNRollKidsClient({
           <div
             className="relative w-full rounded-lg overflow-hidden mt-4">
             <Image
-              src="/images/comics/allc.png"
+              src={getMediaUrl(sanityContent?.heroBannerImage, "/images/comics/allc.png")}
               alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
               width={1400}
               height={550}
