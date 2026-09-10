@@ -421,6 +421,15 @@ export default function RockNRollKidsClient({
       <div>
         {/* Hero Header */}
         <section className="relative site-container text-center space-y-6">
+          <div className="flex justify-end">
+            <a
+              href="/studio/structure/pageContent;pageContent-rock-and-roll-kids"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-sans font-semibold text-purple-200 bg-purple-900/50 hover:bg-purple-800/80 border border-purple-400/40 rounded-full transition-all shadow-md backdrop-blur-md hover:scale-105">
+              <span>✏️ Edit Page in Sanity</span>
+            </a>
+          </div>
           <h1 className="mb-3">
             {sanityContent?.heroHeading || ABOUT_DATA.headline}
           </h1>
