@@ -183,6 +183,15 @@ function HomeShaderGradientComponent() {
       try {
         const { NeatGradient } = await import("@firecms/neat");
         if (cancelled || neatInstance || !canvasRef.current) return;
+
+        // Destroy any existing orphaned WebGL instance globally before creating a new one
+        if (typeof window !== "undefined" && (window as any).__neatInstance) {
+          try {
+            (window as any).__neatInstance?.destroy?.();
+          } catch { }
+          (window as any).__neatInstance = null;
+        }
+
         neatInstance = new NeatGradient({
           ref: canvasRef.current,
           ...GRADIENT_SETTINGS,
@@ -384,6 +393,9 @@ function HomeShaderGradientComponent() {
       }
       try {
         neatInstance?.destroy?.();
+        if (typeof window !== "undefined" && (window as any).__neatInstance === neatInstance) {
+          (window as any).__neatInstance = null;
+        }
         if (canvasRef.current) {
           const gl = canvasRef.current.getContext("webgl2") || canvasRef.current.getContext("webgl");
           if (gl) {
