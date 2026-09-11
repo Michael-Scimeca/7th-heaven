@@ -516,7 +516,17 @@ function HomeShaderGradientComponent() {
   }, []);
 
   if (isMobileOrTablet) {
-    return null;
+    return (
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#05030a]">
+        <div
+          className="fixed inset-0 z-0 pointer-events-none opacity-80"
+          style={{
+            background:
+              "radial-gradient(ellipse 90% 70% at 50% 15%, rgba(133, 15, 183, 0.40) 0%, rgba(74, 27, 111, 0.30) 40%, rgba(21, 17, 80, 0.25) 75%, rgba(5, 3, 10, 0.95) 100%)",
+          }}
+        />
+      </div>
+    );
   }
 
   return (
