@@ -517,7 +517,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             state: s.state || "",
             lat: coords[0],
             lng: coords[1],
-            type: getShowType(s.info || ''),
+            type: getShowType(s),
             shows: []
           };
         }
@@ -631,13 +631,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       const isLightColor = cfg.color === '#9333ea' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
       const textColor = isLightColor ? '#000000' : '#ffffff';
-      const showLetter = v.type === 'unplugged' ? 'U' : v.type === 'outdoor' ? 'O' : v.type === 'casino' ? 'C' : v.type === 'tv' ? 'T' : v.type === 'fundraiser' ? 'G' : v.type === 'special' ? 'S' : 'F';
+      const showLetter = cfg.initial || 'F';
 
       const pinHtml = `<div class="custom-venue-marker-inner ${isBouncing ? "is-bouncing-marker" : ""}">
         <div class="${isBouncing ? "next-show-bounce" : ""} relative flex flex-col items-center">
-          <svg class="${isBouncing ? "map-pin-jump" : ""}" width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)) drop-shadow(0 0 10px ${isBouncing ? '#a855f7' : cfg.color});">
-            <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="${isBouncing ? '#a855f7' : cfg.color}" stroke="#ffffff" stroke-width="4"/>
-            <text x="50" y="48" dy="0.35em" fill="#ffffff" font-size="44" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
+          <svg class="${isBouncing ? "map-pin-jump" : ""}" width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)) drop-shadow(0 0 12px ${cfg.color});">
+            <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="${cfg.color}" style="fill: ${cfg.color} !important;" stroke="#ffffff" stroke-width="5"/>
+            <text x="50" y="48" dy="0.35em" fill="#ffffff" style="fill: #ffffff !important;" font-size="44" font-weight="900" text-anchor="middle" font-family="system-ui, sans-serif">${showLetter}</text>
           </svg>
           <div class="marker-label ${isBouncing ? "active-show-label" : ""}">${isBouncing ? "⚡ UP NEXT: " : ""}${v.venue}</div>
         </div>

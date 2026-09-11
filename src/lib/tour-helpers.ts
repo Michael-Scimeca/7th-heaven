@@ -2,24 +2,39 @@ import { VENUE_COORDS, CITY_COORDS, getVenueCoords } from "@/lib/venue-coords";
 
 export { VENUE_COORDS, CITY_COORDS, getVenueCoords };
 
-export const typeConfig: Record<string, { color: string; label: string }> = {
-  full: { color: "#a855f7", label: "Full Band" },
-  unplugged: { color: "#9333ea", label: "Unplugged" },
-  outdoor: { color: "#22c55e", label: "Outdoor" },
-  casino: { color: "#eab308", label: "Casino" },
-  tv: { color: "#06b6d4", label: "TV" },
-  fundraiser: { color: "#f43f5e", label: "Fundraiser" },
-  special: { color: "#ec4899", label: "Special" },
+export const typeConfig: Record<string, { color: string; label: string; initial: string }> = {
+  full: { color: "#a855f7", label: "Full Band", initial: "F" },
+  unplugged: { color: "#c084fc", label: "Unplugged", initial: "U" },
+  outdoor: { color: "#22c55e", label: "Outdoor", initial: "O" },
+  casino: { color: "#eab308", label: "Casino", initial: "C" },
+  tv: { color: "#06b6d4", label: "TV", initial: "T" },
+  fundraiser: { color: "#f43f5e", label: "Fundraiser", initial: "G" },
+  special: { color: "#ec4899", label: "Special", initial: "S" },
 };
 
-export function getShowType(info: string): string {
+export function getShowType(showOrInfo: any): string {
+  let info = "";
+  let tags: string[] = [];
+  let isFest = false;
+
+  if (typeof showOrInfo === "string") {
+    info = showOrInfo;
+  } else if (showOrInfo && typeof showOrInfo === "object") {
+    info = (showOrInfo.info || showOrInfo.notes || "") + " " + (showOrInfo.venue || "");
+    tags = Array.isArray(showOrInfo.tags) ? showOrInfo.tags : [];
+    isFest = Boolean(showOrInfo.isFestival);
+  }
+
   const lower = info.toLowerCase();
-  if (lower.includes("unplugged")) return "unplugged";
-  if (lower.includes("outdoor") || lower.includes("beer garden") || lower.includes("fest")) return "outdoor";
-  if (lower.includes("casino")) return "casino";
-  if (lower.includes("tv") || lower.includes("wgn") || lower.includes("news")) return "tv";
-  if (lower.includes("fundraiser") || lower.includes("gala") || lower.includes("rescue")) return "fundraiser";
-  if (lower.includes("cruise")) return "special";
+  const hasTag = (t: string) => tags.some(tag => String(tag).toLowerCase().includes(t));
+
+  if (hasTag("unplugged") || lower.includes("unplugged")) return "unplugged";
+  if (isFest || hasTag("festival") || hasTag("outdoor") || lower.includes("outdoor") || lower.includes("beer garden") || lower.includes("fest")) return "outdoor";
+  if (hasTag("casino") || lower.includes("casino")) return "casino";
+  if (hasTag("tv") || lower.includes("tv") || lower.includes("wgn") || lower.includes("news")) return "tv";
+  if (hasTag("fundraiser") || hasTag("gala") || lower.includes("fundraiser") || lower.includes("gala") || lower.includes("rescue")) return "fundraiser";
+  if (hasTag("special") || hasTag("cruise") || lower.includes("cruise")) return "special";
+
   return "full";
 }
 
