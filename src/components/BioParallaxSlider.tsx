@@ -1092,6 +1092,8 @@ lerpSpeed: ${lerpSpeed}`;
                           />
                         </picture>
 
+                        {/* Bottom Gradient Fade Overlay for Mobile & Tablet */}
+                        <div className="absolute inset-x-0 bottom-0 h-1/3 sm:h-2/5 z-10 pointer-events-none bg-gradient-to-t from-[#080612] via-[#080612]/60 to-transparent" />
                       </div>
 
                       {/* Dynamic Member Info Overlay (z-30 - Pure White & Bright Purple Text with Live Control) */}

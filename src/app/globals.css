@@ -5234,7 +5234,9 @@ html.is-preloading body {
 @utility pt-stage-fluid {
   padding-top: 12vw !important;
 
-
+  @media (min-width: 768px) {
+    padding-top: 7.5vw !important;
+  }
 
   @media (min-width: 1667px) {
     padding-top: 9vw !important;
