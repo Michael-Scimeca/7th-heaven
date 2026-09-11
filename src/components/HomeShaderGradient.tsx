@@ -138,7 +138,7 @@ function HomeShaderGradientComponent() {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isMobileOrTablet || !canvasRef.current) return;
+    if (!canvasRef.current) return;
 
     // NOTE: a `canvasRef.current.__neatInitialized` DOM-attached guard used
     // to live here, added to stop React Strict Mode's dev-only double-invoke
@@ -160,24 +160,11 @@ function HomeShaderGradientComponent() {
     // Initialize WebGL background canvas across all screen sizes
     let neatInstance: any = null;
     let watermarkTimeout: NodeJS.Timeout | null = null;
-    // Guards the async import gap below: if this effect's cleanup already ran
-    // (real unmount, or React Strict Mode's dev-only mount->cleanup->remount
-    // cycle -- reactStrictMode is on in next.config.ts) before
-    // `import("@firecms/neat")` resolves, `cancelled` is true by the time we
-    // get here. Without this check the gradient instance below gets created
-    // anyway with nothing left to ever destroy it: an orphaned WebGL
-    // context. Chrome caps how many WebGL contexts a tab can hold at once,
-    // and Strict Mode alone causes one extra mount/cleanup cycle per full
-    // page load, so this leaked one context on every reload -- exactly what
-    // the "Too many active WebGL contexts. Oldest context will be lost."
-    // console warning was tracking, and a very plausible source of the
-    // navigation slowdowns reported after a session of repeated reloads.
     let cancelled = false;
 
     const initNeat = async () => {
       if (!canvasRef.current) return;
-      // Skip heavy WebGL shader initialization on mobile/tablet devices (< 1024px)
-      if (typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+      if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         return;
       }
       try {
@@ -308,13 +295,13 @@ function HomeShaderGradientComponent() {
     };
 
     const positionLoop = (t: number) => {
-      if (!isVisible || document.hidden || (typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches))) {
+      if (!isVisible || document.hidden) {
         animFrameId = null;
         return;
       }
       const baseCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40;
       const frameCap = isScrolling ? baseCap * 2 : baseCap;
-      if (t - lastFrameTime> frameCap) {
+      if (t - lastFrameTime > frameCap) {
         updatePositionLayer(t);
         lastFrameTime = t;
       }
@@ -337,7 +324,7 @@ function HomeShaderGradientComponent() {
           const h = 256;
           const intensity = GRADIENT_SETTINGS.grainIntensity;
           ctx.clearRect(0, 0, w, h);
-          if (intensity> 0) {
+          if (intensity > 0) {
             const imgData = ctx.createImageData(w, h);
             const data = imgData.data;
             for (let i = 0; i < data.length; i += 4) {
@@ -415,46 +402,14 @@ function HomeShaderGradientComponent() {
 
     return cleanupWebGL;
     // eslint-disable-next-line react-doctor/exhaustive-deps
-  }, [isMobileOrTablet]);
+  }, []);
 
-  // Pause the gradient while a page transition is covering the screen --
-  // it's fully hidden behind the curtain the whole time anyway, so letting
-  // its WebGL render loop (and the CSS position-layer loop below) keep
-  // running is pure wasted GPU/CPU work competing with the transition's own
-  // GSAP tweens for the same frame budget, right when smoothness matters
-  // most.
-  //
-  // Deliberately NOT `display: none`. NeatGradient owns a ResizeObserver on
-  // this canvas (confirmed by reading its bundled source) that debounces
-  // ~100ms and calls setSize() on any contentRect change -- display:none
-  // collapses the canvas to 0x0, so that debounced resize would eventually
-  // fire *while hidden* and zero out the actual WebGL backbuffer. Coming
-  // back from that takes another ~100ms (the next debounced resize) before
-  // the canvas is drawing at the right size again -- a real risk of
-  // reintroducing a version of the "gradient missing" bug already fixed
-  // once this session, right as a new page appears.
-  //
-  // Pushing the wrapper off-screen via `transform` instead avoids that
-  // entirely: transforms don't affect layout size, so `contentRect` never
-  // changes and the ResizeObserver never fires. What DOES change is
-  // whether the canvas geometrically intersects the viewport -- which is
-  // exactly what NeatGradient's own internal IntersectionObserver (and our
-  // `isVisible` below, watching the same canvas) already uses to decide
-  // whether to keep scheduling its next animation frame. So this reuses
-  // the library's own trusted pause/resume path instead of reaching into
-  // its private internals.
+  // Pause the gradient while a page transition is covering the screen
   useEffect(() => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
 
-    const OFFSCREEN = "translateX(-100000px)";
-
-    const sync = () => {
-      // TEMP DISABLED for bisection test
-      // wrapper.style.transform = document.documentElement.classList.contains("is-page-transitioning")
-      //   ? OFFSCREEN
-      //   : "";
-    };
+    const sync = () => {};
 
     sync();
 
@@ -502,8 +457,6 @@ function HomeShaderGradientComponent() {
       }
     };
 
-
-
     const handleSettingsChange = (e: Event) => {
       const customEv = e as CustomEvent;
       applySettings(customEv.detail);
@@ -514,20 +467,6 @@ function HomeShaderGradientComponent() {
       window.removeEventListener("canvas-settings-changed", handleSettingsChange);
     };
   }, []);
-
-  if (isMobileOrTablet) {
-    return (
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#05030a]">
-        <div
-          className="fixed inset-0 z-0 pointer-events-none opacity-80"
-          style={{
-            background:
-              "radial-gradient(ellipse 90% 70% at 50% 15%, rgba(133, 15, 183, 0.40) 0%, rgba(74, 27, 111, 0.30) 40%, rgba(21, 17, 80, 0.25) 75%, rgba(5, 3, 10, 0.95) 100%)",
-          }}
-        />
-      </div>
-    );
-  }
 
   return (
     <>
