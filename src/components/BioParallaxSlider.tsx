@@ -9,6 +9,7 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from "react"
 import { Sliders, Eye, EyeOff, Sparkles, X, RotateCcw, Paintbrush, Scissors, Save, ChevronLeft, ChevronRight, Ticket } from "lucide-react";
 import { SanityBandMember, urlFor } from "@/lib/sanity";
 import MemberFactSheetDrawer, { BandMemberFactSheet } from "@/components/MemberFactSheetDrawer";
+import { SectionBadge } from "@/components/SectionBadge";
 
 // Explicit member sequence: Frankie (0), Nick (1), Adam (2 - Center), Richard (3), Mark (4)
 const FALLBACK_MEMBERS: (Partial<SanityBandMember> & {
@@ -434,39 +435,82 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [dragThreshold, setDragThreshold] = useState<number>(4);
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
-  const [cardWidth, setCardWidth] = useState<number>(450);
-  const [imageHeight, setImageHeight] = useState<number>(648);
+  const [cardWidth, setCardWidth] = useState<number>(340);
+  const [imageHeight, setImageHeight] = useState<number>(450);
   const [imageScale, setImageScale] = useState<number>(1.42);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(0);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(-10);
   const [gap, setGap] = useState<number>(0);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.00);
   const [maxSkew, setMaxSkew] = useState<number>(30);
-  const [focalScale, setFocalScale] = useState<number>(1.48);
+  const [focalScale, setFocalScale] = useState<number>(1.36);
+  const [maskStart, setMaskStart] = useState<number>(95);
+  const [maskEnd, setMaskEnd] = useState<number>(98);
+  const [paddingOffset, setPaddingOffset] = useState<number>(-38);
+  const [activeYShift, setActiveYShift] = useState<number>(30);
+  const [inactiveNameOpacity, setInactiveNameOpacity] = useState<number>(0);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const saved = localStorage.getItem("smooothy_css_tuner_config_v2");
+      if (saved) {
+        const cfg = JSON.parse(saved);
+        if (cfg.maskStart !== undefined) setMaskStart(cfg.maskStart);
+        if (cfg.maskEnd !== undefined) setMaskEnd(cfg.maskEnd);
+        if (cfg.paddingOffset !== undefined) setPaddingOffset(cfg.paddingOffset);
+        if (cfg.focalScale !== undefined) setFocalScale(cfg.focalScale);
+        if (cfg.imageOffsetY !== undefined) setImageOffsetY(cfg.imageOffsetY);
+        if (cfg.activeYShift !== undefined) setActiveYShift(cfg.activeYShift);
+        if (cfg.inactiveNameOpacity !== undefined) setInactiveNameOpacity(cfg.inactiveNameOpacity);
+      }
+    } catch (e) {
+      console.error("Failed to load css tuner config:", e);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(
+        "smooothy_css_tuner_config_v2",
+        JSON.stringify({ maskStart, maskEnd, paddingOffset, focalScale, imageOffsetY, activeYShift, inactiveNameOpacity })
+      );
+    } catch (e) {
+      console.error("Failed to save css tuner config:", e);
+    }
+  }, [maskStart, maskEnd, paddingOffset, focalScale, imageOffsetY, activeYShift, inactiveNameOpacity]);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.style.setProperty("--smooothy-mask-start", `${maskStart}%`);
+      document.documentElement.style.setProperty("--smooothy-mask-end", `${maskEnd}%`);
+    }
+  }, [maskStart, maskEnd]);
 
   const [textLayout, setTextLayout] = useState<"pill" | "top" | "spotlight" | "spine">("pill");
   const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "center" | "center-glass" | "right" | "right-glass" | "right-accent">("left");
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
-  const [nameFontSize, setNameFontSize] = useState<string | number>("clamp(18px, 11.75px + 0.953vw, 27px)");
-  const [roleFontSize, setRoleFontSize] = useState<number>(14); // px
+  const [nameFontSize, setNameFontSize] = useState<string | number>("clamp(14px, 8.5px + 0.75vw, 20px)");
+  const [roleFontSize, setRoleFontSize] = useState<number>(12); // px
   const [textBottomOffset, setTextBottomOffset] = useState<number>(16); // px
   const [textBackdropOpacity, setTextBackdropOpacity] = useState<number>(0); // % opacity for text background backdrop mask
 
   const computedNameFontSize = useMemo(() => {
     if (isMobileView) {
       if (typeof nameFontSize === "number") {
-        return `${Math.max(10, nameFontSize - 4)}px`;
+        return `${Math.max(10, nameFontSize - 3)}px`;
       }
-      if (typeof nameFontSize === "string" && nameFontSize.includes("clamp(18px")) {
-        return "clamp(14px, 7.75px + 0.953vw, 23px)";
+      if (typeof nameFontSize === "string" && nameFontSize.includes("clamp(")) {
+        return "clamp(12px, 6.5px + 0.75vw, 17px)";
       }
-      return `calc(${nameFontSize} - 4px)`;
+      return `calc(${nameFontSize} - 3px)`;
     }
     return typeof nameFontSize === "number" ? `${nameFontSize}px` : nameFontSize;
   }, [nameFontSize, isMobileView]);
 
   const computedRoleFontSize = useMemo(() => {
     if (isMobileView) {
-      return `${Math.max(10, roleFontSize - 3)}px`;
+      return `${Math.max(9, roleFontSize - 2)}px`;
     }
     return `${roleFontSize}px`;
   }, [roleFontSize, isMobileView]);
@@ -573,10 +617,13 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
         targetHeight = Math.round(targetWidth * 1.3333);
       }
 
-      // Constrain targetHeight so the entire slider module fits within the screen window (max 72vh)
-      const maxAvailableHeight = Math.round(vh * 0.72);
-      if (targetHeight > maxAvailableHeight) {
-        targetHeight = maxAvailableHeight;
+      // Constrain targetHeight so the 1.48x scaled active card fits 100% inside window without cutting off head
+      const currentFocal = focalScaleRef.current || 1.48;
+      const maxAllowedScaledHeight = Math.round(vh * (isMobile ? 0.65 : 0.70));
+      const maxBaseHeight = Math.round(maxAllowedScaledHeight / currentFocal);
+
+      if (targetHeight > maxBaseHeight) {
+        targetHeight = maxBaseHeight;
         targetWidth = Math.round(targetHeight / 1.3333);
       }
 
@@ -602,8 +649,6 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Tuner UI state
-  const [showTuner, setShowTuner] = useState<boolean>(false);
   const copiedRef = useRef<boolean>(false);
 
   const itemTotalWidth = cardWidth + gap;
@@ -624,6 +669,9 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   const focalScaleRef = useRef<number>(focalScale);
   useEffect(() => { focalScaleRef.current = focalScale; }, [focalScale]);
+
+  const activeYShiftRef = useRef<number>(activeYShift);
+  useEffect(() => { activeYShiftRef.current = activeYShift; }, [activeYShift]);
 
   const dragThresholdRef = useRef<number>(dragThreshold);
   useEffect(() => { dragThresholdRef.current = dragThreshold; }, [dragThreshold]);
@@ -754,11 +802,12 @@ lerpSpeed: ${lerpSpeed}`;
           // Keep all 5 member cards visible with smooth focal center weighting
           const cardOpacity = Math.max(0.70, 1 - distFromCenter * 0.12);
 
-          // Smooothy speed-based dynamic skew
+          // Smooothy speed-based dynamic skew & active Y lift
           const skewX = Math.max(-maxSkewRef.current, Math.min(maxSkewRef.current, vel * 0.35));
+          const activeY = activeYShiftRef.current * focalVal;
 
           card.style.transformOrigin = "bottom center";
-          card.style.transform = `scale(${scale}) skewX(${skewX}deg)`;
+          card.style.transform = `translate3d(0, ${activeY}px, 0) scale(${scale}) skewX(${skewX}deg)`;
           card.style.opacity = String(cardOpacity);
 
           // Dynamic z-index depth layering elevates as card glides into focal center
@@ -787,20 +836,6 @@ lerpSpeed: ${lerpSpeed}`;
 
             // Filter drop-shadow disabled
             imgEl.style.filter = "none";
-
-            // Real-time 60fps photo cutout mask per position slot
-            const slotIndex = Math.max(0, Math.min(4, Math.round((i - activeIndex) + 2)));
-            const slotCfg = (positionConfigsRef.current && positionConfigsRef.current[slotIndex]) || DEFAULT_POSITION_CONFIGS[slotIndex];
-
-            const maskStr = generateSmoothMaskGradient(
-              slotCfg?.clippingMask?.startHeight ?? 75,
-              slotCfg?.clippingMask?.endHeight ?? 98,
-              slotCfg?.clippingMask?.floorOpacity ?? 0,
-              "to bottom",
-              slotCfg?.clippingMask?.easing ?? "linear"
-            );
-            imgEl.style.webkitMaskImage = maskStr;
-            imgEl.style.maskImage = maskStr;
           }
         }
       }
@@ -908,106 +943,114 @@ lerpSpeed: ${lerpSpeed}`;
     }, 150);
   };
 
+  const scaledHeadroomPadding = useMemo(() => {
+    const currentFocal = focalScale || 1.48;
+    return Math.max(8, Math.ceil(imageHeight * (currentFocal - 1) + paddingOffset));
+  }, [imageHeight, focalScale, paddingOffset]);
+
   return (
     <div
+      id="band"
       ref={sectionRef}
-      className="w-full max-w-full overflow-x-clip h-auto max-h-[100dvh] flex flex-col justify-end select-none font-sans relative bg-transparent">
+      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none font-sans relative bg-transparent">
+
+
 
 
       {/* 🎬 LEFT SPINE PAGINATION (Top image locked at top-[36px], gap & height scale down as screen height shrinks) */}
-      {paginationStyle === "left-spine" && (
-        <div className="absolute left-2 sm:left-6 md:left-8 top-[36px] z-30 flex flex-col items-start select-none">
-          <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
-            {displayMembers.map((m, idx) => {
-              const isActive = activeIndex === idx;
-              const imageSrc = getMemberImage(m, isMobileView);
+      {
+        paginationStyle === "left-spine" && (
+          <div className="absolute left-2 sm:left-6 md:left-8 top-[36px] z-30 flex flex-col items-start select-none">
+            <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
+              {displayMembers.map((m, idx) => {
+                const isActive = activeIndex === idx;
+                const imageSrc = getMemberImage(m, isMobileView);
 
-              return (
-                <button aria-label="Action button"
-                  key={idx}
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
-                    }`}>
-                  {/* Member Card Thumbnail */}
-                  <div
-                    className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0"
-                    style={{
-                      height: `${spineVideoHeight}px`,
-                      width: `${Math.round(spineVideoHeight * 0.78)}px`,
-                      WebkitMaskImage: "radial-gradient(ellipse at center, black 60%, transparent 100%)",
-                      maskImage: "radial-gradient(ellipse at center, black 60%, transparent 100%)"
-                    }}>
-                    <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
-                  </div>
+                return (
+                  <button aria-label="Action button"
+                    key={idx}
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
+                    className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
+                      }`}>
+                    {/* Member Card Thumbnail */}
+                    <div
+                      className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
+                      style={{
+                        height: `${spineVideoHeight}px`,
+                        width: `${Math.round(spineVideoHeight * 0.78)}px`,
+                      }}>
+                      <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
+                    </div>
 
-                  {/* Member Name & Role Display (Responsive text sizing) */}
-                  <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0"
-                    : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                    }`}>
-                    <p className="leading-none drop-">
-                      {m?.name || "Band Member"}
-                    </p>
-                    <p className="mt-0.5 sm:mt-1">
-                      {m?.role || "Musician"}
-                    </p>
-                  </div>
-                </button>
-              );
-            })}
+                    {/* Member Name & Role Display (Responsive text sizing) */}
+                    <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0"
+                      : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                      }`}>
+                      <p className="leading-none drop-">
+                        {m?.name || "Band Member"}
+                      </p>
+                      <p className="mt-0.5 sm:mt-1">
+                        {m?.role || "Musician"}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       {/* 🎬 RIGHT SPINE PAGINATION (Top image locked at top-[36px], gap & height scale down as screen height shrinks) */}
-      {paginationStyle === "right-spine" && (
-        <div className="absolute right-2 sm:right-6 md:right-8 top-[36px] z-30 flex flex-col items-end select-none">
-          <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
-            {displayMembers.map((m, idx) => {
-              const isActive = activeIndex === idx;
-              const imageSrc = getMemberImage(m, isMobileView);
+      {
+        paginationStyle === "right-spine" && (
+          <div className="absolute right-2 sm:right-6 md:right-8 top-[36px] z-30 flex flex-col items-end select-none">
+            <div className="flex flex-col z-10" style={{ gap: `${spineGap}px` }}>
+              {displayMembers.map((m, idx) => {
+                const isActive = activeIndex === idx;
+                const imageSrc = getMemberImage(m, isMobileView);
 
-              return (
-                <button aria-label="Action button"
-                  key={idx}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goToSlide(idx);
-                    setSelectedMemberForSheet(m as BandMemberFactSheet);
-                    setIsFactSheetOpen(true);
-                  }}
-                  className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
-                    }`}>
-                  {/* Member Name & Role Display (Responsive text sizing) */}
-                  <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0"
-                    : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                    }`}>
-                    <p className="leading-none drop-">
-                      {m?.name || "Band Member"}
-                    </p>
-                    <p className="mt-0.5 sm:mt-1">
-                      {m?.role || "Musician"}
-                    </p>
-                  </div>
+                return (
+                  <button aria-label="Action button"
+                    key={idx}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      goToSlide(idx);
+                      setSelectedMemberForSheet(m as BandMemberFactSheet);
+                      setIsFactSheetOpen(true);
+                    }}
+                    className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
+                      }`}>
+                    {/* Member Name & Role Display (Responsive text sizing) */}
+                    <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0"
+                      : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                      }`}>
+                      <p className="leading-none drop-">
+                        {m?.name || "Band Member"}
+                      </p>
+                      <p className="mt-0.5 sm:mt-1">
+                        {m?.role || "Musician"}
+                      </p>
+                    </div>
 
-                  {/* Member Card Thumbnail */}
-                  <div
-                    className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0"
-                    style={{
-                      height: `${spineVideoHeight}px`,
-                      width: `${Math.round(spineVideoHeight * 0.78)}px`,
-                      WebkitMaskImage: "radial-gradient(ellipse at center, black 60%, transparent 100%)",
-                      maskImage: "radial-gradient(ellipse at center, black 60%, transparent 100%)"
-                    }}>
-                    <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
-                  </div>
-                </button>
-              );
-            })}
+                    {/* Member Card Thumbnail */}
+                    <div
+                      className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
+                      style={{
+                        height: `${spineVideoHeight}px`,
+                        width: `${Math.round(spineVideoHeight * 0.78)}px`,
+                      }}>
+                      <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       {/* 100VW FULL-SCREEN STAGE CONTAINER */}
       <div className="w-full relative overflow-x-clip">
@@ -1019,8 +1062,12 @@ lerpSpeed: ${lerpSpeed}`;
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          style={{ touchAction: "pan-y" }}
-          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative pt-stage-fluid">
+          style={{
+            touchAction: "pan-y",
+            paddingTop: `${scaledHeadroomPadding}px`,
+            paddingBottom: "24px",
+          }}
+          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative">
           {/* TRACK ELEMENT (GPU accelerated with Smooothy parallax & speed lerp) */}
           <div
             ref={trackRef}
@@ -1069,7 +1116,6 @@ lerpSpeed: ${lerpSpeed}`;
                         className="smooothy-img-container relative flex items-end justify-center overflow-visible bg-transparent transition-colors duration-150 origin-bottom w-full"
                         style={{
                           height: `${imageHeight}px`,
-                          maxHeight: `${imageHeight}px`,
                           transform: `translateY(${imageOffsetY}px)`,
                         }}>
                         <picture className="w-full h-full flex items-end justify-center">
@@ -1093,7 +1139,6 @@ lerpSpeed: ${lerpSpeed}`;
                         </picture>
 
                         {/* Bottom Gradient Fade Overlay for Mobile & Tablet */}
-                        <div className="absolute inset-x-0 bottom-0 h-1/3 sm:h-2/5 z-10 pointer-events-none bg-gradient-to-t from-[#080612] via-[#080612]/60 to-transparent" />
                       </div>
 
                       {/* Dynamic Member Info Overlay (z-30 - Pure White & Bright Purple Text with Live Control) */}
@@ -1103,7 +1148,7 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] transition-opacity duration-300"
                           style={{
                             bottom: `1px`,
-                            opacity: activeIndex === i ? 1 : 0.70,
+                            opacity: activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
                           <h3 className="sm:bg-black/60 bg-black/40 text-white sm:pt-1 pr-2 pl-2 drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
@@ -1119,7 +1164,7 @@ lerpSpeed: ${lerpSpeed}`;
                       {textPos === "left-glass" && (
                         <div
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0.70 }}>
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1132,7 +1177,7 @@ lerpSpeed: ${lerpSpeed}`;
                       {textPos === "left-accent" && (
                         <div
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0.70 }}>
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1147,7 +1192,7 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none w-full px-2 transition-opacity duration-300"
                           style={{
                             bottom: `${textBottomOffset}px`,
-                            opacity: activeIndex === i ? 1 : 0.70,
+                            opacity: activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}>
                           <h3 className="text-white drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
@@ -1162,7 +1207,7 @@ lerpSpeed: ${lerpSpeed}`;
                       {textPos === "center-glass" && (
                         <div
                           className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-2.5 rounded-lg   transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0.70 }}>
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1177,7 +1222,7 @@ lerpSpeed: ${lerpSpeed}`;
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] transition-opacity duration-300"
                           style={{
                             bottom: `${textBottomOffset}px`,
-                            opacity: activeIndex === i ? 1 : 0.70,
+                            opacity: activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
                           <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
@@ -1192,7 +1237,7 @@ lerpSpeed: ${lerpSpeed}`;
                       {textPos === "right-glass" && (
                         <div
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0.70 }}>
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1205,7 +1250,7 @@ lerpSpeed: ${lerpSpeed}`;
                       {textPos === "right-accent" && (
                         <div
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0.70 }}>
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1236,6 +1281,6 @@ lerpSpeed: ${lerpSpeed}`;
           if (idx !== -1) goToSlide(idx);
         }}
       />
-    </div>
+    </div >
   );
 }

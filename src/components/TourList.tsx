@@ -19,6 +19,7 @@ import LazySection from "@/components/LazySection";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import AddCmsButton from "./AddCmsButton";
+import { VENUE_LINKS } from "@/lib/venue-links";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
@@ -30,6 +31,17 @@ function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
       aria-hidden="true"
     />
   );
+}
+
+function getEffectiveMapUrl(show: any): string | null {
+  if (show?.isPrivate) return null;
+  if (show?.mapUrl && typeof show.mapUrl === 'string' && show.mapUrl.trim()) return show.mapUrl;
+  if (show?.directionsLink && typeof show.directionsLink === 'string' && show.directionsLink.trim()) return show.directionsLink;
+  if (show?.venue && VENUE_LINKS[show.venue]?.mapUrl) return VENUE_LINKS[show.venue].mapUrl;
+  if (show?.venue && show?.city) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state || ''}`)}`;
+  }
+  return null;
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1106,11 +1118,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           )}
                           <div className="w-7 h-7 flex items-center justify-center shrink-0">
                             {(() => {
-                              const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
-                              const rawMapUrl = show.mapUrl || show.directionsLink;
+                              const effectiveMapUrl = getEffectiveMapUrl(show);
                               const showType = getShowType(show.info || '');
                               const cfg = typeConfig[showType] || typeConfig.full;
-                              if (!hasExplicitMap) {
+                              if (!effectiveMapUrl) {
                                 return (
                                   <span
                                     title="No Directions Link"
@@ -1119,9 +1130,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                                   </span>
                                 );
                               }
-                              const gUrl = rawMapUrl!.includes('maps.apple.com')
+                              const gUrl = effectiveMapUrl.includes('maps.apple.com')
                                 ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
-                                : rawMapUrl!;
+                                : effectiveMapUrl;
                               return (
                                 <a
                                   href={gUrl}
@@ -1275,9 +1286,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       <div className="flex items-center gap-2">
                         {/* Map Directions */}
                         {(() => {
-                          const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
-                          const rawMapUrl = show.mapUrl || show.directionsLink;
-                          if (!hasExplicitMap) {
+                          const effectiveMapUrl = getEffectiveMapUrl(show);
+                          if (!effectiveMapUrl) {
                             return (
                               <span
                                 title="No Directions Link"
@@ -1287,9 +1297,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               </span>
                             );
                           }
-                          const gUrl = rawMapUrl!.includes('maps.apple.com')
+                          const gUrl = effectiveMapUrl.includes('maps.apple.com')
                             ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
-                            : rawMapUrl!;
+                            : effectiveMapUrl;
                           return (
                             <CosmicRadialButton
                               onClick={() => window.open(gUrl, '_blank', 'noopener,noreferrer')}
@@ -1366,13 +1376,14 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           </div>
                         )}
 
-                        {/* Directions & Parking — shown only when the show has a directionsLink or parking/directions notes */}
-                        {!isPrivate && (show.directionsLink || show.notes) && (() => {
-                          const href = show.directionsLink || (show.mapUrl
-                            ? (show.mapUrl.includes('maps.apple.com')
+                        {/* Directions & Parking — shown only when the show has a map or directions notes */}
+                        {!isPrivate && (getEffectiveMapUrl(show) || show.notes) && (() => {
+                          const mapUrl = getEffectiveMapUrl(show);
+                          const href = mapUrl
+                            ? (mapUrl.includes('maps.apple.com')
                               ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}`
-                              : show.mapUrl)
-                            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}`);
+                              : mapUrl)
+                            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}`;
                           return (
                             <a
                               href={href}

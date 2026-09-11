@@ -5,6 +5,7 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import { useSettings } from "@/lib/useSettings";
 import dynamic from "next/dynamic";
 import { ensureUpcomingTourDates, isShowOver } from "@/lib/tour-helpers";
+import { VENUE_LINKS } from "@/lib/venue-links";
 
 const TourList = dynamic(() => import("@/components/TourList"));
 const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"));
@@ -111,28 +112,39 @@ export default function HomeDataLoader() {
         // /api/tour returns a plain array
         const raw: Record<string, unknown>[] = Array.isArray(data) ? data : [];
         if (raw.length > 0) {
-          const mapped: Show[] = raw.map(s => ({
-            _id: s._id as string | undefined,
-            day: (s.day as string) || "TBD",
-            date: s.date as string,
-            venue: s.venue as string,
-            city: (s.city as string) || "",
-            state: (s.state as string) || "",
-            time: (s.time as string) || "",
-            playTime: (s.playTime as string) || "",
-            doorsTime: (s.doorsTime as string) || "",
-            info: (s.notes as string) || "",
-            mapUrl: (s.directionsLink as string) || (s.mapUrl as string) || "",
-            websiteUrl: (s.ticketLink as string) || (s.websiteUrl as string) || "",
-            parkingInfo: (s.parkingInfo as string) || "",
-            parkingUrl: (s.parkingUrl as string) || "",
-            startDate: (s.startDate as string) || (s.date as string),
-            allAges: s.allAges as boolean | undefined,
-            isPrivate: (s.isPrivate as boolean) || false,
-            lat: s.lat as number | undefined,
-            lng: s.lng as number | undefined,
-            tags: (s.tags as string[]) || [],
-          }));
+          const mapped: Show[] = raw.map(s => {
+            const venue = s.venue as string;
+            const city = (s.city as string) || "";
+            const state = (s.state as string) || "";
+            const isPrivate = (s.isPrivate as boolean) || false;
+            const explicitMap = (s.directionsLink as string) || (s.mapUrl as string) || "";
+            const fallbackMap = VENUE_LINKS[venue]?.mapUrl || (venue && city && !isPrivate ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue} ${city} ${state}`)}` : "");
+            const mapUrl = explicitMap || fallbackMap;
+
+            return {
+              _id: s._id as string | undefined,
+              day: (s.day as string) || "TBD",
+              date: s.date as string,
+              venue,
+              city,
+              state,
+              time: (s.time as string) || "",
+              playTime: (s.playTime as string) || "",
+              doorsTime: (s.doorsTime as string) || "",
+              info: (s.notes as string) || "",
+              mapUrl,
+              directionsLink: mapUrl,
+              websiteUrl: (s.ticketLink as string) || (s.websiteUrl as string) || "",
+              parkingInfo: (s.parkingInfo as string) || "",
+              parkingUrl: (s.parkingUrl as string) || "",
+              startDate: (s.startDate as string) || (s.date as string),
+              allAges: s.allAges as boolean | undefined,
+              isPrivate,
+              lat: s.lat as number | undefined,
+              lng: s.lng as number | undefined,
+              tags: (s.tags as string[]) || [],
+            };
+          });
           const ensured = ensureUpcomingTourDates(mapped);
           const upcoming = ensured.filter(s => !isShowOver(s));
           setShows(upcoming.length > 0 ? upcoming : ensured);
@@ -156,7 +168,7 @@ export default function HomeDataLoader() {
       )}
 
       {/* ====== TOUR LIST ====== */}
-      <section id="tour" className="bg-transparent pb-section-fluid relative z-10">
+      <section id="tour" className="bg-transparent  relative z-10">
         <TourList initialShows={shows} />
       </section>
 

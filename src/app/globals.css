@@ -2202,6 +2202,12 @@ html.tour-sort-stuck #tour-sort-bar {
   scrollbar-width: none !important;
 }
 
+.custom-scrollbar,
+.fact-sheet-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: #c084fc rgba(15, 7, 32, 0.5) !important;
+}
+
 /* Custom Always-Visible Purple Scrollbar */
 .custom-purple-scrollbar {
   overflow-y: scroll !important;
@@ -2211,33 +2217,37 @@ html.tour-sort-stuck #tour-sort-bar {
 }
 
 .custom-scrollbar::-webkit-scrollbar,
-.custom-purple-scrollbar::-webkit-scrollbar {
-  width: 8px !important;
-  height: 8px !important;
+.custom-purple-scrollbar::-webkit-scrollbar,
+.fact-sheet-scrollbar::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
   display: block !important;
   -webkit-appearance: none !important;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track,
-.custom-purple-scrollbar::-webkit-scrollbar-track {
-  background: rgba(147, 51, 234, 0.25) !important;
+.custom-purple-scrollbar::-webkit-scrollbar-track,
+.fact-sheet-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 7, 32, 0.5) !important;
   border-radius: 9999px !important;
-  border: 1px solid rgba(192, 132, 252, 0.3) !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb,
-.custom-purple-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #e9d5ff 0%, #9333ea 100%) !important;
+.custom-purple-scrollbar::-webkit-scrollbar-thumb,
+.fact-sheet-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #e9d5ff 0%, #a855f7 50%, #7e22ce 100%) !important;
   border-radius: 9999px !important;
-  box-shadow: 0 0 14px rgba(192, 132, 252, 1) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
-  min-height: 36px !important;
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  min-height: 40px !important;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover,
-.custom-purple-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ffffff 0%, #a855f7 100%) !important;
-  box-shadow: 0 0 20px rgba(192, 132, 252, 1) !important;
+.custom-purple-scrollbar::-webkit-scrollbar-thumb:hover,
+.fact-sheet-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #c084fc 50%, #9333ea 100%) !important;
+  box-shadow: 0 0 18px rgba(192, 132, 252, 1) !important;
 }
 
 /* 6px Slim Dropdown Scrollbar (Always Visible Knob, Track Background) */
@@ -5229,14 +5239,14 @@ html.is-preloading body {
 
 
 @utility pt-stage-fluid {
-  padding-top: 12vw !important;
+  padding-top: 8vh !important;
 
   @media (min-width: 768px) {
-    padding-top: 7.5vw !important;
+    padding-top: 20vh !important;
   }
 
   @media (min-width: 1667px) {
-    padding-top: 9vw !important;
+    padding-top: 10vh !important;
   }
 }
 
@@ -5275,7 +5285,7 @@ html.is-preloading body {
   }
 
   @media (min-width: 1667px) {
-    padding-bottom: 3vw !important;
+    padding-bottom: 1vw !important;
   }
 }
 
@@ -6288,4 +6298,14 @@ body:has(.verify-page-standalone) {
 a[href^="mailto:"] {
   /* Your styles here */
   font-weight: bold;
+}
+
+.smooothy-img {
+  -webkit-mask-image: linear-gradient(to bottom, #000 var(--smooothy-mask-start, 95%), transparent var(--smooothy-mask-end, 98%));
+  mask-image: linear-gradient(to bottom, #000 var(--smooothy-mask-start, 95%), transparent var(--smooothy-mask-end, 98%));
+}
+
+.spine-thumb-mask {
+  -webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);
 }

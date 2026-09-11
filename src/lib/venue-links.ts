@@ -59,6 +59,10 @@ export const VENUE_LINKS: Record<string, { mapUrl: string; websiteUrl: string }>
     mapUrl: "https://maps.apple.com/?address=10160%20191st%20St,%20Mokena,%20IL%2060448",
     websiteUrl: "https://www.jamoslive.com",
   },
+  "Jamo's Live": {
+    mapUrl: "https://maps.apple.com/?address=10160%20191st%20St,%20Mokena,%20IL%2060448",
+    websiteUrl: "https://www.jamoslive.com",
+  },
   "Barb's Rescue Gala": {
     mapUrl: "https://maps.apple.com/?address=401%20N%20Roselle%20Rd,%20Schaumburg,%20IL%2060194",
     websiteUrl: "https://www.barbsrescue.org",
@@ -79,6 +83,10 @@ export const VENUE_LINKS: Record<string, { mapUrl: string; websiteUrl: string }>
     mapUrl: "https://maps.apple.com/place?address=2301%20S%20Indiana%20Ave,%20Chicago,%20IL%2060616&name=McCormick%20Place%20West",
     websiteUrl: "https://www.theinspiredhomeshow.com/events/",
   },
+  "Home Show McCormick Place": {
+    mapUrl: "https://maps.apple.com/place?address=2301%20S%20Indiana%20Ave,%20Chicago,%20IL%2060616&name=McCormick%20Place%20West",
+    websiteUrl: "https://www.theinspiredhomeshow.com/events/",
+  },
   "Tailgaters": {
     mapUrl: "https://maps.apple.com/?address=431%20W%20Boughton%20Rd,%20Bolingbrook,%20IL%2060444",
     websiteUrl: "http://www.tailgatersgrill.com",
@@ -88,10 +96,14 @@ export const VENUE_LINKS: Record<string, { mapUrl: string; websiteUrl: string }>
     websiteUrl: "https://corriganspub52.com",
   },
   "Midway Sports": {
-    mapUrl: "https://maps.apple.com/?q=Midway+Sports+Bartlett+IL",
+    mapUrl: "https://maps.apple/p/ubxmDv4XMWngAL",
     websiteUrl: "https://midwaybartlett.com",
   },
   "Joe's Live": {
+    mapUrl: "https://maps.apple.com/?address=5441%20Park%20Pl,%20Des%20Plaines,%20IL%2060118",
+    websiteUrl: "https://www.joesliverosemont.com",
+  },
+  "Joe's Live - Parkinson's Show": {
     mapUrl: "https://maps.apple.com/?address=5441%20Park%20Pl,%20Des%20Plaines,%20IL%2060118",
     websiteUrl: "https://www.joesliverosemont.com",
   },
@@ -100,7 +112,11 @@ export const VENUE_LINKS: Record<string, { mapUrl: string; websiteUrl: string }>
     websiteUrl: "https://rochaus.com",
   },
   "Deer Park Fest": {
-    mapUrl: "",
+    mapUrl: "https://maps.apple/p/TG3dCUt35EkwJp",
+    websiteUrl: "",
+  },
+  "Town Center ParkGrand Opening": {
+    mapUrl: "https://maps.apple/p/TG3dCUt35EkwJp",
     websiteUrl: "",
   },
   "Sideouts": {
@@ -112,7 +128,27 @@ export const VENUE_LINKS: Record<string, { mapUrl: string; websiteUrl: string }>
     websiteUrl: "https://www.banditobarneysbeachclub.com",
   },
   "Will County Beer & Bourbon Fest": {
-    mapUrl: "",
+    mapUrl: "https://maps.apple/p/EKG2L8dBBX_aQi",
     websiteUrl: "https://habitatwill.org/events/mix-of-26-beyond-beer-bourbon-fest/friday-event-details/",
+  },
+  "CD & ME": {
+    mapUrl: "https://maps.apple.com/?address=23320%20S%20La%20Grange%20Rd,%20Frankfort,%20IL%2060423",
+    websiteUrl: "",
+  },
+  "Hideaway Brew Garden": {
+    mapUrl: "https://maps.apple.com/?address=5333%20Prairie%20Stone%20Pkwy,%20Hoffman%20Estates,%20IL%2060192",
+    websiteUrl: "",
+  },
+  "Potter's Place": {
+    mapUrl: "https://maps.apple.com/?address=29%20W%20Jefferson%20Ave,%20Naperville,%20IL%2060540",
+    websiteUrl: "",
+  },
+  "Elmhurst Greek Fest": {
+    mapUrl: "https://maps.apple.com/?address=893%20N%20Church%20Rd,%20Elmhurst,%20IL%2060126",
+    websiteUrl: "",
+  },
+  "Milwaukee Summerfest": {
+    mapUrl: "https://maps.apple.com/?address=639%20E%20Summerfest%20Pl,%20Milwaukee,%20WI%2053202",
+    websiteUrl: "",
   },
 };

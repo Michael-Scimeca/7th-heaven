@@ -358,6 +358,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     rafId = requestAnimationFrame(() => {
       if (!container || mapInstanceRef.current) return;
 
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
       // Center on Chicagoland — most shows are in the IL suburbs
       const mapInstance = new google.maps.Map(container, {
         center: { lat: 42.0, lng: -88.0 },
@@ -603,8 +605,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         : false;
 
       const isBouncing = isHappening || isNext;
-      const w = isBouncing ? 42 : 30;
-      const h = isBouncing ? 54 : 39;
+      const isMobilePin = typeof window !== "undefined" && window.innerWidth < 768;
+      const w = isMobilePin ? (isBouncing ? 26 : 18) : (isBouncing ? 42 : 30);
+      const h = isMobilePin ? (isBouncing ? 34 : 24) : (isBouncing ? 54 : 39);
 
       const firstShow = v.shows[0];
       const hasExplicitMap = Boolean(firstShow?.mapUrl || (firstShow as Record<string, any>)?.directionsLink);
@@ -760,14 +763,16 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       markersRef.current.push({ overlay, infoWindow, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
     });
 
-    // On load, center and zoom in directly on the current show location as the center point
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+    // Center directly on the current show location as the main center point of the map
     if (activeVenue && typeof activeVenue.lat === "number" && typeof activeVenue.lng === "number") {
       map.setCenter({ lat: activeVenue.lat, lng: activeVenue.lng });
-      map.setZoom(11);
+      map.setZoom(isMobile ? 10.5 : 11);
     } else if (filteredVenues.length > 0) {
       const bounds = new google.maps.LatLngBounds();
       filteredVenues.forEach(v => bounds.extend({ lat: v.lat, lng: v.lng }));
-      map.fitBounds(bounds, { top: 80, right: 60, bottom: 80, left: 60 });
+      map.fitBounds(bounds, isMobile ? { top: 40, right: 20, bottom: 40, left: 20 } : { top: 80, right: 60, bottom: 80, left: 60 });
     }
 
     return () => {
@@ -1219,6 +1224,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8) !important;
           transform: translateX(-50%) !important;
           z-index: 9999 !important;
+        }
+        @media (max-width: 767px) {
+          .marker-label {
+            font-size: 8px !important;
+            padding: 1.5px 4px !important;
+            letter-spacing: 0.2px !important;
+          }
         }
 
         /* Solid, bouncing active marker for next show */

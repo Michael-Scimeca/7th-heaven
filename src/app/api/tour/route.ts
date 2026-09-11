@@ -2,38 +2,42 @@ import { NextResponse } from "next/server";
 import { sanityFetch } from "@/sanity/live";
 import { queries, SanityTourDate } from "@/lib/sanity";
 import { ensureUpcomingTourDates } from "@/lib/tour-helpers";
+import { VENUE_LINKS } from "@/lib/venue-links";
 
-// Cache tour dates for 5 minutes — avoids a Sanity fetch on every page load
-export const revalidate = 300;
+export const revalidate = 0;
 
 export async function GET() {
   try {
     const { data: showsData } = await sanityFetch({ query: queries.allTourDates });
-    const shows = (showsData as SanityTourDate[]).map(s => ({
-      _id: s._id,
-      venue: s.venue,
-      city: s.city || '',
-      state: s.state || '',
-      date: s.date,
-      time: s.time || '',
-      playTime: s.playTime || '',
-      doorsTime: s.doorsTime || '',
-      day: s.day || '',
-      notes: s.notes || '',
-      ticketLink: s.ticketLink || s.websiteUrl || '',
-      directionsLink: s.directionsLink || s.mapUrl || '',
-      mapUrl: s.mapUrl || s.directionsLink || '',
-      websiteUrl: s.websiteUrl || s.ticketLink || '',
-      parkingInfo: s.parkingInfo || '',
-      parkingUrl: s.parkingUrl || '',
-      isSoldOut: s.isSoldOut || false,
-      isFestival: s.isFestival || false,
-      isPrivate: s.isPrivate || false,
-      allAges: s.allAges,
-      tags: s.tags || [],
-      lat: s.lat,
-      lng: s.lng,
-    }));
+    const shows = (showsData as SanityTourDate[]).map(s => {
+      const fallbackMap = (VENUE_LINKS[s.venue]?.mapUrl) || (s.venue && s.city && !s.isPrivate ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${s.venue} ${s.city} ${s.state || ''}`)}` : '');
+      const mapLink = s.directionsLink || s.mapUrl || fallbackMap;
+      return {
+        _id: s._id,
+        venue: s.venue,
+        city: s.city || '',
+        state: s.state || '',
+        date: s.date,
+        time: s.time || '',
+        playTime: s.playTime || '',
+        doorsTime: s.doorsTime || '',
+        day: s.day || '',
+        notes: s.notes || '',
+        ticketLink: s.ticketLink || s.websiteUrl || '',
+        directionsLink: mapLink,
+        mapUrl: mapLink,
+        websiteUrl: s.websiteUrl || s.ticketLink || '',
+        parkingInfo: s.parkingInfo || '',
+        parkingUrl: s.parkingUrl || '',
+        isSoldOut: s.isSoldOut || false,
+        isFestival: s.isFestival || false,
+        isPrivate: s.isPrivate || false,
+        allAges: s.allAges,
+        tags: s.tags || [],
+        lat: s.lat,
+        lng: s.lng,
+      };
+    });
 
     // Deduplicate shows by date and venue
     const seen = new Set<string>();
@@ -50,7 +54,7 @@ export async function GET() {
     const ensured = ensureUpcomingTourDates(deduplicated);
 
     return NextResponse.json(ensured, {
-      headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' }
+      headers: { 'Cache-Control': 'no-store, max-age=0' }
     });
   } catch (error) {
     return NextResponse.json([], { status: 500 });
