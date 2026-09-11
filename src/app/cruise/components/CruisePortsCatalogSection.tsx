@@ -66,7 +66,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                           {/* Port Highlights */}
                           {port.highlights && (
                             <div className="flex flex-wrap gap-1.5 mt-3">
-                              {port.highlights.map(h => (
+                              {port.highlights.map((h: string) => (
                                 <span key={h} className="px-2 py-0.5 rounded-lg text-white border border-white/10 bg-[#00000029] font-bold">
                                   {h}
                                 </span>
@@ -78,7 +78,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                         {/* Gallery Thumbnail Strip */}
                         {port.gallery && port.gallery.length > 1 && (
                           <div className="flex flex-wrap gap-2 mt-4 py-1">
-                            {port.gallery.map((gImg, gIdx) => {
+                            {port.gallery.map((gImg: string, gIdx: number) => {
                               const isActive = currentImg === gImg;
                               return (
                                 <button
