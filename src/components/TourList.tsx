@@ -24,8 +24,8 @@ import AddCmsButton from "./AddCmsButton";
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
   return (
     <div
-      className={`w-full h-[1px] transition-colors duration-300 ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_8px_rgba(168,85,247,0.5)]"
-        : "bg-white/10 group-hover:bg-purple-400/30"
+      className={`w-full h-[1px] transition-colors duration-300 ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent"
+        : "bg-white/10 "
         }`}
       aria-hidden="true"
     />
@@ -663,6 +663,23 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const isStuckRef = useRef(false);
   const sortBarOpacityRef = useRef(1);
 
+  const [mobileHeaderOffset, setMobileHeaderOffset] = useState<number>(64);
+
+  useEffect(() => {
+    const updateHeaderOffset = () => {
+      const headerEl = typeof document !== "undefined" ? document.querySelector("header") : null;
+      if (headerEl) {
+        const rect = headerEl.getBoundingClientRect();
+        const height = Math.round(rect.height || 64);
+        setMobileHeaderOffset(height > 0 ? height : 64);
+      }
+    };
+
+    updateHeaderOffset();
+    window.addEventListener("resize", updateHeaderOffset, { passive: true });
+    return () => window.removeEventListener("resize", updateHeaderOffset);
+  }, []);
+
   // Smooth date sort bar stuck state detection using IntersectionObserver
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -678,7 +695,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       observer = new IntersectionObserver(
         ([entry]) => {
           // If sentinel is above the root margin threshold (scrolled past header)
-          const isStuck = !entry.isIntersecting && entry.boundingClientRect.top < (entry.rootBounds?.top ?? 80);
+          const isStuck = !entry.isIntersecting && entry.boundingClientRect.top < (entry.rootBounds?.top ?? mobileHeaderOffset);
           if (isStuckRef.current !== isStuck) {
             isStuckRef.current = isStuck;
             sortBar.classList.toggle("is-stuck", isStuck);
@@ -691,7 +708,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         },
         {
           threshold: 0,
-          rootMargin: "-68px 0px 0px 0px",
+          rootMargin: `-${mobileHeaderOffset}px 0px 0px 0px`,
         }
       );
 
@@ -702,7 +719,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       if (observer) observer.disconnect();
       document.documentElement.classList.remove("tour-sort-stuck");
     };
-  }, []);
+  }, [mobileHeaderOffset]);
 
   const scrollToShow = useCallback((venue: string, date: string) => {
     // Clear any filters first so the row is visible
@@ -967,7 +984,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className="relative sticky top-[68px] sm:top-[80px] z-[90] flex flex-col gap-3.5 w-full bg-transparent border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none", top: `${mobileHeaderOffset}px` }} className="relative sticky z-[90] flex flex-col gap-3.5 w-full bg-transparent border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
             <div
               className="sort-bar-bg absolute -top-10 -bottom-10 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
               style={{
@@ -1043,7 +1060,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
               return (
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
-                <div key={`tour_row_${i}_${show.id || rowId}`} className="group overflow-visible">
+                <div key={`tour_row_${i}_${show.id || rowId}`} className="group overflow-visible pb-4">
                   {/* Desktop Row Layout */}
                   <div
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
@@ -1199,73 +1216,55 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     </span>
                   </div>
 
-                  {/* Mobile/Tablet Card Layout */}
+                  {/* Mobile/Tablet Card Layout — Stacked Venue-First */}
                   <div
-                    className={`tour-row-item relative lg:hidden flex flex-col gap-3.5 pt-4 pb-4 my-2 text-[var(--color-text-secondary)] ${isHighlighted ? " animate-pulse" : isUpNext ? "" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-1 mb-3 text-white transition-all ${isHighlighted ? "ring-2 ring-purple-500/80  animate-pulse" : isUpNext ? "border-purple-500/40 " : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}>
 
-                    {/* Header Row: Date Badge & Time */}
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white uppercase whitespace-nowrap font-bold">
-                          {show.day} • {show.date}
-                        </span>
-                      </div>
-                      <div className="flex flex-col items-end gap-1">
-                        {(show.doorsTime || show.time || show.playTime) && (
-                          <div className="flex items-center gap-1.5 flex-wrap justify-end">
-                            {show.doorsTime && (
-                              <span className="text-white text-[11px] px-2 py-0.5 bg-[#00000029] border border-white/10 rounded0lg whitespace-nowrap">
-                                Doors: {show.doorsTime}
-                              </span>
-                            )}
-                            {show.playTime && (
-                              <span className="text-purple-300 text-[11px] px-2 py-0.5 bg-purple-500/15 border border-purple-500/25 rounded-lg whitespace-nowrap">
-                                Show: {show.playTime}
-                              </span>
-                            )}
-                            {show.time && !show.playTime && (
-                              <span className="text-white/90 px-2 py-0.5 bg-white/10 border border-white/10 rounded-lg whitespace-nowrap font-bold">
-                                {show.time}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                        {isShowToday(show) && (
-                          <span className="uppercase text-rose-500 animate-pulse">
-                            {getCountdownString(show)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
+                    {/* 1. Venue & City (FIRST) */}
+                    <div className="space-y-1">
+                      <h4 className=" font-black text-white uppercase ">
+                        {show.venue}
+                      </h4>
 
-                    {/* Details: Venue & Location */}
-                    <div className="pt-0.5">
-                      <h4 className="text-white uppercase">{show.venue}</h4>
                       {(show.city || show.state) && (
-                        <p className="flex items-center gap-1.5 mt-1 font-semibold">
-                          <MapPin className="w-4 h-4 text-purple-400 shrink-0" />
-                          {show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state}
+                        <p className="flex items-center gap-1.5  text-white/70 font-semibold truncate">
+                          <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                          <span>{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state}</span>
                         </p>
                       )}
                     </div>
 
-                    {/* Tags Row */}
+                    {/* 2. Date & Time Pill Strip (SECOND / BELOW VENUE) */}
+                    <div className="flex items-center gap-2 flex-wrap  font-bold py-1.5  text-purple-200">
+                      <span className="font-mono font-black uppercase text-purple-300">
+                        {show.day}
+                      </span>
+                      <span className="text-white/40">•</span>
+                      <span className="font-black text-white uppercase">
+                        {show.date}
+                      </span>
+                      {(show.playTime || show.time || show.doorsTime) && (
+                        <>
+                          <span className="text-white/40">•</span>
+                          <span className="text-purple-200 uppercase font-bold">
+                            {show.playTime || show.time || show.doorsTime}
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* 3. Tags Row */}
                     {!isPrivate && (
-                      <div className="flex flex-wrap sm:text-base">
-                        <span>{getShowIcon(show)}</span>
-                        {show.info && <span className="sm:text-base text-white/70 font-bold ">{show.info}</span>}
+                      <div className="flex items-center gap-2 flex-wrap font-bold ">
+                        {show.info && <span className="text-white/70">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                          <span className="text-purple-300 uppercase pl-3 font-bold">All Ages</span>
-                        )}
-                        {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                          <span className="text-red-400 uppercase pl-3 font-bold">21+</span>
+                          <span className="text-purple-300 uppercase">All Ages</span>
                         )}
                         {getShowTags(show).map(tag => {
                           if (tag === "All Ages" || tag === "21+") return null;
-                          let tagColors = "text-[var(--color-accent)] ont-bold";
                           return (
-                            <span key={tag} className={`uppercase pl-3 font-bold ${tagColors}`}>{tag}</span>
+                            <span key={tag} className="text-[var(--color-accent)] uppercase">{tag}</span>
                           );
                         })}
                       </div>
