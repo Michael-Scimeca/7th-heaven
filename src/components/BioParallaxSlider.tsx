@@ -374,11 +374,20 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const displayMembers = useMemo(() => {
     const list = members.length ? members : FALLBACK_MEMBERS;
 
-    const adam = list.find((m) => m.name?.toLowerCase().includes("adam")) || FALLBACK_MEMBERS[2];
-    const nick = list.find((m) => m.name?.toLowerCase().includes("nick")) || FALLBACK_MEMBERS[1];
-    const richard = list.find((m) => m.name?.toLowerCase().includes("richard") || m.name?.toLowerCase().includes("rick")) || FALLBACK_MEMBERS[3];
-    const frankie = list.find((m) => m.name?.toLowerCase().includes("frankie")) || FALLBACK_MEMBERS[0];
-    const mark = list.find((m) => m.name?.toLowerCase().includes("mark")) || FALLBACK_MEMBERS[4];
+    const findAndMerge = (query: string, fallbackIdx: number) => {
+      const found = list.find((m) => m.name?.toLowerCase().includes(query));
+      const fallback = FALLBACK_MEMBERS[fallbackIdx];
+      if (!found) return fallback;
+      return { ...fallback, ...found };
+    };
+
+    const adam = findAndMerge("adam", 2);
+    const nick = findAndMerge("nick", 1);
+    const richard = list.find((m) => m.name?.toLowerCase().includes("richard") || m.name?.toLowerCase().includes("rick") || m.name?.toLowerCase().includes("richy"))
+      ? { ...FALLBACK_MEMBERS[3], ...list.find((m) => m.name?.toLowerCase().includes("richard") || m.name?.toLowerCase().includes("rick") || m.name?.toLowerCase().includes("richy")) }
+      : FALLBACK_MEMBERS[3];
+    const frankie = findAndMerge("frankie", 0);
+    const mark = findAndMerge("mark", 4);
 
     return [frankie, nick, adam, richard, mark];
   }, [members]);
@@ -1088,7 +1097,19 @@ lerpSpeed: ${lerpSpeed}`;
                           <span className="sm:bg-black/60 bg-black/40 md:pb-1 pt-1 pr-2 pl-2 text-[#c084fc] block drop-shadow-[0_2px_8px_rgba(0,0,0,1)]" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
-
+                          {activeIndex === i && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedMemberForSheet(m as BandMemberFactSheet);
+                                setIsFactSheetOpen(true);
+                              }}
+                              className="pointer-events-auto mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/60 text-white text-[11px] font-bold uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:scale-105 active:scale-95 cursor-pointer">
+                              <span>Bio & Details</span>
+                              <span className="text-xs">➔</span>
+                            </button>
+                          )}
                         </div>
                       )}
 
