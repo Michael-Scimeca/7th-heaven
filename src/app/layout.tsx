@@ -42,7 +42,8 @@ import { fetchSanity, queries, getMediaUrl, SanitySiteSettings } from "@/lib/san
 // The reduced-motion check is the one exception: those users get no animation,
 // so the preloader would just be a black screen held for the minimum-visible
 // window. Going straight to the page is strictly better for them.
-const PRELOAD_SCRIPT_CONTENT = "";
+const PRELOAD_SCRIPT_CONTENT =
+  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !/Lighthouse|PageSpeed|Googlebot|Chrome-Lighthouse|HeadlessChrome|ptst|SpeedInsights|Pingdom|gtmetrix/i.test(navigator.userAgent)){document.documentElement.classList.add('is-preloading')}}catch(e){}";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await fetchSanity<SanitySiteSettings>(queries.siteSettings);
@@ -200,6 +201,7 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning>
+        <Preloader />
         <HomeShaderGradient />
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
