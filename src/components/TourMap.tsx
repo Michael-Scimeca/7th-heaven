@@ -443,6 +443,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       onAdd() {
         const div = document.createElement("div");
+        div.className = "custom-venue-marker";
         div.style.position = "absolute";
         div.style.transform = "translate(-50%, -100%)";
         div.style.zIndex = this.html.includes("next-show-bounce") ? "9999" : String(this.initialZIndex);
@@ -498,7 +499,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     const showGroups: Record<string, GroupedVenue> = {};
 
     (shows || []).forEach(s => {
-      if (!s.city || isShowOver(s)) return;
+      if (!s.city) return;
       const key = `${s.venue}|${s.city}`;
       const coords = VENUE_COORDS[key] || (s.lat && s.lng ? [s.lat, s.lng] : null);
       if (coords) {
@@ -585,8 +586,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         : false;
 
       const isBouncing = isHappening || isNext;
-      const w = isBouncing ? 36 : 24;
-      const h = isBouncing ? 46 : 31;
+      const w = isBouncing ? 42 : 30;
+      const h = isBouncing ? 54 : 39;
 
       const firstShow = v.shows[0];
       const hasExplicitMap = Boolean(firstShow?.mapUrl || (firstShow as Record<string, any>)?.directionsLink);
@@ -625,11 +626,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       const textColor = isLightColor ? '#000000' : '#ffffff';
       const showLetter = v.type === 'unplugged' ? 'U' : v.type === 'outdoor' ? 'O' : v.type === 'casino' ? 'C' : v.type === 'tv' ? 'T' : v.type === 'fundraiser' ? 'G' : v.type === 'special' ? 'S' : 'F';
 
-      const pinHtml = `<div class="custom-venue-marker ${isBouncing ? "is-bouncing-marker" : ""}">
-        <div class="${isBouncing ? "next-show-bounce" : ""} relative">
-          <svg class="${isBouncing ? "map-pin-jump" : ""}" width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="rgba(12, 12, 22, 0.88)" style="fill: rgba(12, 12, 22, 0.88) !important;" stroke="${isBouncing ? '#a855f7' : cfg.color}" stroke-width="${isBouncing ? '5' : '3'}"/>
-            <text x="50" y="45" dy="0.35em" fill="${isBouncing ? '#a855f7' : cfg.color}" style="fill: ${isBouncing ? '#a855f7' : cfg.color} !important;" font-size="40" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
+      const pinHtml = `<div class="custom-venue-marker-inner ${isBouncing ? "is-bouncing-marker" : ""}">
+        <div class="${isBouncing ? "next-show-bounce" : ""} relative flex flex-col items-center">
+          <svg class="${isBouncing ? "map-pin-jump" : ""}" width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)) drop-shadow(0 0 10px ${isBouncing ? '#a855f7' : cfg.color});">
+            <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="${isBouncing ? '#a855f7' : cfg.color}" stroke="#ffffff" stroke-width="4"/>
+            <text x="50" y="48" dy="0.35em" fill="#ffffff" font-size="44" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
           </svg>
           <div class="marker-label ${isBouncing ? "active-show-label" : ""}">${isBouncing ? "⚡ UP NEXT: " : ""}${v.venue}</div>
         </div>

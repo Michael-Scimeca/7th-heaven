@@ -807,7 +807,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       const showDateTime = parseShowDateTime(show.date, show.time, show.startDate);
       if (showDateTime >= now) return show;
     }
-    return null; // no upcoming shows
+    // 3. Fallback: if all shows in schedule are past, return the first public show so UP NEXT and Countdown Timer are always visible
+    const publicShows = displayShows.filter(s => s.city);
+    return publicShows[0] || displayShows[0] || null;
   };
 
   const upNext = getUpcomingShow();
@@ -861,7 +863,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 WebkitBackfaceVisibility: 'hidden',
               }}>
               <LazySection fallbackHeight="350px">
-                <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
+                <TourMap shows={hasActiveFilters ? filtered : displayShows} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
               </LazySection>
             </div>
           )}
