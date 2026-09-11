@@ -9,7 +9,7 @@ import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 // setOptions() may only be called once, before the first importLibrary() call.
 let googleMapsOptionsSet = false;
 
-import { VENUE_COORDS, typeConfig, getShowType, getShowDateTime, isShowOver } from "@/lib/tour-helpers";
+import { VENUE_COORDS, getVenueCoords, typeConfig, getShowType, getShowDateTime, isShowOver } from "@/lib/tour-helpers";
 
 function formatDateLabel(timestamp: number) {
   if (!timestamp) return "";
@@ -480,7 +480,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       }
 
       draw() {
+        if (!this.div) {
+          this.onAdd();
+        }
         if (!this.div) return;
+        const panes = this.getPanes();
+        if (panes?.overlayMouseTarget && !this.div.parentNode) {
+          panes.overlayMouseTarget.appendChild(this.div);
+        }
         const projection = this.getProjection();
         if (!projection) return;
         const point = projection.fromLatLngToDivPixel(this.position);
@@ -501,7 +508,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     (shows || []).forEach(s => {
       if (!s.city) return;
       const key = `${s.venue}|${s.city}`;
-      const coords = VENUE_COORDS[key] || (s.lat && s.lng ? [s.lat, s.lng] : null);
+      const coords = getVenueCoords(s.venue, s.city, s.lat, s.lng);
       if (coords) {
         if (!showGroups[key]) {
           showGroups[key] = {

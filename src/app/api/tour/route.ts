@@ -10,18 +10,29 @@ export async function GET() {
   try {
     const { data: showsData } = await sanityFetch({ query: queries.allTourDates });
     const shows = (showsData as SanityTourDate[]).map(s => ({
+      _id: s._id,
       venue: s.venue,
       city: s.city || '',
       state: s.state || '',
       date: s.date,
       time: s.time || '',
+      playTime: s.playTime || '',
+      doorsTime: s.doorsTime || '',
       day: s.day || '',
       notes: s.notes || '',
-      ticketLink: s.ticketLink || '',
-      directionsLink: s.directionsLink || '',
+      ticketLink: s.ticketLink || s.websiteUrl || '',
+      directionsLink: s.directionsLink || s.mapUrl || '',
+      mapUrl: s.mapUrl || s.directionsLink || '',
+      websiteUrl: s.websiteUrl || s.ticketLink || '',
+      parkingInfo: s.parkingInfo || '',
+      parkingUrl: s.parkingUrl || '',
       isSoldOut: s.isSoldOut || false,
       isFestival: s.isFestival || false,
+      isPrivate: s.isPrivate || false,
       allAges: s.allAges,
+      tags: s.tags || [],
+      lat: s.lat,
+      lng: s.lng,
     }));
 
     // Deduplicate shows by date and venue

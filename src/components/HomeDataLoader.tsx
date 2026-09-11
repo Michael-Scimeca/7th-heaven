@@ -112,20 +112,26 @@ export default function HomeDataLoader() {
         const raw: Record<string, unknown>[] = Array.isArray(data) ? data : [];
         if (raw.length > 0) {
           const mapped: Show[] = raw.map(s => ({
+            _id: s._id as string | undefined,
             day: (s.day as string) || "TBD",
             date: s.date as string,
             venue: s.venue as string,
             city: (s.city as string) || "",
             state: (s.state as string) || "",
             time: (s.time as string) || "",
+            playTime: (s.playTime as string) || "",
+            doorsTime: (s.doorsTime as string) || "",
             info: (s.notes as string) || "",
-            mapUrl: (s.directionsLink as string) || "",
-            websiteUrl: (s.ticketLink as string) || "",
-            startDate: s.date as string,
+            mapUrl: (s.directionsLink as string) || (s.mapUrl as string) || "",
+            websiteUrl: (s.ticketLink as string) || (s.websiteUrl as string) || "",
+            parkingInfo: (s.parkingInfo as string) || "",
+            parkingUrl: (s.parkingUrl as string) || "",
+            startDate: (s.startDate as string) || (s.date as string),
             allAges: s.allAges as boolean | undefined,
             isPrivate: (s.isPrivate as boolean) || false,
             lat: s.lat as number | undefined,
             lng: s.lng as number | undefined,
+            tags: (s.tags as string[]) || [],
           }));
           const ensured = ensureUpcomingTourDates(mapped);
           const upcoming = ensured.filter(s => !isShowOver(s));

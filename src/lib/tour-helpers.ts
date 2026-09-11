@@ -1,6 +1,6 @@
-import { VENUE_COORDS } from "@/lib/venue-coords";
+import { VENUE_COORDS, CITY_COORDS, getVenueCoords } from "@/lib/venue-coords";
 
-export { VENUE_COORDS };
+export { VENUE_COORDS, CITY_COORDS, getVenueCoords };
 
 export const typeConfig: Record<string, { color: string; label: string }> = {
   full: { color: "#a855f7", label: "Full Band" },
