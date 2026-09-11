@@ -1,6 +1,8 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function, react-doctor/rendering-hydration-no-flicker */
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X, ChevronLeft, ChevronRight, Ticket } from "lucide-react";
 
 export interface BandMemberFactSheet {
@@ -61,6 +63,13 @@ export default function MemberFactSheetDrawer({
   allMembers = EMPTY_MEMBERS,
   onSelectMember,
 }: MemberFactSheetDrawerProps) {
+  const drawerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (isOpen && drawerRef.current) {
+      drawerRef.current.scrollTop = 0;
+    }
+  }, [isOpen, member?.name]);
+
   const callbacksRef = useRef({ onClose, onSelectMember, member, allMembers });
   useEffect(() => {
     callbacksRef.current = { onClose, onSelectMember, member, allMembers };
@@ -93,7 +102,7 @@ export default function MemberFactSheetDrawer({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
-  if (!isOpen || !member) return null;
+  if (!isOpen || !member || typeof window === "undefined") return null;
 
   const currentIndex = allMembers.findIndex((m) => m.name === member.name);
   const hasMultiple = allMembers.length > 1;
@@ -123,7 +132,7 @@ export default function MemberFactSheetDrawer({
   const worstTrait = member.worstTrait || member.bestTrait || "I CARE TOO MUCH";
   const favQuote = member.favQuote || "I'm always happy and never satisfied.";
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none font-sans">
       {/* Dimmed Blurred Backdrop Overlay */}
       <div
@@ -134,13 +143,14 @@ export default function MemberFactSheetDrawer({
 
       {/* Slide-Over Drawer Container */}
       <div
+        ref={drawerRef}
         data-lenis-prevent="true"
-        className="relative z-10 w-full sm:w-[480px] md:w-[520px] lg:w-[560px] h-full backdrop-blur-2xl border-l border-purple-500/20 text-white   flex flex-col justify-between overflow-y-auto transform transition-transform duration-300 ease-out custom-scrollbar"
+        className="relative z-10 w-full sm:w-[480px] md:w-[520px] lg:w-[560px] h-full backdrop-blur-2xl  text-white flex flex-col justify-between overflow-y-auto transform transition-transform duration-300 ease-out custom-scrollbar"
         style={{
           boxShadow: "-12px 0 36px rgba(0, 0, 0, 0.8), 0 0 45px rgba(168, 85, 247, 0.15)",
         }}>
         {/* Top Control Bar */}
-        <div className="sticky top-0 z-30 flex items-center justify-between px-4 py-3.5 bg-[#0c0a14]/95 backdrop-blur-md border-b border-white/10">
+        <div className="sticky top-0 z-30 flex items-center justify-between px-5 py-3.5 bg-[#0c0a14]/45 backdrop-blur-md border-b border-white/10">
           <div className="flex items-center gap-2">
 
             <span className="text-[11px] font-mono tracking-[0.2em] text-purple-300/90 uppercase">
@@ -184,9 +194,9 @@ export default function MemberFactSheetDrawer({
         </div>
 
         {/* Main Content Scroll Container */}
-        <div className="flex-1 p-4 sm:p-6 space-y-6">
+        <div className="flex-1 py-4 pr-6 pl-6  space-y-6">
           {/* 🎟️ VINTAGE LIGHT PAPER TICKET STUB / FACT SHEET CARD */}
-          <div className="relative p-2 sm:p-2 overflow-hidden font-sans">
+          <div className="relative sm:py-2 overflow-hidden font-sans">
 
             {/* Ticket Header Row */}
             <div className="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3">
@@ -588,6 +598,7 @@ export default function MemberFactSheetDrawer({
           </span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

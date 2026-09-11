@@ -82,19 +82,41 @@ export interface SanityBandMember {
  slug: { current: string };
  role: string;
  image?: SanityImageSource;
+ memberNo?: string;
+ fullName?: string;
  birthday?: string;
  zodiac?: string;
- favQuote?: string;
+ luckyNo?: string;
+ color?: string;
  bestTrait?: string;
  worstTrait?: string;
- favBands?: string;
+ favQuote?: string;
+ favLoveSong?: string;
+ favRockSong?: string;
  favAlbum?: string;
+ favBands?: string;
+ favSoundtrack?: string;
  favMovie?: string;
+ favTvShow?: string;
+ favCartoon?: string;
+ favMagazine?: string;
  fav7hSong?: string;
  firstSong?: string;
+ firstSongLearned?: string;
+ favPlaceToPlay?: string;
+ bestConcertSeen?: string;
  bestFeeling?: string;
+ bestFeelingInWorld?: string;
  hobbies?: string;
+ hobbyAwayFromBand?: string;
  influences?: string;
+ favPet?: string;
+ favFoods?: string;
+ favDrink?: string;
+ favCar?: string;
+ favSportToWatch?: string;
+ favBoardGame?: string;
+ littleKnownFact?: string;
  funFact?: string;
  order: number;
 }
@@ -217,7 +239,7 @@ export const queries = {
  upcomingTourDates: `*[_type == "tourDate" && date>= now()] | order(date asc) { _id, venue, city, state, date, time, playTime, day, doorsTime, allAges, cover, ticketLink, directionsLink, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
 
  // Band Members
- allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact, order }`,
+ allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, memberNo, fullName, birthday, zodiac, luckyNo, color, favQuote, bestTrait, worstTrait, favBands, favAlbum, favLoveSong, favRockSong, favSoundtrack, favMovie, favTvShow, favCartoon, favMagazine, fav7hSong, firstSong, firstSongLearned, favPlaceToPlay, bestConcertSeen, bestFeeling, bestFeelingInWorld, hobbies, hobbyAwayFromBand, influences, favPet, favFoods, favDrink, favCar, favSportToWatch, favBoardGame, littleKnownFact, funFact, order }`,
  // Returns { query, params } — pass both to sanityClient.fetch() or fetchSanity()
  memberBySlug: (slug: string) => ({
   query: `*[_type == "bandMember" && slug.current == $slug][0] { _id, name, slug, role, image, birthday, zodiac, favQuote, bestTrait, worstTrait, favBands, favAlbum, favMovie, fav7hSong, firstSong, bestFeeling, hobbies, influences, funFact }`,

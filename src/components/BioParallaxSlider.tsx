@@ -1,5 +1,5 @@
-/* eslint-disable react-doctor/no-giant-component */
-/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/click-events-have-key-events */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/three-prefer-set-animation-loop */
+/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/click-events-have-key-events, react-doctor/three-prefer-set-animation-loop */
 /* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/click-events-have-key-events */
 "use client";
 /* eslint-disable react-doctor/prefer-useReducer */
@@ -402,10 +402,6 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   useEffect(() => {
     if (!isFactSheetOpen) return;
 
-    if (sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-
     const origHtmlOverflow = document.documentElement.style.overflow;
     const origBodyOverflow = document.body.style.overflow;
 
@@ -575,6 +571,13 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
         const spanMultiplier = 4 * (1 - overlapRatio) + 1; // 4.4
         targetWidth = Math.round(vw / spanMultiplier);
         targetHeight = Math.round(targetWidth * 1.3333);
+      }
+
+      // Constrain targetHeight so the entire slider module fits within the screen window (max 72vh)
+      const maxAvailableHeight = Math.round(vh * 0.72);
+      if (targetHeight > maxAvailableHeight) {
+        targetHeight = maxAvailableHeight;
+        targetWidth = Math.round(targetHeight / 1.3333);
       }
 
       // Card gap: Responsive overlap gap calculated directly from targetWidth
@@ -908,7 +911,7 @@ lerpSpeed: ${lerpSpeed}`;
   return (
     <div
       ref={sectionRef}
-      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none font-sans relative bg-transparent">
+      className="w-full max-w-full overflow-x-clip h-auto max-h-[100dvh] flex flex-col justify-end select-none font-sans relative bg-transparent">
 
 
       {/* 🎬 LEFT SPINE PAGINATION (Top image locked at top-[36px], gap & height scale down as screen height shrinks) */}
@@ -1029,8 +1032,10 @@ lerpSpeed: ${lerpSpeed}`;
               const mobileSrc = getMemberMobileImage(m);
 
               return (
-                <button
-                  type="button"
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View details for ${m?.name || "Band Member"}`}
                   key={i}
                   onClick={(e) => {
                     if (hasTriggeredRef.current) {
@@ -1040,6 +1045,14 @@ lerpSpeed: ${lerpSpeed}`;
                     goToSlide(i);
                     setSelectedMemberForSheet(m as BandMemberFactSheet);
                     setIsFactSheetOpen(true);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      goToSlide(i);
+                      setSelectedMemberForSheet(m as BandMemberFactSheet);
+                      setIsFactSheetOpen(true);
+                    }
                   }}
                   style={{
                     width: `${cardWidth}px`,
@@ -1097,19 +1110,7 @@ lerpSpeed: ${lerpSpeed}`;
                           <span className="sm:bg-black/60 bg-black/40 md:pb-1 pt-1 pr-2 pl-2 text-[#c084fc] block drop-shadow-[0_2px_8px_rgba(0,0,0,1)]" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
-                          {activeIndex === i && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedMemberForSheet(m as BandMemberFactSheet);
-                                setIsFactSheetOpen(true);
-                              }}
-                              className="pointer-events-auto mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/60 text-white text-[11px] font-bold uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:scale-105 active:scale-95 cursor-pointer">
-                              <span>Bio & Details</span>
-                              <span className="text-xs">➔</span>
-                            </button>
-                          )}
+
                         </div>
                       )}
 
@@ -1214,7 +1215,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                     </div>
                   </div>
-                </button>
+                </div>
               );
             })}
           </div>

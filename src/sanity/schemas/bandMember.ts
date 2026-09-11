@@ -36,6 +36,26 @@ const bandMember = {
    type: "string",
   },
   {
+   name: "memberNo",
+   title: "Member No",
+   type: "string",
+  },
+  {
+   name: "fullName",
+   title: "Full Name",
+   type: "string",
+  },
+  {
+   name: "luckyNo",
+   title: "Lucky Number",
+   type: "string",
+  },
+  {
+   name: "color",
+   title: "Color",
+   type: "string",
+  },
+  {
    name: "zodiac",
    title: "Zodiac Sign",
    type: "string",
@@ -66,8 +86,38 @@ const bandMember = {
    type: "string",
   },
   {
+   name: "favLoveSong",
+   title: "Favorite Love Song",
+   type: "string",
+  },
+  {
+   name: "favRockSong",
+   title: "Favorite Rock Song",
+   type: "string",
+  },
+  {
+   name: "favSoundtrack",
+   title: "Favorite Soundtrack",
+   type: "string",
+  },
+  {
    name: "favMovie",
    title: "Favorite Movie(s)",
+   type: "string",
+  },
+  {
+   name: "favTvShow",
+   title: "Favorite TV Show",
+   type: "string",
+  },
+  {
+   name: "favCartoon",
+   title: "Favorite Cartoon",
+   type: "string",
+  },
+  {
+   name: "favMagazine",
+   title: "Favorite Magazine",
    type: "string",
   },
   {
@@ -87,13 +137,49 @@ const bandMember = {
   },
   {
    name: "hobbies",
-   title: "Hobbies",
+   title: "Hobbies Away From Band",
    type: "string",
   },
   {
    name: "influences",
    title: "Influences",
    type: "string",
+  },
+  {
+   name: "favPet",
+   title: "Favorite Pet",
+   type: "string",
+  },
+  {
+   name: "favFoods",
+   title: "Favorite Foods",
+   type: "string",
+  },
+  {
+   name: "favDrink",
+   title: "Favorite Drink",
+   type: "string",
+  },
+  {
+   name: "favCar",
+   title: "Favorite Car",
+   type: "string",
+  },
+  {
+   name: "favSportToWatch",
+   title: "Favorite Sport To Watch",
+   type: "string",
+  },
+  {
+   name: "favBoardGame",
+   title: "Favorite Board / Video Game",
+   type: "string",
+  },
+  {
+   name: "littleKnownFact",
+   title: "Little Known Fact",
+   type: "text",
+   rows: 2,
   },
   {
    name: "funFact",
