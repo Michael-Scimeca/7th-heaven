@@ -278,6 +278,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       const executeLoad = () => {
         if (!active) return;
+
+        if (typeof window !== "undefined" && (window as any).google?.maps) {
+          setGoogleReady(true);
+          return;
+        }
+
         const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
         if (!apiKey) {
           setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
@@ -285,10 +291,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           return;
         }
 
-        if (!googleMapsOptionsSet) {
-          setOptions({ key: apiKey, v: "weekly" });
+        if (!googleMapsOptionsSet && typeof window !== "undefined" && !(window as any).__googleMapsOptionsSet) {
+          try {
+            setOptions({ key: apiKey, v: "weekly" });
+          } catch { }
           googleMapsOptionsSet = true;
+          (window as any).__googleMapsOptionsSet = true;
         }
+
         importLibrary("maps")
           .then(() => { if (active) setGoogleReady(true); })
           .catch((e: unknown) => {
