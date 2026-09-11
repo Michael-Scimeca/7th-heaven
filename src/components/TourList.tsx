@@ -663,64 +663,43 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const isStuckRef = useRef(false);
   const sortBarOpacityRef = useRef(1);
 
-  // Rebuilt date sort bar scroll-driven fade from scratch using plain vanilla JS
+  // Smooth date sort bar stuck state detection using IntersectionObserver
   useEffect(() => {
-    let rafId: number | null = null;
+    const sentinel = sentinelRef.current;
+    const sortBar = sortBarRef.current;
+    if (!sentinel || !sortBar) return;
 
-    const updateScrollFade = () => {
-      rafId = null;
-      const sortBar = sortBarRef.current;
-      if (!sortBar) return;
+    sortBar.style.opacity = "1";
+    sortBar.style.pointerEvents = "auto";
 
-      // 1. READ ALL LAYOUT GEOMETRY FIRST (prevents forced reflow)
-      const sentinel = sentinelRef.current;
-      const headerEl = typeof document !== "undefined" ? document.querySelector("header") : null;
-      const headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : 80;
-      const sentinelTop = sentinel ? sentinel.getBoundingClientRect().top : 999;
-      const isAboveSentinel = sentinelTop <= (headerBottom + 0.5);
+    let observer: IntersectionObserver | null = null;
 
-      // 2. WRITE DOM STYLES AND CLASSES LAST (clean render cycle)
-      sortBar.style.opacity = "1";
-      sortBar.style.pointerEvents = "auto";
-
-      if (isStuckRef.current !== isAboveSentinel) {
-        isStuckRef.current = isAboveSentinel;
-        sortBar.classList.toggle("is-stuck", isAboveSentinel);
-        if (isAboveSentinel) {
-          document.documentElement.classList.add("tour-sort-stuck");
-        } else {
-          document.documentElement.classList.remove("tour-sort-stuck");
+    if (typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          // If sentinel is above the root margin threshold (scrolled past header)
+          const isStuck = !entry.isIntersecting && entry.boundingClientRect.top < (entry.rootBounds?.top ?? 80);
+          if (isStuckRef.current !== isStuck) {
+            isStuckRef.current = isStuck;
+            sortBar.classList.toggle("is-stuck", isStuck);
+            if (isStuck) {
+              document.documentElement.classList.add("tour-sort-stuck");
+            } else {
+              document.documentElement.classList.remove("tour-sort-stuck");
+            }
+          }
+        },
+        {
+          threshold: 0,
+          rootMargin: "-68px 0px 0px 0px",
         }
-      }
-    };
+      );
 
-    const handleScrollOrResize = () => {
-      if (rafId === null) {
-        rafId = requestAnimationFrame(updateScrollFade);
-      }
-    };
-
-    window.addEventListener("scroll", handleScrollOrResize, { passive: true });
-    window.addEventListener("resize", handleScrollOrResize, { passive: true });
-
-    // Also bind to Lenis smooth scroll instance if active
-    const lenis = (window as any).__lenis;
-    if (lenis) {
-      lenis.on("scroll", handleScrollOrResize);
+      observer.observe(sentinel);
     }
 
-    updateScrollFade();
-
     return () => {
-      if (rafId !== null) cancelAnimationFrame(rafId);
-      window.removeEventListener("scroll", handleScrollOrResize);
-      window.removeEventListener("resize", handleScrollOrResize);
-      const l = (window as any).__lenis;
-      if (l) {
-        try {
-          l.off("scroll", handleScrollOrResize);
-        } catch { }
-      }
+      if (observer) observer.disconnect();
       document.documentElement.classList.remove("tour-sort-stuck");
     };
   }, []);
@@ -988,7 +967,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className="relative sticky top-[80px] z-[90] flex flex-col gap-3.5 w-full bg-transparent border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className="relative sticky top-[68px] sm:top-[80px] z-[90] flex flex-col gap-3.5 w-full bg-transparent border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
             <div
               className="sort-bar-bg absolute -top-10 -bottom-10 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
               style={{
@@ -1228,7 +1207,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     {/* Header Row: Date Badge & Time */}
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white uppercase whitespace-nowrap">
+                        <span className="px-3 py-1 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white uppercase whitespace-nowrap font-bold">
                           {show.day} • {show.date}
                         </span>
                       </div>
@@ -1246,7 +1225,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               </span>
                             )}
                             {show.time && !show.playTime && (
-                              <span className="text-white/90 px-2 py-0.5 bg-white/10 border border-white/10 rounded-lg whitespace-nowrap">
+                              <span className="text-white/90 px-2 py-0.5 bg-white/10 border border-white/10 rounded-lg whitespace-nowrap font-bold">
                                 {show.time}
                               </span>
                             )}
@@ -1273,20 +1252,20 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                     {/* Tags Row */}
                     {!isPrivate && (
-                      <div className="flex items-center gap-2 flex-wrap sm:text-base">
+                      <div className="flex flex-wrap sm:text-base">
                         <span>{getShowIcon(show)}</span>
-                        {show.info && <span className="sm:text-base text-white/70 font-medium">{show.info}</span>}
+                        {show.info && <span className="sm:text-base text-white/70 font-bold ">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                          <span className="text-purple-300 uppercase">All Ages</span>
+                          <span className="text-purple-300 uppercase pl-3 font-bold">All Ages</span>
                         )}
                         {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                          <span className="text-red-400 uppercase">21+</span>
+                          <span className="text-red-400 uppercase pl-3 font-bold">21+</span>
                         )}
                         {getShowTags(show).map(tag => {
                           if (tag === "All Ages" || tag === "21+") return null;
-                          let tagColors = "text-[var(--color-accent)]";
+                          let tagColors = "text-[var(--color-accent)] ont-bold";
                           return (
-                            <span key={tag} className={`   uppercase ${tagColors}`}>{tag}</span>
+                            <span key={tag} className={`uppercase pl-3 font-bold ${tagColors}`}>{tag}</span>
                           );
                         })}
                       </div>

@@ -668,7 +668,6 @@ header,
   transform: translateZ(0);
   backface-visibility: hidden;
   padding: 12px 0 20px 0;
-
 }
 
 /* Sticky Tour Sort Bar — 100vw full-width glass backdrop-filter blur when stuck below header */
@@ -676,8 +675,6 @@ header,
   position: sticky !important;
   z-index: 90 !important;
   padding: 12px 0 20px 0 !important;
-  margin-bottom: 20px !important;
-  z-index: 3;
 }
 
 #tour-sort-bar.is-stuck::before {
@@ -1987,7 +1984,7 @@ select::placeholder,
 }
 
 :root {
-  --page-padding-x: 24px;
+  --page-padding-x: 20px;
 }
 
 @media (min-width: 768px) {
