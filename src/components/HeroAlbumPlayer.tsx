@@ -115,7 +115,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
         <button
           type="button"
           onClick={togglePlay}
-          className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden border border-white/10 shrink-0 cursor-pointer group/art border-0 p-0 text-left bg-transparent">
+          className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden border border-white/10 shrink-0 cursor-pointer group/art border-0 p-0 text-left   ">
           <Image
             src={youtubeId ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg` : "/images/hero/hero-banner.png"}
             alt={title}

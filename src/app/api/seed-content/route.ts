@@ -249,8 +249,8 @@ const SEED_PAGE_CONTENTS = [
     _type: 'pageContent',
     _id: 'pageContent-fan-photo-wall',
     pageKey: 'fan-photo-wall',
-    title: 'Fan Photo Wall',
-    heroHeading: 'FAN PHOTO & VIDEO WALL',
+    title: 'Fan Media Wall',
+    heroHeading: 'FAN MEDIA WALL',
     heroSubheading: 'Share your best memories, stage captures, and live concert moments from 7th Heaven shows. Upload your photos and videos and join the community wall!'
   },
   {

@@ -18,10 +18,10 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
   const sectionSubtitle = sanityContent?.sections?.find((s: any) => s.sectionId === "ship")?.subtitle || "Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.";
 
   return (
-    <div id="ship-explorer" className="py-[32px] md:py-20" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
+    <div id="ship-explorer" className="pt-[32px] md:pt-20 site-container" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <LazyMount minHeight="800px" rootMargin="300px 0px">
         <div className="text-left w-full mb-10">
-          <h2 className="uppercase text-white leading-none">
+          <h2 className="uppercase text-white   ">
             {sectionTitle}
           </h2>
           <p className="mt-3 font-semibold max-w-2xl">
@@ -37,20 +37,20 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
             { label: "Total Width", value: "159.1 Feet" },
             { label: "Decks Tall", value: "20 Decks" },
           ].map((stat) => (
-            <div key={stat.label} className="bg-transparent border-0 p-0 text-left">
+            <div key={stat.label} className="   border-0 p-0 text-left">
               <span className="text-white uppercase block">{stat.label}</span>
-              <span className="text-lg md:text-xl text-white mt-1 block">{stat.value}</span>
+              <span className="text-lg md:text-xl text-white    block">{stat.value}</span>
             </div>
           ))}
         </div>
 
         {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
-        <div className="mb-16">
+        <div className="">
           <div className="mb-6 text-left">
             <h3 className="uppercase text-white">
               Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
             </h3>
-            <p className="font-semibold mt-1">
+            <p className="font-semibold   ">
               Authentic ship photography directly from Royal Caribbean's newest Icon-Class flagship launching August 2025.
             </p>
           </div>
@@ -89,11 +89,11 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
         </div>
 
         {/* Dining Tab Section */}
-        <div className="bg-transparent p-0 text-left mb-16">
+        <div className="text-left">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
             <div>
               <h3 className="uppercase text-white">Dining Explorer Guide</h3>
-              <p className="font-semibold mt-1">Discover included food spots and premium specialty restaurants.</p>
+              <p className="font-semibold   ">Discover included food spots and premium specialty restaurants.</p>
             </div>
             {/* Dining Filter Tabs */}
             <div className="flex items-center gap-2">
@@ -167,11 +167,11 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
         </div>
 
         {/* ── BARS & ENTERTAINMENT SEGMENTED TABS SECTION ── */}
-        <div className="py-20">
+        <div className="pt-20">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-4 border-b border-white/10 text-left">
             <div className="w-full lg:w-auto">
               <h3 className="uppercase text-white">Bars & Entertainment Explorer</h3>
-              <p className="font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
+              <p className="font-semibold   ">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
             </div>
             <div className="flex p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto gap-2">
               <FoolishShrimpButton

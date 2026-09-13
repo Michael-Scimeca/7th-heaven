@@ -7,8 +7,10 @@ import Image from "next/image";
 import { Ship, Globe, Map, Video, FileText, Film, Flame, AlertTriangle, Check, HelpCircle, CreditCard, Calendar as CalendarIcon, Compass, X, Plus, Loader2, CheckCircle2 } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import CheckMarkIcon from "@/components/CheckMarkIcon";
 import LazyMount from "@/components/LazyMount";
 import AddCmsButton from "@/components/AddCmsButton";
+import { useMember } from "@/context/MemberContext";
 import { BANDS_DATA } from "../cruiseData";
 import { formatPhoneDisplay } from "@/lib/validation";
 
@@ -61,12 +63,14 @@ function CruiseCabinsPricingSectionComponent({
   PaymentPortalDropdownPanel,
   sanityContent,
 }: CruiseCabinsPricingSectionProps) {
+  const { member, isLoggedIn } = useMember();
+  const isAdmin = Boolean(isLoggedIn && (member?.role === "admin" || member?.role === "crew" || (member as any)?.isAdmin === true));
   const [activePriceYear, setActivePriceYear] = useState<2027 | 2028>(2027);
   const [stateroomTab, setStateroomTab] = useState<"suites" | "balcony" | "ocean" | "interior">("suites");
   const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
 
   const mounted = React.useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false
   );
@@ -134,9 +138,9 @@ function CruiseCabinsPricingSectionComponent({
     <div className="site-container">
       {/* ── SECTION 2: CABINS & PRICING ── */}
       <LazyMount minHeight="800px" rootMargin="300px 0px">
-        <section id="pricing" className="pt-4 sm:pt-8 pb-16 relative z-20">
-          <div className="text-left max-w-3xl mb-6">
-            <h2 className="uppercase text-white leading-none">
+        <section id="pricing" className="sm:-mt-28 md:-mt-40 lg:-mt-56 pt-4 sm:pt-8 relative z-20">
+          <div className="text-left max-w-3xl">
+            <h2 className="uppercase text-white">
               {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")?.title || "Staterooms & Cruise Rates"}
             </h2>
             <p className="mt-4 font-semibold">
@@ -163,7 +167,7 @@ function CruiseCabinsPricingSectionComponent({
           </div>
 
           {/* Guidelines Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left border-b border-white/10 py-section-fluid">
+          <div className="grid grid-cols-1 sm:grid-cols-2 min-[1301px]:grid-cols-4 gap-6 text-left border-b border-white/10 py-section-fluid">
             {/* Column 1: Ship Resources */}
             <div className="relative text-left rounded-2xl flex flex-col justify-between pr-4 sm:pr-6 py-2">
               <div>
@@ -298,11 +302,11 @@ function CruiseCabinsPricingSectionComponent({
               </p>
               <ul className="space-y-2.5 text-white/80 mb-6">
                 <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                  <CheckMarkIcon className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                   <span>Multiple booking options: Group Rate, Prevailing Rate, Sales &amp; Promotions.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                  <CheckMarkIcon className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                   <span>We match rates &amp; re-roll your room if prices drop before final payment!</span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -311,10 +315,10 @@ function CruiseCabinsPricingSectionComponent({
                 </li>
               </ul>
               <div className="pt-3 border-t border-white/10 space-y-1.5">
-                <p><strong>Email:</strong> <a href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`} className="text-purple-400 hover:text-white underline transition-colors">{sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}</a></p>
+                <p><strong>Email:</strong> <a href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`} className="!text-purple-400 hover:!text-purple-300 underline transition-colors">{sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}</a></p>
                 <p><strong>Call Us:</strong> {sanityContent?.cruiseInfo?.bookingPhone || "(877) 683-9753 - opt 5"}</p>
                 <p><CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> {sanityContent?.cruiseInfo?.depositInfo || "$250/person ($500/room)."}</p>
-                <p className="mt-1"><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? (sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026") : (sanityContent?.cruiseInfo?.finalPayment2028 || "Oct 1, 2027")}.</p>
+                <p className="  "><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? (sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026") : (sanityContent?.cruiseInfo?.finalPayment2028 || "Oct 1, 2027")}.</p>
               </div>
             </div>
 
@@ -361,10 +365,10 @@ function CruiseCabinsPricingSectionComponent({
 
           {/* Cruise Support Team */}
           <div className="py-section-fluid text-center">
-            <h2 className="uppercase text-purple-300 mb-1">
+            <h2 className="uppercase text-purple-300">
               Official Cruise Concierge &amp; Booking Team
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 pt-6 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 pt-6 md:pt-12 text-center">
               {((sanityContent?.founders?.length ? sanityContent.founders : sanityContent?.contacts?.length ? sanityContent.contacts : null) || [
                 {
                   name: "RICHARD HOFHERR",
@@ -393,18 +397,18 @@ function CruiseCabinsPricingSectionComponent({
                 const descStr = member.desc || member.company || "";
                 const phoneStr = member.phone || "";
                 const emailStr = member.email || "";
-                
+
                 const photoSrc =
                   nameStr.toLowerCase().includes("mary") || nameStr.toLowerCase().includes("grivas")
                     ? "/images/contact/Mary-contact.png"
                     : nameStr.toLowerCase().includes("alan") || nameStr.toLowerCase().includes("mcrae")
-                    ? "/images/contact/Alan-contact.png"
-                    : "/images/contact/Dickie-contact.png";
+                      ? "/images/contact/Alan-contact.png"
+                      : "/images/contact/Dickie-contact.png";
 
                 return (
                   <div key={nameStr + emailStr} className="flex flex-col items-center">
                     <div
-                      className="w-full h-[300px] sm:h-[350px] lg:h-[408px] overflow-hidden flex items-end justify-center relative shadow-none"
+                      className="w-full  overflow-hidden flex items-end justify-center relative shadow-none"
                       style={{
                         WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
                         maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
@@ -434,7 +438,7 @@ function CruiseCabinsPricingSectionComponent({
                         </a>
                       )}
                       {emailStr && (
-                        <a href={`mailto:${emailStr}`} className="text-purple-400 hover:text-purple-300 transition-colors">
+                        <a href={`mailto:${emailStr}`} className="!text-purple-400 hover:!text-purple-300 transition-colors font-medium">
                           <span>{emailStr}</span>
                         </a>
                       )}
@@ -447,89 +451,94 @@ function CruiseCabinsPricingSectionComponent({
 
           {/* Pricing Cards Grid */}
           <div className="space-y-16 py-section-fluid">
-            <div className="bg-transparent p-0 relative text-left">
+            <div className="   p-0 relative text-left">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-2">
                 <div>
-                  <h3 className="uppercase text-white mt-1">Limited Group Rate Cabins ({activePriceYear})</h3>
+                  <h3 className="uppercase text-white   ">Limited Group Rate Cabins ({activePriceYear})</h3>
                 </div>
-                <AddCmsButton
-                  label="ADD / EDIT ROOMS IN SANITY CMS"
-                  onClick={() => setIsAddRoomModalOpen(true)}
-                />
+                {isAdmin && (
+                  <AddCmsButton
+                    label="ADD / EDIT ROOMS IN SANITY CMS"
+                    onClick={() => setIsAddRoomModalOpen(true)}
+                  />
+                )}
               </div>
 
               <div key={`group-${activePriceYear}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-[fade-in_0.35s_ease-out_both]">
                 {((([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]).length > 0
                   ? ([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]).flatMap((c: any) =>
-                      String(c.year) === String(activePriceYear)
-                        ? [{
-                            code: c.code,
-                            title: c.title,
-                            price: c.price,
-                            status: c.status,
-                            badge: c.badge,
-                            image: c.imagePath || c.image || "/images/cruise/q2_interior_plus.jpg",
-                            inclusions: c.inclusions,
-                            selectValue: c.selectValue || `group_${(c.code || "room").toLowerCase()}`,
-                          }]
-                        : []
-                    )
+                    String(c.year) === String(activePriceYear)
+                      ? [{
+                        code: c.code,
+                        title: c.title,
+                        price: c.price,
+                        status: c.status,
+                        badge: c.badge,
+                        image: c.imagePath || c.image || "/images/cruise/q2_interior_plus.jpg",
+                        inclusions: c.inclusions,
+                        selectValue: c.selectValue || `group_${(c.code || "room").toLowerCase()}`,
+                      }]
+                      : []
+                  )
                   : null) || (activePriceYear === 2027
-                  ? [
-                    { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", selectValue: "group_n5" },
-                    { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
-                    { code: "IF", title: "Infinite Central Park", price: "$2,033.27", status: "warning", badge: "2 Cabins Left!", image: "/images/cruise/if.jpg", inclusions: "Gratuities Included", selectValue: "group_if" },
-                    { code: "D4", title: "Ocean View Balcony", price: "$2,433.27", status: "info", badge: "10 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d4" },
-                    { code: "D2", title: "Ocean View Balcony", price: "$2,483.27", status: "info", badge: "11 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d2" },
-                    { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,583.27", status: "warning", badge: "5 Cabins Left!", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_i1" },
-                  ]
-                  : [
-                    { code: "Q2", title: "Interior Plus", price: "$1,832.98", status: "info", badge: "Available", image: "/images/cruise/q2_interior_plus.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
-                    { code: "IF", title: "Infinite Central Park", price: "$2,032.98", status: "info", badge: "Available", image: "/images/cruise/if.jpg", inclusions: "Gratuities Included", selectValue: "group_if" },
-                    { code: "N5", title: "Ocean View", price: "$2,162.98", status: "info", badge: "Available", image: "/images/cruise/n5.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
-                    { code: "D4", title: "Ocean View Balcony", price: "$2,472.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d4" },
-                    { code: "D2", title: "Ocean View Balcony", price: "$2,492.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d2" },
-                    { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,522.98", status: "info", badge: "Available", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_i1" },
-                  ]
-                )).map((room: any, idx: number) => (
-                  <div
-                    key={(room.code || room.selectValue) + idx}
-                    onClick={() => handleSelectCabin(room.selectValue)}
-                    className="w-full text-left bg-transparent border-0 rounded-lg overflow-hidden flex flex-col justify-between cursor-pointer group shadow-none">
-                    <div>
-                      {room.image && (
-                        <div className="relative rounded-lg h-44 w-full overflow-hidden text-center">
-                          <Image width={200} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover" />
+                    ? [
+                      { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", selectValue: "group_n5" },
+                      { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
+                      { code: "IF", title: "Infinite Central Park", price: "$2,033.27", status: "warning", badge: "2 Cabins Left!", image: "/images/cruise/if.jpg", inclusions: "Gratuities Included", selectValue: "group_if" },
+                      { code: "D4", title: "Ocean View Balcony", price: "$2,433.27", status: "info", badge: "10 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d4" },
+                      { code: "D2", title: "Ocean View Balcony", price: "$2,483.27", status: "info", badge: "11 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d2" },
+                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,583.27", status: "warning", badge: "5 Cabins Left!", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_i1" },
+                    ]
+                    : [
+                      { code: "Q2", title: "Interior Plus", price: "$1,832.98", status: "info", badge: "Available", image: "/images/cruise/q2_interior_plus.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
+                      { code: "IF", title: "Infinite Central Park", price: "$2,032.98", status: "info", badge: "Available", image: "/images/cruise/if.jpg", inclusions: "Gratuities Included", selectValue: "group_if" },
+                      { code: "N5", title: "Ocean View", price: "$2,162.98", status: "info", badge: "Available", image: "/images/cruise/n5.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
+                      { code: "D4", title: "Ocean View Balcony", price: "$2,472.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d4" },
+                      { code: "D2", title: "Ocean View Balcony", price: "$2,492.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d2" },
+                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,522.98", status: "info", badge: "Available", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_i1" },
+                    ]
+                  )).map((room: any, idx: number) => (
+                    <div
+                      key={(room.code || room.selectValue) + idx}
+                      onClick={() => handleSelectCabin(room.selectValue)}
+                      className="w-full text-left    border-0 rounded-lg overflow-hidden flex flex-col justify-between cursor-pointer group shadow-none">
+                      <div>
+                        {room.image && (
+                          <div className="relative rounded-lg h-44 w-full overflow-hidden text-center">
+                            <Image width={200} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover" />
+                          </div>
+                        )}
+                        <div className="px-0 py-5">
+                          <div className="flex justify-between items-start gap-2 mb-3 text-left">
+                            <SectionBadge label={room.badge} />
+                          </div>
+                          <span className="uppercase block   ">{room.code} Category</span>
+                          <h4 className="text-white uppercase text-left">{room.title}</h4>
                         </div>
-                      )}
-                      <div className="px-0 py-5">
-                        <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                          <SectionBadge label={room.badge} />
-                        </div>
-                        <span className="uppercase block mb-0.5">{room.code} Category</span>
-                        <h4 className="text-white uppercase text-left">{room.title}</h4>
                       </div>
-                    </div>
 
-                    <div className="px-0 pt-0 pb-5 text-left">
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="text-xl text-white">{room.price}</span>
-                        <span className="text-white/50 uppercase font-semibold">USD pp</span>
+                      <div className="px-0 pt-0  text-left">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xl text-white">{room.price}</span>
+                          <span className="text-white/50 uppercase font-semibold">USD pp</span>
+                        </div>
+                        {room.inclusions && (
+                          <span className="text-purple-400 uppercase flex items-center gap-1">
+                            <CheckMarkIcon className="w-3.5 h-3.5 shrink-0" />
+                            <span>{room.inclusions}</span>
+                          </span>
+                        )}
+                        <FoolishShrimpButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSelectCabin(room.selectValue);
+                          }}
+                          className="!mt-3 w-full py-2.5 px-4 text-xs uppercase r">
+                          SELECT &amp; BOOK CABIN
+                        </FoolishShrimpButton>
                       </div>
-                      {room.inclusions && (
-                        <span className="text-purple-400 uppercase block mt-1">✓ {room.inclusions}</span>
-                      )}
-                      <FoolishShrimpButton
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSelectCabin(room.selectValue);
-                        }}
-                        className="!mt-3 w-full py-2.5 px-4 text-xs uppercase r">
-                        SELECT &amp; BOOK CABIN
-                      </FoolishShrimpButton>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
@@ -540,14 +549,14 @@ function CruiseCabinsPricingSectionComponent({
       <LazyMount minHeight="500px" rootMargin="300px 0px">
         <section id="artists" className="py-section-fluid">
           <div className="text-left w-full mb-10">
-            <h2 className="uppercase text-white leading-none mt-2">
+            <h2 className="uppercase text-white mt-2">
               Featured <span className="accent-gradient-text">Artists</span>
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {BANDS_DATA.map((band) => (
-              <div key={band.name} className="relative overflow-hidden group bg-transparent border-0 flex flex-col justify-between">
+              <div key={band.name} className="relative overflow-hidden group    border-0 flex flex-col justify-between">
                 {band.photo && (
                   <div
                     className="w-full h-[315px] sm:h-[370px] relative flex items-end justify-center"
@@ -559,7 +568,7 @@ function CruiseCabinsPricingSectionComponent({
                   </div>
                 )}
                 <div className="relative z-10 pt-3 pb-2 flex flex-col text-left">
-                  <h3 className="text-white leading-none">{band.name}</h3>
+                  <h3 className="text-white   ">{band.name}</h3>
                   {band.role && (
                     <div className="mt-2">
                       <SectionBadge label={band.role} />
@@ -576,7 +585,7 @@ function CruiseCabinsPricingSectionComponent({
       {/* ── ADD ROOM MODAL PORTAL ── */}
       {mounted && isAddRoomModalOpen && createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fade-in_0.2s_ease-out]">
-          <div className="relative w-full max-w-xl bg-[#12071f] border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-[0_0_50px_rgba(168,85,247,0.25)] text-left max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full max-w-xl bg-[#12071f] border border-purple-500/30 rounded-2xl p-6 sm:p-8 text-left max-h-[90vh] overflow-y-auto">
             <button
               type="button"
               onClick={() => setIsAddRoomModalOpen(false)}

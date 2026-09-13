@@ -4,7 +4,7 @@ import React from "react";
 
 export function AdminDashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-[#07040d] text-white flex flex-col font-sans select-none overflow-hidden">
+    <div className="min-h-screen bg-[#07040d] text-white flex flex-col    select-none overflow-hidden">
       {/* Top Navigation Bar Skeleton */}
       <div className="h-16 border-b border-white/10 bg-black/40 backdrop-blur-xl px-6 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-4">

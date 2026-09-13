@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase-client";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import SearchInput from "@/components/SearchInput";
 import { useTransition } from "@/context/TransitionContext";
+import CustomDropdown from "@/components/CustomDropdown";
 
 const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; avatar: string; role: string }> = {
   sammy: { id: "sammy", name: "Sammy D", email: "sammy@7thheaven.com", avatar: "SD", role: "Vocalist" },
@@ -37,7 +38,7 @@ interface SiteChatMsg {
 
 const fmt = (s: number) => {
   const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sc = s % 60;
-  if (h> 0) return `${h}:${String(m).padStart(2, "0")}:${String(sc).padStart(2, "0")}`;
+  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(sc).padStart(2, "0")}`;
   return `${m}:${String(sc).padStart(2, "0")}`;
 };
 
@@ -456,7 +457,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   const studioPath = `/crew-${defaultMemberId || slug}/studio`;
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-primary)] text-white font-sans pt-20">
+    <div className="min-h-screen bg-[var(--color-bg-primary)] text-white    pt-20">
 
       {/* ─── STICKY HEADER ─────────────────────────────────── */}
       <header className="sticky top-0 z-40 border-b border-white/[0.05] bg-[var(--color-bg-primary)]/80 backdrop-blur-xl">
@@ -501,14 +502,18 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
           {/* Right — Switch + CTA */}
           <div className="flex items-center gap-3">
-            <select aria-label="Select option"
-              className="bg-[var(--color-bg-card)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
-              onChange={e => { if (e.target.value) requestTransition(e.target.value); }}
-              value={`/crew-${defaultMemberId || slug}`}>
-              {Object.values(MEMBER_SEEDS).map(m => (
-                <option key={m.id} value={`/crew-${m.id}`}>{m.name}</option>
-              ))}
-            </select>
+            <CustomDropdown
+              ariaLabel="Select member feed"
+              value={`/crew-${defaultMemberId || slug}`}
+              options={Object.values(MEMBER_SEEDS).map(m => ({
+                value: `/crew-${m.id}`,
+                label: m.name,
+              }))}
+              onChange={(val) => { if (val) requestTransition(val); }}
+              wrapperClassName="w-auto min-w-[180px]"
+              className="!py-1.5 !px-3 !text-sm border-white/10 bg-[var(--color-bg-card)] text-white"
+              chevronColor="#c084fc"
+            />
 
             <Link
               href={studioPath}
@@ -553,7 +558,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 { label: "Chat Msgs", value: msgs.filter(m => m.room.includes(slug)).length.toString(), icon: "💬", color: "#9333ea" },
               ].map(({ label, value, icon, color }) => (
                 <div key={label} className="text-center px-5 py-3 bg-white/[0.03] border border-white/[0.06] min-w-[80px]">
-                  <p  style={{ color }}>{value}</p>
+                  <p style={{ color }}>{value}</p>
                   <p className="mt-0.5">{icon} {label}</p>
                 </div>
               ))}
@@ -605,15 +610,20 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       containerClassName="max-w-[300px]"
                       ariaLabel="Search messages"
                     />
-                    <select aria-label="Select option"
+                    <CustomDropdown
+                      ariaLabel="Filter messages by status"
                       value={roleFilter}
-                      onChange={e => setRoleFilter(e.target.value)}
-                      className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer">
-                      <option value="all">All Roles</option>
-                      <option value="flagged">🚩 Flagged</option>
-                      <option value="warned">⚠️ Warned</option>
-                      <option value="banned">🚫 Banned</option>
-                    </select>
+                      options={[
+                        { value: "all", label: "All Roles" },
+                        { value: "flagged", label: "🚩 Flagged" },
+                        { value: "warned", label: "⚠️ Warned" },
+                        { value: "banned", label: "🚫 Banned" },
+                      ]}
+                      onChange={(val) => setRoleFilter(val)}
+                      wrapperClassName="w-auto min-w-[140px]"
+                      className="!py-1.5 !px-3 !text-sm border-white/10 bg-[var(--color-bg-surface)] text-white"
+                      chevronColor="#c084fc"
+                    />
                   </div>
                 </div>
 
@@ -666,7 +676,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                         {/* Content */}
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                          <div className="flex items-center gap-2 flex-wrap   ">
                             <span className="text-[var(--font-size-2xs)]" style={{ color: roleColor }}>
                               {msg.sender_name}
                             </span>
@@ -857,7 +867,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 ].map(({ label, value, color }) => (
                   <div key={label} className="flex items-center justify-between p-3 bg-white/[0.025]">
                     <span className="text-white/40">{label}</span>
-                    <span  style={{ color }}>{value}</span>
+                    <span style={{ color }}>{value}</span>
                   </div>
                 ))}
               </div>

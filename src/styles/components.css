@@ -303,3 +303,120 @@
   margin: 0;
   line-height: 1;
 }
+
+/* SparkleGenerateButton */
+.sgb-generate-button,
+.sgb-generate-button *,
+.sgb-generate-button:focus,
+.sgb-generate-button:focus-visible,
+.sgb-generate-button span:focus,
+.sgb-generate-button span:focus-visible,
+.sgb-generate-button::-moz-focus-inner {
+  outline: none !important;
+  outline-style: none !important;
+  box-shadow: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.sgb-generate-button {
+  --sgb-shadow-wide: rgba(102, 3, 231, 0.94);
+  --sgb-shadow-inset: rgba(232, 11, 11, 1);
+  --sgb-shadow-outline: 2px;
+  --sgb-scale: 1;
+  --sgb-translate-y: 0px;
+  appearance: none;
+  outline: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 5px 10px;
+  border-radius: 29px;
+  margin: 0;
+  background: #7116ff26;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 1;
+  font-weight: 600;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.sgb-generate-button span {
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  font-size: inherit;
+  line-height: 1.4;
+  letter-spacing: 0.005em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.sgb-generate-button:hover,
+.sgb-generate-button.sgb-is-forced {
+  background: #7116ff99;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.sgb-generate-button:active,
+.sgb-generate-button:hover:active,
+.sgb-generate-button.sgb-is-forced:active {
+  background: #7116ff8c;
+  transition: background 0.08s ease, box-shadow 0.08s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sgb-generate-button,
+  .sgb-generate-button * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+.sgb-generate-link {
+  --sgb-shadow-wide: rgba(102, 3, 231, 0.94);
+  --sgb-shadow-inset: rgba(232, 11, 11, 1);
+  --sgb-shadow-outline: 2px;
+  --sgb-scale: 1;
+  --sgb-translate-y: 0px;
+  appearance: none;
+  outline: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 5px 10px;
+  border-radius: 29px;
+  margin: 0;
+  background: #7116ff26;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 1;
+  font-size: inherit;
+  line-height: 1.4;
+  letter-spacing: 0.005em;
+  gap: 6px;
+  white-space: nowrap;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.sgb-generate-link:hover {
+  background: #7116ff99;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.sgb-generate-link:active,
+.sgb-generate-link:hover:active,
+.sgb-generate-link.sgb-is-forced:active {
+  background: #7116ff8c;
+  transition: background 0.08s ease, box-shadow 0.08s ease;
+}

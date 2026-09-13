@@ -13,6 +13,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
 import { useHeroParallax } from "@/lib/useHeroParallax";
+import CheckMarkIcon from "@/components/CheckMarkIcon";
 import { SectionBadge } from "@/components/SectionBadge";
 import InputField from "@/components/InputField";
 import SquishyToggle from "@/components/SquishyToggle";
@@ -317,7 +318,7 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-white pt-[100px]">
+    <div className="min-h-screen    text-white pt-[100px]">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
         heroForegroundRef={heroForegroundRef}
@@ -501,8 +502,8 @@ function CruiseNotesAndSignatureSection({
   signatureDate: string;
 }) {
   return (
-    <div className="booking-section-container border-0 bg-transparent p-0 mt-4">
-      <div className="booking-section-header bg-transparent px-0 py-2 border-0">
+    <div className="booking-section-container border-0    p-0 mt-4">
+      <div className="booking-section-header    px-0 py-2 border-0">
         <span className="uppercase text-white">ADDITIONAL NOTES &amp; DIGITAL SIGNATURE</span>
       </div>
 
@@ -584,7 +585,7 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
       {submittedRef ? (
         <div className="py-6 text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto text-xl">
-            ✓
+            <CheckMarkIcon className="w-6 h-6 text-emerald-400" />
           </div>
           <h3 className="text-xl text-white">Payment Authorized!</h3>
           <p className="text-white/80 text-xs max-w-xs mx-auto">

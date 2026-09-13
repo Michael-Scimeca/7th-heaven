@@ -232,7 +232,7 @@ export default function CustomYTPlayer({
 
 
 
-  const progress = duration> 0 ? (currentTime / duration) * 100 : 0;
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <div
@@ -249,7 +249,7 @@ export default function CustomYTPlayer({
             onClose();
           }
         }}
-        className="absolute inset-0 cursor-pointer border-none bg-transparent"
+        className="absolute inset-0 cursor-pointer border-none   "
       />
       <div
         ref={containerRef}
@@ -264,7 +264,7 @@ export default function CustomYTPlayer({
           {/* Click overlay to toggle play */}
           <button type="button"
             aria-label="Toggle video playback"
-            className="absolute inset-0 z-0 cursor-pointer border-0 bg-transparent"
+            className="absolute inset-0 z-0 cursor-pointer border-0   "
             onClick={togglePlay}
           />
 
@@ -437,7 +437,7 @@ export default function CustomYTPlayer({
                         setVolume(v);
                         setIsMuted(v === 0);
                         playerRef.current?.setVolume(v);
-                        if (v> 0) playerRef.current?.unMute();
+                        if (v > 0) playerRef.current?.unMute();
                       }}
                       className="w-full h-1 appearance-none bg-white/20 rounded-lg cursor-pointer accent-[var(--color-accent)]"
                     />

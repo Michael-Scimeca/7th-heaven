@@ -133,7 +133,7 @@ export default function MemberFactSheetDrawer({
   const favQuote = member.favQuote || "I'm always happy and never satisfied.";
 
   return createPortal(
-    <div className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none font-sans">
+    <div className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none   ">
       {/* Dimmed Blurred Backdrop Overlay */}
       <div
         className="fixed inset-0 transition-opacity duration-300 ease-out"
@@ -196,10 +196,10 @@ export default function MemberFactSheetDrawer({
         {/* Main Content Scroll Container */}
         <div className="flex-1 py-4 pr-6 pl-6 space-y-3">
           {/* 🎟️ VINTAGE LIGHT PAPER TICKET STUB / FACT SHEET CARD */}
-          <div className="relative sm:py-2 overflow-hidden font-sans">
+          <div className="relative sm:py-2 overflow-hidden   ">
 
             {/* Member Name */}
-            <h2 className="text-2xl sm:text-3xl font-black uppercase leading-none font-serif">
+            <h2 className="text-2xl sm:text-3xl font-black uppercase    font-serif">
               {fullName}
             </h2>
 
@@ -284,7 +284,7 @@ export default function MemberFactSheetDrawer({
                 <p className="font-serif italic text-sm sm:text-base text-neutral-200">
                   &ldquo;{favQuote}&rdquo;
                 </p>
-                <span className="block text-[8px] font-mono st text-purple-400 uppercase mt-1.5">
+                <span className="block text-[8px] font-mono st text-purple-400 uppercase   .5">
                   FAVORITE QUOTE
                 </span>
               </div>
@@ -302,7 +302,7 @@ export default function MemberFactSheetDrawer({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {member.favLoveSong && (
-                <div className="">
+                <div>
                   <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
                     FAVORITE LOVE SONG
                   </span>
@@ -313,7 +313,7 @@ export default function MemberFactSheetDrawer({
               )}
 
               {member.favRockSong && (
-                <div className="">
+                <div>
                   <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
                     FAVORITE ROCK SONG
                   </span>
@@ -324,7 +324,7 @@ export default function MemberFactSheetDrawer({
               )}
 
               {member.favAlbum && (
-                <div className="">
+                <div>
                   <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
                     FAVORITE ALBUM
                   </span>
@@ -335,7 +335,7 @@ export default function MemberFactSheetDrawer({
               )}
 
               {member.favBands && (
-                <div className="">
+                <div>
                   <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
                     FAVORITE BAND
                   </span>
@@ -346,7 +346,7 @@ export default function MemberFactSheetDrawer({
               )}
 
               {member.favSoundtrack && (
-                <div className="">
+                <div>
                   <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
                     FAVORITE SOUNDTRACK
                   </span>
@@ -354,56 +354,65 @@ export default function MemberFactSheetDrawer({
                     {member.favSoundtrack}
                   </p>
                 </div>
-              )}
+              )
+              }
 
-              {member.fav7hSong && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE 7TH HEAVEN SONG
-                  </span>
-                  <p className="text-xs text-purple-300">
-                    {member.fav7hSong}
-                  </p>
-                </div>
-              )}
+              {
+                member.fav7hSong && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE 7TH HEAVEN SONG
+                    </span>
+                    <p className="text-xs text-purple-300">
+                      {member.fav7hSong}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.firstSongLearned && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FIRST SONG LEARNED
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.firstSongLearned}
-                  </p>
-                </div>
-              )}
+              {
+                member.firstSongLearned && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FIRST SONG LEARNED
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.firstSongLearned}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.favPlaceToPlay && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE PLACE TO PLAY
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favPlaceToPlay}
-                  </p>
-                </div>
-              )}
+              {
+                member.favPlaceToPlay && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE PLACE TO PLAY
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.favPlaceToPlay}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.bestConcertSeen && (
-                <div className=" sm:col-span-2">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    BEST CONCERT SEEN
-                  </span>
-                  <p className="text-xs text-neutral-200 italic">
-                    {member.bestConcertSeen}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
+              {
+                member.bestConcertSeen && (
+                  <div className=" sm:col-span-2">
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      BEST CONCERT SEEN
+                    </span>
+                    <p className="text-xs text-neutral-200 italic">
+                      {member.bestConcertSeen}
+                    </p>
+                  </div>
+                )
+              }
+            </div >
+          </div >
 
           {/* ── SECTION 03: ON SCREEN ── */}
-          <div className="space-y-2.5">
+          < div className="space-y-2.5" >
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
 
               <h3 className="text-[11px] font-mono st text-neutral-300 uppercase">
@@ -413,7 +422,7 @@ export default function MemberFactSheetDrawer({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {member.favTvShow && (
-                <div className="">
+                <div>
                   <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
                     FAVORITE TV SHOW
                   </span>
@@ -423,43 +432,49 @@ export default function MemberFactSheetDrawer({
                 </div>
               )}
 
-              {member.favMovie && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE MOVIE
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favMovie}
-                  </p>
-                </div>
-              )}
+              {
+                member.favMovie && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE MOVIE
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.favMovie}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.favCartoon && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE CARTOON
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favCartoon}
-                  </p>
-                </div>
-              )}
+              {
+                member.favCartoon && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE CARTOON
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.favCartoon}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.favMagazine && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE MAGAZINE
-                  </span>
-                  <p className="text-xs text-neutral-200 italic">
-                    {member.favMagazine}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
+              {
+                member.favMagazine && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE MAGAZINE
+                    </span>
+                    <p className="text-xs text-neutral-200 italic">
+                      {member.favMagazine}
+                    </p>
+                  </div >
+                )
+              }
+            </div >
+          </div >
 
           {/* ── SECTION 04: OFF STAGE ── */}
-          <div className="space-y-2.5">
+          < div className="space-y-2.5" >
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
               <h3 className="text-[11px] font-mono uppercase">
                 OFF STAGE
@@ -468,7 +483,7 @@ export default function MemberFactSheetDrawer({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {member.hobbyAwayFromBand && (
-                <div className="">
+                <div>
                   <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
                     HOBBY AWAY FROM THE BAND
                   </span>
@@ -478,112 +493,130 @@ export default function MemberFactSheetDrawer({
                 </div>
               )}
 
-              {member.bestFeelingInWorld && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    BEST FEELING IN THE WORLD
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.bestFeelingInWorld}
-                  </p>
-                </div>
-              )}
+              {
+                member.bestFeelingInWorld && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      BEST FEELING IN THE WORLD
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.bestFeelingInWorld}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.influences && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    INFLUENCES
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.influences}
-                  </p>
-                </div>
-              )}
+              {
+                member.influences && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      INFLUENCES
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.influences}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.favPet && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE PET
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favPet}
-                  </p>
-                </div>
-              )}
+              {
+                member.favPet && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE PET
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.favPet}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.favFoods && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE FOODS
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favFoods}
-                  </p>
-                </div>
-              )}
+              {
+                member.favFoods && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE FOODS
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.favFoods}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.favDrink && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE DRINK
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favDrink}
-                  </p>
-                </div>
-              )}
+              {
+                member.favDrink && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE DRINK
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.favDrink}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.favCar && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE CAR
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favCar}
-                  </p>
-                </div>
-              )}
+              {
+                member.favCar && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE CAR
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.favCar}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.favSportToWatch && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE SPORT TO WATCH
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favSportToWatch}
-                  </p>
-                </div>
-              )}
+              {
+                member.favSportToWatch && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE SPORT TO WATCH
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.favSportToWatch}
+                    </p>
+                  </div >
+                )
+              }
 
-              {member.favBoardGame && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    FAVORITE BOARD/VIDEO GAME
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favBoardGame}
-                  </p>
-                </div>
-              )}
+              {
+                member.favBoardGame && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      FAVORITE BOARD/VIDEO GAME
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.favBoardGame}
+                    </p>
+                  </div >
+                )
+              }
 
-              {(member.littleKnownFact || member.funFact) && (
-                <div className="">
-                  <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
-                    LITTLE-KNOWN FACT
-                  </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.littleKnownFact || member.funFact}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+              {
+                (member.littleKnownFact || member.funFact) && (
+                  <div>
+                    <span className="block text-[10px] font-mono st text-purple-400 uppercase mb-1">
+                      LITTLE-KNOWN FACT
+                    </span>
+                    <p className="text-xs text-neutral-200">
+                      {member.littleKnownFact || member.funFact}
+                    </p>
+                  </div >
+                )
+              }
+            </div >
+          </div >
+        </div >
 
 
 
-      </div>
-    </div>,
+      </div >
+    </div >,
     document.body
   );
 }

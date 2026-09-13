@@ -14,13 +14,13 @@ function compressImage(file: File, maxWidth = 300, maxHeight = 300): Promise<str
         const canvas = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
-        if (width> height) {
-          if (width> maxWidth) {
+        if (width > height) {
+          if (width > maxWidth) {
             height = Math.round((height * maxWidth) / width);
             width = maxWidth;
           }
         } else {
-          if (height> maxHeight) {
+          if (height > maxHeight) {
             width = Math.round((width * maxHeight) / height);
             height = maxHeight;
           }
@@ -142,7 +142,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
   }
 
   return (
-    <div className="bg-white border border-black/15 p-6 relative overflow-hidden text-black font-sans">
+    <div className="bg-white border border-black/15 p-6 relative overflow-hidden text-black   ">
       <div className="flex items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)]">

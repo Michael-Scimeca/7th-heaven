@@ -409,7 +409,7 @@ function HomeShaderGradientComponent() {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
 
-    const sync = () => {};
+    const sync = () => { };
 
     sync();
 
@@ -471,7 +471,7 @@ function HomeShaderGradientComponent() {
   return (
     <>
       {/* Background Shader Canvas Container */}
-      <div ref={wrapperRef} className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-transparent">
+      <div ref={wrapperRef} className="fixed inset-0 z-0 pointer-events-none overflow-hidden   ">
         <canvas ref={canvasRef} className="fixed inset-0 w-full h-full block pointer-events-none" />
         <div ref={positionLayerRef} className="fixed inset-0 z-0 pointer-events-none" />
       </div>

@@ -571,7 +571,7 @@ export default function CruiseChat({
             <div className="bg-purple-600/15 border-b border-purple-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
               <span className="text-purple-300 shrink-0">⚠️</span>
               <div className="flex-1">
-                <h4 className="uppercase mb-0.5">Warning Alert</h4>
+                <h4 className="uppercase   ">Warning Alert</h4>
                 <p className="text-amber-100/90">
                   You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
                 </p>
@@ -583,7 +583,7 @@ export default function CruiseChat({
             <div className="bg-red-500/15 border-b border-red-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
               <span className="text-red-400 shrink-0">🚫</span>
               <div className="flex-1">
-                <h4 className="uppercase text-red-400/80 mb-0.5">Banned Alert</h4>
+                <h4 className="uppercase text-red-400/80   ">Banned Alert</h4>
                 <p className="text-red-100/90">
                   You have been permanently banned from sending messages in this chat.
                 </p>
@@ -600,12 +600,12 @@ export default function CruiseChat({
               ref={chatContainerRef}
               data-lenis-prevent
               style={{ gap: 'var(--chat-message-spacing, 13px)' }}
-              className="flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-contain py-3 px-3 relative bg-transparent scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70">
+              className="flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-contain py-3 px-3 relative    scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70">
               {messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-white/20">
                   <span className="text-3xl mb-2 opacity-50">👋</span>
                   <p className="uppercase">Welcome to the lounge</p>
-                  <p className="mt-1 text-center max-w-[200px]">Say hi to your fellow passengers or tag @admin to ask a question!</p>
+                  <p className="   text-center max-w-[200px]">Say hi to your fellow passengers or tag @admin to ask a question!</p>
                 </div>
               ) : (
                 messages.map((msg) => {
@@ -641,7 +641,7 @@ export default function CruiseChat({
                           {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                         </div>
                         {(msg.sender_role === 'crew' || msg.sender_role === 'admin') && (
-                          <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[7px] uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full leading-none backdrop-blur-sm">
+                          <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[7px] uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full    backdrop-blur-sm">
                             {msg.sender_role === 'admin' ? 'ADMIN' : 'CREW'}
                           </span>
                         )}
@@ -651,15 +651,15 @@ export default function CruiseChat({
                           <span className={`   ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                             {msg.sender_name}
                           </span>
-                          <span className="text-[12px] uppercase px-2 py-1 rounded-full border border-white/10 leading-none">
+                          <span className="text-[12px] uppercase px-2 py-1 rounded-full border border-white/10   ">
                             {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                           </span>
                           {hasAdminTag && (
-                            <span className="text-[12px] uppercase border border-white/10 px-2 py-1 rounded-lg flex items-center gap-1 leading-none animate-pulse">
+                            <span className="text-[12px] uppercase border border-white/10 px-2 py-1 rounded-lg flex items-center gap-1    animate-pulse">
                               👑 Question for Admin
                             </span>
                           )}
-                          <span className="text-white leading-none ml-auto">
+                          <span className="text-white    ml-auto">
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
@@ -738,7 +738,7 @@ export default function CruiseChat({
                   <span>Tag Admin / Crew Member</span>
                   <button aria-label="Action button" onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
                 </div>
-                <div className="grid grid-cols-2 gap-1.5 mt-1">
+                <div className="grid grid-cols-2 gap-1.5   ">
                   {TAG_SUGGESTIONS.map(s => (
                     <button aria-label="Action button"
                       key={s.tag}

@@ -15,6 +15,7 @@ import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import { GlowInput } from "@/components/GlowInput";
 import IphoneClipMask from "@/components/IphoneClipMask";
 import { User, Mail, MapPin, Sliders, Music, Check, Guitar } from "lucide-react";
+import CheckMarkIcon from "@/components/CheckMarkIcon";
 
 const RADIUS_OPTIONS = [
   { value: "15", label: "15 Mi" },
@@ -48,22 +49,7 @@ interface ProximityNotifyProps {
 }
 
 function CrispCheckIcon() {
-  return (
-    <svg
-      className="w-3.5 h-3.5 text-pink-300 ml-0.5 shrink-0 inline-block "
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true">
-      <path
-        d="M3.25 8.25L6.5 11.5L12.75 4.75"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  return <CheckMarkIcon className="w-3.5 h-3.5 text-purple-200 ml-0.5 shrink-0 inline-block" />;
 }
 
 export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {}) {
@@ -237,8 +223,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
     <section id="proximity-notify" className="site-container relative py-section-fluid bg-transparent overflow-hidden">
 
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 items-stretch justify-center">
+      <div className="relative z-10 max-w-6xl md:mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 ">
 
           {/* ── LEFT COLUMN: Concert Video Showcase (5 Cols) ── */}
           <div className="md:col-span-5 flex justify-center md:justify-end items-center w-full h-full my-auto">
@@ -275,7 +261,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           </div>
 
           {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (7 Cols) ── */}
-          <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0 md:pl-0">
+          <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full  md:mx-0 md:pl-0">
             {/* Header Title */}
             <div>
               <h2 className="lg:text-6xl text-white mb-3">

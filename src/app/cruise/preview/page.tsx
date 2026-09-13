@@ -52,14 +52,14 @@ function VersionB() {
       <div className="flex items-center justify-between">
         {Array.from(STEP_LABELS, (label, i) => ({ label, i })).map(({ label, i }) => (
           <React.Fragment key={i}>
-            <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0 bg-transparent p-0 text-left" onClick={() => setStep(i)}>
+            <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0    p-0 text-left" onClick={() => setStep(i)}>
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center    transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
-                : step> i ? "bg-[var(--color-accent)]/30 text-white"
+                : step > i ? "bg-[var(--color-accent)]/30 text-white"
                   : " bg-[#00000029] border border-white/10 text-white/30"
-                }`}>{step> i ? "✓" : i + 1}</div>
+                }`}>{step > i ? "✓" : i + 1}</div>
               <span className={`text-[var(--font-size-2xs)] uppercase    ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
             </button>
-            {i < STEP_LABELS.length - 1 && <div className={`flex-1 h-px mx-2 ${step> i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`} />}
+            {i < STEP_LABELS.length - 1 && <div className={`flex-1 h-px mx-2 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`} />}
           </React.Fragment>
         ))}
       </div>
@@ -70,7 +70,7 @@ function VersionB() {
         <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
       </div>
       <div className="flex gap-3">
-        {step> 0 && <button aria-label="Action button" type="button" onClick={() => setStep(s => s - 1)} className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white/50 cursor-pointer hover:text-white/70 transition-colors">← Back</button>}
+        {step > 0 && <button aria-label="Action button" type="button" onClick={() => setStep(s => s - 1)} className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white/50 cursor-pointer hover:text-white/70 transition-colors">← Back</button>}
         <button aria-label="Action button" type="button" onClick={() => setStep(s => Math.min(s + 1, 2))}
           className="flex-1 py-2.5 bg-[var(--color-accent)] rounded-lg text-white cursor-pointer hover:bg-[var(--color-accent)]/80 transition-colors">
           {step === 2 ? "Submit" : "Next →"}
@@ -112,7 +112,7 @@ function VersionC() {
 function VersionD() {
   const [guests, setGuests] = useState<Guest[]>([emptyGuest(), emptyGuest(), emptyGuest()]);
   const update = (idx: number, f: string, v: string) => setGuests(prev => prev.map((g, i) => i === idx ? { ...g, [f]: v } : g));
-  const SMALL = "bg-transparent border-0 border-b  border-white/10  rounded-none px-2 py-2 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors w-full";
+  const SMALL = "   border-0 border-b  border-white/10  rounded-none px-2 py-2 text-sm text-white placeholder:text-white/15 focus:border-[var(--color-accent)] focus:outline-none transition-colors w-full";
 
   return (
     <div className="border border-white/10 overflow-hidden">
@@ -187,7 +187,7 @@ function VersionF() {
             <input aria-label="Input field" type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
             <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
           </div>
-          {i> 0 && (
+          {i > 0 && (
             <button aria-label="Action button" type="button" onClick={() => remove(i)} className="w-7 h-7 rounded-lg bg-[#00000029] hover:bg-red-500/20 flex items-center justify-center text-white/20 hover:text-red-400 transition-colors cursor-pointer mt-2 shrink-0">✕</button>
           )}
         </div>

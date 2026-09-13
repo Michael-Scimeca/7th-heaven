@@ -230,7 +230,7 @@ export default function FanUploadForm() {
       <div className="flex items-center gap-3 mb-6">
         <div>
           <h2>Submit to Fan Wall</h2>
-          <p className="mt-1">Share your concert moments</p>
+          <p className="  ">Share your concert moments</p>
         </div>
       </div>
 
@@ -316,7 +316,7 @@ export default function FanUploadForm() {
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
                     <div className="w-11 h-11 border-2 border-white/10 border-t-emerald-500 rounded-lg animate-spin mb-3" />
                     <p className="uppercase">Safety Scan</p>
-                    <p className="text-emerald-400 uppercase mt-1">{scanStatus}</p>
+                    <p className="text-emerald-400 uppercase   ">{scanStatus}</p>
                   </div>
                 )}
                 <input aria-label="Input field" ref={fileRef} type="file" name="photo" accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime" multiple className="hidden" onChange={(e) => handleFilesChange(e.target.files)} />

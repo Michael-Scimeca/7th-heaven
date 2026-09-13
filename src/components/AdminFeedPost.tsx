@@ -135,7 +135,7 @@ export default function AdminFeedPost() {
             <span className="uppercase tracking-[0.15em] text-red-400">Collaborative Live Feed</span>
           </div>
           <h1>Post to Feed</h1>
-          <p className="mt-1">Updates are synchronized across all crew devices</p>
+          <p className="  ">Updates are synchronized across all crew devices</p>
         </div>
 
         {/* Post Form */}
@@ -209,7 +209,7 @@ export default function AdminFeedPost() {
                 maxLength={500}
               />
             </div>
-            <div className="flex justify-between mt-1">
+            <div className="flex justify-between   ">
               <span className="text-white/20">{content.length}/500</span>
               <span style={{ color: currentType.color }}>
                 {currentType.icon} {currentType.label}

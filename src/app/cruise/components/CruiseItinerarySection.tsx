@@ -17,11 +17,11 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
   const rawItin2028 = sanityContent?.itinerary2028?.length ? sanityContent.itinerary2028 : ITINERARY_2028;
 
   return (
-    <section id="itinerary" className="pt-20 pb-12 relative z-20" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
+    <section id="itinerary" className="pb-12 relative z-20" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <div className="w-full mx-auto">
-        <div className="text-left w-full mb-10 site-container">
+        <div className="text-left w-full site-container">
           <SectionBadge label="Interactive Voyage Map" className="mb-3" />
-          <h2 className="font-bold uppercase text-white leading-none">
+          <h2 className="font-bold uppercase text-white">
             Day-by-Day <span className="accent-gradient-text">Voyage Itinerary</span>
           </h2>
           <p className="mt-3 font-semibold max-w-2xl">

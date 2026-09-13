@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from 'next/image';
 import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import { FEATURES, TECH, CATEGORIES, Category, FeatureCard } from "./data/featuresData";
 import { FeatureCardUI } from "./components/FeatureCardUI";
@@ -28,11 +29,11 @@ function Counter({ end, label, sublabel }: { end: number; label: string; sublabe
   }, [end]);
   return (
     <div ref={ref} className="text-center px-6 py-8">
-      <div className="text-6xl md:text-7xl text-white tabular-nums leading-none" style={{ fontStyle: "italic" }}>
+      <div className="text-6xl md:text-7xl text-white tabular-nums   " style={{ fontStyle: "italic" }}>
         {count}<span style={{ color: "#851DEF" }}>+</span>
       </div>
       <div className="text-base uppercase tracking-[0.15em] text-white mt-2">{label}</div>
-      {sublabel && <div className="text-white/30 mt-1 max-w-[180px] mx-auto">{sublabel}</div>}
+      {sublabel && <div className="text-white/30    max-w-[180px] mx-auto">{sublabel}</div>}
     </div>
   );
 }
@@ -167,7 +168,7 @@ export default function FeaturesPage() {
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
-          <h2 className="text-6xl md:text-8xl uppercase text-white mb-4 leading-none" style={{ fontStyle: "italic" }}>
+          <h2 className="text-6xl md:text-8xl uppercase text-white mb-4   " style={{ fontStyle: "italic" }}>
             Ready to<br /><span style={{ color: "#851DEF" }}>Experience It?</span>
           </h2>
           <p className="mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>
@@ -182,7 +183,7 @@ export default function FeaturesPage() {
             <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Watch Live</Link>
             <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.15em] rounded-lg transition-colors">See Tour Dates</Link>
             <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Book the Band</Link>
-            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Contact Us</Link>
+            <TransitionLink href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.15em] rounded-lg transition-colors">Contact Us</TransitionLink>
           </div>
         </div>
       </section>

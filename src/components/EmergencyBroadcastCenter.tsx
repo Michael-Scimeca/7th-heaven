@@ -138,7 +138,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
   };
 
   return (
-    <div className="py-5 pl-0 bg-transparent border-none space-y-4 font-sans">
+    <div className="py-5 pl-0    border-none space-y-4   ">
 
       {/* Top Banner & Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -274,7 +274,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           4. Delivery Channels & Cost Estimator
         </span>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none   ">
             <div className="flex items-center gap-2">
               <SquishyToggle id="send-sms" label="Send via Twilio SMS" checked={sendSms} onChange={setSendSms} />
               <div>
@@ -287,7 +287,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             </div>
           </label>
 
-          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none   ">
             <div className="flex items-center gap-2">
               <SquishyToggle id="send-email" label="Send via email broadcast" checked={sendEmail} onChange={setSendEmail} />
               <div>
@@ -300,7 +300,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             </div>
           </label>
 
-          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none   ">
             <div className="flex items-center gap-2">
               <SquishyToggle id="send-push" label="Send via ntfy push notification" checked={sendPush} onChange={setSendPush} />
               <div>
@@ -313,7 +313,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             </div>
           </label>
 
-          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none   ">
             <div className="flex items-center gap-2">
               <SquishyToggle id="send-dashboard-banner" label="Send fan wall banner" checked={sendDashboardBanner} onChange={setSendDashboardBanner} />
               <div>
@@ -342,7 +342,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
               value={customTitle !== "" ? customTitle : activeTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="e.g. SHOW CANCELLED: Broken Oar"
-              className="w-full bg-transparent border border-[var(--border-color)] rounded-lg px-3 py-2 !text-xs placeholder: outline-none focus:border-purple-500"
+              className="w-full    border border-[var(--border-color)] rounded-lg px-3 py-2 !text-xs placeholder: outline-none focus:border-purple-500"
             />
           </div>
 
@@ -352,7 +352,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
                 SMS & Alert Body Text
               </label>
               <span className="text-purple-300">
-                {smsLength} / 160 chars ({smsSegments} segment{smsSegments> 1 ? "s" : ""})
+                {smsLength} / 160 chars ({smsSegments} segment{smsSegments > 1 ? "s" : ""})
               </span>
             </div>
             <textarea aria-label="Text input"
@@ -361,7 +361,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
               value={customBody !== "" ? customBody : activeBody}
               onChange={(e) => setCustomBody(e.target.value)}
               placeholder="Write your emergency broadcast message text..."
-              className="w-full bg-transparent border border-[var(--border-color)] rounded-lg p-2.5 !text-xs font-semibold placeholder: outline-none focus:border-purple-500 resize-none"
+              className="w-full    border border-[var(--border-color)] rounded-lg p-2.5 !text-xs font-semibold placeholder: outline-none focus:border-purple-500 resize-none"
             />
           </div>
         </div>
@@ -420,7 +420,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
         <div className={`p-3 rounded-lg border    flex items-center justify-between animate-[fadeIn_0.2s_ease-out] ${dispatchResult.success ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300" : "bg-rose-500/15 border-rose-500/30 text-rose-300"
           }`}>
           <div>
-            <span className="block uppercase mb-0.5">
+            <span className="block uppercase   ">
               {dispatchResult.success ? "Broadcast Dispatched Successfully!" : "Dispatch Failed"}
             </span>
             <p className="font-normal opacity-90">{dispatchResult.message || dispatchResult.error}</p>
@@ -428,7 +428,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button aria-label="Action button"
             type="button"
             onClick={() => setDispatchResult(null)}
-            className="text-white/40 hover:text-white cursor-pointer border-none bg-transparent">
+            className="text-white/40 hover:text-white cursor-pointer border-none   ">
             ✕
           </button>
         </div>

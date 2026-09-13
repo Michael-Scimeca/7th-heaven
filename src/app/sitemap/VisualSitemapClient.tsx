@@ -198,12 +198,12 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 951, y: 230 },
     data: {
-      header: "FAN WALL",
-      title: "Fan Photo Wall & Concert Uploads",
-      path: "/fan-photo-wall",
+      header: "FAN MEDIA WALL",
+      title: "Fan Media Wall & Concert Uploads",
+      path: "/fan-media-wall",
       imgUrl: "/sitemap-thumbs/fan-photo-wall.jpg",
       badgeType: "HEADER_NAV",
-      description: "Live concert photo upload wall, AI face scanning, and fan gallery.",
+      description: "Live concert media upload wall, AI face scanning, and fan gallery.",
     },
   },
   {

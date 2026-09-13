@@ -173,7 +173,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
     else containerRef.current.requestFullscreen();
   };
 
-  const progress = duration> 0 ? (currentTime / duration) * 100 : 0;
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   if (useFallbackIframe) {
     return (
@@ -215,7 +215,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         type="button"
         aria-label="Toggle video playback"
         onClick={togglePlay}
-        className="absolute inset-0 w-full h-full z-0 border-0 bg-transparent cursor-pointer"
+        className="absolute inset-0 w-full h-full z-0 border-0    cursor-pointer"
       />
 
       {/* Close button */}
@@ -306,7 +306,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
                     setVolume(v);
                     setIsMuted(v === 0);
                     playerRef.current?.setVolume(v);
-                    if (v> 0) playerRef.current?.unMute();
+                    if (v > 0) playerRef.current?.unMute();
                   }}
                   className="w-full h-1 appearance-none bg-white/20 rounded-lg cursor-pointer accent-[var(--color-accent)]"
                 />

@@ -240,7 +240,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* How it works */}
-      <div className="max-w-3xl mx-auto mt-10 text-center">
+      <div className="max-w-3xl mx-auto   0 text-center">
         <p>
           Under the hood this uses ntfy, a free open-source push service &mdash; the site
           publishes a message to a private channel name and anyone subscribed to that

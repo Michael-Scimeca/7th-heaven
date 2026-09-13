@@ -8,6 +8,7 @@ import Logo from "@/components/Logo";
 import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
 import { waitForPageReady } from "@/lib/waitForPageReady";
 import { useTransition } from "@/context/TransitionContext";
+import { useMember } from "@/context/MemberContext";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(CustomEase);
@@ -74,7 +75,7 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   clipExitPath: true,
   clipRevealPath: true,
   revealX: 0,
-  revealY: 40,
+  revealY: 30,
   revealScale: 1.00,
   revealRotation: 0,
   revealOrigin: "center center",
@@ -84,7 +85,7 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   revealDurationOffset: 0.1,
   exitSpeed: 0.65,
   exitX: 0,
-  exitY: -40,
+  exitY: 0,
   exitScale: 1.0,
   exitRotation: 0,
   exitOrigin: "center center",
@@ -131,6 +132,77 @@ function shouldSkip(): boolean {
   );
 }
 
+async function waitForNewPageContent(container: HTMLElement | null): Promise<void> {
+  if (!container) return;
+
+  // 0. Poll for DOM content population (text / elements mounted inside new route, max 500ms)
+  const pollStart = performance.now();
+  while (performance.now() - pollStart < 500) {
+    const textLen = (container.textContent || "").trim().length;
+    const childCount = container.children.length;
+    if (textLen > 10 || childCount > 1 || container.querySelector("h1, h2, img, video, svg")) {
+      break;
+    }
+    await new Promise((r) => setTimeout(r, 20));
+  }
+
+  // 1. Wait for double RAF (React paint commit)
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => resolve());
+    });
+  });
+
+  // 2. Wait for hero/above-the-fold images in the new page container to complete loading (max 350ms)
+  const images = Array.from(container.querySelectorAll<HTMLImageElement>("img"));
+  if (images.length > 0) {
+    const uncompleted = images.filter((img) => !img.complete && img.src);
+    if (uncompleted.length > 0) {
+      await Promise.race([
+        Promise.all(
+          uncompleted.map(
+            (img) =>
+              new Promise<void>((resolve) => {
+                img.onload = () => resolve();
+                img.onerror = () => resolve();
+              })
+          )
+        ),
+        new Promise<void>((resolve) => setTimeout(resolve, 350)),
+      ]);
+    }
+  }
+
+  // 3. Wait for hero videos in the container to reach readyState >= 2 (max 300ms)
+  const videos = Array.from(container.querySelectorAll<HTMLVideoElement>("video"));
+  if (videos.length > 0) {
+    const unready = videos.filter((v) => v.readyState < 2);
+    if (unready.length > 0) {
+      await Promise.race([
+        Promise.all(
+          unready.map(
+            (v) =>
+              new Promise<void>((resolve) => {
+                const onReady = () => resolve();
+                v.addEventListener("loadeddata", onReady, { once: true });
+                v.addEventListener("canplay", onReady, { once: true });
+                v.addEventListener("error", onReady, { once: true });
+              })
+          )
+        ),
+        new Promise<void>((resolve) => setTimeout(resolve, 300)),
+      ]);
+    }
+  }
+
+  // 4. Final double RAF to guarantee hardware compositing stability
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => resolve());
+    });
+  });
+}
+
 function pathOf(href: string): string {
   if (href.startsWith("http://") || href.startsWith("https://")) {
     try {
@@ -174,6 +246,99 @@ function solveEase(name: string): (t: number) => number {
   return EASE_MAP[name] || EASE_MAP["expo.out"];
 }
 
+function CurtainGradientOverlay({ active }: { active: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (!active || !canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animId: number;
+    const startTime = performance.now();
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+
+    const render = (now: number) => {
+      const t = (now - startTime) / 1000;
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Deep Purple Base
+      ctx.fillStyle = "#0c0817";
+      ctx.fillRect(0, 0, w, h);
+
+      // Node 1: Electric Violet
+      const x1 = w * (0.35 + 0.25 * Math.sin(t * 1.8));
+      const y1 = h * (0.4 + 0.2 * Math.cos(t * 1.4));
+      const r1 = Math.max(w, h) * 0.6;
+      const g1 = ctx.createRadialGradient(x1, y1, 10, x1, y1, r1);
+      g1.addColorStop(0, "rgba(147, 51, 234, 0.85)");
+      g1.addColorStop(0.5, "rgba(133, 15, 183, 0.4)");
+      g1.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = g1;
+      ctx.beginPath();
+      ctx.arc(x1, y1, r1, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Node 2: Electric Crimson
+      const x2 = w * (0.65 + 0.2 * Math.cos(t * 1.6));
+      const y2 = h * (0.6 + 0.25 * Math.sin(t * 1.5));
+      const r2 = Math.max(w, h) * 0.55;
+      const g2 = ctx.createRadialGradient(x2, y2, 10, x2, y2, r2);
+      g2.addColorStop(0, "rgba(255, 10, 61, 0.75)");
+      g2.addColorStop(0.6, "rgba(164, 62, 23, 0.3)");
+      g2.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = g2;
+      ctx.beginPath();
+      ctx.arc(x2, y2, r2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Node 3: Neon Cyan
+      const x3 = w * (0.5 + 0.3 * Math.sin(t * 1.3 + 1));
+      const y3 = h * (0.3 + 0.3 * Math.cos(t * 1.7 + 2));
+      const r3 = Math.max(w, h) * 0.5;
+      const g3 = ctx.createRadialGradient(x3, y3, 10, x3, y3, r3);
+      g3.addColorStop(0, "rgba(6, 182, 212, 0.6)");
+      g3.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = g3;
+      ctx.beginPath();
+      ctx.arc(x3, y3, r3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // react-doctor-disable-next-line three-prefer-set-animation-loop
+      animId = requestAnimationFrame(render);
+    };
+
+    // react-doctor-disable-next-line three-prefer-set-animation-loop
+    animId = requestAnimationFrame(render);
+    window.addEventListener("resize", resize);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", resize);
+    };
+  }, [active]);
+
+  if (!active) return null;
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 w-full h-full pointer-events-none z-[850]"
+      style={{ opacity: 0.85 }}
+    />
+  );
+}
+
 export default function PageTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -198,11 +363,16 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("7h_page_transition_settings_v16");
+      const saved = localStorage.getItem("7h_page_transition_settings_v23");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
           const merged = { ...DEFAULT_SETTINGS, ...parsed };
+          if (merged.syncPaths) {
+            merged.revealEase = merged.exitEase;
+            merged.revealSlantRatio = merged.exitSlantRatio;
+            merged.revealFlipSlant = merged.exitFlipSlant;
+          }
           setSettings(merged);
           settingsRef.current = merged;
         }
@@ -232,7 +402,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v16", JSON.stringify(next));
+      localStorage.setItem("7h_page_transition_settings_v18", JSON.stringify(next));
     } catch { }
   };
 
@@ -240,7 +410,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(DEFAULT_SETTINGS);
     settingsRef.current = DEFAULT_SETTINGS;
     try {
-      localStorage.setItem("7h_page_transition_settings_v16", JSON.stringify(DEFAULT_SETTINGS));
+      localStorage.setItem("7h_page_transition_settings_v18", JSON.stringify(DEFAULT_SETTINGS));
     } catch { }
   };
 
@@ -270,9 +440,14 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     }, 20);
   };
 
-  // Pure Vanilla JS requestAnimationFrame Animation Engine
+  const navPushedRef = useRef<string | null>(null);
+
+  // 1. When mode === "covering", snapshot old page and trigger router.push
   useEffect(() => {
     if (mode !== "covering" || !pendingHref) return;
+
+    if (navPushedRef.current === pendingHref) return;
+    navPushedRef.current = pendingHref;
 
     document.documentElement.classList.add("is-page-transitioning");
 
@@ -299,10 +474,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     document.querySelectorAll(".exoape-snapshot-outer").forEach((node) => node.remove());
 
-    const initialScrollY = typeof window !== "undefined" ? window.scrollY : 0;
     const s = settingsRef.current;
-    const durationMs = s.exitSpeed * s.speedMult * 1000;
-    const easeFn = solveEase(s.exitEase);
 
     const snapshotOuter = document.createElement("div");
     snapshotOuter.className = "exoape-snapshot-outer";
@@ -311,7 +483,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       inset: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 900;
+      z-index: 1;
       pointer-events: none;
       overflow: hidden;
       background-color: ${CURTAIN_BG};
@@ -340,19 +512,20 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       const clone = contentRef.current.cloneNode(true) as HTMLElement;
       clone.style.transform = "none";
       clone.querySelectorAll("iframe").forEach((iframe) => iframe.remove());
-      clone.querySelectorAll("video").forEach((v) => {
-        const poster = v.getAttribute("poster");
-        if (poster) {
-          const img = document.createElement("img");
-          img.src = poster;
-          img.className = v.className;
-          img.style.cssText = v.style.cssText;
-          v.replaceWith(img);
-        } else {
+      const origVideos = Array.from(contentRef.current.querySelectorAll("video"));
+      clone.querySelectorAll("video").forEach((v, idx) => {
+        const orig = origVideos[idx];
+        if (orig) {
           try {
-            v.pause();
+            v.currentTime = orig.currentTime;
+            v.muted = true;
+            v.autoplay = true;
+            v.playsInline = true;
+            v.setAttribute("autoplay", "");
+            v.setAttribute("muted", "");
+            v.setAttribute("playsinline", "");
+            v.play().catch(() => { });
           } catch { }
-          v.remove();
         }
       });
       snapshotInner.appendChild(clone);
@@ -361,33 +534,19 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     snapshotOuter.appendChild(snapshotOverlay);
     document.body.appendChild(snapshotOuter);
 
-    const vh = typeof window !== "undefined" ? window.innerHeight : 800;
-
-    // Pre-apply clip-path and initial transforms synchronously BEFORE router.push
-    // to prevent 1-frame unclipped render flicker
-    const initialExitClip = s.clipExitPath
-      ? buildExitClipPath(0, s.exitSlantRatio, s.exitFlipSlant, vh)
-      : "none";
-    snapshotOuter.style.clipPath = initialExitClip;
-    (snapshotOuter.style as any).webkitClipPath = initialExitClip;
+    // Pre-apply clip-path synchronously BEFORE router.push
+    snapshotOuter.style.clipPath = "none";
+    (snapshotOuter.style as any).webkitClipPath = "none";
 
     if (outerRef.current) {
       outerRef.current.style.willChange = "clip-path";
+      outerRef.current.style.position = "relative";
+      outerRef.current.style.zIndex = "900";
       const initialRevealClip = s.clipRevealPath
-        ? buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant, vh)
+        ? buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant)
         : "none";
       outerRef.current.style.clipPath = initialRevealClip;
       (outerRef.current.style as any).webkitClipPath = initialRevealClip;
-    }
-
-    if (contentRef.current) {
-      contentRef.current.style.willChange = "transform";
-      contentRef.current.style.transformOrigin = s.revealOrigin || "center center";
-      const curY = s.revealY ?? 100;
-      const curRot = s.revealRotation ?? 4;
-      const curX = s.revealX || 0;
-      const curScale = s.revealScale || 1.0;
-      contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
     }
 
     // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
@@ -395,130 +554,133 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (typeof window !== "undefined") {
       requestAnimationFrame(() => window.scrollTo(0, 0));
     }
+  }, [mode, pendingHref, router, clearPendingHref, setMode]);
 
+  // 2. Start the synchronized wipe animation ONLY when the new page is ready (or after short fallback)
+  useEffect(() => {
+    if (mode !== "covering" || !pendingHref) return;
+
+    const targetPath = pathOf(pendingHref);
+    const isNewPageLoaded = pathname === targetPath || pathOf(pathname) === targetPath;
+
+    let animStarted = false;
     let animId = 0;
-    const startTime = performance.now();
+    let fallbackTimer: ReturnType<typeof setTimeout>;
 
-    const tick = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(1, Math.max(0, elapsed / durationMs));
-      const p = easeFn(progress);
+    const startAnimation = () => {
+      if (animStarted) return;
+      animStarted = true;
 
-      const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+      const snapshotOuter = document.querySelector(".exoape-snapshot-outer") as HTMLElement | null;
+      const snapshotInner = snapshotOuter?.querySelector(".exoape-snapshot-inner") as HTMLElement | null;
+      const snapshotOverlay = snapshotOuter?.querySelector(".exoape-snapshot-overlay") as HTMLElement | null;
 
-      // 1. Snapshot outer clip path & inner transform
-      if (snapshotOuter) {
-        const exitClip = s.clipExitPath
-          ? buildExitClipPath(p, s.exitSlantRatio, s.exitFlipSlant, vh)
-          : "none";
-        snapshotOuter.style.clipPath = exitClip;
-        (snapshotOuter.style as any).webkitClipPath = exitClip;
-      }
+      const s = settingsRef.current;
+      const durationMs = s.exitSpeed * s.speedMult * 1000;
+      const easeFn = solveEase(s.exitEase);
+      const initialScrollY = typeof window !== "undefined" ? window.scrollY : 0;
+      const startTime = performance.now();
 
-      if (snapshotInner) {
-        const curX = (s.exitX || 0) * p;
-        const curY = -initialScrollY + (s.exitY || 0) * p;
-        const curScale = 1 + ((s.exitScale || 1.1) - 1) * p;
-        const curRot = (s.exitRotation || 0) * p;
-        const curOpacity = 1 - p;
+      const tick = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, Math.max(0, elapsed / durationMs));
+        const p = easeFn(progress);
 
-        snapshotInner.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
-        snapshotInner.style.opacity = curOpacity.toFixed(3);
-      }
-
-      if (snapshotOverlay) {
-        snapshotOverlay.style.opacity = (0.3 * p).toFixed(3);
-      }
-
-      // 2. Incoming page clip path
-      if (outerRef.current) {
-        const revealClip = s.clipRevealPath
-          ? buildRevealClipPath(p, s.revealSlantRatio, s.revealFlipSlant, vh)
-          : "none";
-        outerRef.current.style.clipPath = revealClip;
-        (outerRef.current.style as any).webkitClipPath = revealClip;
-      }
-
-      // 3. Incoming page contentRef transform (y: 100 -> 0, rotation: 4 -> 0)
-      if (contentRef.current) {
-        const remP = 1 - p;
-        const curY = (s.revealY ?? 100) * remP;
-        const curRot = (s.revealRotation ?? 4) * remP;
-        const curX = (s.revealX || 0) * remP;
-        const curScale = 1 + ((s.revealScale || 1.0) - 1) * remP;
-
-        contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
-        contentRef.current.style.opacity = "1";
-      }
-
-      if (progress < 1) {
-        animId = requestAnimationFrame(tick);
-      } else {
-        // Completion: Direct Teardown (0 flicker, 0 GSAP layer collapse)
-        if (snapshotOuter && snapshotOuter.parentNode) {
-          snapshotOuter.parentNode.removeChild(snapshotOuter);
+        if (snapshotOuter) {
+          const exitClip = s.clipExitPath
+            ? buildExitClipPath(p, s.exitSlantRatio, s.exitFlipSlant)
+            : "none";
+          snapshotOuter.style.clipPath = exitClip;
+          (snapshotOuter.style as any).webkitClipPath = exitClip;
         }
-        document.documentElement.classList.remove("is-page-transitioning");
+
+        if (snapshotInner) {
+          const curX = (s.exitX || 0) * p;
+          const curY = -initialScrollY + (s.exitY || 0) * p;
+          const curScale = 1 + ((s.exitScale || 1.1) - 1) * p;
+          const curRot = (s.exitRotation || 0) * p;
+          const curOpacity = 1 - p;
+
+          snapshotInner.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
+          snapshotInner.style.opacity = curOpacity.toFixed(3);
+        }
+
+        if (snapshotOverlay) {
+          snapshotOverlay.style.opacity = (0.3 * p).toFixed(3);
+        }
 
         if (outerRef.current) {
-          outerRef.current.style.clipPath = "";
-          (outerRef.current.style as any).webkitClipPath = "";
-          outerRef.current.style.willChange = "";
+          const revealClip = s.clipRevealPath
+            ? buildRevealClipPath(p, s.revealSlantRatio, s.revealFlipSlant)
+            : "none";
+          outerRef.current.style.clipPath = revealClip;
+          (outerRef.current.style as any).webkitClipPath = revealClip;
         }
+
         if (contentRef.current) {
-          contentRef.current.style.transform = "";
-          contentRef.current.style.opacity = "";
-          contentRef.current.style.willChange = "";
-          contentRef.current.style.transformOrigin = "";
+          const remP = 1 - p;
+          const curY = (s.revealY ?? 100) * remP;
+          const curRot = (s.revealRotation ?? 4) * remP;
+          const curX = (s.revealX || 0) * remP;
+          const curScale = 1 + ((s.revealScale || 1.0) - 1) * remP;
+
+          contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
+          contentRef.current.style.opacity = "1";
         }
 
-        if (typeof window !== "undefined" && (window as any).__lenis) {
-          try {
-            (window as any).__lenis.start();
-            (window as any).__lenis.resize();
-          } catch { }
-        }
+        if (progress < 1) {
+          animId = requestAnimationFrame(tick);
+        } else {
+          if (snapshotOuter && snapshotOuter.parentNode) {
+            snapshotOuter.parentNode.removeChild(snapshotOuter);
+          }
+          document.documentElement.classList.remove("is-page-transitioning");
 
-        revealStartedForRef.current = null;
-        clearPendingHref();
-        setMode("idle");
-      }
+          requestAnimationFrame(() => {
+            if (outerRef.current) {
+              outerRef.current.style.clipPath = "";
+              (outerRef.current.style as any).webkitClipPath = "";
+              outerRef.current.style.willChange = "";
+              outerRef.current.style.zIndex = "";
+            }
+            if (contentRef.current) {
+              contentRef.current.style.transform = "";
+              contentRef.current.style.opacity = "";
+              contentRef.current.style.willChange = "";
+              contentRef.current.style.transformOrigin = "";
+            }
+          });
+
+          if (typeof window !== "undefined" && (window as any).__lenis) {
+            try {
+              (window as any).__lenis.start();
+              (window as any).__lenis.resize();
+            } catch { }
+          }
+
+          navPushedRef.current = null;
+          revealStartedForRef.current = null;
+          clearPendingHref();
+          setMode("idle");
+        }
+      };
+
+      animId = requestAnimationFrame(tick);
     };
 
-    animId = requestAnimationFrame(tick);
-
-    const sWatchdog = settingsRef.current;
-    const watchdogMs = Math.max(FAILSAFE_MS, (sWatchdog.exitSpeed + (sWatchdog.exitSpeed + 0.25)) * sWatchdog.speedMult * 1000 + 5000);
-    const watchdogId = setTimeout(() => {
-      cancelAnimationFrame(animId);
-      document.querySelectorAll(".exoape-snapshot-outer").forEach((node) => node.remove());
-      document.documentElement.classList.remove("is-page-transitioning");
-      if (outerRef.current) {
-        outerRef.current.style.clipPath = "";
-        (outerRef.current.style as any).webkitClipPath = "";
-        outerRef.current.style.willChange = "";
-      }
-      if (contentRef.current) {
-        contentRef.current.style.transform = "";
-        contentRef.current.style.opacity = "";
-        contentRef.current.style.willChange = "";
-      }
-      if (typeof window !== "undefined" && (window as any).__lenis) {
-        try {
-          (window as any).__lenis.start();
-          (window as any).__lenis.resize();
-        } catch { }
-      }
-      revealStartedForRef.current = null;
-      clearPendingHref();
-      setMode("idle");
-    }, watchdogMs);
+    if (isNewPageLoaded) {
+      waitForNewPageContent(contentRef.current).then(startAnimation);
+    } else {
+      fallbackTimer = setTimeout(() => {
+        waitForNewPageContent(contentRef.current).then(startAnimation);
+      }, 2500);
+    }
 
     return () => {
+      clearTimeout(fallbackTimer);
       cancelAnimationFrame(animId);
-      clearTimeout(watchdogId);
     };
-  }, [mode, pendingHref, router, clearPendingHref, setMode]);
+  }, [mode, pendingHref, pathname, clearPendingHref, setMode]);
 
 
 
@@ -659,6 +821,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           position: "relative",
           width: "100%",
           minHeight: "100vh",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
         }}>
         <div
           ref={contentRef}
@@ -667,6 +831,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             width: "100%",
             minHeight: "100vh",
             transformOrigin: "center center",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
           }}>
           {children}
         </div>
@@ -713,21 +879,29 @@ function TransitionTunerPanel({
   handleSpeedPreset,
   triggerReplay,
 }: TransitionTunerPanelProps) {
+  const pathname = usePathname();
+  const { member } = useMember();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const search = window.location.search;
-      if (search.includes("tuner=false")) return;
-      if (
-        search.includes("tuner") ||
-        window.location.hostname === "localhost" ||
-        process.env.NODE_ENV === "development"
-      ) {
+      if (search.includes("tuner=false")) {
+        setIsVisible(false);
+        return;
+      }
+      const isRoleAdmin = member?.role === "admin";
+      const isPathAdmin = pathname?.startsWith("/admin");
+      const isCookieAdmin = document.cookie.includes("admin_authenticated=true");
+      const isQueryAdmin = search.includes("tuner=true") || search.includes("admin=true");
+
+      if (isRoleAdmin || isPathAdmin || isCookieAdmin || isQueryAdmin) {
         setIsVisible(true);
+      } else {
+        setIsVisible(false);
       }
     }
-  }, []);
+  }, [member, pathname]);
 
   if (!isVisible) return null;
 
@@ -743,6 +917,17 @@ function TransitionTunerPanel({
           Transition Tuner UI
         </div>
         <div className="flex items-center gap-1">
+          <button
+            onClick={() => {
+              if (typeof navigator !== "undefined" && navigator.clipboard) {
+                navigator.clipboard.writeText(JSON.stringify(settings, null, 2));
+                alert("Transition settings copied to clipboard! Share this JSON with me to save permanently in code.");
+              }
+            }}
+            title="Copy current settings JSON to clipboard"
+            className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded border border-purple-500/40 text-purple-300 hover:text-white hover:border-purple-400 transition bg-purple-950/40">
+            Copy JSON
+          </button>
           <button
             onClick={resetDefaults}
             title="Reset all settings to default"
@@ -835,7 +1020,7 @@ function TransitionTunerPanel({
 
             <button
               onClick={triggerReplay}
-              className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[11px] uppercase r    transition active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer">
+              className="w-full    py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[11px] uppercase r    transition active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer">
               <span>🎬 Replay Transition ({settings.speedMult}x)</span>
             </button>
           </div>

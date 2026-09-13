@@ -121,7 +121,7 @@ export default function EmailPreviewPage() {
                   placeholder="test@example.com"
                   value={testEmail}
                   onChange={(e) => setTestEmail(e.target.value)}
-                  className="bg-transparent text-white placeholder:text-white/20 outline-none w-[180px]"
+                  className="   text-white placeholder:text-white/20 outline-none w-[180px]"
                 />
                 <button aria-label="Action button"
                   onClick={handleSendTest}

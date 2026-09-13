@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { SectionBadge } from "@/components/SectionBadge";
 import LazyMount from "@/components/LazyMount";
+import CheckMarkIcon from "@/components/CheckMarkIcon";
 import { PORTS_DATA } from "../cruiseData";
 
 interface CruisePortsCatalogSectionProps {
@@ -126,7 +127,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                       <SectionBadge label={`PORT CALL #${activeSpotlightPort + 1}`} isActive className="bg-black/90 backdrop-blur-md border-white/20 text-white shadow-lg" />
                     </div>
                   </div>
-                  <div className="p-8 relative z-20 -mt-16">
+                  <div className="p-8 relative z-20 -  6">
                     <h3 className="uppercase text-white mb-3">
                       {PORTS_DATA[activeSpotlightPort].name}
                     </h3>
@@ -138,8 +139,9 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                     {PORTS_DATA[activeSpotlightPort].highlights && (
                       <div className="flex flex-wrap gap-2 mb-6">
                         {PORTS_DATA[activeSpotlightPort].highlights.map(h => (
-                          <span key={h} className="uppercase text-purple-300 bg-purple-900/60 px-3 py-1 rounded-lg border border-purple-500/40">
-                            ✓ {h}
+                          <span key={h} className="uppercase text-purple-300 bg-purple-900/60 px-3 py-1 rounded-lg border border-purple-500/40 inline-flex items-center gap-1.5">
+                            <CheckMarkIcon className="w-3.5 h-3.5 shrink-0" />
+                            <span>{h}</span>
                           </span>
                         ))}
                       </div>

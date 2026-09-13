@@ -67,7 +67,7 @@ function NorthResultContent() {
   const succeeded = result?.authResp === "00";
 
   return (
-    <div className="min-h-screen bg-transparent text-white pt-32 pb-24 flex items-center justify-center px-6">
+    <div className="min-h-screen    text-white pt-32 pb-24 flex items-center justify-center px-6">
       <div className="max-w-md w-full">
         <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           {loading && <p>Loading payment result…</p>}

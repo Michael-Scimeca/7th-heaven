@@ -423,9 +423,10 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
     } catch { }
   };
 
-  // Canvas height: last node Y + card height (450px) so card bottom sits flush at container padding boundary
-  const lastNodeY = (itinerary.length - 1) * STEP_H + 90;
-  const totalH = lastNodeY + 450;
+  // Canvas height: scaled for mobile vs desktop so card bottom sits flush without massive trailing gaps
+  const stepH = isMobile ? 340 : 460;
+  const lastNodeY = (itinerary.length - 1) * stepH + 90;
+  const totalH = lastNodeY + (isMobile ? 140 : 450);
 
   /* ── Node positions dynamically computed based on layoutMode ── */
   const nodes = itinerary.map((_, i) => {
@@ -439,7 +440,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
     }
     return {
       x,
-      y: i * STEP_H + 90,
+      y: i * stepH + 90,
       isLeft: layoutMode === 'harbor' ? false : layoutMode === 'center' ? i % 2 === 0 : i % 2 === 0,
     };
   });

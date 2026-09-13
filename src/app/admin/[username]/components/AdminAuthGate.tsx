@@ -84,13 +84,13 @@ export function AdminAuthGate({
           <button
             type="button"
             onClick={() => router.push('/')}
-            className="hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 text-white/40">
+            className="hover:text-white transition-colors cursor-pointer    border-none p-0 text-white/40">
             ← Back to Home
           </button>
           <button
             type="button"
             onClick={() => openModal('login')}
-            className="hover:text-purple-300 transition-colors cursor-pointer bg-transparent border-none p-0 text-purple-400">
+            className="hover:text-purple-300 transition-colors cursor-pointer    border-none p-0 text-purple-400">
             Switch Account
           </button>
         </div>

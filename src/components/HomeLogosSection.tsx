@@ -40,7 +40,7 @@ export default function HomeLogosSection({ sanityContent }: { sanityContent?: an
   }, [sanityContent?.pressLogos]);
 
   return (
-    <div className="px-4 flex flex-col items-center text-center mb-12">
+    <section id="logos" className="relative w-full py-section-fluid px-4 flex flex-col items-center text-center">
       <div className="inline-flex items-center gap-2 bg-[#00000029] border border-white/10 px-4 py-1.5 rounded-xl mb-2.5">
         <span className="font-black text-white/95">
           {sanityContent?.logosBadge || "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
@@ -54,6 +54,6 @@ export default function HomeLogosSection({ sanityContent }: { sanityContent?: an
         <LogoTicker items={artistItems} direction="left" />
         <LogoTicker items={pressItems} direction="right" />
       </div>
-    </div>
+    </section>
   );
 }

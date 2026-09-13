@@ -131,7 +131,7 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
                   weight: 2,
                 }}>
                 <Tooltip direction="top" offset={[0, -10]} opacity={1} className="custom-tooltip">
-                  <div className="font-sans">
+                  <div className="  ">
                     <p className="uppercase text-black m-0">{loc.city}</p>
                     <p className="text-black/70 m-0">{loc.percentage}% of Traffic</p>
                   </div>

@@ -35,7 +35,7 @@ export function CruiseLivePreview({
           </div>
         </div>
         <div
-          className="prose prose-invert max-w-none text-white/90 font-sans"
+          className="prose prose-invert max-w-none text-white/90   "
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(cleanedContent || '<p class="">Start typing above to see live preview...</p>') }}
         />
       </div>
@@ -43,7 +43,7 @@ export function CruiseLivePreview({
   }
 
   return (
-    <div className="bg-[#0f0a1c] text-white rounded-lg overflow-hidden   border border-white/10 font-sans min-h-[300px]">
+    <div className="bg-[#0f0a1c] text-white rounded-lg overflow-hidden   border border-white/10    min-h-[300px]">
       <div className="bg-[#180e2b] text-white px-4 py-2.5 flex items-center justify-between border-b border-white/10">
         <span className="text-[11px] uppercase text-purple-300">📧 Email Dispatch Mockup</span>
         <span className="text-[10px] text-white/50">To: All Cruise Guests</span>

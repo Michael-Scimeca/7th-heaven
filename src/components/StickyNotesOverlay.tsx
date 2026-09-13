@@ -17,6 +17,7 @@ import {
   CornerDownRight,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useMember } from "@/context/MemberContext";
 
 export interface ClientNoteItem {
   id: string;
@@ -37,6 +38,8 @@ export interface ClientNoteItem {
 
 export default function StickyNotesOverlay() {
   const pathname = usePathname();
+  const { member } = useMember();
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [notes, setNotes] = useState<ClientNoteItem[]>([]);
   const [visible, setVisible] = useState<boolean>(true);
   const [hiddenNoteIds, setHiddenNoteIds] = useState<string[]>([]);
@@ -44,6 +47,14 @@ export default function StickyNotesOverlay() {
   const [isWidgetHidden, setIsWidgetHidden] = useState<boolean>(false);
   const [activeFilter, setActiveFilter] = useState<"all" | "open" | "resolved">("open");
   const [highlightedNoteId, setHighlightedNoteId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const isRoleAdmin = member?.role === "admin";
+    const isPathAdmin = pathname?.startsWith("/admin");
+    const isCookieAdmin = typeof document !== "undefined" && document.cookie.includes("admin_authenticated=true");
+    const isQueryAdmin = typeof window !== "undefined" && window.location.search.includes("admin=true");
+    setIsAdmin(Boolean(isRoleAdmin || isPathAdmin || isCookieAdmin || isQueryAdmin));
+  }, [member, pathname]);
 
   // Load saved visibility preferences post-hydration (React Doctor safe)
   useEffect(() => {
@@ -208,6 +219,8 @@ export default function StickyNotesOverlay() {
     setTimeout(() => setHighlightedNoteId(null), 3000);
   };
 
+  if (!isAdmin) return null;
+
   return (
     <div id="sticky-notes-root" className="relative">
       {/* Render Active Sticky Note Cards (Strictly filtered by current page_path & hidden state) */}
@@ -332,7 +345,7 @@ export default function StickyNotesOverlay() {
                       <span className="text-[10px] text-white/40">{n.created_at ? n.created_at.substring(11, 16) : ""}</span>
                     </div>
 
-                    <p className="font-sans">{n.note_text || "(No text written yet)"}</p>
+                    <p className="  ">{n.note_text || "(No text written yet)"}</p>
 
                     <div className="flex items-center justify-between pt-2 border-t border-white/5">
                       <div className="flex items-center gap-3">
@@ -574,7 +587,7 @@ function SingleStickyCard({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Type your sticky note message or feedback here..."
-          className="w-full bg-[#00000029] border border-white/10 rounded-lg p-2.5 text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors resize-none font-sans"
+          className="w-full bg-[#00000029] border border-white/10 rounded-lg p-2.5 text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors resize-none   "
         />
 
         <div className="flex items-center justify-between pt-1">

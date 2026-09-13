@@ -605,9 +605,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         : false;
 
       const isBouncing = isHappening || isNext;
-      const isMobilePin = typeof window !== "undefined" && window.innerWidth < 768;
-      const w = isMobilePin ? (isBouncing ? 26 : 18) : (isBouncing ? 42 : 30);
-      const h = isMobilePin ? (isBouncing ? 34 : 24) : (isBouncing ? 54 : 39);
+      const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
+      const isMobilePin = screenW < 640;
+      const isTabletPin = screenW >= 640 && screenW < 1024;
+      const w = isMobilePin ? (isBouncing ? 22 : 16) : isTabletPin ? (isBouncing ? 28 : 20) : (isBouncing ? 42 : 30);
+      const h = isMobilePin ? (isBouncing ? 29 : 21) : isTabletPin ? (isBouncing ? 36 : 26) : (isBouncing ? 54 : 39);
 
       const firstShow = v.shows[0];
       const hasExplicitMap = Boolean(firstShow?.mapUrl || (firstShow as Record<string, any>)?.directionsLink);
@@ -1054,7 +1056,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setDateRange(null)}
-                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-[10px] uppercase transition-colors rounded-lg    shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1">
+                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-[10px] uppercase transition-colors rounded-lg    shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5   ">
                       <span>✕ Remove Date Filter</span>
                     </button>
                   ) : (
@@ -1198,7 +1200,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           background: rgba(8, 8, 18, 0.85);
           color: rgba(255, 255, 255, 0.9);
           font-size: 10px;
-        font-weight: 700; 
+          font-weight: 700; 
           text-transform: uppercase;
           letter-spacing: 0.5px;
           padding: 3px 7px;
@@ -1211,6 +1213,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           opacity: 1;
           visibility: visible;
           transition: none !important;
+        }
+        @media (max-width: 1024px) {
+          .marker-label {
+            font-size: 8.5px !important;
+            padding: 2px 5px !important;
+            letter-spacing: 0.2px !important;
+          }
         }
         .custom-venue-marker:hover .marker-label,
         .next-show-bounce .marker-label,

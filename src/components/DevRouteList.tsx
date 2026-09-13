@@ -52,7 +52,7 @@ const ALL_ROUTES: RouteItem[] = [
   { path: "/fans", type: "Static", label: "Fan Club Hub", category: "Fan Portal", icon: UserCheck },
   { path: "/fans/complete-profile", type: "Static", label: "Complete Fan Profile", category: "Fan Portal", icon: UserCheck },
   { path: "/fans/sample_fan", type: "Dynamic", label: "Fan Member Profile", category: "Fan Portal", icon: UserCheck },
-  { path: "/fan-photo-wall", type: "Static", label: "Fan Photo Wall", category: "Fan Portal", icon: UserCheck },
+  { path: "/fan-media-wall", type: "Static", label: "Fan Media Wall", category: "Fan Portal", icon: UserCheck },
   { path: "/planner", type: "Static", label: "Show Planner Portal", category: "Fan Portal", icon: UserCheck },
   { path: "/planner/verify", type: "Static", label: "Planner Verification", category: "Fan Portal", icon: UserCheck },
 
@@ -126,7 +126,7 @@ export default function DevRouteList() {
   });
 
   return (
-    <section className="w-full mt-16 mb-12 px-4 md:px-8 font-sans">
+    <section className="w-full   6 mb-12 px-4 md:px-8   ">
       <div className="max-w-7xl mx-auto rounded-lg bg-[rgba(15,15,22,0.85)] border border-white/20backdrop-blur-[18px] p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
 
         {/* Top Header Bar */}
@@ -228,7 +228,7 @@ export default function DevRouteList() {
                       <h4 className="text-white group-hover:text-purple-200 transition-colors line-clamp-1">
                         {item.label}
                       </h4>
-                      <p className="mt-1 truncate">
+                      <p className="   truncate">
                         {item.path}
                       </p>
                     </div>

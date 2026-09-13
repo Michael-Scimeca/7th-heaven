@@ -886,7 +886,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
 
           {/* Step 1: Event Schedule & Format */}
-          <div className="bg-transparent border-0 p-0 shadow-none relative">
+          <div className="   border-0 p-0 shadow-none relative">
 
             <h1 className="mb-4">
               Event Schedule & Format
@@ -913,7 +913,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               />
 
               {/* Alternate Dates */}
-              <div className="mt-6 p-0 bg-transparent border-0">
+              <div className="mt-6 p-0    border-0">
                 <div className="flex items-center gap-3 mb-4">
                   <CalendarIcon className="w-5 h-5 text-[#c27aff] shrink-0" />
                   <div>
@@ -964,7 +964,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                   <div>
                     <h4 className="uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
-                    <p className="mt-1 uppercase">Configure individual times and formats for each show below</p>
+                    <p className="   uppercase">Configure individual times and formats for each show below</p>
                   </div>
                   <span className="uppercase bg-cyan-500/20 px-3 py-1 rounded-lg border border-cyan-400/30">
                     {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
@@ -1035,7 +1035,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className="w-full mt-1.5 bg-[#00000029] backdrop-blur-[45px] border border-cyan-400/40 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                className="w-full   .5 bg-[#00000029] backdrop-blur-[45px] border border-cyan-400/40 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                               />
                             )}
                           </div>
@@ -1093,7 +1093,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg    uppercase transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white ' : 'text-white/40 hover:text-white/70 bg-transparent'}`}>
+                                className={`py-2 rounded-lg    uppercase transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white ' : 'text-white/40 hover:text-white/70   '}`}>
                                 Share Main Info
                               </button>
                               <button aria-label="Action button"
@@ -1111,7 +1111,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className={`py-2 rounded-lg    uppercase transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white ' : 'text-white/40 hover:text-white/70 bg-transparent'}`}>
+                                className={`py-2 rounded-lg    uppercase transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white ' : 'text-white/40 hover:text-white/70   '}`}>
                                 Use Separate Info
                               </button>
                             </div>
@@ -1291,7 +1291,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           </div>
 
           {/* Step 2: Contact Information */}
-          <div className="bg-transparent border-0 p-0 shadow-none relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both]">
+          <div className="   border-0 p-0 shadow-none relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both]">
             <h2 className="uppercase text-purple-400 mb-6 flex items-center gap-3">
               {sanityContent?.sections?.find((s: any) => s.sectionId === "contact")?.title || "Contact Information"}
             </h2>
@@ -1304,7 +1304,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           </div>
 
           {/* Step 3: Venue Details & Event Schedule */}
-          <div className="bg-transparent border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both] space-y-6">
+          <div className="   border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both] space-y-6">
             <h2 className="uppercase mb-6 flex items-center gap-3">
               <MapPin className="w-5 h-5 text-[#c27aff]" /> Venue & Event Logistics
             </h2>
@@ -1355,7 +1355,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   />
                 </div>
               </div>
-              <p className="text-purple-300/80 flex items-center gap-1 mt-1.5 justify-end">
+              <p className="text-purple-300/80 flex items-center gap-1   .5 justify-end">
                 Band load-in is usually ~2 hours before band start time.
               </p>
 
@@ -1513,7 +1513,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             <div className="flex flex-col gap-8">
 
               {/* Step 4: Technical & Logistics */}
-              <div className="bg-transparent border-0 pt-10 shadow-none relative">
+              <div className="   border-0 pt-10 shadow-none relative">
                 <h2 className="uppercase text-purple-400 mb-6 flex items-center gap-3">
                   {sanityContent?.sections?.find((s: any) => s.sectionId === "logistics")?.title || "Technical & Logistics"}
                 </h2>
@@ -1538,7 +1538,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               </div>
 
               {/* Step 5: Additional Options */}
-              <div className="bg-transparent border-0 p-0 shadow-none relative">
+              <div className="   border-0 p-0 shadow-none relative">
                 <h2 className="uppercase text-purple-400 mb-2 flex items-center gap-3">
                   {sanityContent?.sections?.find((s: any) => s.sectionId === "extras")?.title || "Production & Extras"}
                 </h2>
@@ -1585,7 +1585,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               </div>
 
               {/* Step 6: Notes & Questions */}
-              <div className="bg-transparent border-0 p-0 shadow-none relative">
+              <div className="   border-0 p-0 shadow-none relative">
                 <h2 className="uppercase text-purple-400 mb-2 flex items-center gap-3">
                   {sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.title || "Notes & Questions"}
                 </h2>
@@ -1618,12 +1618,12 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             {/* Right Column: Sticky Summary Sidebar */}
             <div>
               <div className="sticky top-32">
-                <div className="bg-transparent border-0 p-0 shadow-none">
+                <div className="   border-0 p-0 shadow-none">
                   <h3 className="uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
                   <div className="flex flex-col gap-4 mb-8">
                     <div className="flex justify-between items-start">
-                      <span className="text-lg text-white/50 uppercase mt-1">Date</span>
+                      <span className="text-lg text-white/50 uppercase   ">Date</span>
                       <span className="text-base text-white text-right">
                         {bookingSlots.length === 1 ? (
                           new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
@@ -1635,7 +1635,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       </span>
                     </div>
                     <div className="flex justify-between items-start">
-                      <span className="text-lg text-white/50 uppercase mt-1">Time</span>
+                      <span className="text-lg text-white/50 uppercase   ">Time</span>
                       <span className="text-base text-white text-right">
                         {bookingSlots.length === 1 ? (
                           `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
@@ -1647,13 +1647,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       </span>
                     </div>
                     <div className="flex justify-between items-start">
-                      <span className="text-lg text-white/50 uppercase mt-1">Format</span>
+                      <span className="text-lg text-white/50 uppercase   ">Format</span>
                       <span className="text-base text-right">
                         {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="/30">—</span>}
                       </span>
                     </div>
                     <div className="flex justify-between items-start pt-4 border-t border-white/10">
-                      <span className="text-lg text-white/50 uppercase mt-1">Venue</span>
+                      <span className="text-lg text-white/50 uppercase   ">Venue</span>
                       <span className="text-base text-white text-right break-words max-w-[150px]">
                         {formData.venueName ? formData.venueName : <span className="text-white/30">—</span>}
                         {formData.venueCity && <span className="block text-base text-white/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
@@ -1661,10 +1661,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     </div>
                     {addOns.length > 0 && (
                       <div className="flex justify-between items-start pt-4 border-t border-white/10">
-                        <span className="text-lg text-white/50 uppercase mt-1">Add-Ons</span>
+                        <span className="text-lg text-white/50 uppercase   ">Add-Ons</span>
                         <div className="text-right">
                           <span className="text-base">{addOns.length} selected</span>
-                          <div className="flex flex-wrap gap-1 mt-1 justify-end max-w-[160px]">
+                          <div className="flex flex-wrap gap-1    justify-end max-w-[160px]">
                             {addOns.slice(0, 3).map(id => (
                               <span key={id} className="text-lg bg-cyan-500/20 px-1.5 py-0.5 rounded">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
                             ))}

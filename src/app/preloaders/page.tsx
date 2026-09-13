@@ -471,7 +471,7 @@ export default function PreloadersTestPage() {
           page navigation; the other two are the effects pulled from the Stratal Scenography reference video.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
+        <div className="  2 grid grid-cols-1 gap-10 lg:grid-cols-2">
           <CurtainWipeDemo />
           <FadeThenRiseDemo />
         </div>

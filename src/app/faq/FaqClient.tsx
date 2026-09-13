@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
 import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 interface FAQItem {
@@ -169,7 +170,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
   return (
     <section className="site-container min-h-screen pt-[100px] relative overflow-hidden">
       {/* Page Header */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-6 md:mb-12">
         <h1 className="mb-4">
           {sanityContent?.heroHeading || sanityContent?.title || "FREQUENTLY ASKED QUESTIONS"}
         </h1>
@@ -179,7 +180,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
       </div>
 
       {/* Search Bar */}
-      <div className="mb-10 max-w-[500px] mx-auto flex justify-center">
+      <div className="mb-5 md:mb-10 max-w-[500px] mx-auto flex justify-center">
         <SearchInput
           value={searchQuery}
           onChange={setSearchQuery}
@@ -189,7 +190,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
       </div>
 
       {/* Category Navigation Tabs */}
-      <div className="flex flex-wrap justify-center gap-2 mb-10">
+      <div className="flex flex-wrap justify-center gap-2 mb-4 md:mb-10">
         {CATEGORIES.map(cat => {
           const Icon = cat.icon;
           const isActive = activeTab === cat.id;
@@ -217,7 +218,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             return (
               <div
                 key={faq.id}
-                className="bg-transparent overflow-hidden transition-colors duration-300 border-b border-white/10"
+                className="   overflow-hidden transition-colors duration-300 border-b border-white/10"
                 style={{
                   borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
                 }}>
@@ -238,7 +239,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                   className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                     }`}>
                   <div className="overflow-hidden">
-                    <div className="pb-6 md:text-base text-white/80 bg-transparent">
+                    <div className="pb-6 md:text-base text-white/80   ">
                       {faq.answer}
                     </div>
                   </div>
@@ -260,18 +261,18 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
       </div>
 
       {/* Live Support Banner */}
-      <div className="mt-16 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      <div className="  6 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
         <div>
           <h4 className="text-white mb-1">{sanityContent?.supportTitle || "Still need help?"}</h4>
           <p className="font-medium">
             {sanityContent?.supportBody || "Can't find the answer you are looking for? Reach out to our direct support."}
           </p>
         </div>
-        <Link href="/contact">
+        <TransitionLink href="/contact">
           <FoolishShrimpButton className="px-6 py-3 uppercase whitespace-nowrap">
             {sanityContent?.supportCtaText || "Contact Us"}
           </FoolishShrimpButton>
-        </Link>
+        </TransitionLink>
       </div>
     </section>
   );

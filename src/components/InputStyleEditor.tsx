@@ -499,7 +499,7 @@ a:hover {
                         type="color"
                         value={settings.focusBorderColor.startsWith("#") ? settings.focusBorderColor : "#00f0ff"}
                         onChange={(e) => update("focusBorderColor", e.target.value)}
-                        className="w-full h-8 bg-transparent rounded cursor-pointer border border-white/10"
+                        className="w-full h-8    rounded cursor-pointer border border-white/10"
                       />
                     </div>
                   </div>
@@ -552,7 +552,7 @@ a:hover {
                           type="color"
                           value={settings.searchIconColor?.startsWith("#") ? settings.searchIconColor : "#ffffff"}
                           onChange={(e) => update("searchIconColor", e.target.value)}
-                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -715,7 +715,7 @@ a:hover {
                           type="color"
                           value={settings.checkboxAccentColor.startsWith("#") ? settings.checkboxAccentColor : "#c084fc"}
                           onChange={(e) => update("checkboxAccentColor", e.target.value)}
-                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -784,7 +784,7 @@ a:hover {
                           type="color"
                           value={settings.headingColor.startsWith("#") ? settings.headingColor : "#ffffff"}
                           onChange={(e) => update("headingColor", e.target.value)}
-                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -802,7 +802,7 @@ a:hover {
                           type="color"
                           value={settings.pTextColor.startsWith("#") ? settings.pTextColor : "#ffffff"}
                           onChange={(e) => update("pTextColor", e.target.value)}
-                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -820,7 +820,7 @@ a:hover {
                           type="color"
                           value={settings.linkColor.startsWith("#") ? settings.linkColor : "#c084fc"}
                           onChange={(e) => update("linkColor", e.target.value)}
-                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"
@@ -838,7 +838,7 @@ a:hover {
                           type="color"
                           value={settings.linkHoverColor.startsWith("#") ? settings.linkHoverColor : "#e879f9"}
                           onChange={(e) => update("linkHoverColor", e.target.value)}
-                          className="w-11 h-11 bg-transparent rounded cursor-pointer border border-white/10 shrink-0"
+                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
                           type="text"

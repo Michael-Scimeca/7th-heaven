@@ -371,7 +371,7 @@ export default function ShowPageClient({
 
               <h1 className="mb-3">{show.venue_name}</h1>
               <p>{show.city}{show.state ? `, ${show.state}` : ""}</p>
-              <p className="mt-1">{dateStr}</p>
+              <p className="  ">{dateStr}</p>
 
               {/* Detail pills */}
               <div className="flex flex-wrap items-center gap-2 mt-4">
@@ -468,7 +468,7 @@ export default function ShowPageClient({
                   {notifySuccess ? (
                     <div className="p-4 bg-emerald-500/10 border border-white/10 text-center">
                       <p className="text-emerald-400">✓ Successfully subscribed!</p>
-                      <p className="mt-1">We will alert you when new dates are announced.</p>
+                      <p className="  ">We will alert you when new dates are announced.</p>
                     </div>
                   ) : (
                     <form onSubmit={handleNotifyMe} className="space-y-3">
@@ -597,7 +597,7 @@ export default function ShowPageClient({
 
           {/* Share CTA */}
           {!isPast && (
-            <div className="mt-12 p-8 bg-white/[0.02] border border-white/[0.06] text-center">
+            <div className="  2 p-8 bg-white/[0.02] border border-white/[0.06] text-center">
               <p className="mb-1">Know someone who might be going?</p>
               <p className="mb-6">Share this show page</p>
 

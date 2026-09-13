@@ -70,33 +70,33 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             {/* 4 */}
             <div>
               <h2 className="mb-3">4. Proximity Alerts & Web Push Notifications</h2>
-              <div className="py-5 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg px-5">
+              <div className="">
                 <p className="mb-4">By subscribing to 7th Heaven Proximity Alerts & Show Notifications, you agree to the following:</p>
 
                 <div className="space-y-4">
                   <div>
                     <p>4.1 Consent & Subscription</p>
-                    <p className="mt-1">You expressly consent to receive automated show notifications, proximity alerts, and event updates via browser web push, email, or digital alerts based on your provided full name, email address, zip code / city, distance radius (e.g., 15 mi, 30 mi, 50 mi, 100 mi, or all shows), and selected show type preferences (e.g., Full Band, Unplugged, Outdoor, Casino, TV, Fundraiser, Special). Consent is not required as a condition of any purchase.</p>
+                    <p className="  ">You expressly consent to receive automated show notifications, proximity alerts, and event updates via browser web push, email, or digital alerts based on your provided full name, email address, zip code / city, distance radius (e.g., 15 mi, 30 mi, 50 mi, 100 mi, or all shows), and selected show type preferences (e.g., Full Band, Unplugged, Outdoor, Casino, TV, Fundraiser, Special). Consent is not required as a condition of any purchase.</p>
                   </div>
 
                   <div>
                     <p>4.2 Location & Zip Code Data</p>
-                    <p className="mt-1">Proximity alerts calculate distance thresholds to upcoming tour dates based on the zip code or city you provide. Location data is stored securely and used exclusively to filter and deliver relevant nearby concert notifications.</p>
+                    <p className="  ">Proximity alerts calculate distance thresholds to upcoming tour dates based on the zip code or city you provide. Location data is stored securely and used exclusively to filter and deliver relevant nearby concert notifications.</p>
                   </div>
 
                   <div>
                     <p>4.3 Web Push & Browser Permissions</p>
-                    <p className="mt-1">Web push notifications are delivered directly through your web browser or device when push permissions are granted. You may grant or revoke notification permissions at any time through your browser settings or via the site footer alert preferences panel.</p>
+                    <p className="  ">Web push notifications are delivered directly through your web browser or device when push permissions are granted. You may grant or revoke notification permissions at any time through your browser settings or via the site footer alert preferences panel.</p>
                   </div>
 
                   <div>
                     <p>4.4 Message & Alert Frequency</p>
-                    <p className="mt-1">Alert frequency varies based on band concert schedules and new tour date additions in your specified distance radius (typically 1–4 notifications per month).</p>
+                    <p className="  ">Alert frequency varies based on band concert schedules and new tour date additions in your specified distance radius (typically 1–4 notifications per month).</p>
                   </div>
 
                   <div>
                     <p>4.5 Unsubscribing & Managing Preferences</p>
-                    <p className="mt-1">You can update your distance radius, toggle show type filters, or unsubscribe from proximity alerts at any time using the Proximity & Show Alert Filters panel located in the site footer or by blocking notifications in your browser settings. For assistance, contact us at <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a>.</p>
+                    <p className="  ">You can update your distance radius, toggle show type filters, or unsubscribe from proximity alerts at any time using the Proximity & Show Alert Filters panel located in the site footer or by blocking notifications in your browser settings. For assistance, contact us at <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a>.</p>
                   </div>
                 </div>
               </div>
@@ -144,7 +144,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             {/* 9 */}
             <div>
               <h2 className="mb-3">9. Disclaimers</h2>
-              <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-lg text-base">
+              <div className="">
                 <p>The Site and its services are provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, express or implied. 7th Heaven does not guarantee that the Site will be uninterrupted, error-free, or secure. Show dates, times, and venues are subject to change without notice.</p>
               </div>
             </div>
@@ -172,7 +172,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <h2 className="mb-3">13. Contact</h2>
               <p className="mb-2">For questions about these Terms of Service:</p>
               <div>
-                <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
+                <p className="  ">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
                 <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com</a></p>
               </div>
             </div>

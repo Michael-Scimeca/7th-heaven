@@ -45,7 +45,7 @@ export default async function Home() {
           width: "calc(100% + 2 * var(--page-padding-x))",
         }}>
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
-        <div id="hero-card" className="relative w-full h-full max-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
+        <div id="hero-card" className="relative w-full h-full max-h-[100dvh] overflow-hidden    flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
           <HeroVideoPlayer sanityContent={sanityContent} />
         </div>
       </section>
@@ -64,7 +64,7 @@ export default async function Home() {
       </LazySection>
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
-      <LazySection fallbackHeight="180px" id="logos" className="relative w-full py-section-fluid">
+      <LazySection fallbackHeight="180px">
         <HomeLogosSection sanityContent={sanityContent} />
       </LazySection>
 

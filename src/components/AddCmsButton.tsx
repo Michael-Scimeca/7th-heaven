@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Plus } from "lucide-react";
+import { useMember } from "@/context/MemberContext";
 
 export interface AddCmsButtonProps {
   label: string;
@@ -16,6 +17,21 @@ export default function AddCmsButton({
   className = "",
   icon,
 }: AddCmsButtonProps) {
+  const { member, isLoggedIn } = useMember();
+
+  const isAdmin = Boolean(
+    isLoggedIn &&
+    (
+      member?.role === "admin" ||
+      (member as unknown as Record<string, unknown>)?.isAdmin === true
+    )
+  );
+
+  // Strictly enforce Admin visibility requirement across all AddCmsButton instances
+  if (!isAdmin) {
+    return null;
+  }
+
   // Clean leading '+' to prevent "+ + ADD ..." double icon rendering
   const cleanLabel = label.replace(/^\+\s*/, "").toUpperCase();
 

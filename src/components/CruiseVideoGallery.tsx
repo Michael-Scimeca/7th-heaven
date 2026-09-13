@@ -192,14 +192,14 @@ export default function CruiseVideoGallery() {
     : videos.filter(v => v.category === selectedCategory);
 
   return (
-    <section id="ship-videos" className="pt-20 relative z-20">
+    <section id="ship-videos" className="pt-10 md:pt-20 relative z-20 site-container">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
         <div className="flex justify-center mb-3">
           <SectionBadge label="Virtual Tours & Video Showcase" />
         </div>
         <h2
-          className="md:text-6xl uppercase text-white leading-none">
+          className="md:text-6xl uppercase text-white   ">
           Explore <span className="accent-gradient-text">Ship Videos</span>
         </h2>
         <p className="mt-4">

@@ -314,7 +314,7 @@ export default function MemberDashboard() {
                 return (
                   <div className="py-6 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
                     <p>Your wallet is currently empty.</p>
-                    <p className="mt-1 uppercase">Keep participating in live streams for a chance to win</p>
+                    <p className="   uppercase">Keep participating in live streams for a chance to win</p>
                   </div>
                 );
               }
@@ -335,7 +335,7 @@ export default function MemberDashboard() {
                               {msg.isNew && <span className="text-[var(--font-size-2xs)] uppercase px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-                            <p className="uppercase mt-1">{msg.time}</p>
+                            <p className="uppercase   ">{msg.time}</p>
                           </div>
                         </div>
 
@@ -387,7 +387,7 @@ export default function MemberDashboard() {
           {myPhotos.length === 0 ? (
             <div className="py-8 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
               <p>No photo submissions found.</p>
-              <p className="mt-1 uppercase">Upload a photo to join the fan wall!</p>
+              <p className="   uppercase">Upload a photo to join the fan wall!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

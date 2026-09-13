@@ -199,7 +199,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
 
   return (
-    <div className="py-6 pl-0 bg-transparent border-none space-y-6 text-white font-sans">
+    <div className="py-6 pl-0    border-none space-y-6 text-white   ">
 
       {/* Header Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -249,7 +249,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       />
 
       {/* Email List Container (Divs) */}
-      <div className="border-none overflow-hidden bg-transparent relative">
+      <div className="border-none overflow-hidden    relative">
         <div className="w-full text-left">
           {/* Fixed Header Row */}
           <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 uppercase text-white border-b border-white/10 select-none]">
@@ -284,7 +284,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                           />
                         ) : (
                           <div
-                            className={` w-11 h-11  rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans border border-white/20`}>
+                            className={` w-11 h-11  rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0    border border-white/20`}>
                             {getInitials(user.name)}
                           </div>
                         );

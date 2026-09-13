@@ -156,7 +156,7 @@ export default function ReferralProgramPanel() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <p className="uppercase text-purple-300 mb-0.5">Fan Engagement</p>
+            <p className="uppercase text-purple-300   ">Fan Engagement</p>
             <h3 className="text-white"> Referral Program</h3>
             <p className="mt-0.5">
               Toggle visibility, configure milestone rewards, and track top referrers
@@ -192,15 +192,15 @@ export default function ReferralProgramPanel() {
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="p-4 bg-white/[0.02] border border-white/10 text-center">
             <p className="text-purple-300">{totalReferrals}</p>
-            <p className="uppercase mt-1">Total Referrals</p>
+            <p className="uppercase   ">Total Referrals</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/10 text-center">
             <p>{totalConverted}</p>
-            <p className="uppercase mt-1">Converted</p>
+            <p className="uppercase   ">Converted</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/10 text-center">
             <p>{leaderboard.length}</p>
-            <p className="uppercase mt-1">Active Referrers</p>
+            <p className="uppercase   ">Active Referrers</p>
           </div>
         </div>
 
@@ -330,7 +330,7 @@ export default function ReferralProgramPanel() {
         {/*  Leaderboard  */}
         <div>
           {(() => {
-            const displayLeaderboard = leaderboard.length> 0 ? leaderboard : [
+            const displayLeaderboard = leaderboard.length > 0 ? leaderboard : [
               { referrer_id: "1", referrer_code: "MIKE2026", name: "Michael Scimeca", total: 12, signed_up: 10, rewarded: 2, pending: 0, recent: ["alex@example.com", "sarah@example.com"] },
               { referrer_id: "2", referrer_code: "NICK7H", name: "Nick Cox", total: 8, signed_up: 7, rewarded: 1, pending: 0, recent: ["charlie@example.com"] },
               { referrer_id: "3", referrer_code: "RICHARD7H", name: "Richard Hofherr", total: 5, signed_up: 4, rewarded: 1, pending: 0, recent: ["dave@example.com"] }
@@ -371,7 +371,7 @@ export default function ReferralProgramPanel() {
                   <div className="py-8 flex flex-col items-center border border-dashed border-white/10 bg-white/[0.02]">
                     <span className="text-3xl mb-2 opacity-20"></span>
                     <p>No referrals found</p>
-                    <p className="mt-1">
+                    <p className="  ">
                       Try selecting a different referrer from the dropdown.
                     </p>
                   </div>
@@ -380,7 +380,7 @@ export default function ReferralProgramPanel() {
                     {filteredLeaderboard.map((entry, i) => {
                       // Determine which milestones have been hit
                       const milestonesHit = milestones.filter(
-                        (m) => entry.total>= m.threshold
+                        (m) => entry.total >= m.threshold
                       );
                       const nextMilestone = milestones.find(
                         (m) => entry.total < m.threshold
@@ -434,7 +434,7 @@ export default function ReferralProgramPanel() {
                                   {milestonesHit.map((m, mi) => (
                                     <span
                                       key={mi}
-                                      
+
                                       title={`${m.threshold}: ${m.reward}`}>
                                       {m.emoji}
                                     </span>
@@ -508,12 +508,12 @@ export default function ReferralProgramPanel() {
                               )}
 
                               {/* Recent invites */}
-                              {entry.recent.length> 0 && (
+                              {entry.recent.length > 0 && (
                                 <div>
                                   <span className="text-[var(--font-size-2xs)] uppercase text-white/30">
                                     Recent Invites
                                   </span>
-                                  <div className="mt-1 flex flex-wrap gap-1">
+                                  <div className="   flex flex-wrap gap-1">
                                     {entry.recent.map((email, ei) => (
                                       <span
                                         key={ei}
@@ -526,8 +526,8 @@ export default function ReferralProgramPanel() {
                               )}
 
                               {/* Admin actions */}
-                              {milestonesHit.length> 0 &&
-                                entry.signed_up> 0 && (
+                              {milestonesHit.length > 0 &&
+                                entry.signed_up > 0 && (
                                   <button aria-label="Action button"
                                     onClick={() => markRewarded(entry.referrer_code)}
                                     className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 uppercase hover:bg-yellow-500/20 transition-colors cursor-pointer">

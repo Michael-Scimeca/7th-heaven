@@ -7331,7 +7331,7 @@
                 "width": 364,
                 "height": 49
               },
-              "snippet": "<input aria-label=\"Search\" placeholder=\"Search...\" class=\"w-full bg-transparent border-0  rounded-lg pl-11 pr-7 py-2 text-[clamp(16px…\" id=\"tour-search\" type=\"text\" value=\"\">",
+              "snippet": "<input aria-label=\"Search\" placeholder=\"Search...\" class=\"w-full    border-0  rounded-lg pl-11 pr-7 py-2 text-[clamp(16px…\" id=\"tour-search\" type=\"text\" value=\"\">",
               "nodeLabel": "Search"
             },
             "subItems": {
@@ -11180,7 +11180,7 @@
                 "width": 364,
                 "height": 18
               },
-              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5 mt-1 font-semibold\">",
+              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5    font-semibold\">",
               "nodeLabel": "IL",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.99 (foreground color: #6c6c6c, background color: #000000, font size: 9.2pt (12.2563px), font weight: normal). Expected contrast ratio of 4.5:1"
             },
@@ -11600,7 +11600,7 @@
                 "width": 364,
                 "height": 18
               },
-              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5 mt-1 font-semibold\">",
+              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5    font-semibold\">",
               "nodeLabel": "IL",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.99 (foreground color: #6c6c6c, background color: #000000, font size: 9.2pt (12.2563px), font weight: normal). Expected contrast ratio of 4.5:1"
             },
@@ -12650,7 +12650,7 @@
                 "width": 364,
                 "height": 18
               },
-              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5 mt-1 font-semibold\">",
+              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5    font-semibold\">",
               "nodeLabel": "IL",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.99 (foreground color: #6c6c6c, background color: #000000, font size: 9.2pt (12.2563px), font weight: normal). Expected contrast ratio of 4.5:1"
             },
@@ -12902,7 +12902,7 @@
                 "width": 364,
                 "height": 18
               },
-              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5 mt-1 font-semibold\">",
+              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5    font-semibold\">",
               "nodeLabel": "IL",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.99 (foreground color: #6c6c6c, background color: #000000, font size: 9.2pt (12.2563px), font weight: normal). Expected contrast ratio of 4.5:1"
             },
@@ -13358,7 +13358,7 @@
                 "width": 364,
                 "height": 18
               },
-              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5 mt-1 font-semibold\">",
+              "snippet": "<p class=\"text-base text-white/80 flex items-center gap-1.5    font-semibold\">",
               "nodeLabel": "IL",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.99 (foreground color: #6c6c6c, background color: #000000, font size: 9.2pt (12.2563px), font weight: normal). Expected contrast ratio of 4.5:1"
             },

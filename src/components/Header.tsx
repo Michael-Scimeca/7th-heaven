@@ -20,7 +20,7 @@ const emptySubscribe = () => () => { };
 const leftNavLinks = [
   { href: "/payment-test", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
-  { href: "/fan-photo-wall", label: "FAN WALL" },
+  { href: "/fan-media-wall", label: "FAN MEDIA WALL" },
   { href: "/rock-and-roll-kids", label: "ROCK & ROLL KIDS" },
 ];
 
@@ -160,7 +160,7 @@ export function Header() {
         const raw = localStorage.getItem("7h_north_cart_v1");
         if (raw) {
           const items = JSON.parse(raw);
-          if (Array.isArray(items) && items.length> 0) {
+          if (Array.isArray(items) && items.length > 0) {
             const count = items.reduce((sum: number, item: any) => sum + (Number(item.quantity) || 1), 0);
             setCartCount(count);
             return;
@@ -236,7 +236,7 @@ export function Header() {
     if (!mobileOpen) return;
 
     const handleResize = () => {
-      if (window.innerWidth>= 1024) {
+      if (window.innerWidth >= 1024) {
         setMobileOpen(false);
       }
     };
@@ -363,7 +363,7 @@ export function Header() {
 
     const checkScroll = () => {
       rafId = null;
-      const isPastThreshold = window.scrollY> 40;
+      const isPastThreshold = window.scrollY > 40;
       if (isScrolledRef.current !== isPastThreshold) {
         isScrolledRef.current = isPastThreshold;
         setScrolled(isPastThreshold);
@@ -464,7 +464,7 @@ export function Header() {
     if (pathname.startsWith("/contact")) return "/studio/structure/pageContent;contactUs";
     if (pathname.startsWith("/media")) return "/studio/structure/pageContent;mediaVault";
     if (pathname.startsWith("/book")) return "/studio/structure/pageContent;bookUs";
-    if (pathname.startsWith("/fan-photo-wall")) return "/studio/structure/pageContent;fanPhotoWall";
+    if (pathname.startsWith("/fan-photo-wall") || pathname.startsWith("/fan-media-wall")) return "/studio/structure/pageContent;fanPhotoWall";
     if (pathname.startsWith("/rock-and-roll-kids")) return "/studio/structure/pageContent;rockAndRollKids";
     if (pathname.startsWith("/faq")) return "/studio/structure/pageContent;faqPage";
     if (pathname.startsWith("/shows")) return "/studio/structure/pageContent;pastShowsArchive";
@@ -527,7 +527,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none bg-transparent text-white`}
+      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none    text-white`}
       suppressHydrationWarning>
       <div className="w-full max-w-full site-container">
         <div
@@ -635,7 +635,7 @@ export function Header() {
                   <circle cx="20" cy="21" r="1" />
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                <span className="absolute -top-1.5 -right-2 bg-[#9333ea] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center leading-none shadow-sm">
+                <span className="absolute -top-1.5 -right-2 bg-[#9333ea] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center    shadow-sm">
                   {cartCount}
                 </span>
               </TransitionLink>
@@ -667,14 +667,14 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px]    uppercase text-white flex items-center justify-center leading-none ${badgeBg}`}
+                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px] uppercase text-white flex items-center justify-center    border font-bold  border-[#3c0366] ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}>
                     {badgeText}
                   </span>
                 </div>
                 <button
                   onClick={() => { logout(); requestTransition('/'); }}
-                  className="flex items-center gap-1.5 text-[12px] font-bold uppercase text-purple-400 hover:text-white/70 transition-colors cursor-pointer ml-1 sm:ml-2"
+                  className="flex items-center gap-1.5 text-[12px] font-bold uppercase text-[#9333ea] hover:text-white/70 transition-colors cursor-pointer ml-1 sm:ml-2 "
                   title="Sign Out">
                   <span>SIGN OUT</span>
                   {mode !== "idle" && pendingHref === "/" && (
@@ -686,9 +686,9 @@ export function Header() {
               <CosmicRadialButton
                 icon={false}
                 onClick={() => openModal("login")}
-                className="px-4 py-2 rounded-lg shrink-0 flex items-center gap-2"
+                className="px-4 py-2 rounded-lg shrink-0 flex items-center gap-2 font-bold "
                 id="header-sign-in">
-                <span>SIGN IN</span>
+                <span className="!text-[13px]">SIGN IN</span>
                 {isModalOpen && (
                   <span className="w-4.5 h-4.5 rounded-full border-[3.5px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.9)] shrink-0 ml-0.5" />
                 )}
@@ -845,7 +845,7 @@ export function Header() {
                     {[
                       { href: "/payment-test", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
-                      { href: "/fan-photo-wall", label: "FAN WALL" },
+                      { href: "/fan-media-wall", label: "FAN MEDIA WALL" },
                       ...(showUserAuth ? [{ href: studioHref, label: "STUDIO" }] : []),
                       { href: "/live", label: "LIVE" },
                       { href: "/cruise", label: "CRUISE" },

@@ -118,7 +118,7 @@ export function Footer() {
   return (
 
     <footer
-      className={`relative pb-8 overflow-hidden ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
+      className={`relative overflow-hidden ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
         }`}
       id="footer"
       suppressHydrationWarning>
@@ -179,7 +179,7 @@ export function Footer() {
         </div>
 
         {/* Credit Line */}
-        <div className="site-container pt-1 pb-4 flex items-center justify-end">
+        <div className="absolute bottom-0 right-0 site-container flex items-center justify-end text-[10px]">
           <a
             href="https://michaelscimeca.com"
             target="_blank"

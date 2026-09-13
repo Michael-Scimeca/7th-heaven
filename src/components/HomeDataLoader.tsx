@@ -168,12 +168,12 @@ export default function HomeDataLoader() {
       )}
 
       {/* ====== TOUR LIST ====== */}
-      <section id="tour" className="bg-transparent  relative z-10">
+      <section id="tour" className="   relative z-10">
         <TourList initialShows={shows} />
       </section>
 
       {/* ====== BAND BIO PARALLAX SLIDER (UNDER TOUR DATES, ABOVE NOTIFICATIONS) ====== */}
-      <section id="band" className="relative w-full bg-transparent overflow-hidden sm:mb-16">
+      <section id="band" className="relative w-full    overflow-hidden sm:mb-16">
         <BioParallaxSlider />
       </section>
 

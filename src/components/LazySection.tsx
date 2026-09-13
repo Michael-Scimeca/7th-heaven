@@ -41,16 +41,19 @@ export default function LazySection({
     return () => observer.disconnect();
   }, []);
 
+  if (isVisible) {
+    return <>{children}</>;
+  }
+
+  const computedStyle = { ...style, minHeight: fallbackHeight };
+  const computedClassName = className?.trim() || undefined;
+
   return (
-    <div
-      ref={ref}
-      id={id}
-      className={className}
-      style={{
-        ...style,
-        minHeight: isVisible ? undefined : fallbackHeight,
-      }}>
-      {isVisible ? children : null}
-    </div>
+    <section
+      ref={ref as any}
+      id={id || undefined}
+      className={computedClassName}
+      style={computedStyle}
+    />
   );
 }

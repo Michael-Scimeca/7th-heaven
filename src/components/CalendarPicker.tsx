@@ -123,11 +123,11 @@ export function CalendarPicker({
 
 
   return (
-    <div className="bg-transparent border-0 p-0 w-full shadow-none">
+    <div className="   border-0 p-0 w-full shadow-none">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h3 className="text-white uppercase">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
-          <p className="mt-1">{labels?.calendarSubtitle || "Select one or more dates to secure your slot"}</p>
+          <p className="  ">{labels?.calendarSubtitle || "Select one or more dates to secure your slot"}</p>
         </div>
       </div>
 
@@ -141,7 +141,7 @@ export function CalendarPicker({
         {/* Row 1, Col 1: Calendar */}
         <div className="col-span-1 min-[1500px]:col-span-1">
           {/* Month & Year Selection Bar */}
-          <div className="flex items-center justify-between bg-transparent border-0 p-0 mb-4">
+          <div className="flex items-center justify-between    border-0 p-0 mb-4">
             <button aria-label="Previous"
               type="button"
               onClick={handlePrevMonth}
@@ -327,7 +327,7 @@ export function CalendarPicker({
         </div>
 
         {/* Row 2: Event Format (spans full width on Row 2 below 1500px, moves to Col 3 at 1500px+) */}
-        <div className="col-span-1 md:col-span-2 min-[1500px]:col-span-1 border-t min-[1500px]:border-t-0 min-[1500px]:border-l border-white/10 pt-6 min-[1500px]:pt-0 min-[1500px]:pl-6">
+        <div className="col-span-1 md:col-span-2 min-[1500px]:col-span-1  pt-6 min-[1500px]:pt-0 ">
           <h4 className="uppercase tracking-[0.15em] text-white/50 mb-4">
             {labels?.eventFormatHeading || "Event Format"}
           </h4>
@@ -348,13 +348,13 @@ export function CalendarPicker({
                   <FoolishShrimpButton
                     isActive={isSelected}
                     onClick={() => onSelectType && onSelectType(type.id)}
-                    className="w-full !justify-start text-left px-5 py-4 !h-auto flex gap-4 items-center group cursor-pointer !rounded-full">
-                    <div className={` w-11 h-11  rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
-                      <TypeIcon className="w-5 h-5" />
+                    className="w-full !justify-start text-left px-4 py-3 sm:px-5 sm:py-4 !h-auto flex gap-3 sm:gap-4 items-center group cursor-pointer !rounded-[2.5rem] [&>span]:w-full [&>span]:max-w-full [&>span]:min-w-0 [&>span]:whitespace-normal">
+                    <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
+                      <TypeIcon className="w-5 h-5 shrink-0" />
                     </div>
-                    <div>
-                      <span className={`text-base    block mb-0.5   ${isSelected ? "text-purple-300   " : "text-white"}`}>{displayLabel}</span>
-                      <span className="text-white/80 block">{displayDesc}</span>
+                    <div className="min-w-0 flex-1 text-left">
+                      <span className={`text-sm sm:text-base font-bold block truncate ${isSelected ? "text-purple-300" : "text-white"}`}>{displayLabel}</span>
+                      <span className="text-xs sm:text-sm text-white/80 block line-clamp-1 sm:line-clamp-2 leading-tight">{displayDesc}</span>
                     </div>
                   </FoolishShrimpButton>
                   {type.id === "custom" && isSelected && (

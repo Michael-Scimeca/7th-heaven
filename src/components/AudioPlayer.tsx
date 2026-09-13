@@ -537,7 +537,7 @@ export default function AudioPlayerSection() {
   return (
     <section
       ref={sectionRef}
-      className="min-h-[700px] h-[780px] flex flex-col justify-between relative w-full bg-transparent overflow-hidden flex"
+      className="min-h-[700px] h-[780px] flex flex-col justify-between relative w-full    overflow-hidden flex"
       id="music-player-section"
       style={{
         WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 33px, black calc(100% - 10px), transparent 100%)",
@@ -559,7 +559,7 @@ export default function AudioPlayerSection() {
         </button>
       </div>
 
-      <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch bg-transparent overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch    overflow-hidden">
 
         {/* --- SIDEBAR --- */}
         <div className="w-full md:w-[clamp(200px,24vw,320px)] backdrop-blur-xl border-r border-white/10 pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 flex self-stretch h-full min-h-full overflow-hidden">
@@ -617,7 +617,7 @@ export default function AudioPlayerSection() {
         </div>
 
         {/* --- MAIN AREA (MIDDLE TRACKLIST + CREDITS SIDEBAR + BOTTOM PLAYBAR) --- */}
-        <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0 bg-[#00000029]">
+        <div className="flex-1 relative flex flex-col justify-between    self-stretch h-full min-h-full overflow-hidden min-w-0 bg-[#00000029]">
 
           {/* Top Section: Tracklist + Credits Sidebar */}
           <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch overflow-hidden relative">
@@ -980,7 +980,7 @@ export default function AudioPlayerSection() {
                   type="button"
                   aria-label="Toggle mute"
                   onClick={toggleMute}
-                  className="bg-transparent border-0 p-0 cursor-pointer text-white/50 shrink-0 hover:text-white transition-colors flex items-center justify-center">
+                  className="   border-0 p-0 cursor-pointer text-white/50 shrink-0 hover:text-white transition-colors flex items-center justify-center">
                   <svg
                     width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     {volume === 0 ? (
@@ -1044,7 +1044,7 @@ export default function AudioPlayerSection() {
               <div className="flex items-center justify-between px-8 py-5 bg-[var(--color-bg-surface)] shrink-0">
                 <div className="min-w-0">
                   <h3 className="text-white truncate">{trackTitle}</h3>
-                  <p className="uppercase mt-1">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}</p>
+                  <p className="uppercase   ">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}</p>
                 </div>
                 <button aria-label="Action button" onClick={() => setShowLyrics(false)} className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors shrink-0 ml-4">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>

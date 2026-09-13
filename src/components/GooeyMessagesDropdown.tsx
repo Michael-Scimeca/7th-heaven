@@ -186,7 +186,7 @@ export default function GooeyMessagesDropdown({
       {/* Gooey Options Menu Panel (Crisp Foreground Layer) */}
       {open && (
         <div
-          className="absolute !left-0 top-full mt-1.5 min-w-full w-max max-w-md bg-[#120826]/95 border border-purple-500/40 rounded-lg p-1 shadow-[0_25px_60px_rgba(0,0,0,0.95)]backdrop-blur-[18px] z-[99999] overflow-hidden transition-[opacity,transform] duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+          className="absolute !left-0 top-full   .5 min-w-full w-max max-w-md bg-[#120826]/95 border border-purple-500/40 rounded-lg p-1 shadow-[0_25px_60px_rgba(0,0,0,0.95)]backdrop-blur-[18px] z-[99999] overflow-hidden transition-[opacity,transform] duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
           role="listbox">
           {(title || badge) && (
             <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/10 mb-1">

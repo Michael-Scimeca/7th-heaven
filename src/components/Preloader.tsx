@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
+import { waitForPageReady } from "@/lib/waitForPageReady";
 
 // Diagonal wipe-reveal preloader, sharing its visual language with the
 // page-to-page curtain (PageTransition.tsx): a dark overlay, the loader
@@ -42,14 +43,14 @@ import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
 // unchanged from before.
 type Phase = "loading" | "wiping" | "done";
 
-const WIPE_DURATION = 1.0;
+const WIPE_DURATION = 0.43;
 const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 const WIPE_SLANT_RATIO = 0.095;
 
 // Loader fill: cycles through every color once, then hands off to the
 // existing fade -> wipe chain below.
 const LOADER_PALETTE = ["#5f3fb1", "#850FB7", "#A43E17", "#a73373", "#611EBD"];
-const LOADER_STEP_MS = 400; // how long each color holds
+const LOADER_STEP_MS = 200; // how long each color holds (1.0s total fill time)
 const LOADER_TOTAL_MS = LOADER_STEP_MS * LOADER_PALETTE.length; // full single-pass fill time
 
 // Loader fill (LOADER_TOTAL_MS) + content fade-out (0.3s) + wipe (1.0s) is
@@ -145,6 +146,7 @@ export default function Preloader() {
         duration: WIPE_DURATION,
         ease: EXO_EASE,
         onUpdate: () => {
+          if (!overlay) return;
           const clipVal = buildDecayingSlantClipPath(proxy.p, WIPE_SLANT_RATIO);
           overlay.style.clipPath = clipVal;
           (overlay.style as any).webkitClipPath = clipVal;
@@ -154,6 +156,7 @@ export default function Preloader() {
           finish();
           if (typeof window !== "undefined") {
             window.dispatchEvent(new CustomEvent("preloader-complete"));
+            window.dispatchEvent(new CustomEvent("7h-preloader-done"));
           }
         },
       });
@@ -165,7 +168,7 @@ export default function Preloader() {
         gsap.to(contentRef.current, {
           opacity: 0,
           y: -25,
-          duration: 0.3,
+          duration: 0.2,
           ease: "power2.in",
           onComplete: startWipe,
         });
@@ -231,9 +234,28 @@ export default function Preloader() {
         particleTimeouts.push(setTimeout(spawnParticle, i * 80));
       }
 
-      loaderDoneTimeout = setTimeout(() => {
+      loaderDoneTimeout = setTimeout(async () => {
         if (particleInterval) clearInterval(particleInterval);
         wrap.classList.add("done"); // fades the bar track + trailing dot
+
+        // Ensure page is fully loaded, fonts ready, and layout painted before wiping
+        if (typeof window !== "undefined") {
+          if (document.readyState !== "complete") {
+            await new Promise<void>((res) => {
+              const timer = setTimeout(res, 2500);
+              window.addEventListener(
+                "load",
+                () => {
+                  clearTimeout(timer);
+                  res();
+                },
+                { once: true }
+              );
+            });
+          }
+          await waitForPageReady();
+        }
+
         advanceToWipe();
       }, LOADER_TOTAL_MS);
     } else {
@@ -283,6 +305,7 @@ export default function Preloader() {
     <div
       ref={overlayRef}
       aria-hidden="true"
+      className="preloader-overlay"
       style={{
         position: "fixed",
         inset: 0,
@@ -318,177 +341,6 @@ export default function Preloader() {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .preloader-loader {
-          position: relative;
-          width: min(60vw, 320px);
-        }
-
-        .preloader-note-icon {
-          position: absolute;
-          left: 50%;
-          bottom: 24px;
-          transform: translateX(-50%);
-          color: var(--pc, #850fb7);
-          filter: drop-shadow(0 0 6px var(--pc, #850fb7))
-            drop-shadow(0 0 18px color-mix(in srgb, var(--pc, #850fb7) 70%, transparent))
-            drop-shadow(0 0 34px color-mix(in srgb, var(--pc, #850fb7) 45%, transparent));
-          animation: preloader-bob 1.7s ease-in-out infinite;
-          transition: color 0.35s linear;
-        }
-
-        @keyframes preloader-bob {
-          0%,
-          100% {
-            transform: translateX(-50%) translateY(0);
-          }
-          50% {
-            transform: translateX(-50%) translateY(-7px);
-          }
-        }
-
-        .preloader-particles {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 30px;
-          height: 150px;
-          pointer-events: none;
-        }
-
-        :global(.preloader-note-particle) {
-          position: absolute;
-          bottom: 0;
-          color: var(--pc, #850fb7);
-          filter: drop-shadow(0 0 4px var(--pc, #850fb7))
-            drop-shadow(0 0 10px color-mix(in srgb, var(--pc, #850fb7) 70%, transparent));
-          opacity: 0;
-          animation-name: preloader-rise;
-          animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1);
-          animation-fill-mode: forwards;
-        }
-
-        :global(.preloader-note-particle svg) {
-          display: block;
-          width: 100%;
-          height: 100%;
-        }
-
-        @keyframes preloader-rise {
-          0% {
-            opacity: 0;
-            transform: translate(0, 0) scale(0.4);
-          }
-          18% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-            transform: translate(var(--pc-drift, -10px), -130px) scale(1);
-          }
-        }
-
-        .preloader-bar-track {
-          position: relative;
-          height: 2px;
-          border-radius: 10px;
-          background: rgba(255, 255, 255, 0.1);
-          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
-          overflow: visible;
-          transition: opacity 0.5s ease;
-        }
-
-        .preloader-loader.done .preloader-bar-track {
-          opacity: 0;
-        }
-
-        .preloader-bar-fill {
-          position: absolute;
-          inset: 0;
-          width: 0%;
-          border-radius: 10px;
-          overflow: visible;
-          background: linear-gradient(
-            90deg,
-            color-mix(in srgb, var(--pc, #850fb7) 30%, transparent),
-            var(--pc, #850fb7)
-          );
-          transition: background 0.35s linear;
-        }
-
-        .preloader-bar-fill.filling {
-          animation: preloader-fill linear forwards;
-        }
-
-        @keyframes preloader-fill {
-          from {
-            width: 0%;
-          }
-          to {
-            width: 100%;
-          }
-        }
-
-        /* Moving gradient sweep: a fixed-width streak clipped to whatever is
-           currently filled, kept separate from .preloader-bar-fill's own
-           (resizing) box so its speed and width stay constant instead of
-           scaling with the growing bar. */
-        .preloader-bar-shine {
-          position: absolute;
-          inset: 0;
-          overflow: hidden;
-          border-radius: inherit;
-          pointer-events: none;
-        }
-
-        .preloader-bar-shine::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          width: 50px;
-          background: linear-gradient(
-            90deg,
-            transparent 0%,
-            rgba(255, 255, 255, 0.85) 50%,
-            transparent 100%
-          );
-          transform: translateX(-100%);
-        }
-
-        .preloader-bar-fill.filling .preloader-bar-shine::before {
-          animation: preloader-shine 1.15s linear infinite;
-        }
-
-        @keyframes preloader-shine {
-          from {
-            transform: translateX(-100%);
-          }
-          to {
-            transform: translateX(800%);
-          }
-        }
-
-        .preloader-bar-fill::after {
-          content: "";
-          position: absolute;
-          right: -5px;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: color-mix(in srgb, var(--pc, #850fb7) 70%, white 30%);
-          transition: background 0.35s linear;
-        }
-
-        .preloader-loader.done .preloader-bar-fill::after {
-          opacity: 0;
-          transition: opacity 0.5s ease;
-        }
-      `}</style>
     </div>
   );
 }

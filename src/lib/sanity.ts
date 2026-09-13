@@ -284,7 +284,13 @@ export async function fetchPageContent(pageKey: string): Promise<SanityPageConte
     const clientToUse = process.env.SANITY_API_TOKEN ? sanityWriteClient : sanityClient;
     const fetchPromise = clientToUse.fetch<SanityPageContent | null>(query, params, { cache: "no-store", next: { revalidate: 0 } });
     const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 3000));
-    return await Promise.race([fetchPromise, timeoutPromise]);
+    const result = await Promise.race([fetchPromise, timeoutPromise]);
+    if (!result && (pageKey === "fan-media-wall" || pageKey === "fan-photo-wall")) {
+      const altKey = pageKey === "fan-media-wall" ? "fan-photo-wall" : "fan-media-wall";
+      const altQueryObj = queries.pageContentByKey(altKey);
+      return await clientToUse.fetch<SanityPageContent | null>(altQueryObj.query, altQueryObj.params, { cache: "no-store", next: { revalidate: 0 } });
+    }
+    return result;
   } catch {
     return null;
   }

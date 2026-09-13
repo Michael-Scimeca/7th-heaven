@@ -52,7 +52,7 @@ const ALL_SITE_ROUTES: RouteItem[] = [
   { path: "/fans", type: "Static", label: "Fan Club Hub", category: "Fan Portal", icon: UserCheck },
   { path: "/fans/complete-profile", type: "Static", label: "Complete Fan Profile", category: "Fan Portal", icon: UserCheck },
   { path: "/fans/sample_fan", type: "Dynamic", label: "Fan Profile View", category: "Fan Portal", icon: UserCheck },
-  { path: "/fan-photo-wall", type: "Static", label: "Fan Photo Wall", category: "Fan Portal", icon: UserCheck },
+  { path: "/fan-media-wall", type: "Static", label: "Fan Media Wall", category: "Fan Portal", icon: UserCheck },
   { path: "/planner", type: "Static", label: "Show Planner Portal", category: "Fan Portal", icon: UserCheck },
   { path: "/planner/verify", type: "Static", label: "Planner Verification", category: "Fan Portal", icon: UserCheck },
 
@@ -143,7 +143,7 @@ export default function PagesPillDrawer() {
 
       {/* ── MODAL DRAWER OVERLAY ── */}
       {isOpen && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-6 bg-black/80 backdrop-blur-xl animate-fadeIn font-sans">
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-6 bg-black/80 backdrop-blur-xl animate-fadeIn   ">
 
           {/* Backdrop Click to Close */}
           <div
@@ -247,7 +247,7 @@ export default function PagesPillDrawer() {
                       <h3 className="text-white group-hover:text-purple-200 transition-colors">
                         {item.label}
                       </h3>
-                      <p className="mt-1 truncate">
+                      <p className="   truncate">
                         {item.path}
                       </p>
                     </div>

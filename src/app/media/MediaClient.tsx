@@ -137,10 +137,10 @@ function extractYouTubeId(urlOrId: string): string {
 }
 
 export default function MediaClient({ sanityContent }: { sanityContent?: any }) {
-  const { member } = useMember();
-  const isAdmin = member?.role === 'admin' || member?.role === 'crew';
+  const { member, isLoggedIn } = useMember();
+  const isAdmin = Boolean(isLoggedIn && (member?.role === 'admin' || member?.role === 'crew' || (member as any)?.isAdmin === true));
   const mounted = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false
   );
@@ -407,7 +407,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
   };
 
   return (
-    <div className="min-h-screen text-white pt-[100px] pb-24 relative overflow-hidden">
+    <div className="min-h-screen text-white pt-[100px] relative overflow-hidden">
       <div className="site-container relative z-10">
         {/* ── CENTERED PAGE TITLE ── */}
         <div className="text-center mb-6">
@@ -420,7 +420,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         </div>
 
         {/* ── 700+ SONG MP3/CD AUDIO VAULT PLAYER (TOP OF MEDIA PAGE) ── */}
-        <div className="mb-16 rounded-2xl overflow-hidden border border-purple-500/20   bg-black/40 backdrop-blur-xl">
+        <div className="mb-8 rounded-2xl overflow-hidden border border-purple-500/20   bg-black/40 backdrop-blur-xl">
           <AudioPlayer />
         </div>
 
@@ -432,14 +432,16 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             placeholder={sanityContent?.searchPlaceholder || "Search Media..."}
             containerClassName="w-full sm:w-[320px]"
           />
-          <AddCmsButton
-            label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
-            onClick={() => setIsAddModalOpen(true)}
-          />
+          {isAdmin && (
+            <AddCmsButton
+              label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
+              onClick={() => setIsAddModalOpen(true)}
+            />
+          )}
         </div>
 
         {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-12">
+        <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-4 md:mb-12">
           <FoolishShrimpButton
             type="button"
             onClick={() => handleFilterChange("ALL")}
@@ -466,7 +468,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         </div>
 
         {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
-        <div key={activeFilter} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch pt-6 pb-6">
+        <div key={activeFilter} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch pb-6">
           {visibleVideos.map((video, index) => {
             const isHovered = hoveredVideoId === video.id;
             const isMiddleCol = index % 3 === 1;
@@ -500,7 +502,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none">
                   {/* Category Pill Tag */}
-                  <span className="inline-flex items-center justify-center leading-none text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white uppercase border border-white/10 shrink-0">
+                  <span className="inline-flex items-center justify-center    text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white uppercase border border-white/10 shrink-0">
                     {video.category || "7TH HEAVEN"}
                   </span>
 
@@ -589,7 +591,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
             <form onSubmit={handleAddVideoSubmit} className="space-y-4">
               <div>
-                <label className="block text-[10px] uppercase text-purple-300 mb-1">
+                <label className="block text-[10px] uppercase text-purple-300">
                   Video URL or ID <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -631,7 +633,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
               })()}
 
               <div>
-                <label className="block text-[10px] uppercase text-purple-300 mb-1">
+                <label className="block text-[10px] uppercase text-purple-300">
                   Video Title <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -697,7 +699,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase text-purple-300 mb-1">
+                  <label className="block text-[10px] uppercase text-purple-300">
                     Release Year
                   </label>
                   <input
@@ -711,7 +713,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
               </div>
 
               <div>
-                <label className="block text-[10px] uppercase text-purple-300 mb-1">
+                <label className="block text-[10px] uppercase text-purple-300">
                   Description / Notes (Optional)
                 </label>
                 <textarea

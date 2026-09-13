@@ -64,7 +64,7 @@ export default function HeaderMaskEditor() {
   if (!mounted) return null;
 
   return (
-    <div className="fixed bottom-5 right-5 z-[99999] font-sans pointer-events-auto">
+    <div className="fixed bottom-5 right-5 z-[99999]    pointer-events-auto">
       {/* Floating Toggle Button */}
       <button
         aria-label="Toggle Header Mask Controls"
@@ -146,7 +146,7 @@ export default function HeaderMaskEditor() {
           </div>
 
           {/* Sliders Group */}
-          <div className="flex flex-col gap-3.5 mt-1">
+          <div className="flex flex-col gap-3.5   ">
             {/* Expanded Mask Height */}
             <div className="flex flex-col gap-1">
               <div className="flex justify-between font-semibold">
@@ -236,7 +236,7 @@ export default function HeaderMaskEditor() {
           {/* Reset Button */}
           <button
             onClick={() => setSettings(DEFAULT_SETTINGS)}
-            className="w-full py-2 mt-1 bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 hover:text-white uppercase rounded-lg border border-white/10 transition-colors cursor-pointer">
+            className="w-full py-2    bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 hover:text-white uppercase rounded-lg border border-white/10 transition-colors cursor-pointer">
             Reset Defaults
           </button>
         </div>

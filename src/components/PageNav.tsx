@@ -12,7 +12,7 @@ const CATEGORIES = [
       { path: "/features", label: "Features" },
       { path: "/merch", label: "Merch" },
       { path: "/media", label: "Media" },
-      { path: "/fan-photo-wall", label: "Fan Wall" },
+      { path: "/fan-media-wall", label: "Fan Media Wall" },
       { path: "/live", label: "Live" },
       { path: "/cruise", label: "Cruise" },
       { path: "/book", label: "Book Band" },
@@ -35,7 +35,7 @@ const CATEGORIES = [
     name: "Fan Pages",
     pages: [
       { path: "/fans", label: "Fan Dashboard" },
-      { path: "/fan-photo-wall", label: "Fan Photo Wall" },
+      { path: "/fan-media-wall", label: "Fan Media Wall" },
     ]
   },
   {
@@ -149,7 +149,7 @@ export function PageNav() {
 
   return (
 
-    <div className="fixed bottom-8 left-8 z-[999999] font-sans pointer-events-auto select-none" ref={menuRef}>
+    <div className="fixed bottom-8 left-8 z-[999999]    pointer-events-auto select-none" ref={menuRef}>
       {isOpen && (
         <div
           className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] backdrop-blur-[18px] rounded-lg animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto bg-[#0a00653b] backdrop-blur-[45px] border-l border-white/10"
@@ -160,13 +160,13 @@ export function PageNav() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
               Dev Navigator
             </h3>
-            <p className="mt-1 font-semibold">Jump to any page instantly</p>
+            <p className="   font-semibold">Jump to any page instantly</p>
           </div>
 
           {/* Scrollable list — grows to fill remaining height with visible custom scrollbar */}
           <div
             ref={listRef}
-            className="p-3 flex flex-col gap-3 overflow-y-auto custom-scrollbar rounded-b-2xl bg-transparent text-white"
+            className="p-3 flex flex-col gap-3 overflow-y-auto custom-scrollbar rounded-b-2xl    text-white"
             style={{
               overscrollBehavior: 'contain',
               scrollbarWidth: 'thin',

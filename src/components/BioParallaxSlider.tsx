@@ -952,7 +952,7 @@ lerpSpeed: ${lerpSpeed}`;
     <div
       id="band"
       ref={sectionRef}
-      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none font-sans relative bg-transparent">
+      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none    relative   ">
 
 
 
@@ -987,10 +987,10 @@ lerpSpeed: ${lerpSpeed}`;
                     <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0"
                       : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                       }`}>
-                      <p className="leading-none drop-">
+                      <p className="   drop-">
                         {m?.name || "Band Member"}
                       </p>
-                      <p className="mt-0.5 sm:mt-1">
+                      <p className="mt-0.5 sm:  ">
                         {m?.role || "Musician"}
                       </p>
                     </div>
@@ -1027,10 +1027,10 @@ lerpSpeed: ${lerpSpeed}`;
                     <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0"
                       : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                       }`}>
-                      <p className="leading-none drop-">
+                      <p className="   drop-">
                         {m?.name || "Band Member"}
                       </p>
-                      <p className="mt-0.5 sm:mt-1">
+                      <p className="mt-0.5 sm:  ">
                         {m?.role || "Musician"}
                       </p>
                     </div>
@@ -1107,13 +1107,13 @@ lerpSpeed: ${lerpSpeed}`;
                     marginRight: i < displayMembers.length - 1 ? `${gap}px` : "0px",
                     isolation: "isolate"
                   }}
-                  className="shrink-0 bg-transparent rounded-lg px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left">
+                  className="shrink-0    rounded-lg px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left">
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible relative">
 
                       {/* Dynamic Sized Member Photo Cutout Container */}
                       <div
-                        className="smooothy-img-container relative flex items-end justify-center overflow-visible bg-transparent transition-colors duration-150 origin-bottom w-full"
+                        className="smooothy-img-container relative flex items-end justify-center overflow-visible    transition-colors duration-150 origin-bottom w-full"
                         style={{
                           height: `${imageHeight}px`,
                           transform: `translateY(${imageOffsetY}px)`,
@@ -1151,10 +1151,10 @@ lerpSpeed: ${lerpSpeed}`;
                             opacity: activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
-                          <h3 className="sm:bg-black/60 bg-black/40 text-white sm:pt-1 pr-2 pl-2 drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="sm:bg-black/60 bg-black/40 text-white pb-1pt-1 pr-2 pl-2" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="sm:bg-black/60 bg-black/40 md:pb-1 pt-1 pr-2 pl-2 text-[#c084fc] block drop-shadow-[0_2px_8px_rgba(0,0,0,1)]" style={{ fontSize: computedRoleFontSize }}>
+                          <span className="sm:bg-black/60 bg-black/40 md:pb-1 pb-1 pt-1 pr-2 pl-2 text-[#c084fc] block" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
 
@@ -1195,7 +1195,7 @@ lerpSpeed: ${lerpSpeed}`;
                             opacity: activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}>
-                          <h3 className="text-white drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="text-[#c084fc] block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: computedRoleFontSize }}>

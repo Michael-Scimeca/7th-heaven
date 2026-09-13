@@ -52,8 +52,8 @@ function hexToRgba(hex: string, alpha: number): string {
   if (c.length === 3) c = c.split("").map((x) => x + x).join("");
   const num = parseInt(c, 16);
   if (isNaN(num)) return `rgba(0, 0, 0, ${alpha})`;
-  const r = (num>> 16) & 255;
-  const g = (num>> 8) & 255;
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
   const b = num & 255;
   return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(2)})`;
 }
@@ -617,7 +617,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                       type="color"
                       value={tintColor}
                       onChange={(e) => updateColor(e.target.value)}
-                      className="absolute -inset-1 w-[200%] h-[200%] cursor-pointer border-none p-0 bg-transparent opacity-0"
+                      className="absolute -inset-1 w-[200%] h-[200%] cursor-pointer border-none p-0    opacity-0"
                     />
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-white"><path d="M12 5v14M5 12h14" /></svg>
                   </div>

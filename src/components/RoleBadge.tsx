@@ -105,7 +105,7 @@ function RoleAvatar({
             <div
                 className={`rounded-lg bg-gradient-to-br ${gradient} ${BORDER_COLOR[role]} border-2 flex items-center justify-center shrink-0 aspect-square`}
                 style={{ width: size, height: size, minWidth: size, minHeight: size, aspectRatio: "1 / 1" }}>
-                <span className="text-white leading-none" style={{ fontSize: size * 0.33 }}>
+                <span className="text-white   " style={{ fontSize: size * 0.33 }}>
                     {initials}
                 </span>
             </div>

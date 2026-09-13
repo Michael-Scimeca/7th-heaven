@@ -67,7 +67,7 @@ export default function DirectMessageChat() {
 
   // Mark all admin messages as read when opening the drawer
   useEffect(() => {
-    if (open && messages.length> 0 && typeof window !== "undefined") {
+    if (open && messages.length > 0 && typeof window !== "undefined") {
       const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms_v1") || localStorage.getItem("7h_dms") || "[]");
       let changed = false;
       const updated = dms.map((m) => {
@@ -115,7 +115,7 @@ export default function DirectMessageChat() {
   };
 
   return (
-    <div className="fixed bottom-20 right-6 z-[9999] font-sans select-none">
+    <div className="fixed bottom-20 right-6 z-[9999]    select-none">
       {/* Floating Chat Bubble Button */}
       <button aria-label="Action button"
         onClick={() => setOpen(!open)}
@@ -127,7 +127,7 @@ export default function DirectMessageChat() {
         )}
 
         {/* Pulse unread count badge */}
-        {unreadCount> 0 && (
+        {unreadCount > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-600 text-white w-5 h-5 rounded-lg flex items-center justify-center border-2 border-[#050505]">
             {unreadCount}
           </span>
@@ -152,7 +152,7 @@ export default function DirectMessageChat() {
               <div className="h-full flex flex-col items-center justify-center text-center p-4">
                 <span className="text-2xl mb-1.5 opacity-25">💬</span>
                 <p className="uppercase r">No messages yet</p>
-                <p className="mt-1 max-w-[180px]">Ask admin any questions or wait for their direct support ping.</p>
+                <p className="   max-w-[180px]">Ask admin any questions or wait for their direct support ping.</p>
               </div>
             ) : (
               messages.map((msg) => {
@@ -164,7 +164,7 @@ export default function DirectMessageChat() {
                       }`}>
                     {/* Sender tag */}
                     <div className={`flex items-center gap-1 mb-1 ${isAdminMsg ? '' : 'justify-end'}`}>
-                      <span className={`text-[8px]    uppercase px-1 py-0.5 rounded border leading-none ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
+                      <span className={`text-[8px]    uppercase px-1 py-0.5 rounded border    ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
                         }`}>
                         {isAdminMsg ? 'ADMIN' : 'YOU'}
                       </span>
@@ -177,7 +177,7 @@ export default function DirectMessageChat() {
                       {msg.text}
                     </div>
                     {/* Timestamp */}
-                    <span className="text-[10px] !text-gray-700 font-sans leading-none mt-1">
+                    <span className="text-[10px] !text-gray-700         ">
                       {new Date(msg.timestamp).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",

@@ -464,7 +464,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="flex items-center gap-4 mb-4">
                   <div>
                     <h2 className="text-2xl font-bold uppercase">Cruise Hub</h2>
-                    <p className="uppercase mt-1">Passenger Area</p>
+                    <p className="uppercase   ">Passenger Area</p>
                   </div>
                 </div>
                 <p className="max-w-xl">Welcome aboard, <strong>{member?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
@@ -665,7 +665,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                     // Deterministic pattern seeded by pin+index to avoid re-render flicker
                                     const seed = pin ? (parseInt(pin, 10) * 31 + j * 7) % 97 : j * 17 % 97;
                                     return (
-                                      <div key={j} className={`w-5 h-5 ${seed > 48 ? 'bg-white' : 'bg-transparent'}`} />
+                                      <div key={j} className={`w-5 h-5 ${seed > 48 ? 'bg-white' : '  '}`} />
                                     );
                                   })}
                                 </div>
@@ -728,7 +728,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                               <div className="flex items-center justify-between w-full lg:w-auto gap-6 sm:gap-10 md:gap-14 lg:gap-16">
                                 {[{ v: countdown.days, l: 'Days' }, { v: countdown.hours, l: 'Hrs' }, { v: countdown.mins, l: 'Min' }, { v: countdown.secs, l: 'Sec' }].map((u, i) => (
                                   <div key={u.l} className="flex flex-col items-center flex-1 lg:flex-initial">
-                                    <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tabular-nums tracking-tight leading-none min-w-[1.4em] text-center flex items-center justify-center">
+                                    <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tabular-nums tracking-tight    min-w-[1.4em] text-center flex items-center justify-center">
                                       {String(u.v).padStart(2, '0')}
                                     </span>
                                     <span className="text-base sm:text-lg md:text-xl uppercase text-white/60 st mt-2">
@@ -744,7 +744,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       );
                     })() : (
                       <div className="mt-4">
-                        <p className="mt-1 uppercase text-base sm:text-lg">Check back soon — new dates drop regularly</p>
+                        <p className="   uppercase text-base sm:text-lg">Check back soon — new dates drop regularly</p>
                         <Link href="/#tour" className="mt-3 text-[var(--color-accent)] uppercase text-base sm:text-lg hover:text-white transition-colors">View Tour Page</Link>
                       </div>
                     )}
@@ -763,13 +763,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   {Array.from(shows.slice(0, 3), (show: any, i: number) => ({ show, i })).map(({ show, i }) => (
                     <div key={show.id || show.date || show.venue} className="flex items-start gap-5 sm:gap-7 md:gap-9 pb-6 sm:pb-8 group border-b border-white/10 last:border-b-0 md:border-b-0 pb-8 md:pb-6">
                       <div className="flex flex-col items-center justify-center bg-[#00000029] px-6 py-3 border border-white/15 rounded-3xl shrink-0   ">
-                        <span className="font-black uppercase text-base sm:text-lg md:text-xl lg:text-2xl text-purple-300 st leading-none mb-1">{show.date ? new Date(show.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }) : ''}</span>
-                        <span className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-none tracking-tight">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
+                        <span className="font-black uppercase text-base sm:text-lg md:text-xl lg:text-2xl text-purple-300 st    mb-1">{show.date ? new Date(show.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }) : ''}</span>
+                        <span className="text-4xl sm:text-5xl md:text-6xl font-black text-white    tracking-tight">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-black text-white truncate mb-1">{show.venue}</p>
                         {(show.city || show.state) && (
-                          <p className="font-semibold text-white/80 mt-1 sm:mt-1.5">
+                          <p className="font-semibold text-white/80    sm:  .5">
                             {show.city ? `${show.city}${show.state ? `, ${show.state}` : ''}` : show.state}
                           </p>
                         )}
@@ -867,7 +867,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               ) : (
                 <div className="py-6 flex flex-col items-center">
                   <p>No shows on the horizon yet.</p>
-                  <p className="mt-1">Follow us for announcements on new dates!</p>
+                  <p className="  ">Follow us for announcements on new dates!</p>
                 </div>
               )}
             </div>
@@ -911,7 +911,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 ) : (
                   <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
                     <p>You aren&apos;t tracking any specific shows yet.</p>
-                    <p className="mt-1">Click the bell icon on the tour page to get date alerts.</p>
+                    <p className="  ">Click the bell icon on the tour page to get date alerts.</p>
                     <Link href="/#tour" className="mt-3 text-[var(--color-accent)] uppercase hover:text-white transition-colors">Find Shows</Link>
                   </div>
                 )}
@@ -1095,7 +1095,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           </div>
                           <div>
                             <p className={`   transition-colors ${msg.color === 'yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>
-                            <p className="mt-1">{msg.desc}</p>
+                            <p className="  ">{msg.desc}</p>
                             <p className={`   uppercase mt-2 ${msg.isNew ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>{msg.time}</p>
                           </div>
                         </div>
@@ -1109,7 +1109,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         <p>No messages yet.</p>
-                        <p className="mt-1">Raffle wins, alerts & updates will appear here.</p>
+                        <p className="  ">Raffle wins, alerts & updates will appear here.</p>
                       </div>
                     )}
                   </div>

@@ -1,5 +1,7 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 /* eslint-disable react-doctor/duplicate-jsx-subtree */
+/* oxlint-disable react-doctor/no-high-complexity-react-function */
+/* oxlint-disable react-doctor/duplicate-jsx-subtree */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -7,8 +9,10 @@ import Link from "next/link";
 import { Bell, MapPin, Check, Sliders, Music, Mail, User, Guitar } from "lucide-react";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
-import { GlowInput } from "@/components/GlowInput";
+import GlowInput from "@/components/GlowInput";
 import { SquishyToggle } from "@/components/SquishyToggle";
+import IphoneClipMask from "@/components/IphoneClipMask";
+import CheckMarkIcon from "@/components/CheckMarkIcon";
 
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ||
     "BA0R-Cg3zpKyTmnWjOf3-Qci37ibBA7rY3BDqRZ-8JPkHezdQOU5fSx_p7__FUqG4Tf0znMa5LpoObodxLpOuxc";
@@ -71,22 +75,7 @@ async function createSubscription(): Promise<PushSubscription | null> {
 }
 
 function CrispCheckIcon() {
-    return (
-        <svg
-            className="w-3.5 h-3.5 text-pink-300 ml-0.5 shrink-0 inline-block "
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true">
-            <path
-                d="M3.25 8.25L6.5 11.5L12.75 4.75"
-                stroke="currentColor"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-        </svg>
-    );
+    return <CheckMarkIcon className="w-3.5 h-3.5 text-purple-200 ml-0.5 shrink-0 inline-block" />;
 }
 
 export default function FooterProximityAlerts() {
@@ -124,10 +113,30 @@ export default function FooterProximityAlerts() {
     }, []);
 
     const toggleType = (id: string) => {
-        if (id === "all") { setSelectedTypes(["all"]); return; }
-        let next = selectedTypes.filter((t) => t !== "all");
-        next = next.includes(id) ? next.filter((t) => t !== id) : [...next, id];
-        setSelectedTypes(next.length === 0 ? ["all"] : next);
+        if (id === "all") {
+            setSelectedTypes(["all"]);
+            return;
+        }
+        const isAll = selectedTypes.includes("all");
+        const currentActive = isAll
+            ? SHOW_TYPES.map((t) => t.id).filter((tId) => tId !== "all")
+            : [...selectedTypes];
+
+        const activeSet = new Set(currentActive);
+        if (activeSet.has(id)) {
+            activeSet.delete(id);
+        } else {
+            activeSet.add(id);
+        }
+
+        const specificTypes = SHOW_TYPES.map((t) => t.id).filter((tId) => tId !== "all");
+        const hasAllSpecific = specificTypes.every((tId) => activeSet.has(tId));
+
+        if (activeSet.size === 0 || hasAllSpecific) {
+            setSelectedTypes(["all"]);
+        } else {
+            setSelectedTypes(Array.from(activeSet));
+        }
     };
 
     /** Save prefs locally and POST the subscription to the server */
@@ -225,165 +234,192 @@ export default function FooterProximityAlerts() {
     const isBusy = status === "saving";
 
     return (
-        <div className="w-full relative z-10">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10 relative z-10">
-                <div className="flex items-center gap-3">
+        <div className="w-full relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-10">
+            {/* ── LEFT COLUMN: iPhone Mobile Preview Device Mockup (Hidden on mobile, shown on tablet/desktop) ── */}
+            <div className="hidden md:flex shrink-0 w-full md:w-auto justify-center items-center my-auto">
+                <div className="relative w-[190px] sm:w-[210px] lg:w-[230px] aspect-[9/19.5] select-none filter ">
+                    <IphoneClipMask
+                        insetXPercent={0}
+                        insetTopPercent={0}
+                        insetBottomPercent={0}
+                        borderRadiusPx={36}
+                        className="w-full h-full flex items-center justify-center">
+                        <div className="relative w-full h-full rounded-[34px] overflow-hidden bg-[#12071f] flex flex-col justify-between p-2 border border-purple-500/30 shadow-[inset_0_0_20px_rgba(168,85,247,0.15)]">
+                            {/* Phone Content Screen */}
+                            <div className="relative w-full h-full rounded-[28px] overflow-hidden bg-black flex items-center justify-center">
+                                <video
+                                    src="/movie/notefication.mp4"
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    aria-label="7th Heaven Concert Live Stream"
+                                    className="w-full h-full object-contain bg-black rounded-[28px]"
+                                />
+                            </div>
+                        </div>
+                    </IphoneClipMask>
+                </div>
+            </div>
+
+            {/* ── RIGHT COLUMN: Proximity Alert Filters Form ── */}
+            <div className="flex-1 min-w-0 w-full">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10 relative z-10">
+                    <div className="flex items-center gap-3">
+
+                        <div>
+                            <h4>
+                                Proximity & Show Alert Filters
+                            </h4>
+                            <p>
+                                Get notified only for shows within your distance & preferences
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {status === "error" && errorMsg && (
+                    <div className="mb-4 px-4 py-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300">
+                        ⚠️ {errorMsg}
+                    </div>
+                )}
+
+                {permission === "denied" && (
+                    <div className="mb-4 px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300">
+                        🔒 Notifications are blocked in your browser settings. Enable them to receive show alerts.
+                    </div>
+                )}
+
+                {/* Top Row: Form Inputs */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 relative z-10">
+                    <div>
+                        <label className="block mb-2 flex items-center gap-1.5">
+                        </label>
+                        <GlowInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" wrapperClassName="w-full" />
+                    </div>
 
                     <div>
-                        <h4>
-                            Proximity & Show Alert Filters
-                        </h4>
-                        <p>
-                            Get notified only for shows within your distance & preferences
-                        </p>
+                        <label className="block uppercase mb-2 flex items-center gap-1.5">
+                            Your Zip Code / City
+                        </label>
+                        <GlowInput type="text" value={zip} onChange={(e) => setZip(e.target.value)} placeholder="e.g. 60056 or Chicago" wrapperClassName="w-full" />
+                    </div>
+
+                    <div>
+                        <label className="block mb-2 flex items-center gap-1.5">
+                            Email <span className="text-white/30 normal-case tracking-normal">(optional)</span>
+                        </label>
+                        <GlowInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" wrapperClassName="w-full" />
                     </div>
                 </div>
-            </div>
 
-            {status === "error" && errorMsg && (
-                <div className="mb-4 px-4 py-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300">
-                    ⚠️ {errorMsg}
-                </div>
-            )}
+                {/* Stacked Rows: Maximum Distance Radius on Top, Notification Types Below */}
+                <div className="flex flex-col gap-6 mb-6 relative z-10">
+                    <div>
+                        <label className="block text-[11px] uppercase mb-2 flex items-center gap-1.5">
+                            <Sliders className="w-3.5 h-3.5" /> Maximum Distance Radius
+                        </label>
+                        <div className="inline-flex flex-wrap gap-1.5 w-fit max-w-full">
+                            {RADIUS_OPTIONS.map((opt) => {
+                                const isSelected = radius === opt.value;
+                                return (
+                                    <FoolishShrimpButton
+                                        key={opt.value}
+                                        type="button"
+                                        onClick={() => setRadius(opt.value)}
+                                        isActive={isSelected}
+                                        className="!w-auto px-3.5 py-2 text-xs">
+                                        {opt.label}
+                                    </FoolishShrimpButton>
+                                );
+                            })}
+                        </div>
+                    </div>
 
-            {permission === "denied" && (
-                <div className="mb-4 px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300">
-                    🔒 Notifications are blocked in your browser settings. Enable them to receive show alerts.
-                </div>
-            )}
+                    <div>
+                        <label className="block text-[11px] uppercase mb-2 flex items-center gap-1.5">
+                            <Music className="w-3.5 h-3.5" /> Which Types of Show Notifications?
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                            {(() => {
+                                const isAll = selectedTypes.includes("all");
+                                const activeTypeSet = new Set(selectedTypes);
+                                return SHOW_TYPES.map((type) => {
+                                    const isSelected = isAll || activeTypeSet.has(type.id);
+                                    return (
+                                        /* eslint-disable-next-line react-doctor/duplicate-jsx-subtree */
+                                        <FoolishShrimpButton
+                                            key={type.id}
+                                            type="button"
+                                            onClick={() => toggleType(type.id)}
+                                            isActive={isSelected}
+                                            className="!w-auto inline-flex items-center gap-1.5 px-2.5 py-2 text-xs">
+                                            <span>{type.label}</span>
 
-            <div className="flex flex-wrap items-end gap-6 mb-6 relative z-10">
-                <div className="shrink-0 w-full sm:w-[300px]">
-                    <label className="block mb-2 flex items-center gap-1.5">
-                        Full Name <span className="text-white/30 normal-case tracking-normal">(optional)</span>
-                    </label>
-                    <GlowInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" wrapperClassName="w-full sm:w-[300px]" />
-                </div>
-
-                <div className="shrink-0 w-full sm:w-[300px]">
-                    <label className="block uppercase mb-2 flex items-center gap-1.5">
-                        Your Zip Code / City
-                    </label>
-                    <GlowInput type="text" value={zip} onChange={(e) => setZip(e.target.value)} placeholder="e.g. 60056 or Chicago" wrapperClassName="w-full sm:w-[300px]" />
-                </div>
-
-                <div className="shrink-0 w-full sm:w-[300px]">
-                    <label className="block mb-2 flex items-center gap-1.5">
-                        Email <span className="text-white/30 normal-case tracking-normal">(optional)</span>
-                    </label>
-                    <GlowInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" wrapperClassName="w-full sm:w-[300px]" />
-                </div>
-
-                <div className="shrink-0 w-full lg:w-auto">
-                    <label className="block text-[11px] uppercase mb-2 flex items-center gap-1.5">
-                        <Sliders className="w-3.5 h-3.5" /> Maximum Distance Radius
-                    </label>
-                    <div className="inline-flex flex-wrap gap-1.5 w-fit max-w-full">
-                        {RADIUS_OPTIONS.map((opt) => {
-                            const isSelected = radius === opt.value;
-                            return (
-                                <FoolishShrimpButton
-                                    key={opt.value}
-                                    type="button"
-                                    onClick={() => setRadius(opt.value)}
-                                    isActive={isSelected}
-                                    className="!w-auto px-3.5 py-2 text-xs">
-                                    {opt.label}
-                                </FoolishShrimpButton>
-                            );
-                        })}
+                                        </FoolishShrimpButton>
+                                    );
+                                });
+                            })()}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="mb-6 relative z-10">
-                <label className="block text-[11px] uppercase mb-2 flex items-center gap-1.5">
-                    <Music className="w-3.5 h-3.5" /> Which Types of Show Notifications?
-                </label>
-                <div className="flex flex-wrap gap-2">
-                    {SHOW_TYPES.map((type) => {
-                        const isSelected = selectedTypes.includes(type.id);
-                        return (
-                            <FoolishShrimpButton
-                                key={type.id}
-                                type="button"
-                                onClick={() => toggleType(type.id)}
-                                isActive={isSelected}
-                                className="!w-auto inline-flex items-center gap-1.5 px-3.5 py-2 text-xs">
-                                {type.iconType === "guitar" ? (
-                                    <Guitar className="w-3.5 h-3.5 text-purple-300 shrink-0 inline-block" />
-                                ) : (
-                                    <span
-                                        className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
-                                        style={{
-                                            backgroundColor: type.color,
-                                            boxShadow: `0 0 6px ${type.color}80`,
-                                        }}
-                                    />
-                                )}
-                                <span>{type.label}</span>
-                                {isSelected && <CrispCheckIcon />}
-                            </FoolishShrimpButton>
-                        );
-                    })}
+                <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
+                    <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
+                    <span className="text-white font-medium">
+                        I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
+                    </span>
                 </div>
-            </div>
 
-            <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
-                <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
-                <span className="text-white font-medium">
-                    I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
-                </span>
-            </div>
-
-            <div className="pt-5 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-5 relative z-10">
-                {permission === "granted" ? (
-                    <div className="flex items-center gap-3 shrink-0 flex-nowrap">
-                        <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 uppercase whitespace-nowrap shrink-0">
-                            <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
-                        </span>
+                <div className="pt-5 border-t border-white/10 flex flex-col items-start justify-start gap-3 relative z-10">
+                    {permission === "granted" ? (
+                        <div className="flex flex-wrap items-center gap-3 shrink-0">
+                            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 uppercase whitespace-nowrap shrink-0">
+                                <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
+                            </span>
+                            <CosmicRadialButton
+                                icon={false}
+                                onClick={handleSavePrefs}
+                                disabled={isBusy}
+                                className="!px-6 !py-3 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
+                                <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
+                                    {status === "saving" ? (
+                                        <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
+                                    ) : status === "saved" ? (
+                                        <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap">Saved!</span></>
+                                    ) : (
+                                        <span className="whitespace-nowrap">Save Preferences</span>
+                                    )}
+                                </span>
+                            </CosmicRadialButton>
+                        </div>
+                    ) : (
                         <CosmicRadialButton
                             icon={false}
-                            onClick={handleSavePrefs}
-                            disabled={isBusy}
-                            className="!px-6 !py-3 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
+                            onClick={handleEnableAlerts}
+                            disabled={isBusy || permission === "denied"}
+                            className="!px-6 !py-3.5 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
                             <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                                 {status === "saving" ? (
                                     <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
                                 ) : status === "saved" ? (
-                                    <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap">Saved!</span></>
+                                    <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap">Preferences Saved!</span></>
                                 ) : (
-                                    <span className="whitespace-nowrap">Save Preferences</span>
+                                    <>
+                                        <Bell className="w-4 h-4 text-amber-300 shrink-0" />
+                                        <span className="whitespace-nowrap">ENABLE ALERTS ({radius === "all" ? "ALL SHOWS" : `${radius} MI`})</span>
+                                    </>
                                 )}
                             </span>
                         </CosmicRadialButton>
-                    </div>
-                ) : (
-                    <CosmicRadialButton
-                        icon={false}
-                        onClick={handleEnableAlerts}
-                        disabled={isBusy || permission === "denied"}
-                        className="!px-6 !py-3.5 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
-                        <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
-                            {status === "saving" ? (
-                                <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
-                            ) : status === "saved" ? (
-                                <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap">Preferences Saved!</span></>
-                            ) : (
-                                <>
-                                    <Bell className="w-4 h-4 text-amber-300 shrink-0" />
-                                    <span className="whitespace-nowrap">ENABLE ALERTS ({radius === "all" ? "ALL SHOWS" : `${radius} MI`})</span>
-                                </>
-                            )}
-                        </span>
-                    </CosmicRadialButton>
-                )}
+                    )}
 
-                <p className="uppercase r">
-                    {permission === "granted"
-                        ? "Your notifications are enabled. Update filters above and save anytime."
-                        : "Click to enable instant browser & proximity alerts for nearby shows."}
-                </p>
+                    <p className="uppercase text-xs text-white/70 tracking-wide   ">
+                        {permission === "granted"
+                            ? "Your notifications are enabled. Update filters above and save anytime."
+                            : "Click to enable instant browser & proximity alerts for nearby shows."}
+                    </p>
+                </div>
             </div>
         </div>
     );

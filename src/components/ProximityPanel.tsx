@@ -194,7 +194,7 @@ export default function ProximityPanel() {
               placeholder="60601"
               value={zip}
               onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
-              
+
             />
           </div>
           <div>
@@ -239,7 +239,7 @@ export default function ProximityPanel() {
           ) : nearbyShows.length === 0 ? (
             <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
               <p>No shows in your area yet.</p>
-              <p className="mt-1">We&apos;ll alert you the moment one is booked near you!</p>
+              <p className="  ">We&apos;ll alert you the moment one is booked near you!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
@@ -256,7 +256,7 @@ export default function ProximityPanel() {
                         <span className="text-blue-400 uppercase">
                           {new Date(show.date + "T12:00:00").toLocaleDateString("en-US", { month: "short" })}
                         </span>
-                        <span className="text-lg text-white leading-none">
+                        <span className="text-lg text-white   ">
                           {new Date(show.date + "T12:00:00").getDate()}
                         </span>
                       </div>
@@ -318,7 +318,7 @@ export default function ProximityPanel() {
                               )}
                             </div>
                           ))}
-                          {attendees.length> 12 && (
+                          {attendees.length > 12 && (
                             <div className="px-3 py-1.5 bg-white border border-black/10 rounded-lg">
                               <span className="text-black/50">+{attendees.length - 12} more</span>
                             </div>

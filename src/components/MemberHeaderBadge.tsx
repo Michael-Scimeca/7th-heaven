@@ -98,7 +98,7 @@ export function MemberHeaderBadge({
             </span>
           )}
         </div>
-        {email && <p className="text-white/70 text-sm mt-1">{email}</p>}
+        {email && <p className="text-white/70 text-sm   ">{email}</p>}
         {subtitle && (
           <p className="text-white/80 text-sm sm:text-base font-semibold mt-2">
             {subtitle}

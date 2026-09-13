@@ -390,7 +390,7 @@ export default function PlannerDashboard() {
   const s = STATUS_CONFIG[booking.status];
 
   return (
-    <section className="font-sans">
+    <section className="  ">
 
 
 
@@ -577,21 +577,19 @@ export default function PlannerDashboard() {
 
 
       {/* ── Band & Event Contacts Panel ── */}
-      <div className="mt-8">
+      <div className="my-10">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div>
             <h3 className="text-white uppercase">7th Heaven Band & Event Contacts</h3>
             <p className="mt-0.5">Direct contacts for booking, production, hospitality & press</p>
           </div>
-
-
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 w-full">
           {(activeContactFilter === "all" || activeContactFilter === "booking") && (
             <div className="w-full flex flex-col items-center text-center">
               <div
-                className="relative w-full h-[320px] sm:h-[380px] overflow-hidden flex items-end justify-center"
+                className="relative w-full   overflow-hidden flex items-end justify-center"
                 style={{
                   WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
                   maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
@@ -626,7 +624,7 @@ export default function PlannerDashboard() {
           {(activeContactFilter === "all" || activeContactFilter === "tech") && (
             <div className="w-full flex flex-col items-center text-center">
               <div
-                className="relative w-full h-[320px] sm:h-[380px] overflow-hidden flex items-end justify-center"
+                className="relative w-full overflow-hidden flex items-end justify-center"
                 style={{
                   WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
                   maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
@@ -661,7 +659,7 @@ export default function PlannerDashboard() {
           {(activeContactFilter === "all" || activeContactFilter === "non-tech") && (
             <div className="w-full flex flex-col items-center text-center">
               <div
-                className="relative w-full h-[320px] sm:h-[380px] overflow-hidden flex items-end justify-center"
+                className="relative w-full overflow-hidden flex items-end justify-center"
                 style={{
                   WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
                   maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
@@ -696,7 +694,7 @@ export default function PlannerDashboard() {
           {(activeContactFilter === "all" || activeContactFilter === "press") && (
             <div className="w-full flex flex-col items-center text-center">
               <div
-                className="relative w-full h-[320px] sm:h-[380px] overflow-hidden flex items-end justify-center"
+                className="relative w-full overflow-hidden flex items-end justify-center"
                 style={{
                   WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
                   maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
@@ -732,7 +730,7 @@ export default function PlannerDashboard() {
 
       {/* ── Booking History Timeline ── */}
       {allBookings.length > 1 && (
-        <div className="mt-10">
+        <div className="  0">
           <div className="flex items-center gap-3 mb-6">
 
             <div>
@@ -777,7 +775,7 @@ export default function PlannerDashboard() {
                           )}
                         </div>
                       </div>
-                      <h4 className={`   mb-0.5 ${b.status === 'cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
+                      <h4 className={`      ${b.status === 'cancelled' ? 'text-white/30 line-through' : 'text-white'}`}>
                         {b.eventName}
                       </h4>
                       <div className="flex items-center gap-4 text-white/40">

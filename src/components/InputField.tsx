@@ -3,7 +3,7 @@
 import React, { forwardRef } from "react";
 
 export interface InputFieldProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
   label?: string;
   labelRight?: React.ReactNode;
   required?: boolean;
@@ -11,11 +11,15 @@ export interface InputFieldProps
   className?: string;
   inputClassName?: string;
   containerClassName?: string;
+  labelClassName?: string;
   glow?: boolean;
   error?: string;
+  multiline?: boolean;
+  rows?: number;
+  onChange?: (e: any) => void;
 }
 
-export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
+export const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputFieldProps>(
   (
     {
       label,
@@ -23,11 +27,15 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       required,
       id,
       className = "",
-      inputClassName = "",
+      inputClassName = "px-5 py-2.5",
       containerClassName = "",
+      labelClassName = "",
       glow = true,
       error,
       name,
+      multiline = false,
+      rows = 3,
+      onChange,
       ...props
     },
     ref
@@ -38,10 +46,10 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
     return (
       <div className={`flex flex-col justify-start w-full ${containerClassName} ${className}`}>
         {label && (
-          <div className="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
+          <div className="mb-2 min-h-[24px]">
             <label
               htmlFor={inputId}
-              className="text-white block">
+              className={`text-white block ${labelClassName}`}>
               {label}
               {required && " *"}
             </label>
@@ -49,18 +57,33 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           </div>
         )}
         <div className={`${glow ? "input-glow-border" : ""} rounded-lg w-full`}>
-          <input
-            ref={ref}
-            id={inputId}
-            name={name}
-            required={required}
-            aria-label={props["aria-label"] || (label ? label : "Input field")}
-            className={`w-full bg-[#00000029] border-0 px-4 py-3.5 text-white font-normal font-semibold placeholder:text-white/45 focus:outline-none transition-colors rounded-lg ${inputClassName}`}
-            {...props}
-          />
+          {multiline ? (
+            <textarea
+              ref={ref as React.Ref<HTMLTextAreaElement>}
+              id={inputId}
+              name={name}
+              required={required}
+              rows={rows}
+              onChange={onChange}
+              aria-label={props["aria-label"] || (label ? label : "Input field")}
+              className={`w-full bg-[#00000029] border-0 text-white font-normal font-semibold placeholder:text-white/45 focus:outline-none transition-colors rounded-lg ${inputClassName}`}
+              {...(props as any)}
+            />
+          ) : (
+            <input
+              ref={ref as React.Ref<HTMLInputElement>}
+              id={inputId}
+              name={name}
+              required={required}
+              onChange={onChange}
+              aria-label={props["aria-label"] || (label ? label : "Input field")}
+              className={`w-full bg-[#00000029] border-0  text-white font-normal font-semibold placeholder:text-white/45 focus:outline-none transition-colors rounded-lg ${inputClassName}`}
+              {...(props as any)}
+            />
+          )}
         </div>
         {error && (
-          <span className="text-xs text-rose-400 mt-1 font-medium">{error}</span>
+          <span className="text-xs text-rose-400    font-medium">{error}</span>
         )}
       </div>
     );
@@ -70,3 +93,4 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 InputField.displayName = "InputField";
 
 export default InputField;
+

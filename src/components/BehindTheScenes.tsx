@@ -103,7 +103,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               </button>
 
               {/* Director credit */}
-              <div className="mt-10 border-t border-white/10 pt-6">
+              <div className="  0 border-t border-white/10 pt-6">
                 <p className="tracking-[0.15em] uppercase mb-1">
                   Directed by
                 </p>
@@ -165,7 +165,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                       <span>{video.year}</span>
                     </div>
                   </div>
-                  <p className="mt-1 line-clamp-1">{video.subtitle}</p>
+                  <p className="   line-clamp-1">{video.subtitle}</p>
                 </div>
               </div>
             ))}

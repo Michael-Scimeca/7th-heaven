@@ -11,7 +11,7 @@ export async function GET() {
       <title>Signed-in Planner Dashboard</title>
       <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="bg-[#050508] text-white font-sans p-6 min-h-screen">
+    <body class="bg-[#050508] text-white    p-6 min-h-screen">
       <div class="max-w-4xl mx-auto space-y-6">
         
         {/* Top Navbar Header */}
@@ -44,8 +44,8 @@ export async function GET() {
           <div class="flex items-center justify-between relative z-10">
             <div>
               <span class="   uppercase    text-purple-400">Planner Coordinator Portal</span>
-              <h2 class="   text-white mt-1">Confirmed Event Bookings</h2>
-              <p class="mt-1">Manage concert schedules, stage riders, and direct band manager communications.</p>
+              <h2 class="   text-white   ">Confirmed Event Bookings</h2>
+              <p class="  ">Manage concert schedules, stage riders, and direct band manager communications.</p>
             </div>
             <div class="bg-purple-600/30 border border-purple-400/40 px-4 py-2 rounded-lg text-right">
               <span class="text-[10px]    uppercase block">Booking Reference</span>

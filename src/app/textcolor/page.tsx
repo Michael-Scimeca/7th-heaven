@@ -140,7 +140,7 @@ export default function TextColorTestPage() {
                       type="color"
                       value={c}
                       onChange={(e) => updateColor(i, e.target.value)}
-                      className="h-8 w-8 cursor-pointer rounded border border-white/10 bg-transparent"
+                      className="h-8 w-8 cursor-pointer rounded border border-white/10   "
                     />
                     <span className="text-white/50">
                       {c}

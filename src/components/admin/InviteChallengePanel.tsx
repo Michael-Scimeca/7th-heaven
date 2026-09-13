@@ -87,9 +87,9 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       <button
         type="button"
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="w-full text-left relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group border-0 bg-transparent">
+        className="w-full text-left relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group border-0   ">
         <div>
-          <p className="uppercase mb-0.5">Show Promotions</p>
+          <p className="uppercase   ">Show Promotions</p>
           <h3 className="text-white flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
@@ -111,7 +111,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       </button>
 
       {!isCollapsed && (
-        <div className="relative p-6 pt-0 border-t border-white/[0.04] mt-1 space-y-5 animate-[fadeIn_0.2s_ease-out]">
+        <div className="relative p-6 pt-0 border-t border-white/[0.04]    space-y-5 animate-[fadeIn_0.2s_ease-out]">
           {/* Show picker */}
           <div className="mb-4 mt-4">
             <label htmlFor="invite-challenge-show-select" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block">Select Show</label>

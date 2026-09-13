@@ -124,7 +124,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
 
   const confirmedCount = data.crew.filter(c => c.confirmed).length;
   const gearLoaded = data.gear.filter(g => g.loaded).length;
-  const gearPct = data.gear.length> 0 ? Math.round((gearLoaded / data.gear.length) * 100) : 0;
+  const gearPct = data.gear.length > 0 ? Math.round((gearLoaded / data.gear.length) * 100) : 0;
 
   const tabs = [
     { id: "crew" as const, label: "Crew", count: `${confirmedCount}/${data.crew.length}`, Icon: Users },
@@ -145,7 +145,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
         </div>
         <div className="flex items-center gap-1.5">
           <span className="text-[var(--font-size-2xs)] text-white/20 uppercase">Headcount:</span>
-          <span className={`   ${confirmedCount> 0 ? 'text-emerald-400' : 'text-white/30'}`}>{confirmedCount}</span>
+          <span className={`   ${confirmedCount > 0 ? 'text-emerald-400' : 'text-white/30'}`}>{confirmedCount}</span>
         </div>
       </div>
 
@@ -225,7 +225,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             {Array.from(data.timeline, (event, i) => ({ event, i })).map(({ event, i }) => (
               <div key={event.label} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/[0.01] border border-white/5">
                 <div className="relative flex flex-col items-center shrink-0">
-                  <div className={`w-3 h-3 rounded-lg border-2 ${event.time ? 'bg-[var(--color-accent)] border-[var(--color-accent)]' : 'bg-transparent border-white/10 '}`} />
+                  <div className={`w-3 h-3 rounded-lg border-2 ${event.time ? 'bg-[var(--color-accent)] border-[var(--color-accent)]' : '   border-white/10 '}`} />
                   {i < data.timeline.length - 1 && <div className="w-px h-6 bg-[#00000029] absolute top-3.5" />}
                 </div>
                 <span className="text-white/50 w-24 shrink-0">{event.label}</span>
@@ -234,7 +234,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   value={event.time}
                   onChange={e => updateTimeline(i, e.target.value)}
                   placeholder="e.g. 3:00 PM"
-                  className="flex-1 bg-transparent border-b border-white/10 focus:border-[var(--color-accent)]/50 text-white px-1 py-1 outline-none placeholder:text-white/10 transition-colors"
+                  className="flex-1    border-b border-white/10 focus:border-[var(--color-accent)]/50 text-white px-1 py-1 outline-none placeholder:text-white/10 transition-colors"
                 />
               </div>
             ))}
@@ -247,7 +247,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             {/* Progress bar */}
             <div className="mb-3 flex items-center gap-3">
               <div className="flex-1 h-1.5 bg-[#00000029] rounded-lg overflow-hidden">
-                <div className={`h-full rounded-lg transition-colors ${gearPct === 100 ? 'bg-emerald-500' : gearPct>= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
+                <div className={`h-full rounded-lg transition-colors ${gearPct === 100 ? 'bg-emerald-500' : gearPct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
               </div>
               <span className={`   ${gearPct === 100 ? 'text-emerald-400' : 'text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>
             </div>
@@ -296,7 +296,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 {data.notes.map((note) => (
                   <div key={note.text} className="px-3 py-2.5 bg-white/[0.02] border border-white/10 rounded-lg">
                     <p>{note.text}</p>
-                    <div className="flex items-center gap-2 mt-1.5">
+                    <div className="flex items-center gap-2   .5">
                       <span className="text-[var(--font-size-2xs)] text-[var(--color-accent)]/50">{note.author}</span>
                       <span className="text-[var(--font-size-2xs)] text-white/15">·</span>
                       <span className="text-[var(--font-size-2xs)] text-white/20">{note.time}</span>

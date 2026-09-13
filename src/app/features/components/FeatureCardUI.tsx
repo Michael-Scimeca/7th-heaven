@@ -98,7 +98,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
-          <span className="text-5xl leading-none">{f.icon}</span>
+          <span className="text-5xl   ">{f.icon}</span>
           {isPurple && (
             <span className="text-base px-3 py-1 rounded-lg bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] uppercase shrink-0">✦ Flagship</span>
           )}

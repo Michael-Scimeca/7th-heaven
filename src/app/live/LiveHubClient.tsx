@@ -7,7 +7,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Guitar, Piano, Drum, Mic, Eye, Ban, VolumeX, Siren, Radio, Users, ScrollText } from "lucide-react";
-import LiveStreamInlineSubscribe from "@/components/LiveStreamInlineSubscribe";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import { SectionBadge } from "@/components/SectionBadge";
 
@@ -153,7 +152,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="min-h-screen pt-[100px] w-full bg-transparent px-0">
+    <section className="min-h-screen pt-[100px] w-full    px-0">
       {/* ── HERO HEADER ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 relative z-10 site-container">
         <div className="text-left">
@@ -233,7 +232,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                       </div>
                       {/* Card info */}
                       <div className="p-3">
-                        <p className="mb-0.5">{room.title}</p>
+                        <p className="  ">{room.title}</p>
                         <p style={{ color: "rgba(255,255,255,0.3)" }}>{getElapsed(room.creationTime)}</p>
                         <div className="flex gap-1.5 mt-3">
                           <Link href={`/live/${room.name.replace(/^live_/, "")}`}
@@ -430,24 +429,14 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                 aria-label="Copy stream link"
                 onClick={(e) => handleCopyLink(e, room.name.replace(/^live_/, ""))}
                 className={`ml-2 md:ml-4 shrink-0 px-3 md:px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all border cursor-pointer whitespace-nowrap z-20 ${copiedSlug === room.name.replace(/^live_/, "")
-                    ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]"
-                    : "bg-white/10 hover:bg-white/20 border-white/10 text-white active:scale-95"
+                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]"
+                  : "bg-white/10 hover:bg-white/20 border-white/10 text-white active:scale-95"
                   }`}>
                 {copiedSlug === room.name.replace(/^live_/, "") ? "✓ Copied!" : "Copy Link"}
               </button>
             </div>
           </div>
         ))}
-      </div>
-
-      {/* ── LIVE STREAM MASTER PUSH & EMAIL ALERTS CARD ── */}
-      <div className="site-container mt-14 flex">
-        <LiveStreamInlineSubscribe
-          className="w-full"
-          maxWidth="max-w-4xl"
-          title={sanityContent?.sections?.find((s: any) => s.sectionId === "subscribe")?.title}
-          subtitle={sanityContent?.sections?.find((s: any) => s.sectionId === "subscribe")?.subtitle}
-        />
       </div>
 
       {/* Live Stream Push Alert & Fan Signup Modal */}

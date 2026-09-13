@@ -557,11 +557,11 @@ export default function CruiseDashboard() {
     }
   };
 
-  if (isLoggedIn === undefined) return <div className="min-h-screen bg-transparent text-white flex items-center justify-center">Loading...</div>;
+  if (isLoggedIn === undefined) return <div className="min-h-screen    text-white flex items-center justify-center">Loading...</div>;
 
   if (showAuth) {
     return (
-      <div className="min-h-screen bg-transparent text-white pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
+      <div className="min-h-screen    text-white pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
         {/* Subtle background elements */}
         <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5 rounded-lg blur-[100px] pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-lg blur-[100px] pointer-events-none" />
@@ -569,7 +569,7 @@ export default function CruiseDashboard() {
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
             <h1>Cruise Hub</h1>
-            <p className="uppercase mt-1">Exclusive Passenger Community</p>
+            <p className="uppercase   ">Exclusive Passenger Community</p>
           </div>
 
           <div className="bg-white border border-black/10 overflow-hidden">
@@ -696,7 +696,7 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="site-container min-h-screen bg-transparent text-white pt-[100px] selection:bg-cyan-500 selection:text-black">
+    <div className="site-container min-h-screen    text-white pt-[100px] selection:bg-cyan-500 selection:text-black">
       <div>
         <header className="mb-5 border-b border-white/10 flex flex-col md:flex-row justify-between gap-8">
           <MemberHeaderBadge
@@ -889,7 +889,7 @@ export default function CruiseDashboard() {
             <span className="uppercase   ]">
               Interactive Voyage Map
             </span>
-            <h2 className="uppercase text-white mt-1 leading-none">
+            <h2 className="uppercase text-white      ">
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
             <p className="mt-4 font-semibold">

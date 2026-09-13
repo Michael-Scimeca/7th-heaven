@@ -199,6 +199,21 @@ export default function RootLayout({
             __html: PRELOAD_SCRIPT_CONTENT,
           }}
         />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              html.is-preloading, html.is-preloading body {
+                overflow: hidden !important;
+                background-color: #030006 !important;
+              }
+              html.is-preloading .preloader {
+                display: grid !important;
+                z-index: 100005 !important;
+                pointer-events: none !important;
+              }
+            `,
+          }}
+        />
       </head>
       <body suppressHydrationWarning>
         <Preloader />

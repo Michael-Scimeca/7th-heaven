@@ -15,6 +15,8 @@ import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import AddCmsButton from "@/components/AddCmsButton";
+import InputField from "@/components/InputField";
+import CustomDropdown from "@/components/CustomDropdown";
 import dynamic from "next/dynamic";
 
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
@@ -136,6 +138,14 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
     )
   );
 
+  const isAdmin = Boolean(
+    isLoggedIn &&
+    (
+      member?.role === "admin" ||
+      (member as unknown as Record<string, unknown>)?.isAdmin === true
+    )
+  );
+
   // Fetch photos and notify PageTransition when data & images are loaded
   const fetchPhotos = useCallback(() => {
     const url = isModerator ? "/api/fans?all=true" : "/api/fans";
@@ -253,12 +263,16 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8">
             <div className="text-left">
-              <h1 className="uppercase text-white leading-none">
-                {sanityContent?.heroHeading || sanityContent?.title || (
-                  <>
-                    FAN PHOTO &amp; VIDEO <span className="inline-block pr-[0.15em]">WALL</span>
-                  </>
-                )}
+              <h1 className="uppercase text-white">
+                {sanityContent?.heroHeading
+                  ? sanityContent.heroHeading.replace(/FAN PHOTO (?:&|AND) VIDEO WALL/i, "FAN MEDIA WALL").replace(/FAN PHOTO WALL/i, "FAN MEDIA WALL")
+                  : sanityContent?.title
+                    ? sanityContent.title.replace(/FAN PHOTO (?:&|AND) VIDEO WALL/i, "FAN MEDIA WALL").replace(/FAN PHOTO WALL/i, "FAN MEDIA WALL")
+                    : (
+                      <>
+                        FAN MEDIA <span className="inline-block pr-[0.15em]">WALL</span>
+                      </>
+                    )}
               </h1>
               <p className="mt-3 max-w-2xl">
                 {sanityContent?.heroSubheading || sanityContent?.subtitle || "Share your best memories, stage captures, and live concert moments from 7th Heaven shows. Upload your photos and videos and join the community wall!"}
@@ -293,12 +307,15 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
               )}
             </div>
 
-            {/* Action Buttons on the Right */}
-            <div className="shrink-0 self-start lg:self-end flex flex-wrap items-center gap-3">
-              <AddCmsButton
-                label="ADD PHOTO / VIDEO IN SANITY CMS"
-                onClick={() => setIsAddCmsModalOpen(true)}
-              />
+            {/* Action Buttons on the Right (Stacked Vertically) */}
+            <div className="shrink-0 self-start lg:self-end flex flex-col gap-3 w-full sm:w-auto">
+              {isAdmin && (
+                <AddCmsButton
+                  label="ADD PHOTO / VIDEO IN SANITY CMS"
+                  onClick={() => setIsAddCmsModalOpen(true)}
+                  className="w-full justify-center"
+                />
+              )}
               <CosmicRadialButton
                 onClick={() => {
                   if (!isLoggedIn) {
@@ -308,7 +325,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   }
                 }}
                 icon={<Camera className="w-4 h-4" />}
-                className="px-8 py-4 rounded-lg text-white">
+                className="px-8 py-4 rounded-lg text-white w-full justify-center">
                 {showUpload
                   ? (sanityContent?.uploadButtonHideText || "Hide Upload Form")
                   : (sanityContent?.uploadButtonText || "Upload Photo / Video")}
@@ -319,7 +336,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
           {/* Dynamic Upload Form */}
           {
             showUpload && effectivelyLoggedIn && (
-              <div className="mt-10 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
+              <div className="  0 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
                 <FanUploadForm />
               </div>
             )
@@ -332,92 +349,73 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
         {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
         {
           isModerator && pendingPhotos.length > 0 && (
-            <div className="mx-auto site-container">
-              <div className="flex items-center gap-3 mb-6">
+            <div className="mx-auto site-container mb-12">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div>
-                  <h3 className="text-white">
+                  <h3 className="text-white text-lg font-bold uppercase">
                     {sanityContent?.pendingQueueTitle || "Pending Review Queue"}
                   </h3>
-                  <p className="uppercase">
+                  <p className="uppercase text-xs text-purple-300/70">
                     {sanityContent?.pendingQueueSubtitle || "Viewed & Approved by Admins & Crew only"}
                   </p>
                 </div>
-                <span className="ml-auto bg-[#00000029] text-white px-3 py-1 rounded-lg border border-white/10">
+
+                <span className="bg-[#00000040] text-white px-3 py-1 rounded-xl border border-white/10 text-xs font-semibold">
                   {pendingPhotos.length} Pending
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 mb-12 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* ── STACKED CARD GRID LAYOUT ── */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {pendingPhotos.map((photo) => {
-                  const isVideo =
-                    photo.type === "video" ||
-                    photo.src.endsWith(".mp4") ||
-                    photo.src.endsWith(".mov");
+                  const isVideo = photo.type === "video" || photo.src.endsWith(".mp4") || photo.src.endsWith(".mov");
                   return (
                     <div
                       key={photo.id}
-                      className="p-4 bg-[#e1e6ff15] border border-white/10 rounded-2xl flex flex-col sm:flex-row gap-4 items-start sm:items-center    backdrop-blur-md max-w-[520px] w-full">
-                      {/* Thumbnail twice as big (w-56 h-56 / 224px) */}
-                      <div className="relative w-56 h-56 shrink-0 rounded-xl overflow-hidden border border-white/10 bg-black/40">
-                        {isVideo ? (
-                          <video
-                            src={photo.src}
-                            className="w-full h-full object-cover"
-                            muted
-                            playsInline
-                            autoPlay
-                            loop
-                          />
-                        ) : (
-                          <Image
-                            src={photo.src}
-                            alt="Fan Upload Thumbnail"
-                            fill
-                            sizes="224px"
-                            unoptimized
-                            className="object-cover"
-                          />
-                        )}
-                        <div className="absolute top-2 right-2 px-2 py-1 bg-black/80 backdrop-blur-md rounded text-[12px] text-white/90">
-                          {photo.date || "Pending"}
+                      className="p-4 border border-purple-500/20 rounded-2xl flex flex-col justify-between backdrop-blur-md w-full shadow-xl hover:border-purple-400/40 transition-all text-left">
+                      <div>
+                        <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-white/10 bg-black/40 mb-3">
+                          {isVideo ? (
+                            <video src={photo.src} className="w-full h-full object-cover" muted playsInline autoPlay loop />
+                          ) : (
+                            <Image src={photo.src} alt="Fan Upload" fill sizes="(max-width: 768px) 100vw, 400px" unoptimized className="object-cover" />
+                          )}
+                          <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-black/80 backdrop-blur-md rounded-md text-[11px] text-white font-semibold border border-white/10">
+                            {photo.date || "Pending"}
+                          </div>
                         </div>
-                      </div>
-
-                      {/* Metadata & Actions */}
-                      <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
-                        <div>
-                          <div className="flex items-center gap-1 text-white truncate">
+                        <div className="space-y-1.5">
+                          <div className="flex items-center gap-1.5 text-white font-bold text-sm">
                             <span className="text-purple-400">@</span>
                             <span className="truncate">{photo.name}</span>
                           </div>
                           {photo.venue && (
-                            <p className="uppercase truncate flex items-center gap-1 mt-0.5">
-                              <MapPin className="w-3 h-3 text-purple-400 shrink-0" /> {photo.venue}
+                            <p className="uppercase text-xs text-white/70 flex items-center gap-1.5 font-medium">
+                              <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" /> {photo.venue}
                             </p>
                           )}
                           {photo.caption && (
-                            <p className="truncate mt-1">
+                            <p className="text-xs text-white/90 italic leading-relaxed line-clamp-2 pt-0.5">
                               &quot;{photo.caption}&quot;
                             </p>
                           )}
                         </div>
+                      </div>
 
-                        {/* Action Buttons */}
-                        <div className="grid grid-cols-2 gap-2 mt-2">
-                          <button
-                            onClick={() => handleRejectPhoto(photo.id)}
-                            disabled={moderatingId === photo.id}
-                            className="py-1.5 px-2 text-[10px] uppercase text-red-200 bg-red-950/50 border border-red-500/30 rounded-lg hover:bg-red-900/70 transition-colors cursor-pointer text-center">
-                            Reject
-                          </button>
-                          <CosmicRadialButton
-                            onClick={() => handleApprovePhoto(photo.id)}
-                            disabled={moderatingId === photo.id}
-                            icon={false}
-                            className="!py-1.5 !px-2 text-[10px] text-white ! rounded-lg text-center">
-                            Approve
-                          </CosmicRadialButton>
-                        </div>
+                      <div className="grid grid-cols-2 gap-2.5 mt-4 pt-3 border-t border-white/10">
+                        <button
+                          onClick={() => handleRejectPhoto(photo.id)}
+                          disabled={moderatingId === photo.id}
+                          className="py-2 px-3 text-xs uppercase font-bold text-red-200 bg-red-950/60 border border-red-500/30 !rounded-full hover:bg-red-900/80 transition-colors cursor-pointer text-center">
+                          Reject
+                        </button>
+                        <CosmicRadialButton
+                          onClick={() => handleApprovePhoto(photo.id)}
+                          disabled={moderatingId === photo.id}
+                          icon={false}
+                          className="!py-2 !px-3 text-xs text-white !rounded-full text-center font-bold">
+                          Approve
+                        </CosmicRadialButton>
                       </div>
                     </div>
                   );
@@ -431,10 +429,10 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
         {
           approvedPhotos.length > 0 && (
             <div className="mx-auto">
-              <div className="relative w-full aspect-[21/9] overflow-hidden text-left">
-                {approvedPhotos[0].type === "video" ||
-                  approvedPhotos[0].src.endsWith(".mp4") ||
-                  approvedPhotos[0].src.endsWith(".mov") ? (
+              <div className="relative w-full aspect-[21/9] min-h-[300px] bg-purple-950/60 overflow-hidden text-left">
+                {approvedPhotos[0].src.endsWith(".mp4") ||
+                  approvedPhotos[0].src.endsWith(".mov") ||
+                  approvedPhotos[0].src.endsWith(".webm") ? (
                   <video
                     src={approvedPhotos[0].src}
                     className="w-full h-full object-cover object-top"
@@ -459,7 +457,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   <span className="inline-block text-[10px] sm:text-[11px] uppercase px-3 py-1 rounded-lg border border-white/10 bg-black/45 backdrop-blur-md text-white/90 mb-2">
                     {sanityContent?.featuredMomentBadge || "Featured Moment"}
                   </span>
-                  <h3 className="uppercase text-purple-300 leading-none drop-">
+                  <h3 className="uppercase text-purple-300    drop-">
                     {approvedPhotos[0].name}
                   </h3>
                   <div className="flex items-center gap-2 text-white/70 font-semibold mt-2">
@@ -535,7 +533,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                       onClick={() => setSelectedPhoto(photo)}
                       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedPhoto(photo); } }}>
                       <div className="relative aspect-[16/10] w-full bg-black/40 overflow-hidden">
-                        {isVideo ? (
+                        {photo.src.endsWith(".mp4") || photo.src.endsWith(".mov") || photo.src.endsWith(".webm") ? (
                           <video
                             src={photo.src}
                             className="w-full h-full object-cover block"
@@ -547,7 +545,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                         ) : (
                           <Image
                             src={photo.src}
-                            alt={`Photo by ${photo.name}`}
+                            alt={`Media by ${photo.name}`}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             unoptimized
@@ -675,7 +673,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
       {/* ── ADD PHOTO / VIDEO CMS MODAL PORTAL ── */}
       {mounted && isAddCmsModalOpen && createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fade-in_0.2s_ease-out]">
-          <div className="relative w-full max-w-xl bg-[#12071f] border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-[0_0_50px_rgba(168,85,247,0.25)] text-left max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full max-w-xl bg-[#12071f] border border-purple-500/30 rounded-2xl p-6 sm:p-8  text-left max-h-[90vh] overflow-y-auto">
             <button
               type="button"
               onClick={() => setIsAddCmsModalOpen(false)}
@@ -711,117 +709,93 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
 
             <form onSubmit={handleSaveCmsMoment} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                    Fan / Contributor Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={cmsForm.name}
-                    onChange={(e) => setCmsForm((prev) => ({ ...prev, name: e.target.value }))}
-                    placeholder="e.g. ChicagoLou"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                  />
-                </div>
+                <InputField
+                  label="Fan / Contributor Name"
+                  required
+                  value={cmsForm.name}
+                  onChange={(e) => setCmsForm((prev) => ({ ...prev, name: e.target.value }))}
+                  placeholder="e.g. ChicagoLou"
+                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                />
 
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                    Venue Name
-                  </label>
-                  <input
-                    type="text"
-                    value={cmsForm.venue}
-                    onChange={(e) => setCmsForm((prev) => ({ ...prev, venue: e.target.value }))}
-                    placeholder="e.g. DeKalb Cornfest"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                  />
-                </div>
+                <InputField
+                  label="Venue Name"
+                  value={cmsForm.venue}
+                  onChange={(e) => setCmsForm((prev) => ({ ...prev, venue: e.target.value }))}
+                  placeholder="e.g. DeKalb Cornfest"
+                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <InputField
+                  label="City & State"
+                  value={cmsForm.city}
+                  onChange={(e) => setCmsForm((prev) => ({ ...prev, city: e.target.value }))}
+                  placeholder="e.g. DeKalb, IL"
+                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                />
+
+                <InputField
+                  label="Display Date"
+                  value={cmsForm.date}
+                  onChange={(e) => setCmsForm((prev) => ({ ...prev, date: e.target.value }))}
+                  placeholder="e.g. August 2024"
+                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                    City &amp; State
-                  </label>
-                  <input
-                    type="text"
-                    value={cmsForm.city}
-                    onChange={(e) => setCmsForm((prev) => ({ ...prev, city: e.target.value }))}
-                    placeholder="e.g. DeKalb, IL"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                    Display Date
-                  </label>
-                  <input
-                    type="text"
-                    value={cmsForm.date}
-                    onChange={(e) => setCmsForm((prev) => ({ ...prev, date: e.target.value }))}
-                    placeholder="e.g. August 2024"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-2 min-h-[24px]">
                     Media Type
                   </label>
-                  <select
+                  <CustomDropdown
                     value={cmsForm.type}
-                    onChange={(e) => setCmsForm((prev) => ({ ...prev, type: e.target.value as "image" | "video" }))}
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
-                  >
-                    <option value="image">Photo Image</option>
-                    <option value="video">Video File</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                    Instagram Handle
-                  </label>
-                  <input
-                    type="text"
-                    value={cmsForm.instagram}
-                    onChange={(e) => setCmsForm((prev) => ({ ...prev, instagram: e.target.value }))}
-                    placeholder="e.g. @chicagolou"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                    options={[
+                      { value: "image", label: "Photo Image" },
+                      { value: "video", label: "Video File" },
+                    ]}
+                    onChange={(val) => setCmsForm((prev) => ({ ...prev, type: val as "image" | "video" }))}
+                    chevronColor="#c084fc"
+                    className="!bg-black/50 !border-white/15 !rounded-xl !px-5 !py-2.5 !text-sm !font-normal"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                  Photo / Video Image URL or Path *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={cmsForm.src}
-                  onChange={(e) => setCmsForm((prev) => ({ ...prev, src: e.target.value }))}
-                  placeholder="e.g. /images/fan-photo-featured.jpg or https://..."
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                <InputField
+                  label="Instagram Handle"
+                  value={cmsForm.instagram}
+                  onChange={(e) => setCmsForm((prev) => ({ ...prev, instagram: e.target.value }))}
+                  placeholder="e.g. @chicagolou"
+                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                  Caption / Memory Quote
-                </label>
-                <textarea
-                  rows={3}
-                  value={cmsForm.caption}
-                  onChange={(e) => setCmsForm((prev) => ({ ...prev, caption: e.target.value }))}
-                  placeholder="e.g. Front row every single time. Best night of the summer!"
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                />
-              </div>
+              <InputField
+                label="Photo / Video Image URL or Path"
+                required
+                value={cmsForm.src}
+                onChange={(e) => setCmsForm((prev) => ({ ...prev, src: e.target.value }))}
+                placeholder="e.g. /images/fan-photo-featured.jpg or https://..."
+                labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+              />
+
+              <InputField
+                label="Caption / Memory Quote"
+                multiline
+                rows={3}
+                value={cmsForm.caption}
+                onChange={(e) => setCmsForm((prev) => ({ ...prev, caption: e.target.value }))}
+                placeholder="e.g. Front row every single time. Best night of the summer!"
+                labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+              />
 
               <div className="flex items-center gap-2 pt-1">
                 <input

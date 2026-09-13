@@ -48,19 +48,19 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
               <h2 className="mb-3">2. Information We Collect</h2>
               <p className="mb-3">We may collect the following types of information:</p>
               <div className="flex flex-col gap-3">
-                <div className="py-2 border-0 bg-transparent shadow-none">
+                <div className="py-2 border-0    shadow-none">
                   <p className="mb-1">Account Information</p>
                   <p>Name, email address, and password when you create a member account.</p>
                 </div>
-                <div className="py-2 border-0 bg-transparent shadow-none">
+                <div className="py-2 border-0    shadow-none">
                   <p className="mb-1">SMS Alert Information</p>
                   <p>Name, zip code, and phone number when you subscribe to show alerts. We also record your consent timestamp and IP address as required by law.</p>
                 </div>
-                <div className="py-2 border-0 bg-transparent shadow-none">
+                <div className="py-2 border-0    shadow-none">
                   <p className="mb-1">Location Data</p>
                   <p>Approximate geolocation (latitude/longitude) only when you explicitly enable the &quot;Nearby Shows&quot; feature. This data is stored locally in your browser and is not transmitted to our servers.</p>
                 </div>
-                <div className="py-2 border-0 bg-transparent shadow-none">
+                <div className="py-2 border-0    shadow-none">
                   <p className="mb-1">Usage Data</p>
                   <p>Browser type, pages visited, and interaction patterns collected automatically through standard web analytics.</p>
                 </div>
@@ -83,7 +83,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             {/* 4 */}
             <div>
               <h2 className="mb-3">4. Proximity Alerts & Web Push Program</h2>
-              <div className="py-2 border-0 bg-transparent shadow-none">
+              <div className="py-2 border-0    shadow-none">
                 <p className="mb-3">By subscribing to 7th Heaven Proximity & Show Alerts, you consent to receive automated notifications regarding nearby concerts and show updates. Key details:</p>
                 <ul className="list-disc pl-5 space-y-2 text-base">
                   <li><strong>Data Collected:</strong> Full name (optional), email address (optional), zip code or city, distance radius (e.g. 15 mi, 30 mi, 50 mi, 100 mi, or all shows), show type filter preferences, and browser web push subscription credentials.</li>
@@ -150,7 +150,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             <div>
               <h2 className="mb-3">12. Contact Us</h2>
               <p className="mb-2">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
-              <div className="py-2 border-0 bg-transparent shadow-none">
+              <div className="py-2 border-0    shadow-none">
                 <p>Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline !mt-0">info@7thheavenband.com</a></p>
                 <p className="mt-0">Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com</a></p>
               </div>

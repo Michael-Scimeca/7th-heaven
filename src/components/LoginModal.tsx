@@ -675,7 +675,7 @@ function LoginModalBodyContent(props: any) {
     const el = scrollRef.current;
     if (!el) return;
     const maxScroll = el.scrollHeight - el.clientHeight;
-    if (maxScroll> 0) {
+    if (maxScroll > 0) {
       setScrollProgress(el.scrollTop / maxScroll);
       setThumbRatio(Math.max(0.2, el.clientHeight / el.scrollHeight));
     } else {
@@ -845,7 +845,7 @@ function LoginModalBodyContent(props: any) {
 
             <button type="button"
               onClick={() => { setPinSent(false); setPinCode(""); setError(""); }}
-              className="text-white hover:text-white text-center transition-colors mt-1 cursor-pointer">
+              className="text-white hover:text-white text-center transition-colors    cursor-pointer">
               ← Back to details
             </button>
           </div>

@@ -10,6 +10,7 @@ import { formatPhoneDisplay } from "@/lib/validation";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import InputField from "@/components/InputField";
+import CheckMarkIcon from "@/components/CheckMarkIcon";
 
 // --- COUNTDOWN TICKER ---
 export function EmbarkationCountdown() {
@@ -42,7 +43,7 @@ export function EmbarkationCountdown() {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center gap-6 bg-transparent border-none pb-2 relative overflow-visible">
+    <div className="flex flex-wrap items-center gap-6    border-none pb-2 relative overflow-visible">
       <div className="flex items-center shrink-0 z-10">
         <div>
           <h2 className="text-white leading-normal py-0.5">Embarkation</h2>
@@ -54,11 +55,11 @@ export function EmbarkationCountdown() {
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
             <div className="min-w-[48px] flex items-center justify-center">
-              <span className="text-white text-2xl md:text-3xl leading-none text-center">
+              <span className="text-white text-2xl md:text-3xl    text-center">
                 {value.toString().padStart(2, '0')}
               </span>
             </div>
-            <span className="text-[10px] text-white/80 uppercase mt-1 drop-">{unit}</span>
+            <span className="text-[10px] text-white/80 uppercase    drop-">{unit}</span>
           </div>
         ))}
       </div>
@@ -183,7 +184,7 @@ const MOCK_PHOTOS = [
 export function PhotoWall() {
 
   return (
-    <div className="mt-16">
+    <div className="  6">
       <div className="flex items-end justify-between mb-8">
         <div>
           <h2 className="text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
@@ -513,7 +514,7 @@ export function BookingManager({ email }: { email?: string }) {
           </div>
         </div>
 
-        {regError && <p className="text-rose-400 mt-1">{regError}</p>}
+        {regError && <p className="text-rose-400   ">{regError}</p>}
 
         <CosmicRadialButton
           type="submit"
@@ -533,7 +534,7 @@ export function BookingManager({ email }: { email?: string }) {
         <span className="uppercase block mb-2">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
           <div className="flex items-center gap-1.5 text-emerald-300 py-1">
-            <span>✓</span> Passport Verified
+            <CheckMarkIcon className="w-3.5 h-3.5 text-emerald-300 shrink-0" /> Passport Verified
           </div>
           <div className="flex items-center gap-1.5 px-2 py-1">
             Band VIP Pass Included
@@ -555,7 +556,7 @@ export function BookingManager({ email }: { email?: string }) {
         </div>
         <div className="flex justify-between items-center border-t border-white/10 pt-2">
           <span className="text-emerald-400 uppercase flex items-center gap-1">
-            <span>✓</span> Amount Paid
+            <CheckMarkIcon className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Amount Paid
           </span>
           <span className="text-emerald-400 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
         </div>
@@ -761,7 +762,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
         {success ? (
           <div className="p-8 text-center space-y-4">
             <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-              ✓
+              <CheckMarkIcon className="w-8 h-8 text-emerald-400" />
             </div>
             <h3 className="uppercase text-white">Payment Successful</h3>
             <p>
@@ -1077,7 +1078,7 @@ export function ExcursionTeasers() {
         {EXCURSIONS.map((ex, i) => (
           <div key={ex.title} className="p-3 bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
             <div>
-              <div className="text-white mb-0.5">{ex.title}</div>
+              <div className="text-white   ">{ex.title}</div>
               <div className="/80 uppercase r">Join {ex.bandMember}</div>
             </div>
             <div className="text-right">

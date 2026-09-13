@@ -177,7 +177,7 @@ export default function CompleteProfilePage() {
                     required
                   />
                 </div>
-                <p className="mt-1">This is your public handle. Letters, numbers &amp; underscores only.</p>
+                <p className="  ">This is your public handle. Letters, numbers &amp; underscores only.</p>
               </div>
 
               {/* Notification Preferences */}

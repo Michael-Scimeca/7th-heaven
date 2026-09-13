@@ -194,7 +194,7 @@ export const FEATURES: FeatureCard[] = [
     tags: ["FFmpeg Compression", "TensorFlow.js AI", "Admin Moderation", "Video Player", "Lightbox"],
     demo: "/demos/fan-photo-wall.webp",
     category: ["fan"],
-    link: "/fan-photo-wall",
+    link: "/fan-media-wall",
   },
   {
     icon: "🎸",

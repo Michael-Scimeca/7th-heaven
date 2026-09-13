@@ -252,7 +252,7 @@ export default function PlannerClient() {
                   ))}
                 </div>
               </div>
-              <div className="mt-10 pt-6 border-t border-white/10">
+              <div className="  0 pt-6 border-t border-white/10">
                 <p className="uppercase mb-2">Booking ID</p>
                 <p>{booking.id}</p>
               </div>
@@ -342,7 +342,7 @@ export default function PlannerClient() {
                         <div className="flex-1 min-w-0">
                           <span className={`font-semibold ${item.done ? 'text-white/80' : 'text-white/40'}`}>{item.label}</span>
                           {isEditing ? (
-                            <div className="flex gap-1.5 mt-1">
+                            <div className="flex gap-1.5   ">
                               <input aria-label="Input field"
                                 type="text"
                                 defaultValue={item.val || ''}

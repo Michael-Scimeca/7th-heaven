@@ -437,7 +437,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                     {track.title}
                   </h4>
                   {currentSong && (
-                    <p className="font-semibold mt-1.5 flex items-center gap-1.5 justify-center md:justify-start">
+                    <p className="font-semibold   .5 flex items-center gap-1.5 justify-center md:justify-start">
                       <span className="w-1.5 h-1.5 rounded-lg bg-cyan-400 animate-ping" />
                       Now Playing: <span className="text-white/80">{currentSong.title}</span>
                     </p>
@@ -575,7 +575,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                             setIsPlaying(true);
                           }}
                           className={`w-full text-left flex items-center justify-between p-3 border cursor-pointer select-none transition-colors duration-300 ${isActive ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 text-white shadow-[0_0_15px_rgba(255,10,61,0.08)]'
-                            : 'bg-transparent border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
+                            : '   border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
                             }`}>
                           <div className="flex items-center gap-3.5 min-w-0">
                             <span className={`    w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>

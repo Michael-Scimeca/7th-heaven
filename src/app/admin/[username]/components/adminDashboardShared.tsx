@@ -93,7 +93,7 @@ export const SidebarDateButton = React.memo(({
       className={`w-full text-left px-2 py-1.5 flex items-center border-b border-white/10 gap-2 cursor-pointer transition-colors duration-150 group ${isSelected ? ' bg-[#00000029] !rounded-none'
         : isActiveWeek
           ? ' bg-[#00000029] '
-          : 'bg-transparent'
+          : '  '
         }`}>
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
         <span className="text-[9px] text-white/40 uppercase">{show.dayLabel}</span>
@@ -115,7 +115,7 @@ SidebarDateButton.displayName = 'SidebarDateButton';
 export const formatHour = (hourDecimal: number) => {
   const h = Math.floor(hourDecimal);
   const m = Math.round((hourDecimal - h) * 60);
-  const period = h>= 12 ? 'PM' : 'AM';
+  const period = h >= 12 ? 'PM' : 'AM';
   let displayHour = h % 12;
   if (displayHour === 0) displayHour = 12;
   const displayMinute = m === 0 ? '' : `:${String(m).padStart(2, '0')}`;

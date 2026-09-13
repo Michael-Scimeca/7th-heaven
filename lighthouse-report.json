@@ -3732,7 +3732,7 @@
               "type": "node",
               "lhId": "page-4-::after",
               "path": "1,HTML,1,BODY,3,DIV,1,DIV,0,DIV,0,DIV,0,DIV,2,DIV,0,SECTION,0,DIV,0,DIV,1,DIV,2,DIV,0,FORM,1,DIV,0,DIV,0,::after",
-              "selector": "form.bg-transparent > div.grid > div.input-glow-border > ::after",
+              "selector": "form.   > div.grid > div.input-glow-border > ::after",
               "boundingRect": {
                 "top": 8351,
                 "bottom": 8394,
@@ -3742,7 +3742,7 @@
                 "height": 43
               },
               "snippet": "<::after>",
-              "nodeLabel": "form.bg-transparent > div.grid > div.input-glow-border > ::after"
+              "nodeLabel": "form.   > div.grid > div.input-glow-border > ::after"
             },
             "subItems": {
               "type": "subitems",
@@ -3759,7 +3759,7 @@
               "type": "node",
               "lhId": "page-5-::after",
               "path": "1,HTML,1,BODY,3,DIV,1,DIV,0,DIV,0,DIV,0,DIV,2,DIV,0,SECTION,0,DIV,0,DIV,1,DIV,2,DIV,0,FORM,1,DIV,1,DIV,0,::after",
-              "selector": "form.bg-transparent > div.grid > div.input-glow-border > ::after",
+              "selector": "form.   > div.grid > div.input-glow-border > ::after",
               "boundingRect": {
                 "top": 8406,
                 "bottom": 8449,
@@ -3769,7 +3769,7 @@
                 "height": 43
               },
               "snippet": "<::after>",
-              "nodeLabel": "form.bg-transparent > div.grid > div.input-glow-border > ::after"
+              "nodeLabel": "form.   > div.grid > div.input-glow-border > ::after"
             },
             "subItems": {
               "type": "subitems",
@@ -3786,7 +3786,7 @@
               "type": "node",
               "lhId": "page-6-::after",
               "path": "1,HTML,1,BODY,3,DIV,1,DIV,0,DIV,0,DIV,0,DIV,2,DIV,0,SECTION,0,DIV,0,DIV,1,DIV,2,DIV,0,FORM,1,DIV,2,DIV,0,::after",
-              "selector": "form.bg-transparent > div.grid > div.input-glow-border > ::after",
+              "selector": "form.   > div.grid > div.input-glow-border > ::after",
               "boundingRect": {
                 "top": 8461,
                 "bottom": 8504,
@@ -3796,7 +3796,7 @@
                 "height": 43
               },
               "snippet": "<::after>",
-              "nodeLabel": "form.bg-transparent > div.grid > div.input-glow-border > ::after"
+              "nodeLabel": "form.   > div.grid > div.input-glow-border > ::after"
             },
             "subItems": {
               "type": "subitems",
@@ -4077,7 +4077,7 @@
               "type": "node",
               "lhId": "page-99-BUTTON",
               "path": "1,HTML,1,BODY,3,DIV,1,DIV,0,DIV,0,DIV,0,DIV,2,DIV,0,SECTION,0,DIV,0,DIV,1,DIV,2,DIV,0,FORM,4,BUTTON",
-              "selector": "div.md:col-span-7 > div.w-full > form.bg-transparent > button.btn-cosmic-radial-property",
+              "selector": "div.md:col-span-7 > div.w-full > form.   > button.btn-cosmic-radial-property",
               "boundingRect": {
                 "top": 8906,
                 "bottom": 8948,
@@ -4359,7 +4359,7 @@
                 "width": 300,
                 "height": 40
               },
-              "snippet": "<input aria-label=\"Search\" placeholder=\"Search...\" class=\"w-full bg-transparent border-0  rounded-lg pl-11 pr-7 py-2 text-sm text-whi…\" id=\"tour-search\" type=\"text\" value=\"\">",
+              "snippet": "<input aria-label=\"Search\" placeholder=\"Search...\" class=\"w-full    border-0  rounded-lg pl-11 pr-7 py-2 text-sm text-whi…\" id=\"tour-search\" type=\"text\" value=\"\">",
               "nodeLabel": "Search"
             },
             "subItems": {
@@ -4485,7 +4485,7 @@
               "type": "node",
               "lhId": "page-56-INPUT",
               "path": "1,HTML,1,BODY,3,DIV,1,DIV,0,DIV,0,DIV,0,DIV,2,DIV,0,SECTION,0,DIV,0,DIV,1,DIV,2,DIV,0,FORM,1,DIV,0,DIV,0,INPUT",
-              "selector": "form.bg-transparent > div.grid > div.input-glow-border > input.w-full",
+              "selector": "form.   > div.grid > div.input-glow-border > input.w-full",
               "boundingRect": {
                 "top": 8351,
                 "bottom": 8394,
@@ -4512,7 +4512,7 @@
               "type": "node",
               "lhId": "page-57-INPUT",
               "path": "1,HTML,1,BODY,3,DIV,1,DIV,0,DIV,0,DIV,0,DIV,2,DIV,0,SECTION,0,DIV,0,DIV,1,DIV,2,DIV,0,FORM,1,DIV,2,DIV,0,INPUT",
-              "selector": "form.bg-transparent > div.grid > div.input-glow-border > input.w-full",
+              "selector": "form.   > div.grid > div.input-glow-border > input.w-full",
               "boundingRect": {
                 "top": 8461,
                 "bottom": 8504,

@@ -606,7 +606,7 @@ export default function VinylHeroPlayer({
                         return (
                           <button
                             type="button"
-                            className={`relative rounded-lg flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 bg-transparent ${isActive && !isDragging ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
+                            className={`relative rounded-lg flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0    ${isActive && !isDragging ? "opacity-100 scale-110 z-10 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
                               : "opacity-90 scale-90 z-0"
                               } ${isActive ? "vinyl-spinning" : ""}`}
                             style={{
@@ -641,7 +641,7 @@ export default function VinylHeroPlayer({
                                 style={{ backgroundColor: album.centerLabelColor }}>
                                 <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
-                                  <span className="text-[var(--font-size-5xs)] text-white uppercase er leading-none">{album.title}</span>
+                                  <span className="text-[var(--font-size-5xs)] text-white uppercase er   ">{album.title}</span>
                                   <span className="w-2 h-2 rounded-lg bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
                                 </div>
                               </div>
@@ -699,7 +699,7 @@ export default function VinylHeroPlayer({
                           setVolume(nv);
                           if (audioRef.current) audioRef.current.volume = nv;
                         }}
-                        className="bg-transparent border-0 p-0 text-white hover:text-white transition-colors cursor-pointer shrink-0">
+                        className="   border-0 p-0 text-white hover:text-white transition-colors cursor-pointer shrink-0">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                           {volume === 0
                             ? <path d="M11 5L6 9H2v6h4l5 4V5z M23 9l-6 6M17 9l6 6" />
@@ -768,7 +768,7 @@ export default function VinylHeroPlayer({
                             <span className="text-[10px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
                           )}
                         </div>
-                        <div className="text-[10px] font-extrabold uppercase text-black/70 leading-none truncate mt-0.5">
+                        <div className="text-[10px] font-extrabold uppercase text-black/70    truncate mt-0.5">
                           {currentTrack.title}
                         </div>
                       </button>
@@ -850,7 +850,7 @@ export default function VinylHeroPlayer({
                   </div>
                 </div>
                 <ol
-                  className="scrollbar-none max-h-[200px] overflow-y-scroll pointer-events-auto space-y-1 font-sans text-[12px] pt-2 uppercase text-white/80 pr-3.5 pb-2 whitespace-nowrap [&::-webkit-scrollbar]:hidden"
+                  className="scrollbar-none max-h-[200px] overflow-y-scroll pointer-events-auto space-y-1    text-[12px] pt-2 uppercase text-white/80 pr-3.5 pb-2 whitespace-nowrap [&::-webkit-scrollbar]:hidden"
                   style={{ scrollBehavior: 'smooth', overscrollBehavior: 'contain', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                   onScroll={handleTracklistScroll}
                   onWheel={(e) => e.stopPropagation()}>
@@ -861,7 +861,7 @@ export default function VinylHeroPlayer({
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                          className={`w-full text-left border-0 bg-transparent flex items-center gap-2 px-3 py-[1px] transition-colors duration-200 !rounded-none ${isSelected ? "text-[var(--color-accent)]    bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white   bg-[#00000029] cursor-pointer"
+                          className={`w-full text-left border-0    flex items-center gap-2 px-3 py-[1px] transition-colors duration-200 !rounded-none ${isSelected ? "text-[var(--color-accent)]    bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white   bg-[#00000029] cursor-pointer"
                             }`}>
                           <span className="text-[12px] opacity-50 w-4 text-right">{track.number}.</span>
                           <span className="truncate flex-1 text-[14px]">{track.title}</span>

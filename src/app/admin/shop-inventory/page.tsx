@@ -150,7 +150,7 @@ export default function ShopInventoryAdminPage() {
               Inventory Management
             </h1>
             {lowStockCount > 0 && (
-              <p className="text-yellow-300 mt-1">
+              <p className="text-yellow-300   ">
                 ⚠️ {lowStockCount} variant{lowStockCount === 1 ? "" : "s"} at or below its low-stock threshold
               </p>
             )}

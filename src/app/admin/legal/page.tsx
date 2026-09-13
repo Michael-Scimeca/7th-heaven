@@ -333,7 +333,7 @@ export default function AdminLegalPage() {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-16 bg-transparent text-white selection:bg-purple-600 selection:text-white">
+    <div className="min-h-screen pt-28 pb-16    text-white selection:bg-purple-600 selection:text-white">
       <div className="site-container py-8">
 
         {/* Header Bar with Live Compliance Audit Badge */}
@@ -349,7 +349,7 @@ export default function AdminLegalPage() {
             <h1>
               Legal & Compliance <span className="gradient-text">Inspection Hub</span>
             </h1>
-            <p className="mt-2 max-w-3xl font-sans">
+            <p className="mt-2 max-w-3xl   ">
               Comprehensive regulatory audit panel covering TCPA SMS mandates, DMCA copyright safe harbor, ADA accessibility (WCAG 2.1 AA), GDPR/CCPA privacy rights, PCI-DSS e-commerce security, COPPA minor protections, and database RLS safeguards.
             </p>
           </div>
@@ -377,7 +377,7 @@ export default function AdminLegalPage() {
         </div>
 
         {/* Sidebar & Detail Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 font-sans">
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8   ">
 
           {/* Left Menu Tabs */}
           <div className="space-y-3">
@@ -404,7 +404,7 @@ export default function AdminLegalPage() {
                     </div>
                     <div>
                       <h3 className="text-white">{sec.title}</h3>
-                      <p className="mt-1 line-clamp-1">{sec.subtitle}</p>
+                      <p className="   line-clamp-1">{sec.subtitle}</p>
                     </div>
                   </div>
                   {categoryPassed && (
@@ -438,7 +438,7 @@ export default function AdminLegalPage() {
                   <h2 className="uppercase text-white">
                     {active.title}
                   </h2>
-                  <p className="mt-1">{active.subtitle}</p>
+                  <p className="  ">{active.subtitle}</p>
                 </div>
               </div>
 
@@ -486,7 +486,7 @@ export default function AdminLegalPage() {
                           <h4 className={`   transition-colors ${isChecked ? 'text-white' : 'text-rose-200'}`}>
                             {req.title}
                           </h4>
-                          <p className="mt-1">{req.description}</p>
+                          <p className="  ">{req.description}</p>
                         </div>
                       </div>
 

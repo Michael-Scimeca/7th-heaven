@@ -319,7 +319,7 @@ export default function VideoSection() {
 
         {/* Load More */}
         {filteredVideos.length > visibleCount && (
-          <div className="flex justify-center mt-16">
+          <div className="flex justify-center   6">
             <button aria-label="Previous"
               onClick={() => setVisibleCount(prev => prev + 15)}
               className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase tracking-[0.1em] py-3 px-8 transition-colors">

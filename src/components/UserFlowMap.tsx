@@ -181,7 +181,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
         <Globe className="w-5 h-5" />
         <span>Home Page (/)</span>
       </h2>
-      <p className="font-normal mt-1">
+      <p className="font-normal   ">
         7th Heaven Official Band Website Root Entry
       </p>
       <Handle type="source" position={Position.Bottom} className="!w-3.5 !h-3.5 !bg-cyan-300 !border-2 !border-black" />
@@ -259,7 +259,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-1 mb-0.5">
+          <div className="flex items-center justify-between gap-1   ">
             <span className={`px-1.5 py-0.5 rounded text-[9px]    uppercase ${scheme.badge}`}>
               {data.kind.toUpperCase()}
             </span>
@@ -389,7 +389,7 @@ const REFERENCE_NODES: Node<FlowNodeData>[] = [
   { id: "c4-verify", type: "pageNode", position: { x: 960, y: 650 }, data: { label: "Fan PIN Verification Step", sub: "PIN Verification Module", system: "purple", kind: "page", iconName: "key" } },
   { id: "c4-profile", type: "pageNode", position: { x: 960, y: 770 }, data: { label: "Complete Profile Onboarding", sub: "/fans/complete-profile", system: "purple", kind: "page", iconName: "userPlus" } },
   { id: "c4-dash", type: "pageNode", position: { x: 960, y: 890 }, data: { label: "Member Account Hub", sub: "/fans/[username]", system: "purple", kind: "page", iconName: "user" } },
-  { id: "c4-wall", type: "pageNode", position: { x: 960, y: 1010 }, data: { label: "Fan Photo Wall & Live Alerts", sub: "/fan-photo-wall", system: "purple", kind: "page", iconName: "camera" } },
+  { id: "c4-wall", type: "pageNode", position: { x: 960, y: 1010 }, data: { label: "Fan Media Wall & Live Alerts", sub: "/fan-media-wall", system: "purple", kind: "page", iconName: "camera" } },
   { id: "c4-lottery", type: "pageNode", position: { x: 960, y: 1130 }, data: { label: "Guitar Pick Lottery", sub: "/picks", system: "purple", kind: "page", iconName: "sparkles" } },
   { id: "c4-email2", type: "emailNode", position: { x: 960, y: 1250 }, data: { label: "VIP Raffle Win Email", sub: "raffleWin", system: "purple", kind: "email", iconName: "mail", details: { emailSubject: "🎉 You Won VIP Backstage Passes!" } } },
 
@@ -568,7 +568,7 @@ export default function UserFlowMap() {
                 <span className="px-2 py-0.5 rounded bg- purple-white/20 text-purple-300 text-[12px] uppercase r">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
-                <h3 className="uppercase text-white mt-1">
+                <h3 className="uppercase text-white   ">
                   {selectedNode.data.label}
                 </h3>
                 <code className="block mt-0.5">

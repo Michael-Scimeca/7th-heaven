@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -39,8 +40,8 @@ const FALLBACK_NEWS: NewsItem[] = [
 ];
 
 export default function HomeNewsSection({ items, sanityContent }: { items?: NewsItem[]; sanityContent?: any }) {
-  const { member } = useMember();
-  const isAdmin = member?.role === 'admin' || member?.role === 'crew';
+  const { member, isLoggedIn } = useMember();
+  const isAdmin = Boolean(isLoggedIn && (member?.role === 'admin' || member?.role === 'crew' || (member as any)?.isAdmin === true));
 
   const [news, setNews] = useState<NewsItem[]>(items && items.length > 0 ? items : FALLBACK_NEWS);
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
@@ -134,7 +135,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
   const featured = news[0];
 
   return (
-    <section id="news" className="site-container relative py-section-fluid bg-[var(--card-bg)]">
+    <section id="news" className="site-container relative py-section-fluid">
       <>
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
@@ -159,7 +160,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
-            <div className="lg:col-span-7 border-0 pb-10 relative overflow-hidden group transition-colors">
+            <div className="lg:col-span-7 border-0 pb-4 md:pb-6 relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                 <span className="text-[var(--color-accent)]">
                   {featured.date}
@@ -181,7 +182,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 type="button"
                 key={item.title}
                 onClick={() => setSelectedArticle(item)}
-                className="w-full text-left border-0 pb-5 cursor-pointer group font-sans font-normal"
+                className="w-full text-left border-0 pb-3 md: pb-2 cursor-pointer group    font-normal"
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[var(--color-accent)]">
@@ -194,7 +195,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 <h4 className="transition-colors line-clamp-1">
                   {item.title}
                 </h4>
-                <p className="line-clamp-2 mt-1">
+                <p className="line-clamp-2   ">
                   {item.content}
                 </p>
               </button>

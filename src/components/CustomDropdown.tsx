@@ -70,6 +70,11 @@ export function CustomDropdown<T extends string | number>({
     };
   }, [isOpen]);
 
+  const handleSelectOption = (optValue: T) => {
+    setIsOpen(false);
+    onChange(optValue);
+  };
+
   return (
     <div ref={dropdownRef} className={`relative ${wrapperClassName}`}>
       {/* Trigger Button */}
@@ -96,7 +101,7 @@ export function CustomDropdown<T extends string | number>({
         <div
           role="listbox"
           aria-label={ariaLabel || "Options"}
-          className="absolute top-full left-0 right-0 mt-2 z-50 bg-[#160f2d] border border-white/20 rounded-xl   overflow-hidden py-1.5 backdrop-blur-2xl animate-in fade-in-0 zoom-in-95 duration-150 max-h-60 overflow-y-auto">
+          className="absolute top-full left-0 right-0 mt-2 z-50 bg-[#160f2d] border border-white/20 rounded-xl   overflow-hidden  backdrop-blur-2xl animate-in fade-in-0 zoom-in-95 duration-150 max-h-60 overflow-y-auto">
           {normalizedOptions.map((opt) => {
             const isSelected = opt.value === value;
             return (
@@ -105,11 +110,8 @@ export function CustomDropdown<T extends string | number>({
                 role="option"
                 aria-selected={isSelected}
                 type="button"
-                onClick={() => {
-                  onChange(opt.value);
-                  setIsOpen(false);
-                }}
-                className={`w-full text-left px-4 py-3 text-base font-semibold transition-colors flex items-center justify-between cursor-pointer select-none ${isSelected
+                onClick={() => handleSelectOption(opt.value)}
+                className={`w-full text-left px-4 py-3 text-base font-semibold transition-colors flex items-center justify-between cursor-pointer select-none !rounded-none ${isSelected
                   ? "bg-white/20 text-white   "
                   : "text-white/80 hover:bg-white/10 hover:text-white"
                   }`}>

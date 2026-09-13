@@ -91,7 +91,7 @@ export default function PlannerDashboardPage() {
   };
 
   return (
-    <div className="site-container bg-transparent text-white pt-[100px] selection:bg-[var(--color-accent)] selection:text-white">
+    <div className="site-container    text-white pt-[100px] selection:bg-[var(--color-accent)] selection:text-white">
       <div>
         {/* Planner Profile Header */}
         <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">

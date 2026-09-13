@@ -238,7 +238,7 @@ export default function LiveShowFeed() {
       </div>
 
       {/* Media Thumbnails Grid */}
-      {mediaPosts.length> 1 && (
+      {mediaPosts.length > 1 && (
         <div className="grid grid-cols-4 sm:grid-cols-5 gap-1.5 mt-2">
           {mediaPosts.slice(0, 10).map((post) => {
             const isActive = selectedMedia?.id === post.id;
@@ -290,7 +290,7 @@ export default function LiveShowFeed() {
       )}
 
       {/* Latest Text Updates */}
-      {posts.filter((p) => !p.image_url && !p.video_url).length> 0 && (
+      {posts.filter((p) => !p.image_url && !p.video_url).length > 0 && (
         <div className="mt-4 flex flex-col gap-1.5">
           {posts
             .filter((p) => !p.image_url && !p.video_url)
@@ -304,7 +304,7 @@ export default function LiveShowFeed() {
                   {post.member_avatar}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
+                  <div className="flex items-center gap-2   ">
                     <span className="font-semibold text-white/70">{post.member_name}</span>
                     <span className="text-white/20">{timeAgo(post.created_at)}</span>
                   </div>

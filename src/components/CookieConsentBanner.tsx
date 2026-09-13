@@ -68,7 +68,7 @@ export default function CookieConsentBanner() {
   return (
     <dialog
       open
-      className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100vw-2rem)] max-w-[640px] m-0 p-0 bg-transparent border-none text-inherit transition-colors duration-350 ease-out ${closing ? "opacity-0 translate-y-4 scale-[0.98] pointer-events-none" : "opacity-100 translate-y-0 scale-100"
+      className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100vw-2rem)] max-w-[640px] m-0 p-0    border-none text-inherit transition-colors duration-350 ease-out ${closing ? "opacity-0 translate-y-4 scale-[0.98] pointer-events-none" : "opacity-100 translate-y-0 scale-100"
         }`}
       aria-label="Cookie consent">
       <div className="relative bg-[#0e0e1a]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] overflow-hidden">
@@ -84,7 +84,7 @@ export default function CookieConsentBanner() {
               </svg>
             </div>
             <div className="flex-1">
-              <h2 className="text-white mb-0.5">Your Privacy</h2>
+              <h2 className="text-white   ">Your Privacy</h2>
               <p className="leading-snug">
                 We use cookies to improve your experience. By using 7thHeavenBand.com you agree to our{" "}
                 <a href="/privacy" className="text-[var(--color-accent)]/80 text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">

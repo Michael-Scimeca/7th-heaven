@@ -148,8 +148,8 @@ function extractYouTubeId(urlOrId: string): string {
 }
 
 export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: any }) {
-  const { member } = useMember();
-  const isAdmin = member?.role === 'admin' || member?.role === 'crew';
+  const { member, isLoggedIn } = useMember();
+  const isAdmin = Boolean(isLoggedIn && (member?.role === 'admin' || member?.role === 'crew' || (member as any)?.isAdmin === true));
 
   const [videos, setVideos] = useState<ShowcaseCategoryVideo[]>(CATEGORY_SHOWCASE);
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
@@ -645,7 +645,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
       <div className="site-container relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
-            <h2 className="mb-2.5 font-sans text-white">
+            <h2 className="mb-2.5    text-white">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
             <p className="text-purple-200/75 font-normal mb-5">
@@ -717,7 +717,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 ) : (
                   <>
                     {/* Transparent Drag Capture Layer */}
-                    <div className="absolute inset-0 z-10 bg-transparent" />
+                    <div className="absolute inset-0 z-10   " />
 
                     {/* YouTube On-Demand Autoplay Preview Frame */}
                     <ShowcaseMedia

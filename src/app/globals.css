@@ -17,6 +17,7 @@ html {
   color: #ffffff;
   overflow-x: clip;
   max-width: 100vw;
+  scrollbar-gutter: stable;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -344,7 +345,7 @@ textarea {
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--input-border-radius, 8px);
   color: var(--input-text-color, #ffffff);
-  padding: var(--input-padding-y, 12px) var(--input-padding-x, 18px);
+  padding: 10px 10px;
   outline: none;
   transition: all 0.2s ease-in-out;
   background: #a855f71f;
@@ -433,22 +434,9 @@ select[style*="background-image:none"] {
   background-image: none !important;
 }
 
-.site-input::placeholder,
-.form-input::placeholder,
-input::placeholder {
-  color: var(--input-placeholder-color) !important;
-  font-size: 1.15rem !important;
-  font-family: inherit !important;
-  font-weight: inherit !important;
-  letter-spacing: inherit !important;
-}
-
-textarea::placeholder {
-  color: var(--input-placeholder-color) !important;
-  font-size: 1rem !important;
-  font-family: inherit !important;
-  font-weight: inherit !important;
-  letter-spacing: inherit !important;
+::placeholder {
+  color: var(--input-placeholder-color, rgba(255, 255, 255, 0.45)) !important;
+  opacity: 1 !important;
 }
 
 .site-input:focus,
@@ -667,7 +655,7 @@ header,
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
-  padding: 12px 0 20px 0;
+  padding: 5px 0 20px 0;
 }
 
 /* Sticky Tour Sort Bar — 100vw full-width glass backdrop-filter blur when stuck below header */
@@ -949,21 +937,7 @@ button,
   --surface-overlay: rgba(0, 0, 0, 0.92);
 }
 
-::placeholder,
-input::placeholder,
-textarea::placeholder,
-select::placeholder,
-.placeholder-black\/40::placeholder,
-.placeholder-black\/50::placeholder,
-.placeholder\:text-black\/40::placeholder,
-.placeholder\:text-black\/50::placeholder {
-  color: var(--input-placeholder-color) !important;
-  font-size: inherit !important;
-  font-family: inherit !important;
-  font-weight: inherit !important;
-  letter-spacing: inherit !important;
-  opacity: 0.5 !important;
-}
+
 
 @theme {
   /* ═══════════════════════════════════════════════════════
@@ -1758,7 +1732,6 @@ select::placeholder,
    top when page content is loading or a transition is in progress. */
 #page-content-wrapper>.exoape-page-outer {
   min-height: 100svh;
-  padding-bottom: 60px;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1989,7 +1962,7 @@ select::placeholder,
 
 @media (min-width: 768px) {
   :root {
-    --page-padding-x: 32px;
+    --page-padding-x: 24px;
   }
 }
 
@@ -6308,4 +6281,172 @@ a[href^="mailto:"] {
 .spine-thumb-mask {
   -webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);
   mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);
+}
+
+/* ─── Fast Critical Preloader Component Styles ─── */
+.preloader-loader {
+  position: relative;
+  width: min(60vw, 320px);
+}
+
+.preloader-note-icon {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  color: var(--pc, #850fb7);
+  filter: drop-shadow(0 0 6px var(--pc, #850fb7)) drop-shadow(0 0 18px color-mix(in srgb, var(--pc, #850fb7) 70%, transparent)) drop-shadow(0 0 34px color-mix(in srgb, var(--pc, #850fb7) 45%, transparent));
+  animation: preloader-bob 1.7s ease-in-out infinite;
+  transition: color 0.35s linear;
+}
+
+@keyframes preloader-bob {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
+}
+
+.preloader-particles {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 30px;
+  height: 150px;
+  pointer-events: none;
+}
+
+.preloader-note-particle {
+  position: absolute;
+  bottom: 0;
+  color: var(--pc, #850fb7);
+  filter: drop-shadow(0 0 4px var(--pc, #850fb7)) drop-shadow(0 0 10px color-mix(in srgb, var(--pc, #850fb7) 70%, transparent));
+  opacity: 0;
+  animation-name: preloader-rise;
+  animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1);
+  animation-fill-mode: forwards;
+}
+
+.preloader-note-particle svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes preloader-rise {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.4);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--pc-drift, -10px), -130px) scale(1);
+  }
+}
+
+.preloader-bar-track {
+  position: relative;
+  height: 2px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+  overflow: visible;
+  transition: opacity 0.5s ease;
+}
+
+.preloader-loader.done .preloader-bar-track {
+  opacity: 0;
+}
+
+.preloader-bar-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  border-radius: 10px;
+  overflow: visible;
+  background: linear-gradient(90deg,
+      color-mix(in srgb, var(--pc, #850fb7) 30%, transparent),
+      var(--pc, #850fb7));
+  transition: background 0.2s linear;
+}
+
+.preloader-bar-fill.filling {
+  animation: preloader-fill linear forwards;
+  will-change: transform;
+}
+
+@keyframes preloader-fill {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.preloader-bar-shine {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.preloader-bar-shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.85) 50%,
+      transparent 100%);
+  transform: translateX(-100%);
+}
+
+.preloader-bar-fill.filling .preloader-bar-shine::before {
+  animation: preloader-shine 1.15s linear infinite;
+}
+
+@keyframes preloader-shine {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(800%);
+  }
+}
+
+.preloader-bar-fill::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--pc, #850fb7) 70%, white 30%);
+  transition: background 0.35s linear;
+}
+
+.preloader-loader.done .preloader-bar-fill::after {
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }

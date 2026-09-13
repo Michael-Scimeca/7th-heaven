@@ -88,12 +88,12 @@ export default function StudioDPage() {
             {/* Giant Title matching Exo Ape Studio D */}
             <ExoTextReveal
               as="h1"
-              className="text-6xl sm:text-8xl md:text-9xl font-light text-white leading-none font-sans"
+              className="text-6xl sm:text-8xl md:text-9xl font-light text-white      "
               duration={1.2}
               stagger={0.1}>
               Studio D
             </ExoTextReveal>
-            <p className="text-base sm:text-lg text-white/80 font-sans">
+            <p className="text-base sm:text-lg text-white/80   ">
               Urban and Landscape Design
             </p>
           </div>
@@ -122,7 +122,7 @@ export default function StudioDPage() {
               Landscape Architecture & Design Universe
             </h2>
           </div>
-          <div className="md:col-span-8 space-y-6 text-lg text-white/80 font-sans">
+          <div className="md:col-span-8 space-y-6 text-lg text-white/80   ">
             <p>
               Studio D is a visionary design concept bringing harmony between urban architecture and natural landscapes. Our work integrates interactive media, pop rock energy, and immersive visual storytelling.
             </p>

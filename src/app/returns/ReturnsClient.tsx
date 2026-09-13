@@ -99,7 +99,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 </p>
                 <div>
                   <p>7th Heaven Support</p>
-                  <p className="mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
+                  <p className="  ">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
                   <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com</a></p>
                 </div>
               </div>

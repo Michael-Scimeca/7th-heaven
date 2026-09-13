@@ -218,7 +218,7 @@ export default function BulkInvitePanel() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent border-white/10 ${isDragging ? "scale-[0.99]"
+            className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full    border-white/10 ${isDragging ? "scale-[0.99]"
               : "border-black/20 ]"
               }`}>
             <input aria-label="Input field"
@@ -230,7 +230,7 @@ export default function BulkInvitePanel() {
             />
             <span className="text-3xl mb-3 block"></span>
             <p className="text-black uppercase r">Drag & Drop CSV File</p>
-            <p className="text-black/60 mt-1.5 max-w-xs">
+            <p className="text-black/60   .5 max-w-xs">
               Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
             </p>
             <CosmicRadialButton

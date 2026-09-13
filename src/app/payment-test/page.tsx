@@ -73,7 +73,7 @@ function ProductCard({
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div>
           <h3 className="text-white">{product.title}</h3>
-          <p className="mt-1">{product.description}</p>
+          <p className="  ">{product.description}</p>
         </div>
 
         <div>
@@ -268,7 +268,7 @@ export default function PaymentTestShopPage() {
 
 
   return (
-    <div className="min-h-screen bg-transparent text-white pt-[100px] pb-24">
+    <div className="min-h-screen    text-white pt-[100px] pb-24">
       {/* Header */}
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
@@ -317,7 +317,7 @@ export default function PaymentTestShopPage() {
                 <h3 className="text-white uppercase">
                   7th Heaven Direct Store Features &amp; Architecture
                 </h3>
-                <p className="mt-1">
+                <p className="  ">
                   Custom high-speed merchandise storefront with direct merchant payment routing and real-time inventory synchronization.
                 </p>
               </div>
@@ -407,7 +407,7 @@ export default function PaymentTestShopPage() {
                 <h3 className="text-white uppercase">
                   Roadmap: Closing the Gap With North&apos;s Real API Suite
                 </h3>
-                <p className="mt-1 max-w-2xl">
+                <p className="   max-w-2xl">
                   This page only uses North&apos;s Browser Post API — one product in a larger
                   suite. North (EPX) also publishes a Recurring Billing API, Gateway Invoicing
                   API, Embedded Checkout, and reporting APIs. Combined with the inventory/order

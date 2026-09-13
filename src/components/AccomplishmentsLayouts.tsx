@@ -299,7 +299,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 <span className="text-4xl md:text-5xl text-[var(--color-accent)] ">{s.number}</span>
                 <div>
                   <h4 className="uppercase text-white">{s.label}</h4>
-                  <p className="mt-1">{s.text}</p>
+                  <p className="  ">{s.text}</p>
                 </div>
               </div>
               <span className="px-3 py-1 rounded-lg text-[var(--font-size-2xs)] bg-[#00000029] border border-white/10 text-[var(--color-accent)] uppercase">
