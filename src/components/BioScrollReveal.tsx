@@ -74,7 +74,7 @@ function BioScrollRevealComponent({
           {subtitle}
         </span>
         <h2
-          className="md:text-6xl uppercase er text-white">
+ className="md:text-6xl uppercase er text-white">
           {title}
         </h2>
       </div>
@@ -86,8 +86,8 @@ function BioScrollRevealComponent({
             const isActive = activeIndex === index;
             return (
               <div
-                key={member.id}
-                ref={(el) => {
+ key={member.id}
+ ref={(el) => {
                   itemRefs.current[index] = el;
                 }}
                 onClick={() => handleNameClick(index)}
@@ -102,24 +102,24 @@ function BioScrollRevealComponent({
                 </div>
 
                 <h3
-                  className={`md:text-7xl    uppercase transition-all duration-300 ${isActive ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
-                    : "text-white/30 group-hover:text-white/70"
-                    }`}>
+ className={`md:text-7xl uppercase transition-all duration-300 ${isActive ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
+ : "text-white/30 group-hover:text-white/70"
+ }`}>
                   {member.name}
                 </h3>
 
                 {member.description && (
                   <p
-                    className={`mt-3 max-w-lg transition-opacity duration-300 font-bold ${isActive ? "text-white/80 opacity-100" : "text-white/30 opacity-40"
-                      }`}>
+ className={`mt-3 max-w-lg transition-opacity duration-300 font-bold ${isActive ? "text-white/80 opacity-100" : "text-white/30 opacity-40"
+ }`}>
                     {member.description}
                   </p>
                 )}
 
                 {member.linkHref && (
                   <Link
-                    href={member.linkHref}
-                    onClick={(e) => e.stopPropagation()}
+ href={member.linkHref}
+ onClick={(e) => e.stopPropagation()}
                     className={`inline-flex items-center gap-2 mt-4  font-bold  uppercase text-[var(--color-accent)] hover:underline transition-opacity ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"
                       }`}>
                     <span>View Full Bio</span>
@@ -140,19 +140,19 @@ function BioScrollRevealComponent({
               const isActive = activeIndex === index;
               return (
                 <div
-                  key={member.id}
-                  className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive ? "opacity-100 scale-100 pointer-events-auto"
-                    : "opacity-0 scale-105 pointer-events-none"
-                    }`}>
+ key={member.id}
+ className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive ? "opacity-100 scale-100 pointer-events-auto"
+ : "opacity-0 scale-105 pointer-events-none"
+ }`}>
                   <Image
-                    src={member.imageUrl}
-                    alt={member.name}
-                    width={800}
-                    height={1000}
-                    unoptimized
-                    priority={index === 0}
-                    className="w-full h-full object-cover"
-                  />
+ src={member.imageUrl}
+ alt={member.name}
+ width={800}
+ height={1000}
+ unoptimized
+ priority={index === 0}
+ className="w-full h-full object-cover"
+ />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-80" />
 
                   {/* Portrait Caption Overlay */}

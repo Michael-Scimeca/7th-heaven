@@ -27,24 +27,24 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
 
   return (
     <div
-      className="smooothy-parallax-media absolute inset-0 w-full h-full overflow-hidden transform-gpu"
-      onMouseEnter={() => setHovered(true)}
+ className="smooothy-parallax-media absolute inset-0 w-full h-full overflow-hidden transform-gpu"
+ onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}>
       {hovered ? (
         <iframe
-          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
-          title={videoTitle}
-          className="absolute -inset-[2px] w-[calc(100%+4px)] h-[calc(100%+4px)] pointer-events-none object-cover transform-gpu"
-          allow="autoplay; encrypted-media"
-        />
+ src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
+ title={videoTitle}
+ className="absolute -inset-[2px] w-[calc(100%+4px)] h-[calc(100%+4px)] pointer-events-none object-cover transform-gpu"
+ allow="autoplay; encrypted-media"
+ />
       ) : (
         <Image
-          src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-          alt={videoTitle}
-          fill
-          sizes="(max-width: 768px) 100vw, 400px"
-          className="object-cover pointer-events-none transform-gpu"
-        />
+ src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+ alt={videoTitle}
+ fill
+ sizes="(max-width: 768px) 100vw, 400px"
+ className="object-cover pointer-events-none transform-gpu"
+ />
       )}
     </div>
   );
@@ -645,7 +645,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
       <div className="site-container relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
-            <h2 className="mb-2.5    text-white">
+            <h2 className="mb-2.5 text-white">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
             <p className="text-purple-200/75 font-normal mb-5">
@@ -654,8 +654,8 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
           </div>
           {isAdmin && (
             <AddCmsButton
-              label="ADD VIDEO"
-              onClick={() => setIsAddModalOpen(true)}
+ label="ADD VIDEO"
+ onClick={() => setIsAddModalOpen(true)}
               className="self-start lg:self-auto"
             />
           )}
@@ -664,41 +664,41 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
       {/* Pure Smooothy Engine DOM Slider Track (Edge-to-Edge) */}
       <div
-        ref={trackRef}
-        data-slider="true"
-        data-vertical={smooothyVertical}
-        className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
-          }`}
-        style={{
-          touchAction: "pan-y",
-          ...(smooothyVertical
-            ? {}
-            : { marginLeft: `-${gapPx / 2}px`, marginRight: `-${gapPx / 2}px`, width: `calc(100% + ${gapPx}px)` })
-        }}>
+ ref={trackRef}
+ data-slider="true"
+ data-vertical={smooothyVertical}
+ className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
+ }`}
+ style={{
+ touchAction: "pan-y",
+ ...(smooothyVertical
+ ? {}
+ : { marginLeft: `-${gapPx / 2}px`, marginRight: `-${gapPx / 2}px`, width: `calc(100% + ${gapPx}px)` })
+ }}>
         {videos.map((video, idx) => {
           const start = video.previewStart ?? previewStartSec;
           const end = start + previewDurationSec;
 
           return (
             <div
-              key={video.id + idx}
-              className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
-              style={{
-                width: smooothyVertical
-                  ? "100%"
-                  : `${100 / effectiveCardsVisible}%`,
-                paddingLeft: smooothyVertical ? 0 : `${gapPx / 2}px`,
-                paddingRight: smooothyVertical ? 0 : `${gapPx / 2}px`,
-                paddingTop: smooothyVertical ? `${gapPx / 2}px` : 0,
-                paddingBottom: smooothyVertical ? `${gapPx / 2}px` : 0,
-              }}>
+ key={video.id + idx}
+ className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
+ style={{
+ width: smooothyVertical
+ ? "100%"
+ : `${100 / effectiveCardsVisible}%`,
+ paddingLeft: smooothyVertical ? 0 : `${gapPx / 2}px`,
+ paddingRight: smooothyVertical ? 0 : `${gapPx / 2}px`,
+ paddingTop: smooothyVertical ? `${gapPx / 2}px` : 0,
+ paddingBottom: smooothyVertical ? `${gapPx / 2}px` : 0,
+ }}>
               {/* Video Card Container — Whole Card Clickable */}
               <div
-                style={{
-                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
-                  isolation: "isolate",
-                }}
-                onClick={() => {
+ style={{
+ WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+ isolation: "isolate",
+ }}
+ onClick={() => {
                   if (playingVideoId !== video.id) {
                     setPlayingVideoId(video.id);
                   }
@@ -709,37 +709,37 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 {playingVideoId === video.id ? (
                   <div className="relative w-full h-full bg-black z-30">
                     <InlineYTPlayer
-                      videoId={video.id}
-                      title={video.title}
-                      onClose={() => setPlayingVideoId(null)}
+ videoId={video.id}
+ title={video.title}
+ onClose={() => setPlayingVideoId(null)}
                     />
                   </div>
                 ) : (
                   <>
                     {/* Transparent Drag Capture Layer */}
-                    <div className="absolute inset-0 z-10   " />
+                    <div className="absolute inset-0 z-10 " />
 
                     {/* YouTube On-Demand Autoplay Preview Frame */}
                     <ShowcaseMedia
-                      videoId={video.id}
-                      videoTitle={video.title}
-                      start={start}
-                      end={end}
-                      previewZoomPercent={previewZoomPercent}
-                    />
+ videoId={video.id}
+ videoTitle={video.title}
+ start={start}
+ end={end}
+ previewZoomPercent={previewZoomPercent}
+ />
 
                     {/* Interactive Play Button Overlay */}
                     {playButtonVisibility !== "hidden" && (
                       <div
-                        className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
-                          ? "opacity-100"
-                          : "opacity-90 sm:opacity-0 group-hover:opacity-100"
-                          }`}>
+ className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
+ ? "opacity-100"
+ : "opacity-90 sm:opacity-0 group-hover:opacity-100"
+ }`}>
                         <CosmicRadialButton
-                          icon={false}
-                          className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto `}
-                          aria-label={`Play full video for ${video.title}`}
-                          title="Play Full Video">
+ icon={false}
+ className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto `}
+ aria-label={`Play full video for ${video.title}`}
+ title="Play Full Video">
                           <Play className="w-6 h-6 fill-white ml-0.5" />
                         </CosmicRadialButton>
                       </div>
@@ -754,10 +754,10 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                         <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
                           {video.badges.map((badge, bIdx) => (
                             <SectionBadge
-                              key={badge + bIdx}
-                              label={badge}
-                              className="mb-1"
-                            />
+ key={badge + bIdx}
+ label={badge}
+ className="mb-1"
+ />
                           ))}
                         </div>
                       )}
@@ -801,7 +801,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
         <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
           <div className="relative w-full max-w-xl bg-neutral-900 border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl text-white max-h-[90vh] overflow-y-auto">
             <button
-              onClick={() => setIsAddModalOpen(false)}
+ onClick={() => setIsAddModalOpen(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
@@ -829,10 +829,10 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                   Video Title *
                 </label>
                 <input
-                  type="text"
-                  required
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
+ type="text"
+ required
+ value={newTitle}
+ onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. 7th Heaven - Live at Summerfest"
                   className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
                 />
@@ -843,10 +843,10 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                   YouTube URL or Video ID *
                 </label>
                 <input
-                  type="text"
-                  required
-                  value={newUrl}
-                  onChange={(e) => setNewUrl(e.target.value)}
+ type="text"
+ required
+ value={newUrl}
+ onChange={(e) => setNewUrl(e.target.value)}
                   placeholder="e.g. https://www.youtube.com/watch?v=BzHUNTZ66zY or BzHUNTZ66zY"
                   className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
                 />
@@ -859,8 +859,8 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                       Category *
                     </label>
                     <button
-                      type="button"
-                      onClick={() => {
+ type="button"
+ onClick={() => {
                         setIsCustomCategory(!isCustomCategory);
                         if (!isCustomCategory) {
                           setCustomCategoryInput("");
@@ -874,17 +874,17 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
                   {isCustomCategory ? (
                     <input
-                      type="text"
-                      required
-                      value={customCategoryInput}
-                      onChange={(e) => setCustomCategoryInput(e.target.value)}
+ type="text"
+ required
+ value={customCategoryInput}
+ onChange={(e) => setCustomCategoryInput(e.target.value)}
                       placeholder="e.g. Acoustic Sessions"
                       className="w-full bg-black/50 border border-purple-500/50 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 text-sm"
                     />
                   ) : (
                     <select
-                      value={newCategory}
-                      onChange={(e) => {
+ value={newCategory}
+ onChange={(e) => {
                         if (e.target.value === "__CUSTOM__") {
                           setIsCustomCategory(true);
                           setCustomCategoryInput("");
@@ -909,9 +909,9 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                     Year
                   </label>
                   <input
-                    type="number"
-                    value={newYear}
-                    onChange={(e) => setNewYear(e.target.value)}
+ type="number"
+ value={newYear}
+ onChange={(e) => setNewYear(e.target.value)}
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm"
                   />
                 </div>
@@ -921,9 +921,9 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                     Duration
                   </label>
                   <input
-                    type="text"
-                    value={newDuration}
-                    onChange={(e) => setNewDuration(e.target.value)}
+ type="text"
+ value={newDuration}
+ onChange={(e) => setNewDuration(e.target.value)}
                     placeholder="3:30"
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm"
                   />
@@ -935,9 +935,9 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                   Description
                 </label>
                 <textarea
-                  rows={3}
-                  value={newDesc}
-                  onChange={(e) => setNewDesc(e.target.value)}
+ rows={3}
+ value={newDesc}
+ onChange={(e) => setNewDesc(e.target.value)}
                   placeholder="Optional description or concert highlights..."
                   className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                 />
@@ -945,17 +945,17 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
                 <button
-                  type="button"
-                  onClick={() => setIsAddModalOpen(false)}
+ type="button"
+ onClick={() => setIsAddModalOpen(false)}
                   className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
-                >
+ type="submit"
+ disabled={submitting}
+ className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
+ >
                   {submitting ? "Saving..." : "+ SAVE VIDEO TO SANITY"}
                 </button>
               </div>

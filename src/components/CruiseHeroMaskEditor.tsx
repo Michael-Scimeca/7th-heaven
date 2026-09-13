@@ -200,7 +200,7 @@ export default function CruiseHeroMaskEditor() {
       {/* Floating Studio Trigger Button */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
+ onClick={() => setIsOpen(true)}
           className="fixed bottom-6 right-6 z-50 bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-3 rounded-lg shadow-[0_0_25px_rgba(6,182,212,0.6)] border border-cyan-300/40 flex items-center gap-2 transition-all">
           <Sliders className="w-5 h-5" />
           <span className="uppercase r">PAGE & ITINERARY CSS STUDIO</span>
@@ -210,8 +210,8 @@ export default function CruiseHeroMaskEditor() {
       {/* Main Drawer Panel */}
       {isOpen && (
         <div
-          className="fixed top-[88px] right-4 w-96 max-w-[calc(100vw-2rem)] z-50 bg-[#0c101d]/95 backdrop-blur-xl border border-cyan-500/40 rounded-lg shadow-[0_10px_50px_rgba(0,0,0,0.9)] text-white flex flex-col"
-          style={{ height: 'calc(100vh - 110px)' }}>
+ className="fixed top-[88px] right-4 w-96 max-w-[calc(100vw-2rem)] z-50 bg-[#0c101d]/95 backdrop-blur-xl border border-cyan-500/40 rounded-lg shadow-[0_10px_50px_rgba(0,0,0,0.9)] text-white flex flex-col"
+ style={{ height: 'calc(100vh - 110px)' }}>
           {/* Header */}
           <div className="p-4 border-b border-cyan-500/20 flex items-center justify-between bg-black/40 rounded-t-2xl shrink-0">
             <div className="flex items-center gap-2">
@@ -225,13 +225,13 @@ export default function CruiseHeroMaskEditor() {
             </div>
             <div className="flex items-center gap-1.5">
               <button
-                onClick={handleReset}
-                title="Reset to Defaults"
-                className="p-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+ onClick={handleReset}
+ title="Reset to Defaults"
+ className="p-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
                 <RotateCcw className="w-4 h-4" />
               </button>
               <button
-                onClick={() => setIsOpen(false)}
+ onClick={() => setIsOpen(false)}
                 className="p-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
                 <X className="w-4 h-4" />
               </button>
@@ -240,11 +240,11 @@ export default function CruiseHeroMaskEditor() {
 
           {/* Scrollable Content Controls */}
           <div
-            className="flex-1 overflow-y-scroll p-4 space-y-6"
-            style={{
-              scrollbarWidth: 'thin',
-              scrollbarColor: '#06b6d4 rgba(12, 16, 29, 0.8)',
-            }}>
+ className="flex-1 overflow-y-scroll p-4 space-y-6"
+ style={{
+ scrollbarWidth: 'thin',
+ scrollbarColor: '#06b6d4 rgba(12, 16, 29, 0.8)',
+ }}>
             {/* 📍 1. OFFICIAL ITINERARY & CRUISING HISTORY SECTION MASK & BG */}
             <div className="bg-purple-950/30 p-3.5 rounded-lg border border-purple-500/30 space-y-3">
               <div className="flex items-center justify-between">
@@ -261,11 +261,11 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-purple-300">{settings.itinTopFadeStart}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="30"
-                  value={settings.itinTopFadeStart}
-                  onChange={e => updateSetting('itinTopFadeStart', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="30"
+ value={settings.itinTopFadeStart}
+ onChange={e => updateSetting('itinTopFadeStart', Number(e.target.value))}
                   className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -277,11 +277,11 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-purple-300">{settings.itinTopFadeEnd}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="40"
-                  value={settings.itinTopFadeEnd}
-                  onChange={e => updateSetting('itinTopFadeEnd', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="40"
+ value={settings.itinTopFadeEnd}
+ onChange={e => updateSetting('itinTopFadeEnd', Number(e.target.value))}
                   className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -293,11 +293,11 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-purple-300">{settings.itinBottomFadeStart}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="50"
-                  max="95"
-                  value={settings.itinBottomFadeStart}
-                  onChange={e => updateSetting('itinBottomFadeStart', Number(e.target.value))}
+ type="range"
+ min="50"
+ max="95"
+ value={settings.itinBottomFadeStart}
+ onChange={e => updateSetting('itinBottomFadeStart', Number(e.target.value))}
                   className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -309,11 +309,11 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-purple-300">{settings.itinBottomFadeEnd}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="70"
-                  max="100"
-                  value={settings.itinBottomFadeEnd}
-                  onChange={e => updateSetting('itinBottomFadeEnd', Number(e.target.value))}
+ type="range"
+ min="70"
+ max="100"
+ value={settings.itinBottomFadeEnd}
+ onChange={e => updateSetting('itinBottomFadeEnd', Number(e.target.value))}
                   className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -325,11 +325,11 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-purple-300">{settings.itinBgOpacity}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={settings.itinBgOpacity}
-                  onChange={e => updateSetting('itinBgOpacity', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="100"
+ value={settings.itinBgOpacity}
+ onChange={e => updateSetting('itinBgOpacity', Number(e.target.value))}
                   className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -341,11 +341,11 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-purple-300">{settings.itinBlur}px</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="40"
-                  value={settings.itinBlur}
-                  onChange={e => updateSetting('itinBlur', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="40"
+ value={settings.itinBlur}
+ onChange={e => updateSetting('itinBlur', Number(e.target.value))}
                   className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -367,11 +367,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.historyTopFadeStart}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="30"
-                  value={settings.historyTopFadeStart}
-                  onChange={e => updateSetting('historyTopFadeStart', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="30"
+ value={settings.historyTopFadeStart}
+ onChange={e => updateSetting('historyTopFadeStart', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -383,11 +383,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.historyTopFadeEnd}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="40"
-                  value={settings.historyTopFadeEnd}
-                  onChange={e => updateSetting('historyTopFadeEnd', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="40"
+ value={settings.historyTopFadeEnd}
+ onChange={e => updateSetting('historyTopFadeEnd', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -399,11 +399,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.historyBottomFadeStart}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="50"
-                  max="95"
-                  value={settings.historyBottomFadeStart}
-                  onChange={e => updateSetting('historyBottomFadeStart', Number(e.target.value))}
+ type="range"
+ min="50"
+ max="95"
+ value={settings.historyBottomFadeStart}
+ onChange={e => updateSetting('historyBottomFadeStart', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -415,11 +415,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.historyBottomFadeEnd}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="70"
-                  max="100"
-                  value={settings.historyBottomFadeEnd}
-                  onChange={e => updateSetting('historyBottomFadeEnd', Number(e.target.value))}
+ type="range"
+ min="70"
+ max="100"
+ value={settings.historyBottomFadeEnd}
+ onChange={e => updateSetting('historyBottomFadeEnd', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -431,11 +431,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.historyBgOpacity}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={settings.historyBgOpacity}
-                  onChange={e => updateSetting('historyBgOpacity', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="100"
+ value={settings.historyBgOpacity}
+ onChange={e => updateSetting('historyBgOpacity', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -447,11 +447,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.historyBlur}px</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="40"
-                  value={settings.historyBlur}
-                  onChange={e => updateSetting('historyBlur', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="40"
+ value={settings.historyBlur}
+ onChange={e => updateSetting('historyBlur', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -472,11 +472,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.topFadeStart}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="40"
-                  value={settings.topFadeStart}
-                  onChange={e => updateSetting('topFadeStart', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="40"
+ value={settings.topFadeStart}
+ onChange={e => updateSetting('topFadeStart', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -488,11 +488,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.topFadeEnd}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="50"
-                  value={settings.topFadeEnd}
-                  onChange={e => updateSetting('topFadeEnd', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="50"
+ value={settings.topFadeEnd}
+ onChange={e => updateSetting('topFadeEnd', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -504,11 +504,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.topGradientHeight ?? 240}px</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="400"
-                  value={settings.topGradientHeight ?? 240}
-                  onChange={e => updateSetting('topGradientHeight' as any, Number(e.target.value))}
+ type="range"
+ min="0"
+ max="400"
+ value={settings.topGradientHeight ?? 240}
+ onChange={e => updateSetting('topGradientHeight' as any, Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -520,11 +520,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.topGradientOpacity ?? 85}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={settings.topGradientOpacity ?? 85}
-                  onChange={e => updateSetting('topGradientOpacity' as any, Number(e.target.value))}
+ type="range"
+ min="0"
+ max="100"
+ value={settings.topGradientOpacity ?? 85}
+ onChange={e => updateSetting('topGradientOpacity' as any, Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -545,11 +545,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.bottomFadeStart}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="40"
-                  max="95"
-                  value={settings.bottomFadeStart}
-                  onChange={e => updateSetting('bottomFadeStart', Number(e.target.value))}
+ type="range"
+ min="40"
+ max="95"
+ value={settings.bottomFadeStart}
+ onChange={e => updateSetting('bottomFadeStart', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -561,11 +561,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.bottomFadeEnd}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="60"
-                  max="100"
-                  value={settings.bottomFadeEnd}
-                  onChange={e => updateSetting('bottomFadeEnd', Number(e.target.value))}
+ type="range"
+ min="60"
+ max="100"
+ value={settings.bottomFadeEnd}
+ onChange={e => updateSetting('bottomFadeEnd', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -584,11 +584,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.videoBlur}px</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="20"
-                  value={settings.videoBlur}
-                  onChange={e => updateSetting('videoBlur', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="20"
+ value={settings.videoBlur}
+ onChange={e => updateSetting('videoBlur', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -600,11 +600,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.videoBrightness}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="40"
-                  max="150"
-                  value={settings.videoBrightness}
-                  onChange={e => updateSetting('videoBrightness', Number(e.target.value))}
+ type="range"
+ min="40"
+ max="150"
+ value={settings.videoBrightness}
+ onChange={e => updateSetting('videoBrightness', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -616,11 +616,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.videoContrast}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="50"
-                  max="150"
-                  value={settings.videoContrast}
-                  onChange={e => updateSetting('videoContrast', Number(e.target.value))}
+ type="range"
+ min="50"
+ max="150"
+ value={settings.videoContrast}
+ onChange={e => updateSetting('videoContrast', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -632,11 +632,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.videoOpacity}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="10"
-                  max="100"
-                  value={settings.videoOpacity}
-                  onChange={e => updateSetting('videoOpacity', Number(e.target.value))}
+ type="range"
+ min="10"
+ max="100"
+ value={settings.videoOpacity}
+ onChange={e => updateSetting('videoOpacity', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -655,11 +655,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.beforeHeight}px</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="200"
-                  value={settings.beforeHeight}
-                  onChange={e => updateSetting('beforeHeight', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="200"
+ value={settings.beforeHeight}
+ onChange={e => updateSetting('beforeHeight', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -671,11 +671,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.beforeBlur}px</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="80"
-                  value={settings.beforeBlur}
-                  onChange={e => updateSetting('beforeBlur', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="80"
+ value={settings.beforeBlur}
+ onChange={e => updateSetting('beforeBlur', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -687,11 +687,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.beforeBgOpacity}%</span>
                 </div>
                 <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={settings.beforeBgOpacity}
-                  onChange={e => updateSetting('beforeBgOpacity', Number(e.target.value))}
+ type="range"
+ min="0"
+ max="100"
+ value={settings.beforeBgOpacity}
+ onChange={e => updateSetting('beforeBgOpacity', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -703,11 +703,11 @@ export default function CruiseHeroMaskEditor() {
                   <span>{settings.beforeZIndex}</span>
                 </div>
                 <input
-                  type="range"
-                  min="1"
-                  max="50"
-                  value={settings.beforeZIndex}
-                  onChange={e => updateSetting('beforeZIndex', Number(e.target.value))}
+ type="range"
+ min="1"
+ max="50"
+ value={settings.beforeZIndex}
+ onChange={e => updateSetting('beforeZIndex', Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
@@ -717,13 +717,13 @@ export default function CruiseHeroMaskEditor() {
           {/* Footer Action Buttons */}
           <div className="p-3 border-t border-cyan-500/20 bg-black/50 rounded-b-2xl flex items-center gap-2 shrink-0">
             <button
-              onClick={handleSave}
-              className="flex-1 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white uppercase shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all">
+ onClick={handleSave}
+ className="flex-1 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white uppercase shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all">
               Save Changes
             </button>
             <button
-              onClick={copyCSS}
-              className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white uppercase flex items-center gap-1.5 transition-all">
+ onClick={copyCSS}
+ className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white uppercase flex items-center gap-1.5 transition-all">
               {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied!' : 'Copy CSS'}
             </button>

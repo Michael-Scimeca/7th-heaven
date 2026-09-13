@@ -122,8 +122,8 @@ export default function ShopInventoryAdminPage() {
             account to continue.
           </p>
           <button
-            type="button"
-            onClick={() => openModal("login")}
+ type="button"
+ onClick={() => openModal("login")}
             className="px-5 py-2.5 bg-[var(--color-accent)] text-white uppercase rounded-lg">
             Sign In
           </button>
@@ -136,28 +136,28 @@ export default function ShopInventoryAdminPage() {
     <div className="min-h-screen text-white pt-32 pb-24">
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
-          href="/payment-test"
-          className="uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+ href="/payment-test"
+ className="uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
           ← Back to Shop
         </Link>
 
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div>
-            <span className="inline-block text-[10px] uppercase  text-[var(--color-accent)] mb-1">
+            <span className="inline-block text-[10px] uppercase text-[var(--color-accent)] mb-1">
               Shop Backend
             </span>
             <h1 className="text-white">
               Inventory Management
             </h1>
             {lowStockCount > 0 && (
-              <p className="text-yellow-300   ">
+              <p className="text-yellow-300 ">
                 ⚠️ {lowStockCount} variant{lowStockCount === 1 ? "" : "s"} at or below its low-stock threshold
               </p>
             )}
           </div>
           <button
-            type="button"
-            onClick={() => setShowAddProduct(true)}
+ type="button"
+ onClick={() => setShowAddProduct(true)}
             className="px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors">
             + Add Product
           </button>
@@ -165,14 +165,14 @@ export default function ShopInventoryAdminPage() {
 
         <div className="flex gap-2 mb-6">
           <button
-            type="button"
-            onClick={() => setActiveTab("products")}
+ type="button"
+ onClick={() => setActiveTab("products")}
             className={`px-4 py-2 rounded-lg    uppercase transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : " bg-[#00000029] border border-white/10 text-white hover:text-white"}`}>
             Products
           </button>
           <button
-            type="button"
-            onClick={() => setActiveTab("orders")}
+ type="button"
+ onClick={() => setActiveTab("orders")}
             className={`px-4 py-2 rounded-lg    uppercase transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : " bg-[#00000029] border border-white/10 text-white hover:text-white"}`}>
             Orders ({orders.length})
           </button>
@@ -195,7 +195,7 @@ export default function ShopInventoryAdminPage() {
 
       {showAddProduct && (
         <AddProductModal
-          onClose={() => setShowAddProduct(false)}
+ onClose={() => setShowAddProduct(false)}
           onCreated={() => {
             setShowAddProduct(false);
             loadProducts();
@@ -277,23 +277,23 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
 
         <div className="flex items-center gap-2">
           <button
-            type="button"
-            disabled={busy}
-            onClick={toggleActive}
-            className={`px-3 py-1.5 rounded-lg    uppercase transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : " bg-[#00000029] text-white/40 border border-white/10"
-              }`}>
+ type="button"
+ disabled={busy}
+ onClick={toggleActive}
+ className={`px-3 py-1.5 rounded-lg uppercase transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : " bg-[#00000029] text-white/40 border border-white/10"
+ }`}>
             {product.active ? "Active" : "Inactive"}
           </button>
           <button
-            type="button"
-            disabled={busy}
-            onClick={deleteProduct}
-            className="px-3 py-1.5 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 rounded-lg uppercase transition-colors">
+ type="button"
+ disabled={busy}
+ onClick={deleteProduct}
+ className="px-3 py-1.5 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 rounded-lg uppercase transition-colors">
             Delete
           </button>
           <button
-            type="button"
-            onClick={() => setExpanded(!expanded)}
+ type="button"
+ onClick={() => setExpanded(!expanded)}
             className="px-3 py-1.5 bg-[#00000029] text-white/70 hover:text-white rounded-lg uppercase transition-colors">
             {expanded ? "Collapse" : `Variants (${product.variants?.length || 0})`}
           </button>
@@ -311,8 +311,8 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
 
           {showAddVariant ? (
             <AddVariantForm
-              productId={product.id}
-              onDone={() => {
+ productId={product.id}
+ onDone={() => {
                 setShowAddVariant(false);
                 onChanged();
               }}
@@ -320,8 +320,8 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             />
           ) : (
             <button
-              type="button"
-              onClick={() => setShowAddVariant(true)}
+ type="button"
+ onClick={() => setShowAddVariant(true)}
               className="mt-2">
               + Add {product.variant_kind.toLowerCase()} variant
             </button>
@@ -393,8 +393,8 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
   return (
     <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 items-center bg-white/[0.02] border border-white/[0.06] rounded-lg p-2.5">
       <input
-        value={label}
-        onChange={(e) => {
+ value={label}
+ onChange={(e) => {
           setLabel(e.target.value);
           markDirty();
         }}
@@ -404,10 +404,10 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
       <div className="flex items-center gap-1">
         <span className="text-white/30">$</span>
         <input
-          type="number"
-          step="0.01"
-          value={price}
-          onChange={(e) => {
+ type="number"
+ step="0.01"
+ value={price}
+ onChange={(e) => {
             setPrice(e.target.value);
             markDirty();
           }}
@@ -416,9 +416,9 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
       </div>
       <div>
         <input
-          type="number"
-          value={stock}
-          onChange={(e) => {
+ type="number"
+ value={stock}
+ onChange={(e) => {
             setStock(e.target.value);
             markDirty();
           }}
@@ -430,9 +430,9 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
       </div>
       <div>
         <input
-          type="number"
-          value={lowStock}
-          onChange={(e) => {
+ type="number"
+ value={lowStock}
+ onChange={(e) => {
             setLowStock(e.target.value);
             markDirty();
           }}
@@ -443,26 +443,26 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
       <div className="flex items-center gap-1.5 col-span-2 sm:col-span-1 justify-end">
         {dirty && (
           <button
-            type="button"
-            disabled={busy}
-            onClick={save}
-            className="px-2.5 py-1.5 bg-[var(--color-accent)] text-white text-[10px] uppercase rounded-md">
+ type="button"
+ disabled={busy}
+ onClick={save}
+ className="px-2.5 py-1.5 bg-[var(--color-accent)] text-white text-[10px] uppercase rounded-md">
             Save
           </button>
         )}
         <button
-          type="button"
-          disabled={busy}
-          onClick={toggleActive}
-          className={`px-2 py-1.5 text-[10px]    uppercase rounded-lg ${variant.active ? "bg-emerald-500/15 text-emerald-300" : " bg-[#00000029] text-white/40"}`}>
+ type="button"
+ disabled={busy}
+ onClick={toggleActive}
+ className={`px-2 py-1.5 text-[10px] uppercase rounded-lg ${variant.active ? "bg-emerald-500/15 text-emerald-300" : " bg-[#00000029] text-white/40"}`}>
           {variant.active ? "On" : "Off"}
         </button>
         <button
-          type="button"
-          disabled={busy}
-          onClick={deleteVariant}
-          className="text-white/30 hover:text-rose-400 px-1"
-          aria-label={`Delete ${variant.label}`}>
+ type="button"
+ disabled={busy}
+ onClick={deleteVariant}
+ className="text-white/30 hover:text-rose-400 px-1"
+ aria-label={`Delete ${variant.label}`}>
           ✕
         </button>
       </div>
@@ -653,23 +653,23 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
             {variants.map((v, i) => (
               <div key={v.id} className="flex gap-2">
                 <input
-                  value={v.label}
-                  onChange={(e) => updateVariant(i, "label", e.target.value)}
+ value={v.label}
+ onChange={(e) => updateVariant(i, "label", e.target.value)}
                   placeholder={variantKind === "Size" ? "M" : variantKind === "Format" ? "Vinyl LP" : "Black"}
                   className="flex-1 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white"
                 />
                 <input
-                  type="number"
-                  step="0.01"
-                  value={v.price}
-                  onChange={(e) => updateVariant(i, "price", e.target.value)}
+ type="number"
+ step="0.01"
+ value={v.price}
+ onChange={(e) => updateVariant(i, "price", e.target.value)}
                   placeholder="Price"
                   className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white"
                 />
                 <input
-                  type="number"
-                  value={v.stock}
-                  onChange={(e) => updateVariant(i, "stock", e.target.value)}
+ type="number"
+ value={v.stock}
+ onChange={(e) => updateVariant(i, "stock", e.target.value)}
                   placeholder="Stock"
                   className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white"
                 />
@@ -677,8 +677,8 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
             ))}
           </div>
           <button
-            type="button"
-            onClick={() => setVariants([...variants, { id: `var-${Date.now()}-${variants.length}`, label: "", price: "", stock: "0" }])}
+ type="button"
+ onClick={() => setVariants([...variants, { id: `var-${Date.now()}-${variants.length}`, label: "", price: "", stock: "0" }])}
             className="mt-2">
             + Another variant
           </button>
@@ -691,10 +691,10 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
         )}
 
         <button
-          type="button"
-          disabled={submitting}
-          onClick={submit}
-          className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors disabled:opacity-50">
+ type="button"
+ disabled={submitting}
+ onClick={submit}
+ className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors disabled:opacity-50">
           {submitting ? "Creating…" : "Create Product"}
         </button>
       </div>
@@ -734,7 +734,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
               <span className="text-white">{order.tran_nbr}</span>
-              <span className={`px-2 py-0.5 rounded-lg text-[10px]    uppercase border ${statusStyles[order.status]}`}>
+              <span className={`px-2 py-0.5 rounded-lg text-[10px] uppercase border ${statusStyles[order.status]}`}>
                 {order.status}
               </span>
             </div>

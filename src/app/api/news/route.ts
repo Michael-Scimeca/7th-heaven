@@ -7,13 +7,13 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const sanityNews = await sanityClient.fetch<Array<{
-      _id: string;
-      title: string;
-      content: string;
-      date?: string;
-      category?: string;
-      publishedAt?: string;
-    }>>(`*[_type == "newsPost"] | order(publishedAt desc) {
+ _id: string;
+ title: string;
+ content: string;
+ date?: string;
+ category?: string;
+ publishedAt?: string;
+ }>>(`*[_type == "newsPost"] | order(publishedAt desc) {
       _id,
       title,
       content,

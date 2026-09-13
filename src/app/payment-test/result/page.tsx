@@ -67,7 +67,7 @@ function NorthResultContent() {
   const succeeded = result?.authResp === "00";
 
   return (
-    <div className="min-h-screen    text-white pt-32 pb-24 flex items-center justify-center px-6">
+    <div className="min-h-screen text-white pt-32 pb-24 flex items-center justify-center px-6">
       <div className="max-w-md w-full">
         <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           {loading && <p>Loading payment result…</p>}
@@ -90,9 +90,9 @@ function NorthResultContent() {
           {!loading && result && (
             <>
               <div
-                className={`w-16 h-16 mx-auto mb-4 rounded-lg flex items-center justify-center border-2 ${succeeded ? "bg-emerald-500/10 border-emerald-500/30"
-                  : "bg-rose-500/10 border-rose-500/30"
-                  }`}>
+ className={`w-16 h-16 mx-auto mb-4 rounded-lg flex items-center justify-center border-2 ${succeeded ? "bg-emerald-500/10 border-emerald-500/30"
+ : "bg-rose-500/10 border-rose-500/30"
+ }`}>
                 <span className="text-2xl">{succeeded ? "✅" : "❌"}</span>
               </div>
               <h1 className="mb-2">
@@ -112,8 +112,8 @@ function NorthResultContent() {
           )}
 
           <Link
-            href="/payment-test"
-            className="inline-block mt-6 px-5 py-2.5 bg-[var(--color-accent)] text-white uppercase rounded-lg">
+ href="/payment-test"
+ className="inline-block mt-6 px-5 py-2.5 bg-[var(--color-accent)] text-white uppercase rounded-lg">
             {succeeded ? "Back to Shop" : "Try Again"}
           </Link>
         </div>

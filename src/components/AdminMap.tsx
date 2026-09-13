@@ -35,8 +35,8 @@ class MapErrorBoundary extends React.Component<
       return (
         <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border border-white/10 flex flex-col items-center justify-center gap-3">
           <p>Map reloading...</p>
-          <button aria-label="Action button"
-            onClick={() => this.setState({ hasError: false })}
+          <button
+ onClick={() => this.setState({ hasError: false })}
             className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white uppercase rounded cursor-pointer border-none">
             Reset Map
           </button>
@@ -100,18 +100,18 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
     <MapErrorBoundary>
       <div ref={containerRef} className="w-full h-full min-h-[180px] overflow-hidden relative">
         <MapContainer
-          key={mapKey}
-          center={[39.8283, -98.5795]}
-          zoom={3}
-          style={{ height: '100%', width: '100%', minHeight: '180px', background: '#f8fafc' }}
-          zoomControl={false}
-          scrollWheelZoom={false}
-          dragging={true}
-          doubleClickZoom={false}>
+ key={mapKey}
+ center={[39.8283, -98.5795]}
+ zoom={3}
+ style={{ height: '100%', width: '100%', minHeight: '180px', background: '#f8fafc' }}
+ zoomControl={false}
+ scrollWheelZoom={false}
+ dragging={true}
+ doubleClickZoom={false}>
           <MapResizeTrigger isVisible={isVisible} />
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+ url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+ attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
 
           {locations && locations.map((loc) => {
@@ -121,17 +121,17 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
 
             return (
               <CircleMarker
-                key={loc.city}
-                center={coords}
-                radius={radius}
-                pathOptions={{
-                  color: color,
-                  fillColor: color,
-                  fillOpacity: 0.7,
-                  weight: 2,
-                }}>
+ key={loc.city}
+ center={coords}
+ radius={radius}
+ pathOptions={{
+ color: color,
+ fillColor: color,
+ fillOpacity: 0.7,
+ weight: 2,
+ }}>
                 <Tooltip direction="top" offset={[0, -10]} opacity={1} className="custom-tooltip">
-                  <div className="  ">
+                  <div className=" ">
                     <p className="uppercase text-black m-0">{loc.city}</p>
                     <p className="text-black/70 m-0">{loc.percentage}% of Traffic</p>
                   </div>

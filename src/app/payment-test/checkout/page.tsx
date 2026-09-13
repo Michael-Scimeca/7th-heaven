@@ -72,8 +72,8 @@ export default function NorthCheckoutPage() {
             No active checkout found. Head back to the shop and add something to your cart first.
           </p>
           <Link
-            href="/payment-test"
-            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white uppercase rounded-lg">
+ href="/payment-test"
+ className="inline-block px-5 py-2.5 bg-[var(--color-accent)] text-white uppercase rounded-lg">
             ← Back to Shop
           </Link>
         </div>
@@ -82,29 +82,29 @@ export default function NorthCheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen    text-white pt-32 pb-24">
+    <div className="min-h-screen text-white pt-32 pb-24">
       <div className="site-container max-w-xl mx-auto px-6">
         <Link
-          href="/payment-test"
-          className="uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+ href="/payment-test"
+ className="uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
           ← Back to Shop
         </Link>
 
         <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
-            <span className="inline-block text-[10px] uppercase  text-[var(--color-accent)] mb-1">
+            <span className="inline-block text-[10px] uppercase text-[var(--color-accent)] mb-1">
               North (EPX) Browser Post
             </span>
             <h1>
               Card Payment
             </h1>
             {mockMode ? (
-              <p className="text-yellow-300   ">
+              <p className="text-yellow-300 ">
                 🧪 Test mode: no real North credentials are configured, so this won&apos;t
                 contact EPX. Use the simulate buttons below instead of a real submit.
               </p>
             ) : (
-              <p className="  ">
+              <p className=" ">
                 Submitting this form sends your card details directly to North&apos;s servers —
                 they never pass through this site. This uses North&apos;s sandbox test card by
                 default.
@@ -147,10 +147,10 @@ export default function NorthCheckoutPage() {
                 Account Number
               </label>
               <input
-                type="text"
-                required
-                value={accountNbr}
-                onChange={(e) => setAccountNbr(e.target.value)}
+ type="text"
+ required
+ value={accountNbr}
+ onChange={(e) => setAccountNbr(e.target.value)}
                 className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
               />
             </div>
@@ -161,11 +161,11 @@ export default function NorthCheckoutPage() {
                   Expiry (YYMM)
                 </label>
                 <input
-                  type="text"
-                  required
-                  placeholder="YYMM"
-                  value={expDate}
-                  onChange={(e) => setExpDate(e.target.value)}
+ type="text"
+ required
+ placeholder="YYMM"
+ value={expDate}
+ onChange={(e) => setExpDate(e.target.value)}
                   className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
                 />
               </div>
@@ -174,11 +174,11 @@ export default function NorthCheckoutPage() {
                   CVV
                 </label>
                 <input
-                  type="text"
-                  required
-                  placeholder="123"
-                  value={cvv2}
-                  onChange={(e) => setCvv2(e.target.value)}
+ type="text"
+ required
+ placeholder="123"
+ value={cvv2}
+ onChange={(e) => setCvv2(e.target.value)}
                   className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
                 />
               </div>
@@ -188,16 +188,16 @@ export default function NorthCheckoutPage() {
           {mockMode ? (
             <div className="mt-6 flex gap-3">
               <button
-                type="button"
-                disabled={simulating !== null}
-                onClick={() => handleSimulate("approved")}
+ type="button"
+ disabled={simulating !== null}
+ onClick={() => handleSimulate("approved")}
                 className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black uppercase rounded-lg transition-colors disabled:opacity-50">
                 {simulating === "approved" ? "Simulating…" : `✅ Simulate Approved — $${amount}`}
               </button>
               <button
-                type="button"
-                disabled={simulating !== null}
-                onClick={() => handleSimulate("declined")}
+ type="button"
+ disabled={simulating !== null}
+ onClick={() => handleSimulate("declined")}
                 className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 uppercase rounded-lg transition-colors disabled:opacity-50">
                 {simulating === "declined" ? "Simulating…" : "❌ Simulate Declined"}
               </button>
@@ -220,8 +220,8 @@ export default function NorthCheckoutPage() {
               <input type="hidden" name="AMOUNT" value={amount || ""} />
 
               <button
-                type="submit"
-                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors">
+ type="submit"
+ className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors">
                 Submit Payment — ${amount}
               </button>
             </form>

@@ -150,7 +150,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             {/* UP NEXT Badge */}
             <div className="flex items-center gap-1 text-[var(--font-size-5xs)] uppercase tracking-[0.15em]">
               <span className={`w-0.5 h-0.5 rounded-lg ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
-              <span className={daysLabel === "Happening Now" ? "text-red-500     " : " text-[var(--color-accent)]"}>
+              <span className={daysLabel === "Happening Now" ? "text-red-500 " : " text-[var(--color-accent)]"}>
                 {daysLabel === "Happening Now" ? "Live" : "Up Next"}
               </span>
               {daysLabel && daysLabel !== "Happening Now" && (
@@ -199,7 +199,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
               )}
             </div>
             {nextShow.info && (
-              <p className="   uppercase tracking-[0.12em] text-[var(--color-accent)]/80 flex items-center gap-1">
+              <p className=" uppercase tracking-[0.12em] text-[var(--color-accent)]/80 flex items-center gap-1">
                 <Guitar className="w-3 h-3" /> {nextShow.info}
               </p>
             )}
@@ -219,7 +219,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             )}
             <div className="relative calendar-dropdown-container">
               <button aria-label="Next"
-                onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
+ onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
                 className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase text-white/70"
                 id="hero-upnext-calendar-btn">
                 <Calendar className="w-3 h-3" /> Calendar
@@ -242,8 +242,8 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           // eslint-disable-next-line react-doctor/no-array-index-as-key
           <Link key={`hero_show_${idx}_${show.id || show.venue}`} href="/tour" className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/[0.02] border border-white/10 hover:bg-white/[0.04]">
             <div className="w-7 h-7 rounded flex flex-col items-center justify-center bg-white/[0.03] text-white/40 shrink-0 border border-white/5">
-              <span className="text-[var(--font-size-5xs)] uppercase   ">{show.date.split(' ')[0]?.slice(0, 3)}</span>
-              <span className="text-[var(--font-size-2xs)]    mt-0.5">{show.date.split(' ')[1]}</span>
+              <span className="text-[var(--font-size-5xs)] uppercase ">{show.date.split(' ')[0]?.slice(0, 3)}</span>
+              <span className="text-[var(--font-size-2xs)] mt-0.5">{show.date.split(' ')[1]}</span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="truncate">{show.venue}</p>

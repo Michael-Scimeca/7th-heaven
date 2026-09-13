@@ -48,13 +48,13 @@ function ProductCard({
     <div className="bg-white/[0.04] border border-white/[0.12] rounded-lg overflow-hidden flex flex-col">
       <div className="relative aspect-square bg-black/40">
         <Image
-          src={product.image_url}
-          alt={product.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          unoptimized
-          className="object-cover"
-        />
+ src={product.image_url}
+ alt={product.title}
+ fill
+ sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+ unoptimized
+ className="object-cover"
+ />
         <span className="absolute top-3 left-3 text-[10px] uppercase bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10">
           {product.category}
         </span>
@@ -73,7 +73,7 @@ function ProductCard({
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div>
           <h3 className="text-white">{product.title}</h3>
-          <p className="  ">{product.description}</p>
+          <p className=" ">{product.description}</p>
         </div>
 
         <div>
@@ -85,10 +85,10 @@ function ProductCard({
               const variantSoldOut = Number(variant.stock_quantity) <= 0;
               return (
                 <button
-                  key={variant.id}
-                  type="button"
-                  disabled={variantSoldOut}
-                  onClick={() => setUserSelectedVariantId(variant.id)}
+ key={variant.id}
+ type="button"
+ disabled={variantSoldOut}
+ onClick={() => setUserSelectedVariantId(variant.id)}
                   className={`px-3 py-1.5 rounded-lg    transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)] text-white"
                     : " bg-[#00000029] border border-white/10 text-white hover:text-white"
                     }`}>
@@ -104,9 +104,9 @@ function ProductCard({
             ${Number(selectedVariant.price).toFixed(2)}
           </span>
           <button
-            type="button"
-            disabled={soldOut || maxedOut}
-            onClick={() => onAdd(selectedVariant.id)}
+ type="button"
+ disabled={soldOut || maxedOut}
+ onClick={() => onAdd(selectedVariant.id)}
             className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
             {soldOut ? "Sold Out" : maxedOut ? "Max in Cart" : "Add to Cart"}
           </button>
@@ -268,17 +268,17 @@ export default function PaymentTestShopPage() {
 
 
   return (
-    <div className="min-h-screen    text-white pt-[100px] pb-24">
+    <div className="min-h-screen text-white pt-[100px] pb-24">
       {/* Header */}
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
-          href="/"
-          className="uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+ href="/"
+ className="uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
           ← Back to Home
         </Link>
 
         <div className="mb-8">
-          <span className="inline-block text-[10px] uppercase   text-[var(--color-accent)] mb-1">
+          <span className="inline-block text-[10px] uppercase text-[var(--color-accent)] mb-1">
             Official Band Store &amp; Apparel
           </span>
           <h1 className="text-3xl md:text-4xl uppercase text-white">
@@ -296,14 +296,14 @@ export default function PaymentTestShopPage() {
 
           <div className="flex flex-wrap gap-2 mt-4">
             <button
-              type="button"
-              onClick={() => setShowLimitations(!showLimitations)}
+ type="button"
+ onClick={() => setShowLimitations(!showLimitations)}
               className="flex items-center gap-1.5 text-purple-300 bg-purple-500/10 hover:bg- purple-white/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors">
               ✨ Store Features &amp; Capabilities
             </button>
             <Link
-              href="/admin/shop-inventory"
-              className="flex items-center gap-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors">
+ href="/admin/shop-inventory"
+ className="flex items-center gap-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors">
               🛠️ Manage Inventory
             </Link>
           </div>
@@ -317,13 +317,13 @@ export default function PaymentTestShopPage() {
                 <h3 className="text-white uppercase">
                   7th Heaven Direct Store Features &amp; Architecture
                 </h3>
-                <p className="  ">
+                <p className=" ">
                   Custom high-speed merchandise storefront with direct merchant payment routing and real-time inventory synchronization.
                 </p>
               </div>
               <button
-                type="button"
-                onClick={() => setShowLimitations(false)}
+ type="button"
+ onClick={() => setShowLimitations(false)}
                 className="text-white/40 hover:text-white uppercase shrink-0 ml-4">
                 ✕ Close
               </button>
@@ -407,7 +407,7 @@ export default function PaymentTestShopPage() {
                 <h3 className="text-white uppercase">
                   Roadmap: Closing the Gap With North&apos;s Real API Suite
                 </h3>
-                <p className="   max-w-2xl">
+                <p className=" max-w-2xl">
                   This page only uses North&apos;s Browser Post API — one product in a larger
                   suite. North (EPX) also publishes a Recurring Billing API, Gateway Invoicing
                   API, Embedded Checkout, and reporting APIs. Combined with the inventory/order
@@ -416,8 +416,8 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
               <button
-                type="button"
-                onClick={() => setShowRoadmap(false)}
+ type="button"
+ onClick={() => setShowRoadmap(false)}
                 className="text-white/40 hover:text-white uppercase shrink-0 ml-4">
                 ✕ Close
               </button>
@@ -516,9 +516,9 @@ export default function PaymentTestShopPage() {
           <div className="flex items-center gap-2 overflow-x-auto">
             {CATEGORIES.map((cat) => (
               <button
-                key={cat}
-                type="button"
-                onClick={() => setActiveCategory(cat)}
+ key={cat}
+ type="button"
+ onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-lg    uppercase transition-colors shrink-0 ${activeCategory === cat ? "bg-cyan-500 text-black"
                   : " bg-[#00000029] border border-white/10 text-white hover:text-white"
                   }`}>
@@ -528,8 +528,8 @@ export default function PaymentTestShopPage() {
           </div>
 
           <button
-            type="button"
-            onClick={() => setShowCart(true)}
+ type="button"
+ onClick={() => setShowCart(true)}
             className="px-4 py-2.5 bg-[#00000029] border border-white/10 hover:border-[var(--color-accent)] rounded-lg uppercase transition-colors flex items-center gap-2">
             🛒 Cart ({cart.getNumberOfCartItems()})
           </button>
@@ -551,11 +551,11 @@ export default function PaymentTestShopPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {filteredProducts.map((product) => (
               <ProductCard
-                key={product.id}
-                product={product}
-                cartQuantities={cartQuantities}
-                onAdd={handleAdd}
-              />
+ key={product.id}
+ product={product}
+ cartQuantities={cartQuantities}
+ onAdd={handleAdd}
+ />
             ))}
           </div>
         )}
@@ -568,8 +568,8 @@ export default function PaymentTestShopPage() {
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <h2 className="text-white uppercase">My Cart</h2>
               <button
-                type="button"
-                onClick={() => setShowCart(false)}
+ type="button"
+ onClick={() => setShowCart(false)}
                 className="text-white/40 hover:text-white text-lg p-1">
                 ✕
               </button>
@@ -585,8 +585,8 @@ export default function PaymentTestShopPage() {
                   const atMax = item.quantity >= stock;
                   return (
                     <div
-                      key={item.id}
-                      className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-lg p-3">
+ key={item.id}
+ className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-lg p-3">
                       <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden bg-black/40">
                         <Image src={item.imageUrl} alt={item.title} fill sizes="56px" unoptimized className="object-cover" />
                       </div>
@@ -599,8 +599,8 @@ export default function PaymentTestShopPage() {
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
                         <button
-                          type="button"
-                          onClick={() => cart.removeOneItemFromCart(item.id)}
+ type="button"
+ onClick={() => cart.removeOneItemFromCart(item.id)}
                           className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white">
                           −
                         </button>
@@ -608,16 +608,16 @@ export default function PaymentTestShopPage() {
                           {item.quantity}
                         </span>
                         <button
-                          type="button"
-                          disabled={atMax}
-                          onClick={() => handleCartIncrement(item.id)}
+ type="button"
+ disabled={atMax}
+ onClick={() => handleCartIncrement(item.id)}
                           className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed">
                           +
                         </button>
                       </div>
                       <button
-                        type="button"
-                        onClick={() => cart.deleteItemFromCart(item.id)}
+ type="button"
+ onClick={() => cart.deleteItemFromCart(item.id)}
                         className="text-white/30 hover:text-rose-400 px-1"
                         aria-label={`Remove ${item.title}`}>
                         ✕
@@ -643,16 +643,16 @@ export default function PaymentTestShopPage() {
 
             <div className="flex gap-3">
               <button
-                type="button"
-                onClick={() => setShowCart(false)}
+ type="button"
+ onClick={() => setShowCart(false)}
                 className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white uppercase rounded-lg transition-colors">
                 Continue Shopping
               </button>
               <button
-                type="button"
-                disabled={cart.items.length === 0 || startingCheckout}
-                onClick={handleCheckout}
-                className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors disabled:opacity-40">
+ type="button"
+ disabled={cart.items.length === 0 || startingCheckout}
+ onClick={handleCheckout}
+ className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors disabled:opacity-40">
                 {startingCheckout ? "Starting…" : "Checkout with North"}
               </button>
             </div>

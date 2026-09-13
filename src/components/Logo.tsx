@@ -3,12 +3,12 @@ import React from 'react';
 export default function Logo({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
   return (
     <svg
-      id="Layer_1"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 514.28 93.04"
-      fill="currentColor"
-      className={className}
-      style={{ pointerEvents: "auto", transition: "color 250ms ease-in-out, fill 250ms ease-in-out", ...style }}>
+ id="Layer_1"
+ xmlns="http://www.w3.org/2000/svg"
+ viewBox="0 0 514.28 93.04"
+ fill="currentColor"
+ className={className}
+ style={{ pointerEvents: "auto", transition: "color 250ms ease-in-out, fill 250ms ease-in-out", ...style }}>
       <style>{`path, polygon { fill: currentColor !important; transition: fill 250ms ease-in-out, color 250ms ease-in-out; }`}</style>
       <path d="M70.08,76.44l6.84,1.82-2.64,11.35-19.89-.44c-2.17-.05-5.75-2.24-6.9-3.82-1.44-1.98-1.8-5.99-1.15-8.82l10.62-46.18-3.66-.85c-.84-.19-.55-2.35-.93-4.62l-28.77,64.28c-7.7.2-14.88.2-23.61-.08L33.4,16.59l-22.88-.4L14.19,0l44.79.42-3.49,16.49c-.26,1.21,4.2,1.39,4.48.32l2.61-10.38,23.51-.04-2.29,11.06,6.1.72-2.64,11.19-6.46.48-10.71,46.19Z" />
       <path d="M211.97,90.15l-23.78.14,13-56.43c.38-1.64-.2-4.2-1.31-4.65-1.27-.51-4.61,1.36-4.97,2.9l-13.64,58.06-23.68-.2L178.25,1.16l23.63-.12-4.16,19.36c6.68-3.78,13.58-5.8,20.82-3.46,6.21,2.01,8.26,7.67,7.08,13.89l-13.66,59.31Z" />

@@ -187,9 +187,9 @@ export function CameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
 
   return (
     <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
-      style={{ display: 'block' }}
-    />
+ ref={canvasRef}
+ className="absolute inset-0 w-full h-full"
+ style={{ display: 'block' }}
+ />
   );
 }

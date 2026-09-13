@@ -54,10 +54,10 @@ export default function TextColorTestPage() {
           <p className="max-w-xl">
             Testing MagicUI&apos;s{" "}
             <a
-              className="underline decoration-white/30 underline-offset-4 hover:decoration-white/60"
-              href="https://magicui.design/docs/components/aurora-text"
-              target="_blank"
-              rel="noreferrer">
+ className="underline decoration-white/30 underline-offset-4 hover:decoration-white/60"
+ href="https://magicui.design/docs/components/aurora-text"
+ target="_blank"
+ rel="noreferrer">
               Aurora Text
             </a>{" "}
             component for a &ldquo;Ship beautiful&rdquo;-style animated
@@ -83,8 +83,8 @@ export default function TextColorTestPage() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {PRESETS.map((preset) => (
               <div
-                key={preset.name}
-                className="flex flex-col gap-2 rounded-lg border border-white/10 p-6">
+ key={preset.name}
+ className="flex flex-col gap-2 rounded-lg border border-white/10 p-6">
                 <p className="font-extrabold">
                   <AuroraText colors={preset.colors} speed={preset.speed}>
                     {text}
@@ -112,9 +112,9 @@ export default function TextColorTestPage() {
             <label className="flex flex-col gap-2 text-white">
               Text
               <input
-                type="text"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+ type="text"
+ value={text}
+ onChange={(e) => setText(e.target.value)}
                 className="rounded border border-white/10 bg-[#00000029] px-3 py-2 text-white outline-none focus:border-white/40"
               />
             </label>
@@ -122,12 +122,12 @@ export default function TextColorTestPage() {
             <label className="flex flex-col gap-2 text-white">
               Speed ({speed.toFixed(1)}x)
               <input
-                type="range"
-                min={0.2}
-                max={3}
-                step={0.1}
-                value={speed}
-                onChange={(e) => setSpeed(Number(e.target.value))}
+ type="range"
+ min={0.2}
+ max={3}
+ step={0.1}
+ value={speed}
+ onChange={(e) => setSpeed(Number(e.target.value))}
               />
             </label>
 
@@ -137,10 +137,10 @@ export default function TextColorTestPage() {
                 {colors.map((c, i) => (
                   <label key={c} className="flex items-center gap-2">
                     <input
-                      type="color"
-                      value={c}
-                      onChange={(e) => updateColor(i, e.target.value)}
-                      className="h-8 w-8 cursor-pointer rounded border border-white/10   "
+ type="color"
+ value={c}
+ onChange={(e) => updateColor(i, e.target.value)}
+                      className="h-8 w-8 cursor-pointer rounded border border-white/10 "
                     />
                     <span className="text-white/50">
                       {c}

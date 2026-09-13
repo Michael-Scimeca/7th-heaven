@@ -169,16 +169,15 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
         <div>
 
 
-
           {/* Multi-Stream Links (If 2+ streams) */}
           {activeLiveRooms.length > 1 && (
             <div className="flex flex-wrap gap-2 mb-4 animate-[fade-in_0.5s_ease-out]">
               <span className="text-white/30 uppercase self-center mr-2">Alternative Feeds:</span>
               {activeLiveRooms.slice(1).map((room, idx) => (
                 <Link
-                  key={room.name}
-                  href={`/live/${room.name}`}
-                  className="bg-[#00000029] hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5 rounded-lg flex items-center gap-2 transition-colors group">
+ key={room.name}
+ href={`/live/${room.name}`}
+ className="bg-[#00000029] hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5 rounded-lg flex items-center gap-2 transition-colors group">
                   <span className="w-1.5 h-1.5 bg-red-500 rounded-lg animate-pulse" />
                   <span className="text-white/70 group-hover:text-white uppercase truncate max-w-[120px]">
                     {room.title?.split(' — ')[0] || room.name}
@@ -195,13 +194,13 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             ) : videoId ? (
               <div className="relative aspect-video border border-white/10 overflow-hidden">
                 <iframe
-                  title="7th Heaven Live Stream Video"
-                  src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
-                  className="absolute inset-0 w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  sandbox="allow-scripts allow-presentation allow-popups allow-forms"
-                  allowFullScreen
-                />
+ title="7th Heaven Live Stream Video"
+ src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
+ className="absolute inset-0 w-full h-full"
+ allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+ sandbox="allow-scripts allow-presentation allow-popups allow-forms"
+ allowFullScreen
+ />
               </div>
             ) : selectedMedia?.image_url ? (
               <div className="relative aspect-video border border-white/10 overflow-hidden">
@@ -251,9 +250,9 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                   ? `https://img.youtube.com/vi/${extractYouTubeId(post.video_url!) || ""}/mqdefault.jpg`
                   : post.image_url;
                 return (
-                  <button aria-label="Action button"
-                    key={post.id}
-                    onClick={() => setSelectedMedia(post)}
+                  <button
+ key={post.id}
+ onClick={() => setSelectedMedia(post)}
                     className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06]   border-white/10 "
                       }`}>
                     {thumbSrc && <Image width={200} height={200} unoptimized src={thumbSrc} alt="7th Heaven Media" className="w-full h-full object-cover" />}
@@ -276,10 +275,6 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
 
         {/* ═══ RIGHT: Next Show + Notifications ═══ */}
         <div className="flex flex-col gap-4">
-
-
-
-
 
 
           {/* Listen / Buy Links */}

@@ -187,8 +187,8 @@ function PassengersWidget() {
       <div className="flex items-center gap-2 flex-wrap mb-4 relative z-10">
         {topAvatars.map((p) => (
           <div
-            key={`avatar-${p.name}-${p.initial}-${p.extra}`}
-            className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/40 text-white text-sm flex items-center justify-center    cursor-pointer">
+ key={`avatar-${p.name}-${p.initial}-${p.extra}`}
+ className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/40 text-white text-sm flex items-center justify-center cursor-pointer">
             {p.initial}
           </div>
         ))}
@@ -557,11 +557,11 @@ export default function CruiseDashboard() {
     }
   };
 
-  if (isLoggedIn === undefined) return <div className="min-h-screen    text-white flex items-center justify-center">Loading...</div>;
+  if (isLoggedIn === undefined) return <div className="min-h-screen text-white flex items-center justify-center">Loading...</div>;
 
   if (showAuth) {
     return (
-      <div className="min-h-screen    text-white pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
+      <div className="min-h-screen text-white pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
         {/* Subtle background elements */}
         <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5 rounded-lg blur-[100px] pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-lg blur-[100px] pointer-events-none" />
@@ -569,7 +569,7 @@ export default function CruiseDashboard() {
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
             <h1>Cruise Hub</h1>
-            <p className="uppercase   ">Exclusive Passenger Community</p>
+            <p className="uppercase ">Exclusive Passenger Community</p>
           </div>
 
           <div className="bg-white border border-black/10 overflow-hidden">
@@ -586,26 +586,25 @@ export default function CruiseDashboard() {
                 <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="cruise-user-pin-input" className="block text-black/50 uppercase mb-1.5">6-Digit Verification PIN</label>
-                    <input aria-label="Input field"
-                      id="cruise-user-pin-input"
-                      type="text"
-                      required
-                      placeholder="123456"
-                      maxLength={6}
-                      value={pinInput}
-                      onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
+                    <input id="cruise-user-pin-input"
+ type="text"
+ required
+ placeholder="123456"
+ maxLength={6}
+ value={pinInput}
+ onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
                       className="w-full bg-white border border-black/15 px-4 py-3 text-center text-lg tracking-[0.3em] text-black focus:border-cyan-500 outline-none transition-colors"
                     />
                   </div>
 
                   {authError && <p className="text-rose-500 mt-2 text-center">{authError}</p>}
 
-                  <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors    shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                  <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                     {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Verify PIN & Access Hub →"}
                   </button>
 
                   <div className="text-center mt-4">
-                    <button aria-label="Action button" type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-black/40 hover:text-black text-[var(--font-size-2xs)] uppercase transition-colors cursor-pointer">
+                    <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-black/40 hover:text-black text-[var(--font-size-2xs)] uppercase transition-colors cursor-pointer">
                       ← Cancel and Back
                     </button>
                   </div>
@@ -618,7 +617,7 @@ export default function CruiseDashboard() {
                 <p className="text-black/60 mb-6">
                   We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
                 </p>
-                <button aria-label="Action button" onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:text-black uppercase transition-colors cursor-pointer">
+                <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:text-black uppercase transition-colors cursor-pointer">
                   Go to Log In
                 </button>
               </div>
@@ -626,10 +625,10 @@ export default function CruiseDashboard() {
               <>
                 {/* Tabs */}
                 <div className="flex border-b border-black/10">
-                  <button aria-label="Action button" onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4    uppercase transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4    uppercase transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Log In
                   </button>
-                  <button aria-label="Action button" onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4    uppercase transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4    uppercase transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-600 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Register
                   </button>
                 </div>
@@ -640,16 +639,16 @@ export default function CruiseDashboard() {
                       <p className="text-black/50 mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                       <div>
                         <label htmlFor="cruise-hub-login-email" className="block text-black/50 uppercase mb-1.5">Email Address</label>
-                        <input aria-label="Input field" id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-login-password" className="block text-black/50 uppercase mb-1.5">Password</label>
-                        <input aria-label="Input field" id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 mt-2">{authError}</p>}
 
-                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors    shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                      <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                         {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Access Cruise Hub →"}
                       </button>
                     </form>
@@ -658,24 +657,24 @@ export default function CruiseDashboard() {
                       <p className="text-black/50 mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                       <div>
                         <label htmlFor="cruise-hub-reg-name" className="block text-black/50 uppercase mb-1.5">Full Legal Name *</label>
-                        <input aria-label="Input field" id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-reg-email" className="block text-black/50 uppercase mb-1.5">Email Address *</label>
-                        <input aria-label="Input field" id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-reg-phone" className="block text-black/50 uppercase mb-1.5">Phone Number *</label>
-                        <input aria-label="Input field" id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-reg-password" className="block text-black/50 uppercase mb-1.5">Choose Password *</label>
-                        <input aria-label="Input field" id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <input id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 mt-2">{authError}</p>}
 
-                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                      <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                         {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
                       </button>
                     </form>
@@ -696,16 +695,16 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="site-container min-h-screen    text-white pt-[100px] selection:bg-cyan-500 selection:text-black">
+    <div className="site-container min-h-screen text-white pt-[100px] selection:bg-cyan-500 selection:text-black">
       <div>
         <header className="mb-5 border-b border-white/10 flex flex-col md:flex-row justify-between gap-8">
           <MemberHeaderBadge
-            name={effectiveMember?.name || 'Cruise Guest'}
-            email={effectiveMember?.email || ''}
-            avatar={effectiveMember?.avatar}
-            badgeLabel="Cruise"
-            badgeColorClass="bg-sky-500 border-sky-400/50"
-          />
+ name={effectiveMember?.name || 'Cruise Guest'}
+ email={effectiveMember?.email || ''}
+ avatar={effectiveMember?.avatar}
+ badgeLabel="Cruise"
+ badgeColorClass="bg-sky-500 border-sky-400/50"
+ />
 
           <div className="shrink-0">
             <EmbarkationCountdown />
@@ -716,7 +715,7 @@ export default function CruiseDashboard() {
         <PushAlertsCard group="cruise" className="mb-8" />
 
         {(announcement || isAdmin) && (
-          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg   group">
+          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg group">
             <div className="relative z-10">
               <div className="flex items-start gap-3 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/30">
@@ -729,7 +728,7 @@ export default function CruiseDashboard() {
                   <h3 className="text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
                 </div>
                 {isAdmin && !isEditingAnnouncement && (
-                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto hover:text-white uppercase cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30">
+                  <button onClick={() => setIsEditingAnnouncement(true)} className="ml-auto hover:text-white uppercase cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-cyan-500/30">
                     ✏️ Edit Announcement
                   </button>
                 )}
@@ -739,11 +738,10 @@ export default function CruiseDashboard() {
                 <div className="space-y-3">
                   <div>
                     <label htmlFor="cruise-hub-notice-title" className="text-[10px] text-white/50 uppercase block mb-1">Notice Header Title / Subject</label>
-                    <input aria-label="Input field"
-                      id="cruise-hub-notice-title"
-                      type="text"
-                      value={announcementTitleInput}
-                      onChange={e => setAnnouncementTitleInput(e.target.value)}
+                    <input id="cruise-hub-notice-title"
+ type="text"
+ value={announcementTitleInput}
+ onChange={e => setAnnouncementTitleInput(e.target.value)}
                       placeholder="e.g. TEST, Captain's Log, or Cruise Notice..."
                       className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-3.5 py-2 text-white focus:border-cyan-400 outline-none transition-colors"
                     />
@@ -751,27 +749,27 @@ export default function CruiseDashboard() {
                   <div>
                     <label htmlFor="cruise-hub-notice-content" className="text-[10px] text-white/50 uppercase block mb-1">Notice Content</label>
                     <textarea aria-label="Text input"
-                      id="cruise-hub-notice-content"
-                      value={announcementInput}
-                      onChange={e => setAnnouncementInput(e.target.value)}
+ id="cruise-hub-notice-content"
+ value={announcementInput}
+ onChange={e => setAnnouncementInput(e.target.value)}
                       placeholder="Type news/announcements here (HTML formatting allowed)..."
                       className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg p-3.5 text-white focus:border-cyan-400 outline-none h-32 resize-none transition-colors"
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
-                    <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 uppercase transition-colors cursor-pointer rounded-xl">
+                    <button onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 uppercase transition-colors cursor-pointer rounded-xl">
                       Cancel
                     </button>
-                    <button aria-label="Action button" onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer rounded-lg    shadow-purple-600/30">
+                    <button onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer rounded-lg shadow-purple-600/30">
                       Save Announcement
                     </button>
                   </div>
                 </div>
               ) : sanitizedAnnouncement ? (
                 <div
-                  className="text-white/80 space-y-4 [&_a]: [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]: [&_h1]:text-lg [&_h1]: [&_h1]:text-white [&_h2]:text-base [&_h2]: [&_h2]:text-white"
-                  dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
-                />
+ className="text-white/80 space-y-4 [&_a]: [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]: [&_h1]:text-lg [&_h1]: [&_h1]:text-white [&_h2]:text-base [&_h2]: [&_h2]:text-white"
+ dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
+ />
               ) : (
                 <p>No priority news announcements posted yet.</p>
               )}
@@ -791,8 +789,8 @@ export default function CruiseDashboard() {
                     <p className="text-purple-400 uppercase mt-0.5">{guidelines.subtitle}</p>
                   </div>
                   {isAdmin && !isEditingGuidelines && (
-                    <button aria-label="Action button"
-                      onClick={() => {
+                    <button
+ onClick={() => {
                         setGuidelinesTitleInput(guidelines.title);
                         setGuidelinesSubtitleInput(guidelines.subtitle);
                         setGuidelinesContentInput(guidelines.content);
@@ -808,21 +806,19 @@ export default function CruiseDashboard() {
                   <div className="space-y-4 min-w-0 max-w-full">
                     <div>
                       <label htmlFor="cruise-hub-guidelines-title" className="block text-white/50 uppercase mb-1">Section Title</label>
-                      <input aria-label="Input field"
-                        id="cruise-hub-guidelines-title"
-                        type="text"
-                        value={guidelinesTitleInput}
-                        onChange={e => setGuidelinesTitleInput(e.target.value)}
+                      <input id="cruise-hub-guidelines-title"
+ type="text"
+ value={guidelinesTitleInput}
+ onChange={e => setGuidelinesTitleInput(e.target.value)}
                         className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-4 py-2 text-white focus:border-cyan-400 outline-none"
                       />
                     </div>
                     <div>
                       <label htmlFor="cruise-hub-guidelines-sub" className="block text-white/50 uppercase mb-1">Subtitle / Badge</label>
-                      <input aria-label="Input field"
-                        id="cruise-hub-guidelines-sub"
-                        type="text"
-                        value={guidelinesSubtitleInput}
-                        onChange={e => setGuidelinesSubtitleInput(e.target.value)}
+                      <input id="cruise-hub-guidelines-sub"
+ type="text"
+ value={guidelinesSubtitleInput}
+ onChange={e => setGuidelinesSubtitleInput(e.target.value)}
                         className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px]15 rounded-lg px-4 py-2 text-purple-400focus:border-cyan-400 outline-none"
                       />
                     </div>
@@ -833,19 +829,19 @@ export default function CruiseDashboard() {
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">
-                      <button aria-label="Action button" onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 uppercase transition-colors cursor-pointer rounded-xl">
+                      <button onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 uppercase transition-colors cursor-pointer rounded-xl">
                         Cancel
                       </button>
-                      <button aria-label="Action button" onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer rounded-lg    shadow-purple-600/30">
+                      <button onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer rounded-lg shadow-purple-600/30">
                         Save Guidelines
                       </button>
                     </div>
                   </div>
                 ) : (
                   <div
-                    className="space-y-4 text-white/80 md:text-base min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]: [&_a]: [&_a]:underline [&_a]:underline-offset-4 [&_a]: [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]: [&_h2]:text-white [&_h2]: [&_h3]:text-white [&_h3]: [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
-                    dangerouslySetInnerHTML={{ __html: sanitizedGuidelinesContent || sanitizeHtml(cleanWysiwygHtml(guidelines.content)) }}
-                  />
+ className="space-y-4 text-white/80 md:text-base min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]: [&_a]: [&_a]:underline [&_a]:underline-offset-4 [&_a]: [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]: [&_h2]:text-white [&_h2]: [&_h3]:text-white [&_h3]: [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
+ dangerouslySetInnerHTML={{ __html: sanitizedGuidelinesContent || sanitizeHtml(cleanWysiwygHtml(guidelines.content)) }}
+ />
                 )}
               </div>
             </div>
@@ -869,27 +865,27 @@ export default function CruiseDashboard() {
 
       {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
       <section
-        id="itinerary"
-        className="pt-16 md:pt-24 w-full max-w-none px-0 overflow-x-clip"
-        style={{
-          position: "relative",
-          left: "50%",
-          right: "50%",
-          marginLeft: "-50vw",
-          marginRight: "-50vw",
-          width: "100vw",
-          maxWidth: "100vw",
-          backgroundColor: "#070d1e",
-          backgroundImage: "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
-          maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
-        }}>
+ id="itinerary"
+ className="pt-16 md:pt-24 w-full max-w-none px-0 overflow-x-clip"
+ style={{
+ position: "relative",
+ left: "50%",
+ right: "50%",
+ marginLeft: "-50vw",
+ marginRight: "-50vw",
+ width: "100vw",
+ maxWidth: "100vw",
+ backgroundColor: "#070d1e",
+ backgroundImage: "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
+ maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
+ WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
+ }}>
         <div className="w-full mx-auto px-4 md:px-8 xl:px-12">
           <div className="text-center mb-12 max-w-3xl mx-auto px-4">
-            <span className="uppercase   ]">
+            <span className="uppercase ]">
               Interactive Voyage Map
             </span>
-            <h2 className="uppercase text-white      ">
+            <h2 className="uppercase text-white ">
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
             <p className="mt-4 font-semibold">
@@ -899,15 +895,15 @@ export default function CruiseDashboard() {
             {/* Itinerary Year Toggle */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mt-8">
               <FoolishShrimpButton
-                type="button"
-                onClick={() => setActiveItinYear(2027)}
+ type="button"
+ onClick={() => setActiveItinYear(2027)}
                 isActive={activeItinYear === 2027}
                 className="!w-auto px-6 py-2.5">
                 2027 Star of the Seas (7-Night)
               </FoolishShrimpButton>
               <FoolishShrimpButton
-                type="button"
-                onClick={() => setActiveItinYear(2028)}
+ type="button"
+ onClick={() => setActiveItinYear(2028)}
                 isActive={activeItinYear === 2028}
                 className="!w-auto px-6 py-2.5">
                 2028 Legend of the Seas (8-Night)

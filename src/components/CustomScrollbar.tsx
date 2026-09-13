@@ -204,35 +204,35 @@ export default function CustomScrollbar({
 
   const inner = (
     <div
-      ref={wrapperRef}
-      style={{
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        minHeight: 0,
-        minWidth: 0,
-        overflow: "hidden",
-      }}
-      onMouseEnter={() => setIsHovering(true)}
+ ref={wrapperRef}
+ style={{
+ position: "relative",
+ display: "flex",
+ flexDirection: "column",
+ flex: 1,
+ minHeight: 0,
+ minWidth: 0,
+ overflow: "hidden",
+ }}
+ onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}>
       {/* Scrollable content with hidden native scrollbar */}
       <div
-        ref={containerRef}
-        className={className}
-        data-lenis-prevent
-        style={{
-          flex: 1,
-          minHeight: 0,
-          minWidth: 0,
-          overflowY: showVertical ? "scroll" : "hidden",
-          overflowX: showHorizontal ? "auto" : "hidden",
-          paddingBottom: showHorizontal ? 0 : undefined,
-          scrollbarWidth: "none",
-          // @ts-ignore
-          msOverflowStyle: "none",
-          WebkitOverflowScrolling: "touch",
-        }}>
+ ref={containerRef}
+ className={className}
+ data-lenis-prevent
+ style={{
+ flex: 1,
+ minHeight: 0,
+ minWidth: 0,
+ overflowY: showVertical ? "scroll" : "hidden",
+ overflowX: showHorizontal ? "auto" : "hidden",
+ paddingBottom: showHorizontal ? 0 : undefined,
+ scrollbarWidth: "none",
+ // @ts-ignore
+ msOverflowStyle: "none",
+ WebkitOverflowScrolling: "touch",
+ }}>
         {children}
       </div>
 
@@ -248,10 +248,10 @@ export default function CustomScrollbar({
       {/* Vertical Track — rendered if showVertical AND content has vertical scroll space */}
       {showVertical && hasScrollableY && (
         <div
-          role="region"
-          aria-label="Vertical scrollbar track"
-          onClick={onVerticalTrackClick}
-          onMouseDown={(e) => e.stopPropagation()}
+ role="region"
+ aria-label="Vertical scrollbar track"
+ onClick={onVerticalTrackClick}
+ onMouseDown={(e) => e.stopPropagation()}
           style={{
             position: "absolute",
             top: 4 + topOffset,
@@ -265,53 +265,53 @@ export default function CustomScrollbar({
             zIndex: 100,
           }}>
           <button
-            ref={vThumbRef}
-            type="button"
-            aria-label="Vertical scrollbar thumb"
-            onMouseDown={onThumbMouseDownVertical}
-            style={{
-              position: "absolute",
-              top: thumbPos,
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: 5,
-              height: thumbSize,
-              background: "linear-gradient(180deg, #f0abfc 0%, #c084fc 50%, #9333ea 100%)",
-              borderRadius: 9999,
-              opacity: thumbOpacity,
-              transition: isDragging ? "none" : "opacity 0.2s ease, box-shadow 0.2s ease",
-              cursor: isDragging ? "grabbing" : "grab",
-              pointerEvents: "auto",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
+ ref={vThumbRef}
+ type="button"
+ aria-label="Vertical scrollbar thumb"
+ onMouseDown={onThumbMouseDownVertical}
+ style={{
+ position: "absolute",
+ top: thumbPos,
+ left: "50%",
+ transform: "translateX(-50%)",
+ width: 5,
+ height: thumbSize,
+ background: "linear-gradient(180deg, #f0abfc 0%, #c084fc 50%, #9333ea 100%)",
+ borderRadius: 9999,
+ opacity: thumbOpacity,
+ transition: isDragging ? "none" : "opacity 0.2s ease, box-shadow 0.2s ease",
+ cursor: isDragging ? "grabbing" : "grab",
+ pointerEvents: "auto",
+ backdropFilter: "blur(12px)",
+ WebkitBackdropFilter: "blur(12px)",
 
-            }}
-          />
+ }}
+ />
         </div>
       )}
 
       {/* Horizontal Mask Strip */}
       {showHorizontal && hasScrollableX && (
         <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: thumbWidth + 10,
-            zIndex: 90,
-            pointerEvents: "none",
-          }}
-        />
+ style={{
+ position: "absolute",
+ bottom: 0,
+ left: 0,
+ right: 0,
+ height: thumbWidth + 10,
+ zIndex: 90,
+ pointerEvents: "none",
+ }}
+ />
       )}
 
       {/* Horizontal Track — rendered if showHorizontal AND content has horizontal scroll space */}
       {showHorizontal && hasScrollableX && (
         <div
-          role="region"
-          aria-label="Horizontal scrollbar track"
-          onClick={onHorizontalTrackClick}
-          onMouseDown={(e) => e.stopPropagation()}
+ role="region"
+ aria-label="Horizontal scrollbar track"
+ onClick={onHorizontalTrackClick}
+ onMouseDown={(e) => e.stopPropagation()}
           style={{
             position: "absolute",
             left: 4,
@@ -323,24 +323,24 @@ export default function CustomScrollbar({
             zIndex: 100,
           }}>
           <button
-            type="button"
-            aria-label="Horizontal scrollbar thumb"
-            onMouseDown={onThumbMouseDownHorizontal}
-            style={{
-              position: "absolute",
-              left: hThumbPos,
-              top: "50%",
-              transform: "translateY(-50%)",
-              width: hThumbSize,
-              height: 6,
-              background: "linear-gradient(90deg, #d8b4fe 0%, #9333ea 100%)",
-              borderRadius: 9999,
-              opacity: thumbOpacity,
-              transition: isDragging ? "none" : "opacity 0.2s ease, box-shadow 0.2s ease",
-              cursor: isDragging ? "grabbing" : "grab",
-              pointerEvents: "auto",
-            }}
-          />
+ type="button"
+ aria-label="Horizontal scrollbar thumb"
+ onMouseDown={onThumbMouseDownHorizontal}
+ style={{
+ position: "absolute",
+ left: hThumbPos,
+ top: "50%",
+ transform: "translateY(-50%)",
+ width: hThumbSize,
+ height: 6,
+ background: "linear-gradient(90deg, #d8b4fe 0%, #9333ea 100%)",
+ borderRadius: 9999,
+ opacity: thumbOpacity,
+ transition: isDragging ? "none" : "opacity 0.2s ease, box-shadow 0.2s ease",
+ cursor: isDragging ? "grabbing" : "grab",
+ pointerEvents: "auto",
+ }}
+ />
         </div>
       )}
     </div>
@@ -349,12 +349,12 @@ export default function CustomScrollbar({
   if (height !== undefined) {
     return (
       <div
-        style={{
-          height: typeof height === "number" ? `${height}px` : height,
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-        }}>
+ style={{
+ height: typeof height === "number" ? `${height}px` : height,
+ display: "flex",
+ flexDirection: "column",
+ overflow: "hidden",
+ }}>
         {inner}
       </div>
     );

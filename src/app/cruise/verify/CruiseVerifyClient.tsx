@@ -107,13 +107,13 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
 
   return (
     <div
-      className={`${outfit.className} min-h-screen bg-[#020818] text-white flex flex-col items-center justify-center p-4 relative overflow-hidden`}>
+ className={`${outfit.className} min-h-screen bg-[#020818] text-white flex flex-col items-center justify-center p-4 relative overflow-hidden`}>
       {/* Background Glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-2/3 left-1/3 w-[300px] h-[300px] bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none" />
 
       {/* Main Card */}
-      <div className="relative w-full max-w-md bg-white/[0.04] border border-white/10 backdrop-blur-xl rounded-2xl p-8   text-center">
+      <div className="relative w-full max-w-md bg-white/[0.04] border border-white/10 backdrop-blur-xl rounded-2xl p-8 text-center">
         {/* Header Icon */}
         <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-500/20 to-indigo-500/20 border border-purple-400/30 flex items-center justify-center text-3xl mb-6 shadow-inner">
           🚢
@@ -146,8 +146,8 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
               <div className="flex justify-center gap-2">
                 {digits.map((digit, idx) => (
                   <input
-                    key={["slot-0", "slot-1", "slot-2", "slot-3", "slot-4", "slot-5"][idx]}
-                    ref={(el) => { inputRefs.current[idx] = el; }}
+ key={["slot-0", "slot-1", "slot-2", "slot-3", "slot-4", "slot-5"][idx]}
+ ref={(el) => { inputRefs.current[idx] = el; }}
                     type="text"
                     inputMode="numeric"
                     maxLength={1}
@@ -168,9 +168,9 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
               )}
 
               <button
-                type="submit"
-                disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm    shadow-purple-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
+ type="submit"
+ disabled={pin.length !== 6 || status === "submitting"}
+ className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-purple-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
                 {sanityContent?.submitButtonText || (status === "submitting" ? "Verifying…" : "Access My Dashboard →")}
               </button>
             </form>
@@ -184,10 +184,10 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
                 </p>
               ) : (
                 <button
-                  type="button"
-                  onClick={handleResend}
-                  disabled={resendStatus === "sending"}
-                  className="text-purple-300 hover:text-white underline transition-colors disabled:opacity-50 cursor-pointer">
+ type="button"
+ onClick={handleResend}
+ disabled={resendStatus === "sending"}
+ className="text-purple-300 hover:text-white underline transition-colors disabled:opacity-50 cursor-pointer">
                   {resendStatus === "sending" ? "Sending…" : "Resend Code"}
                 </button>
               )}
@@ -216,8 +216,8 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
 export default function CruiseVerifyClient({ sanityContent }: CruiseVerifyClientProps) {
   return (
     <Suspense
-      fallback={
-        <div style={{ minHeight: "100vh", background: "#020818", display: "flex", alignItems: "center", justifyContent: "center" }}>
+ fallback={
+ <div style={{ minHeight: "100vh", background: "#020818", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 14, fontFamily: "Outfit, sans-serif" }}>Loading…</div>
         </div>
       }>

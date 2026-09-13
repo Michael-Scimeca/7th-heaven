@@ -36,10 +36,10 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         </div>
         <div className="flex items-center gap-1.5 flex-wrap">
           {OPTION_2_VARIATIONS.map((opt) => (
-            <button aria-label="Action button"
-              key={opt.id}
-              type="button"
-              onClick={() => setActiveLayout(opt.id)}
+            <button
+ key={opt.id}
+ type="button"
+ onClick={() => setActiveLayout(opt.id)}
               className={`px-3 py-1.5    uppercase transition-colors cursor-pointer border ${activeLayout === opt.id ? "bg-cyan-500 text-black border-cyan-400    shadow-[0_0_12px_rgba(6,182,212,0.4)]"
                 : " bg-[#00000029] border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}>
@@ -107,7 +107,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 </div>
                 <h2 className="text-white mb-4">{featured.title}</h2>
                 <p className="mb-6">{featured.content}</p>
-                <button aria-label="Action button" type="button" className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer    shadow-purple-600/30">
+                <button type="button" className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer shadow-purple-600/30">
                   Read Full Story →
                 </button>
               </div>

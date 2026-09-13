@@ -129,10 +129,10 @@ export default function NotificationsPage() {
           const isActive = activeTab === tab.id;
           return (
             <button
-              type="button"
-              aria-label={`Show ${tab.label} alerts`}
-              key={tab.id}
-              onClick={() => handleTabChange(tab.id)}
+ type="button"
+ aria-label={`Show ${tab.label} alerts`}
+ key={tab.id}
+ onClick={() => handleTabChange(tab.id)}
               className={`px-5 py-2.5 rounded-lg    uppercase transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white "
                 : " bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:border-white/30"
                 }`}>
@@ -162,7 +162,7 @@ export default function NotificationsPage() {
           <div className="flex flex-col md:flex-row items-center gap-10">
             {/* QR Code */}
             <div className="shrink-0 flex flex-col items-center gap-3">
-              <div className="bg-white p-3 rounded-2xl   ">
+              <div className="bg-white p-3 rounded-2xl ">
                 <QRCode value={appDeepLink} size={148} fgColor="#0c0817" bgColor="#ffffff" />
               </div>
               <p className="uppercase text-center max-w-[160px]">
@@ -178,17 +178,17 @@ export default function NotificationsPage() {
                   <p className="mb-2">Get the free ntfy app (or skip it and use your browser)</p>
                   <div className="flex flex-wrap gap-2">
                     <a
-                      href="https://apps.apple.com/us/app/ntfy/id1625396347"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white hover:bg-white/15 transition-colors">
+ href="https://apps.apple.com/us/app/ntfy/id1625396347"
+ target="_blank"
+ rel="noopener noreferrer"
+ className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white hover:bg-white/15 transition-colors">
                       <AppleIcon /> App Store
                     </a>
                     <a
-                      href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white hover:bg-white/15 transition-colors">
+ href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
+ target="_blank"
+ rel="noopener noreferrer"
+ className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white hover:bg-white/15 transition-colors">
                       <AndroidIcon /> Google Play
                     </a>
                   </div>
@@ -201,16 +201,16 @@ export default function NotificationsPage() {
                   <p className="mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
                   <div className="flex flex-wrap items-center gap-2">
                     <CosmicRadialButton
-                      icon={false}
-                      onClick={() => window.open(appDeepLink, "_self")}
+ icon={false}
+ onClick={() => window.open(appDeepLink, "_self")}
                       className="px-5 py-2.5 rounded-lg">
                       Open in ntfy App
                     </CosmicRadialButton>
                     <a
-                      href={browserUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white hover:text-white underline transition-colors">
+ href={browserUrl}
+ target="_blank"
+ rel="noopener noreferrer"
+ className="text-white hover:text-white underline transition-colors">
                       Or subscribe in your browser instead
                     </a>
                   </div>
@@ -228,9 +228,9 @@ export default function NotificationsPage() {
               </div>
 
               <button
-                type="button"
-                onClick={handleCopy}
-                className="inline-flex items-center gap-1.5 text-[11px] uppercase text-white/40 hover:text-white/70 transition-colors cursor-pointer pt-1">
+ type="button"
+ onClick={handleCopy}
+ className="inline-flex items-center gap-1.5 text-[11px] uppercase text-white/40 hover:text-white/70 transition-colors cursor-pointer pt-1">
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 {copied ? "Copied channel name" : "Copy channel name manually"}
               </button>
@@ -240,7 +240,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* How it works */}
-      <div className="max-w-3xl mx-auto   0 text-center">
+      <div className="max-w-3xl mx-auto 0 text-center">
         <p>
           Under the hood this uses ntfy, a free open-source push service &mdash; the site
           publishes a message to a private channel name and anyone subscribed to that

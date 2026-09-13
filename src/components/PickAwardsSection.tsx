@@ -145,9 +145,9 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Pick Collection Grid */}
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-6">
             {pickTypes.map((pick) => (
-              <button aria-label="Action button"
-                key={pick.id}
-                onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
+              <button
+ key={pick.id}
+ onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
                 className={`relative p-3 border text-center transition-colors ${pick.owned > 0 ? selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
                   : "border-black/10 bg-gray-50 hover:border-black/25 cursor-pointer"
                   : "border-black/10 bg-gray-100/50 opacity-40 grayscale cursor-default"
@@ -161,7 +161,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                   )}
                 </div>
                 <p className="text-black/80 truncate">{pick.name}</p>
-                <p className={`   uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
+                <p className={` uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
                 {pick.owned === 0 && (
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                     <span className="text-black/60 uppercase tracking-[0.15em] bg-gray-200/90 px-2 py-1 rounded">Locked</span>
@@ -182,10 +182,10 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                     <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-11 h-11 object-contain" />
                     <div>
                       <h3 className="text-black">{pick.name}</h3>
-                      <p className={`   uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
+                      <p className={` uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
                     </div>
                   </div>
-                  <button aria-label="Action button" onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black cursor-pointer"><X className="w-4 h-4" /></button>
+                  <button onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black cursor-pointer"><X className="w-4 h-4" /></button>
                 </div>
                 <div className="space-y-1.5">
                   <p className="text-black/50 uppercase tracking-[0.15em]">History</p>
@@ -234,12 +234,12 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               <div className="space-y-3">
                 {lotteries.map((lottery: any) => (
                   <div
-                    key={lottery.id}
-                    className={`p-4 border rounded-lg transition-colors ${lottery.isEntered ? "border-emerald-500/30 bg-emerald-500/5"
-                      : lottery.isEligible
-                        ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
-                        : "border-black/10 bg-gray-50"
-                      }`}>
+ key={lottery.id}
+ className={`p-4 border rounded-lg transition-colors ${lottery.isEntered ? "border-emerald-500/30 bg-emerald-500/5"
+ : lottery.isEligible
+ ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
+ : "border-black/10 bg-gray-50"
+ }`}>
                     <div className="flex items-center justify-between mb-2">
                       <div>
                         <h4 className="text-black">{lottery.name}</h4>
@@ -249,8 +249,8 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                         {lottery.isEntered ? (
                           <span className="text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-lg border border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
                         ) : lottery.isEligible ? (
-                          <button aria-label="Action button"
-                            onClick={() => handleEnterLottery(lottery.id)}
+                          <button
+ onClick={() => handleEnterLottery(lottery.id)}
                             disabled={enteringLottery === lottery.id}
                             className="px-4 py-2 bg-[var(--color-purple-glow)] border border-[var(--color-border-purple)] text-[var(--color-purple-light)] text-[var(--font-size-xs)] uppercase tracking-[0.15em] rounded-lg hover:bg-[var(--color-purple-glow)] transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_10px_var(--color-purple-glow)]">
                             {enteringLottery === lottery.id ? "Entering..." : "Enter Lottery"}
@@ -274,9 +274,9 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                         </div>
                         <div className="w-full h-1.5 bg-black/10 rounded-lg overflow-hidden">
                           <div
-                            className={`h-full rounded-lg transition-colors ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
-                            style={{ width: `${Math.min(100, lottery.progress)}%` }}
-                          />
+ className={`h-full rounded-lg transition-colors ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
+ style={{ width: `${Math.min(100, lottery.progress)}%` }}
+ />
                         </div>
                       </div>
                     )}
@@ -293,7 +293,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
 
               {/* Lottery result message */}
               {lotteryMsg && (
-                <div className={`mt-3 p-3 rounded-lg border    ${lotteryMsg.ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"}`}>
+                <div className={`mt-3 p-3 rounded-lg border ${lotteryMsg.ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"}`}>
                   {lotteryMsg.msg}
                 </div>
               )}

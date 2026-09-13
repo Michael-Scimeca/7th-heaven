@@ -332,10 +332,10 @@ function CurtainGradientOverlay({ active }: { active: boolean }) {
 
   return (
     <canvas
-      ref={canvasRef}
-      className="fixed inset-0 w-full h-full pointer-events-none z-[850]"
-      style={{ opacity: 0.85 }}
-    />
+ ref={canvasRef}
+ className="fixed inset-0 w-full h-full pointer-events-none z-[850]"
+ style={{ opacity: 0.85 }}
+ />
   );
 }
 
@@ -683,7 +683,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   }, [mode, pendingHref, pathname, clearPendingHref, setMode]);
 
 
-
   useEffect(() => {
     if (mode === "idle") return;
     const s = settingsRef.current;
@@ -804,52 +803,52 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     <>
       {mode !== "idle" && (
         <div
-          aria-hidden="true"
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 900,
-            backgroundColor: CURTAIN_BG,
-            pointerEvents: "none",
-          }}
-        />
+ aria-hidden="true"
+ style={{
+ position: "fixed",
+ inset: 0,
+ zIndex: 900,
+ backgroundColor: CURTAIN_BG,
+ pointerEvents: "none",
+ }}
+ />
       )}
       <div
-        ref={outerRef}
-        className="exoape-page-outer"
-        style={{
-          position: "relative",
-          width: "100%",
-          minHeight: "100vh",
-          backfaceVisibility: "hidden",
-          WebkitBackfaceVisibility: "hidden",
-        }}>
+ ref={outerRef}
+ className="exoape-page-outer"
+ style={{
+ position: "relative",
+ width: "100%",
+ minHeight: "100vh",
+ backfaceVisibility: "hidden",
+ WebkitBackfaceVisibility: "hidden",
+ }}>
         <div
-          ref={contentRef}
-          className="exoape-page-inner transform-gpu"
-          style={{
-            width: "100%",
-            minHeight: "100vh",
-            transformOrigin: "center center",
-            backfaceVisibility: "hidden",
-            WebkitBackfaceVisibility: "hidden",
-          }}>
+ ref={contentRef}
+ className="exoape-page-inner transform-gpu"
+ style={{
+ width: "100%",
+ minHeight: "100vh",
+ transformOrigin: "center center",
+ backfaceVisibility: "hidden",
+ WebkitBackfaceVisibility: "hidden",
+ }}>
           {children}
         </div>
       </div>
 
       <TransitionTunerPanel
-        settings={settings}
-        exitDuration={exitDuration}
-        showControls={showControls}
-        activeTab={activeTab}
-        setShowControls={setShowControls}
-        setActiveTab={setActiveTab}
-        updateSetting={updateSetting}
-        resetDefaults={resetDefaults}
-        handleSpeedPreset={handleSpeedPreset}
-        triggerReplay={triggerReplay}
-      />
+ settings={settings}
+ exitDuration={exitDuration}
+ showControls={showControls}
+ activeTab={activeTab}
+ setShowControls={setShowControls}
+ setActiveTab={setActiveTab}
+ updateSetting={updateSetting}
+ resetDefaults={resetDefaults}
+ handleSpeedPreset={handleSpeedPreset}
+ triggerReplay={triggerReplay}
+ />
     </>
   );
 }
@@ -907,10 +906,10 @@ function TransitionTunerPanel({
 
   return (
     <div
-      data-lenis-prevent
-      onWheel={(e) => e.stopPropagation()}
+ data-lenis-prevent
+ onWheel={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
-      className="fixed bottom-20 right-4 z-[99999] flex flex-col gap-2 rounded-2xl border border-white/20 bg-black/95 p-3.5   backdrop-blur-md text-white text-xs select-none pointer-events-auto max-w-[320px] w-[320px] max-h-[75vh] overflow-y-auto overscroll-contain custom-scrollbar">
+      className="fixed bottom-20 right-4 z-[99999] flex flex-col gap-2 rounded-2xl border border-white/20 bg-black/95 p-3.5 backdrop-blur-md text-white text-xs select-none pointer-events-auto max-w-[320px] w-[320px] max-h-[75vh] overflow-y-auto overscroll-contain custom-scrollbar">
       <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
         <div className="flex items-center gap-1.5 r uppercase text-[11px] text-purple-400">
           <span className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
@@ -918,7 +917,7 @@ function TransitionTunerPanel({
         </div>
         <div className="flex items-center gap-1">
           <button
-            onClick={() => {
+ onClick={() => {
               if (typeof navigator !== "undefined" && navigator.clipboard) {
                 navigator.clipboard.writeText(JSON.stringify(settings, null, 2));
                 alert("Transition settings copied to clipboard! Share this JSON with me to save permanently in code.");
@@ -929,13 +928,13 @@ function TransitionTunerPanel({
             Copy JSON
           </button>
           <button
-            onClick={resetDefaults}
-            title="Reset all settings to default"
-            className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded border border-white/15 text-white/50 hover:text-white hover:border-white/30 transition bg-white/5">
+ onClick={resetDefaults}
+ title="Reset all settings to default"
+ className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded border border-white/15 text-white/50 hover:text-white hover:border-white/30 transition bg-white/5">
             Reset
           </button>
           <button
-            onClick={() => setShowControls(!showControls)}
+ onClick={() => setShowControls(!showControls)}
             className="text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/30 transition bg-purple-950/40">
             {showControls ? "Collapse" : "Expand"}
           </button>
@@ -947,7 +946,7 @@ function TransitionTunerPanel({
           {/* ── TAB BAR SWITCHER ── */}
           <div className="grid grid-cols-3 gap-1 rounded-xl bg-white/5 p-1 border border-white/10">
             <button
-              onClick={() => setActiveTab("master")}
+ onClick={() => setActiveTab("master")}
               className={`py-1.5 rounded-lg text-[10px]    uppercase  r transition ${activeTab === "master"
                 ? "bg-purple-600 text-white shadow"
                 : "text-white/60 hover:text-white hover:bg-white/5"
@@ -955,7 +954,7 @@ function TransitionTunerPanel({
               ⚡ Master
             </button>
             <button
-              onClick={() => setActiveTab("exit")}
+ onClick={() => setActiveTab("exit")}
               className={`py-1.5 rounded-lg text-[10px]    uppercase  r transition ${activeTab === "exit"
                 ? "bg-fuchsia-600 text-white shadow"
                 : "text-white/60 hover:text-white hover:bg-white/5"
@@ -963,7 +962,7 @@ function TransitionTunerPanel({
               📤 Exit Path
             </button>
             <button
-              onClick={() => setActiveTab("reveal")}
+ onClick={() => setActiveTab("reveal")}
               className={`py-1.5 rounded-lg text-[10px]    uppercase  r transition ${activeTab === "reveal"
                 ? "bg-cyan-600 text-white shadow"
                 : "text-white/60 hover:text-white hover:bg-white/5"
@@ -997,8 +996,8 @@ function TransitionTunerPanel({
             <div className="flex items-center gap-1">
               {[1, 2.5, 5, 10].map((m) => (
                 <button
-                  key={m}
-                  onClick={() => handleSpeedPreset(m)}
+ key={m}
+ onClick={() => handleSpeedPreset(m)}
                   className={`flex-1 py-1 rounded text-[10px]    font-mono transition ${settings.speedMult === m
                     ? "bg-purple-600 text-white shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black font-extrabold"
                     : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
@@ -1009,18 +1008,18 @@ function TransitionTunerPanel({
             </div>
 
             <input
-              type="range"
-              min={0.5}
-              max={15}
-              step={0.5}
-              value={settings.speedMult}
-              onChange={(e) => updateSetting("speedMult", parseFloat(e.target.value))}
+ type="range"
+ min={0.5}
+ max={15}
+ step={0.5}
+ value={settings.speedMult}
+ onChange={(e) => updateSetting("speedMult", parseFloat(e.target.value))}
               className="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/20 rounded-lg"
             />
 
             <button
-              onClick={triggerReplay}
-              className="w-full    py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[11px] uppercase r    transition active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer">
+ onClick={triggerReplay}
+ className="w-full py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white text-[11px] uppercase r transition active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer">
               <span>🎬 Replay Transition ({settings.speedMult}x)</span>
             </button>
           </div>
@@ -1050,9 +1049,9 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
 
       <label className="flex items-center gap-2 text-[11px] text-purple-200 cursor-pointer select-none">
         <input
-          type="checkbox"
-          checked={settings.syncPaths}
-          onChange={(e) => updateSetting("syncPaths", e.target.checked)}
+ type="checkbox"
+ checked={settings.syncPaths}
+ onChange={(e) => updateSetting("syncPaths", e.target.checked)}
           className="accent-purple-400 rounded"
         />
         <span>Lock Exit & Reveal Paths (1:1 Sync)</span>
@@ -1061,18 +1060,18 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
       <div className="grid grid-cols-2 gap-2 pt-1 border-t border-purple-500/15">
         <label className="flex items-center gap-1.5 text-[10px] text-white/80 cursor-pointer select-none">
           <input
-            type="checkbox"
-            checked={settings.clipExitPath}
-            onChange={(e) => updateSetting("clipExitPath", e.target.checked)}
+ type="checkbox"
+ checked={settings.clipExitPath}
+ onChange={(e) => updateSetting("clipExitPath", e.target.checked)}
             className="accent-purple-400 rounded"
           />
           <span>Clip Exit Path</span>
         </label>
         <label className="flex items-center gap-1.5 text-[10px] text-white/80 cursor-pointer select-none">
           <input
-            type="checkbox"
-            checked={settings.clipRevealPath}
-            onChange={(e) => updateSetting("clipRevealPath", e.target.checked)}
+ type="checkbox"
+ checked={settings.clipRevealPath}
+ onChange={(e) => updateSetting("clipRevealPath", e.target.checked)}
             className="accent-purple-400 rounded"
           />
           <span>Clip Reveal Path</span>
@@ -1084,12 +1083,12 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
         <span className="font-mono text-purple-300">{(exitDuration || 0).toFixed(2)}s</span>
       </div>
       <input
-        type="range"
-        min={0.2}
-        max={3.0}
-        step={0.05}
-        value={settings.exitSpeed}
-        onChange={(e) => updateSetting("exitSpeed", parseFloat(e.target.value))}
+ type="range"
+ min={0.2}
+ max={3.0}
+ step={0.05}
+ value={settings.exitSpeed}
+ onChange={(e) => updateSetting("exitSpeed", parseFloat(e.target.value))}
         className="w-full accent-purple-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1098,9 +1097,9 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
           Transition easing
         </label>
         <select
-          id="master-ease-select"
-          value={settings.exitEase}
-          onChange={(e) => updateSetting("exitEase", e.target.value)}
+ id="master-ease-select"
+ value={settings.exitEase}
+ onChange={(e) => updateSetting("exitEase", e.target.value)}
           className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-purple-400">
           {EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">
@@ -1115,20 +1114,20 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
         <span className="font-mono text-purple-300">{settings.exitSlantRatio.toFixed(3)}</span>
       </div>
       <input
-        type="range"
-        min={0}
-        max={0.3}
-        step={0.005}
-        value={settings.exitSlantRatio}
-        onChange={(e) => updateSetting("exitSlantRatio", parseFloat(e.target.value))}
+ type="range"
+ min={0}
+ max={0.3}
+ step={0.005}
+ value={settings.exitSlantRatio}
+ onChange={(e) => updateSetting("exitSlantRatio", parseFloat(e.target.value))}
         className="w-full accent-purple-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
       <label className="flex items-center gap-2 text-[11px] text-white/80 cursor-pointer pt-0.5 select-none">
         <input
-          type="checkbox"
-          checked={settings.exitFlipSlant}
-          onChange={(e) => updateSetting("exitFlipSlant", e.target.checked)}
+ type="checkbox"
+ checked={settings.exitFlipSlant}
+ onChange={(e) => updateSetting("exitFlipSlant", e.target.checked)}
           className="accent-purple-400 rounded"
         />
         <span>Flip slant direction {settings.exitFlipSlant ? "(left leads)" : "(right leads)"}</span>
@@ -1146,9 +1145,9 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
 
       <label className="flex items-center gap-2 text-[11px] text-fuchsia-200 cursor-pointer select-none">
         <input
-          type="checkbox"
-          checked={settings.clipExitPath}
-          onChange={(e) => updateSetting("clipExitPath", e.target.checked)}
+ type="checkbox"
+ checked={settings.clipExitPath}
+ onChange={(e) => updateSetting("clipExitPath", e.target.checked)}
           className="accent-fuchsia-400 rounded"
         />
         <span>Enable Old Page Clip Path</span>
@@ -1159,9 +1158,9 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           Exit easing curve
         </label>
         <select
-          id="exit-ease-select"
-          value={settings.exitEase}
-          onChange={(e) => updateSetting("exitEase", e.target.value)}
+ id="exit-ease-select"
+ value={settings.exitEase}
+ onChange={(e) => updateSetting("exitEase", e.target.value)}
           className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-fuchsia-400">
           {EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">
@@ -1176,12 +1175,12 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-fuchsia-300">{settings.exitSlantRatio.toFixed(3)}</span>
       </div>
       <input
-        type="range"
-        min={0}
-        max={0.3}
-        step={0.005}
-        value={settings.exitSlantRatio}
-        onChange={(e) => updateSetting("exitSlantRatio", parseFloat(e.target.value))}
+ type="range"
+ min={0}
+ max={0.3}
+ step={0.005}
+ value={settings.exitSlantRatio}
+ onChange={(e) => updateSetting("exitSlantRatio", parseFloat(e.target.value))}
         className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1190,12 +1189,12 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-fuchsia-300">{settings.exitScale.toFixed(2)}x</span>
       </div>
       <input
-        type="range"
-        min={1}
-        max={2}
-        step={0.05}
-        value={settings.exitScale}
-        onChange={(e) => updateSetting("exitScale", parseFloat(e.target.value))}
+ type="range"
+ min={1}
+ max={2}
+ step={0.05}
+ value={settings.exitScale}
+ onChange={(e) => updateSetting("exitScale", parseFloat(e.target.value))}
         className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1204,12 +1203,12 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-fuchsia-300">{settings.exitX || 0}px</span>
       </div>
       <input
-        type="range"
-        min={-300}
-        max={300}
-        step={5}
-        value={settings.exitX || 0}
-        onChange={(e) => updateSetting("exitX", parseFloat(e.target.value))}
+ type="range"
+ min={-300}
+ max={300}
+ step={5}
+ value={settings.exitX || 0}
+ onChange={(e) => updateSetting("exitX", parseFloat(e.target.value))}
         className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1218,12 +1217,12 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-fuchsia-300">{settings.exitY || 0}px</span>
       </div>
       <input
-        type="range"
-        min={-300}
-        max={300}
-        step={5}
-        value={settings.exitY || 0}
-        onChange={(e) => updateSetting("exitY", parseFloat(e.target.value))}
+ type="range"
+ min={-300}
+ max={300}
+ step={5}
+ value={settings.exitY || 0}
+ onChange={(e) => updateSetting("exitY", parseFloat(e.target.value))}
         className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1232,12 +1231,12 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-fuchsia-300">{settings.exitRotation}°</span>
       </div>
       <input
-        type="range"
-        min={-45}
-        max={45}
-        step={1}
-        value={settings.exitRotation}
-        onChange={(e) => updateSetting("exitRotation", parseFloat(e.target.value))}
+ type="range"
+ min={-45}
+ max={45}
+ step={1}
+ value={settings.exitRotation}
+ onChange={(e) => updateSetting("exitRotation", parseFloat(e.target.value))}
         className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1246,9 +1245,9 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           Exit pivot origin
         </label>
         <select
-          id="exit-origin-select"
-          value={settings.exitOrigin}
-          onChange={(e) => updateSetting("exitOrigin", e.target.value)}
+ id="exit-origin-select"
+ value={settings.exitOrigin}
+ onChange={(e) => updateSetting("exitOrigin", e.target.value)}
           className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-fuchsia-400">
           {ORIGIN_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">
@@ -1270,9 +1269,9 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
 
       <label className="flex items-center gap-2 text-[11px] text-cyan-200 cursor-pointer select-none">
         <input
-          type="checkbox"
-          checked={settings.clipRevealPath}
-          onChange={(e) => updateSetting("clipRevealPath", e.target.checked)}
+ type="checkbox"
+ checked={settings.clipRevealPath}
+ onChange={(e) => updateSetting("clipRevealPath", e.target.checked)}
           className="accent-cyan-400 rounded"
         />
         <span>Enable New Page Clip Path</span>
@@ -1283,9 +1282,9 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           Reveal easing curve
         </label>
         <select
-          id="reveal-ease-select"
-          value={settings.revealEase}
-          onChange={(e) => updateSetting("revealEase", e.target.value)}
+ id="reveal-ease-select"
+ value={settings.revealEase}
+ onChange={(e) => updateSetting("revealEase", e.target.value)}
           className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-cyan-400">
           {EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">
@@ -1300,12 +1299,12 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-cyan-300">{settings.revealSlantRatio.toFixed(3)}</span>
       </div>
       <input
-        type="range"
-        min={0}
-        max={0.3}
-        step={0.005}
-        value={settings.revealSlantRatio}
-        onChange={(e) => updateSetting("revealSlantRatio", parseFloat(e.target.value))}
+ type="range"
+ min={0}
+ max={0.3}
+ step={0.005}
+ value={settings.revealSlantRatio}
+ onChange={(e) => updateSetting("revealSlantRatio", parseFloat(e.target.value))}
         className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1314,12 +1313,12 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-cyan-300">{settings.revealScale.toFixed(2)}x</span>
       </div>
       <input
-        type="range"
-        min={1}
-        max={2}
-        step={0.05}
-        value={settings.revealScale}
-        onChange={(e) => updateSetting("revealScale", parseFloat(e.target.value))}
+ type="range"
+ min={1}
+ max={2}
+ step={0.05}
+ value={settings.revealScale}
+ onChange={(e) => updateSetting("revealScale", parseFloat(e.target.value))}
         className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1328,12 +1327,12 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-cyan-300">{settings.revealX || 0}px</span>
       </div>
       <input
-        type="range"
-        min={-300}
-        max={300}
-        step={5}
-        value={settings.revealX || 0}
-        onChange={(e) => updateSetting("revealX", parseFloat(e.target.value))}
+ type="range"
+ min={-300}
+ max={300}
+ step={5}
+ value={settings.revealX || 0}
+ onChange={(e) => updateSetting("revealX", parseFloat(e.target.value))}
         className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1342,12 +1341,12 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-cyan-300">{settings.revealY !== undefined ? settings.revealY : 40}px</span>
       </div>
       <input
-        type="range"
-        min={-300}
-        max={300}
-        step={5}
-        value={settings.revealY !== undefined ? settings.revealY : 40}
-        onChange={(e) => updateSetting("revealY", parseFloat(e.target.value))}
+ type="range"
+ min={-300}
+ max={300}
+ step={5}
+ value={settings.revealY !== undefined ? settings.revealY : 40}
+ onChange={(e) => updateSetting("revealY", parseFloat(e.target.value))}
         className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1356,12 +1355,12 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-mono text-cyan-300">{settings.revealRotation || 0}°</span>
       </div>
       <input
-        type="range"
-        min={-45}
-        max={45}
-        step={1}
-        value={settings.revealRotation || 0}
-        onChange={(e) => updateSetting("revealRotation", parseFloat(e.target.value))}
+ type="range"
+ min={-45}
+ max={45}
+ step={1}
+ value={settings.revealRotation || 0}
+ onChange={(e) => updateSetting("revealRotation", parseFloat(e.target.value))}
         className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
       />
 
@@ -1370,9 +1369,9 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           Reveal pivot origin
         </label>
         <select
-          id="reveal-origin-select"
-          value={settings.revealOrigin || "center center"}
-          onChange={(e) => updateSetting("revealOrigin", e.target.value)}
+ id="reveal-origin-select"
+ value={settings.revealOrigin || "center center"}
+ onChange={(e) => updateSetting("revealOrigin", e.target.value)}
           className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-white text-[11px] focus:outline-none focus:border-cyan-400">
           {ORIGIN_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black text-white">

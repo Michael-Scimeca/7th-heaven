@@ -31,16 +31,16 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
           {/* Itinerary Year Toggle */}
           <div className="flex flex-wrap items-center gap-3 mt-6">
             <FoolishShrimpButton
-              type="button"
-              onClick={() => setActiveItinYear(2027)}
+ type="button"
+ onClick={() => setActiveItinYear(2027)}
               isActive={activeItinYear === 2027}
               className="!w-auto px-5 py-2 text-xs uppercase font-bold"
             >
               2027 Star of the Seas (7-Night)
             </FoolishShrimpButton>
             <FoolishShrimpButton
-              type="button"
-              onClick={() => setActiveItinYear(2028)}
+ type="button"
+ onClick={() => setActiveItinYear(2028)}
               isActive={activeItinYear === 2028}
               className="!w-auto px-5 py-2 text-xs uppercase font-bold"
             >
@@ -51,10 +51,10 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
 
         <div className="w-full overflow-x-hidden">
           <CruiseSnakeItinerary
-            key={`itin-${activeItinYear}`}
-            itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? rawItin2027 : rawItin2028)}
-            hideHeader
-          />
+ key={`itin-${activeItinYear}`}
+ itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? rawItin2027 : rawItin2028)}
+ hideHeader
+ />
         </div>
       </div>
     </section>

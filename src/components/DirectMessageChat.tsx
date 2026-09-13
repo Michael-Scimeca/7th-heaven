@@ -115,10 +115,10 @@ export default function DirectMessageChat() {
   };
 
   return (
-    <div className="fixed bottom-20 right-6 z-[9999]    select-none">
+    <div className="fixed bottom-20 right-6 z-[9999] select-none">
       {/* Floating Chat Bubble Button */}
-      <button aria-label="Action button"
-        onClick={() => setOpen(!open)}
+      <button
+ onClick={() => setOpen(!open)}
         className="relative w-12 h-12 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] transition-colors text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(255,10,61,0.5)] border border-white/10 group">
         {open ? (
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
@@ -152,32 +152,32 @@ export default function DirectMessageChat() {
               <div className="h-full flex flex-col items-center justify-center text-center p-4">
                 <span className="text-2xl mb-1.5 opacity-25">💬</span>
                 <p className="uppercase r">No messages yet</p>
-                <p className="   max-w-[180px]">Ask admin any questions or wait for their direct support ping.</p>
+                <p className=" max-w-[180px]">Ask admin any questions or wait for their direct support ping.</p>
               </div>
             ) : (
               messages.map((msg) => {
                 const isAdminMsg = msg.sender === "admin";
                 return (
                   <div
-                    key={msg.id}
-                    className={`flex flex-col max-w-[85%] ${isAdminMsg ? "mr-auto text-left" : "ml-auto text-right"
-                      }`}>
+ key={msg.id}
+ className={`flex flex-col max-w-[85%] ${isAdminMsg ? "mr-auto text-left" : "ml-auto text-right"
+ }`}>
                     {/* Sender tag */}
                     <div className={`flex items-center gap-1 mb-1 ${isAdminMsg ? '' : 'justify-end'}`}>
-                      <span className={`text-[8px]    uppercase px-1 py-0.5 rounded border    ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
-                        }`}>
+                      <span className={`text-[8px] uppercase px-1 py-0.5 rounded border ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'
+ }`}>
                         {isAdminMsg ? 'ADMIN' : 'YOU'}
                       </span>
                     </div>
                     {/* Text bubble */}
                     <div
-                      className={`p-2.5    !text-white ${isAdminMsg ? "bg-[var(--color-purple-primary)] rounded-tl-xs"
-                        : "bg-cyan-500 border border-cyan-400/50 rounded-tr-xs"
-                        }`}>
+ className={`p-2.5 !text-white ${isAdminMsg ? "bg-[var(--color-purple-primary)] rounded-tl-xs"
+ : "bg-cyan-500 border border-cyan-400/50 rounded-tr-xs"
+ }`}>
                       {msg.text}
                     </div>
                     {/* Timestamp */}
-                    <span className="text-[10px] !text-gray-700         ">
+                    <span className="text-[10px] !text-gray-700 ">
                       {new Date(msg.timestamp).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -192,12 +192,12 @@ export default function DirectMessageChat() {
 
           {/* Form Input */}
           <ChatInputBar
-            value={messageText}
-            onChange={setMessageText}
-            onSubmit={handleSendMessage}
-            placeholder="Type your message..."
-            className="border-t border-white/10 p-2"
-          />
+ value={messageText}
+ onChange={setMessageText}
+ onSubmit={handleSendMessage}
+ placeholder="Type your message..."
+ className="border-t border-white/10 p-2"
+ />
         </div>
       )}
     </div>

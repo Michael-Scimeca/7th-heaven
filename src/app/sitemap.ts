@@ -76,7 +76,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
 
 
-
     // ── Cruise ──
     {
       url: `${baseUrl}/cruise`,

@@ -195,8 +195,8 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                     {soldOut ? (
                       <span className="text-[var(--font-size-2xs)] text-white/15 uppercase">Sold Out</span>
                     ) : (
-                      <button aria-label="Action button"
-                        onClick={() => handleBuy()}
+                      <button
+ onClick={() => handleBuy()}
                         className="text-[var(--font-size-2xs)] uppercase text-white/30 hover:text-white transition-colors cursor-pointer">
                         Buy →
                       </button>

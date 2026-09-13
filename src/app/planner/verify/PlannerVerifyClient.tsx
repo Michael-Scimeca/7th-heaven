@@ -11,18 +11,18 @@ import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 const renderBg = () => (
   <div className="lock-scroll-fullscreen">
     <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        backgroundImage: "url('/images/hero/hero-band-bg.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        filter: "brightness(0.35) blur(3px)",
-        transform: "scale(1.08)",
-        zIndex: 0,
-        pointerEvents: "none"
-      }}
-    />
+ style={{
+ position: "fixed",
+ inset: 0,
+ backgroundImage: "url('/images/hero/hero-band-bg.png')",
+ backgroundSize: "cover",
+ backgroundPosition: "center",
+ filter: "brightness(0.35) blur(3px)",
+ transform: "scale(1.08)",
+ zIndex: 0,
+ pointerEvents: "none"
+ }}
+ />
     <div style={{ position: "fixed", inset: 0, background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)", zIndex: 1, pointerEvents: "none" }} />
   </div>
 );
@@ -195,59 +195,59 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
 
   return (
     <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 16,
-        background: "#050508",
-        color: "#fff",
-        fontFamily: "'Outfit', sans-serif",
-      }}>
+ style={{
+ minHeight: "100vh",
+ display: "flex",
+ alignItems: "center",
+ justifyContent: "center",
+ padding: 16,
+ background: "#050508",
+ color: "#fff",
+ fontFamily: "'Outfit', sans-serif",
+ }}>
       {renderBg()}
 
       <div style={CONTAINER_STYLE}>
         {/* Top Header Badge */}
         <div style={{ marginBottom: 20 }}>
           <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "6px 14px",
-              borderRadius: 20,
-              background: "rgba(168, 85, 247, 0.12)",
-              border: "1px solid rgba(168, 85, 247, 0.3)",
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: 1.5,
-              color: "#c084fc",
-              textTransform: "uppercase",
-            }}>
+ style={{
+ display: "inline-flex",
+ alignItems: "center",
+ gap: 8,
+ padding: "6px 14px",
+ borderRadius: 20,
+ background: "rgba(168, 85, 247, 0.12)",
+ border: "1px solid rgba(168, 85, 247, 0.3)",
+ fontSize: 12,
+ fontWeight: 700,
+ letterSpacing: 1.5,
+ color: "#c084fc",
+ textTransform: "uppercase",
+ }}>
             📅 Event Planner Portal
           </div>
         </div>
 
         {/* Title & Subtitle */}
         <h1
-          style={{
-            fontSize: 26,
-            fontWeight: 900,
-            letterSpacing: "-0.02em",
-            marginBottom: 8,
-            color: "#fff",
-          }}>
+ style={{
+ fontSize: 26,
+ fontWeight: 900,
+ letterSpacing: "-0.02em",
+ marginBottom: 8,
+ color: "#fff",
+ }}>
           {sanityContent?.heroHeading || sanityContent?.title || (step === "email" ? "Access Booking Portal" : "Verify Your Access Code")}
         </h1>
 
         <p
-          style={{
-            fontSize: 14,
-            color: "rgba(255, 255, 255, 0.65)",
-            lineHeight: 1.5,
-            marginBottom: 28,
-          }}>
+ style={{
+ fontSize: 14,
+ color: "rgba(255, 255, 255, 0.65)",
+ lineHeight: 1.5,
+ marginBottom: 28,
+ }}>
           {sanityContent?.heroSubheading || sanityContent?.subtitle || (
             step === "email" ? (
               "Enter the email address used for your booking request to receive a 6-digit access code."
@@ -263,15 +263,15 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
         {/* SUCCESS STATE */}
         {status === "success" && (
           <div
-            style={{
-              padding: 24,
-              borderRadius: 12,
-              background: "rgba(34, 197, 94, 0.1)",
-              border: "1px solid rgba(34, 197, 94, 0.3)",
-              color: "#4ade80",
-              fontSize: 15,
-              fontWeight: 700,
-            }}>
+ style={{
+ padding: 24,
+ borderRadius: 12,
+ background: "rgba(34, 197, 94, 0.1)",
+ border: "1px solid rgba(34, 197, 94, 0.3)",
+ color: "#4ade80",
+ fontSize: 15,
+ fontWeight: 700,
+ }}>
             ✓ Access Verified! Redirecting to your Planner Dashboard…
           </div>
         )}
@@ -281,18 +281,18 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
           <form onSubmit={handleRequestPin} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div style={{ textAlign: "left" }}>
               <label
-                htmlFor="email-input-planner"
-                style={{ display: "block", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "rgba(255,255,255,0.7)", marginBottom: 6 }}>
+ htmlFor="email-input-planner"
+ style={{ display: "block", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "rgba(255,255,255,0.7)", marginBottom: 6 }}>
                 Booking Email Address
               </label>
               <input
-                id="email-input-planner"
-                ref={emailInputRef}
-                type="email"
-                required
-                placeholder="planner@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+ id="email-input-planner"
+ ref={emailInputRef}
+ type="email"
+ required
+ placeholder="planner@company.com"
+ value={email}
+ onChange={(e) => setEmail(e.target.value)}
                 style={{
                   width: "100%",
                   padding: "14px 16px",
@@ -309,32 +309,32 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
 
             {errorMsg && (
               <div
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 8,
-                  background: "rgba(244, 63, 94, 0.12)",
-                  border: "1px solid rgba(244, 63, 94, 0.3)",
-                  color: "#fb7185",
-                  fontSize: 13,
-                }}>
+ style={{
+ padding: "10px 14px",
+ borderRadius: 8,
+ background: "rgba(244, 63, 94, 0.12)",
+ border: "1px solid rgba(244, 63, 94, 0.3)",
+ color: "#fb7185",
+ fontSize: 13,
+ }}>
                 {errorMsg}
               </div>
             )}
 
             <button
-              type="submit"
-              disabled={status === "requesting"}
-              style={{
-                padding: "14px 20px",
-                borderRadius: 10,
-                background: "linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)",
-                color: "#fff",
-                fontWeight: 800,
-                fontSize: 14,
-                border: "none",
-                cursor: "pointer",
-                boxShadow: "0 4px 20px rgba(168, 85, 247, 0.4)",
-              }}>
+ type="submit"
+ disabled={status === "requesting"}
+ style={{
+ padding: "14px 20px",
+ borderRadius: 10,
+ background: "linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)",
+ color: "#fff",
+ fontWeight: 800,
+ fontSize: 14,
+ border: "none",
+ cursor: "pointer",
+ boxShadow: "0 4px 20px rgba(168, 85, 247, 0.4)",
+ }}>
               {status === "requesting" ? "Sending Code…" : "Send Verification PIN →"}
             </button>
           </form>
@@ -344,16 +344,16 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
         {status !== "success" && step === "pin" && (
           <div>
             <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: 10,
-                marginBottom: 24,
-              }}>
+ style={{
+ display: "flex",
+ justifyContent: "center",
+ gap: 10,
+ marginBottom: 24,
+ }}>
               {digits.map((d, i) => (
                 <input
-                  key={["slot-0", "slot-1", "slot-2", "slot-3", "slot-4", "slot-5"][i]}
-                  ref={(el) => { inputRefs.current[i] = el; }}
+ key={["slot-0", "slot-1", "slot-2", "slot-3", "slot-4", "slot-5"][i]}
+ ref={(el) => { inputRefs.current[i] = el; }}
                   type="text"
                   inputMode="numeric"
                   maxLength={1}
@@ -376,22 +376,22 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
 
             {errorMsg && (
               <div
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 8,
-                  background: "rgba(244, 63, 94, 0.12)",
-                  border: "1px solid rgba(244, 63, 94, 0.3)",
-                  color: "#fb7185",
-                  fontSize: 13,
-                  marginBottom: 16,
-                }}>
+ style={{
+ padding: "10px 14px",
+ borderRadius: 8,
+ background: "rgba(244, 63, 94, 0.12)",
+ border: "1px solid rgba(244, 63, 94, 0.3)",
+ color: "#fb7185",
+ fontSize: 13,
+ marginBottom: 16,
+ }}>
                 {errorMsg}
               </div>
             )}
 
             <button
-              type="button"
-              onClick={() => handleSubmitPin(pin)}
+ type="button"
+ onClick={() => handleSubmitPin(pin)}
               disabled={pin.length !== 6 || status === "submitting"}
               style={{
                 width: "100%",
@@ -411,36 +411,36 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
 
             {/* Resend & Email Change links */}
             <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 8,
-                fontSize: 13,
-                color: "rgba(255, 255, 255, 0.5)",
-              }}>
+ style={{
+ display: "flex",
+ flexDirection: "column",
+ alignItems: "center",
+ gap: 8,
+ fontSize: 13,
+ color: "rgba(255, 255, 255, 0.5)",
+ }}>
               {resendStatus === "sent" ? (
                 <span style={{ color: "#4ade80", fontWeight: 700 }}>✓ Code resent! Check your inbox.</span>
               ) : (
                 <button
-                  type="button"
-                  onClick={handleResend}
-                  disabled={resendStatus === "sending"}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: "#c084fc",
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                    fontSize: 13,
-                  }}>
+ type="button"
+ onClick={handleResend}
+ disabled={resendStatus === "sending"}
+ style={{
+ background: "none",
+ border: "none",
+ color: "#c084fc",
+ cursor: "pointer",
+ textDecoration: "underline",
+ fontSize: 13,
+ }}>
                   {resendStatus === "sending" ? "Sending Code…" : "Didn't receive the code? Resend Code"}
                 </button>
               )}
 
               <button
-                type="button"
-                onClick={() => {
+ type="button"
+ onClick={() => {
                   setStep("email");
                   setErrorMsg("");
                 }}
@@ -461,13 +461,13 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
         {/* Back Link */}
         <div style={{ marginTop: 28, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
           <Link
-            href="/book"
-            style={{
-              fontSize: 13,
-              color: "rgba(255, 255, 255, 0.4)",
-              textDecoration: "none",
-              fontWeight: 600,
-            }}>
+ href="/book"
+ style={{
+ fontSize: 13,
+ color: "rgba(255, 255, 255, 0.4)",
+ textDecoration: "none",
+ fontWeight: 600,
+ }}>
             ← Back to Booking Request Form
           </Link>
         </div>

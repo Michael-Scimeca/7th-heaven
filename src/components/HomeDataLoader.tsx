@@ -160,20 +160,20 @@ export default function HomeDataLoader() {
     <>
       {announcement && (
         <AnnouncementBanner
-          text={announcement.text}
-          link={announcement.link}
-          linkText={announcement.linkText}
-          inline={true}
-        />
+ text={announcement.text}
+ link={announcement.link}
+ linkText={announcement.linkText}
+ inline={true}
+ />
       )}
 
       {/* ====== TOUR LIST ====== */}
-      <section id="tour" className="   relative z-10">
+      <section id="tour" className=" relative z-10">
         <TourList initialShows={shows} />
       </section>
 
       {/* ====== BAND BIO PARALLAX SLIDER (UNDER TOUR DATES, ABOVE NOTIFICATIONS) ====== */}
-      <section id="band" className="relative w-full    overflow-hidden sm:mb-16">
+      <section id="band" className="relative w-full overflow-hidden sm:mb-16">
         <BioParallaxSlider />
       </section>
 

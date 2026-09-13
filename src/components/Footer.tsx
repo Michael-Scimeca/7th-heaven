@@ -16,7 +16,6 @@ import dynamic from "next/dynamic";
 import FooterProximityAlerts from "@/components/FooterProximityAlerts";
 
 
-
 const FALLBACK_PLATFORM_LINKS = [
   { name: "Apple Music", url: "https://music.apple.com", label: " Music" },
   { name: "Amazon", url: "https://music.amazon.com", label: "Amazon" },
@@ -118,10 +117,10 @@ export function Footer() {
   return (
 
     <footer
-      className={`relative overflow-hidden ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
-        }`}
-      id="footer"
-      suppressHydrationWarning>
+ className={`relative overflow-hidden ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
+ }`}
+ id="footer"
+ suppressHydrationWarning>
 
       <div className="relative z-10 site-container">
         {/* Proximity Distance & Free Push Alerts Section */}
@@ -135,12 +134,12 @@ export function Footer() {
           <div className="flex flex-wrap justify-start items-center gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6">
             {endorsements.map((brand) => (
               <Image width={200} height={200} unoptimized
-                key={brand.name}
-                src={`${brand.logoPath}?v=3`}
-                alt={brand.name}
-                className="h-[clamp(16px,4.5vw,28px)] md:h-7 max-w-[28vw] sm:max-w-none w-auto object-contain opacity-100 shrink-0"
-                loading="lazy"
-              />
+ key={brand.name}
+ src={`${brand.logoPath}?v=3`}
+ alt={brand.name}
+ className="h-[clamp(16px,4.5vw,28px)] md:h-7 max-w-[28vw] sm:max-w-none w-auto object-contain opacity-100 shrink-0"
+ loading="lazy"
+ />
             ))}
           </div>
         </div>
@@ -181,10 +180,10 @@ export function Footer() {
         {/* Credit Line */}
         <div className="absolute bottom-0 right-0 site-container flex items-center justify-end text-[10px]">
           <a
-            href="https://michaelscimeca.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="tracking-wide !text-white hover:text-white transition-colors">
+ href="https://michaelscimeca.com"
+ target="_blank"
+ rel="noopener noreferrer"
+ className="tracking-wide !text-white hover:text-white transition-colors">
             Hey Mom Look I Built This Thing
           </a>
         </div>

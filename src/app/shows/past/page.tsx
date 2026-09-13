@@ -18,10 +18,10 @@ export default async function PastShowsPage() {
   return (
     <section className="site-container min-h-screen pt-[100px]">
       <PastShowsClient
-        years={pastShowsData.years}
-        totalShowsCount={pastShowsData.totalShows}
-        sanityContent={sanityContent}
-      />
+ years={pastShowsData.years}
+ totalShowsCount={pastShowsData.totalShows}
+ sanityContent={sanityContent}
+ />
     </section>
   );
 }

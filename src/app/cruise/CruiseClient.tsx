@@ -318,44 +318,44 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
   };
 
   return (
-    <div className="min-h-screen    text-white pt-[100px]">
+    <div className="min-h-screen text-white pt-[100px]">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
-        heroForegroundRef={heroForegroundRef}
-        heroMaskSettings={heroMaskSettings}
-        heroParallax={heroParallax}
-        setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
-        sanityContent={sanityContent}
-      />
+ heroForegroundRef={heroForegroundRef}
+ heroMaskSettings={heroMaskSettings}
+ heroParallax={heroParallax}
+ setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
+ sanityContent={sanityContent}
+ />
 
       {transitionDone && (
         <>
           {/* SECTION 2: CABINS & PRICING */}
           <LazyMount minHeight="800px" rootMargin="300px 0px">
             <CruiseCabinsPricingSection
-              handleSelectCabin={handleSelectCabin}
-              handleSignup={handleSignup}
-              formData={formData}
-              setFormData={setFormData}
-              guests={guests}
-              toggleGuestActive={toggleGuestActive}
-              updateGuest={updateGuest}
-              signature={signature}
-              setSignature={setSignature}
-              signatureDate={signatureDate}
-              signupStatus={signupStatus}
-              formError={formError}
-              isPaymentDropdownOpen={isPaymentDropdownOpen}
-              setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
-              signupCount={signupCount}
-              totalGuests={totalGuests}
-              joinedFans={joinedFans}
-              CruiseCard1Section={CruiseCard1Section}
-              CruiseCard2Section={CruiseCard2Section}
-              CruiseNotesAndSignatureSection={CruiseNotesAndSignatureSection}
-              PaymentPortalDropdownPanel={PaymentPortalDropdownPanel}
-              sanityContent={sanityContent}
-            />
+ handleSelectCabin={handleSelectCabin}
+ handleSignup={handleSignup}
+ formData={formData}
+ setFormData={setFormData}
+ guests={guests}
+ toggleGuestActive={toggleGuestActive}
+ updateGuest={updateGuest}
+ signature={signature}
+ setSignature={setSignature}
+ signatureDate={signatureDate}
+ signupStatus={signupStatus}
+ formError={formError}
+ isPaymentDropdownOpen={isPaymentDropdownOpen}
+ setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
+ signupCount={signupCount}
+ totalGuests={totalGuests}
+ joinedFans={joinedFans}
+ CruiseCard1Section={CruiseCard1Section}
+ CruiseCard2Section={CruiseCard2Section}
+ CruiseNotesAndSignatureSection={CruiseNotesAndSignatureSection}
+ PaymentPortalDropdownPanel={PaymentPortalDropdownPanel}
+ sanityContent={sanityContent}
+ />
           </LazyMount>
 
           {/* SECTION 3: PORTS OF CALL CATALOG */}
@@ -502,8 +502,8 @@ function CruiseNotesAndSignatureSection({
   signatureDate: string;
 }) {
   return (
-    <div className="booking-section-container border-0    p-0 mt-4">
-      <div className="booking-section-header    px-0 py-2 border-0">
+    <div className="booking-section-container border-0 p-0 mt-4">
+      <div className="booking-section-header px-0 py-2 border-0">
         <span className="uppercase text-white">ADDITIONAL NOTES &amp; DIGITAL SIGNATURE</span>
       </div>
 
@@ -529,12 +529,12 @@ function CruiseNotesAndSignatureSection({
           <label htmlFor="cruise-e-signature" className="booking-label block text-white uppercase mb-1.5">Date &amp; E-Signature (Type full name to sign) *</label>
           <div className="input-glow-border rounded-xl">
             <input
-              id="cruise-e-signature"
-              type="text"
-              required
-              placeholder="Type legal name to sign"
-              value={signature}
-              onChange={e => setSignature(e.target.value)}
+ id="cruise-e-signature"
+ type="text"
+ required
+ placeholder="Type legal name to sign"
+ value={signature}
+ onChange={e => setSignature(e.target.value)}
               className="booking-signature-input signature-font w-full bg-black/50 border-0 px-3.5 py-2.5 text-lg text-purple-300 placeholder:text-white/30 focus:outline-none rounded-lg"
             />
           </div>
@@ -596,8 +596,8 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
           </div>
           <div className="pt-2">
             <button
-              type="button"
-              onClick={() => {
+ type="button"
+ onClick={() => {
                 setSubmittedRef(null);
                 onClose();
               }}
@@ -610,93 +610,93 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
         <form onSubmit={handleSubmit} className="space-y-3.5">
           <div className="grid grid-cols-1 gap-3.5">
             <InputField
-              id="pay-booking-number"
-              label="Booking Number"
-              required
-              type="text"
-              placeholder="Enter Booking Number"
-              value={payForm.bookingNumber}
-              onChange={(e) => setPayForm({ ...payForm, bookingNumber: e.target.value })}
+ id="pay-booking-number"
+ label="Booking Number"
+ required
+ type="text"
+ placeholder="Enter Booking Number"
+ value={payForm.bookingNumber}
+ onChange={(e) => setPayForm({ ...payForm, bookingNumber: e.target.value })}
             />
             <InputField
-              id="pay-email"
-              label="Email Address"
-              required
-              type="email"
-              placeholder="your@email.com"
-              value={payForm.email}
-              onChange={(e) => setPayForm({ ...payForm, email: e.target.value })}
+ id="pay-email"
+ label="Email Address"
+ required
+ type="email"
+ placeholder="your@email.com"
+ value={payForm.email}
+ onChange={(e) => setPayForm({ ...payForm, email: e.target.value })}
             />
             <InputField
-              id="pay-phone"
-              label="Cell Phone"
-              required
-              type="tel"
-              placeholder="(555) 000-0000"
-              value={payForm.phone}
-              onChange={(e) => setPayForm({ ...payForm, phone: formatPhoneDisplay(e.target.value) })}
+ id="pay-phone"
+ label="Cell Phone"
+ required
+ type="tel"
+ placeholder="(555) 000-0000"
+ value={payForm.phone}
+ onChange={(e) => setPayForm({ ...payForm, phone: formatPhoneDisplay(e.target.value) })}
             />
             <InputField
-              id="pay-card-name"
-              label="Your Name on Credit Card"
-              required
-              type="text"
-              placeholder="Name on Credit Card"
-              value={payForm.cardName}
-              onChange={(e) => setPayForm({ ...payForm, cardName: e.target.value })}
+ id="pay-card-name"
+ label="Your Name on Credit Card"
+ required
+ type="text"
+ placeholder="Name on Credit Card"
+ value={payForm.cardName}
+ onChange={(e) => setPayForm({ ...payForm, cardName: e.target.value })}
             />
             <InputField
-              id="pay-card-number"
-              label="Credit Card Number"
-              required
-              type="text"
-              placeholder="Card Number"
-              value={payForm.cardNumber}
-              onChange={(e) => setPayForm({ ...payForm, cardNumber: e.target.value })}
+ id="pay-card-number"
+ label="Credit Card Number"
+ required
+ type="text"
+ placeholder="Card Number"
+ value={payForm.cardNumber}
+ onChange={(e) => setPayForm({ ...payForm, cardNumber: e.target.value })}
             />
           </div>
 
           <div className="grid grid-cols-3 gap-2">
             <InputField
-              id="pay-card-exp"
-              label="Exp. Date"
-              required
-              type="text"
-              placeholder="MM/YY"
-              value={payForm.cardExp}
-              onChange={(e) => setPayForm({ ...payForm, cardExp: e.target.value })}
+ id="pay-card-exp"
+ label="Exp. Date"
+ required
+ type="text"
+ placeholder="MM/YY"
+ value={payForm.cardExp}
+ onChange={(e) => setPayForm({ ...payForm, cardExp: e.target.value })}
               inputClassName="text-center"
             />
             <InputField
-              id="pay-card-cvc"
-              label="3/4 CVC"
-              required
-              type="text"
-              placeholder="CVC"
-              value={payForm.cardCvc}
-              onChange={(e) => setPayForm({ ...payForm, cardCvc: e.target.value })}
+ id="pay-card-cvc"
+ label="3/4 CVC"
+ required
+ type="text"
+ placeholder="CVC"
+ value={payForm.cardCvc}
+ onChange={(e) => setPayForm({ ...payForm, cardCvc: e.target.value })}
               inputClassName="text-center"
             />
             <InputField
-              id="pay-card-zip"
-              label="Billing Zip"
-              required
-              type="text"
-              placeholder="Zip"
-              value={payForm.cardZip}
-              onChange={(e) => setPayForm({ ...payForm, cardZip: e.target.value })}
+ id="pay-card-zip"
+ label="Billing Zip"
+ required
+ type="text"
+ placeholder="Zip"
+ value={payForm.cardZip}
+ onChange={(e) => setPayForm({ ...payForm, cardZip: e.target.value })}
               inputClassName="text-center"
             />
           </div>
 
           <InputField
-            id="pay-card-amount"
-            label="Amount to Charge ($ USD)"
-            required
-            type="text"
-            placeholder="250.00"
-            value={payForm.cardAmount}
-            onChange={(e) => setPayForm({ ...payForm, cardAmount: e.target.value })}
+ id="pay-card-amount"
+ label="Amount to Charge ($ USD)"
+ required
+ type="text"
+ placeholder="250.00"
+ value={payForm.cardAmount}
+ onChange={(e) => setPayForm({ ...payForm, cardAmount: e.target.value })}
             inputClassName="   text-purple-300"
           />
 
@@ -705,9 +705,9 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
               🔒 256-Bit SSL Encrypted Royal Caribbean Authorization
             </span>
             <FoolishShrimpButton
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-3 text-white uppercase text-xs r cursor-pointer disabled:opacity-50">
+ type="submit"
+ disabled={isSubmitting}
+ className="w-full py-3 text-white uppercase text-xs r cursor-pointer disabled:opacity-50">
               {isSubmitting ? "PROCESSING PAYMENT..." : "SUBMIT PAYMENT"}
             </FoolishShrimpButton>
           </div>

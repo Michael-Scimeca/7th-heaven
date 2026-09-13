@@ -10,15 +10,15 @@ export default function NotFound() {
                 {/* Glitch 404 number */}
                 <div className="relative mb-8">
                     <h1
-                        className="text-6xl    er text-transparent select-none"
-                        style={{
-                            WebkitTextStroke: "2px rgba(255,10,61,0.3)",
-                        }}>
+ className="text-6xl er text-transparent select-none"
+ style={{
+ WebkitTextStroke: "2px rgba(255,10,61,0.3)",
+ }}>
                         404
                     </h1>
                     <h1
-                        className="absolute inset-0 text-6xl    er text-[var(--color-accent)] select-none animate-pulse"
-                        style={{ opacity: 0.15 }}>
+ className="absolute inset-0 text-6xl er text-[var(--color-accent)] select-none animate-pulse"
+ style={{ opacity: 0.15 }}>
                         404
                     </h1>
                 </div>
@@ -33,18 +33,18 @@ export default function NotFound() {
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
-                        href="/"
-                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white uppercase tracking-[0.15em] rounded-lg hover:brightness-110 transition-transform   ">
+ href="/"
+ className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white uppercase tracking-[0.15em] rounded-lg hover:brightness-110 transition-transform ">
                         Back to Home
                     </Link>
                     <Link
-                        href="/#tour"
-                        className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 uppercase tracking-[0.15em] transition-colors">
+ href="/#tour"
+ className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 uppercase tracking-[0.15em] transition-colors">
                         View Tour Dates
                     </Link>
                 </div>
 
-                <p className="  6 uppercase ">
+                <p className=" 6 uppercase ">
                     7th Heaven — Lost in the mix
                 </p>
             </div>

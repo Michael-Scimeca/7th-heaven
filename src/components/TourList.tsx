@@ -27,11 +27,11 @@ import { VENUE_LINKS } from "@/lib/venue-links";
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
   return (
     <div
-      className={`w-full h-[1px] transition-colors duration-300 ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent"
-        : "bg-white/10 "
-        }`}
-      aria-hidden="true"
-    />
+ className={`w-full h-[1px] transition-colors duration-300 ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent"
+ : "bg-white/10 "
+ }`}
+ aria-hidden="true"
+ />
   );
 }
 
@@ -212,7 +212,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [displayLimit, setDisplayLimit] = useState<number | null>(maxShows || 20);
 
   // Set initial display limit to 15 on mobile (<1024px) after mount
-  useEffect(() => {
+ useEffect(() => {
     if (!maxShows && window.innerWidth < 1024) {
       setDisplayLimit(15);
     }
@@ -854,25 +854,25 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     <>
       {/* Table */}
       <section
-        className="py-0 relative"
-        ref={tableRef}
-        id="tour-table-container"
-        style={{
-          '--tour-font-family': tourFontFamily,
-          '--tour-row-padding': tourRowPadding,
-          '--tour-row-height': tourRowHeight,
-          '--tour-row-gap': tourRowGap,
-        } as React.CSSProperties}>
+ className="py-0 relative"
+ ref={tableRef}
+ id="tour-table-container"
+ style={{
+ '--tour-font-family': tourFontFamily,
+ '--tour-row-padding': tourRowPadding,
+ '--tour-row-height': tourRowHeight,
+ '--tour-row-gap': tourRowGap,
+ } as React.CSSProperties}>
         <div className="w-full relative site-container">
 
           {!hideMap && (
             <div
-              className="mt-0 mb-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden isolate"
-              style={{
-                transform: 'translateZ(0)',
-                backfaceVisibility: 'hidden',
-                WebkitBackfaceVisibility: 'hidden',
-              }}>
+ className="mt-0 mb-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden isolate"
+ style={{
+ transform: 'translateZ(0)',
+ backfaceVisibility: 'hidden',
+ WebkitBackfaceVisibility: 'hidden',
+ }}>
               <LazySection fallbackHeight="350px">
                 <TourMap shows={hasActiveFilters ? filtered : displayShows} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
               </LazySection>
@@ -939,14 +939,14 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     {/* CountdownTimer moved to first column */}
 
                     <CountdownTimer
-                      targetDate={upNext.startDate || upNext.date}
-                      targetTime={upNext.playTime || upNext.time}
-                      className="justify-start gap-4 md:gap-5"
-                    />
+ targetDate={upNext.startDate || upNext.date}
+ targetTime={upNext.playTime || upNext.time}
+ className="justify-start gap-4 md:gap-5"
+ />
 
 
                     {/* Action buttons (Directions, Website, Add to Calendar) moved to first column */}
-                    <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full   ">
+                    <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full ">
                       {upNext.mapUrl && (
                         <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] !underline decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 border-none cursor-pointer" id="upnext-map">
                           <span>Directions</span>
@@ -959,7 +959,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       )}
                       <div className="relative calendar-dropdown-container">
                         <button aria-label="Next"
-                          onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
+ onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
                           className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 border-none cursor-pointer font-bold"
                           id="upnext-calendar-btn">
                           Add to Calendar
@@ -969,9 +969,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                             <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full">Google Calendar</a>
                             <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full">Apple / iCal</a>
                             <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full">Outlook</a>
-                            <button aria-label="Action button"
-                              onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
-                              className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full border-t border-[var(--border-color)]    pt-2.5 cursor-pointer">SMS / Text Alerts</button>
+                            <button
+ onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
+                              className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full border-t border-[var(--border-color)] pt-2.5 cursor-pointer">SMS / Text Alerts</button>
                           </div>
                         )}
                       </div>
@@ -986,15 +986,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             <div className="flex items-center gap-3">
               {isAdmin && (
                 <AddCmsButton
-                  label="ADD SHOW"
-                  onClick={handleAddShowClick}
-                />
+ label="ADD SHOW"
+ onClick={handleAddShowClick}
+ />
               )}
 
               {hasActiveFilters && (
-                <button aria-label="Action button"
-                  onClick={clearAll}
-                  className="text-[0.9rem] uppercase text-[var(--color-accent)] hover:text-white border border-[var(--color-accent)re] hover:border-[rgba(255,10,61,0.6)] rounded-lg px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]">Clear</button>
+                <button
+ onClick={clearAll}
+ className="text-[0.9rem] uppercase text-[var(--color-accent)] hover:text-white border border-[var(--color-accent)re] hover:border-[rgba(255,10,61,0.6)] rounded-lg px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]">Clear</button>
               )}
             </div>
           </div>
@@ -1003,18 +1003,18 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
           <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none", top: `${mobileHeaderOffset}px` }} className="relative sticky z-[90] flex flex-col gap-3.5 w-full border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
             <div
-              className="sort-bar-bg absolute -top-10 -bottom-10 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
-              style={{
-                maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
-              }}
-            />
+ className="sort-bar-bg absolute -top-10 -bottom-10 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
+ style={{
+ maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+ WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+ }}
+ />
 
             {/* Search Bar ON TOP (Sticks cleanly above table header on scroll for desktop & mobile) */}
             <div className="input-glow-border rounded-lg w-full max-w-[300px] shrink-0">
               <div className="relative flex items-center w-full">
                 <Search className="w-4 h-4 text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
-                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full    border-0 rounded-lg no-bg-icon pr-5 py-2 text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full border-0 rounded-lg no-bg-icon pr-5 py-2 text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
@@ -1027,9 +1027,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               {/* Column 2: MONTH Filter */}
               <div className="relative flex items-center shrink-0">
                 <GooeyMessagesDropdown
-                  placeholder="MONTH"
-                  defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
-                  customers={months.map((m) => ({ id: m, name: m }))}
+ placeholder="MONTH"
+ defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
+ customers={months.map((m) => ({ id: m, name: m }))}
                   onSelect={(opt) => setActiveMonth(opt.id)}
                 />
               </div>
@@ -1040,15 +1040,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               {/* Column 4: CITY Filter */}
               <div className="relative flex items-center shrink-0">
                 <GooeyMessagesDropdown
-                  placeholder="CITY"
-                  defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
-                  customers={locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` }))}
+ placeholder="CITY"
+ defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
+ customers={locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` }))}
                   onSelect={(opt) => setActiveCity(opt.id)}
                 />
               </div>
 
               {/* Column 5: TIME */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase  font-bold">Time</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase font-bold">Time</span>
 
               {/* Column 6: MAP/CAL */}
               <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase text-center font-bold">Map/Cal</span>
@@ -1080,8 +1080,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 <div key={`tour_row_${i}_${show.id || rowId}`} className="group overflow-visible pb-4">
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ? "" : "  "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
-                    id={rowId}>
+ className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+ id={rowId}>
                     <span className="text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap font-bold">{show.day}</span>
                     <span className="text-white text-[clamp(15px,1.5vw,23px)] whitespace-nowrap font-bold">{show.date}</span>
                     <span className="text-white text-[clamp(15px,1.5vw,23px)] font-bold">{show.venue}</span>
@@ -1105,8 +1105,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       {!isPrivate && (
                         <>
                           {show._id && isFan && (
-                            <button aria-label="Action button"
-                              onClick={() => handleToggleNotification(show)}
+                            <button
+ onClick={() => handleToggleNotification(show)}
                               disabled={subscribingId === show._id}
                               title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
                               className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
@@ -1129,8 +1129,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               if (!effectiveMapUrl) {
                                 return (
                                   <span
-                                    title="No Directions Link"
-                                    className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none">
+ title="No Directions Link"
+ className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none">
                                     <LocationPinIcon className="w-5.5 h-5.5 shrink-0" />
                                   </span>
                                 );
@@ -1140,12 +1140,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                                 : effectiveMapUrl;
                               return (
                                 <a
-                                  href={gUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  title="Get Directions"
-                                  style={{ color: cfg.color }}
-                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity">
+ href={gUrl}
+ target="_blank"
+ rel="noopener noreferrer"
+ title="Get Directions"
+ style={{ color: cfg.color }}
+ className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity">
                                   <LocationPinIcon className="w-5.5 h-5.5 shrink-0" />
                                 </a>
                               );
@@ -1159,8 +1159,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               if (!hasExplicitParking) {
                                 return (
                                   <span
-                                    title="No Parking Link"
-                                    className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none">
+ title="No Parking Link"
+ className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none">
                                     <CarIcon className="w-5.5 h-5.5 shrink-0" />
                                   </span>
                                 );
@@ -1168,32 +1168,32 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               const pUrl = show.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
                               return (
                                 <a
-                                  href={pUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
-                                  style={{ color: cfg.color }}
-                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity">
+ href={pUrl}
+ target="_blank"
+ rel="noopener noreferrer"
+ title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
+ style={{ color: cfg.color }}
+ className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity">
                                   <CarIcon className="w-5.5 h-5.5 shrink-0" />
                                 </a>
                               );
                             })()}
                           </div>
                           <div className="w-7 h-7 flex items-center justify-center relative calendar-dropdown-container shrink-0">
-                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-white/80 hover:text-white transition-colors cursor-pointer    border-none">
+                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-white/80 hover:text-white transition-colors cursor-pointer border-none">
                               <CalendarDays className="w-5.5 h-5.5" />
                             </button>
                             {activeCalDropdownId === rowId && (
                               <div className="absolute right-0 mt-2 bg-white border border-black/15 py-1.5 z-50 min-w-[150px] text-black">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full   ">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full   ">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full   ">Outlook</a>
-                                <button aria-label="Action button"
-                                  onClick={() => {
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full ">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full ">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full ">Outlook</a>
+                                <button
+ onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10    pt-2 cursor-pointer   ">
+                                  className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 pt-2 cursor-pointer ">
                                   <MessageSquare className="w-3.5 h-3.5 text-purple-600" /> SMS / Text Alerts
                                 </button>
 
@@ -1206,25 +1206,25 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     <span className="flex items-center justify-end gap-2 text-right">
                       {!isPrivate && (
                         <a
-                          href={show.websiteUrl || `https://www.google.com/search?q=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
-                          className="inline-flex items-center justify-center whitespace-nowrap uppercase text-[var(--color-accent)] !underline font-bold decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer font-bold "
-                          style={{ fontSize: websiteBtnFontSize }}>
+ href={show.websiteUrl || `https://www.google.com/search?q=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`}
+ target="_blank"
+ rel="noopener noreferrer"
+ title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
+ className="inline-flex items-center justify-center whitespace-nowrap uppercase text-[var(--color-accent)] !underline font-bold decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer font-bold "
+ style={{ fontSize: websiteBtnFontSize }}>
                           Website
                         </a>
                       )}
                       {isAdmin && show._id && (
                         <div className="flex items-center gap-1 shrink-0 ml-1">
-                          <button aria-label="Action button"
-                            onClick={() => handleEditClick(show)}
-                            className="px-2 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] uppercase rounded transition-colors cursor-pointer   ">
+                          <button
+ onClick={() => handleEditClick(show)}
+                            className="px-2 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] uppercase rounded transition-colors cursor-pointer ">
                             Edit
                           </button>
-                          <button aria-label="Action button"
-                            onClick={() => handleDeleteShow(show._id)}
-                            className="px-2 py-1 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] uppercase rounded transition-colors cursor-pointer   ">
+                          <button
+ onClick={() => handleDeleteShow(show._id)}
+                            className="px-2 py-1 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] uppercase rounded transition-colors cursor-pointer ">
                             Del
                           </button>
                         </div>
@@ -1234,8 +1234,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                   {/* Mobile/Tablet Card Layout — Stacked Venue-First */}
                   <div
-                    className={`tour-row-item relative lg:hidden flex flex-col gap-1 mb-3 text-white transition-all ${isHighlighted ? "ring-2 ring-purple-500/80  animate-pulse" : isUpNext ? "border-purple-500/40 " : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
-                    id={`${rowId}-mobile`}>
+ className={`tour-row-item relative lg:hidden flex flex-col gap-1 mb-3 text-white transition-all ${isHighlighted ? "ring-2 ring-purple-500/80 animate-pulse" : isUpNext ? "border-purple-500/40 " : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+ id={`${rowId}-mobile`}>
 
                     {/* 1. Venue & City (FIRST) */}
                     <div className="space-y-1">
@@ -1295,8 +1295,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           if (!effectiveMapUrl) {
                             return (
                               <span
-                                title="No Directions Link"
-                                className="flex-1 flex items-center justify-center gap-1.5    bg-white/5 border border-white/10 text-white/20 opacity-25 cursor-not-allowed pointer-events-none select-none">
+ title="No Directions Link"
+ className="flex-1 flex items-center justify-center gap-1.5 bg-white/5 border border-white/10 text-white/20 opacity-25 cursor-not-allowed pointer-events-none select-none">
                                 <LocationPinIcon className="w-3.5 h-3.5 text-white/20 shrink-0" />
                                 <span>Map</span>
                               </span>
@@ -1307,7 +1307,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                             : effectiveMapUrl;
                           return (
                             <CosmicRadialButton
-                              onClick={() => window.open(gUrl, '_blank', 'noopener,noreferrer')}
+ onClick={() => window.open(gUrl, '_blank', 'noopener,noreferrer')}
                               icon={<LocationPinIcon className="w-3.5 h-3.5 text-white shrink-0" />}
                               className="flex-1 font-bold"
                               title="Get Directions">
@@ -1322,8 +1322,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           if (!hasExplicitParking) {
                             return (
                               <span
-                                title="No Parking Link"
-                                className="flex-1 flex items-center justify-center gap-1.5 sgb-generate-button bg-white/5 border border-white/10 text-white/20 opacity-25 cursor-not-allowed pointer-events-none select-none">
+ title="No Parking Link"
+ className="flex-1 flex items-center justify-center gap-1.5 sgb-generate-button bg-white/5 border border-white/10 text-white/20 opacity-25 cursor-not-allowed pointer-events-none select-none">
                                 <CarIcon className="w-3.5 h-3.5 text-white/20 shrink-0" />
                                 <span>Park</span>
                               </span>
@@ -1332,11 +1332,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           const pUrl = show.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
                           return (
                             <a
-                              href={pUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
-                              className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-purple-600/30 border border-purple-400/30 text-white transition-all hover:bg-purple-600/60 active:scale-95">
+ href={pUrl}
+ target="_blank"
+ rel="noopener noreferrer"
+ title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
+ className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-purple-600/30 border border-purple-400/30 text-white transition-all hover:bg-purple-600/60 active:scale-95">
                               <CarIcon className="w-3.5 h-3.5 text-purple-300 shrink-0" />
                               <span>Park</span>
                             </a>
@@ -1344,8 +1344,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         })()}
 
                         {show._id && isFan && !isPrivate && (
-                          <button aria-label="Action button"
-                            onClick={() => handleToggleNotification(show)}
+                          <button
+ onClick={() => handleToggleNotification(show)}
                             disabled={subscribingId === show._id}
                             title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
                             className="p-2 w-9 h-9 flex items-center justify-center rounded-lg border shrink-0 bg-purple-600/30 border-purple-400/30 text-white hover:bg-purple-600/60 transition-all active:scale-95">
@@ -1360,20 +1360,20 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         {/* Calendar Add */}
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
-                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-lg bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
+                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-lg bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
-                              <div className="absolute left-0 mt-2 border border-white/10 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-[45px]   ">
+                              <div className="absolute left-0 mt-2 border border-white/10 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-[45px] ">
                                 <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
-                                <button aria-label="Action button"
-                                  onClick={() => {
+                                <button
+ onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10    pt-2 cursor-pointer   ">
+                                  className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 cursor-pointer ">
                                   <MessageSquare className="w-3.5 h-3.5 text-purple-400" /> SMS / Text Alerts
                                 </button>
                               </div>
@@ -1386,8 +1386,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     {/* Admin Actions */}
                     {isAdmin && show._id && (
                       <div className="flex items-center gap-1.5 shrink-0">
-                        <button aria-label="Action button" onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 uppercase rounded transition-colors cursor-pointer"><Edit className="w-3.5 h-3.5 inline mr-1" /> Edit</button>
-                        <button aria-label="Action button" onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 uppercase rounded transition-colors cursor-pointer"><X className="w-3.5 h-3.5 inline mr-1" /> Delete</button>
+                        <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 uppercase rounded transition-colors cursor-pointer"><Edit className="w-3.5 h-3.5 inline mr-1" /> Edit</button>
+                        <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 uppercase rounded transition-colors cursor-pointer"><X className="w-3.5 h-3.5 inline mr-1" /> Delete</button>
                       </div>
                     )}
                   </div>
@@ -1400,7 +1400,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           {displayLimit && !maxShows && filtered.length > displayLimit && (
             <div className="flex justify-center pt-8 pb-0 relative z-20">
               <CosmicRadialButton
-                onClick={() => setDisplayLimit(null)}
+ onClick={() => setDisplayLimit(null)}
                 className="!px-8 !py-3.5 !text-xs sm:!text-sm !font-extrabold">
                 Load The Rest ({filtered.length - displayLimit} More Shows)
               </CosmicRadialButton>
@@ -1410,7 +1410,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           {filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--color-text-muted)]">
               <p>No shows match your filters.</p>
-              <button aria-label="Action button" onClick={clearAll} className="mt-4 text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
+              <button onClick={clearAll} className="mt-4 text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
                 Clear all filters
               </button>
             </div>
@@ -1421,7 +1421,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       {/* Show Edit/Add Modal */}
       {
         isModalOpen && typeof window !== "undefined" && createPortal(
-          <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto   ">
+          <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto ">
             <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-lg w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
               <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
               <div className="p-6 md:p-8 text-left">
@@ -1429,8 +1429,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <h3 className="text-white flex items-center gap-2">
                     <span className="flex items-center gap-1.5">{editingShow ? <><Edit className="w-5 h-5" /> Edit Show Date</> : <><Plus className="w-5 h-5" /> Add New Show Date</>}</span>
                   </h3>
-                  <button aria-label="Action button"
-                    onClick={() => setIsModalOpen(false)}
+                  <button
+ onClick={() => setIsModalOpen(false)}
                     className="p-2 text-white/50 hover:text-white transition-colors cursor-pointer">
                     ✕ Close
                   </button>
@@ -1446,12 +1446,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="tour-form-venue" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Venue Name *</label>
-                      <input aria-label="Input field" id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
+                      <input id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
                         placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="tour-form-date" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Event Date *</label>
-                      <input aria-label="Input field" id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
+                      <input id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
                         className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
@@ -1459,12 +1459,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="sm:col-span-2">
                       <label htmlFor="tour-form-city" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">City *</label>
-                      <input aria-label="Input field" id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
+                      <input id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
                         placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="tour-form-state" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">State *</label>
-                      <input aria-label="Input field" id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
+                      <input id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
                         placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
@@ -1472,22 +1472,22 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                     <div>
                       <label htmlFor="tour-form-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Show Time</label>
-                      <input aria-label="Input field" id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
+                      <input id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
                         placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="tour-form-doors-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Doors Open</label>
-                      <input aria-label="Input field" id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
+                      <input id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
                         placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="tour-form-play-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Band Plays</label>
-                      <input aria-label="Input field" id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
+                      <input id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
                         placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="tour-form-cover" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Cover / Admission</label>
-                      <input aria-label="Input field" id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
+                      <input id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
                         placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
@@ -1495,12 +1495,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="tour-form-ticket-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Ticket Link (URL)</label>
-                      <input aria-label="Input field" id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
+                      <input id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
                         placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="tour-form-directions-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Directions / Google Maps (URL)</label>
-                      <input aria-label="Input field" id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
+                      <input id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
                         placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
@@ -1508,12 +1508,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="tour-form-parking-url" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Directions Link (URL)</label>
-                      <input aria-label="Input field" id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
+                      <input id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
                         placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="tour-form-parking-info" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Info / Notes</label>
-                      <input aria-label="Input field" id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
+                      <input id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
                         placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
@@ -1527,76 +1527,76 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/10 my-2">
                     <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                       <SquishyToggle
-                        id="tour-all-ages-toggle"
-                        label="All Ages Show"
-                        checked={formAllAges}
-                        onChange={setFormAllAges}
-                      />
+ id="tour-all-ages-toggle"
+ label="All Ages Show"
+ checked={formAllAges}
+ onChange={setFormAllAges}
+ />
                       <span>All Ages Show</span>
                     </div>
                     <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                       <SquishyToggle
-                        id="tour-is-festival-toggle"
-                        label="Is Festival"
-                        checked={formIsFestival}
-                        onChange={setFormIsFestival}
-                      />
+ id="tour-is-festival-toggle"
+ label="Is Festival"
+ checked={formIsFestival}
+ onChange={setFormIsFestival}
+ />
                       <span>Is Festival</span>
                     </div>
                     <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                       <SquishyToggle
-                        id="tour-is-private-toggle"
-                        label="Private Event"
-                        checked={formIsPrivate}
-                        onChange={setFormIsPrivate}
-                      />
+ id="tour-is-private-toggle"
+ label="Private Event"
+ checked={formIsPrivate}
+ onChange={setFormIsPrivate}
+ />
                       <span>Private Event</span>
                     </div>
                     <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                       <SquishyToggle
-                        id="tour-is-unplugged-toggle"
-                        label="Unplugged Show"
-                        checked={formIsUnplugged}
-                        onChange={setFormIsUnplugged}
-                      />
+ id="tour-is-unplugged-toggle"
+ label="Unplugged Show"
+ checked={formIsUnplugged}
+ onChange={setFormIsUnplugged}
+ />
                       <span>Unplugged Show</span>
                     </div>
                     <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                       <SquishyToggle
-                        id="tour-is-outdoor-toggle"
-                        label="Outdoor Show"
-                        checked={formIsOutdoor}
-                        onChange={setFormIsOutdoor}
-                      />
+ id="tour-is-outdoor-toggle"
+ label="Outdoor Show"
+ checked={formIsOutdoor}
+ onChange={setFormIsOutdoor}
+ />
                       <span>Outdoor Show</span>
                     </div>
                     <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                       <SquishyToggle
-                        id="tour-is-casino-toggle"
-                        label="Casino Show"
-                        checked={formIsCasino}
-                        onChange={setFormIsCasino}
-                      />
+ id="tour-is-casino-toggle"
+ label="Casino Show"
+ checked={formIsCasino}
+ onChange={setFormIsCasino}
+ />
                       <span>Casino Show</span>
                     </div>
                     <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
                       <SquishyToggle
-                        id="tour-is-special-event-toggle"
-                        label="Special Event"
-                        checked={formIsSpecialEvent}
-                        onChange={setFormIsSpecialEvent}
-                      />
+ id="tour-is-special-event-toggle"
+ label="Special Event"
+ checked={formIsSpecialEvent}
+ onChange={setFormIsSpecialEvent}
+ />
                       <span>Special Event</span>
                     </div>
                   </div>
 
                   <div className="flex gap-3 pt-4 border-t border-white/5">
-                    <button aria-label="Action button" type="button" onClick={() => setIsModalOpen(false)}
+                    <button type="button" onClick={() => setIsModalOpen(false)}
                       className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white uppercase transition-colors cursor-pointer">
                       Cancel
                     </button>
-                    <button aria-label="Action button" type="submit" disabled={submitting}
-                      className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-colors disabled:opacity-50 cursor-pointer">
+                    <button type="submit" disabled={submitting}
+ className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-colors disabled:opacity-50 cursor-pointer">
                       {submitting ? "Saving..." : "Save Show"}
                     </button>
                   </div>
@@ -1629,7 +1629,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       <p className="uppercase r">{notifyPopupShow.venue}</p>
                     </div>
                   </div>
-                  <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-lg bg-[#00000029] hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-lg bg-[#00000029] hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                   </button>
                 </div>
@@ -1645,16 +1645,16 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                 <div className="flex flex-col gap-2">
                   {/* This show */}
-                  <button aria-label="Action button"
-                    type="button"
-                    onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
+                  <button
+ type="button"
+ onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
                     className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10   border-white/10 '
                       }`}>
                     <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                      }`}>
+ }`}>
                       <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
-                        }`} />
+ }`} />
                     </span>
                     <div className="text-left">
                       <p className="flex items-center gap-1.5"><Mic className="w-3.5 h-3.5" /> This specific show</p>
@@ -1663,16 +1663,16 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   </button>
 
                   {/* Proximity shows */}
-                  <button aria-label="Action button"
-                    type="button"
-                    onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
+                  <button
+ type="button"
+ onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
                     className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10   border-white/10 '
                       }`}>
                     <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                      }`}>
+ }`}>
                       <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
-                        }`} />
+ }`} />
                     </span>
                     <div className="text-left">
                       <p className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Shows near me</p>
@@ -1681,16 +1681,16 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   </button>
 
                   {/* Newsletter */}
-                  <button aria-label="Action button"
-                    type="button"
-                    onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
+                  <button
+ type="button"
+ onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
                     className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10   border-white/10 '
                       }`}>
                     <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                      }`}>
+ }`}>
                       <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
-                        }`} />
+ }`} />
                     </span>
                     <div className="text-left">
                       <p className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Newsletter & exclusives</p>
@@ -1706,15 +1706,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                 {/* Actions */}
                 <div className="flex gap-2 mt-4">
-                  <button aria-label="Action button"
-                    onClick={() => setNotifyPopupShow(null)}
+                  <button
+ onClick={() => setNotifyPopupShow(null)}
                     className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white uppercase rounded-lg transition-colors cursor-pointer">
                     Cancel
                   </button>
-                  <button aria-label="Action button"
-                    onClick={handleNotifyConfirm}
-                    disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
-                    className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5">
+                  <button
+ onClick={handleNotifyConfirm}
+ disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
+ className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5">
                     {subscribingId ? 'Saving...' : <><Bell className="w-3.5 h-3.5" /> Enable Alerts</>}
                   </button>
                 </div>
@@ -1727,13 +1727,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       {
         isFontCustomizerOpen && (
           <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">
-            <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 p-6 md:p-8 relative flex flex-col    select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
+            <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 p-6 md:p-8 relative flex flex-col select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
 
               {/* Header */}
               <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
                 <h3 className="text-white uppercase r">Font Tester</h3>
-                <button aria-label="Action button"
-                  onClick={() => setIsFontCustomizerOpen(false)}
+                <button
+ onClick={() => setIsFontCustomizerOpen(false)}
                   className="text-white/40 hover:text-white cursor-pointer bg-[#00000029] hover:bg-white/10 rounded-lg w-6 h-6 flex items-center justify-center transition-colors">
                   ✕
                 </button>
@@ -1742,10 +1742,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               {/* Font Family */}
               <div className="mb-5">
                 <label htmlFor="tour-font-style" className="block text-white/50 uppercase mb-2">Font Style</label>
-                <select aria-label="Select option"
-                  id="tour-font-style"
-                  value={tourFontFamily}
-                  onChange={(e) => setTourFontFamily(e.target.value)}
+                <select id="tour-font-style"
+ value={tourFontFamily}
+ onChange={(e) => setTourFontFamily(e.target.value)}
                   className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer">
                   <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Switzer (Default)</option>
                   <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
@@ -1764,13 +1763,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <label htmlFor="tour-font-size-slider" className="text-white/50 uppercase r">Font Size</label>
                   <span className="text-[var(--color-accent)]">{tourFontSize}</span>
                 </div>
-                <input aria-label="Input field"
-                  id="tour-font-size-slider"
-                  type="range"
-                  min="10"
-                  max="24"
-                  value={parseInt(tourFontSize) || 13}
-                  onChange={(e) => setTourFontSize(`${e.target.value}px`)}
+                <input id="tour-font-size-slider"
+ type="range"
+ min="10"
+ max="24"
+ value={parseInt(tourFontSize) || 13}
+ onChange={(e) => setTourFontSize(`${e.target.value}px`)}
                   className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
                 />
                 <div className="flex justify-between text-white/30 mt-0.5">
@@ -1786,13 +1784,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <label htmlFor="tour-website-btn-size-slider" className="text-white/50 uppercase r">Website Button Size</label>
                   <span className="text-[var(--color-accent)]">{websiteBtnFontSize}</span>
                 </div>
-                <input aria-label="Input field"
-                  id="tour-website-btn-size-slider"
-                  type="range"
-                  min="8"
-                  max="22"
-                  value={parseInt(websiteBtnFontSize) || 10}
-                  onChange={(e) => {
+                <input id="tour-website-btn-size-slider"
+ type="range"
+ min="8"
+ max="22"
+ value={parseInt(websiteBtnFontSize) || 10}
+ onChange={(e) => {
                     const v = `${e.target.value}px`;
                     setWebsiteBtnFontSize(v);
                     localStorage.setItem("7h_tour_website_btn_font_size", v);
@@ -1812,13 +1809,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <label htmlFor="tour-row-padding-slider" className="text-white/50 uppercase r">Row Padding</label>
                   <span className="text-[var(--color-accent)]">{tourRowPadding}</span>
                 </div>
-                <input aria-label="Input field"
-                  id="tour-row-padding-slider"
-                  type="range"
-                  min="0"
-                  max="40"
-                  value={parseInt(tourRowPadding) || 0}
-                  onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
+                <input id="tour-row-padding-slider"
+ type="range"
+ min="0"
+ max="40"
+ value={parseInt(tourRowPadding) || 0}
+ onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
                   className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
                 />
                 <div className="flex justify-between text-white/30 mt-0.5">
@@ -1834,13 +1830,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <label htmlFor="tour-row-spacing-slider" className="text-white/50 uppercase r">Row Spacing (Margin)</label>
                   <span className="text-[var(--color-accent)]">{tourRowGap}</span>
                 </div>
-                <input aria-label="Input field"
-                  id="tour-row-spacing-slider"
-                  type="range"
-                  min="0"
-                  max="30"
-                  value={parseInt(tourRowGap) || 0}
-                  onChange={(e) => setTourRowGap(`${e.target.value}px`)}
+                <input id="tour-row-spacing-slider"
+ type="range"
+ min="0"
+ max="30"
+ value={parseInt(tourRowGap) || 0}
+ onChange={(e) => setTourRowGap(`${e.target.value}px`)}
                   className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
                 />
                 <div className="flex justify-between text-white/30 mt-0.5">
@@ -1856,13 +1851,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <label htmlFor="tour-row-height-slider" className="text-white/50 uppercase r">Row Height</label>
                   <span className="text-[var(--color-accent)]">{tourRowHeight}</span>
                 </div>
-                <input aria-label="Input field"
-                  id="tour-row-height-slider"
-                  type="range"
-                  min="30"
-                  max="100"
-                  value={parseInt(tourRowHeight) || 40}
-                  onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
+                <input id="tour-row-height-slider"
+ type="range"
+ min="30"
+ max="100"
+ value={parseInt(tourRowHeight) || 40}
+ onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
                   className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
                 />
                 <div className="flex justify-between text-white/30 mt-0.5">
@@ -1877,10 +1871,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 <div className="flex items-center justify-between mb-3">
                   <label className="text-white uppercase r">Map Fade Mask</label>
                   <SquishyToggle
-                    id="map-fade-mask-toggle"
-                    label="Map Fade Mask"
-                    checked={mapMaskEnabled}
-                    onChange={(checked) => {
+ id="map-fade-mask-toggle"
+ label="Map Fade Mask"
+ checked={mapMaskEnabled}
+ onChange={(checked) => {
                       setMapMaskEnabled(checked);
                       localStorage.setItem("7h_tour_map_mask_enabled", String(checked));
                     }}
@@ -1895,13 +1889,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         <label htmlFor="map-mask-top-slider" className="text-white/50 uppercase r">Top Fade Clip</label>
                         <span className="text-[var(--color-accent)]">{mapMaskTop}px</span>
                       </div>
-                      <input aria-label="Input field"
-                        id="map-mask-top-slider"
-                        type="range"
-                        min="0"
-                        max="150"
-                        value={mapMaskTop}
-                        onChange={(e) => {
+                      <input id="map-mask-top-slider"
+ type="range"
+ min="0"
+ max="150"
+ value={mapMaskTop}
+ onChange={(e) => {
                           const val = parseInt(e.target.value, 10);
                           setMapMaskTop(val);
                           localStorage.setItem("7h_tour_map_mask_top", String(val));
@@ -1921,13 +1914,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         <label htmlFor="map-mask-bottom-slider" className="text-white/50 uppercase r">Bottom Fade Clip</label>
                         <span className="text-[var(--color-accent)]">{mapMaskBottom}px</span>
                       </div>
-                      <input aria-label="Input field"
-                        id="map-mask-bottom-slider"
-                        type="range"
-                        min="0"
-                        max="150"
-                        value={mapMaskBottom}
-                        onChange={(e) => {
+                      <input id="map-mask-bottom-slider"
+ type="range"
+ min="0"
+ max="150"
+ value={mapMaskBottom}
+ onChange={(e) => {
                           const val = parseInt(e.target.value, 10);
                           setMapMaskBottom(val);
                           localStorage.setItem("7h_tour_map_mask_bottom", String(val));
@@ -1947,13 +1939,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         <label htmlFor="map-mask-left-slider" className="text-white/50 uppercase r">Left Fade Clip</label>
                         <span className="text-[var(--color-accent)]">{mapMaskLeft}px</span>
                       </div>
-                      <input aria-label="Input field"
-                        id="map-mask-left-slider"
-                        type="range"
-                        min="0"
-                        max="150"
-                        value={mapMaskLeft}
-                        onChange={(e) => {
+                      <input id="map-mask-left-slider"
+ type="range"
+ min="0"
+ max="150"
+ value={mapMaskLeft}
+ onChange={(e) => {
                           const val = parseInt(e.target.value, 10);
                           setMapMaskLeft(val);
                           localStorage.setItem("7h_tour_map_mask_left", String(val));
@@ -1973,13 +1964,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         <label htmlFor="map-mask-right-slider" className="text-white/50 uppercase r">Right Fade Clip</label>
                         <span className="text-[var(--color-accent)]">{mapMaskRight}px</span>
                       </div>
-                      <input aria-label="Input field"
-                        id="map-mask-right-slider"
-                        type="range"
-                        min="0"
-                        max="150"
-                        value={mapMaskRight}
-                        onChange={(e) => {
+                      <input id="map-mask-right-slider"
+ type="range"
+ min="0"
+ max="150"
+ value={mapMaskRight}
+ onChange={(e) => {
                           const val = parseInt(e.target.value, 10);
                           setMapMaskRight(val);
                           localStorage.setItem("7h_tour_map_mask_right", String(val));
@@ -2003,8 +1993,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
               {/* Action buttons */}
               <div className="grid grid-cols-2 gap-3">
-                <button aria-label="Action button"
-                  onClick={() => {
+                <button
+ onClick={() => {
                     navigator.clipboard.writeText(`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`);
                     setCopied(true);
                     setTimeout(() => setCopied(false), 2000);
@@ -2012,8 +2002,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   className="py-2.5 bg-[#00000029] border border-white/10 hover:bg-white/10 rounded-lg text-white uppercase cursor-pointer transition-colors animate-all">
                   {copied ? "Copied! ✓" : "Copy CSS"}
                 </button>
-                <button aria-label="Action button"
-                  onClick={() => {
+                <button
+ onClick={() => {
                     localStorage.setItem("7h_tour_font_size", tourFontSize);
                     localStorage.setItem("7h_tour_font_family", tourFontFamily);
                     localStorage.setItem("7h_tour_row_padding", tourRowPadding);

@@ -175,11 +175,11 @@ export default function ProximityPanel() {
             <p className="mt-0.5">SMS & email alerts for nearby shows</p>
           </div>
           <SquishyToggle
-            id="proximity-notifications-toggle"
-            label="Enable proximity notifications"
-            checked={notificationsEnabled}
-            onChange={setNotificationsEnabled}
-          />
+ id="proximity-notifications-toggle"
+ label="Enable proximity notifications"
+ checked={notificationsEnabled}
+ onChange={setNotificationsEnabled}
+ />
         </div>
 
         {/* Zip + Radius */}
@@ -187,33 +187,33 @@ export default function ProximityPanel() {
           <div>
             <label htmlFor="proximity-zip-input" className="uppercase text-white mb-2 block">Your Zip Code</label>
             <GlowInput
-              id="proximity-zip-input"
-              aria-label="Your zip code"
-              type="text"
-              maxLength={5}
-              placeholder="60601"
-              value={zip}
-              onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
+ id="proximity-zip-input"
+ aria-label="Your zip code"
+ type="text"
+ maxLength={5}
+ placeholder="60601"
+ value={zip}
+ onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
 
             />
           </div>
           <div>
             <label htmlFor="proximity-radius-select" className="uppercase text-white mb-2 block">Radius</label>
             <CustomDropdown
-              id="proximity-radius-select"
-              ariaLabel="Radius"
-              value={radius}
-              options={RADIUS_OPTIONS.map(r => ({ value: r, label: `${r} miles` }))}
+ id="proximity-radius-select"
+ ariaLabel="Radius"
+ value={radius}
+ options={RADIUS_OPTIONS.map(r => ({ value: r, label: `${r} miles` }))}
               onChange={val => setRadius(val)}
             />
           </div>
         </div>
 
         <CosmicRadialButton
-          onClick={saveSettings}
-          disabled={saving || !zip || zip.length < 5}
-          icon={false}
-          className="w-full py-3 uppercase text-white cursor-pointer">
+ onClick={saveSettings}
+ disabled={saving || !zip || zip.length < 5}
+ icon={false}
+ className="w-full py-3 uppercase text-white cursor-pointer">
           {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
         </CosmicRadialButton>
       </div>
@@ -225,9 +225,9 @@ export default function ProximityPanel() {
             <span className="uppercase text-[var(--color-accent)]">
               Shows Within {radius} Miles
             </span>
-            <button aria-label="Action button"
-              onClick={fetchNearbyShows}
-              className="uppercase text-white/40 hover:text-white transition-colors">
+            <button
+ onClick={fetchNearbyShows}
+ className="uppercase text-white/40 hover:text-white transition-colors">
               Refresh
             </button>
           </div>
@@ -239,24 +239,24 @@ export default function ProximityPanel() {
           ) : nearbyShows.length === 0 ? (
             <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
               <p>No shows in your area yet.</p>
-              <p className="  ">We&apos;ll alert you the moment one is booked near you!</p>
+              <p className=" ">We&apos;ll alert you the moment one is booked near you!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
               {nearbyShows.map(show => (
                 <div
-                  key={show.id}
-                  className="p-4 bg-[#00000029] border border-white/10 hover:border-blue-500/40 transition-colors group">
+ key={show.id}
+ className="p-4 bg-[#00000029] border border-white/10 hover:border-blue-500/40 transition-colors group">
                   <div className="flex items-center justify-between">
                     <button
-                      type="button"
-                      onClick={() => loadAttendees(show)}
+ type="button"
+ onClick={() => loadAttendees(show)}
                       className="flex items-center gap-4 text-left cursor-pointer flex-1">
                       <div className="flex flex-col items-center justify-center w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-lg shrink-0">
                         <span className="text-blue-400 uppercase">
                           {new Date(show.date + "T12:00:00").toLocaleDateString("en-US", { month: "short" })}
                         </span>
-                        <span className="text-lg text-white   ">
+                        <span className="text-lg text-white ">
                           {new Date(show.date + "T12:00:00").getDate()}
                         </span>
                       </div>
@@ -268,9 +268,9 @@ export default function ProximityPanel() {
                         <p className="text-blue-400 mt-0.5">{show.distanceMiles} miles away</p>
                       </div>
                     </button>
-                    <button aria-label="Action button"
-                      type="button"
-                      onClick={e => { e.stopPropagation(); toggleGoing(show); }}
+                    <button
+ type="button"
+ onClick={e => { e.stopPropagation(); toggleGoing(show); }}
                       className={`px-4 py-2    uppercase rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ? "bg-blue-600 text-white border-blue-600"
                         : "bg-white/10 text-white border-white/10 hover:bg-blue-500 hover:text-black hover:border-blue-500"
                         }`}>
@@ -287,14 +287,14 @@ export default function ProximityPanel() {
                         </p>
                         <div className="flex items-center gap-2">
                           <a
-                            href={show.showPageUrl || `/shows/${show.id}`}
-                            className="uppercase text-blue-400 hover:text-white transition-colors">
+ href={show.showPageUrl || `/shows/${show.id}`}
+ className="uppercase text-blue-400 hover:text-white transition-colors">
                             View Show Page →
                           </a>
                           <span className="text-white/20">·</span>
                           <a
-                            href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
-                            className="uppercase text-white/40 hover:text-white transition-colors">
+ href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
+ className="uppercase text-white/40 hover:text-white transition-colors">
                             Share
                           </a>
                         </div>
@@ -312,7 +312,7 @@ export default function ProximityPanel() {
                               </div>
                               <span className="text-black/70 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>
                               {a.profiles?.tier && a.profiles.tier !== "Bronze" && (
-                                <span className={`text-[var(--font-size-2xs)]    uppercase ${tierColors[a.profiles.tier]}`}>
+                                <span className={`text-[var(--font-size-2xs)] uppercase ${tierColors[a.profiles.tier]}`}>
                                   {a.profiles.tier}
                                 </span>
                               )}

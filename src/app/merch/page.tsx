@@ -9,7 +9,6 @@ import { useMember } from '@/context/MemberContext';
 import { supabase } from '@/lib/supabase-client';
 
 
-
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface PickupOrder {
   id: number;
@@ -245,7 +244,7 @@ function MerchDashboard() {
         <span className="text-5xl block mb-4">🔐</span>
         <h2 className="text-white uppercase mb-2">Merch Login Required</h2>
         <p className="mb-6">Sign in with your merch team account.</p>
-        <button aria-label="Action button" onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors">Sign In</button>
+        <button onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors">Sign In</button>
       </div>
     </div>
   );

@@ -168,7 +168,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const scheme = COLOR_SCHEMES[data.system || "pink"];
 
   return (
-    <div className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white    shadow-2xlbackdrop-blur-[18px] cursor-pointer transition duration-300`}>
+    <div className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} p-4 w-72 text-center text-white shadow-2xlbackdrop-blur-[18px] cursor-pointer transition duration-300`}>
       <div className="flex items-center justify-between gap-1 border-b border-white/10 pb-1.5 mb-2">
         <span className="px-2.5 py-0.5 rounded-lg bg-black/40 text-[12px]">
           ROOT 0.0
@@ -181,7 +181,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
         <Globe className="w-5 h-5" />
         <span>Home Page (/)</span>
       </h2>
-      <p className="font-normal   ">
+      <p className="font-normal ">
         7th Heaven Official Band Website Root Entry
       </p>
       <Handle type="source" position={Position.Bottom} className="!w-3.5 !h-3.5 !bg-cyan-300 !border-2 !border-black" />
@@ -199,7 +199,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
       <Handle type="target" position={Position.Top} className="!w-3 !h-3 !bg-purple-400 !border-2 !border-black" />
 
       <div className="flex items-center justify-between gap-1 mb-1.5 border-b border-white/10 pb-1.5">
-        <span className={`px-2 py-0.5 rounded text-[12px]    uppercase ${scheme.badge}`}>
+        <span className={`px-2 py-0.5 rounded text-[12px] uppercase ${scheme.badge}`}>
           HEADER NAV
         </span>
         <span className={`w-2 h-2 rounded-lg ${scheme.dot}`} />
@@ -259,8 +259,8 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-1   ">
-            <span className={`px-1.5 py-0.5 rounded text-[9px]    uppercase ${scheme.badge}`}>
+          <div className="flex items-center justify-between gap-1 ">
+            <span className={`px-1.5 py-0.5 rounded text-[9px] uppercase ${scheme.badge}`}>
               {data.kind.toUpperCase()}
             </span>
             <span className={`w-1.5 h-1.5 rounded-lg ${scheme.dot}`} />
@@ -491,7 +491,7 @@ export default function UserFlowMap() {
   }, []);
 
   return (
-    <div className="relative w-full h-[850px] rounded-lg border border-purple-500/30 bg-[#050505] overflow-hidden   backdrop-blur-[45px]">
+    <div className="relative w-full h-[850px] rounded-lg border border-purple-500/30 bg-[#050505] overflow-hidden backdrop-blur-[45px]">
 
       {/* Header Info Bar */}
       <div className="absolute top-0 left-0 right-0 z-10 bg-black/90 backdrop-blur-[45px] border-b border-white/10 px-4 py-2.5 flex items-center justify-between pointer-events-none select-none">
@@ -509,21 +509,21 @@ export default function UserFlowMap() {
 
       {/* React Flow Canvas Engine */}
       <ReactFlow
-        nodes={flowNodes}
-        edges={flowEdges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onNodeClick={onNodeClick}
-        nodeTypes={nodeTypes}
-        fitView
-        fitViewOptions={{ padding: 0.08 }}
-        colorMode="dark"
-        className="pt-10">
+ nodes={flowNodes}
+ edges={flowEdges}
+ onNodesChange={onNodesChange}
+ onEdgesChange={onEdgesChange}
+ onNodeClick={onNodeClick}
+ nodeTypes={nodeTypes}
+ fitView
+ fitViewOptions={{ padding: 0.08 }}
+ colorMode="dark"
+ className="pt-10">
         <Background color="#1e1b4b" gap={20} size={1} />
         <Controls className="!bg-black/80 ! border-white/10 !text-white ! rounded-lg overflow-hidden" />
         <MiniMap
-          style={{ height: 110, width: 160 }}
-          nodeColor={(n) => {
+ style={{ height: 110, width: 160 }}
+ nodeColor={(n) => {
             const d = n.data as FlowNodeData;
             return d.system === "pink"
               ? "#ec4899"
@@ -568,7 +568,7 @@ export default function UserFlowMap() {
                 <span className="px-2 py-0.5 rounded bg- purple-white/20 text-purple-300 text-[12px] uppercase r">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
-                <h3 className="uppercase text-white   ">
+                <h3 className="uppercase text-white ">
                   {selectedNode.data.label}
                 </h3>
                 <code className="block mt-0.5">
@@ -576,7 +576,7 @@ export default function UserFlowMap() {
                 </code>
               </div>
               <button
-                onClick={() => setSelectedNode(null)}
+ onClick={() => setSelectedNode(null)}
                 className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white hover:text-white hover:bg-white/20 transition">
                 <X className="w-4 h-4" />
               </button>
@@ -609,14 +609,14 @@ export default function UserFlowMap() {
           <div className="pt-4 border-t border-white/10 flex items-center justify-between">
             {selectedNode.data.sub.startsWith("/") ? (
               <button
-                onClick={() => router.push(selectedNode.data.sub.split("?")[0])}
-                className="w-full py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white uppercase transition flex items-center justify-center gap-2   ">
+ onClick={() => router.push(selectedNode.data.sub.split("?")[0])}
+                className="w-full py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white uppercase transition flex items-center justify-center gap-2 ">
                 <span>Visit Route ({selectedNode.data.sub.split("?")[0]})</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             ) : (
               <button
-                onClick={() => setSelectedNode(null)}
+ onClick={() => setSelectedNode(null)}
                 className="w-full py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 uppercase transition">
                 Close Inspector
               </button>

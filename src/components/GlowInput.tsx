@@ -30,12 +30,12 @@ export const GlowInput = forwardRef<HTMLInputElement, GlowInputProps>(
   ) => {
     return (
       <InputField
-        ref={ref}
-        glow={true}
-        containerClassName={wrapperClassName}
-        inputClassName={`${rounded} ${className}`}
-        {...props}
-      />
+ ref={ref}
+ glow={true}
+ containerClassName={wrapperClassName}
+ inputClassName={`${rounded} ${className}`}
+ {...props}
+ />
     );
   }
 );
@@ -60,8 +60,8 @@ export function GlowSelect({
   return (
     <div className={`input-glow-border ${rounded} ${wrapperClassName} relative`}>
       <select
-        {...props}
-        className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white px-4 py-2.5 pr-10 outline-none transition-[border-color,background-color,box-shadow] cursor-pointer appearance-none ${className}`}>
+ {...props}
+ className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white px-4 py-2.5 pr-10 outline-none transition-[border-color,background-color,box-shadow] cursor-pointer appearance-none ${className}`}>
         {children}
       </select>
       <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -89,9 +89,9 @@ export function GlowTextarea({
   return (
     <div className={`input-glow-border ${rounded} ${wrapperClassName}`}>
       <textarea
-        {...props}
-        className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white placeholder:text-white/40 px-4 py-2.5 outline-none transition-[border-color,background-color,box-shadow] resize-y ${className}`}
-      />
+ {...props}
+ className={`w-full bg-[#00000029] border border-white/10 ${rounded} text-white placeholder:text-white/40 px-4 py-2.5 outline-none transition-[border-color,background-color,box-shadow] resize-y ${className}`}
+ />
     </div>
   );
 }

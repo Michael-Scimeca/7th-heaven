@@ -88,9 +88,9 @@ export default function PushSubscribeModal({
       <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0a1a] p-6 sm:p-8 text-white shadow-2xl">
         {/* Close Button */}
         <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1 rounded-lg bg-[#00000029] hover:bg-white/10">
+ type="button"
+ onClick={onClose}
+ className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1 rounded-lg bg-[#00000029] hover:bg-white/10">
           <X className="w-5 h-5" />
         </button>
 
@@ -126,10 +126,10 @@ export default function PushSubscribeModal({
                 <div className="relative w-full">
                   <div className="input-glow-border rounded-lg w-full">
                     <input
-                      type="text"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+ type="text"
+ required
+ value={name}
+ onChange={(e) => setName(e.target.value)}
                       placeholder="Michael Scimeca"
                       className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                     />
@@ -147,10 +147,10 @@ export default function PushSubscribeModal({
                 <div className="relative w-full">
                   <div className="input-glow-border rounded-lg w-full">
                     <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+ type="email"
+ required
+ value={email}
+ onChange={(e) => setEmail(e.target.value)}
                       placeholder="michael@example.com"
                       className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                     />
@@ -164,10 +164,10 @@ export default function PushSubscribeModal({
               {/* Legal Terms of Service & Privacy Policy Toggle */}
               <div className="flex items-center gap-3 pt-1 pb-1">
                 <SquishyToggle
-                  id="modal-terms-toggle"
-                  label="I agree to the Terms of Service & Privacy Policy"
-                  checked={agreedToTerms}
-                  onChange={(checked) => setAgreedToTerms(checked)}
+ id="modal-terms-toggle"
+ label="I agree to the Terms of Service & Privacy Policy"
+ checked={agreedToTerms}
+ onChange={(checked) => setAgreedToTerms(checked)}
                 />
                 <label htmlFor="modal-terms-toggle" className="text-gray-300/90 leading-normal cursor-pointer select-none">
                   I agree to the{" "}
@@ -184,9 +184,9 @@ export default function PushSubscribeModal({
 
               <div className="pt-2">
                 <CosmicRadialButton
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-3.5 text-white uppercase flex items-center justify-center gap-2">
+ type="submit"
+ disabled={loading}
+ className="w-full py-3.5 text-white uppercase flex items-center justify-center gap-2">
                   {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS "}
                 </CosmicRadialButton>
               </div>
@@ -200,7 +200,7 @@ export default function PushSubscribeModal({
           </div>
         ) : (
           <div className="py-6 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-4   ">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-4 ">
               <Check className="w-8 h-8" />
             </div>
             <h3 className="text-white mb-2">You&apos;re Subscribed! 🔔</h3>
@@ -209,9 +209,9 @@ export default function PushSubscribeModal({
             </p>
 
             <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white uppercase rounded-lg transition-colors">
+ type="button"
+ onClick={onClose}
+ className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white uppercase rounded-lg transition-colors">
               DONE
             </button>
           </div>

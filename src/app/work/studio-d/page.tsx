@@ -66,44 +66,44 @@ export default function StudioDPage() {
       {/* Full-bleed Hero Media Container */}
       <div className="relative h-screen w-full overflow-hidden flex items-end">
         <div
-          ref={heroImageRef}
-          className="absolute inset-0 w-full h-full transform-gpu">
+ ref={heroImageRef}
+ className="absolute inset-0 w-full h-full transform-gpu">
           <Image
-            src="/images/hero-banner.png"
-            alt="Studio D - Urban and Landscape Design"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center brightness-90"
-          />
+ src="/images/hero-banner.png"
+ alt="Studio D - Urban and Landscape Design"
+ fill
+ priority
+ sizes="100vw"
+ className="object-cover object-center brightness-90"
+ />
           {/* Subtle gradient vignette overlay */}
           <div className="absolute inset-0" />
         </div>
 
         {/* Hero Content Overlay (Positioned exactly like Exo Ape Studio D) */}
         <div
-          ref={heroContentRef}
-          className="relative z-10 w-full site-container pb-16 sm:pb-24 flex flex-col md:flex-row md:items-end justify-between gap-6">
+ ref={heroContentRef}
+ className="relative z-10 w-full site-container pb-16 sm:pb-24 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-2 max-w-3xl">
             {/* Giant Title matching Exo Ape Studio D */}
             <ExoTextReveal
-              as="h1"
-              className="text-6xl sm:text-8xl md:text-9xl font-light text-white      "
-              duration={1.2}
-              stagger={0.1}>
+ as="h1"
+ className="text-6xl sm:text-8xl md:text-9xl font-light text-white "
+ duration={1.2}
+ stagger={0.1}>
               Studio D
             </ExoTextReveal>
-            <p className="text-base sm:text-lg text-white/80   ">
+            <p className="text-base sm:text-lg text-white/80 ">
               Urban and Landscape Design
             </p>
           </div>
 
           <div className="pt-4 md:pt-0">
             <a
-              href="https://7thheavenband.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 text-sm sm:text-base text-white hover:text-purple-300 transition-colors border-b border-white/60 hover:border-purple-300 pb-0.5">
+ href="https://7thheavenband.com"
+ target="_blank"
+ rel="noopener noreferrer"
+ className="group inline-flex items-center gap-2 text-sm sm:text-base text-white hover:text-purple-300 transition-colors border-b border-white/60 hover:border-purple-300 pb-0.5">
               <span>Visit website</span>
               <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
@@ -122,7 +122,7 @@ export default function StudioDPage() {
               Landscape Architecture & Design Universe
             </h2>
           </div>
-          <div className="md:col-span-8 space-y-6 text-lg text-white/80   ">
+          <div className="md:col-span-8 space-y-6 text-lg text-white/80 ">
             <p>
               Studio D is a visionary design concept bringing harmony between urban architecture and natural landscapes. Our work integrates interactive media, pop rock energy, and immersive visual storytelling.
             </p>
@@ -135,8 +135,8 @@ export default function StudioDPage() {
         {/* Seamless Next Case Study Page Transition Banner */}
         <div className="pt-16 border-t border-white/10 text-center">
           <TransitionLink
-            href="/rock-and-roll-kids"
-            className="group block relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 border border-purple-500/20 p-10 sm:p-16 hover:border-purple-400/50 transition-all transform-gpu hover:scale-[1.01]">
+ href="/rock-and-roll-kids"
+ className="group block relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 border border-purple-500/20 p-10 sm:p-16 hover:border-purple-400/50 transition-all transform-gpu hover:scale-[1.01]">
             <span className="text-xs tracking-[0.3em] uppercase block mb-3">
               Next Project
             </span>

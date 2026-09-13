@@ -50,39 +50,39 @@ export default function CruiseHeroSection({
 
   return (
     <section
-      id="cruise-hero"
-      className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-8 md:pb-16 text-white min-h-[35vh] md:min-h-[36vh] lg:min-h-[620px] site-container">
+ id="cruise-hero"
+ className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-8 md:pb-16 text-white min-h-[35vh] md:min-h-[36vh] lg:min-h-[620px] site-container">
       {/* Full-bleed background video & image mask wrapper */}
       <div
-        className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#05030a]"
-        style={{
-          marginLeft: "calc(-1 * var(--page-padding-x))",
-          marginRight: "calc(-1 * var(--page-padding-x))",
-          width: "calc(100% + 2 * var(--page-padding-x))",
-          bottom: "-12px",
-          maskImage: maskImageGradient,
-          WebkitMaskImage: maskImageGradient,
-          maskRepeat: "no-repeat",
-          WebkitMaskRepeat: "no-repeat",
-          maskSize: "100% 100%",
-          WebkitMaskSize: "100% 100%",
-          WebkitMaskClip: "border-box",
-          maskClip: "border-box",
-        }}>
+ className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#05030a]"
+ style={{
+ marginLeft: "calc(-1 * var(--page-padding-x))",
+ marginRight: "calc(-1 * var(--page-padding-x))",
+ width: "calc(100% + 2 * var(--page-padding-x))",
+ bottom: "-12px",
+ maskImage: maskImageGradient,
+ WebkitMaskImage: maskImageGradient,
+ maskRepeat: "no-repeat",
+ WebkitMaskRepeat: "no-repeat",
+ maskSize: "100% 100%",
+ WebkitMaskSize: "100% 100%",
+ WebkitMaskClip: "border-box",
+ maskClip: "border-box",
+ }}>
         <video
-          ref={videoRef}
-          poster={posterUrl}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="w-full h-full object-cover bg-[#05030a]"
-          style={{
-            objectPosition: "center 40%",
-            transform: "scale(1.02)",
-            transformOrigin: "center center",
-          }}>
+ ref={videoRef}
+ poster={posterUrl}
+ autoPlay
+ loop
+ muted
+ playsInline
+ preload="auto"
+ className="w-full h-full object-cover bg-[#05030a]"
+ style={{
+ objectPosition: "center 40%",
+ transform: "scale(1.02)",
+ transformOrigin: "center center",
+ }}>
           <source src={mobileVideoUrl} media="(max-width: 767px)" type="video/mp4" />
           <source src={desktopVideoUrl} media="(min-width: 768px)" type="video/mp4" />
           <track kind="captions" />
@@ -91,10 +91,10 @@ export default function CruiseHeroSection({
         {/* Brightness dimming overlay */}
         {dimOpacity > 0 && (
           <div
-            aria-hidden="true"
-            className="absolute inset-0 pointer-events-none z-20 bg-black"
-            style={{ opacity: dimOpacity }}
-          />
+ aria-hidden="true"
+ className="absolute inset-0 pointer-events-none z-20 bg-black"
+ style={{ opacity: dimOpacity }}
+ />
         )}
       </div>
 
@@ -103,8 +103,8 @@ export default function CruiseHeroSection({
 
       {/* Hero Text Content — aligned with site-container */}
       <div
-        ref={heroForegroundRef}
-        className="relative z-10 text-left mb-4">
+ ref={heroForegroundRef}
+ className="relative z-10 text-left mb-4">
         {/* Chicago Music Cruise Official Branding Badges & Social Links */}
         <div className="flex flex-wrap items-center gap-2.5 mb-4">
           <SectionBadge label={subheading} />

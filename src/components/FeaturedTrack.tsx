@@ -242,7 +242,6 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
   };
 
 
-
   if (loading) return null; // Wait for fetch
 
   if (!track && !locked) return null; // No active drop
@@ -262,14 +261,14 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
             <div className="w-11 h-11 rounded-lg bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
               <p className="truncate">Exclusive Fan Drop</p>
-              <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--color-accent)] hover:text-white uppercase transition-colors cursor-pointer mt-0.5">Login to unlock</button>
+              <button type="button" onClick={() => openModal('login')} className="text-[var(--color-accent)] hover:text-white uppercase transition-colors cursor-pointer mt-0.5">Login to unlock</button>
             </div>
           </div>
         ) : (
           <>
             <div className="flex items-center gap-2.5">
               {/* Mini vinyl */}
-              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative w-11 h-11 shrink-0 rounded-lg border border-white/10 flex items-center justify-center cursor-pointer group overflow-hidden">
+              <button type="button" onClick={togglePlay} className="relative w-11 h-11 shrink-0 rounded-lg border border-white/10 flex items-center justify-center cursor-pointer group overflow-hidden">
                 <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
                 <div className="relative z-10 w-4 h-4 rounded-lg bg-black/80 flex items-center justify-center">
                   {isPlaying ? (
@@ -294,19 +293,19 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
               <div className="flex items-end gap-1 h-[16px] shrink-0">
                 {[...Array(5)].map((_, i) => (
                   <div
-                    key={i}
-                    className="w-[2px] rounded-lg bg-[var(--color-accent)]/80"
-                    style={{
-                      animationName: isPlaying ? 'eqBarShort' : 'none',
-                      animationDuration: `${MINI_EQ_DURATIONS[i % MINI_EQ_DURATIONS.length]}s`,
-                      animationTimingFunction: 'ease-in-out',
-                      animationIterationCount: 'infinite',
-                      animationDirection: 'alternate',
-                      animationDelay: `${i * 0.05}s`,
-                      height: isPlaying ? '14px' : '4px',
-                      transformOrigin: 'bottom',
-                    }}
-                  />
+ key={i}
+ className="w-[2px] rounded-lg bg-[var(--color-accent)]/80"
+ style={{
+ animationName: isPlaying ? 'eqBarShort' : 'none',
+ animationDuration: `${MINI_EQ_DURATIONS[i % MINI_EQ_DURATIONS.length]}s`,
+ animationTimingFunction: 'ease-in-out',
+ animationIterationCount: 'infinite',
+ animationDirection: 'alternate',
+ animationDelay: `${i * 0.05}s`,
+ height: isPlaying ? '14px' : '4px',
+ transformOrigin: 'bottom',
+ }}
+ />
                 ))}
               </div>
             </div>
@@ -315,18 +314,17 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
             <div className="mt-2 flex items-center gap-2">
               <span className="text-[var(--font-size-5xs)] text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
               <div className="relative flex-1 h-[2px] bg-white/10 rounded-lg">
-                <input aria-label="Input field"
-                  type="range"
-                  min="0"
-                  max={duration || 100}
-                  value={currentTime}
-                  onChange={handleSeek}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                />
+                <input type="range"
+ min="0"
+ max={duration || 100}
+ value={currentTime}
+ onChange={handleSeek}
+ className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+ />
                 <div
-                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
-                  style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-                />
+ className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
+ style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+ />
               </div>
               <span className="text-[var(--font-size-5xs)] text-white/30 min-w-[22px] text-right">{duration ? formatTime(duration) : '0:00'}</span>
             </div>
@@ -337,10 +335,10 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                 {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                   const isActive = idx === currentSongIndex;
                   return (
-                    <button aria-label="Action button"
-                      key={song.id || song.title}
-                      type="button"
-                      onClick={() => {
+                    <button
+ key={song.id || song.title}
+ type="button"
+ onClick={() => {
                         setCurrentSongIndex(idx);
                         setIsPlaying(true);
                       }}
@@ -377,15 +375,15 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
     <section className="relative py-16 bg-[var(--color-bg-primary)] border-y border-white/10 overflow-hidden">
       {/* Visual background lights */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-lg opacity-[0.08] blur-[120px] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
-      />
+ style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
+ />
 
       <div className="site-container relative z-10">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-3 mb-6 justify-center">
             <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)] animate-ping" />
-            <span className="uppercase  text-[var(--color-accent)]">Latest Track Drop</span>
+            <span className="uppercase text-[var(--color-accent)]">Latest Track Drop</span>
           </div>
 
           {locked ? (
@@ -401,15 +399,15 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                 The band dropped an exclusive new song or soundtrack just for our registered fans. Sign in or sign up free to unlock listening!
               </p>
               <div className="flex justify-center gap-4">
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={() => openModal('login')}
-                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg  cursor-pointer">
+                <button
+ type="button"
+ onClick={() => openModal('login')}
+                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg cursor-pointer">
                   Log In
                 </button>
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={() => openModal('signup')}
+                <button
+ type="button"
+ onClick={() => openModal('signup')}
                   className="px-8 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white uppercase rounded-lg cursor-pointer">
                   Join Fan Club
                 </button>
@@ -437,7 +435,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                     {track.title}
                   </h4>
                   {currentSong && (
-                    <p className="font-semibold   .5 flex items-center gap-1.5 justify-center md:justify-start">
+                    <p className="font-semibold .5 flex items-center gap-1.5 justify-center md:justify-start">
                       <span className="w-1.5 h-1.5 rounded-lg bg-cyan-400 animate-ping" />
                       Now Playing: <span className="text-white/80">{currentSong.title}</span>
                     </p>
@@ -448,21 +446,21 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                 <div className="flex items-end gap-[3px] h-[30px] shrink-0">
                   {[...Array(8)].map((_, i) => (
                     <div
-                      key={i}
-                      className={`w-[3px] rounded-lg transition-colors duration-300 ${isCompressorActive ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]'
-                        : 'bg-[var(--color-accent)]/80'
-                        }`}
-                      style={{
-                        animationName: isPlaying ? 'eqBarShort' : 'none',
-                        animationDuration: `${isCompressorActive ? MAIN_EQ_ACTIVE[i % MAIN_EQ_ACTIVE.length] : MAIN_EQ_NORMAL[i % MAIN_EQ_NORMAL.length]}s`,
-                        animationTimingFunction: 'ease-in-out',
-                        animationIterationCount: 'infinite',
-                        animationDirection: 'alternate',
-                        animationDelay: `${i * 0.05}s`,
-                        height: isPlaying ? '24px' : '6px',
-                        transformOrigin: 'bottom',
-                      }}
-                    />
+ key={i}
+ className={`w-[3px] rounded-lg transition-colors duration-300 ${isCompressorActive ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]'
+ : 'bg-[var(--color-accent)]/80'
+ }`}
+ style={{
+ animationName: isPlaying ? 'eqBarShort' : 'none',
+ animationDuration: `${isCompressorActive ? MAIN_EQ_ACTIVE[i % MAIN_EQ_ACTIVE.length] : MAIN_EQ_NORMAL[i % MAIN_EQ_NORMAL.length]}s`,
+ animationTimingFunction: 'ease-in-out',
+ animationIterationCount: 'infinite',
+ animationDirection: 'alternate',
+ animationDelay: `${i * 0.05}s`,
+ height: isPlaying ? '24px' : '6px',
+ transformOrigin: 'bottom',
+ }}
+ />
                   ))}
                 </div>
               </div>
@@ -474,17 +472,16 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                 </span>
 
                 <div className="relative flex-1 h-[4px] bg-white/10 rounded-lg group">
-                  <input aria-label="Input field"
-                    type="range"
-                    min="0"
-                    max={duration || 100}
-                    value={currentTime}
-                    onChange={handleSeek}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                  />
+                  <input type="range"
+ min="0"
+ max={duration || 100}
+ value={currentTime}
+ onChange={handleSeek}
+ className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+ />
                   <div
-                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
-                    style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}>
+ className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
+ style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}>
                     <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-lg shadow-[0_0_10px_rgba(255,255,255,0.6)] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
@@ -498,10 +495,10 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
               <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-6 pt-4 border-t border-white/5">
                 {/* Play, Prev, Next */}
                 <div className="flex items-center gap-6">
-                  <button aria-label="Action button"
-                    type="button"
-                    onClick={togglePlay}
-                    className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center active:scale-95 transition-colors cursor-pointer">
+                  <button
+ type="button"
+ onClick={togglePlay}
+ className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center active:scale-95 transition-colors cursor-pointer">
                     {isPlaying ? (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                     ) : (
@@ -517,13 +514,13 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   )}
 
                   {/* Real-time Dynamic Mastering Compressor */}
-                  <button aria-label="Action button"
-                    type="button"
-                    onClick={toggleCompressor}
-                    className={`text-[0.65rem] uppercase    flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
-                      : 'bg-white/[0.02] border-white/10 text-white/40 hover:text-white/70 hover:border-white/10'
-                      }`}
-                    title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response">
+                  <button
+ type="button"
+ onClick={toggleCompressor}
+ className={`text-[0.65rem] uppercase flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
+ : 'bg-white/[0.02] border-white/10 text-white/40 hover:text-white/70 hover:border-white/10'
+ }`}
+ title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response">
                     <span className={`w-1.5 h-1.5 rounded-lg ${isCompressorActive ? 'bg-cyan-400 animate-pulse' : 'bg-white/20'}`} />
                     Mastering Compressor {isCompressorActive ? 'ON ⚡' : 'OFF'}
                   </button>
@@ -531,7 +528,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
                 {/* Volume bar */}
                 <div className="flex items-center gap-3 w-36">
-                  <button aria-label="Action button" type="button" onClick={toggleMute} className="text-white/45 hover:text-white transition-colors cursor-pointer">
+                  <button type="button" onClick={toggleMute} className="text-white/45 hover:text-white transition-colors cursor-pointer">
                     {volume === 0 ? (
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
                     ) : volume < 0.5 ? (
@@ -542,19 +539,18 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   </button>
 
                   <div className="relative flex-1 h-[3px] bg-white/10 rounded-lg">
-                    <input aria-label="Input field"
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.05"
-                      value={volume}
-                      onChange={(e) => setVolume(Number(e.target.value))}
+                    <input type="range"
+ min="0"
+ max="1"
+ step="0.05"
+ value={volume}
+ onChange={(e) => setVolume(Number(e.target.value))}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     />
                     <div
-                      className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-lg"
-                      style={{ width: `${volume * 100}%` }}
-                    />
+ className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-lg"
+ style={{ width: `${volume * 100}%` }}
+ />
                   </div>
                 </div>
               </div>
@@ -567,10 +563,10 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                     {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                       const isActive = idx === currentSongIndex;
                       return (
-                        <button aria-label="Action button"
-                          type="button"
-                          key={song.id || song.title}
-                          onClick={() => {
+                        <button
+ type="button"
+ key={song.id || song.title}
+ onClick={() => {
                             setCurrentSongIndex(idx);
                             setIsPlaying(true);
                           }}
@@ -578,10 +574,10 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                             : '   border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
                             }`}>
                           <div className="flex items-center gap-3.5 min-w-0">
-                            <span className={`    w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
+                            <span className={` w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
                               {isActive ? '▶' : String(idx + 1).padStart(2, '0')}
                             </span>
-                            <span className={`  truncate ${isActive ? '  ' : ''}`}>{song.title}</span>
+                            <span className={` truncate ${isActive ? ' ' : ''}`}>{song.title}</span>
                           </div>
                           <div className="flex items-center gap-3 shrink-0">
                             {isActive && isPlaying && (

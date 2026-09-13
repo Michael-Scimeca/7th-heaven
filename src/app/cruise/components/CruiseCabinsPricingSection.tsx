@@ -150,15 +150,15 @@ function CruiseCabinsPricingSectionComponent({
             {/* Pricing Year Toggle */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 justify-start mt-8">
               <FoolishShrimpButton
-                type="button"
-                onClick={() => setActivePriceYear(2027)}
+ type="button"
+ onClick={() => setActivePriceYear(2027)}
                 isActive={activePriceYear === 2027}
                 className="!w-auto px-6 py-2.5">
                 2027 Star of the Seas (7-Night)
               </FoolishShrimpButton>
               <FoolishShrimpButton
-                type="button"
-                onClick={() => setActivePriceYear(2028)}
+ type="button"
+ onClick={() => setActivePriceYear(2028)}
                 isActive={activePriceYear === 2028}
                 className="!w-auto px-6 py-2.5">
                 2028 Legend of the Seas (8-Night)
@@ -179,8 +179,8 @@ function CruiseCabinsPricingSectionComponent({
                 <ul className="space-y-2 uppercase text-white">
                   <li>
                     <FoolishShrimpButton
-                      type="button"
-                      onClick={(e) => {
+ type="button"
+ onClick={(e) => {
                         (e.currentTarget as HTMLElement).blur();
                         window.open("https://en.wikipedia.org/wiki/Star_of_the_Seas", "_blank", "noopener,noreferrer");
                       }}
@@ -191,8 +191,8 @@ function CruiseCabinsPricingSectionComponent({
                   </li>
                   <li>
                     <FoolishShrimpButton
-                      type="button"
-                      onClick={(e) => {
+ type="button"
+ onClick={(e) => {
                         (e.currentTarget as HTMLElement).blur();
                         window.open("https://www.royalcaribbean.com/cruise-ships/star-of-the-seas", "_blank", "noopener,noreferrer");
                       }}
@@ -203,8 +203,8 @@ function CruiseCabinsPricingSectionComponent({
                   </li>
                   <li>
                     <FoolishShrimpButton
-                      type="button"
-                      onClick={(e) => {
+ type="button"
+ onClick={(e) => {
                         (e.currentTarget as HTMLElement).blur();
                         window.open("https://www.chicagomusiccruise.com/assets/staroftheseasdeckplanjan2026.jpg", "_blank", "noopener,noreferrer");
                       }}
@@ -215,8 +215,8 @@ function CruiseCabinsPricingSectionComponent({
                   </li>
                   <li>
                     <FoolishShrimpButton
-                      type="button"
-                      onClick={(e) => {
+ type="button"
+ onClick={(e) => {
                         (e.currentTarget as HTMLElement).blur();
                         window.open("https://youtu.be/SOf67Ysk04U?si=bduc0EEkLhYFD7GH", "_blank", "noopener,noreferrer");
                       }}
@@ -227,8 +227,8 @@ function CruiseCabinsPricingSectionComponent({
                   </li>
                   <li>
                     <FoolishShrimpButton
-                      type="button"
-                      onClick={(e) => {
+ type="button"
+ onClick={(e) => {
                         (e.currentTarget as HTMLElement).blur();
                         window.open("https://www.chicagomusiccruise.com/assets/star-of-the-seas_cruisecompass-basic.pdf", "_blank", "noopener,noreferrer");
                       }}
@@ -239,8 +239,8 @@ function CruiseCabinsPricingSectionComponent({
                   </li>
                   <li>
                     <FoolishShrimpButton
-                      type="button"
-                      onClick={(e) => {
+ type="button"
+ onClick={(e) => {
                         (e.currentTarget as HTMLElement).blur();
                         window.open("https://youtu.be/0LxUHSdFDtY", "_blank", "noopener,noreferrer");
                       }}
@@ -251,8 +251,8 @@ function CruiseCabinsPricingSectionComponent({
                   </li>
                   <li>
                     <FoolishShrimpButton
-                      type="button"
-                      onClick={(e) => {
+ type="button"
+ onClick={(e) => {
                         (e.currentTarget as HTMLElement).blur();
                         window.open("https://youtu.be/6xCQ4xE7L38", "_blank", "noopener,noreferrer");
                       }}
@@ -263,19 +263,19 @@ function CruiseCabinsPricingSectionComponent({
                   </li>
                   <li>
                     <a
-                      href="https://www.facebook.com/chicagomusiccruise/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3.5 py-1.5 rounded-full bg-blue-600/40 hover:bg-blue-600 !text-white uppercase transition-all flex items-center gap-1 border border-blue-400/40">
+ href="https://www.facebook.com/chicagomusiccruise/"
+ target="_blank"
+ rel="noopener noreferrer"
+ className="px-3.5 py-1.5 rounded-full bg-blue-600/40 hover:bg-blue-600 !text-white uppercase transition-all flex items-center gap-1 border border-blue-400/40">
                       <span>Facebook</span>
                     </a>
                   </li>
                   <li>
                     <a
-                      href="https://www.instagram.com/chicagomusiccruise"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3.5 py-1.5 rounded-full bg-pink-600/40 hover:bg-pink-600 !text-white uppercase transition-all flex items-center gap-1 border border-pink-400/40">
+ href="https://www.instagram.com/chicagomusiccruise"
+ target="_blank"
+ rel="noopener noreferrer"
+ className="px-3.5 py-1.5 rounded-full bg-pink-600/40 hover:bg-pink-600 !text-white uppercase transition-all flex items-center gap-1 border border-pink-400/40">
                       <span>Instagram</span>
                     </a>
                   </li>
@@ -318,7 +318,7 @@ function CruiseCabinsPricingSectionComponent({
                 <p><strong>Email:</strong> <a href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`} className="!text-purple-400 hover:!text-purple-300 underline transition-colors">{sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}</a></p>
                 <p><strong>Call Us:</strong> {sanityContent?.cruiseInfo?.bookingPhone || "(877) 683-9753 - opt 5"}</p>
                 <p><CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> {sanityContent?.cruiseInfo?.depositInfo || "$250/person ($500/room)."}</p>
-                <p className="  "><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? (sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026") : (sanityContent?.cruiseInfo?.finalPayment2028 || "Oct 1, 2027")}.</p>
+                <p className=" "><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? (sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026") : (sanityContent?.cruiseInfo?.finalPayment2028 || "Oct 1, 2027")}.</p>
               </div>
             </div>
 
@@ -408,23 +408,23 @@ function CruiseCabinsPricingSectionComponent({
                 return (
                   <div key={nameStr + emailStr} className="flex flex-col items-center">
                     <div
-                      className="w-full  overflow-hidden flex items-end justify-center relative shadow-none"
-                      style={{
-                        WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                        maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                      }}>
+ className="w-full overflow-hidden flex items-end justify-center relative shadow-none"
+ style={{
+ WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+ maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+ }}>
                       <Image
-                        width={408}
-                        height={408}
-                        unoptimized
-                        src={photoSrc}
-                        alt={nameStr}
-                        className="h-full w-auto object-contain object-bottom"
-                        style={{
-                          WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                          maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                        }}
-                      />
+ width={408}
+ height={408}
+ unoptimized
+ src={photoSrc}
+ alt={nameStr}
+ className="h-full w-auto object-contain object-bottom"
+ style={{
+ WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+ maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+ }}
+ />
                     </div>
                     <h4 className="text-white uppercase">{nameStr}</h4>
                     <div className="mt-2 flex flex-col items-center gap-1 w-full">
@@ -451,15 +451,15 @@ function CruiseCabinsPricingSectionComponent({
 
           {/* Pricing Cards Grid */}
           <div className="space-y-16 py-section-fluid">
-            <div className="   p-0 relative text-left">
+            <div className=" p-0 relative text-left">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-2">
                 <div>
-                  <h3 className="uppercase text-white   ">Limited Group Rate Cabins ({activePriceYear})</h3>
+                  <h3 className="uppercase text-white ">Limited Group Rate Cabins ({activePriceYear})</h3>
                 </div>
                 {isAdmin && (
                   <AddCmsButton
-                    label="ADD / EDIT ROOMS IN SANITY CMS"
-                    onClick={() => setIsAddRoomModalOpen(true)}
+ label="ADD / EDIT ROOMS IN SANITY CMS"
+ onClick={() => setIsAddRoomModalOpen(true)}
                   />
                 )}
               </div>
@@ -499,9 +499,9 @@ function CruiseCabinsPricingSectionComponent({
                     ]
                   )).map((room: any, idx: number) => (
                     <div
-                      key={(room.code || room.selectValue) + idx}
-                      onClick={() => handleSelectCabin(room.selectValue)}
-                      className="w-full text-left    border-0 rounded-lg overflow-hidden flex flex-col justify-between cursor-pointer group shadow-none">
+ key={(room.code || room.selectValue) + idx}
+ onClick={() => handleSelectCabin(room.selectValue)}
+                      className="w-full text-left border-0 rounded-lg overflow-hidden flex flex-col justify-between cursor-pointer group shadow-none">
                       <div>
                         {room.image && (
                           <div className="relative rounded-lg h-44 w-full overflow-hidden text-center">
@@ -512,12 +512,12 @@ function CruiseCabinsPricingSectionComponent({
                           <div className="flex justify-between items-start gap-2 mb-3 text-left">
                             <SectionBadge label={room.badge} />
                           </div>
-                          <span className="uppercase block   ">{room.code} Category</span>
+                          <span className="uppercase block ">{room.code} Category</span>
                           <h4 className="text-white uppercase text-left">{room.title}</h4>
                         </div>
                       </div>
 
-                      <div className="px-0 pt-0  text-left">
+                      <div className="px-0 pt-0 text-left">
                         <div className="flex items-baseline gap-1.5">
                           <span className="text-xl text-white">{room.price}</span>
                           <span className="text-white/50 uppercase font-semibold">USD pp</span>
@@ -529,7 +529,7 @@ function CruiseCabinsPricingSectionComponent({
                           </span>
                         )}
                         <FoolishShrimpButton
-                          onClick={(e) => {
+ onClick={(e) => {
                             e.stopPropagation();
                             handleSelectCabin(room.selectValue);
                           }}
@@ -556,19 +556,19 @@ function CruiseCabinsPricingSectionComponent({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {BANDS_DATA.map((band) => (
-              <div key={band.name} className="relative overflow-hidden group    border-0 flex flex-col justify-between">
+              <div key={band.name} className="relative overflow-hidden group border-0 flex flex-col justify-between">
                 {band.photo && (
                   <div
-                    className="w-full h-[315px] sm:h-[370px] relative flex items-end justify-center"
-                    style={{
-                      maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                      WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                    }}>
+ className="w-full h-[315px] sm:h-[370px] relative flex items-end justify-center"
+ style={{
+ maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+ WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+ }}>
                     <Image width={400} height={400} unoptimized src={band.photo} alt={band.name} className="w-full h-full object-contain object-bottom" />
                   </div>
                 )}
                 <div className="relative z-10 pt-3 pb-2 flex flex-col text-left">
-                  <h3 className="text-white   ">{band.name}</h3>
+                  <h3 className="text-white ">{band.name}</h3>
                   {band.role && (
                     <div className="mt-2">
                       <SectionBadge label={band.role} />
@@ -587,8 +587,8 @@ function CruiseCabinsPricingSectionComponent({
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fade-in_0.2s_ease-out]">
           <div className="relative w-full max-w-xl bg-[#12071f] border border-purple-500/30 rounded-2xl p-6 sm:p-8 text-left max-h-[90vh] overflow-y-auto">
             <button
-              type="button"
-              onClick={() => setIsAddRoomModalOpen(false)}
+ type="button"
+ onClick={() => setIsAddRoomModalOpen(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Close modal"
             >
@@ -626,10 +626,10 @@ function CruiseCabinsPricingSectionComponent({
                     Stateroom Title *
                   </label>
                   <input
-                    type="text"
-                    required
-                    value={roomForm.title}
-                    onChange={(e) => setRoomForm((prev) => ({ ...prev, title: e.target.value }))}
+ type="text"
+ required
+ value={roomForm.title}
+ onChange={(e) => setRoomForm((prev) => ({ ...prev, title: e.target.value }))}
                     placeholder="e.g. Ocean View Balcony"
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
                   />
@@ -640,10 +640,10 @@ function CruiseCabinsPricingSectionComponent({
                     Category Code *
                   </label>
                   <input
-                    type="text"
-                    required
-                    value={roomForm.code}
-                    onChange={(e) => setRoomForm((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
+ type="text"
+ required
+ value={roomForm.code}
+ onChange={(e) => setRoomForm((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
                     placeholder="e.g. D4, N5, IF, GS"
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                   />
@@ -656,8 +656,8 @@ function CruiseCabinsPricingSectionComponent({
                     Cruise Year *
                   </label>
                   <select
-                    value={roomForm.year}
-                    onChange={(e) => setRoomForm((prev) => ({ ...prev, year: e.target.value }))}
+ value={roomForm.year}
+ onChange={(e) => setRoomForm((prev) => ({ ...prev, year: e.target.value }))}
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
                   >
                     <option value="2027">2027 (Star of the Seas)</option>
@@ -670,10 +670,10 @@ function CruiseCabinsPricingSectionComponent({
                     Price Per Person (USD) *
                   </label>
                   <input
-                    type="text"
-                    required
-                    value={roomForm.price}
-                    onChange={(e) => setRoomForm((prev) => ({ ...prev, price: e.target.value }))}
+ type="text"
+ required
+ value={roomForm.price}
+ onChange={(e) => setRoomForm((prev) => ({ ...prev, price: e.target.value }))}
                     placeholder="e.g. $2,433.27"
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                   />
@@ -686,9 +686,9 @@ function CruiseCabinsPricingSectionComponent({
                     Availability Badge Text
                   </label>
                   <input
-                    type="text"
-                    value={roomForm.badge}
-                    onChange={(e) => setRoomForm((prev) => ({ ...prev, badge: e.target.value }))}
+ type="text"
+ value={roomForm.badge}
+ onChange={(e) => setRoomForm((prev) => ({ ...prev, badge: e.target.value }))}
                     placeholder="e.g. 5 Cabins Left! or Available"
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                   />
@@ -699,8 +699,8 @@ function CruiseCabinsPricingSectionComponent({
                     Badge Status Color
                   </label>
                   <select
-                    value={roomForm.status}
-                    onChange={(e) => setRoomForm((prev) => ({ ...prev, status: e.target.value }))}
+ value={roomForm.status}
+ onChange={(e) => setRoomForm((prev) => ({ ...prev, status: e.target.value }))}
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
                   >
                     <option value="info">Info / Cyan (Available)</option>
@@ -715,9 +715,9 @@ function CruiseCabinsPricingSectionComponent({
                   Inclusions &amp; Perks
                 </label>
                 <input
-                  type="text"
-                  value={roomForm.inclusions}
-                  onChange={(e) => setRoomForm((prev) => ({ ...prev, inclusions: e.target.value }))}
+ type="text"
+ value={roomForm.inclusions}
+ onChange={(e) => setRoomForm((prev) => ({ ...prev, inclusions: e.target.value }))}
                   placeholder="e.g. Gratuities Included"
                   className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                 />
@@ -728,9 +728,9 @@ function CruiseCabinsPricingSectionComponent({
                   Image Path / URL
                 </label>
                 <input
-                  type="text"
-                  value={roomForm.imagePath}
-                  onChange={(e) => setRoomForm((prev) => ({ ...prev, imagePath: e.target.value }))}
+ type="text"
+ value={roomForm.imagePath}
+ onChange={(e) => setRoomForm((prev) => ({ ...prev, imagePath: e.target.value }))}
                   placeholder="e.g. /images/cruise/d1_ocean_view_balcony.jpg"
                   className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                 />
@@ -738,17 +738,17 @@ function CruiseCabinsPricingSectionComponent({
 
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
                 <button
-                  type="button"
-                  onClick={() => setIsAddRoomModalOpen(false)}
+ type="button"
+ onClick={() => setIsAddRoomModalOpen(false)}
                   className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
-                  type="submit"
-                  disabled={isSavingRoom}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
-                >
+ type="submit"
+ disabled={isSavingRoom}
+ className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+ >
                   {isSavingRoom ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />

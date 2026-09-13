@@ -116,9 +116,9 @@ export default function HeroLiveThumbs() {
 
   if (!isOpen) {
     return (
-      <button aria-label="Action button"
-        onClick={handleOpen}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-bg-surface)]/80 border border-white/10 border-white/10 backdrop-blur-[45px] select-none group cursor-pointer">
+      <button
+ onClick={handleOpen}
+ className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-bg-surface)]/80 border border-white/10 border-white/10 backdrop-blur-[45px] select-none group cursor-pointer">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
           <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-600" />
@@ -136,19 +136,19 @@ export default function HeroLiveThumbs() {
   if (loading) {
     return (
       <div
-        className="relative flex justify-start items-end"
-        style={{
-          width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
-          height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
-        }}>
+ className="relative flex justify-start items-end"
+ style={{
+ width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
+ height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
+ }}>
         <div
-          className="absolute left-0 bottom-0 select-none animate-pulse flex items-end gap-3"
-          style={{
-            width: `${unscaledWidth}px`,
-            height: `${unscaledHeight}px`,
-            transform: scale < 1 ? `scale(${scale})` : undefined,
-            transformOrigin: "bottom left",
-          }}>
+ className="absolute left-0 bottom-0 select-none animate-pulse flex items-end gap-3"
+ style={{
+ width: `${unscaledWidth}px`,
+ height: `${unscaledHeight}px`,
+ transform: scale < 1 ? `scale(${scale})` : undefined,
+ transformOrigin: "bottom left",
+ }}>
           {[...Array(2)].map((_, i) => (
             <div key={i} className="w-[220px] h-[250px] bg-[#00000029] shrink-0" />
           ))}
@@ -162,19 +162,19 @@ export default function HeroLiveThumbs() {
 
   return (
     <div
-      className="relative flex justify-start items-end"
-      style={{
-        width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
-        height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
-      }}>
+ className="relative flex justify-start items-end"
+ style={{
+ width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
+ height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
+ }}>
       <div
-        className="absolute left-0 bottom-0 select-none animate-[fade-in-up_0.6s_var(--ease-out-expo)_1.1s_both]"
-        style={{
-          width: `${unscaledWidth}px`,
-          height: `${unscaledHeight}px`,
-          transform: scale < 1 ? `scale(${scale})` : undefined,
-          transformOrigin: "bottom left",
-        }}>
+ className="absolute left-0 bottom-0 select-none animate-[fade-in-up_0.6s_var(--ease-out-expo)_1.1s_both]"
+ style={{
+ width: `${unscaledWidth}px`,
+ height: `${unscaledHeight}px`,
+ transform: scale < 1 ? `scale(${scale})` : undefined,
+ transformOrigin: "bottom left",
+ }}>
         {/* ── LIVE NOW header ── */}
         <div className="relative flex items-center justify-between mb-3 px-1 w-full">
           <div className="flex items-center gap-2 pr-7">
@@ -187,15 +187,15 @@ export default function HeroLiveThumbs() {
             </span>
             {mediaPosts.length > 2 && (
               <Link
-                href="/live"
-                className="text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:underline whitespace-nowrap">
+ href="/live"
+ className="text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:underline whitespace-nowrap">
                 + {mediaPosts.length - 2} More →
               </Link>
             )}
           </div>
           <button onClick={handleClose}
-            className="text-white/40 hover:text-white transition-colors duration-200 p-2.5 min-w-[48px] min-h-[48px] rounded hover:bg-white/10 flex items-center justify-center cursor-pointer shrink-0"
-            aria-label="Hide Live Streams">
+ className="text-white/40 hover:text-white transition-colors duration-200 p-2.5 min-w-[48px] min-h-[48px] rounded hover:bg-white/10 flex items-center justify-center cursor-pointer shrink-0"
+ aria-label="Hide Live Streams">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -215,19 +215,19 @@ export default function HeroLiveThumbs() {
 
             return (
               <Link
-                key={post.id}
-                href="/live"
-                className="group shrink-0 w-[220px] h-[250px] overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-colors duration-300 flex flex-col">
+ key={post.id}
+ href="/live"
+ className="group shrink-0 w-[220px] h-[250px] overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-colors duration-300 flex flex-col">
                 {/* Thumbnail */}
                 <div className="relative w-full h-[195px] overflow-hidden bg-zinc-950">
                   <Image width={220} height={195}
-                    src={thumbSrc}
-                    alt={crewName}
-                    priority={idx === 0}
-                    quality={65}
-                    sizes="220px"
-                    className="w-full h-full object-cover brightness-90"
-                  />
+ src={thumbSrc}
+ alt={crewName}
+ priority={idx === 0}
+ quality={65}
+ sizes="220px"
+ className="w-full h-full object-cover brightness-90"
+ />
 
                   {/* Red gradient bottom fade */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />

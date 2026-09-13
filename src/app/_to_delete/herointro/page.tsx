@@ -172,18 +172,18 @@ export default function HeroIntroPage() {
             video/gradient rather than the whole content block — see the
             file header note on why the headline stays out of this. */}
         <div
-          ref={mediaRef}
-          className="absolute inset-0"
-          style={{ transform: `translateY(${CONTENT_SLIDE_VH * 100}vh)` }}>
+ ref={mediaRef}
+ className="absolute inset-0"
+ style={{ transform: `translateY(${CONTENT_SLIDE_VH * 100}vh)` }}>
           <video
-            ref={videoRef}
-            src="/movie/be-here-clip.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+ ref={videoRef}
+ src="/movie/be-here-clip.mp4"
+ autoPlay
+ muted
+ loop
+ playsInline
+ className="absolute inset-0 w-full h-full object-cover"
+ />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
         </div>
         {/* No in-page nav here on purpose — layout.tsx already renders the
@@ -197,8 +197,8 @@ export default function HeroIntroPage() {
             40 years of rocking the world.
           </span>
           <h1
-            className="max-w-2xl text-3xl md:text-6xl uppercase text-white leading-[0.95]"
-            style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
+ className="max-w-2xl text-3xl md:text-6xl uppercase text-white leading-[0.95]"
+ style={{ fontFamily: "'Switzer', var(--font-barlow-condensed)" }}>
             An experience you just have to see and hear.
           </h1>
         </div>
@@ -214,22 +214,22 @@ export default function HeroIntroPage() {
           reference recording — no autoAlpha crossfade like the
           /pagetransition curtain uses). */}
       <div
-        ref={overlayRef}
-        aria-hidden
-        className="absolute inset-0 z-[9999] flex items-center justify-center"
-        style={{
-          // NOT `bg-black`: globals.css force-strips background-color on
-          // that exact class site-wide with `!important` (see the same
-          // note in PageTransition.tsx, where this bit first). Inline
-          // style keeps this overlay outside that rule.
-          // rgb(13,14,19) matches exoape's measured preloader background —
-          // a near-black charcoal with a faint blue cast, not a flat #000.
-          backgroundColor: "rgb(13, 14, 19)",
-          clipPath: buildDecayingSlantClipPath(0, WIPE_SLANT_RATIO),
-          // Traced (didn't just guess) a brief flash where the real site
-          // Header shows through this overlay on first load, despite
-          // z-9999 vs Header's z-[1000]: layout.tsx wraps page content in
-          // a div that fades opacity 0->1 over 0.35s on mount, and any
+ ref={overlayRef}
+ aria-hidden
+ className="absolute inset-0 z-[9999] flex items-center justify-center"
+ style={{
+ // NOT `bg-black`: globals.css force-strips background-color on
+ // that exact class site-wide with `!important` (see the same
+ // note in PageTransition.tsx, where this bit first). Inline
+ // style keeps this overlay outside that rule.
+ // rgb(13,14,19) matches exoape's measured preloader background —
+ // a near-black charcoal with a faint blue cast, not a flat #000.
+ backgroundColor: "rgb(13, 14, 19)",
+ clipPath: buildDecayingSlantClipPath(0, WIPE_SLANT_RATIO),
+ // Traced (didn't just guess) a brief flash where the real site
+ // Header shows through this overlay on first load, despite
+ // z-9999 vs Header's z-[1000]: layout.tsx wraps page content in
+ // a div that fades opacity 0->1 over 0.35s on mount, and any
           // ancestor with opacity < 1 forces a NEW stacking context per
           // spec — while that fade is running, this whole subtree (overlay
           // included) gets capped inside it and stacks in normal DOM order
@@ -238,14 +238,14 @@ export default function HeroIntroPage() {
           // that (the trapping context is on an ancestor I don't own), so
           // it's left in as a no-op safety net rather than a real fix. In
           // a normal, focused tab this is a <0.35s flash before the fade
-          // finishes and the stacking context releases — well inside the
-          // 900ms hold, so it's likely invisible in practice. It only
-          // looked "stuck" in my testing because this automated tab
-          // throttles the CSS transition when backgrounded. Flagging
-          // rather than chasing further, since a real fix means touching
-          // the shared layout's page-fade wrapper, not this page.
-          isolation: "isolate",
-        }}>
+ // finishes and the stacking context releases — well inside the
+ // 900ms hold, so it's likely invisible in practice. It only
+ // looked "stuck" in my testing because this automated tab
+ // throttles the CSS transition when backgrounded. Flagging
+ // rather than chasing further, since a real fix means touching
+ // the shared layout's page-fade wrapper, not this page.
+ isolation: "isolate",
+ }}>
         {!revealed && (
           <div className="flex flex-col items-center gap-4" style={{ animation: "heroIntroPulse 1.6s ease-in-out infinite" }}>
             {/* Shrunk from h-8/h-10 — exoape's mark is a small, quiet badge,

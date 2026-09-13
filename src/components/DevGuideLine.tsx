@@ -28,8 +28,8 @@ export default function DevGuideLine() {
     <>
       {/* Horizontal laser guide line */}
       <div
-        className="fixed left-0 right-0 z-[999999] pointer-events-none transition-colors duration-150"
-        style={{ top: `${topPos}px` }}>
+ className="fixed left-0 right-0 z-[999999] pointer-events-none transition-colors duration-150"
+ style={{ top: `${topPos}px` }}>
         {/* Bright laser line */}
         <div className="w-full h-[2px] bg-cyan-400 shadow-[0_0_12px_#22d3ee,0_0_4px_#22d3ee]" />
 
@@ -38,22 +38,22 @@ export default function DevGuideLine() {
           <span className="w-2 h-2 rounded-lg bg-cyan-400 animate-pulse" />
           <span>DEV GUIDE: {topPos}PX</span>
           <button aria-label="Previous"
-            onClick={(e) => { e.stopPropagation(); setTopPos((prev) => (prev === 122 ? 120 : 122)); }}
+ onClick={(e) => { e.stopPropagation(); setTopPos((prev) => (prev === 122 ? 120 : 122)); }}
             className="ml-1 px-2 py-0.5 bg-cyan-500/20 hover:bg-cyan-500/40 border border-cyan-400/40 rounded text-[10px] uppercase transition-colors cursor-pointer">
             Toggle {topPos === 122 ? "120px" : "122px"}
           </button>
           <button aria-label="Previous"
-            onClick={(e) => { e.stopPropagation(); setShowVerticalGuides((prev) => !prev); }}
+ onClick={(e) => { e.stopPropagation(); setShowVerticalGuides((prev) => !prev); }}
             className="ml-1 px-2 py-0.5 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 text-[var(--color-accent)] border border-[var(--color-accent)]/40 rounded text-[10px] uppercase transition-colors cursor-pointer">
             Guides: {showVerticalGuides ? "ON" : "OFF"}
           </button>
           <button aria-label="Previous"
-            onClick={(e) => {
+ onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
               setEnabled(false);
             }}
-            className="ml-1.5 px-2 py-1 text-purple-400hover:text-red-400 hover:bg-red-500/20 rounded transition-colors cursor-pointer    z-[9999999]"
+            className="ml-1.5 px-2 py-1 text-purple-400hover:text-red-400 hover:bg-red-500/20 rounded transition-colors cursor-pointer z-[9999999]"
             title="Hide guide overlay (Press Alt+G to restore)">
             ✕
           </button>

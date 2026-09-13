@@ -199,7 +199,7 @@ export default function CruiseVideoGallery() {
           <SectionBadge label="Virtual Tours & Video Showcase" />
         </div>
         <h2
-          className="md:text-6xl uppercase text-white   ">
+ className="md:text-6xl uppercase text-white ">
           Explore <span className="accent-gradient-text">Ship Videos</span>
         </h2>
         <p className="mt-4">
@@ -211,9 +211,9 @@ export default function CruiseVideoGallery() {
           <div className="flex flex-wrap gap-2.5 justify-center mt-8">
             {categories.map(cat => (
               <FoolishShrimpButton
-                key={cat}
-                isActive={selectedCategory === cat}
-                onClick={() => setSelectedCategory(cat)}
+ key={cat}
+ isActive={selectedCategory === cat}
+ onClick={() => setSelectedCategory(cat)}
                 className="px-5 py-2 uppercase">
                 {cat}
               </FoolishShrimpButton>
@@ -237,21 +237,21 @@ export default function CruiseVideoGallery() {
         <div key={selectedCategory} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-[fade-in_0.35s_ease-out_both]">
           {filteredVideos.map(vid => (
             <div
-              key={vid.id}
-              onClick={() => setActiveVideo(vid)}
+ key={vid.id}
+ onClick={() => setActiveVideo(vid)}
               className="w-full text-left overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer group">
               {/* Poster Thumbnail */}
               <div className="relative aspect-video bg-black/90 overflow-hidden rounded-lg">
                 <Image width={200} height={200} unoptimized
-                  src={vid.poster || '/images/cruise/cruise-hero.png'}
-                  alt={vid.title}
-                  className="w-full h-full object-cover opacity-90 overflow-hidden group-hover:opacity-100 rounded-lg"
-                />
+ src={vid.poster || '/images/cruise/cruise-hero.png'}
+ alt={vid.title}
+ className="w-full h-full object-cover opacity-90 overflow-hidden group-hover:opacity-100 rounded-lg"
+ />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center !rounded-lg">
                   <CosmicRadialButton
-                    icon={false}
-                    isActive
-                    className="w-14 h-14 rounded-full !p-0 flex items-center justify-center">
+ icon={false}
+ isActive
+ className="w-14 h-14 rounded-full !p-0 flex items-center justify-center">
                     <Play className="w-6 h-6 fill-white text-white ml-0.5" />
                   </CosmicRadialButton>
                 </div>
@@ -282,20 +282,20 @@ export default function CruiseVideoGallery() {
       {/* Full-screen Video Player Modal Portaled to Body for Unclipped Viewport Blur */}
       {activeVideo && typeof window !== "undefined" && createPortal(
         <div
-          onClick={() => setActiveVideo(null)}
+ onClick={() => setActiveVideo(null)}
           style={{ backdropFilter: "blur(45px)", WebkitBackdropFilter: "blur(45px)" }}
           className="fixed inset-0 z-[999999] bg-black/60 backdrop-blur-[45px] flex items-center justify-center p-4 md:p-8 transition-opacity duration-300 animate-in fade-in">
           {/* Floating Top-Right Close Button for immediate screen dismiss */}
           <button
-            type="button"
-            aria-label="Close video modal"
-            onClick={() => setActiveVideo(null)}
+ type="button"
+ aria-label="Close video modal"
+ onClick={() => setActiveVideo(null)}
             className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[9999999] p-3 !rounded-full bg-white/15 border border-white/10 text-white transition-[background-color,border-color,transform] duration-200 cursor-pointer flex items-center justify-center group">
             <X className="w-6 h-6 text-white" />
           </button>
 
           <div
-            onClick={(e) => e.stopPropagation()}
+ onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-5xl rounded-lg p-4 md:p-6 overflow-hidden bg-[#0c071e]">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
               <div className="min-w-0 flex-1">
@@ -316,21 +316,21 @@ export default function CruiseVideoGallery() {
                 if (ytId) {
                   return (
                     <iframe
-                      src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`}
-                      title={activeVideo.title}
-                      className="w-full h-full border-0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
+ src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`}
+ title={activeVideo.title}
+ className="w-full h-full border-0"
+ allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+ allowFullScreen
+ />
                   );
                 }
                 return (
                   <video
-                    src={activeVideo.url}
-                    controls
-                    autoPlay
-                    muted
-                    className="w-full h-full object-contain">
+ src={activeVideo.url}
+ controls
+ autoPlay
+ muted
+ className="w-full h-full object-contain">
                     <track kind="captions" />
                   </video>
                 );

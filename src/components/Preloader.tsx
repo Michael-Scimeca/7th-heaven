@@ -303,32 +303,32 @@ export default function Preloader() {
 
   return (
     <div
-      ref={overlayRef}
-      aria-hidden="true"
-      className="preloader-overlay"
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: "var(--z-preloader)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: CURTAIN_BG,
-        clipPath: buildDecayingSlantClipPath(0, WIPE_SLANT_RATIO),
-        pointerEvents: "none",
-      }}>
+ ref={overlayRef}
+ aria-hidden="true"
+ className="preloader-overlay"
+ style={{
+ position: "fixed",
+ inset: 0,
+ zIndex: "var(--z-preloader)",
+ display: "flex",
+ flexDirection: "column",
+ alignItems: "center",
+ justifyContent: "center",
+ backgroundColor: CURTAIN_BG,
+ clipPath: buildDecayingSlantClipPath(0, WIPE_SLANT_RATIO),
+ pointerEvents: "none",
+ }}>
       <div
-        ref={contentRef}
-        className="preloader-content flex flex-col items-center justify-center text-center select-none z-10">
+ ref={contentRef}
+ className="preloader-content flex flex-col items-center justify-center text-center select-none z-10">
         <div ref={loaderWrapRef} className="preloader-loader">
           <svg
-            className="preloader-note-icon"
-            viewBox="0 0 9.06 11.45"
-            width="40"
-            height="51"
-            fill="currentColor"
-            aria-hidden="true">
+ className="preloader-note-icon"
+ viewBox="0 0 9.06 11.45"
+ width="40"
+ height="51"
+ fill="currentColor"
+ aria-hidden="true">
             <path d="M1.75,11.45h-.47c-.42-.06-.82-.22-1.1-.56-.26-.4-.23-.92.07-1.32.52-.69,1.45-.96,2.3-.7V1.05s6.52-1.05,6.52-1.05v8.83c-.02.43-.19.78-.51,1.07-.86.72-2.41.74-2.88-.34-.11-.39-.02-.8.24-1.12.54-.65,1.44-.9,2.28-.65V2.48s-4.77.87-4.77.87l-.02,6.51c0,.92-.82,1.47-1.66,1.59Z" />
           </svg>
 

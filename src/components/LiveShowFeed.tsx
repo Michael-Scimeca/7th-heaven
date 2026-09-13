@@ -200,28 +200,28 @@ export default function LiveShowFeed() {
         {videoId ? (
           <div className="relative aspect-video border border-white/10 overflow-hidden">
             <iframe
-              title="7th Heaven Live Show Video"
-              src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
-              className="absolute inset-0 w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              sandbox="allow-scripts allow-presentation allow-popups allow-forms"
-              allowFullScreen
-            />
+ title="7th Heaven Live Show Video"
+ src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
+ className="absolute inset-0 w-full h-full"
+ allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+ sandbox="allow-scripts allow-presentation allow-popups allow-forms"
+ allowFullScreen
+ />
           </div>
         ) : selectedMedia?.image_url ? (
           <div className="relative aspect-video border border-white/10 overflow-hidden">
             <Image width={200} height={200} unoptimized
-              src={selectedMedia.image_url}
-              alt={selectedMedia.content}
-              className="w-full h-full object-cover"
-            />
+ src={selectedMedia.image_url}
+ alt={selectedMedia.content}
+ className="w-full h-full object-cover"
+ />
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             {/* Caption overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <div className="flex items-center gap-2 mb-2">
                 <div
-                  className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15">
+ className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/15">
                   {selectedMedia.member_avatar}
                 </div>
                 <span className="font-semibold text-white/80">{selectedMedia.member_name}</span>
@@ -249,9 +249,9 @@ export default function LiveShowFeed() {
               : post.image_url;
 
             return (
-              <button aria-label="Action button"
-                key={post.id}
-                onClick={() => setSelectedMedia(post)}
+              <button
+ key={post.id}
+ onClick={() => setSelectedMedia(post)}
                 className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
                   : isNew
                     ? "border-red-500/50"
@@ -260,10 +260,10 @@ export default function LiveShowFeed() {
                 style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
                 {thumbSrc && (
                   <Image width={200} height={200} unoptimized
-                    src={thumbSrc}
-                    alt="7th Heaven Media"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+ src={thumbSrc}
+ alt="7th Heaven Media"
+ className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+ />
                 )}
                 {/* Video indicator */}
                 {isVideo && (
@@ -297,14 +297,14 @@ export default function LiveShowFeed() {
             .slice(0, 3)
             .map((post) => (
               <div
-                key={post.id}
-                className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-colors hover:bg-white/[0.04]">
+ key={post.id}
+ className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-colors hover:bg-white/[0.04]">
                 <div
-                  className="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)]/40 text-[var(--color-accent)] bg-[var(--color-accent)]/10">
+ className="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)]/40 text-[var(--color-accent)] bg-[var(--color-accent)]/10">
                   {post.member_avatar}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2   ">
+                  <div className="flex items-center gap-2 ">
                     <span className="font-semibold text-white/70">{post.member_name}</span>
                     <span className="text-white/20">{timeAgo(post.created_at)}</span>
                   </div>

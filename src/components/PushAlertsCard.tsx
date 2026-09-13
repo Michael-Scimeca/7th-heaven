@@ -90,7 +90,7 @@ export default function PushAlertsCard({
   return (
     <>
       <div
-        className={`relative overflow-hidden ${className}`}>
+ className={`relative overflow-hidden ${className}`}>
 
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
@@ -112,10 +112,10 @@ export default function PushAlertsCard({
             <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3">
               {/* Primary Action: Open Subscription Modal to collect Name & Email */}
               <button
-                type="button"
-                onClick={() => setShowModal(true)}
+ type="button"
+ onClick={() => setShowModal(true)}
                 className="inline-flex items-center justify-center gap-2">
-                <CosmicRadialButton className="justify-center !py-2.5 !px-5 uppercase !text-white   ">
+                <CosmicRadialButton className="justify-center !py-2.5 !px-5 uppercase !text-white ">
                   <BellIcon />
                   {subscribed ? "✓ Live Alerts Enabled 🔔" : "Enable Push Alerts"}
                 </CosmicRadialButton>
@@ -124,10 +124,10 @@ export default function PushAlertsCard({
               {/* Secondary Action: Open Web Version */}
               {webUrl ? (
                 <a
-                  href={webUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3 uppercase text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center">
+ href={webUrl}
+ target="_blank"
+ rel="noopener noreferrer"
+ className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3 uppercase text-white hover:bg-white/15 hover:border-white/30 transition-colors text-center">
                   Web Alerts <ExternalIcon />
                 </a>
               ) : null}
@@ -138,8 +138,8 @@ export default function PushAlertsCard({
       </div>
 
       <PushSubscribeModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
+ isOpen={showModal}
+ onClose={() => setShowModal(false)}
         group={group}
         onSuccess={() => setSubscribed(true)}
       />

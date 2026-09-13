@@ -77,9 +77,9 @@ export default function HeroYTBackground({ videoId }: HeroYTBackgroundProps) {
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none bg-black">
       <div
-        id={playerDivId.current}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-[100vh] min-h-[56.25vw] pointer-events-none scale-105"
-      />
+ id={playerDivId.current}
+ className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-[100vh] min-h-[56.25vw] pointer-events-none scale-105"
+ />
     </div>
   );
 }

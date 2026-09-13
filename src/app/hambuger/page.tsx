@@ -76,22 +76,22 @@ export default function HamburgerTestPage() {
       <div className="viewport">
         <header className="header">
           <nav
-            ref={navRef}
-            id="nav"
-            className={`nav ${isOpen ? "nav--open" : ""}`}>
+ ref={navRef}
+ id="nav"
+ className={`nav ${isOpen ? "nav--open" : ""}`}>
             {/* ACTUAL NAVIGATION MENU */}
             <ul
-              className="nav__menu"
-              id="menu"
-              tabIndex={-1}
-              aria-label="main navigation"
-              hidden={!isOpen}>
+ className="nav__menu"
+ id="menu"
+ tabIndex={-1}
+ aria-label="main navigation"
+ hidden={!isOpen}>
               {LINKS.map((label, i) => (
                 <li className="nav__item" key={label}>
                   <a
-                    href="#"
-                    className="nav__link"
-                    ref={(el) => {
+ href="#"
+ className="nav__link"
+ ref={(el) => {
                       linkRefs.current[i] = el;
                     }}>
                     {label}
@@ -102,13 +102,13 @@ export default function HamburgerTestPage() {
 
             {/* MENU TOGGLE BUTTON */}
             <a
-              href="#nav"
-              ref={toggleRef}
-              className="nav__toggle"
-              role="button"
-              aria-expanded={isOpen}
-              aria-controls="menu"
-              onClick={handleToggle}>
+ href="#nav"
+ ref={toggleRef}
+ className="nav__toggle"
+ role="button"
+ aria-expanded={isOpen}
+ aria-controls="menu"
+ onClick={handleToggle}>
               <svg className="menuicon" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
                 <title>Toggle Menu</title>
                 <g>

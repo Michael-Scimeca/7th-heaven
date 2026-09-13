@@ -95,7 +95,6 @@ export default function FanUploadForm() {
   const formRef = useRef<HTMLFormElement>(null);
 
 
-
   const handleFilesChange = async (files: FileList | null | File[]) => {
     if (!isLoggedIn) {
       openModal('login');
@@ -230,7 +229,7 @@ export default function FanUploadForm() {
       <div className="flex items-center gap-3 mb-6">
         <div>
           <h2>Submit to Fan Wall</h2>
-          <p className="  ">Share your concert moments</p>
+          <p className=" ">Share your concert moments</p>
         </div>
       </div>
 
@@ -241,7 +240,7 @@ export default function FanUploadForm() {
           </div>
           <h3 className="mb-2">Moments Submitted!</h3>
           <p className="mb-6">They are now live on your account and will appear on the global wall after admin review.</p>
-          <button aria-label="Action button" onClick={() => setUploadSuccess(false)} className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer border border-[var(--color-accent)] px-6 py-2 rounded">
+          <button onClick={() => setUploadSuccess(false)} className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer border border-[var(--color-accent)] px-6 py-2 rounded">
             Upload Another
           </button>
         </div>
@@ -250,9 +249,9 @@ export default function FanUploadForm() {
           <div className="flex flex-col gap-6">
             <div>
               <div
-                role={previews.length === 0 ? "button" : undefined}
-                tabIndex={previews.length === 0 ? 0 : undefined}
-                onClick={(e) => {
+ role={previews.length === 0 ? "button" : undefined}
+ tabIndex={previews.length === 0 ? 0 : undefined}
+ onClick={(e) => {
                   if ((e.target as HTMLElement).closest('.plus-button')) return;
                   if (!isLoggedIn) { openModal('login'); return; }
                   fileRef.current?.click();
@@ -288,8 +287,8 @@ export default function FanUploadForm() {
                       );
                     })}
                     <button type="button"
-                      aria-label="Add more files"
-                      onClick={(e) => {
+ aria-label="Add more files"
+ onClick={(e) => {
                         e.stopPropagation();
                         if (!isLoggedIn) { openModal('login'); return; }
                         fileRef.current?.click();
@@ -316,10 +315,10 @@ export default function FanUploadForm() {
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
                     <div className="w-11 h-11 border-2 border-white/10 border-t-emerald-500 rounded-lg animate-spin mb-3" />
                     <p className="uppercase">Safety Scan</p>
-                    <p className="text-emerald-400 uppercase   ">{scanStatus}</p>
+                    <p className="text-emerald-400 uppercase ">{scanStatus}</p>
                   </div>
                 )}
-                <input aria-label="Input field" ref={fileRef} type="file" name="photo" accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime" multiple className="hidden" onChange={(e) => handleFilesChange(e.target.files)} />
+                <input ref={fileRef} type="file" name="photo" accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime" multiple className="hidden" onChange={(e) => handleFilesChange(e.target.files)} />
               </div>
             </div>
 
@@ -328,43 +327,41 @@ export default function FanUploadForm() {
                 <div>
                   <label htmlFor="fan-upload-venue" className="uppercase tracking-[0.15em] block mb-1.5 px-1">Venue / Event <span className="text-[var(--color-accent)]">*</span></label>
                   <GlowInput
-                    id="fan-upload-venue"
-                    type="text"
-                    name="venue"
-                    placeholder="e.g. Durty Nellies"
-                    required
-                    aria-label="Venue or Event Name"
-                  />
+ id="fan-upload-venue"
+ type="text"
+ name="venue"
+ placeholder="e.g. Durty Nellies"
+ required
+ aria-label="Venue or Event Name"
+ />
                 </div>
                 <div>
                   <label htmlFor="fan-upload-date" className="uppercase tracking-[0.15em] block mb-1.5 px-1">Date <span className="text-[var(--color-accent)]">*</span></label>
                   <GlowInput
-                    id="fan-upload-date"
-                    type="date"
-                    name="date"
-                    required
-                    aria-label="Date of Event"
-                    className="[color-scheme:dark] cursor-pointer"
-                  />
+ id="fan-upload-date"
+ type="date"
+ name="date"
+ required
+ aria-label="Date of Event"
+ className="[color-scheme:dark] cursor-pointer"
+ />
                 </div>
                 <div className="md:col-span-2">
                   <label htmlFor="fan-upload-caption" className="uppercase tracking-[0.15em] block mb-1.5 px-1">Caption</label>
                   <GlowInput
-                    id="fan-upload-caption"
-                    type="text"
-                    name="caption"
-                    placeholder="Short description..."
-                    aria-label="Caption"
-                  />
+ id="fan-upload-caption"
+ type="text"
+ name="caption"
+ placeholder="Short description..."
+ aria-label="Caption"
+ />
                 </div>
               </div>
 
 
-
-
               <CosmicRadialButton
-                type={isLoggedIn ? "submit" : "button"}
-                onClick={() => !isLoggedIn && openModal('login')}
+ type={isLoggedIn ? "submit" : "button"}
+ onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}
                 icon={false}
                 className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer">

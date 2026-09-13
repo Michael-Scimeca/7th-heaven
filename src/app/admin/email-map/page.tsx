@@ -39,7 +39,7 @@ function Node({
 }) {
   return (
     <div className={`border transition-colors flex flex-col items-center justify-center text-center w-full ${COLORS[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}>
-      <div className="flex items-center gap-1.5   ">
+      <div className="flex items-center gap-1.5 ">
         <span className={`w-1.5 h-1.5 rounded-lg shrink-0 ${DOTS[color]}`} />
         <span className="uppercase">
           {icon && <span className="mr-1">{icon}</span>}
@@ -86,7 +86,7 @@ export default function EmailMapPage() {
 
         {/* Header */}
         <div className="mb-16">
-          <span className="inline-block uppercase   text-[var(--color-accent)] border border-white/10 px-3 py-1 mb-4">
+          <span className="inline-block uppercase text-[var(--color-accent)] border border-white/10 px-3 py-1 mb-4">
             System Architecture
           </span>
           <h1 className="mb-4">

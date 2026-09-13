@@ -34,8 +34,8 @@ class LiveKitErrorBoundary extends React.Component<
         <div className="h-full flex items-center justify-center bg-black/40">
           <div className="text-center">
             <p>Stream connection interrupted</p>
-            <button aria-label="Action button"
-              onClick={() => this.setState({ hasError: false, error: null })}
+            <button
+ onClick={() => this.setState({ hasError: false, error: null })}
               className="mt-2 text-[var(--color-accent)] underline hover:text-[var(--color-accent)]">
               Retry
             </button>
@@ -144,17 +144,17 @@ export function LiveKitStream({
 
   return (
     <LiveKitRoom
-      key={token}
-      token={token}
-      serverUrl={url}
-      connect={true}
-      video={isPublisher}
-      audio={isPublisher}
-      onConnected={onConnected}
-      onDisconnected={onDisconnected}
-      className={className}
-      data-lk-theme="default"
-      style={{ height: '100%' }}>
+ key={token}
+ token={token}
+ serverUrl={url}
+ connect={true}
+ video={isPublisher}
+ audio={isPublisher}
+ onConnected={onConnected}
+ onDisconnected={onDisconnected}
+ className={className}
+ data-lk-theme="default"
+ style={{ height: '100%' }}>
       <RoomAudioRenderer />
       <LiveKitErrorBoundary>
         {isPublisher ? <PublisherView lk={lk} /> : <ViewerView lk={lk} room={room} />}
@@ -209,10 +209,10 @@ function PublisherView({ lk }: { lk: any }) {
         )}
       </div>
       <ControlBar
-        variation="minimal"
-        controls={{ screenShare: false, chat: false, microphone: true, camera: true }}
-        className="!bg-black/60 !border-t !border-white/10"
-      />
+ variation="minimal"
+ controls={{ screenShare: false, chat: false, microphone: true, camera: true }}
+ className="!bg-black/60 !border-t !border-white/10"
+ />
     </div>
   );
 }
@@ -240,7 +240,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
               <Mic className="w-8 h-8" />
             </div>
             <p>{remoteParticipants[0]?.name || 'Crew'} is Live</p>
-            <p className="  ">Camera is warming up or in audio-only mode</p>
+            <p className=" ">Camera is warming up or in audio-only mode</p>
           </div>
         </div>
       );
@@ -251,8 +251,8 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin mx-auto mb-3" />
           <p className="font-medium">Connecting to stream...</p>
-          <p className="   opacity-40">Room ID: {room}</p>
-          <p className="  ">Crew members will appear when they go live</p>
+          <p className=" opacity-40">Room ID: {room}</p>
+          <p className=" ">Crew members will appear when they go live</p>
         </div>
       </div>
     );
@@ -261,8 +261,8 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
   return (
     <div className="h-full relative">
       <GridLayout
-        tracks={remoteCameraTracks}
-        style={{ height: '100%' }}>
+ tracks={remoteCameraTracks}
+ style={{ height: '100%' }}>
         <ParticipantTile />
       </GridLayout>
     </div>

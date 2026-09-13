@@ -66,13 +66,13 @@ export default function IphoneClipMask({
 
   return (
     <div
-      className={`relative inline-block overflow-hidden ${className}`}
-      style={{
-        clipPath: `inset(${top}% ${leftRight}% ${bottom}% ${leftRight}% round ${clipRoundPx}px)`,
-        WebkitClipPath: `inset(${top}% ${leftRight}% ${bottom}% ${leftRight}% round ${clipRoundPx}px)`,
-        borderRadius: `${borderRadiusPx}px`,
-        ...style,
-      }}>
+ className={`relative inline-block overflow-hidden ${className}`}
+ style={{
+ clipPath: `inset(${top}% ${leftRight}% ${bottom}% ${leftRight}% round ${clipRoundPx}px)`,
+ WebkitClipPath: `inset(${top}% ${leftRight}% ${bottom}% ${leftRight}% round ${clipRoundPx}px)`,
+ borderRadius: `${borderRadiusPx}px`,
+ ...style,
+ }}>
       {children}
     </div>
   );

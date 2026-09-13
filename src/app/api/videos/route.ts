@@ -15,14 +15,14 @@ function extractYouTubeId(urlOrId: string): string {
 export async function GET() {
   try {
     const sanityVideos = await sanityClient.fetch<Array<{
-      _id: string;
-      title: string;
-      youtubeId: string;
-      category: string;
-      year?: number;
-      duration?: string;
-      description?: string;
-    }>>(`*[_type == "video"] | order(year desc) {
+ _id: string;
+ title: string;
+ youtubeId: string;
+ category: string;
+ year?: number;
+ duration?: string;
+ description?: string;
+ }>>(`*[_type == "video"] | order(year desc) {
       _id,
       title,
       youtubeId,

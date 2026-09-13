@@ -584,7 +584,6 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [spineTopOffset, setSpineTopOffset] = useState<number>(0); // px from top of slider section
 
 
-
   const [spineGap, setSpineGap] = useState<number>(32);
   const [spineVideoHeight, setSpineVideoHeight] = useState<number>(85);
   const [isTabletView, setIsTabletView] = useState<boolean>(false);
@@ -950,11 +949,9 @@ lerpSpeed: ${lerpSpeed}`;
 
   return (
     <div
-      id="band"
-      ref={sectionRef}
-      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none    relative   ">
-
-
+ id="band"
+ ref={sectionRef}
+ className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none relative ">
 
 
       {/* 🎬 LEFT SPINE PAGINATION (Top image locked at top-[36px], gap & height scale down as screen height shrinks) */}
@@ -967,30 +964,30 @@ lerpSpeed: ${lerpSpeed}`;
                 const imageSrc = getMemberImage(m, isMobileView);
 
                 return (
-                  <button aria-label="Action button"
-                    key={idx}
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
+                  <button
+ key={idx}
+ type="button"
+ onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
                     className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
                       }`}>
                     {/* Member Card Thumbnail */}
                     <div
-                      className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
-                      style={{
-                        height: `${spineVideoHeight}px`,
-                        width: `${Math.round(spineVideoHeight * 0.78)}px`,
-                      }}>
+ className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
+ style={{
+ height: `${spineVideoHeight}px`,
+ width: `${Math.round(spineVideoHeight * 0.78)}px`,
+ }}>
                       <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
                     </div>
 
                     {/* Member Name & Role Display (Responsive text sizing) */}
                     <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0"
-                      : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                      }`}>
-                      <p className="   drop-">
+ : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+ }`}>
+                      <p className=" drop-">
                         {m?.name || "Band Member"}
                       </p>
-                      <p className="mt-0.5 sm:  ">
+                      <p className="mt-0.5 sm: ">
                         {m?.role || "Musician"}
                       </p>
                     </div>
@@ -1012,10 +1009,10 @@ lerpSpeed: ${lerpSpeed}`;
                 const imageSrc = getMemberImage(m, isMobileView);
 
                 return (
-                  <button aria-label="Action button"
-                    key={idx}
-                    type="button"
-                    onClick={(e) => {
+                  <button
+ key={idx}
+ type="button"
+ onClick={(e) => {
                       e.stopPropagation();
                       goToSlide(idx);
                       setSelectedMemberForSheet(m as BandMemberFactSheet);
@@ -1025,23 +1022,23 @@ lerpSpeed: ${lerpSpeed}`;
                       }`}>
                     {/* Member Name & Role Display (Responsive text sizing) */}
                     <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0"
-                      : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                      }`}>
-                      <p className="   drop-">
+ : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+ }`}>
+                      <p className=" drop-">
                         {m?.name || "Band Member"}
                       </p>
-                      <p className="mt-0.5 sm:  ">
+                      <p className="mt-0.5 sm: ">
                         {m?.role || "Musician"}
                       </p>
                     </div>
 
                     {/* Member Card Thumbnail */}
                     <div
-                      className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
-                      style={{
-                        height: `${spineVideoHeight}px`,
-                        width: `${Math.round(spineVideoHeight * 0.78)}px`,
-                      }}>
+ className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
+ style={{
+ height: `${spineVideoHeight}px`,
+ width: `${Math.round(spineVideoHeight * 0.78)}px`,
+ }}>
                       <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
                     </div>
                   </button>
@@ -1057,22 +1054,22 @@ lerpSpeed: ${lerpSpeed}`;
 
         {/* 5-CARD FULL-SCREEN CANVAS */}
         <div
-          ref={containerRef}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-          style={{
-            touchAction: "pan-y",
-            paddingTop: `${scaledHeadroomPadding}px`,
-            paddingBottom: "24px",
-          }}
-          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative">
+ ref={containerRef}
+ onPointerDown={handlePointerDown}
+ onPointerMove={handlePointerMove}
+ onPointerUp={handlePointerUp}
+ onPointerCancel={handlePointerUp}
+ style={{
+ touchAction: "pan-y",
+ paddingTop: `${scaledHeadroomPadding}px`,
+ paddingBottom: "24px",
+ }}
+ className="w-full overflow-visible cursor-grab active:cursor-grabbing relative">
           {/* TRACK ELEMENT (GPU accelerated with Smooothy parallax & speed lerp) */}
           <div
-            ref={trackRef}
-            className="flex items-end pt-0 pb-0"
-            style={{ width: `${displayMembers.length * itemTotalWidth}px` }}>
+ ref={trackRef}
+ className="flex items-end pt-0 pb-0"
+ style={{ width: `${displayMembers.length * itemTotalWidth}px` }}>
             {displayMembers.map((m, i) => {
               const imageSrc = getMemberImage(m, isMobileView);
               const desktopSrc = getMemberDesktopImage(m);
@@ -1080,11 +1077,11 @@ lerpSpeed: ${lerpSpeed}`;
 
               return (
                 <div
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`View details for ${m?.name || "Band Member"}`}
-                  key={i}
-                  onClick={(e) => {
+ role="button"
+ tabIndex={0}
+ aria-label={`View details for ${m?.name || "Band Member"}`}
+ key={i}
+ onClick={(e) => {
                     if (hasTriggeredRef.current) {
                       e.preventDefault();
                       return;
@@ -1107,35 +1104,35 @@ lerpSpeed: ${lerpSpeed}`;
                     marginRight: i < displayMembers.length - 1 ? `${gap}px` : "0px",
                     isolation: "isolate"
                   }}
-                  className="shrink-0    rounded-lg px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left">
+                  className="shrink-0 rounded-lg px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left">
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible relative">
 
                       {/* Dynamic Sized Member Photo Cutout Container */}
                       <div
-                        className="smooothy-img-container relative flex items-end justify-center overflow-visible    transition-colors duration-150 origin-bottom w-full"
-                        style={{
-                          height: `${imageHeight}px`,
-                          transform: `translateY(${imageOffsetY}px)`,
-                        }}>
+ className="smooothy-img-container relative flex items-end justify-center overflow-visible transition-colors duration-150 origin-bottom w-full"
+ style={{
+ height: `${imageHeight}px`,
+ transform: `translateY(${imageOffsetY}px)`,
+ }}>
                         <picture className="w-full h-full flex items-end justify-center">
                           <source media="(max-width: 767px)" srcSet={mobileSrc} />
                           <source media="(min-width: 768px)" srcSet={desktopSrc} />
                           <Image
-                            src={imageSrc}
-                            alt={m?.name || "Member Photo"}
-                            width={1200}
-                            height={1600}
-                            quality={100}
-                            unoptimized
-                            loading="lazy"
-                            draggable={false}
-                            className="smooothy-img w-full h-full object-contain object-bottom pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
-                            style={{
-                              transform: `scale(${imageScale})`,
-                              opacity: 1,
-                            }}
-                          />
+ src={imageSrc}
+ alt={m?.name || "Member Photo"}
+ width={1200}
+ height={1600}
+ quality={100}
+ unoptimized
+ loading="lazy"
+ draggable={false}
+ className="smooothy-img w-full h-full object-contain object-bottom pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
+ style={{
+ transform: `scale(${imageScale})`,
+ opacity: 1,
+ }}
+ />
                         </picture>
 
                         {/* Bottom Gradient Fade Overlay for Mobile & Tablet */}
@@ -1144,12 +1141,12 @@ lerpSpeed: ${lerpSpeed}`;
                       {/* Dynamic Member Info Overlay (z-30 - Pure White & Bright Purple Text with Live Control) */}
                       {textPos === "left" && (
                         <div
-                          id="names"
-                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] transition-opacity duration-300"
-                          style={{
-                            bottom: `1px`,
-                            opacity: activeIndex === i ? 1 : inactiveNameOpacity,
-                            ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
+ id="names"
+ className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] transition-opacity duration-300"
+ style={{
+ bottom: `1px`,
+ opacity: activeIndex === i ? 1 : inactiveNameOpacity,
+ ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
                           <h3 className="sm:bg-black/60 bg-black/40 text-white pb-1pt-1 pr-2 pl-2" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
@@ -1163,8 +1160,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-glass" && (
                         <div
-                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+ className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
+ style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1176,8 +1173,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-accent" && (
                         <div
-                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+ className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
+ style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1189,11 +1186,11 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center" && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none w-full px-2 transition-opacity duration-300"
-                          style={{
-                            bottom: `${textBottomOffset}px`,
-                            opacity: activeIndex === i ? 1 : inactiveNameOpacity,
-                            ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
+ className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none w-full px-2 transition-opacity duration-300"
+ style={{
+ bottom: `${textBottomOffset}px`,
+ opacity: activeIndex === i ? 1 : inactiveNameOpacity,
+ ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
@@ -1206,8 +1203,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-2.5 rounded-lg   transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+ className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-2.5 rounded-lg transition-opacity duration-300"
+ style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1219,11 +1216,11 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right" && (
                         <div
-                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] transition-opacity duration-300"
-                          style={{
-                            bottom: `${textBottomOffset}px`,
-                            opacity: activeIndex === i ? 1 : inactiveNameOpacity,
-                            ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
+ className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] transition-opacity duration-300"
+ style={{
+ bottom: `${textBottomOffset}px`,
+ opacity: activeIndex === i ? 1 : inactiveNameOpacity,
+ ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
                           <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
@@ -1236,8 +1233,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-glass" && (
                         <div
-                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+ className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
+ style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1249,8 +1246,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-accent" && (
                         <div
-                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
-                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+ className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
+ style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1271,8 +1268,8 @@ lerpSpeed: ${lerpSpeed}`;
       </div>
 
       <MemberFactSheetDrawer
-        isOpen={isFactSheetOpen}
-        onClose={() => setIsFactSheetOpen(false)}
+ isOpen={isFactSheetOpen}
+ onClose={() => setIsFactSheetOpen(false)}
         member={selectedMemberForSheet}
         allMembers={displayMembers as BandMemberFactSheet[]}
         onSelectMember={(m) => {

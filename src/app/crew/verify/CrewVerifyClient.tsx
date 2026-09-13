@@ -31,18 +31,18 @@ function findRaffleByPin(pin: string) {
 const renderBackground = () => (
   <div className="lock-scroll-fullscreen">
     <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        backgroundImage: "url('/images/hero/hero-band-bg.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        filter: "brightness(0.55) blur(3px)",
-        transform: "scale(1.08)",
-        zIndex: 0,
-        pointerEvents: "none"
-      }}
-    />
+ style={{
+ position: "fixed",
+ inset: 0,
+ backgroundImage: "url('/images/hero/hero-band-bg.png')",
+ backgroundSize: "cover",
+ backgroundPosition: "center",
+ filter: "brightness(0.55) blur(3px)",
+ transform: "scale(1.08)",
+ zIndex: 0,
+ pointerEvents: "none"
+ }}
+ />
     <div className="fixed inset-0 bg-black/55 backdrop-blur-[45px] z-0 pointer-events-none" />
   </div>
 );
@@ -154,8 +154,8 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
 
         <div className="relative z-10 w-full max-w-md">
           <div
-            className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-            style={MODAL_GLASS_STYLE}>
+ className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+ style={MODAL_GLASS_STYLE}>
             <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]">
               <ShieldAlert className="w-8 h-8" />
             </div>
@@ -171,15 +171,15 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
             {!isLoggedIn ? (
               <div className="flex flex-col gap-3">
                 <button
-                  type="button"
-                  onClick={() => openModal()}
+ type="button"
+ onClick={() => openModal()}
                   className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-all duration-300 cursor-pointer shadow-[0_0_25px_rgba(16,185,129,0.3)] rounded-xl">
 
                   Sign In to Access
                 </button>
                 <Link
-                  href="/"
-                  className="text-white/60 hover:text-white transition-colors">
+ href="/"
+ className="text-white/60 hover:text-white transition-colors">
                   Return to Home
                 </Link>
               </div>
@@ -189,8 +189,8 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
                   Logged in as <span className="font-semibold text-white">{member?.email}</span> (Role: {member?.role}). This account does not have crew privileges.
                 </div>
                 <Link
-                  href="/"
-                  className="py-3 bg-white/10 hover:bg-white/20 text-white uppercase transition-colors text-center">
+ href="/"
+ className="py-3 bg-white/10 hover:bg-white/20 text-white uppercase transition-colors text-center">
                   Return to Home
                 </Link>
               </div>
@@ -211,8 +211,8 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
         {/* TOP BAR / NAVIGATION */}
         <div className="flex items-center justify-between mb-4 px-1">
           <Link
-            href="/crew"
-            className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors">
+ href="/crew"
+ className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors">
             ← Crew Dashboard
           </Link>
           <span className="text-emerald-400 font-mono flex items-center gap-1">
@@ -223,8 +223,8 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
         {/* INPUT / CHECKING FORM */}
         {result !== 'valid' && result !== 'invalid' && (
           <div
-            className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-            style={MODAL_GLASS_STYLE}>
+ className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+ style={MODAL_GLASS_STYLE}>
             <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--color-accent)] shadow-[0_0_25px_rgba(16,185,129,0.3)]">
               <Trophy className="w-8 h-8" />
             </div>
@@ -240,8 +240,8 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
             <div className="flex items-center justify-center gap-2 mb-6">
               {pin.map((digit, idx) => (
                 <input
-                  key={PIN_SLOT_IDS[idx]}
-                  ref={(el) => { inputRefs.current[idx] = el; }}
+ key={PIN_SLOT_IDS[idx]}
+ ref={(el) => { inputRefs.current[idx] = el; }}
                   type="text"
                   inputMode="numeric"
                   maxLength={1}
@@ -270,13 +270,13 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
               </div>
             ) : (
               <button
-                type="button"
-                onClick={verifyPin}
-                disabled={fullPin.length !== 6}
-                className={`w-full py-3.5 uppercase transition-all duration-300 rounded-xl cursor-pointer ${fullPin.length === 6
-                  ? 'bg-[var(--color-accent)] hover:bg-emerald-500 text-white shadow-[0_0_25px_rgba(16,185,129,0.4)]'
-                  : 'bg-white/10 text-white/40 cursor-not-allowed border border-white/5'
-                  }`}>
+ type="button"
+ onClick={verifyPin}
+ disabled={fullPin.length !== 6}
+ className={`w-full py-3.5 uppercase transition-all duration-300 rounded-xl cursor-pointer ${fullPin.length === 6
+ ? 'bg-[var(--color-accent)] hover:bg-emerald-500 text-white shadow-[0_0_25px_rgba(16,185,129,0.4)]'
+ : 'bg-white/10 text-white/40 cursor-not-allowed border border-white/5'
+ }`}>
                 Verify PIN Code
               </button>
             )}
@@ -286,8 +286,8 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
         {/* VALID WINNER RESULT */}
         {result === 'valid' && winnerData && (
           <div
-            className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out border-emerald-500/50"
-            style={MODAL_GLASS_STYLE}>
+ className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out border-emerald-500/50"
+ style={MODAL_GLASS_STYLE}>
             <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
               <Trophy className="w-9 h-9" />
             </div>
@@ -324,7 +324,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
               Access My Dashboard →
             </Link>
 
-            <button type="button" aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition-colors cursor-pointer rounded-xl">
+            <button type="button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition-colors cursor-pointer rounded-xl">
               Verify Another PIN
             </button>
           </div>
@@ -333,8 +333,8 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
         {/* INVALID */}
         {result === 'invalid' && (
           <div
-            className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-            style={MODAL_GLASS_STYLE}>
+ className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+ style={MODAL_GLASS_STYLE}>
             <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
               <XCircle className="w-8 h-8" />
             </div>
@@ -342,7 +342,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
             <p className="mb-5">
               This PIN doesn't match any crew access code. Please check your PIN and try again.
             </p>
-            <button type="button" aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition-colors cursor-pointer">
+            <button type="button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition-colors cursor-pointer">
               Try Again
             </button>
           </div>

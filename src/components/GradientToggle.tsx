@@ -53,17 +53,17 @@ export function GradientToggle({
 
   return (
     <label
-      htmlFor={toggleId}
-      className={`inline-flex items-center gap-3 select-none cursor-pointer group ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}>
+ htmlFor={toggleId}
+ className={`inline-flex items-center gap-3 select-none cursor-pointer group ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}>
       <div className="squishy-toggle relative inline-block w-[50px] h-[28px] shrink-0 rounded-lg overflow-hidden p-[3px] transition-all duration-300 shadow-inner border border-white/25 bg-black/50">
         <input
-          id={toggleId}
-          type="checkbox"
-          checked={checked}
-          disabled={disabled}
-          onChange={handleChange}
-          className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none outline-none opacity-0 disabled:cursor-not-allowed"
-        />
+ id={toggleId}
+ type="checkbox"
+ checked={checked}
+ disabled={disabled}
+ onChange={handleChange}
+ className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none outline-none opacity-0 disabled:cursor-not-allowed"
+ />
 
         {/* Off background */}
         <div className="pointer-events-none absolute inset-0 rounded-lg bg-white/10 transition-opacity duration-300" />
@@ -73,13 +73,13 @@ export function GradientToggle({
 
         {/* Gooey Squishy Thumb */}
         <div
-          onAnimationEnd={handleAnimationEnd}
-          className={`squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-lg bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
-        />
+ onAnimationEnd={handleAnimationEnd}
+ className={`squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-lg bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
+ />
       </div>
 
       {label && (
-        <span className={`   transition-colors text-left ${checked ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
+        <span className={` transition-colors text-left ${checked ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
           {label}
         </span>
       )}

@@ -29,14 +29,14 @@ export async function GET(request: Request) {
 
     // Build aggregation map
     const referrerMap: Record<string, {
-      referrer_id: string | null;
-      referrer_code: string;
-      total: number;
-      signed_up: number;
-      rewarded: number;
-      pending: number;
-      recent: string[];
-    }> = {};
+ referrer_id: string | null;
+ referrer_code: string;
+ total: number;
+ signed_up: number;
+ rewarded: number;
+ pending: number;
+ recent: string[];
+ }> = {};
 
     for (const r of (referrals || [])) {
       const key = r.referrer_code;

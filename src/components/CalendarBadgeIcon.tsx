@@ -19,12 +19,12 @@ export function CalendarBadgeIcon({
 }: CalendarBadgeIconProps) {
   return (
     <svg
-      width={width}
-      height={height}
-      viewBox="0 0 100 100"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={`select-none ${className}`}>
+ width={width}
+ height={height}
+ viewBox="0 0 100 100"
+ fill="none"
+ xmlns="http://www.w3.org/2000/svg"
+ className={`select-none ${className}`}>
       <defs>
         {/* Drop shadow underneath calendar card */}
         <filter id="cal-badge-shadow" x="-10%" y="-10%" width="125%" height="125%">
@@ -44,9 +44,9 @@ export function CalendarBadgeIcon({
 
         {/* Top Header Section (Red/Coral) */}
         <path
-          d="M 10 13 C 10 11.34 11.34 10 13 10 L 87 10 C 88.66 10 90 11.34 90 13 L 90 38 L 10 38 Z"
-          fill="url(#cal-badge-header-grad)"
-        />
+ d="M 10 13 C 10 11.34 11.34 10 13 10 L 87 10 C 88.66 10 90 11.34 90 13 L 90 38 L 10 38 Z"
+ fill="url(#cal-badge-header-grad)"
+ />
 
         {/* Separator line between header & body */}
         <line x1="10" y1="38" x2="90" y2="38" stroke="#d5d5d5" strokeWidth="1" />
@@ -57,13 +57,13 @@ export function CalendarBadgeIcon({
 
         {/* Month Abbreviation Text (e.g. JUL) */}
         <text
-          x="22"
-          y="32"
-          fill="#ffffff"
-          fontSize="13"
-          fontWeight="800"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          letterSpacing="0.05em">
+ x="22"
+ y="32"
+ fill="#ffffff"
+ fontSize="13"
+ fontWeight="800"
+ fontFamily="system-ui, -apple-system, sans-serif"
+ letterSpacing="0.05em">
           {month.toUpperCase()}
         </text>
 
@@ -76,14 +76,14 @@ export function CalendarBadgeIcon({
 
         {/* Day Number (e.g. 17) */}
         <text
-          x="50"
-          y="74"
-          fill="#333333"
-          fontSize="36"
-          fontWeight="900"
-          fontFamily="system-ui, -apple-system, sans-serif"
-          textAnchor="middle"
-          dominantBaseline="central">
+ x="50"
+ y="74"
+ fill="#333333"
+ fontSize="36"
+ fontWeight="900"
+ fontFamily="system-ui, -apple-system, sans-serif"
+ textAnchor="middle"
+ dominantBaseline="central">
           {day}
         </text>
       </g>

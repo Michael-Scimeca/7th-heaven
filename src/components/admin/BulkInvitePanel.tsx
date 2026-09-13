@@ -213,33 +213,32 @@ export default function BulkInvitePanel() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* CSV File Upload Dropzone */}
           <button
-            type="button"
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
+ type="button"
+ onDragOver={handleDragOver}
+ onDragLeave={handleDragLeave}
+ onDrop={handleDrop}
+ onClick={() => fileInputRef.current?.click()}
             className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full    border-white/10 ${isDragging ? "scale-[0.99]"
               : "border-black/20 ]"
               }`}>
-            <input aria-label="Input field"
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileUpload}
-              accept=".csv"
-              className="hidden"
-            />
+            <input type="file"
+ ref={fileInputRef}
+ onChange={handleFileUpload}
+ accept=".csv"
+ className="hidden"
+ />
             <span className="text-3xl mb-3 block"></span>
             <p className="text-black uppercase r">Drag & Drop CSV File</p>
-            <p className="text-black/60   .5 max-w-xs">
+            <p className="text-black/60 .5 max-w-xs">
               Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
             </p>
             <CosmicRadialButton
-              type="button"
-              onClick={(e) => {
+ type="button"
+ onClick={(e) => {
                 e.stopPropagation();
                 fileInputRef.current?.click();
               }}
-              className="mt-4 !py-2 !px-5 uppercase text-white   ">
+              className="mt-4 !py-2 !px-5 uppercase text-white ">
               Browse Files
             </CosmicRadialButton>
           </button>
@@ -249,19 +248,19 @@ export default function BulkInvitePanel() {
             <label htmlFor="bulk-invite-text-input" className="uppercase tracking-[0.15em] text-white/70">Copy-Paste Contact List</label>
             <div className="input-glow-border rounded-lg w-full">
               <textarea aria-label="Text input"
-                id="bulk-invite-text-input"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
+ id="bulk-invite-text-input"
+ value={inputText}
+ onChange={(e) => setInputText(e.target.value)}
                 placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
                 rows={5}
                 className="w-full bg-black/40 border-white/10 outline-none text-white px-4 py-3 rounded-lg resize-none placeholder:text-white/40 transition-colors"
               />
             </div>
             <CosmicRadialButton
-              type="button"
-              onClick={() => parseInvites(inputText)}
+ type="button"
+ onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full justify-center !py-3 !px-5 uppercase text-white    disabled:opacity-30">
+              className="w-full justify-center !py-3 !px-5 uppercase text-white disabled:opacity-30">
               Parse & Import List
             </CosmicRadialButton>
           </div>
@@ -280,18 +279,18 @@ export default function BulkInvitePanel() {
             </div>
 
             <div className="flex items-center gap-3">
-              <button aria-label="Action button"
-                type="button"
-                onClick={clearList}
-                disabled={sending}
-                className="px-4 py-2 uppercase text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30">
+              <button
+ type="button"
+ onClick={clearList}
+ disabled={sending}
+ className="px-4 py-2 uppercase text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30">
                 Clear List
               </button>
               <CosmicRadialButton
-                type="button"
-                onClick={dispatchInvites}
-                disabled={sending}
-                className="!py-3 !px-6 uppercase !text-white disabled:opacity-40">
+ type="button"
+ onClick={dispatchInvites}
+ disabled={sending}
+ className="!py-3 !px-6 uppercase !text-white disabled:opacity-40">
                 {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
               </CosmicRadialButton>
             </div>
@@ -342,8 +341,8 @@ export default function BulkInvitePanel() {
                       )}
                       {inv.status === "failed" && (
                         <span
-                          title={inv.error}
-                          className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-lg uppercase text-[0.55rem] border border-rose-300 cursor-help">
+ title={inv.error}
+ className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-lg uppercase text-[0.55rem] border border-rose-300 cursor-help">
                           Failed
                         </span>
                       )}

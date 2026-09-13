@@ -120,7 +120,7 @@ export async function POST(req: Request) {
     <!-- CTA -->
     <div style="text-align:center;margin-bottom:40px;">
       <a href="${SITE_URL}/cruise/dashboard"
-         style="display:inline-block;padding:14px 36px;background:#22d3ee;color:#0a0a0f;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:2px;border-radius:10px;text-decoration:none;">
+ style="display:inline-block;padding:14px 36px;background:#22d3ee;color:#0a0a0f;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:2px;border-radius:10px;text-decoration:none;">
         Access Cruise Hub →
       </a>
     </div>

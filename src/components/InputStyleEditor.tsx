@@ -306,16 +306,16 @@ a:hover {
 
               <div className="flex items-center gap-2">
                 <button
-                  aria-label="Reset to defaults"
-                  onClick={() => setSettings(DEFAULT_INPUT_SETTINGS)}
+ aria-label="Reset to defaults"
+ onClick={() => setSettings(DEFAULT_INPUT_SETTINGS)}
                   className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 text-white/70 hover:text-white transition-colors flex items-center gap-1.5 border border-white/10"
                   title="Reset to defaults">
                   <RotateCcw className="w-3.5 h-3.5" />
                   Reset
                 </button>
                 <button
-                  aria-label="Close modal"
-                  onClick={() => setIsOpen(false)}
+ aria-label="Close modal"
+ onClick={() => setIsOpen(false)}
                   className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer">
                   <X className="w-4 h-4" />
                 </button>
@@ -329,8 +329,8 @@ a:hover {
               </span>
               {PRESETS.map((p) => (
                 <button
-                  key={p.name}
-                  onClick={() => setSettings((prev) => ({ ...prev, ...p.settings }))}
+ key={p.name}
+ onClick={() => setSettings((prev) => ({ ...prev, ...p.settings }))}
                   className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-cyan-500/20 text-white/80 border border-white/10 hover:border-cyan-400/40 transition-all shrink-0 cursor-pointer">
                   {p.name}
                 </button>
@@ -340,37 +340,37 @@ a:hover {
             {/* View Tabs */}
             <div className="flex border-b border-white/10">
               <button
-                onClick={() => setActiveTab("controls")}
+ onClick={() => setActiveTab("controls")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "controls" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}>
                 <Sliders className="w-3.5 h-3.5" /> Inputs
               </button>
               <button
-                onClick={() => setActiveTab("search")}
+ onClick={() => setActiveTab("search")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "search" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}>
                 <Search className="w-3.5 h-3.5" /> Search Bar
               </button>
               <button
-                onClick={() => setActiveTab("checkboxes")}
+ onClick={() => setActiveTab("checkboxes")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "checkboxes" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}>
                 <CheckSquare className="w-3.5 h-3.5" /> Checkboxes
               </button>
               <button
-                onClick={() => setActiveTab("typography")}
+ onClick={() => setActiveTab("typography")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "typography" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}>
                 <Type className="w-3.5 h-3.5" /> Typography & Tags
               </button>
               <button
-                onClick={() => setActiveTab("preview")}
+ onClick={() => setActiveTab("preview")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "preview" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}>
                 <Eye className="w-3.5 h-3.5" /> Sandbox
               </button>
               <button
-                onClick={() => setActiveTab("css")}
+ onClick={() => setActiveTab("css")}
                 className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "css" ? "border-cyan-400    bg-[#00000029] " : "border-transparent text-white/50 hover:text-white"
                   }`}>
                 <Layers className="w-3.5 h-3.5" /> CSS
@@ -392,9 +392,9 @@ a:hover {
                         <span>{Math.round(settings.bgOpacity * 100)}%</span>
                       </label>
                       <input
-                        type="range" min="0" max="1" step="0.01"
-                        value={settings.bgOpacity}
-                        onChange={(e) => update("bgOpacity", parseFloat(e.target.value))}
+ type="range" min="0" max="1" step="0.01"
+ value={settings.bgOpacity}
+ onChange={(e) => update("bgOpacity", parseFloat(e.target.value))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -405,9 +405,9 @@ a:hover {
                         <span>{settings.blurAmount}px</span>
                       </label>
                       <input
-                        type="range" min="0" max="40" step="1"
-                        value={settings.blurAmount}
-                        onChange={(e) => update("blurAmount", parseInt(e.target.value, 10))}
+ type="range" min="0" max="40" step="1"
+ value={settings.blurAmount}
+ onChange={(e) => update("blurAmount", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -442,9 +442,9 @@ a:hover {
                         <span>{settings.borderWidth}px</span>
                       </label>
                       <input
-                        type="range" min="0" max="6" step="1"
-                        value={settings.borderWidth}
-                        onChange={(e) => update("borderWidth", parseInt(e.target.value, 10))}
+ type="range" min="0" max="6" step="1"
+ value={settings.borderWidth}
+ onChange={(e) => update("borderWidth", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -455,9 +455,9 @@ a:hover {
                         <span>{settings.borderRadius}px</span>
                       </label>
                       <input
-                        type="range" min="0" max="36" step="1"
-                        value={settings.borderRadius}
-                        onChange={(e) => update("borderRadius", parseInt(e.target.value, 10))}
+ type="range" min="0" max="36" step="1"
+ value={settings.borderRadius}
+ onChange={(e) => update("borderRadius", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -466,9 +466,9 @@ a:hover {
                       <label className="text-white/70 block mb-1">Border Color</label>
                       <div className="flex gap-2">
                         <input
-                          type="text"
-                          value={settings.borderColor}
-                          onChange={(e) => update("borderColor", e.target.value)}
+ type="text"
+ value={settings.borderColor}
+ onChange={(e) => update("borderColor", e.target.value)}
                           className="flex-1 bg-black/50 border border-white/10 px-3 py-1.5 rounded-lg text-white"
                         />
                       </div>
@@ -486,9 +486,9 @@ a:hover {
                         <span>{Math.round(settings.focusGlowOpacity * 100)}%</span>
                       </label>
                       <input
-                        type="range" min="0" max="1" step="0.05"
-                        value={settings.focusGlowOpacity}
-                        onChange={(e) => update("focusGlowOpacity", parseFloat(e.target.value))}
+ type="range" min="0" max="1" step="0.05"
+ value={settings.focusGlowOpacity}
+ onChange={(e) => update("focusGlowOpacity", parseFloat(e.target.value))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -496,10 +496,10 @@ a:hover {
                     <div>
                       <label className="text-white/70 block mb-1">Focus Border Color</label>
                       <input
-                        type="color"
-                        value={settings.focusBorderColor.startsWith("#") ? settings.focusBorderColor : "#00f0ff"}
-                        onChange={(e) => update("focusBorderColor", e.target.value)}
-                        className="w-full h-8    rounded cursor-pointer border border-white/10"
+ type="color"
+ value={settings.focusBorderColor.startsWith("#") ? settings.focusBorderColor : "#00f0ff"}
+ onChange={(e) => update("focusBorderColor", e.target.value)}
+                        className="w-full h-8 rounded cursor-pointer border border-white/10"
                       />
                     </div>
                   </div>
@@ -515,9 +515,9 @@ a:hover {
                         <span>{settings.paddingY}px</span>
                       </label>
                       <input
-                        type="range" min="6" max="24" step="1"
-                        value={settings.paddingY}
-                        onChange={(e) => update("paddingY", parseInt(e.target.value, 10))}
+ type="range" min="6" max="24" step="1"
+ value={settings.paddingY}
+ onChange={(e) => update("paddingY", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -528,9 +528,9 @@ a:hover {
                         <span>{settings.paddingX}px</span>
                       </label>
                       <input
-                        type="range" min="8" max="32" step="1"
-                        value={settings.paddingX}
-                        onChange={(e) => update("paddingX", parseInt(e.target.value, 10))}
+ type="range" min="8" max="32" step="1"
+ value={settings.paddingX}
+ onChange={(e) => update("paddingX", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -549,15 +549,15 @@ a:hover {
                       <label className="text-white/70 block mb-1">Search Icon Color</label>
                       <div className="flex gap-3 items-center">
                         <input
-                          type="color"
-                          value={settings.searchIconColor?.startsWith("#") ? settings.searchIconColor : "#ffffff"}
-                          onChange={(e) => update("searchIconColor", e.target.value)}
-                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
+ type="color"
+ value={settings.searchIconColor?.startsWith("#") ? settings.searchIconColor : "#ffffff"}
+ onChange={(e) => update("searchIconColor", e.target.value)}
+                          className="w-11 h-11 rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
-                          type="text"
-                          value={settings.searchIconColor || "#ffffff"}
-                          onChange={(e) => update("searchIconColor", e.target.value)}
+ type="text"
+ value={settings.searchIconColor || "#ffffff"}
+ onChange={(e) => update("searchIconColor", e.target.value)}
                           className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg text-white"
                         />
                       </div>
@@ -569,9 +569,9 @@ a:hover {
                         <span>{Math.round((settings.searchIconOpacity ?? 0.5) * 100)}%</span>
                       </label>
                       <input
-                        type="range" min="0.1" max="1" step="0.05"
-                        value={settings.searchIconOpacity ?? 0.5}
-                        onChange={(e) => update("searchIconOpacity", parseFloat(e.target.value))}
+ type="range" min="0.1" max="1" step="0.05"
+ value={settings.searchIconOpacity ?? 0.5}
+ onChange={(e) => update("searchIconOpacity", parseFloat(e.target.value))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -582,9 +582,9 @@ a:hover {
                         <span>{settings.searchIconLeft ?? 16}px</span>
                       </label>
                       <input
-                        type="range" min="8" max="36" step="2"
-                        value={settings.searchIconLeft ?? 16}
-                        onChange={(e) => update("searchIconLeft", parseInt(e.target.value, 10))}
+ type="range" min="8" max="36" step="2"
+ value={settings.searchIconLeft ?? 16}
+ onChange={(e) => update("searchIconLeft", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -595,9 +595,9 @@ a:hover {
                         <span>+{settings.searchIconTopOffset ?? 1.5}px</span>
                       </label>
                       <input
-                        type="range" min="-6" max="6" step="0.5"
-                        value={settings.searchIconTopOffset ?? 1.5}
-                        onChange={(e) => update("searchIconTopOffset", parseFloat(e.target.value))}
+ type="range" min="-6" max="6" step="0.5"
+ value={settings.searchIconTopOffset ?? 1.5}
+ onChange={(e) => update("searchIconTopOffset", parseFloat(e.target.value))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -608,9 +608,9 @@ a:hover {
                         <span>{settings.searchPaddingLeft ?? 48}px</span>
                       </label>
                       <input
-                        type="range" min="32" max="80" step="2"
-                        value={settings.searchPaddingLeft ?? 48}
-                        onChange={(e) => update("searchPaddingLeft", parseInt(e.target.value, 10))}
+ type="range" min="32" max="80" step="2"
+ value={settings.searchPaddingLeft ?? 48}
+ onChange={(e) => update("searchPaddingLeft", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -621,9 +621,9 @@ a:hover {
                         <span>{settings.searchPaddingRight ?? 48}px</span>
                       </label>
                       <input
-                        type="range" min="24" max="80" step="2"
-                        value={settings.searchPaddingRight ?? 48}
-                        onChange={(e) => update("searchPaddingRight", parseInt(e.target.value, 10))}
+ type="range" min="24" max="80" step="2"
+ value={settings.searchPaddingRight ?? 48}
+ onChange={(e) => update("searchPaddingRight", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -634,9 +634,9 @@ a:hover {
                         <span>{settings.searchPaddingY ?? 14}px</span>
                       </label>
                       <input
-                        type="range" min="6" max="24" step="1"
-                        value={settings.searchPaddingY ?? 14}
-                        onChange={(e) => update("searchPaddingY", parseInt(e.target.value, 10))}
+ type="range" min="6" max="24" step="1"
+ value={settings.searchPaddingY ?? 14}
+ onChange={(e) => update("searchPaddingY", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -647,9 +647,9 @@ a:hover {
                         <span>{settings.searchMaxWidth ?? 500}px</span>
                       </label>
                       <input
-                        type="range" min="300" max="900" step="20"
-                        value={settings.searchMaxWidth ?? 500}
-                        onChange={(e) => update("searchMaxWidth", parseInt(e.target.value, 10))}
+ type="range" min="300" max="900" step="20"
+ value={settings.searchMaxWidth ?? 500}
+ onChange={(e) => update("searchMaxWidth", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -660,9 +660,9 @@ a:hover {
                         <span>{settings.searchRadius ?? 12}px</span>
                       </label>
                       <input
-                        type="range" min="0" max="32" step="2"
-                        value={settings.searchRadius ?? 12}
-                        onChange={(e) => update("searchRadius", parseInt(e.target.value, 10))}
+ type="range" min="0" max="32" step="2"
+ value={settings.searchRadius ?? 12}
+ onChange={(e) => update("searchRadius", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -673,27 +673,27 @@ a:hover {
                       <div className="input-glow-border rounded-xl">
                         <div className="relative flex items-center">
                           <div
-                            className="!absolute z-10 pointer-events-none"
-                            style={{
-                              left: `${settings.searchIconLeft ?? 16}px`,
-                              color: settings.searchIconColor || "#ffffff",
-                              opacity: settings.searchIconOpacity ?? 0.5,
-                            }}>
+ className="!absolute z-10 pointer-events-none"
+ style={{
+ left: `${settings.searchIconLeft ?? 16}px`,
+ color: settings.searchIconColor || "#ffffff",
+ opacity: settings.searchIconOpacity ?? 0.5,
+ }}>
                             <Search className="w-4 h-4" />
                           </div>
                           <input
-                            type="search"
-                            aria-label="Search questions, keywords, or topics"
-                            placeholder="Search"
-                            className="form-input w-full font-semibold"
-                            style={{
-                              paddingLeft: `${settings.searchPaddingLeft ?? 48}px`,
-                              paddingRight: `${settings.searchPaddingRight ?? 48}px`,
-                              paddingTop: `${settings.searchPaddingY ?? 14}px`,
-                              paddingBottom: `${settings.searchPaddingY ?? 14}px`,
-                              borderRadius: `${settings.searchRadius ?? 12}px`,
-                            }}
-                          />
+ type="search"
+ aria-label="Search questions, keywords, or topics"
+ placeholder="Search"
+ className="form-input w-full font-semibold"
+ style={{
+ paddingLeft: `${settings.searchPaddingLeft ?? 48}px`,
+ paddingRight: `${settings.searchPaddingRight ?? 48}px`,
+ paddingTop: `${settings.searchPaddingY ?? 14}px`,
+ paddingBottom: `${settings.searchPaddingY ?? 14}px`,
+ borderRadius: `${settings.searchRadius ?? 12}px`,
+ }}
+ />
                         </div>
                       </div>
                     </div>
@@ -712,15 +712,15 @@ a:hover {
                       <label className="text-white/70 block mb-1">Checkbox Accent Color</label>
                       <div className="flex gap-3 items-center">
                         <input
-                          type="color"
-                          value={settings.checkboxAccentColor.startsWith("#") ? settings.checkboxAccentColor : "#c084fc"}
-                          onChange={(e) => update("checkboxAccentColor", e.target.value)}
-                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
+ type="color"
+ value={settings.checkboxAccentColor.startsWith("#") ? settings.checkboxAccentColor : "#c084fc"}
+ onChange={(e) => update("checkboxAccentColor", e.target.value)}
+                          className="w-11 h-11 rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
-                          type="text"
-                          value={settings.checkboxAccentColor}
-                          onChange={(e) => update("checkboxAccentColor", e.target.value)}
+ type="text"
+ value={settings.checkboxAccentColor}
+ onChange={(e) => update("checkboxAccentColor", e.target.value)}
                           className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg text-white"
                         />
                       </div>
@@ -732,9 +732,9 @@ a:hover {
                         <span>{settings.checkboxSize}px</span>
                       </label>
                       <input
-                        type="range" min="12" max="32" step="1"
-                        value={settings.checkboxSize}
-                        onChange={(e) => update("checkboxSize", parseInt(e.target.value, 10))}
+ type="range" min="12" max="32" step="1"
+ value={settings.checkboxSize}
+ onChange={(e) => update("checkboxSize", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -745,9 +745,9 @@ a:hover {
                         <span>{settings.checkboxRadius}px</span>
                       </label>
                       <input
-                        type="range" min="0" max="16" step="1"
-                        value={settings.checkboxRadius}
-                        onChange={(e) => update("checkboxRadius", parseInt(e.target.value, 10))}
+ type="range" min="0" max="16" step="1"
+ value={settings.checkboxRadius}
+ onChange={(e) => update("checkboxRadius", parseInt(e.target.value, 10))}
                         className="w-full accent-cyan-400 cursor-pointer"
                       />
                     </div>
@@ -781,15 +781,15 @@ a:hover {
                       <label className="text-white/70 block mb-1">Headings Color (h1, h2, h3, h4, h5, h6)</label>
                       <div className="flex gap-3 items-center">
                         <input
-                          type="color"
-                          value={settings.headingColor.startsWith("#") ? settings.headingColor : "#ffffff"}
-                          onChange={(e) => update("headingColor", e.target.value)}
-                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
+ type="color"
+ value={settings.headingColor.startsWith("#") ? settings.headingColor : "#ffffff"}
+ onChange={(e) => update("headingColor", e.target.value)}
+                          className="w-11 h-11 rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
-                          type="text"
-                          value={settings.headingColor}
-                          onChange={(e) => update("headingColor", e.target.value)}
+ type="text"
+ value={settings.headingColor}
+ onChange={(e) => update("headingColor", e.target.value)}
                           className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg text-white"
                         />
                       </div>
@@ -799,15 +799,15 @@ a:hover {
                       <label className="text-white/70 block mb-1">Paragraph Text Color (p tags)</label>
                       <div className="flex gap-3 items-center">
                         <input
-                          type="color"
-                          value={settings.pTextColor.startsWith("#") ? settings.pTextColor : "#ffffff"}
-                          onChange={(e) => update("pTextColor", e.target.value)}
-                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
+ type="color"
+ value={settings.pTextColor.startsWith("#") ? settings.pTextColor : "#ffffff"}
+ onChange={(e) => update("pTextColor", e.target.value)}
+                          className="w-11 h-11 rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
-                          type="text"
-                          value={settings.pTextColor}
-                          onChange={(e) => update("pTextColor", e.target.value)}
+ type="text"
+ value={settings.pTextColor}
+ onChange={(e) => update("pTextColor", e.target.value)}
                           className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg text-white"
                         />
                       </div>
@@ -817,15 +817,15 @@ a:hover {
                       <label className="text-white/70 block mb-1">Link Color (a tags)</label>
                       <div className="flex gap-3 items-center">
                         <input
-                          type="color"
-                          value={settings.linkColor.startsWith("#") ? settings.linkColor : "#c084fc"}
-                          onChange={(e) => update("linkColor", e.target.value)}
-                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
+ type="color"
+ value={settings.linkColor.startsWith("#") ? settings.linkColor : "#c084fc"}
+ onChange={(e) => update("linkColor", e.target.value)}
+                          className="w-11 h-11 rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
-                          type="text"
-                          value={settings.linkColor}
-                          onChange={(e) => update("linkColor", e.target.value)}
+ type="text"
+ value={settings.linkColor}
+ onChange={(e) => update("linkColor", e.target.value)}
                           className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg text-white"
                         />
                       </div>
@@ -835,15 +835,15 @@ a:hover {
                       <label className="text-white/70 block mb-1">Link Hover Color (a:hover)</label>
                       <div className="flex gap-3 items-center">
                         <input
-                          type="color"
-                          value={settings.linkHoverColor.startsWith("#") ? settings.linkHoverColor : "#e879f9"}
-                          onChange={(e) => update("linkHoverColor", e.target.value)}
-                          className="w-11 h-11    rounded cursor-pointer border border-white/10 shrink-0"
+ type="color"
+ value={settings.linkHoverColor.startsWith("#") ? settings.linkHoverColor : "#e879f9"}
+ onChange={(e) => update("linkHoverColor", e.target.value)}
+                          className="w-11 h-11 rounded cursor-pointer border border-white/10 shrink-0"
                         />
                         <input
-                          type="text"
-                          value={settings.linkHoverColor}
-                          onChange={(e) => update("linkHoverColor", e.target.value)}
+ type="text"
+ value={settings.linkHoverColor}
+ onChange={(e) => update("linkHoverColor", e.target.value)}
                           className="flex-1 bg-black/50 border border-white/10 px-3 py-2 rounded-lg text-white"
                         />
                       </div>
@@ -894,8 +894,8 @@ a:hover {
                   <div className="flex items-center justify-between">
                     <span className="uppercase">Generated Global CSS Rules</span>
                     <button
-                      onClick={copyCSS}
-                      className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 transition-all flex items-center gap-1.5 cursor-pointer">
+ onClick={copyCSS}
+ className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 transition-all flex items-center gap-1.5 cursor-pointer">
                       {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                       {copied ? "Copied to Clipboard!" : "Copy CSS"}
                     </button>
@@ -911,7 +911,7 @@ a:hover {
             <div className="p-4 border-t border-white/10 bg-black/40 flex items-center justify-between">
               <span className="text-white/50">Changes apply live to all forms, checkboxes, headings, p tags & links across the site.</span>
               <button
-                onClick={() => setIsOpen(false)}
+ onClick={() => setIsOpen(false)}
                 className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-purple-600 hover:brightness-110 text-white rounded-lg uppercase transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)] cursor-pointer">
                 Done
               </button>

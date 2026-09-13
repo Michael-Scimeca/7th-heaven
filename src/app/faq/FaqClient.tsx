@@ -182,11 +182,11 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
       {/* Search Bar */}
       <div className="mb-5 md:mb-10 max-w-[500px] mx-auto flex justify-center">
         <SearchInput
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder={sanityContent?.searchPlaceholder || "Search questions, keywords, or topics..."}
-          containerClassName="w-full"
-        />
+ value={searchQuery}
+ onChange={setSearchQuery}
+ placeholder={sanityContent?.searchPlaceholder || "Search questions, keywords, or topics..."}
+ containerClassName="w-full"
+ />
       </div>
 
       {/* Category Navigation Tabs */}
@@ -195,9 +195,9 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
           const Icon = cat.icon;
           const isActive = activeTab === cat.id;
           return (
-            <button aria-label="Action button"
-              key={cat.id}
-              onClick={() => setActiveTab(cat.id)}
+            <button
+ key={cat.id}
+ onClick={() => setActiveTab(cat.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition duration-200 border ${isActive ? "bg-purple-600 border-purple-600 text-white "
                 : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 "
                 }`}>
@@ -217,29 +217,29 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             const isExpanded = !!expandedItems[faq.id];
             return (
               <div
-                key={faq.id}
-                className="   overflow-hidden transition-colors duration-300 border-b border-white/10"
-                style={{
-                  borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
-                }}>
-                <button aria-label="Action button"
-                  onClick={() => toggleExpand(faq.id)}
+ key={faq.id}
+ className=" overflow-hidden transition-colors duration-300 border-b border-white/10"
+ style={{
+ borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
+ }}>
+                <button
+ onClick={() => toggleExpand(faq.id)}
                   className="w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer">
                   <span className="text-white transition duration-200">
                     {faq.question}
                   </span>
                   <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-90 text-purple-400" : ""
-                    }`}>
+ }`}>
                     <ChevronRightIcon />
                   </div>
                 </button>
 
                 {/* Expanded Answer with smooth grid-rows height transition */}
                 <div
-                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                    }`}>
+ className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+ }`}>
                   <div className="overflow-hidden">
-                    <div className="pb-6 md:text-base text-white/80   ">
+                    <div className="pb-6 md:text-base text-white/80 ">
                       {faq.answer}
                     </div>
                   </div>
@@ -261,7 +261,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
       </div>
 
       {/* Live Support Banner */}
-      <div className="  6 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      <div className=" 6 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
         <div>
           <h4 className="text-white mb-1">{sanityContent?.supportTitle || "Still need help?"}</h4>
           <p className="font-medium">

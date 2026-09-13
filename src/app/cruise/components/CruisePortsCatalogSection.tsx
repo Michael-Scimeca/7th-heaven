@@ -31,7 +31,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
           {/* Ports of Call Section */}
           <div>
             <div className="text-center md:text-left mb-10">
-              <h3 className="uppercase  mt-0.5">
+              <h3 className="uppercase mt-0.5">
                 {sectionTitle}
               </h3>
             </div>
@@ -46,14 +46,14 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                       <div className="h-48 sm:h-56 w-full relative overflow-hidden rounded-lg bg-black">
                         {currentImg && (
                           <Image
-                            key={currentImg}
-                            width={400}
-                            height={300}
-                            unoptimized
-                            src={currentImg}
-                            alt={port.name}
-                            className="w-full h-full object-cover"
-                          />
+ key={currentImg}
+ width={400}
+ height={300}
+ unoptimized
+ src={currentImg}
+ alt={port.name}
+ className="w-full h-full object-cover"
+ />
                         )}
                         <div className="absolute top-3 left-3 z-20">
                           <SectionBadge label={`Port Call #${idx + 1}`} className="bg-black/90 backdrop-blur-md border-white/20 text-white shadow-lg" />
@@ -83,9 +83,9 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                               const isActive = currentImg === gImg;
                               return (
                                 <button
-                                  key={gIdx}
-                                  type="button"
-                                  onMouseEnter={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
+ key={gIdx}
+ type="button"
+ onMouseEnter={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
                                   onClick={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
                                   className={`w-14 h-11 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive
                                     ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10    shadow-purple-500/20"
@@ -114,20 +114,20 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/30 to-transparent z-10" />
                     {(spotlightHoveredImage || PORTS_DATA[activeSpotlightPort].image) && (
                       <Image
-                        key={spotlightHoveredImage || PORTS_DATA[activeSpotlightPort].image}
-                        width={800}
-                        height={500}
-                        unoptimized
-                        src={spotlightHoveredImage || PORTS_DATA[activeSpotlightPort].image}
-                        alt={PORTS_DATA[activeSpotlightPort].name}
-                        className="w-full h-full object-cover scale-105 transition-all duration-500 animate-fadeIn"
-                      />
+ key={spotlightHoveredImage || PORTS_DATA[activeSpotlightPort].image}
+ width={800}
+ height={500}
+ unoptimized
+ src={spotlightHoveredImage || PORTS_DATA[activeSpotlightPort].image}
+ alt={PORTS_DATA[activeSpotlightPort].name}
+ className="w-full h-full object-cover scale-105 transition-all duration-500 animate-fadeIn"
+ />
                     )}
                     <div className="absolute top-6 left-6 z-20">
                       <SectionBadge label={`PORT CALL #${activeSpotlightPort + 1}`} isActive className="bg-black/90 backdrop-blur-md border-white/20 text-white shadow-lg" />
                     </div>
                   </div>
-                  <div className="p-8 relative z-20 -  6">
+                  <div className="p-8 relative z-20 - 6">
                     <h3 className="uppercase text-white mb-3">
                       {PORTS_DATA[activeSpotlightPort].name}
                     </h3>
@@ -157,9 +157,9 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                             const isActive = currentSpotlightImg === gImg;
                             return (
                               <button
-                                key={gIdx}
-                                type="button"
-                                onMouseEnter={() => setSpotlightHoveredImage(gImg)}
+ key={gIdx}
+ type="button"
+ onMouseEnter={() => setSpotlightHoveredImage(gImg)}
                                 onClick={() => setSpotlightHoveredImage(gImg)}
                                 className={`w-24 h-16 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive
                                   ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10    shadow-purple-500/30"
@@ -176,9 +176,9 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
 
                     <div className="flex flex-wrap gap-4 items-center">
                       <button
-                        type="button"
-                        onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                        className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer border-none rounded-lg   ">
+ type="button"
+ onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
+                        className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer border-none rounded-lg ">
                         Book Cruise &amp; Visit {PORTS_DATA[activeSpotlightPort].name.split(',')[0]}
                       </button>
                     </div>
@@ -190,9 +190,9 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                   <span className="text-[var(--font-size-2xs)] text-white/40 uppercase block mb-2">Select Destination to Preview:</span>
                   {PORTS_DATA.map((port, idx) => (
                     <button
-                      key={`spotlight-${port.name}`}
-                      type="button"
-                      onClick={() => {
+ key={`spotlight-${port.name}`}
+ type="button"
+ onClick={() => {
                         setActiveSpotlightPort(idx);
                         setSpotlightHoveredImage(null);
                       }}
@@ -201,7 +201,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                         {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover" />}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className={`   uppercase truncate ${activeSpotlightPort === idx ? "text-purple-300" : "text-white"}`}>
+                        <h4 className={` uppercase truncate ${activeSpotlightPort === idx ? "text-purple-300" : "text-white"}`}>
                           {port.name}
                         </h4>
                         <span className="text-white/35">Port #{idx + 1}</span>
@@ -218,16 +218,16 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 {/* Scroll buttons */}
                 <div className="flex justify-end gap-2 mb-4">
                   <button
-                    type="button"
-                    onClick={() => {
+ type="button"
+ onClick={() => {
                       if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
                     }}
                     className="w-11 h-11 rounded-lg bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors">
                     ◀
                   </button>
                   <button
-                    type="button"
-                    onClick={() => {
+ type="button"
+ onClick={() => {
                       if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
                     }}
                     className="w-11 h-11 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors">
@@ -236,27 +236,27 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 </div>
 
                 <div
-                  ref={portCarouselRef}
-                  className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4"
-                  style={{ scrollbarWidth: "none" }}>
+ ref={portCarouselRef}
+ className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4"
+ style={{ scrollbarWidth: "none" }}>
                   {PORTS_DATA.map((port, idx) => {
                     const currentImg = activePortImages[port.name] || port.image;
                     return (
                       <div
-                        key={`carousel-${port.name}`}
-                        className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[#00000029] border-white/10 backdrop-blur-[16px] rounded-lg overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1">
+ key={`carousel-${port.name}`}
+ className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[#00000029] border-white/10 backdrop-blur-[16px] rounded-lg overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1">
                         <div className="h-52 w-full relative overflow-hidden bg-black/60">
                           <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
                           {currentImg && (
                             <Image
-                              key={currentImg}
-                              width={400}
-                              height={300}
-                              unoptimized
-                              src={currentImg}
-                              alt={port.name}
-                              className="w-full h-full object-cover"
-                            />
+ key={currentImg}
+ width={400}
+ height={300}
+ unoptimized
+ src={currentImg}
+ alt={port.name}
+ className="w-full h-full object-cover"
+ />
                           )}
                           <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-[45px] border border-white/10 rounded-lg uppercase text-purple-300">
                             {idx + 1} / {PORTS_DATA.length}
@@ -284,9 +284,9 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                                 const isActive = currentImg === gImg;
                                 return (
                                   <button
-                                    key={gIdx}
-                                    type="button"
-                                    onMouseEnter={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
+ key={gIdx}
+ type="button"
+ onMouseEnter={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
                                     onClick={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
                                     className={`w-12 h-10 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive
                                       ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10    shadow-purple-500/20"
@@ -335,8 +335,8 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                       )}
                     </div>
                     <button
-                      type="button"
-                      onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
+ type="button"
+ onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
                       className="shrink-0 px-4 py-2 bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white uppercase transition-colors cursor-pointer rounded-xl">
                       Book →
                     </button>

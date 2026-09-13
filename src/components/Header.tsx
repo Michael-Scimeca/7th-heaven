@@ -527,20 +527,20 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none    text-white`}
-      suppressHydrationWarning>
+ className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none text-white`}
+ suppressHydrationWarning>
       <div className="w-full max-w-full site-container">
         <div
-          id="nav-inner-card"
-          suppressHydrationWarning
-          className="w-full h-[80px] flex items-center justify-between relative pointer-events-auto gap-4 z-[30000]">
+ id="nav-inner-card"
+ suppressHydrationWarning
+ className="w-full h-[80px] flex items-center justify-between relative pointer-events-auto gap-4 z-[30000]">
 
           {/* ── LOGO (Left-aligned on mobile; dead-centered on desktop>= 1024px) ── */}
           <TransitionLink
-            href="/"
-            id="header-logo"
-            showSpinner={false}
-            onClick={(e) => {
+ href="/"
+ id="header-logo"
+ showSpinner={false}
+ onClick={(e) => {
               setMobileOpen(false);
               if (pathname === "/") {
                 e.preventDefault();
@@ -561,22 +561,22 @@ export function Header() {
               const active = isNavActive(link.href);
               return (
                 <TransitionLink
-                  key={link.href}
-                  href={link.href}
-                  className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors duration-200 relative ${active ? "!text-[#9333ea] active cursor-default"
-                    : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                    }`}>
+ key={link.href}
+ href={link.href}
+ className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors duration-200 relative ${active ? "!text-[#9333ea] active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}>
                   {link.label}
                 </TransitionLink>
               );
             })}
             {showUserAuth && (
               <TransitionLink
-                href={studioHref}
-                className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-all duration-200 relative inline-flex items-center pb-0.5 border-b-2 ${effectivePathname.startsWith("/studio")
-                  ? "!text-[#c084fc] border-[#c084fc] active cursor-default"
-                  : "!text-[#c084fc] hover:!text-white border-[#c084fc]/70 hover:border-white cursor-pointer"
-                  }`}>
+ href={studioHref}
+ className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-all duration-200 relative inline-flex items-center pb-0.5 border-b-2 ${effectivePathname.startsWith("/studio")
+ ? "!text-[#c084fc] border-[#c084fc] active cursor-default"
+ : "!text-[#c084fc] hover:!text-white border-[#c084fc]/70 hover:border-white cursor-pointer"
+ }`}>
                 STUDIO
               </TransitionLink>
             )}
@@ -586,56 +586,56 @@ export function Header() {
           <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 md:flex-1 ml-auto shrink-0 relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
             {/* Live Stream link */}
             <TransitionLink
-              href="/live"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 z-50 ${isNavActive("/live")
-                ? "!text-[#9333ea] active cursor-default"
-                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                }`}>
+ href="/live"
+ className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 z-50 ${isNavActive("/live")
+ ? "!text-[#9333ea] active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}>
               LIVE
             </TransitionLink>
 
             {/* Cruise link */}
             <TransitionLink
-              href="/cruise"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/cruise")
-                ? "!text-[#9333ea] active cursor-default"
-                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                }`}>
+ href="/cruise"
+ className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/cruise")
+ ? "!text-[#9333ea] active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}>
               CRUISE
             </TransitionLink>
 
             {/* Book Us link */}
             <TransitionLink
-              href="/book"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/book")
-                ? "!text-[#9333ea] active cursor-default"
-                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                }`}>
+ href="/book"
+ className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/book")
+ ? "!text-[#9333ea] active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}>
               BOOK US
             </TransitionLink>
 
             {/* Contact link */}
             <TransitionLink
-              href="/contact"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/contact")
-                ? "!text-[#9333ea] active cursor-default"
-                : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
-                }`}>
+ href="/contact"
+ className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold uppercase transition-colors py-1 ${isNavActive("/contact")
+ ? "!text-[#9333ea] active cursor-default"
+ : "!text-white/90 hover:!text-[#9333ea] cursor-pointer"
+ }`}>
               CONTACT
             </TransitionLink>
 
             {/* Cart Icon — only shown if something is in cart */}
             {cartCount > 0 && (
               <TransitionLink
-                href="/payment-test"
-                className="relative !text-white/80 hover:!text-[#9333ea] transition-colors p-0.5 mx-0.5 shrink-0 flex items-center justify-center"
-                title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}>
+ href="/payment-test"
+ className="relative !text-white/80 hover:!text-[#9333ea] transition-colors p-0.5 mx-0.5 shrink-0 flex items-center justify-center"
+ title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}>
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="9" cy="21" r="1" />
                   <circle cx="20" cy="21" r="1" />
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                <span className="absolute -top-1.5 -right-2 bg-[#9333ea] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center    shadow-sm">
+                <span className="absolute -top-1.5 -right-2 bg-[#9333ea] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
                   {cartCount}
                 </span>
               </TransitionLink>
@@ -646,11 +646,11 @@ export function Header() {
               <div className="flex items-center gap-1 sm:gap-1.5">
                 <div className="relative shrink-0 aspect-square flex items-center justify-center">
                   <TransitionLink
-                    href={dashboardHref}
-                    showSpinner={false}
-                    className="relative flex items-center justify-center text-white shrink-0 aspect-square transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
-                    style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
-                    title={displayName}>
+ href={dashboardHref}
+ showSpinner={false}
+ className="relative flex items-center justify-center text-white shrink-0 aspect-square transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
+ style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
+ title={displayName}>
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={avatarSrc} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
                     ) : (
@@ -667,13 +667,13 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px] uppercase text-white flex items-center justify-center    border font-bold  border-[#3c0366] ${badgeBg}`}
-                    style={{ borderRadius: "9999px" }}>
+ className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px] uppercase text-white flex items-center justify-center border font-bold border-[#3c0366] ${badgeBg}`}
+ style={{ borderRadius: "9999px" }}>
                     {badgeText}
                   </span>
                 </div>
                 <button
-                  onClick={() => { logout(); requestTransition('/'); }}
+ onClick={() => { logout(); requestTransition('/'); }}
                   className="flex items-center gap-1.5 text-[12px] font-bold uppercase text-[#9333ea] hover:text-white/70 transition-colors cursor-pointer ml-1 sm:ml-2 "
                   title="Sign Out">
                   <span>SIGN OUT</span>
@@ -684,8 +684,8 @@ export function Header() {
               </div>
             ) : (
               <CosmicRadialButton
-                icon={false}
-                onClick={() => openModal("login")}
+ icon={false}
+ onClick={() => openModal("login")}
                 className="px-4 py-2 rounded-lg shrink-0 flex items-center gap-2 font-bold "
                 id="header-sign-in">
                 <span className="!text-[13px]">SIGN IN</span>
@@ -697,67 +697,67 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="flex lg:hidden w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 items-center justify-center relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0 shrink-0"
-              onClick={() => setMobileOpen(!mobileOpen)}
+ className="flex lg:hidden w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 items-center justify-center relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0 shrink-0"
+ onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle">
               <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                className="w-full h-full overflow-visible">
+ viewBox="0 0 24 24"
+ fill="none"
+ stroke="currentColor"
+ strokeWidth="1.5"
+ strokeLinecap="round"
+ className="w-full h-full overflow-visible">
                 {/* Burger — 3 lines, draw themselves off + fade out on open.
                     Staggered 0.1s apart on open (matches exoape); collapsed
                     to no stagger on close, same convention already used for
                     the nav-link stagger above (transitionDelay -> 0ms). */}
                 {[6, 12, 18].map((y, i) => (
                   <line
-                    key={`burger-${y}`}
-                    x1="1.5"
-                    y1={y}
-                    x2="22.5"
-                    y2={y}
-                    style={{
-                      strokeDasharray: ICON_LINE_LEN,
-                      strokeDashoffset: mobileOpen ? ICON_LINE_LEN : 0,
-                      opacity: mobileOpen ? 0 : 1,
-                      transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
-                      transitionDelay: mobileOpen ? `${i * 100}ms` : "0ms",
-                    }}
-                  />
+ key={`burger-${y}`}
+ x1="1.5"
+ y1={y}
+ x2="22.5"
+ y2={y}
+ style={{
+ strokeDasharray: ICON_LINE_LEN,
+ strokeDashoffset: mobileOpen ? ICON_LINE_LEN : 0,
+ opacity: mobileOpen ? 0 : 1,
+ transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
+ transitionDelay: mobileOpen ? `${i * 100}ms` : "0ms",
+ }}
+ />
                 ))}
                 {/* Close (X) — 2 diagonal lines, draw themselves on + fade in,
                     starting half a second after the burger begins retracting
                     (0.5s duration each, offset by 0.5s = 1s total, matching
                     exoape's own timeline). */}
                 <line
-                  x1="5"
-                  y1="5"
-                  x2="19"
-                  y2="19"
-                  style={{
-                    strokeDasharray: ICON_X_LINE_LEN,
-                    strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
-                    opacity: mobileOpen ? 1 : 0,
-                    transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
-                    transitionDelay: mobileOpen ? "500ms" : "0ms",
-                  }}
-                />
+ x1="5"
+ y1="5"
+ x2="19"
+ y2="19"
+ style={{
+ strokeDasharray: ICON_X_LINE_LEN,
+ strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
+ opacity: mobileOpen ? 1 : 0,
+ transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
+ transitionDelay: mobileOpen ? "500ms" : "0ms",
+ }}
+ />
                 <line
-                  x1="19"
-                  y1="5"
-                  x2="5"
-                  y2="19"
-                  style={{
-                    strokeDasharray: ICON_X_LINE_LEN,
-                    strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
-                    opacity: mobileOpen ? 1 : 0,
-                    transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
-                    transitionDelay: mobileOpen ? "600ms" : "0ms",
-                  }}
-                />
+ x1="19"
+ y1="5"
+ x2="5"
+ y2="19"
+ style={{
+ strokeDasharray: ICON_X_LINE_LEN,
+ strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
+ opacity: mobileOpen ? 1 : 0,
+ transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
+ transitionDelay: mobileOpen ? "600ms" : "0ms",
+ }}
+ />
               </svg>
             </button>
           </div>
@@ -776,9 +776,9 @@ export function Header() {
               why this can't just render inline here. */}
           {overlayMounted && mounted && createPortal(
             <div
-              // The panel itself is revealed by wiping clip-path open, not by
-              // fading opacity — this sidesteps the globals.css PageSpeed hack
-              // (`html body> *{ opacity:1 !important }`, meant to force
+ // The panel itself is revealed by wiping clip-path open, not by
+ // fading opacity — this sidesteps the globals.css PageSpeed hack
+ // (`html body> *{ opacity:1 !important }`, meant to force
               // above-the-fold content visible on first paint) that used to
               // flatten any opacity transition on a direct child of <body>
               // to a permanent 1 no matter what we set — clip-path isn't
@@ -805,14 +805,14 @@ export function Header() {
                   the wipe reveals the panel while its contents are visibly
                   still "falling into place" underneath it. */}
               <div
-                className="flex-1 flex flex-col min-h-0"
-                style={{
-                  transform: overlayVisible
-                    ? "scale(1) rotate(0deg) translateY(0)"
-                    : "scale(1.3) rotate(-7deg) translateY(-12%)",
-                  opacity: overlayVisible ? 1 : 0.3,
-                  transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
-                }}>
+ className="flex-1 flex flex-col min-h-0"
+ style={{
+ transform: overlayVisible
+ ? "scale(1) rotate(0deg) translateY(0)"
+ : "scale(1.3) rotate(-7deg) translateY(-12%)",
+ opacity: overlayVisible ? 1 : 0.3,
+ transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
+ }}>
                 <div className="pt-[87px]" />
 
                 {/* Main: portrait media panel + stacked links, side by side
@@ -822,14 +822,14 @@ export function Header() {
                   <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-lg relative group">
                     {mobileOpen && (
                       <video
-                        src="/movie/fest1-clip.mp4"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="auto"
-                        className="w-full h-full object-cover"
-                        onCanPlay={(e) => {
+ src="/movie/fest1-clip.mp4"
+ autoPlay
+ loop
+ muted
+ playsInline
+ preload="auto"
+ className="w-full h-full object-cover"
+ onCanPlay={(e) => {
                           e.currentTarget.muted = true;
                           e.currentTarget.play().catch(() => { });
                         }}
@@ -853,9 +853,9 @@ export function Header() {
                       { href: "/contact", label: "CONTACT" },
                     ].map((link, i) => (
                       <TransitionLink
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setMobileOpen(false)}
+ key={link.href}
+ href={link.href}
+ onClick={() => setMobileOpen(false)}
                         className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase leading-[1.02] transition-colors duration-300 ${link.href === studioHref ? "underline underline-offset-8 decoration-[#c084fc] decoration-4" : ""} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith("/studio")) ? "!text-[#c084fc] active cursor-default" : "!text-white hover:!text-[#c084fc] cursor-pointer"
                           }`}
                         style={{
@@ -896,9 +896,9 @@ export function Header() {
                     <div className="flex items-center gap-2">
                       <div className="relative shrink-0 aspect-square flex items-center justify-center">
                         <TransitionLink
-                          href={dashboardHref}
-                          showSpinner={false}
-                          onClick={() => setMobileOpen(false)}
+ href={dashboardHref}
+ showSpinner={false}
+ onClick={() => setMobileOpen(false)}
                           className="relative flex items-center justify-center text-white shrink-0 aspect-square w-8 h-8 min-w-8 min-h-8"
                           style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}>
                           {isAvatarUrl ? (
@@ -914,15 +914,15 @@ export function Header() {
                         </span>
                       </div>
                       <button
-                        onClick={() => { setMobileOpen(false); logout(); requestTransition('/'); }}
+ onClick={() => { setMobileOpen(false); logout(); requestTransition('/'); }}
                         className="text-[12px] uppercase text-purple-400 hover:text-white transition-colors cursor-pointer ml-1">
                         SIGN OUT
                       </button>
                     </div>
                   ) : (
                     <CosmicRadialButton
-                      icon={false}
-                      onClick={() => {
+ icon={false}
+ onClick={() => {
                         setMobileOpen(false);
                         openModal("login");
                       }}

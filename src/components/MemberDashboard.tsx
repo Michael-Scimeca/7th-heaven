@@ -218,7 +218,7 @@ export default function MemberDashboard() {
               </div>
 
               <div className="flex flex-col gap-4">
-                <button aria-label="Action button" onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+                <button onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
                   Create Fan Account
                 </button>
 
@@ -228,10 +228,10 @@ export default function MemberDashboard() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
-                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-[var(--color-accent)] flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-[var(--color-accent)] flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
                     Crew Portal
                   </button>
                 </div>
@@ -269,7 +269,7 @@ export default function MemberDashboard() {
                   const role = member?.role ?? 'fan';
                   const cfg = { fan: { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, crew: { label: 'CREW', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, admin: { label: 'ADMIN', cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' };
                   return (
-                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)]    uppercase tracking-[0.15em] border rounded-lg ${cfg.cls}`}>
+                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)] uppercase tracking-[0.15em] border rounded-lg ${cfg.cls}`}>
                       {cfg.label}
                     </span>
                   );
@@ -314,7 +314,7 @@ export default function MemberDashboard() {
                 return (
                   <div className="py-6 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
                     <p>Your wallet is currently empty.</p>
-                    <p className="   uppercase">Keep participating in live streams for a chance to win</p>
+                    <p className=" uppercase">Keep participating in live streams for a chance to win</p>
                   </div>
                 );
               }
@@ -335,7 +335,7 @@ export default function MemberDashboard() {
                               {msg.isNew && <span className="text-[var(--font-size-2xs)] uppercase px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-                            <p className="uppercase   ">{msg.time}</p>
+                            <p className="uppercase ">{msg.time}</p>
                           </div>
                         </div>
 
@@ -344,18 +344,18 @@ export default function MemberDashboard() {
                             {msg.isClaimed ? (
                               <div className="px-5 py-2 border border-white/10 bg-[#00000029] opacity-50 grayscale">
                                 <span className="text-[var(--font-size-2xs)] uppercase text-white/40 block text-center mb-1">Claimed</span>
-                                <span className="text-xl  text-white/30 line-through">{pin}</span>
+                                <span className="text-xl text-white/30 line-through">{pin}</span>
                               </div>
                             ) : claimConfirmId === msg.id ? (
                               <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
                                 <p className="text-red-400 uppercase animate-pulse">Show this to merch crew.</p>
-                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white uppercase rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                                <button onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white uppercase rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                                   CLICK TO FLASH & CLAIM
                                 </button>
-                                <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase cursor-pointer">Cancel</button>
+                                <button onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 uppercase transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] cursor-pointer">
+                              <button onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 uppercase transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}
@@ -387,24 +387,24 @@ export default function MemberDashboard() {
           {myPhotos.length === 0 ? (
             <div className="py-8 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
               <p>No photo submissions found.</p>
-              <p className="   uppercase">Upload a photo to join the fan wall!</p>
+              <p className=" uppercase">Upload a photo to join the fan wall!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {myPhotos.map((photo: any) => (
                 <div
-                  key={photo.id}
-                  className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
-                    : photo.approved
-                      ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
-                      : "border-white/10"
-                    }`}>
+ key={photo.id}
+ className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
+ : photo.approved
+ ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
+ : "border-white/10"
+ }`}>
                   <div className="aspect-[4/3] bg-[#00000029] relative overflow-hidden">
                     <Image width={200} height={200} unoptimized
-                      src={photo.src}
-                      alt={photo.caption || "Upload"}
-                      className="w-full h-full object-cover"
-                    />
+ src={photo.src}
+ alt={photo.caption || "Upload"}
+ className="w-full h-full object-cover"
+ />
 
                     {/* Status Overlay Badge */}
                     <div className="absolute top-2 right-2">
@@ -462,13 +462,12 @@ export default function MemberDashboard() {
           ].map((s) => (
             <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
               <p className="uppercase mb-1">{s.label}</p>
-              <p className={`   ${s.accent ? " text-[var(--color-accent)]" : ""}`}>
+              <p className={` ${s.accent ? " text-[var(--color-accent)]" : ""}`}>
                 {s.value}
               </p>
             </div>
           ))}
         </div>
-
 
 
         {/* Pick Awards — Collector Section (LIVE from Supabase) */}
@@ -505,7 +504,7 @@ export default function MemberDashboard() {
                         <span className="text-white/30">{order.id}</span>
                         <span className="text-white/20">{order.date}</span>
                       </div>
-                      <span className={`uppercase tracking-[0.15em]    ${order.statusColor}`}>
+                      <span className={`uppercase tracking-[0.15em] ${order.statusColor}`}>
                         {order.status}
                       </span>
                     </div>

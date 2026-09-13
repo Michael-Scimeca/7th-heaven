@@ -73,19 +73,19 @@ function SuccessContent() {
           <div className="flex flex-col gap-3 w-full mt-6">
             {isLoggedIn && member?.role === "event_planner" && (
               <Link
-                href="/planner"
-                className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase text-base py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
+ href="/planner"
+ className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase text-base py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
                 View in My Dashboard →
               </Link>
             )}
             <Link
-              href="/book"
-              className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white/80 uppercase text-base py-4 px-8 transition-colors border border-white/5">
+ href="/book"
+ className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white/80 uppercase text-base py-4 px-8 transition-colors border border-white/5">
               Book Another Show
             </Link>
             <Link
-              href="/"
-              className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white uppercase text-base py-3 px-8 transition-colors">
+ href="/"
+ className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white uppercase text-base py-3 px-8 transition-colors">
               Return to Homepage
             </Link>
           </div>

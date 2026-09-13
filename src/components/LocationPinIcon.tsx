@@ -3,15 +3,15 @@ import React from "react";
 export function LocationPinIcon({ className = "w-4 h-4", ...props }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
-      id="Layer_1"
-      xmlns="http://www.w3.org/2000/svg"
-      version="1.1"
-      viewBox="0 0 231.41 333.98"
-      fill="currentColor"
-      className={className}
-      aria-hidden="true"
-      {...props}
-    >
+ id="Layer_1"
+ xmlns="http://www.w3.org/2000/svg"
+ version="1.1"
+ viewBox="0 0 231.41 333.98"
+ fill="currentColor"
+ className={className}
+ aria-hidden="true"
+ {...props}
+ >
       <path d="M135.82,300.84l-20.12,33.14-33.48-54.61-46.74-76.79C23.74,183.29.76,138.6.07,119.1-2.24,53.2,51.29-.18,116.08,0c64.79.18,117.92,53.97,115.24,119.85-.73,17.97-17.12,50.78-26.9,68.72-11,20.2-22.46,39.36-34.77,58.82l-33.82,53.45h-.01ZM167.5,111.28c0-28.55-23.19-51.69-51.79-51.69s-51.79,23.14-51.79,51.69,23.19,51.69,51.79,51.69,51.79-23.14,51.79-51.69Z" />
     </svg>
   );

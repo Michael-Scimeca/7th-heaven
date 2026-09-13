@@ -76,10 +76,10 @@ function CancelContent() {
             This will remove your interest signup from the 7th Heaven cruise. You can always sign up again later.
           </p>
           <div className="flex flex-col gap-3">
-            <button aria-label="Action button"
-              onClick={handleCancel}
-              disabled={status === "cancelling"}
-              className="px-8 py-3 bg-rose-500 hover:bg-rose-400 text-white uppercase transition-colors disabled:opacity-70 cursor-pointer">
+            <button
+ onClick={handleCancel}
+ disabled={status === "cancelling"}
+ className="px-8 py-3 bg-rose-500 hover:bg-rose-400 text-white uppercase transition-colors disabled:opacity-70 cursor-pointer">
               {status === "cancelling" ? "Cancelling..." : "Yes, Cancel My Signup"}
             </button>
             <Link href="/cruise" className="text-white/30 hover:text-white transition-colors">
@@ -96,7 +96,7 @@ export default function CruiseCancelPage() {
   return (
     <div className="min-h-screen pt-[72px] flex items-center justify-center">
       <Suspense fallback={
-        <div className="text-center">
+ <div className="text-center">
           <span className="w-8 h-8 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block" />
         </div>
       }>

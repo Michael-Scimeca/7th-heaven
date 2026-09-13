@@ -50,10 +50,10 @@ export default function LazySection({
 
   return (
     <section
-      ref={ref as any}
-      id={id || undefined}
-      className={computedClassName}
-      style={computedStyle}
-    />
+ ref={ref as any}
+ id={id || undefined}
+ className={computedClassName}
+ style={computedStyle}
+ />
   );
 }

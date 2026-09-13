@@ -844,42 +844,40 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       {/* ── Directional Dark Edge Gradient Overlays ── */}
       {mapGradTop && (
         <div
-          className="absolute top-0 left-0 right-0 z-[2] pointer-events-none"
-          style={{
-            height: `${mapGradSize}%`,
-            background: `linear-gradient(to bottom, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
-          }}
-        />
+ className="absolute top-0 left-0 right-0 z-[2] pointer-events-none"
+ style={{
+ height: `${mapGradSize}%`,
+ background: `linear-gradient(to bottom, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
+ }}
+ />
       )}
       {mapGradBottom && (
         <div
-          className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none"
-          style={{
-            height: `${mapGradSize}%`,
-            background: `linear-gradient(to top, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
-          }}
-        />
+ className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none"
+ style={{
+ height: `${mapGradSize}%`,
+ background: `linear-gradient(to top, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
+ }}
+ />
       )}
       {mapGradLeft && (
         <div
-          className="absolute top-0 bottom-0 left-0 z-[2] pointer-events-none"
-          style={{
-            width: `${mapGradSize}%`,
-            background: `linear-gradient(to right, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
-          }}
-        />
+ className="absolute top-0 bottom-0 left-0 z-[2] pointer-events-none"
+ style={{
+ width: `${mapGradSize}%`,
+ background: `linear-gradient(to right, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
+ }}
+ />
       )}
       {mapGradRight && (
         <div
-          className="absolute top-0 bottom-0 right-0 z-[2] pointer-events-none"
-          style={{
-            width: `${mapGradSize}%`,
-            background: `linear-gradient(to left, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
-          }}
-        />
+ className="absolute top-0 bottom-0 right-0 z-[2] pointer-events-none"
+ style={{
+ width: `${mapGradSize}%`,
+ background: `linear-gradient(to left, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
+ }}
+ />
       )}
-
-
 
 
       {/* ── Map Overlay Controls aligned precisely to .site-container ── */}
@@ -891,7 +889,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <div className="group bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-colors duration-300">
               {/* Header - always visible, click to toggle */}
               <button aria-label="Show Types"
-                onClick={() => setLegendOpen(o => !o)}
+ onClick={() => setLegendOpen(o => !o)}
                 className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-4 py-0 sm:py-2.5 w-full cursor-pointer bg-[#00000029] text-white/80 hover:text-[var(--color-accent)] transition-colors">
                 <span className="sm:text-[16px] uppercase transition-colors">Show Types</span>
                 <svg className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
@@ -909,8 +907,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                       const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
                       return (
                         <button aria-label="Next"
-                          key={key}
-                          onClick={() => {
+ key={key}
+ onClick={() => {
                             setSelectedTypes(prev => {
                               const next = new Set(prev);
                               if (next.has(key)) { next.delete(key); } else { next.add(key); }
@@ -931,7 +929,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <span className="uppercase text-white/40">Active</span>
                     <div className="flex items-center gap-2">
                       {selectedTypes.size > 0 && (
-                        <button aria-label="Action button" onClick={() => setSelectedTypes(new Set())} className="uppercase text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
+                        <button onClick={() => setSelectedTypes(new Set())} className="uppercase text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
                       )}
                       <span className="text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
                     </div>
@@ -944,8 +942,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <div className="relative">
               {!isDateUiOpen ? (
                 <button
-                  type="button"
-                  onClick={() => setIsDateUiOpen(true)}
+ type="button"
+ onClick={() => setIsDateUiOpen(true)}
                   className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border rounded-lg sm:text-[15px]    uppercase text-white/90 transition-all cursor-pointer    ${isDateFiltered ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
                     : " border-white/10 hover:border-purple-400/50 hover:text-purple-300"
                     }`}
@@ -970,8 +968,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                       </div>
                     </div>
                     <button
-                      type="button"
-                      onClick={() => setIsDateUiOpen(false)}
+ type="button"
+ onClick={() => setIsDateUiOpen(false)}
                       className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white hover:text-white transition-colors">
                       ✕
                     </button>
@@ -985,12 +983,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         <span className="text-purple-300">{formatDateShort(activeStart)}</span>
                       </div>
                       <input
-                        type="range"
-                        min={minShowTime}
-                        max={maxShowTime}
-                        step={86400000}
-                        value={activeStart}
-                        onChange={(e) => {
+ type="range"
+ min={minShowTime}
+ max={maxShowTime}
+ step={86400000}
+ value={activeStart}
+ onChange={(e) => {
                           const val = parseFloat(e.target.value);
                           setDateRange([val, Math.max(val + 86400000, activeEnd)]);
                         }}
@@ -1004,12 +1002,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         <span className="text-purple-300">{formatDateShort(activeEnd)}</span>
                       </div>
                       <input
-                        type="range"
-                        min={minShowTime}
-                        max={maxShowTime}
-                        step={86400000}
-                        value={activeEnd}
-                        onChange={(e) => {
+ type="range"
+ min={minShowTime}
+ max={maxShowTime}
+ step={86400000}
+ value={activeEnd}
+ onChange={(e) => {
                           const val = parseFloat(e.target.value);
                           setDateRange([activeStart, Math.max(val, activeStart + 86400000)]);
                         }}
@@ -1023,8 +1021,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <span className="text-[12px] text-white/50 uppercase block">Quick Presets</span>
                     <div className="grid grid-cols-3 gap-1.5">
                       <button
-                        type="button"
-                        onClick={() => {
+ type="button"
+ onClick={() => {
                           const now = Date.now();
                           const target = now + 30 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
@@ -1033,8 +1031,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         Next 30 Days
                       </button>
                       <button
-                        type="button"
-                        onClick={() => {
+ type="button"
+ onClick={() => {
                           const now = Date.now();
                           const target = now + 90 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
@@ -1043,8 +1041,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         Next 90 Days
                       </button>
                       <button
-                        type="button"
-                        onClick={() => setDateRange([minShowTime, maxShowTime])}
+ type="button"
+ onClick={() => setDateRange([minShowTime, maxShowTime])}
                         className="px-2 py-1 text-[12px] uppercase rounded-lg border border-white/10 bg-[#00000029] hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer">
                         All Dates
                       </button>
@@ -1054,15 +1052,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   {/* Remove / Reset Filter Button */}
                   {isDateFiltered ? (
                     <button
-                      type="button"
-                      onClick={() => setDateRange(null)}
-                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-[10px] uppercase transition-colors rounded-lg    shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5   ">
+ type="button"
+ onClick={() => setDateRange(null)}
+                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-[10px] uppercase transition-colors rounded-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 ">
                       <span>✕ Remove Date Filter</span>
                     </button>
                   ) : (
                     <button
-                      type="button"
-                      onClick={() => setIsDateUiOpen(false)}
+ type="button"
+ onClick={() => setIsDateUiOpen(false)}
                       className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 text-[10px] uppercase rounded-lg transition-colors cursor-pointer text-center">
                       Close Controls
                     </button>
@@ -1075,20 +1073,20 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           {/* Right Map Controls: Custom Big Zoom Controls (+ / -) */}
           <div className="pointer-events-auto flex flex-col gap-2 shrink-0">
             <button onClick={handleZoomIn}
-              type="button"
-              aria-label="Zoom In"
-              title="Zoom In"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
+ type="button"
+ aria-label="Zoom In"
+ title="Zoom In"
+ className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </button>
             <button onClick={handleZoomOut}
-              type="button"
-              aria-label="Zoom Out"
-              title="Zoom Out"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
+ type="button"
+ aria-label="Zoom Out"
+ title="Zoom Out"
+ className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>

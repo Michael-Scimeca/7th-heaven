@@ -271,42 +271,42 @@ export default function CrewFeed() {
 
               return (
                 <article
-                  key={post.id}
-                  className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""
-                    }`}
-                  id={`crew-feed-${post.id}`}
-                  style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
+ key={post.id}
+ className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""
+ }`}
+ id={`crew-feed-${post.id}`}
+ style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
                   {/* Timeline dot */}
                   <div
-                    className="absolute left-[18px] top-3 w-3 h-3 rounded-lg border-2 z-10 transition-colors duration-300"
-                    style={{
-                      borderColor: config.color,
-                      background: isNew ? config.color : "var(--color-bg-primary)",
-                    }}
-                  />
+ className="absolute left-[18px] top-3 w-3 h-3 rounded-lg border-2 z-10 transition-colors duration-300"
+ style={{
+ borderColor: config.color,
+ background: isNew ? config.color : "var(--color-bg-primary)",
+ }}
+ />
 
                   {/* New post glow */}
                   {isNew && (
                     <div
-                      className="absolute -inset-2 opacity-20 pointer-events-none transition-opacity duration-3000"
-                      style={{ background: `radial-gradient(ellipse at left, ${config.color}40, transparent 70%)` }}
-                    />
+ className="absolute -inset-2 opacity-20 pointer-events-none transition-opacity duration-3000"
+ style={{ background: `radial-gradient(ellipse at left, ${config.color}40, transparent 70%)` }}
+ />
                   )}
 
                   {/* Post Card */}
                   <div
-                    className={`border bg-white/[0.02] p-6 transition-colors duration-300   border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"
-                      }`}>
+ className={`border bg-white/[0.02] p-6 transition-colors duration-300 border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"
+ }`}>
                     {/* Header: Avatar + Name + Time */}
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <div
-                          className="w-11 h-11 rounded-lg flex items-center justify-center border"
-                          style={{
-                            borderColor: config.color,
-                            color: config.color,
-                            background: `${config.color}15`,
-                          }}>
+ className="w-11 h-11 rounded-lg flex items-center justify-center border"
+ style={{
+ borderColor: config.color,
+ color: config.color,
+ background: `${config.color}15`,
+ }}>
                           {post.member_avatar}
                         </div>
                         <div>
@@ -325,12 +325,12 @@ export default function CrewFeed() {
                       <div className="flex flex-col items-end gap-1">
                         <span className="text-white/30">{timeAgo(post.created_at)}</span>
                         <span
-                          className="text-[var(--font-size-2xs)] uppercase tracking-[0.15em] px-2 py-0.5"
-                          style={{
-                            color: config.color,
-                            background: `${config.color}15`,
-                            border: `1px solid ${config.color}30`,
-                          }}>
+ className="text-[var(--font-size-2xs)] uppercase tracking-[0.15em] px-2 py-0.5"
+ style={{
+ color: config.color,
+ background: `${config.color}15`,
+ border: `1px solid ${config.color}30`,
+ }}>
                           {config.icon} {config.label}
                         </span>
                       </div>
@@ -366,7 +366,7 @@ export default function CrewFeed() {
 
         {/* Load More */}
         <div className="text-center mt-8">
-          <button aria-label="Action button" className="btn-outline btn-outline-hover py-2.5 px-8">
+          <button className="btn-outline btn-outline-hover py-2.5 px-8">
             Load More Posts
           </button>
         </div>

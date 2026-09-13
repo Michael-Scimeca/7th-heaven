@@ -78,17 +78,17 @@ export function SquishyToggle({
 
   return (
     <div
-      onClick={(e) => e.stopPropagation()}
+ onClick={(e) => e.stopPropagation()}
       className={`squishy-toggle relative inline-block h-[30px] w-[52px] shrink-0 select-none overflow-hidden rounded-full border border-white/25 bg-black/50 shadow-inner ${disabled ?'opacity-50 cursor-not-allowed' : ''} ${className}`}>
       <input
-        id={id}
-        type="checkbox"
-        aria-label={label}
-        checked={checked}
-        disabled={disabled}
-        onChange={handleChange}
-        className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none outline-none opacity-0 disabled:cursor-not-allowed"
-      />
+ id={id}
+ type="checkbox"
+ aria-label={label}
+ checked={checked}
+ disabled={disabled}
+ onChange={handleChange}
+ className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none outline-none opacity-0 disabled:cursor-not-allowed"
+ />
 
       {/* Base inactive track layer */}
       <div className="pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-opacity duration-300" />
@@ -98,9 +98,9 @@ export function SquishyToggle({
 
       {/* thumb */}
       <div
-        onAnimationEnd={handleAnimationEnd}
-        className={`squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
-      />
+ onAnimationEnd={handleAnimationEnd}
+ className={`squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
+ />
     </div>
   );
 }

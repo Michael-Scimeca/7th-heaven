@@ -237,23 +237,23 @@ export default function FooterProximityAlerts() {
       <div className="hidden md:flex shrink-0 w-full md:w-auto justify-center items-center my-auto">
         <div className="relative w-[190px] sm:w-[210px] lg:w-[230px] aspect-[9/19.5] select-none filter">
           <IphoneClipMask
-            insetXPercent={0}
-            insetTopPercent={0}
-            insetBottomPercent={0}
-            borderRadiusPx={36}
-            className="w-full h-full flex items-center justify-center">
+ insetXPercent={0}
+ insetTopPercent={0}
+ insetBottomPercent={0}
+ borderRadiusPx={36}
+ className="w-full h-full flex items-center justify-center">
             <div className="relative w-full h-full rounded-[34px] overflow-hidden bg-[#12071f] flex flex-col justify-between p-2 border border-purple-500/30 shadow-[inset_0_0_20px_rgba(168,85,247,0.15)]">
               {/* Phone Content Screen */}
               <div className="relative w-full h-full rounded-[28px] overflow-hidden bg-black flex items-center justify-center">
                 <video
-                  src="/movie/notefication.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  aria-label="7th Heaven Concert Live Stream"
-                  className="w-full h-full object-contain bg-black rounded-[28px]"
-                />
+ src="/movie/notefication.mp4"
+ autoPlay
+ loop
+ muted
+ playsInline
+ aria-label="7th Heaven Concert Live Stream"
+ className="w-full h-full object-contain bg-black rounded-[28px]"
+ />
               </div>
             </div>
           </IphoneClipMask>
@@ -323,9 +323,9 @@ export default function FooterProximityAlerts() {
                 const isSelected = radius === opt.value;
                 return (
                   <FoolishShrimpButton
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setRadius(opt.value)}
+ key={opt.value}
+ type="button"
+ onClick={() => setRadius(opt.value)}
                     isActive={isSelected}
                     className="!w-auto px-3.5 py-2 text-xs">
                     {opt.label}
@@ -347,21 +347,21 @@ export default function FooterProximityAlerts() {
                   const isSelected = isAll || activeTypeSet.has(type.id);
                   return (
                     <FoolishShrimpButton
-                      key={type.id}
-                      type="button"
-                      onClick={() => toggleType(type.id)}
+ key={type.id}
+ type="button"
+ onClick={() => toggleType(type.id)}
                       isActive={isSelected}
                       className="!w-auto inline-flex items-center gap-1.5 ">
                       {type.iconType === "guitar" ? (
                         <Guitar className="w-3.5 h-3.5 text-purple-300 shrink-0 inline-block" />
                       ) : (
                         <span
-                          className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
-                          style={{
-                            backgroundColor: type.color,
-                            boxShadow: `0 0 6px ${type.color}80`,
-                          }}
-                        />
+ className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
+ style={{
+ backgroundColor: type.color,
+ boxShadow: `0 0 6px ${type.color}80`,
+ }}
+ />
                       )}
                       <span>{type.label}</span>
 
@@ -387,10 +387,10 @@ export default function FooterProximityAlerts() {
                 <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
               </span>
               <CosmicRadialButton
-                icon={false}
-                onClick={handleSavePrefs}
-                disabled={isBusy}
-                className="!px-6 !py-3 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
+ icon={false}
+ onClick={handleSavePrefs}
+ disabled={isBusy}
+ className="!px-6 !py-3 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
                 <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                   {status === "saving" ? (
                     <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
@@ -404,10 +404,10 @@ export default function FooterProximityAlerts() {
             </div>
           ) : (
             <CosmicRadialButton
-              icon={false}
-              onClick={handleEnableAlerts}
-              disabled={isBusy || permission === "denied"}
-              className="!px-6 !py-3.5 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
+ icon={false}
+ onClick={handleEnableAlerts}
+ disabled={isBusy || permission === "denied"}
+ className="!px-6 !py-3.5 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
               <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                 {status === "saving" ? (
                   <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
@@ -423,7 +423,7 @@ export default function FooterProximityAlerts() {
             </CosmicRadialButton>
           )}
 
-          <p className="uppercase text-xs text-white/70 tracking-wide   ">
+          <p className="uppercase text-xs text-white/70 tracking-wide ">
             {permission === "granted"
               ? "Your notifications are enabled. Update filters above and save anytime."
               : "Click to enable instant browser & proximity alerts for nearby shows."}

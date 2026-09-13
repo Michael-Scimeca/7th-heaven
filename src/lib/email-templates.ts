@@ -220,7 +220,6 @@ export function raffleLoss(b: { prizeName: string }) {
 }
 
 
-
 // ═══════════════════════════════════════════════
 // 8. NEWSLETTER BLAST
 // ═══════════════════════════════════════════════
@@ -865,7 +864,7 @@ export function cruiseCommunityBlast(data: { subject: string; body: string }) {
   const btnCruise = `display:inline-block;background-color:#06b6d4;background:#06b6d4;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;`;
   const formattedBody = (data.body || '').replace(/<a /gi, '<a style="color:#06b6d4;text-decoration:underline;font-weight:700;" ');
 
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+ return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background-color:#f8fafc;background:#f8fafc;color:#0f172a;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc;background:#f8fafc;padding:40px 16px;"><tr><td align="center"><table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;"><!-- Cruise Header -->
 <tr><td style="background-color:#06b6d4;background:linear-gradient(135deg,#0e7490,#06b6d4,#0891b2);padding:24px 40px;text-align:center;border-radius:16px 16px 0 0;"><p style="margin:0 0 4px;font-size:28px;line-height:1.2;"></p>
 <p style="margin:0 0 4px;color:#ffffff !important;font-size:18px;font-weight:900;letter-spacing:4px;text-transform:uppercase;line-height:1.4;">7TH HEAVEN CRUISE</p>
@@ -1169,7 +1168,6 @@ export function crewSmsAlertReceived(b: {
 </div>
   `);
 }
-
 
 
 // ═══════════════════════════════════════════════

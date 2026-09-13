@@ -70,7 +70,6 @@ function getTier(points: number): Member["tier"] {
 }
 
 
-
 export function MemberProvider({ children }: { children: ReactNode }) {
   const [member, setMember] = useState<Member | null>(null);
   const [hydrated, setHydrated] = useState(false);

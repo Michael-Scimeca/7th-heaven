@@ -179,9 +179,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
         <link
-          rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
-        />
+ rel="stylesheet"
+ href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
+ />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
          * This has to be a plain inline <script> in <head> rather than a
@@ -195,25 +195,25 @@ export default function RootLayout({
          * blocked or failed script degrades to simply not showing the
          * preloader rather than to a stuck black screen. */}
         <script
-          dangerouslySetInnerHTML={{
-            __html: PRELOAD_SCRIPT_CONTENT,
-          }}
-        />
+ dangerouslySetInnerHTML={{
+ __html: PRELOAD_SCRIPT_CONTENT,
+ }}
+ />
         <style
-          dangerouslySetInnerHTML={{
-            __html: `
-              html.is-preloading, html.is-preloading body {
-                overflow: hidden !important;
-                background-color: #030006 !important;
-              }
-              html.is-preloading .preloader {
-                display: grid !important;
-                z-index: 100005 !important;
-                pointer-events: none !important;
-              }
-            `,
-          }}
-        />
+ dangerouslySetInnerHTML={{
+ __html: `
+ html.is-preloading, html.is-preloading body {
+ overflow: hidden !important;
+ background-color: #030006 !important;
+ }
+ html.is-preloading .preloader {
+ display: grid !important;
+ z-index: 100005 !important;
+ pointer-events: none !important;
+ }
+ `,
+ }}
+ />
       </head>
       <body suppressHydrationWarning>
         <Preloader />
@@ -222,11 +222,11 @@ export default function RootLayout({
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
         )}
         <Script
-          id="band-jsonld"
-          type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            // Escape <,> and & so that </script> sequences in data values
+ id="band-jsonld"
+ type="application/ld+json"
+ strategy="afterInteractive"
+ dangerouslySetInnerHTML={{
+ // Escape <,> and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
             __html: JSON.stringify(BAND_LD)
               .replace(/</g, '\\u003c')
@@ -236,13 +236,13 @@ export default function RootLayout({
         />
 
         <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{
-          __html: `
-          if (window.location.search.includes('bypass=true')) {
-            var style = document.createElement('style');
-            style.innerHTML = '* { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; } #curtain-primary, #curtain-accent { display: none !important; } #page-content-wrapper { opacity: 1 !important; transform: none !important; }';
-            document.head.appendChild(style);
-          }
-        ` }} />
+ __html: `
+ if (window.location.search.includes('bypass=true')) {
+ var style = document.createElement('style');
+ style.innerHTML = '* { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; } #curtain-primary, #curtain-accent { display: none !important; } #page-content-wrapper { opacity: 1 !important; transform: none !important; }';
+ document.head.appendChild(style);
+ }
+ ` }} />
         <TransitionProvider>
           <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
             <Providers>

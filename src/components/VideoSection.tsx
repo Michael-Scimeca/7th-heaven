@@ -51,11 +51,11 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
         ) : (
           <button className="absolute inset-0 w-full h-full cursor-pointer group/thumb" onClick={() => onPlay(video.id)} aria-label={`Play ${video.title}`}>
             <Image width={480} height={360}
-              src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
-              alt={video.title}
-              className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-              loading="lazy"
-              onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
+ src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+ alt={video.title}
+ className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+ loading="lazy"
+ onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
             />
             {/* YouTube-style hover overlay */}
             <div className="absolute inset-0 z-[2] group-hover/thumb:bg-black/40 transition-colors duration-300 flex items-center justify-center">
@@ -157,16 +157,16 @@ export default function VideoSection() {
                   ) : (
                     <button className="absolute inset-0 w-full h-full cursor-pointer group/thumb" onClick={() => setPlayingId(`featured-${latest.id}`)} aria-label={`Play ${latest.title}`}>
                       <Image width={1280} height={720}
-                        src={`https://img.youtube.com/vi/${latest.id}/hqdefault.jpg`}
-                        alt={latest.title}
-                        className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-                        priority
-                        onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
+ src={`https://img.youtube.com/vi/${latest.id}/hqdefault.jpg`}
+ alt={latest.title}
+ className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+ priority
+ onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
                       />
                       <div className="absolute inset-0 z-[2] bg-black/30 group-hover/thumb:bg-black/50 transition-colors duration-300 flex items-center justify-center">
                         <CosmicRadialButton
-                          icon={false}
-                          className="w-16 h-16 !rounded-full !p-0 text-white flex items-center justify-center group-hover/thumb:scale-110 transition-transform duration-300   border border-purple-300/40">
+ icon={false}
+ className="w-16 h-16 !rounded-full !p-0 text-white flex items-center justify-center group-hover/thumb:scale-110 transition-transform duration-300 border border-purple-300/40">
                           <svg width="22" height="24" viewBox="0 0 20 22" fill="currentColor" className="ml-1"><path d="M19 11L1 21V1L19 11Z" /></svg>
                         </CosmicRadialButton>
                       </div>
@@ -198,11 +198,11 @@ export default function VideoSection() {
               <div className="grid grid-cols-2 gap-4 lg:gap-6">
                 {next4.map(video => (
                   <SmallCard
-                    key={video.id}
-                    video={video}
-                    playingId={playingId}
-                    onPlay={setPlayingId}
-                    onClose={() => setPlayingId(null)}
+ key={video.id}
+ video={video}
+ playingId={playingId}
+ onPlay={setPlayingId}
+ onClose={() => setPlayingId(null)}
                   />
                 ))}
               </div>
@@ -216,16 +216,16 @@ export default function VideoSection() {
 
       {/* Sticky category nav — Pill Tabs */}
       <div
-        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ? "backdrop-blur-lg border-b border-white/10 "
-          : ""
-          }`}
-        style={navStuck ? { backgroundColor: 'rgba(10, 10, 15, 0.95)' } : undefined}>
+ className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ? "backdrop-blur-lg border-b border-white/10 "
+ : ""
+ }`}
+ style={navStuck ? { backgroundColor: 'rgba(10, 10, 15, 0.95)' } : undefined}>
         <div className="px-8 overflow-x-auto scrollbar-hide">
           <nav className="flex items-center gap-2 py-5 min-w-max border-t border-white/5">
             {videosData.map((cat) => (
-              <button aria-label="Action button"
-                key={cat.category}
-                onClick={() => {
+              <button
+ key={cat.category}
+ onClick={() => {
                   if (cat.category === activeFilter) return;
                   setPlayingId(null);
                   setGridVisible(false);
@@ -256,20 +256,20 @@ export default function VideoSection() {
               <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] rounded-[8px] border border-white/5">
                 {playingId === video.id ? (
                   <InlineYTPlayer
-                    videoId={video.id}
-                    title={video.title}
-                    onClose={() => setPlayingId(null)}
+ videoId={video.id}
+ title={video.title}
+ onClose={() => setPlayingId(null)}
                   />
                 ) : (
                   <button className="absolute inset-0 w-full h-full cursor-pointer group/thumb"
-                    onClick={() => setPlayingId(video.id)}
+ onClick={() => setPlayingId(video.id)}
                     aria-label={`Play ${video.title}`}>
                     <Image width={480} height={360}
-                      src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
-                      alt={video.title}
-                      className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
-                      loading="lazy"
-                      onLoad={(e) => {
+ src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+ alt={video.title}
+ className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+ loading="lazy"
+ onLoad={(e) => {
                         const img = e.currentTarget;
                         if (img.naturalWidth <= 120) {
                           img.src = '/images/video-placeholder.jpg';
@@ -281,8 +281,8 @@ export default function VideoSection() {
                     />
                     <div className="absolute inset-0 z-[2] bg-black/10 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center">
                       <CosmicRadialButton
-                        icon={false}
-                        className="w-12 h-12 !rounded-full !p-0 text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300 border border-purple-300/40">
+ icon={false}
+ className="w-12 h-12 !rounded-full !p-0 text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300 border border-purple-300/40">
                         <svg width="16" height="18" viewBox="0 0 20 22" fill="currentColor" className="ml-1"><path d="M19 11L1 21V1L19 11Z" /></svg>
                       </CosmicRadialButton>
                     </div>
@@ -319,9 +319,9 @@ export default function VideoSection() {
 
         {/* Load More */}
         {filteredVideos.length > visibleCount && (
-          <div className="flex justify-center   6">
+          <div className="flex justify-center 6">
             <button aria-label="Previous"
-              onClick={() => setVisibleCount(prev => prev + 15)}
+ onClick={() => setVisibleCount(prev => prev + 15)}
               className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase tracking-[0.1em] py-3 px-8 transition-colors">
               Load More <span className="text-white/50 font-normal">({filteredVideos.length - visibleCount} remaining)</span>
             </button>

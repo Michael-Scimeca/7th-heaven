@@ -19,7 +19,7 @@ function VersionA() {
     <div className="space-y-4">
       <div className="flex gap-2">
         {Array.from(guests, (guest, i) => ({ guest, i })).map(({ guest, i }) => (
-          <button aria-label="Action button" key={i} type="button" onClick={() => setActiveTab(i)}
+          <button key={i} type="button" onClick={() => setActiveTab(i)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg    transition-colors cursor-pointer ${activeTab === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
               : "bg-white/[0.04] border border-white/10 text-white/40   text-white "
               }`}>
@@ -31,9 +31,9 @@ function VersionA() {
         ))}
       </div>
       <div className="p-4 bg-white/[0.02] border border-white/10 space-y-3 animate-[fade-in_0.2s_ease]">
-        <input aria-label="Input field" type="text" placeholder={activeTab === 0 ? "Your Name" : `Guest ${activeTab + 1} Name`} value={g.name} onChange={e => update("name", e.target.value)} className={INPUT} />
-        <input aria-label="Input field" type="email" placeholder="Email" value={g.email} onChange={e => update("email", e.target.value)} className={INPUT} />
-        <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
+        <input type="text" placeholder={activeTab === 0 ? "Your Name" : `Guest ${activeTab + 1} Name`} value={g.name} onChange={e => update("name", e.target.value)} className={INPUT} />
+        <input type="email" placeholder="Email" value={g.email} onChange={e => update("email", e.target.value)} className={INPUT} />
+        <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
       </div>
     </div>
   );
@@ -52,12 +52,12 @@ function VersionB() {
       <div className="flex items-center justify-between">
         {Array.from(STEP_LABELS, (label, i) => ({ label, i })).map(({ label, i }) => (
           <React.Fragment key={i}>
-            <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0    p-0 text-left" onClick={() => setStep(i)}>
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center    transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
-                : step > i ? "bg-[var(--color-accent)]/30 text-white"
+            <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0 p-0 text-left" onClick={() => setStep(i)}>
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
+ : step > i ? "bg-[var(--color-accent)]/30 text-white"
                   : " bg-[#00000029] border border-white/10 text-white/30"
                 }`}>{step > i ? "✓" : i + 1}</div>
-              <span className={`text-[var(--font-size-2xs)] uppercase    ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
+              <span className={`text-[var(--font-size-2xs)] uppercase ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
             </button>
             {i < STEP_LABELS.length - 1 && <div className={`flex-1 h-px mx-2 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`} />}
           </React.Fragment>
@@ -65,13 +65,13 @@ function VersionB() {
       </div>
       {/* Fields */}
       <div className="space-y-3">
-        <input aria-label="Input field" type="text" placeholder="Full Name" value={g.name} onChange={e => update("name", e.target.value)} className={INPUT} />
-        <input aria-label="Input field" type="email" placeholder="Email" value={g.email} onChange={e => update("email", e.target.value)} className={INPUT} />
-        <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
+        <input type="text" placeholder="Full Name" value={g.name} onChange={e => update("name", e.target.value)} className={INPUT} />
+        <input type="email" placeholder="Email" value={g.email} onChange={e => update("email", e.target.value)} className={INPUT} />
+        <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
       </div>
       <div className="flex gap-3">
-        {step > 0 && <button aria-label="Action button" type="button" onClick={() => setStep(s => s - 1)} className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white/50 cursor-pointer hover:text-white/70 transition-colors">← Back</button>}
-        <button aria-label="Action button" type="button" onClick={() => setStep(s => Math.min(s + 1, 2))}
+        {step > 0 && <button type="button" onClick={() => setStep(s => s - 1)} className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white/50 cursor-pointer hover:text-white/70 transition-colors">← Back</button>}
+        <button type="button" onClick={() => setStep(s => Math.min(s + 1, 2))}
           className="flex-1 py-2.5 bg-[var(--color-accent)] rounded-lg text-white cursor-pointer hover:bg-[var(--color-accent)]/80 transition-colors">
           {step === 2 ? "Submit" : "Next →"}
         </button>
@@ -95,12 +95,12 @@ function VersionC() {
               <span>{COLLAPSIBLE_LABELS[i] || `Guest ${i + 1}`}</span>
             </span>
           </div>
-          <input aria-label="Input field" type="text" placeholder="Name" value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
-          <input aria-label="Input field" type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
-          <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
+          <input type="text" placeholder="Name" value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
+          <input type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
+          <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="p-4 border border-dashed border-white/10 flex items-center justify-center gap-2 text-white/20 hover:text-white/40 border-white/10 transition-colors cursor-pointer">
+      <button type="button" className="p-4 border border-dashed border-white/10 flex items-center justify-center gap-2 text-white/20 hover:text-white/40 border-white/10 transition-colors cursor-pointer">
         <span className="text-xl">+</span>
         <span className="uppercase">Add Guest</span>
       </button>
@@ -125,12 +125,12 @@ function VersionD() {
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className={`grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? "bg-[var(--color-accent)]/10" : i % 2 === 0 ? "bg-white/[0.01]" : ""}`}>
           <span className="w-6 h-6 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] text-white" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
-          <input aria-label="Input field" type="text" placeholder={i === 0 ? "Your name" : "Guest name"} value={g.name} onChange={e => update(i, "name", e.target.value)} className={SMALL} />
-          <input aria-label="Input field" type="email" placeholder="email@example.com" value={g.email} onChange={e => update(i, "email", e.target.value)} className={SMALL} />
-          <input aria-label="Input field" type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={SMALL} />
+          <input type="text" placeholder={i === 0 ? "Your name" : "Guest name"} value={g.name} onChange={e => update(i, "name", e.target.value)} className={SMALL} />
+          <input type="email" placeholder="email@example.com" value={g.email} onChange={e => update(i, "email", e.target.value)} className={SMALL} />
+          <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={SMALL} />
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="w-full py-2.5 uppercase text-[var(--color-accent)]/60 text-[var(--color-accent)] hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
+      <button type="button" className="w-full py-2.5 uppercase text-[var(--color-accent)]/60 text-[var(--color-accent)] hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
     </div>
   );
 }
@@ -145,7 +145,7 @@ function VersionE() {
     <div className="space-y-2">
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className="overflow-hidden border border-white/5">
-          <button aria-label="Action button" type="button" onClick={() => setOpen(open === i ? -1 : i)}
+          <button type="button" onClick={() => setOpen(open === i ? -1 : i)}
             className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"
               }`}>
             <span className="w-8 h-8 rounded-lg flex items-center justify-center text-white shrink-0" style={{ backgroundColor: COLORS[i] }}>
@@ -159,14 +159,14 @@ function VersionE() {
           </button>
           {open === i && (
             <div className="px-4 pb-4 pt-2 space-y-2.5 bg-white/[0.01]">
-              <input aria-label="Input field" type="text" placeholder="Full Name" value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
-              <input aria-label="Input field" type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
-              <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
+              <input type="text" placeholder="Full Name" value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
+              <input type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
+              <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
             </div>
           )}
         </div>
       ))}
-      <button aria-label="Action button" type="button" className="w-full py-3 border border-dashed border-white/10 uppercase text-white/20 text-[var(--color-accent)] border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
+      <button type="button" className="w-full py-3 border border-dashed border-white/10 uppercase text-white/20 text-[var(--color-accent)] border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
     </div>
   );
 }
@@ -183,16 +183,16 @@ function VersionF() {
         <div key={i} className="flex items-start gap-2">
           <span className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] text-white shrink-0 mt-2" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
           <div className="flex-1 grid grid-cols-3 gap-2">
-            <input aria-label="Input field" type="text" placeholder={i === 0 ? "Your Name" : "Guest Name"} value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
-            <input aria-label="Input field" type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
-            <input aria-label="Input field" type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
+            <input type="text" placeholder={i === 0 ? "Your Name" : "Guest Name"} value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
+            <input type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
+            <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
           </div>
           {i > 0 && (
-            <button aria-label="Action button" type="button" onClick={() => remove(i)} className="w-7 h-7 rounded-lg bg-[#00000029] hover:bg-red-500/20 flex items-center justify-center text-white/20 hover:text-red-400 transition-colors cursor-pointer mt-2 shrink-0">✕</button>
+            <button type="button" onClick={() => remove(i)} className="w-7 h-7 rounded-lg bg-[#00000029] hover:bg-red-500/20 flex items-center justify-center text-white/20 hover:text-red-400 transition-colors cursor-pointer mt-2 shrink-0">✕</button>
           )}
         </div>
       ))}
-      <button aria-label="Action button" type="button" onClick={() => setGuests(g => [...g, emptyGuest()])}
+      <button type="button" onClick={() => setGuests(g => [...g, emptyGuest()])}
         className="text-[var(--color-accent)]/60 text-[var(--color-accent)] transition-colors cursor-pointer">+ Add another guest</button>
     </div>
   );

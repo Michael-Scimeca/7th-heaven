@@ -28,12 +28,12 @@ export function SectionBadge({
 
   return (
     <span
-      role={isInteractive ? "button" : undefined}
-      tabIndex={isInteractive ? 0 : undefined}
-      onClick={onClick}
-      onKeyDown={
-        isInteractive
-          ? (e) => {
+ role={isInteractive ? "button" : undefined}
+ tabIndex={isInteractive ? 0 : undefined}
+ onClick={onClick}
+ onKeyDown={
+ isInteractive
+ ? (e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
               onClick?.(e as any);

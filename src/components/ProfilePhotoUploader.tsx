@@ -124,15 +124,14 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             {isAvatarUrl ? "Photo active for scheduling & site" : "No photo set — upload one below"}
           </p>
         </div>
-        <input aria-label="Input field"
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          accept="image/*"
-          className="hidden"
-        />
-        <button aria-label="Action button"
-          onClick={() => fileInputRef.current?.click()}
+        <input type="file"
+ ref={fileInputRef}
+ onChange={handleFileChange}
+ accept="image/*"
+ className="hidden"
+ />
+        <button
+ onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
           className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50">
           {isUploading ? "Uploading..." : isAvatarUrl ? "Change" : "Upload"}
@@ -142,7 +141,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
   }
 
   return (
-    <div className="bg-white border border-black/15 p-6 relative overflow-hidden text-black   ">
+    <div className="bg-white border border-black/15 p-6 relative overflow-hidden text-black ">
       <div className="flex items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)]">
@@ -176,8 +175,8 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
               <p className="text-[var(--color-accent)]/60 uppercase mt-0.5">No Photo</p>
             </div>
           )}
-          <button aria-label="Action button"
-            onClick={() => fileInputRef.current?.click()}
+          <button
+ onClick={() => fileInputRef.current?.click()}
             className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white transition-opacity cursor-pointer gap-1">
             <Edit className="w-3.5 h-3.5" /> Change
           </button>
@@ -185,25 +184,24 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
         {/* Upload Controls */}
         <div className="flex-1 w-full space-y-3">
-          <input aria-label="Input field"
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            accept="image/*"
-            className="hidden"
-          />
+          <input type="file"
+ ref={fileInputRef}
+ onChange={handleFileChange}
+ accept="image/*"
+ className="hidden"
+ />
 
           <div className="flex flex-wrap gap-2">
-            <button aria-label="Action button"
-              onClick={() => fileInputRef.current?.click()}
+            <button
+ onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
               className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
               {isUploading ? "Uploading..." : "Upload Photo File"}
             </button>
 
-            <button aria-label="Action button"
-              onClick={() => setShowInput(!showInput)}
+            <button
+ onClick={() => setShowInput(!showInput)}
               className="px-4 py-2.5 bg-black/5 hover:bg-black/10 text-black uppercase rounded-lg border border-black/15 transition-colors cursor-pointer">
               {showInput ? "Cancel URL" : "Paste Image URL"}
             </button>
@@ -211,17 +209,16 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
           {showInput && (
             <form onSubmit={handleUrlSubmit} className="flex gap-2">
-              <input aria-label="Input field"
-                type="url"
-                value={urlInput}
-                onChange={(e) => setUrlInput(e.target.value)}
+              <input type="url"
+ value={urlInput}
+ onChange={(e) => setUrlInput(e.target.value)}
                 placeholder="https://example.com/my-photo.jpg"
                 required
                 className="flex-1 px-3 py-2 bg-white border border-black/15 rounded-lg text-black font-semibold placeholder:text-black/40 outline-none focus:border-[var(--color-accent)]"
               />
-              <button aria-label="Action button"
-                type="submit"
-                className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white uppercase rounded-lg cursor-pointer">
+              <button
+ type="submit"
+ className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white uppercase rounded-lg cursor-pointer">
                 Save
               </button>
             </form>
@@ -234,10 +231,10 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
       </div>
 
       {message && (
-        <div className={`mt-3 px-4 py-2 rounded-lg    flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
-          }`}>
+        <div className={`mt-3 px-4 py-2 rounded-lg flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
+ }`}>
           <span>{message.text}</span>
-          <button aria-label="Action button" onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer">×</button>
+          <button onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer">×</button>
         </div>
       )}
     </div>

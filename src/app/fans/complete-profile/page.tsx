@@ -151,10 +151,10 @@ export default function CompleteProfilePage() {
             {profile?.avatar_url && (
               <div className="flex justify-center mb-6">
                 <Image width={200} height={200} unoptimized
-                  src={profile.avatar_url}
-                  alt={profile.full_name}
-                  className="w-20 h-20 rounded-lg border-2 border-[var(--color-accent)]/40 object-cover"
-                />
+ src={profile.avatar_url}
+ alt={profile.full_name}
+ className="w-20 h-20 rounded-lg border-2 border-[var(--color-accent)]/40 object-cover"
+ />
               </div>
             )}
 
@@ -166,18 +166,17 @@ export default function CompleteProfilePage() {
                 </label>
                 <div className="relative input-glow-border rounded-xl">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 z-10">@</span>
-                  <input aria-label="Input field"
-                    id="complete-profile-username"
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+                  <input id="complete-profile-username"
+ type="text"
+ value={username}
+ onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                     placeholder="your_username"
                     maxLength={24}
                     className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                     required
                   />
                 </div>
-                <p className="  ">This is your public handle. Letters, numbers &amp; underscores only.</p>
+                <p className=" ">This is your public handle. Letters, numbers &amp; underscores only.</p>
               </div>
 
               {/* Notification Preferences */}
@@ -188,15 +187,15 @@ export default function CompleteProfilePage() {
 
                 {/* Proximity alerts */}
                 <div
-                  onClick={() => setWantNotifications(!wantNotifications)}
+ onClick={() => setWantNotifications(!wantNotifications)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40'
                     : 'bg-white/[0.02] border-white/10   border-white/10 '
                     }`}>
                   <SquishyToggle
-                    id="complete-profile-notifications"
-                    label="Email me when 7th Heaven books a show near me"
-                    checked={wantNotifications}
-                    onChange={(val) => setWantNotifications(val)}
+ id="complete-profile-notifications"
+ label="Email me when 7th Heaven books a show near me"
+ checked={wantNotifications}
+ onChange={(val) => setWantNotifications(val)}
                   />
                   <span className="text-white/90 text-left">
                     📍 Email me when 7th Heaven books a show near me
@@ -208,11 +207,10 @@ export default function CompleteProfilePage() {
                   <div className="ml-1">
                     <label htmlFor="complete-profile-zip" className="uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
                     <div className="input-glow-border rounded-xl">
-                      <input aria-label="Input field"
-                        id="complete-profile-zip"
-                        type="text"
-                        value={zipCode}
-                        onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                      <input id="complete-profile-zip"
+ type="text"
+ value={zipCode}
+ onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
                         placeholder="e.g. 60601"
                         className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                       />
@@ -222,15 +220,15 @@ export default function CompleteProfilePage() {
 
                 {/* Newsletter */}
                 <div
-                  onClick={() => setWantNewsletter(!wantNewsletter)}
+ onClick={() => setWantNewsletter(!wantNewsletter)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40'
                     : 'bg-white/[0.02] border-white/10   border-white/10 '
                     }`}>
                   <SquishyToggle
-                    id="complete-profile-newsletter"
-                    label="Send me news, show updates & exclusive drops"
-                    checked={wantNewsletter}
-                    onChange={(val) => setWantNewsletter(val)}
+ id="complete-profile-newsletter"
+ label="Send me news, show updates & exclusive drops"
+ checked={wantNewsletter}
+ onChange={(val) => setWantNewsletter(val)}
                   />
                   <span className="text-white/90 text-left">
                     📧 Send me news, show updates &amp; exclusive drops
@@ -249,10 +247,10 @@ export default function CompleteProfilePage() {
                 <p className="text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
               )}
 
-              <button aria-label="Action button"
-                type="submit"
-                disabled={saving}
-                className="w-full py-3 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]">
+              <button
+ type="submit"
+ disabled={saving}
+ className="w-full py-3 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]">
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
 

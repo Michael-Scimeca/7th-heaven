@@ -473,9 +473,6 @@ textarea:focus-visible,
 }
 
 
-
-
-
 /* =============================================
    ANIMATED SPINNING GRADIENT BORDER
    Wrap any input/element in .input-glow-border to give it a
@@ -581,10 +578,6 @@ div:has(> textarea:hover):not(:has(> label)):not(.no-glow):not([class*="glow-bor
     --border-angle: 360deg;
   }
 }
-
-
-
-
 
 
 select option {
@@ -936,7 +929,6 @@ button,
   --surface-raised: #000000;
   --surface-overlay: rgba(0, 0, 0, 0.92);
 }
-
 
 
 @theme {
@@ -1982,7 +1974,6 @@ button,
 }
 
 
-
 @utility pt-page {
   padding-top: var(--page-top-offset, 120px) !important;
 }
@@ -2300,8 +2291,6 @@ html.tour-sort-stuck #tour-sort-bar {
 }
 
 
-
-
 /* Slides that are outside the center pass BEHIND the sleeve card (z-10).
    Only the centered active slide sits above everything (z-20). */
 .vinyl-slider-wrap .swiper-slide {
@@ -2324,7 +2313,6 @@ html.tour-sort-stuck #tour-sort-bar {
   visibility: hidden !important;
   pointer-events: none !important;
 }
-
 
 
 @keyframes filmGrainJitter {
@@ -2573,7 +2561,6 @@ textarea,
   font-size: var(--text-xs) !important;
   line-height: 1.4 !important;
 }
-
 
 
 /* =============================================
@@ -5525,13 +5512,6 @@ section {
 }
 
 
-
-
-
-
-
-
-
 /* ── Custom Cursor & Cursor Follower Styles ── */
 
 .cursor-tail-circle {
@@ -5951,7 +5931,6 @@ body:has(textarea:focus) .cursor-tail-circle {
 .module-bg {
   background: #1a065569;
 }
-
 
 
 /* ── Page Curtain Transition Animation ── */

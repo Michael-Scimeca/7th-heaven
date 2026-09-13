@@ -67,10 +67,10 @@ export default function CookieConsentBanner() {
 
   return (
     <dialog
-      open
-      className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100vw-2rem)] max-w-[640px] m-0 p-0    border-none text-inherit transition-colors duration-350 ease-out ${closing ? "opacity-0 translate-y-4 scale-[0.98] pointer-events-none" : "opacity-100 translate-y-0 scale-100"
-        }`}
-      aria-label="Cookie consent">
+ open
+ className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100vw-2rem)] max-w-[640px] m-0 p-0 border-none text-inherit transition-colors duration-350 ease-out ${closing ? "opacity-0 translate-y-4 scale-[0.98] pointer-events-none" : "opacity-100 translate-y-0 scale-100"
+ }`}
+ aria-label="Cookie consent">
       <div className="relative bg-[#0e0e1a]/95 backdrop-blur-xl border border-white/10 shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] overflow-hidden">
         {/* Purple accent line */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent" />
@@ -84,7 +84,7 @@ export default function CookieConsentBanner() {
               </svg>
             </div>
             <div className="flex-1">
-              <h2 className="text-white   ">Your Privacy</h2>
+              <h2 className="text-white ">Your Privacy</h2>
               <p className="leading-snug">
                 We use cookies to improve your experience. By using 7thHeavenBand.com you agree to our{" "}
                 <a href="/privacy" className="text-[var(--color-accent)]/80 text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
@@ -119,10 +119,10 @@ export default function CookieConsentBanner() {
                   <p className="mt-0.5">Helps us understand how fans use the site (Google Analytics).</p>
                 </div>
                 <GradientToggle
-                  id="cookie-analytics-toggle"
-                  checked={analytics}
-                  onChange={setAnalytics}
-                />
+ id="cookie-analytics-toggle"
+ checked={analytics}
+ onChange={setAnalytics}
+ />
               </div>
               <div className="h-px bg-white/[0.05]" />
               {/* Marketing */}
@@ -132,42 +132,42 @@ export default function CookieConsentBanner() {
                   <p className="mt-0.5">Personalised show recommendations and fan engagement.</p>
                 </div>
                 <GradientToggle
-                  id="cookie-marketing-toggle"
-                  checked={marketing}
-                  onChange={setMarketing}
-                />
+ id="cookie-marketing-toggle"
+ checked={marketing}
+ onChange={setMarketing}
+ />
               </div>
             </div>
           )}
 
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-2">
-            <button aria-label="Action button"
-              id="cookie-accept-all"
-              onClick={acceptAll}
-              className="flex-1 min-w-[120px] bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white uppercase tracking-[0.12em] px-5 py-2.5 transition-colors duration-200 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]">
+            <button
+ id="cookie-accept-all"
+ onClick={acceptAll}
+ className="flex-1 min-w-[120px] bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white uppercase tracking-[0.12em] px-5 py-2.5 transition-colors duration-200 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]">
               Accept All
             </button>
             {!expanded ? (
               <>
-                <button aria-label="Action button"
-                  id="cookie-reject-all"
-                  onClick={rejectAll}
-                  className="flex-1 min-w-[100px] bg-white/[0.06] hover:bg-white/[0.1] text-white hover:text-white font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200">
+                <button
+ id="cookie-reject-all"
+ onClick={rejectAll}
+ className="flex-1 min-w-[100px] bg-white/[0.06] hover:bg-white/[0.1] text-white hover:text-white font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200">
                   Reject All
                 </button>
-                <button aria-label="Action button"
-                  id="cookie-customize"
-                  onClick={() => setExpanded(true)}
+                <button
+ id="cookie-customize"
+ onClick={() => setExpanded(true)}
                   className="text-white/30 text-white font-semibold underline underline-offset-2 transition-colors px-2 py-2.5 whitespace-nowrap">
                   Customize
                 </button>
               </>
             ) : (
-              <button aria-label="Action button"
-                id="cookie-save-custom"
-                onClick={saveCustom}
-                className="flex-1 min-w-[120px] bg-white/[0.06] hover:bg-white/[0.1] text-white/70 hover:text-white font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200">
+              <button
+ id="cookie-save-custom"
+ onClick={saveCustom}
+ className="flex-1 min-w-[120px] bg-white/[0.06] hover:bg-white/[0.1] text-white/70 hover:text-white font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200">
                 Save Preferences
               </button>
             )}

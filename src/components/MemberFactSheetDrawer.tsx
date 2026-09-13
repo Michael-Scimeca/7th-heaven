@@ -133,22 +133,22 @@ export default function MemberFactSheetDrawer({
   const favQuote = member.favQuote || "I'm always happy and never satisfied.";
 
   return createPortal(
-    <div className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none   ">
+    <div className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none ">
       {/* Dimmed Blurred Backdrop Overlay */}
       <div
-        className="fixed inset-0 transition-opacity duration-300 ease-out"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+ className="fixed inset-0 transition-opacity duration-300 ease-out"
+ onClick={onClose}
+ aria-hidden="true"
+ />
 
       {/* Slide-Over Drawer Container */}
       <div
-        ref={drawerRef}
-        data-lenis-prevent="true"
-        className="relative z-10 w-full sm:w-[480px] md:w-[520px] lg:w-[560px] h-full backdrop-blur-2xl text-white flex flex-col justify-between overflow-y-auto transform transition-transform duration-300 ease-out custom-scrollbar fact-sheet-scrollbar bg-[#0c0a14]/45"
-        style={{
-          boxShadow: "-12px 0 36px rgba(0, 0, 0, 0.8), 0 0 45px rgba(168, 85, 247, 0.15)",
-        }}>
+ ref={drawerRef}
+ data-lenis-prevent="true"
+ className="relative z-10 w-full sm:w-[480px] md:w-[520px] lg:w-[560px] h-full backdrop-blur-2xl text-white flex flex-col justify-between overflow-y-auto transform transition-transform duration-300 ease-out custom-scrollbar fact-sheet-scrollbar bg-[#0c0a14]/45"
+ style={{
+ boxShadow: "-12px 0 36px rgba(0, 0, 0, 0.8), 0 0 45px rgba(168, 85, 247, 0.15)",
+ }}>
         {/* Top Control Bar */}
         <div className="sticky top-0 z-30 flex items-center justify-between px-6 py-2 bg-[#0c0a14]">
           <div className="flex items-center gap-2">
@@ -162,32 +162,32 @@ export default function MemberFactSheetDrawer({
             {hasMultiple && (
               <div className="flex items-center gap-1 mr-1 border-r border-white/10 pr-2">
                 <button
-                  type="button"
-                  onClick={handlePrev}
-                  className="p-1 rounded-md bg-white/5 hover:bg-purple-500/20 text-neutral-300 hover:text-white transition-colors border border-white/10"
-                  title="Previous Member"
-                  aria-label="Previous member">
+ type="button"
+ onClick={handlePrev}
+ className="p-1 rounded-md bg-white/5 hover:bg-purple-500/20 text-neutral-300 hover:text-white transition-colors border border-white/10"
+ title="Previous Member"
+ aria-label="Previous member">
                   <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
                 <span className="text-[10px] font-mono text-neutral-400 px-1">
                   {currentIndex + 1} / {allMembers.length}
                 </span>
                 <button
-                  type="button"
-                  onClick={handleNext}
-                  className="p-1 rounded-md bg-white/5 hover:bg-purple-500/20 text-neutral-300 hover:text-white transition-colors border border-white/10"
-                  title="Next Member"
-                  aria-label="Next member">
+ type="button"
+ onClick={handleNext}
+ className="p-1 rounded-md bg-white/5 hover:bg-purple-500/20 text-neutral-300 hover:text-white transition-colors border border-white/10"
+ title="Next Member"
+ aria-label="Next member">
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             )}
 
             <button
-              type="button"
-              onClick={onClose}
-              className="p-1.5 rounded-full bg-white/10 hover:white/20 text-neutral-300 hover:text-white transition-colors border border-white/10"
-              aria-label="Close modal">
+ type="button"
+ onClick={onClose}
+ className="p-1.5 rounded-full bg-white/10 hover:white/20 text-neutral-300 hover:text-white transition-colors border border-white/10"
+ aria-label="Close modal">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -196,15 +196,15 @@ export default function MemberFactSheetDrawer({
         {/* Main Content Scroll Container */}
         <div className="flex-1 py-4 pr-6 pl-6 space-y-3">
           {/* 🎟️ VINTAGE LIGHT PAPER TICKET STUB / FACT SHEET CARD */}
-          <div className="relative sm:py-2 overflow-hidden   ">
+          <div className="relative sm:py-2 overflow-hidden ">
 
             {/* Member Name */}
-            <h2 className="text-2xl sm:text-3xl font-black uppercase    font-serif">
+            <h2 className="text-2xl sm:text-3xl font-black uppercase font-serif">
               {fullName}
             </h2>
 
             {/* Role Subtitle */}
-            <p className="text-[11px] sm:text-xs  uppercase mt-2 mb-5">
+            <p className="text-[11px] sm:text-xs uppercase mt-2 mb-5">
               {member.role}
             </p>
 
@@ -246,7 +246,6 @@ export default function MemberFactSheetDrawer({
           </div>
 
 
-
           {/* ── SECTION 01: THE CONTRADICTION ── */}
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
@@ -259,14 +258,14 @@ export default function MemberFactSheetDrawer({
               {/* Best Trait vs Worst Trait Row */}
               <div className="flex items-center justify-between text-center gap-2 py-3 px-3 bg-black/40 rounded-lg border border-white/5">
                 <div className="flex-1">
-                  <span className="block text-[10px] font-mono  uppercase mb-1">
+                  <span className="block text-[10px] font-mono uppercase mb-1">
                     BEST TRAIT
                   </span>
                   <span className="block text-xs text-rose-400 uppercase">
                     {bestTrait}
                   </span>
                 </div>
-                <span className="font-serif italic   px-2 shrink-0">
+                <span className="font-serif italic px-2 shrink-0">
                   and yet
                 </span>
                 <div className="flex-1">
@@ -284,7 +283,7 @@ export default function MemberFactSheetDrawer({
                 <p className="font-serif italic text-sm sm:text-base text-neutral-200">
                   &ldquo;{favQuote}&rdquo;
                 </p>
-                <span className="block text-[8px] font-mono st text-purple-400 uppercase   .5">
+                <span className="block text-[8px] font-mono st text-purple-400 uppercase .5">
                   FAVORITE QUOTE
                 </span>
               </div>
@@ -612,7 +611,6 @@ export default function MemberFactSheetDrawer({
             </div >
           </div >
         </div >
-
 
 
       </div >

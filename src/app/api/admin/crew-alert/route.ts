@@ -358,7 +358,6 @@ export async function GET() {
     ]);
 
 
-
     const recipients = (allProfiles || []).flatMap(p => {
       if (!isNotBandOnlyMember(p.full_name, p.email)) return [];
       const digits = p.phone ? p.phone.replace(/\D/g, '') : '';

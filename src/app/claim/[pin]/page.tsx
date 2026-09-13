@@ -183,7 +183,7 @@ export default function ClaimPage() {
 
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${status === 'valid' ? 'flash-bg' : ' '}`}
-      style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}>
+ style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}>
 
       {/* Header */}
       <div className="w-full max-w-sm mb-8 text-center">
@@ -211,7 +211,7 @@ export default function ClaimPage() {
               You must be signed in to your 7th Heaven account to verify your raffle win.
             </p>
             <CosmicRadialButton
-              onClick={() => openModal()}
+ onClick={() => openModal()}
               icon={false}
               className="w-full py-3 text-white rounded-lg">
               Sign In to Verify
@@ -239,23 +239,23 @@ export default function ClaimPage() {
 
             {/* Top bar */}
             <div className="bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-3 flex items-center justify-center gap-2">
-              <span className="text-black uppercase   ">✓ PIN Verified</span>
+              <span className="text-black uppercase ">✓ PIN Verified</span>
             </div>
 
             <div className="p-8 text-center">
               <span className="text-6xl block mb-5">🏆</span>
-              <h1 className="text-white uppercase mb-1   ">Raffle Winner</h1>
-              <p className="mb-8   ">Show this screen to the 7th Heaven crew at the merch table.</p>
+              <h1 className="text-white uppercase mb-1 ">Raffle Winner</h1>
+              <p className="mb-8 ">Show this screen to the 7th Heaven crew at the merch table.</p>
 
               {/* Winner name */}
               <div className="bg-purple-500/10 border border-purple-500/30 px-6 py-4 mb-4">
-                <p className="text-[var(--color-accent)]/60 uppercase mb-1   ">Account Name</p>
-                <p className="text-purple-300   ">{winnerName}</p>
+                <p className="text-[var(--color-accent)]/60 uppercase mb-1 ">Account Name</p>
+                <p className="text-purple-300 ">{winnerName}</p>
               </div>
 
               {/* Prizes List */}
               <div className="space-y-3 mb-8">
-                <p className="uppercase mb-1 text-center   ">Prizes Won ({prizesList.length})</p>
+                <p className="uppercase mb-1 text-center ">Prizes Won ({prizesList.length})</p>
                 {prizesList.map((item) => {
                   const shopifyDetails = item.productId ? shopifyProductsMap[item.productId] : null;
                   const displayTitle = shopifyDetails?.title || item.name;
@@ -267,8 +267,8 @@ export default function ClaimPage() {
                         <Image width={200} height={200} unoptimized src={displayImage} alt={displayTitle} className="w-full h-full object-contain mix-blend-screen" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="truncate   ">{displayTitle}</p>
-                        <p className="mt-0.5 uppercase   ">Qty: {item.qty || 1}</p>
+                        <p className="truncate ">{displayTitle}</p>
+                        <p className="mt-0.5 uppercase ">Qty: {item.qty || 1}</p>
                       </div>
                     </div>
                   );
@@ -277,11 +277,11 @@ export default function ClaimPage() {
 
               {/* PIN display */}
               <div className="mb-6">
-                <p className="uppercase mb-3   ">Verification PIN</p>
+                <p className="uppercase mb-3 ">Verification PIN</p>
                 <div className="flex items-center justify-center gap-2">
                   {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
                     <div key={i} className="w-10 h-14 bg-black/60 border-2 border-purple-500/40 rounded-lg flex items-center justify-center shadow-[0_0_8px_rgba(192, 132, 252,0.15)]">
-                      <span className="text-purple-300 text-2xl tabular-nums   ">{digit}</span>
+                      <span className="text-purple-300 text-2xl tabular-nums ">{digit}</span>
                     </div>
                   ))}
                 </div>
@@ -290,27 +290,27 @@ export default function ClaimPage() {
               {/* Claim Confirm Button */}
               <div className="mt-6 mb-4">
                 {hasClaimed ? (
-                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] uppercase    flex items-center justify-center gap-1.5 animate-pulse">
+                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] uppercase flex items-center justify-center gap-1.5 animate-pulse">
                     <span>✓ Claim Confirmed & Admin Notified</span>
                   </div>
                 ) : (
                   <CosmicRadialButton
-                    onClick={handleClaimConfirm}
-                    icon={false}
-                    className="w-full py-3 text-white rounded-lg   ">
+ onClick={handleClaimConfirm}
+ icon={false}
+ className="w-full py-3 text-white rounded-lg ">
                     Confirm Prize Claim
                   </CosmicRadialButton>
                 )}
               </div>
 
-              <p className="  ">
+              <p className=" ">
                 Only visible to the winning account. One claim per raffle.
               </p>
             </div>
 
             {/* Footer */}
             <div className="bg-black/30 px-6 py-3 text-center border-t border-white/5">
-              <p className="uppercase   ">7th Heaven · Live Raffle</p>
+              <p className="uppercase ">7th Heaven · Live Raffle</p>
             </div>
           </div>
         )}

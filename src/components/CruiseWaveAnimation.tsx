@@ -31,9 +31,9 @@ export default function CruiseWaveAnimation() {
 
   return (
     <div
-      ref={containerRef}
-      className="absolute -bottom-0.5 left-0 right-0 h-3 flex items-center justify-center pointer-events-none opacity-80 overflow-hidden transform-gpu translate-z-0"
-      style={{ transform: "translate3d(0, 0, 0)" }}
-    />
+ ref={containerRef}
+ className="absolute -bottom-0.5 left-0 right-0 h-3 flex items-center justify-center pointer-events-none opacity-80 overflow-hidden transform-gpu translate-z-0"
+ style={{ transform: "translate3d(0, 0, 0)" }}
+ />
   );
 }

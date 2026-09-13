@@ -126,7 +126,7 @@ export default function DevRouteList() {
   });
 
   return (
-    <section className="w-full   6 mb-12 px-4 md:px-8   ">
+    <section className="w-full 6 mb-12 px-4 md:px-8 ">
       <div className="max-w-7xl mx-auto rounded-lg bg-[rgba(15,15,22,0.85)] border border-white/20backdrop-blur-[18px] p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
 
         {/* Top Header Bar */}
@@ -151,7 +151,7 @@ export default function DevRouteList() {
           </div>
 
           <button
-            onClick={() => setIsOpen(!isOpen)}
+ onClick={() => setIsOpen(!isOpen)}
             className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 transition-all shadow-[0_0_15px_rgba(168,85,247,0.2)]">
             <span>{isOpen ? "Collapse Directory" : "Expand All Routes"}</span>
             {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -169,8 +169,8 @@ export default function DevRouteList() {
               <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1">
                 {CATEGORIES.map((cat) => (
                   <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
+ key={cat}
+ onClick={() => setActiveCategory(cat)}
                     className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${activeCategory === cat ? "bg-purple-600 text-white shadow-purple-900/40"
                       : " bg-[#00000029] hover:bg-white/10 text-white hover:text-white"
                       }`}>
@@ -183,10 +183,10 @@ export default function DevRouteList() {
               <div className="relative min-w-[260px]">
                 <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40" />
                 <input
-                  type="text"
-                  placeholder="Search routes or keywords..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+ type="text"
+ placeholder="Search routes or keywords..."
+ value={search}
+ onChange={(e) => setSearch(e.target.value)}
                   className="w-full bg-black/40 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-purple-500/60"
                 />
               </div>
@@ -200,8 +200,8 @@ export default function DevRouteList() {
 
                 return (
                   <div
-                    key={item.path}
-                    className="group relative p-3.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between">
+ key={item.path}
+ className="group relative p-3.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between">
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                         <div className="flex items-center gap-2">
@@ -213,14 +213,14 @@ export default function DevRouteList() {
 
                         {/* Type Badge */}
                         <span
-                          className={`text-[12px]    px-1.5 py-0.5 rounded ${item.type === "Static"
-                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                            : item.type === "SSG"
-                              ? "bg-purple-500/10 text-purple-300 border border-white/20"
-                              : item.type === "Dynamic"
-                                ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
-                                : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
-                            }`}>
+ className={`text-[12px] px-1.5 py-0.5 rounded ${item.type === "Static"
+ ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+ : item.type === "SSG"
+ ? "bg-purple-500/10 text-purple-300 border border-white/20"
+ : item.type === "Dynamic"
+ ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
+ : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+ }`}>
                           {item.type}
                         </span>
                       </div>
@@ -228,7 +228,7 @@ export default function DevRouteList() {
                       <h4 className="text-white group-hover:text-purple-200 transition-colors line-clamp-1">
                         {item.label}
                       </h4>
-                      <p className="   truncate">
+                      <p className=" truncate">
                         {item.path}
                       </p>
                     </div>
@@ -236,16 +236,16 @@ export default function DevRouteList() {
                     <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between">
                       {isApi ? (
                         <a
-                          href={item.path}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[10px] text-rose-400 hover:text-rose-300 transition-colors">
+ href={item.path}
+ target="_blank"
+ rel="noopener noreferrer"
+ className="inline-flex items-center gap-1 text-[10px] text-rose-400 hover:text-rose-300 transition-colors">
                           Test API Endpoint <ExternalLink className="w-3 h-3" />
                         </a>
                       ) : (
                         <Link
-                          href={item.path}
-                          className="inline-flex items-center gap-1 text-[10px] text-purple-400 hover:text-purple-300 transition-colors">
+ href={item.path}
+ className="inline-flex items-center gap-1 text-[10px] text-purple-400 hover:text-purple-300 transition-colors">
                           Open Page <ExternalLink className="w-3 h-3" />
                         </Link>
                       )}

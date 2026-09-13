@@ -21,7 +21,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
     <div id="ship-explorer" className="pt-[32px] md:pt-20 site-container" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <LazyMount minHeight="800px" rootMargin="300px 0px">
         <div className="text-left w-full mb-10">
-          <h2 className="uppercase text-white   ">
+          <h2 className="uppercase text-white ">
             {sectionTitle}
           </h2>
           <p className="mt-3 font-semibold max-w-2xl">
@@ -37,9 +37,9 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
             { label: "Total Width", value: "159.1 Feet" },
             { label: "Decks Tall", value: "20 Decks" },
           ].map((stat) => (
-            <div key={stat.label} className="   border-0 p-0 text-left">
+            <div key={stat.label} className=" border-0 p-0 text-left">
               <span className="text-white uppercase block">{stat.label}</span>
-              <span className="text-lg md:text-xl text-white    block">{stat.value}</span>
+              <span className="text-lg md:text-xl text-white block">{stat.value}</span>
             </div>
           ))}
         </div>
@@ -50,7 +50,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
             <h3 className="uppercase text-white">
               Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
             </h3>
-            <p className="font-semibold   ">
+            <p className="font-semibold ">
               Authentic ship photography directly from Royal Caribbean's newest Icon-Class flagship launching August 2025.
             </p>
           </div>
@@ -72,13 +72,13 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
             ].map((item) => (
               <div key={item.title} className="relative rounded-2xl overflow-hidden group h-52 sm:h-60 rounded-lg">
                 <Image
-                  width={400}
-                  height={300}
-                  unoptimized
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                />
+ width={400}
+ height={300}
+ unoptimized
+ src={item.img}
+ alt={item.title}
+ className="w-full h-full object-cover"
+ />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                   <SectionBadge label={item.category} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
                   <p className="leading-snug">{item.title}</p>
@@ -93,18 +93,18 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
             <div>
               <h3 className="uppercase text-white">Dining Explorer Guide</h3>
-              <p className="font-semibold   ">Discover included food spots and premium specialty restaurants.</p>
+              <p className="font-semibold ">Discover included food spots and premium specialty restaurants.</p>
             </div>
             {/* Dining Filter Tabs */}
             <div className="flex items-center gap-2">
               <FoolishShrimpButton
-                onClick={() => setFoodTypeTab("included")}
+ onClick={() => setFoodTypeTab("included")}
                 isActive={foodTypeTab === "included"}
                 className="px-4 py-2 uppercase text-xs cursor-pointer">
                 Included (Free)
               </FoolishShrimpButton>
               <FoolishShrimpButton
-                onClick={() => setFoodTypeTab("paid")}
+ onClick={() => setFoodTypeTab("paid")}
                 isActive={foodTypeTab === "paid"}
                 className="px-4 py-2 uppercase text-xs cursor-pointer">
                 Specialty (With Fee)
@@ -171,22 +171,22 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-4 border-b border-white/10 text-left">
             <div className="w-full lg:w-auto">
               <h3 className="uppercase text-white">Bars & Entertainment Explorer</h3>
-              <p className="font-semibold   ">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
+              <p className="font-semibold ">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
             </div>
             <div className="flex p-1 shrink-0 self-start lg:self-center max-w-full overflow-x-auto gap-2">
               <FoolishShrimpButton
-                onClick={() => setBarTab("bars")}
+ onClick={() => setBarTab("bars")}
                 isActive={barTab === "bars"}
                 className="px-4 py-2 uppercase text-xs cursor-pointer flex items-center gap-2">
                 <span>Bars & Clubs</span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-lg    ${barTab === "bars" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
+                <span className={`text-[10px] px-2 py-0.5 rounded-lg ${barTab === "bars" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
               </FoolishShrimpButton>
               <FoolishShrimpButton
-                onClick={() => setBarTab("entertainment")}
+ onClick={() => setBarTab("entertainment")}
                 isActive={barTab === "entertainment"}
                 className="px-4 py-2 uppercase text-xs cursor-pointer flex items-center gap-2">
                 <span>Entertainment</span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-lg    ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
+                <span className={`text-[10px] px-2 py-0.5 rounded-lg ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
               </FoolishShrimpButton>
             </div>
           </div>

@@ -581,74 +581,74 @@ export default function LoginModal() {
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-lg rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] border border-white/10 animate-[fadeIn_0.3s_ease]"
-        style={{
-          background: "#120a22",
-          backdropFilter: "blur(32px) saturate(180%)",
-          WebkitBackdropFilter: "blur(32px) saturate(180%)",
-        }}>
+ className="relative w-full max-w-lg rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] border border-white/10 animate-[fadeIn_0.3s_ease]"
+ style={{
+ background: "#120a22",
+ backdropFilter: "blur(32px) saturate(180%)",
+ WebkitBackdropFilter: "blur(32px) saturate(180%)",
+ }}>
 
         {/* Close */}
         <button onClick={closeModal}
-          aria-label="Close login modal"
-          className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20">
+ aria-label="Close login modal"
+ className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20">
           <X className="w-4 h-4" />
         </button>
 
         <LoginModalBodyContent
-          modalMode={modalMode}
-          setModalMode={setModalMode}
-          isInviteFlow={isInviteFlow}
-          adminMode={adminMode}
-          setAdminMode={setAdminMode}
-          loginRole={loginRole}
-          setLoginRole={setLoginRole}
-          adminEmail={adminEmail}
-          setAdminEmail={setAdminEmail}
-          adminPassword={adminPassword}
-          setAdminPassword={setAdminPassword}
-          adminError={adminError}
-          setAdminError={setAdminError}
-          adminLoading={adminLoading}
-          setAdminLoading={setAdminLoading}
-          pinSent={pinSent}
-          setPinSent={setPinSent}
-          pinCode={pinCode}
-          setPinCode={setPinCode}
-          signUpPayload={signUpPayload}
-          error={error}
-          setError={setError}
-          loading={loading}
-          setLoading={setLoading}
-          confirmationRequired={confirmationRequired}
-          website={website}
-          setWebsite={setWebsite}
-          name={name}
-          setName={setName}
-          usernameField={usernameField}
-          setUsernameField={setUsernameField}
-          wantNotifications={wantNotifications}
-          setWantNotifications={setWantNotifications}
-          wantNewsletter={wantNewsletter}
-          setWantNewsletter={setWantNewsletter}
-          zipCode={zipCode}
-          setZipCode={setZipCode}
-          forgotPinSent={forgotPinSent}
-          setForgotPinSent={setForgotPinSent}
-          forgotPinCode={forgotPinCode}
-          setForgotPinCode={setForgotPinCode}
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          isAgeConfirmed={isAgeConfirmed}
-          setIsAgeConfirmed={setIsAgeConfirmed}
-          closeModal={closeModal}
-          handleVerifyPin={handleVerifyPin}
-          handleSubmit={handleSubmit}
-          handleOAuthLogin={handleOAuthLogin}
-          login={login}
-        />
+ modalMode={modalMode}
+ setModalMode={setModalMode}
+ isInviteFlow={isInviteFlow}
+ adminMode={adminMode}
+ setAdminMode={setAdminMode}
+ loginRole={loginRole}
+ setLoginRole={setLoginRole}
+ adminEmail={adminEmail}
+ setAdminEmail={setAdminEmail}
+ adminPassword={adminPassword}
+ setAdminPassword={setAdminPassword}
+ adminError={adminError}
+ setAdminError={setAdminError}
+ adminLoading={adminLoading}
+ setAdminLoading={setAdminLoading}
+ pinSent={pinSent}
+ setPinSent={setPinSent}
+ pinCode={pinCode}
+ setPinCode={setPinCode}
+ signUpPayload={signUpPayload}
+ error={error}
+ setError={setError}
+ loading={loading}
+ setLoading={setLoading}
+ confirmationRequired={confirmationRequired}
+ website={website}
+ setWebsite={setWebsite}
+ name={name}
+ setName={setName}
+ usernameField={usernameField}
+ setUsernameField={setUsernameField}
+ wantNotifications={wantNotifications}
+ setWantNotifications={setWantNotifications}
+ wantNewsletter={wantNewsletter}
+ setWantNewsletter={setWantNewsletter}
+ zipCode={zipCode}
+ setZipCode={setZipCode}
+ forgotPinSent={forgotPinSent}
+ setForgotPinSent={setForgotPinSent}
+ forgotPinCode={forgotPinCode}
+ setForgotPinCode={setForgotPinCode}
+ email={email}
+ setEmail={setEmail}
+ password={password}
+ setPassword={setPassword}
+ isAgeConfirmed={isAgeConfirmed}
+ setIsAgeConfirmed={setIsAgeConfirmed}
+ closeModal={closeModal}
+ handleVerifyPin={handleVerifyPin}
+ handleSubmit={handleSubmit}
+ handleOAuthLogin={handleOAuthLogin}
+ login={login}
+ />
       </div>
     </div>
   );
@@ -700,10 +700,10 @@ function LoginModalBodyContent(props: any) {
   return (
     <div className="relative">
       <div
-        ref={scrollRef}
-        data-lenis-prevent="true"
-        data-lenis-prevent-wheel="true"
-        className="p-6 sm:p-8 max-h-[85vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+ ref={scrollRef}
+ data-lenis-prevent="true"
+ data-lenis-prevent-wheel="true"
+ className="p-6 sm:p-8 max-h-[85vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {/* Logo */}
         <div className="text-center mb-5">
           <h2 className="er uppercase">
@@ -732,14 +732,14 @@ function LoginModalBodyContent(props: any) {
         {modalMode !== "forgot" && (
           <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
             <div
-              className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] transition-transform duration-300 ease-out pointer-events-none"
-              style={{
-                transform: modalMode === "signup" ? "translateX(100%)" : "translateX(0%)",
-              }}
-            />
+ className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] transition-transform duration-300 ease-out pointer-events-none"
+ style={{
+ transform: modalMode === "signup" ? "translateX(100%)" : "translateX(0%)",
+ }}
+ />
             <button
-              type="button"
-              onClick={() => setModalMode("login")}
+ type="button"
+ onClick={() => setModalMode("login")}
               className={`relative z-10 py-2.5 px-4    uppercase transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
                 ? "text-white font-extrabold"
                 : " text-white hover:text-white"
@@ -747,8 +747,8 @@ function LoginModalBodyContent(props: any) {
               Sign In
             </button>
             <button
-              type="button"
-              onClick={() => {
+ type="button"
+ onClick={() => {
                 setModalMode("signup");
                 if (loginRole === "crew" || loginRole === "cruise") setLoginRole("fan");
               }}
@@ -775,9 +775,9 @@ function LoginModalBodyContent(props: any) {
                 ...(modalMode === "signup" ? [] : [{ id: "cruise", label: "Cruise" }, { id: "admin", label: "Admin" }]),
               ].map((role) => (
                 <button
-                  key={role.id}
-                  type="button"
-                  onClick={() => {
+ key={role.id}
+ type="button"
+ onClick={() => {
                     setLoginRole(role.id as any);
                     if (role.id === "admin") {
                       setAdminMode(true);
@@ -795,7 +795,6 @@ function LoginModalBodyContent(props: any) {
             </div>
           </div>
         )}
-
 
 
         {/* Invite flow banner */}
@@ -821,11 +820,11 @@ function LoginModalBodyContent(props: any) {
                 Enter 6-Digit Verification PIN
               </label>
               <input
-                id="login-pin-input"
-                type="text"
-                maxLength={6}
-                value={pinCode}
-                onChange={(e) => setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+ id="login-pin-input"
+ type="text"
+ maxLength={6}
+ value={pinCode}
+ onChange={(e) => setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="123456"
                 className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] text-xl"
                 required
@@ -837,15 +836,15 @@ function LoginModalBodyContent(props: any) {
             )}
 
             <button type="button"
-              onClick={handleVerifyPin}
-              disabled={loading || pinCode.length !== 6}
-              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]">
+ onClick={handleVerifyPin}
+ disabled={loading || pinCode.length !== 6}
+ className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]">
               {loading ? "Verifying..." : "Verify & Complete Registration"}
             </button>
 
             <button type="button"
-              onClick={() => { setPinSent(false); setPinCode(""); setError(""); }}
-              className="text-white hover:text-white text-center transition-colors    cursor-pointer">
+ onClick={() => { setPinSent(false); setPinCode(""); setError(""); }}
+              className="text-white hover:text-white text-center transition-colors cursor-pointer">
               ← Back to details
             </button>
           </div>
@@ -859,7 +858,7 @@ function LoginModalBodyContent(props: any) {
               We sent a confirmation link to <strong className="text-white">{email}</strong>. Please click the link in that email to confirm your account and sign in.
             </p>
             <button type="button"
-              onClick={() => { setConfirmationRequired(false); setError(""); }}
+ onClick={() => { setConfirmationRequired(false); setError(""); }}
               className="w-full py-3 border border-black/10 text-black uppercase hover:bg-black/5 transition-colors cursor-pointer">
               Got it, thanks
             </button>
@@ -868,10 +867,10 @@ function LoginModalBodyContent(props: any) {
           <form onSubmit={handleSubmit} className="flex flex-col gap-2.5" autoComplete="off" data-form-type="other">
             <div className="hidden" aria-hidden="true">
               <input
-                type="text"
-                name="website"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
+ type="text"
+ name="website"
+ value={website}
+ onChange={(e) => setWebsite(e.target.value)}
                 tabIndex={-1}
                 autoComplete="off"
               />
@@ -879,19 +878,19 @@ function LoginModalBodyContent(props: any) {
 
             {modalMode === "signup" && (
               <SignUpExtraFields
-                name={name}
-                setName={setName}
-                usernameField={usernameField}
-                setUsernameField={setUsernameField}
-                isInviteFlow={isInviteFlow}
-                loginRole={loginRole}
-                wantNotifications={wantNotifications}
-                setWantNotifications={setWantNotifications}
-                wantNewsletter={wantNewsletter}
-                setWantNewsletter={setWantNewsletter}
-                zipCode={zipCode}
-                setZipCode={setZipCode}
-              />
+ name={name}
+ setName={setName}
+ usernameField={usernameField}
+ setUsernameField={setUsernameField}
+ isInviteFlow={isInviteFlow}
+ loginRole={loginRole}
+ wantNotifications={wantNotifications}
+ setWantNotifications={setWantNotifications}
+ wantNewsletter={wantNewsletter}
+ setWantNewsletter={setWantNewsletter}
+ zipCode={zipCode}
+ setZipCode={setZipCode}
+ />
             )}
 
             {modalMode === "forgot" && (
@@ -901,10 +900,10 @@ function LoginModalBodyContent(props: any) {
                     <label htmlFor="forgot-email-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">Email Address</label>
                     <div className="input-glow-border rounded-lg w-full">
                       <input
-                        id="forgot-email-input"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+ id="forgot-email-input"
+ type="email"
+ value={email}
+ onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
                         className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                         required
@@ -920,11 +919,11 @@ function LoginModalBodyContent(props: any) {
                       <label htmlFor="forgot-pin-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">Verification PIN</label>
                       <div className="input-glow-border rounded-lg w-full">
                         <input
-                          id="forgot-pin-input"
-                          type="text"
-                          maxLength={6}
-                          value={forgotPinCode}
-                          onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+ id="forgot-pin-input"
+ type="text"
+ maxLength={6}
+ value={forgotPinCode}
+ onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                           placeholder="123456"
                           className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em] rounded-xl"
                           required
@@ -935,10 +934,10 @@ function LoginModalBodyContent(props: any) {
                       <label htmlFor="forgot-new-password-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">New Password</label>
                       <div className="input-glow-border rounded-lg w-full">
                         <input
-                          id="forgot-new-password-input"
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+ id="forgot-new-password-input"
+ type="password"
+ value={password}
+ onChange={(e) => setPassword(e.target.value)}
                           placeholder="••••••••"
                           className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                           required
@@ -958,10 +957,10 @@ function LoginModalBodyContent(props: any) {
                   </label>
                   <div className="input-glow-border rounded-lg w-full">
                     <input
-                      id="login-email-input"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+ id="login-email-input"
+ type="email"
+ value={email}
+ onChange={(e) => setEmail(e.target.value)}
                       placeholder={loginRole === 'planner' ? 'planner@company.com' : loginRole === 'crew' ? 'crew@7thheaven.com' : loginRole === 'cruise' ? 'cruiser@7thheaven.com' : 'your@email.com'}
                       autoComplete="off"
                       readOnly={isInviteFlow}
@@ -975,10 +974,10 @@ function LoginModalBodyContent(props: any) {
                   <label htmlFor="login-password-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">Password</label>
                   <div className="input-glow-border rounded-lg w-full">
                     <input
-                      id="login-password-input"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+ id="login-password-input"
+ type="password"
+ value={password}
+ onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
@@ -988,7 +987,7 @@ function LoginModalBodyContent(props: any) {
                   </div>
                   {modalMode === "login" && (
                     <button type="button"
-                      onClick={() => { setModalMode("forgot"); setError(""); setForgotPinSent(false); }}
+ onClick={() => { setModalMode("forgot"); setError(""); setForgotPinSent(false); }}
                       className="text-purple-300 hover:text-white transition-colors block text-right w-full mt-2 cursor-pointer">
                       Forgot Password?
                     </button>
@@ -1000,12 +999,12 @@ function LoginModalBodyContent(props: any) {
             {modalMode === "signup" && (
               <div className="flex items-center gap-3.5 my-3 select-none text-left w-full">
                 <SquishyToggle
-                  id="modal-age-confirmed-toggle"
-                  label="I confirm that I am 18 years of age or older"
-                  checked={isAgeConfirmed}
-                  onChange={(checked) => setIsAgeConfirmed(checked)}
+ id="modal-age-confirmed-toggle"
+ label="I confirm that I am 18 years of age or older"
+ checked={isAgeConfirmed}
+ onChange={(checked) => setIsAgeConfirmed(checked)}
                 />
-                <label htmlFor="modal-age-confirmed-toggle" className={`   leading-snug cursor-pointer ${isAgeConfirmed ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="modal-age-confirmed-toggle" className={` leading-snug cursor-pointer ${isAgeConfirmed ? 'text-white' : 'text-white/80'}`}>
                   I confirm that I am <span className="text-[#c27aff]">18 years of age or older</span>
                 </label>
               </div>
@@ -1016,10 +1015,10 @@ function LoginModalBodyContent(props: any) {
             )}
 
             <CosmicRadialButton
-              type="submit"
-              icon={false}
-              disabled={loading}
-              className="w-full py-3.5 px-6 rounded-lg text-white disabled:opacity-50 flex items-center justify-center gap-2">
+ type="submit"
+ icon={false}
+ disabled={loading}
+ className="w-full py-3.5 px-6 rounded-lg text-white disabled:opacity-50 flex items-center justify-center gap-2">
               {loading ? (
                 <span className="inline-flex items-center gap-2 justify-center">
                   <span className="w-4.5 h-4.5 rounded-full border-[3.5px] border-white border-t-transparent animate-spin shrink-0" />
@@ -1038,7 +1037,7 @@ function LoginModalBodyContent(props: any) {
 
             {modalMode === "forgot" && (
               <button type="button"
-                onClick={() => { setModalMode("login"); setError(""); setForgotPinSent(false); }}
+ onClick={() => { setModalMode("login"); setError(""); setForgotPinSent(false); }}
                 className="text-white hover:text-white text-center transition-colors mt-2 cursor-pointer">
                 ← Back to Sign In
               </button>
@@ -1060,21 +1059,21 @@ function LoginModalBodyContent(props: any) {
 
             <div className="grid grid-cols-3 gap-3">
               <button type="button"
-                onClick={() => handleOAuthLogin('google')}
+ onClick={() => handleOAuthLogin('google')}
                 disabled={loading}
                 className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
                 <span>Google</span>
               </button>
               <button type="button"
-                onClick={() => handleOAuthLogin('facebook')}
+ onClick={() => handleOAuthLogin('facebook')}
                 disabled={loading}
                 className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                 <span>Facebook</span>
               </button>
               <button type="button"
-                onClick={() => handleOAuthLogin('apple')}
+ onClick={() => handleOAuthLogin('apple')}
                 disabled={loading}
                 style={{ backgroundColor: "#000000" }}
                 className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg">
@@ -1090,7 +1089,7 @@ function LoginModalBodyContent(props: any) {
           <div className="flex items-center justify-between mb-2">
             <span className="text-[10px] uppercase text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
             <button type="button"
-              onClick={() => {
+ onClick={() => {
                 if (!adminMode) {
                   setAdminMode(true);
                   setEmail("admin@7thheaven.com");
@@ -1110,7 +1109,7 @@ function LoginModalBodyContent(props: any) {
 
           <div className="grid grid-cols-5 gap-1.5">
             <button type="button"
-              onClick={async () => {
+ onClick={async () => {
                 setAdminMode(false);
                 setLoginRole('fan');
                 setEmail("admin@7thheaven.com");
@@ -1122,7 +1121,7 @@ function LoginModalBodyContent(props: any) {
               Admin
             </button>
             <button type="button"
-              onClick={async () => {
+ onClick={async () => {
                 setAdminMode(false);
                 setLoginRole('crew');
                 setEmail("crew@7thheaven.com");
@@ -1134,7 +1133,7 @@ function LoginModalBodyContent(props: any) {
               Crew
             </button>
             <button type="button"
-              onClick={async () => {
+ onClick={async () => {
                 setAdminMode(false);
                 setLoginRole('planner');
                 setEmail("planner@7thheaven.com");
@@ -1146,7 +1145,7 @@ function LoginModalBodyContent(props: any) {
               Planner
             </button>
             <button type="button"
-              onClick={async () => {
+ onClick={async () => {
                 setAdminMode(false);
                 setLoginRole('cruise');
                 setEmail("cruise@7thheaven.com");
@@ -1158,7 +1157,7 @@ function LoginModalBodyContent(props: any) {
               Cruise
             </button>
             <button type="button"
-              onClick={async () => {
+ onClick={async () => {
                 setAdminMode(false);
                 setLoginRole('fan');
                 setEmail("fan@7thheaven.com");
@@ -1188,21 +1187,21 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
 
       <div className="grid grid-cols-3 gap-2.5">
         <button type="button"
-          onClick={() => onOAuthLogin('google')}
+ onClick={() => onOAuthLogin('google')}
           className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 transition-colors cursor-pointer text-white rounded-lg"
           title="Sign in with Google">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
           <span className="text-white">Google</span>
         </button>
         <button type="button"
-          onClick={() => onOAuthLogin('facebook')}
+ onClick={() => onOAuthLogin('facebook')}
           className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 transition-colors cursor-pointer text-white rounded-lg"
           title="Sign in with Facebook">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
           <span className="text-white">Facebook</span>
         </button>
         <button type="button"
-          onClick={() => onOAuthLogin('apple')}
+ onClick={() => onOAuthLogin('apple')}
           style={{ backgroundColor: "#000000" }}
           className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none transition-colors cursor-pointer text-white rounded-lg"
           title="Sign in with Apple">
@@ -1231,7 +1230,7 @@ function QuickLoginDemoButtons({
       <p className="uppercase text-purple-400 text-center">1-Click Quick Demo Login (Instant Live Access)</p>
       <div className="grid grid-cols-5 gap-1.5">
         <button type="button"
-          onClick={async () => {
+ onClick={async () => {
             setAdminMode(true);
             setAdminEmail("admin@7thheaven.com");
             setAdminPassword("password123");
@@ -1244,7 +1243,7 @@ function QuickLoginDemoButtons({
           Admin
         </button>
         <button type="button"
-          onClick={async () => {
+ onClick={async () => {
             setAdminMode(false);
             setLoginRole('crew');
             setEmail("crew@7thheaven.com");
@@ -1256,7 +1255,7 @@ function QuickLoginDemoButtons({
           Crew
         </button>
         <button type="button"
-          onClick={async () => {
+ onClick={async () => {
             setAdminMode(false);
             setLoginRole('planner');
             setEmail("planner@7thheaven.com");
@@ -1268,7 +1267,7 @@ function QuickLoginDemoButtons({
           Planner
         </button>
         <button type="button"
-          onClick={async () => {
+ onClick={async () => {
             setAdminMode(false);
             setLoginRole('cruise');
             setEmail("cruise@7thheaven.com");
@@ -1280,7 +1279,7 @@ function QuickLoginDemoButtons({
           Cruise
         </button>
         <button type="button"
-          onClick={async () => {
+ onClick={async () => {
             setAdminMode(false);
             setLoginRole('fan');
             setEmail("fan@7thheaven.com");
@@ -1326,10 +1325,10 @@ function SignUpExtraFields({
             </label>
             <div className="input-glow-border rounded-lg w-full">
               <input
-                id="signup-full-name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+ id="signup-full-name"
+ type="text"
+ value={name}
+ onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
                 className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
@@ -1341,11 +1340,11 @@ function SignUpExtraFields({
             </label>
             <div className="input-glow-border rounded-lg w-full">
               <input
-                id="signup-company-name"
-                type="text"
-                placeholder="e.g. Dream Events / Venue"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
-              />
+ id="signup-company-name"
+ type="text"
+ placeholder="e.g. Dream Events / Venue"
+ className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+ />
             </div>
           </div>
         </div>
@@ -1357,10 +1356,10 @@ function SignUpExtraFields({
             </label>
             <div className="input-glow-border rounded-lg w-full">
               <input
-                id="signup-full-name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+ id="signup-full-name"
+ type="text"
+ value={name}
+ onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
                 className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
@@ -1372,11 +1371,11 @@ function SignUpExtraFields({
             </label>
             <div className="input-glow-border rounded-lg w-full">
               <input
-                id="signup-cabin-no"
-                type="text"
-                placeholder="e.g. Stateroom 7102"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
-              />
+ id="signup-cabin-no"
+ type="text"
+ placeholder="e.g. Stateroom 7102"
+ className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+ />
             </div>
           </div>
         </div>
@@ -1390,10 +1389,10 @@ function SignUpExtraFields({
               </label>
               <div className="input-glow-border rounded-lg w-full">
                 <input
-                  id="signup-full-name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+ id="signup-full-name"
+ type="text"
+ value={name}
+ onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   readOnly={isInviteFlow && !!name}
                   className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
@@ -1406,10 +1405,10 @@ function SignUpExtraFields({
               </label>
               <div className="input-glow-border rounded-lg w-full">
                 <input
-                  id="signup-username-input"
-                  type="text"
-                  value={usernameField}
-                  onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+ id="signup-username-input"
+ type="text"
+ value={usernameField}
+ onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                   placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
                   maxLength={24}
                   className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
@@ -1423,23 +1422,23 @@ function SignUpExtraFields({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-2">
               <div className="flex items-center gap-3 w-full select-none">
                 <SquishyToggle
-                  id="signup-want-notifications-toggle"
-                  label="Show alerts near me"
-                  checked={wantNotifications}
-                  onChange={(checked) => setWantNotifications(checked)}
+ id="signup-want-notifications-toggle"
+ label="Show alerts near me"
+ checked={wantNotifications}
+ onChange={(checked) => setWantNotifications(checked)}
                 />
-                <label htmlFor="signup-want-notifications-toggle" className={`   text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-notifications-toggle" className={` text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
                   Show alerts near me
                 </label>
               </div>
               <div className="flex items-center gap-3 w-full select-none">
                 <SquishyToggle
-                  id="signup-want-newsletter-toggle"
-                  label="News & updates"
-                  checked={wantNewsletter}
-                  onChange={(checked) => setWantNewsletter(checked)}
+ id="signup-want-newsletter-toggle"
+ label="News & updates"
+ checked={wantNewsletter}
+ onChange={(checked) => setWantNewsletter(checked)}
                 />
-                <label htmlFor="signup-want-newsletter-toggle" className={`   text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-newsletter-toggle" className={` text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
                   News & updates
                 </label>
               </div>
@@ -1452,10 +1451,10 @@ function SignUpExtraFields({
                 <div className="flex items-center gap-2">
                   <div className="input-glow-border rounded-lg flex-1">
                     <input
-                      id="signup-zip-code"
-                      type="text"
-                      value={zipCode}
-                      onChange={(e) => setZipCode(e.target.value)}
+ id="signup-zip-code"
+ type="text"
+ value={zipCode}
+ onChange={(e) => setZipCode(e.target.value)}
                       placeholder="Zip code"
                       maxLength={10}
                       className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
@@ -1463,12 +1462,12 @@ function SignUpExtraFields({
                   </div>
                   <div className="shrink-0 relative z-30">
                     <GooeyDropdown
-                      label={`${alertRadius || "50"} MI`}
-                      accentColor="#242630"
-                      glassOpacity={1.0}
-                      backdropBlur={0}
-                      items={[
-                        { label: "15 MI", onClick: () => setAlertRadius?.("15") },
+ label={`${alertRadius || "50"} MI`}
+ accentColor="#242630"
+ glassOpacity={1.0}
+ backdropBlur={0}
+ items={[
+ { label: "15 MI", onClick: () => setAlertRadius?.("15") },
                         { label: "25 MI", onClick: () => setAlertRadius?.("25") },
                         { label: "50 MI", onClick: () => setAlertRadius?.("50") },
                         { label: "100 MI", onClick: () => setAlertRadius?.("100") },

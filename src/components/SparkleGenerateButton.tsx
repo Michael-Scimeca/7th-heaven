@@ -41,11 +41,11 @@ export const SparkleGenerateButton = React.forwardRef<
 
     return (
       <button
-        ref={buttonRef}
-        type={type}
-        className={`sgb-generate-button ${forced ? "sgb-is-forced" : ""} ${className}`}
-        {...buttonProps}
-      >
+ ref={buttonRef}
+ type={type}
+ className={`sgb-generate-button ${forced ? "sgb-is-forced" : ""} ${className}`}
+ {...buttonProps}
+ >
         <span>
           {typeof icon === "object" && icon !== null ? icon : null}
           {children}

@@ -112,9 +112,9 @@ export default function AdminFeedPost() {
           <div className="flex -space-x-2">
             {Array.from(onlineMembers, (m: any, i) => ({ m, i })).map(({ m, i }) => (
               <div
-                key={m.id || m.name || i}
-                title={m.name}
-                className="w-8 h-8 rounded-lg flex items-center justify-center border-2 border-[#0a0a0f] bg-[var(--color-accent)] text-white">
+ key={m.id || m.name || i}
+ title={m.name}
+ className="w-8 h-8 rounded-lg flex items-center justify-center border-2 border-[#0a0a0f] bg-[var(--color-accent)] text-white">
                 {m.avatar}
               </div>
             ))}
@@ -135,7 +135,7 @@ export default function AdminFeedPost() {
             <span className="uppercase tracking-[0.15em] text-red-400">Collaborative Live Feed</span>
           </div>
           <h1>Post to Feed</h1>
-          <p className="  ">Updates are synchronized across all crew devices</p>
+          <p className=" ">Updates are synchronized across all crew devices</p>
         </div>
 
         {/* Post Form */}
@@ -145,19 +145,19 @@ export default function AdminFeedPost() {
             <span className="uppercase tracking-[0.15em] text-white/40 mb-2 block">I am</span>
             <div className="grid grid-cols-3 gap-2">
               {crewMembers.map((m) => (
-                <button aria-label="Action button"
-                  key={m.avatar}
-                  type="button"
-                  onClick={() => setSelectedMember(m)}
+                <button
+ key={m.avatar}
+ type="button"
+ onClick={() => setSelectedMember(m)}
                   className={`p-3 border text-center transition-colors duration-200 ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
                     : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
                     }`}>
                   <div
-                    className="w-8 h-8 mx-auto rounded-lg flex items-center justify-center mb-1 border"
-                    style={{
-                      borderColor: selectedMember.avatar === m.avatar ? "var(--color-accent)" : "rgba(255,255,255,0.1)",
-                      color: selectedMember.avatar === m.avatar ? "var(--color-accent)" : "rgba(255,255,255,0.5)",
-                    }}>
+ className="w-8 h-8 mx-auto rounded-lg flex items-center justify-center mb-1 border"
+ style={{
+ borderColor: selectedMember.avatar === m.avatar ? "var(--color-accent)" : "rgba(255,255,255,0.1)",
+ color: selectedMember.avatar === m.avatar ? "var(--color-accent)" : "rgba(255,255,255,0.5)",
+ }}>
                     {m.avatar}
                   </div>
                   <span className="text-white block truncate">{m.name.split(" ")[0]}</span>
@@ -171,10 +171,10 @@ export default function AdminFeedPost() {
             <span className="uppercase tracking-[0.15em] text-white/40 mb-2 block">Post Type</span>
             <div className="flex flex-wrap gap-2">
               {postTypes.map((t) => (
-                <button aria-label="Action button"
-                  key={t.value}
-                  type="button"
-                  onClick={() => setPostType(t.value)}
+                <button
+ key={t.value}
+ type="button"
+ onClick={() => setPostType(t.value)}
                   className={`flex items-center gap-1.5 px-3 py-2   border transition-colors duration-200 ${postType === t.value ? " border-white/10 bg-white/[0.06]"
                     : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
                     }`}
@@ -193,10 +193,10 @@ export default function AdminFeedPost() {
             </label>
             <div className="input-glow-border rounded-xl">
               <textarea aria-label="Text input"
-                id="admin-feed-post-content"
-                ref={textareaRef}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+ id="admin-feed-post-content"
+ ref={textareaRef}
+ value={content}
+ onChange={(e) => setContent(e.target.value)}
                 placeholder={
                   postType === "setlist"
                     ? "Now playing: Song Name by Artist..."
@@ -209,7 +209,7 @@ export default function AdminFeedPost() {
                 maxLength={500}
               />
             </div>
-            <div className="flex justify-between   ">
+            <div className="flex justify-between ">
               <span className="text-white/20">{content.length}/500</span>
               <span style={{ color: currentType.color }}>
                 {currentType.icon} {currentType.label}
@@ -222,11 +222,10 @@ export default function AdminFeedPost() {
             <div>
               <label htmlFor="admin-feed-post-image-url" className="uppercase tracking-[0.15em] text-white/40 mb-2 block">Image URL</label>
               <div className="input-glow-border rounded-xl">
-                <input aria-label="Input field"
-                  id="admin-feed-post-image-url"
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
+                <input id="admin-feed-post-image-url"
+ type="url"
+ value={imageUrl}
+ onChange={(e) => setImageUrl(e.target.value)}
                   placeholder="https://..."
                   className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 text-white placeholder:text-white/20 outline-none transition-colors"
                 />
@@ -235,12 +234,12 @@ export default function AdminFeedPost() {
           )}
 
           {/* Submit */}
-          <button aria-label="Action button"
-            type="submit"
-            disabled={!content.trim() || isPosting}
-            className={`w-full py-3    uppercase tracking-[0.15em] transition-colors duration-300 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover"
-              : "bg-white/[0.05] text-white/20 cursor-not-allowed"
-              }`}>
+          <button
+ type="submit"
+ disabled={!content.trim() || isPosting}
+ className={`w-full py-3 uppercase tracking-[0.15em] transition-colors duration-300 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover"
+ : "bg-white/[0.05] text-white/20 cursor-not-allowed"
+ }`}>
             {isPosting ? (
               <span className="flex items-center justify-center gap-2">
                 <span className="w-3 h-3 border border-white/10 border-t-white rounded-lg animate-spin" />
@@ -255,10 +254,10 @@ export default function AdminFeedPost() {
         {/* Status Message */}
         {status && (
           <div
-            className={`mt-4 p-3   text-center border transition-colors duration-300 ${status.type === "success"
-              ? "bg-green-500/10 border-green-500/30 text-green-400"
-              : "bg-red-500/10 border-red-500/30 text-red-400"
-              }`}>
+ className={`mt-4 p-3 text-center border transition-colors duration-300 ${status.type === "success"
+ ? "bg-green-500/10 border-green-500/30 text-green-400"
+ : "bg-red-500/10 border-red-500/30 text-red-400"
+ }`}>
             {status.message}
           </div>
         )}

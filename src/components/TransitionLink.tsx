@@ -65,9 +65,9 @@ export default function TransitionLink({
 
   return (
     <Link
-      href={href}
-      onClick={handleClick}
-      onMouseEnter={(e) => {
+ href={href}
+ onClick={handleClick}
+ onMouseEnter={(e) => {
         onMouseEnter?.(e);
         handlePrefetch();
       }}

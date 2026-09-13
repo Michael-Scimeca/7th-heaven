@@ -68,37 +68,37 @@ export default function GlobalError({
     <html lang="en">
       <body>
         <div
-          style={{
-            minHeight: "100vh",
-            backgroundColor: "#050508",
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "sans-serif",
-            padding: "20px",
-          }}>
+ style={{
+ minHeight: "100vh",
+ backgroundColor: "#050508",
+ color: "white",
+ display: "flex",
+ alignItems: "center",
+ justifyContent: "center",
+ fontFamily: "sans-serif",
+ padding: "20px",
+ }}>
           <div style={{ textAlign: "center", maxWidth: "400px" }}>
             <h1
-              style={{
-                color: "#f43f5e",
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-              }}>
+ style={{
+ color: "#f43f5e",
+ textTransform: "uppercase",
+ letterSpacing: "0.1em",
+ }}>
               Critical System Error
             </h1>
             <p
-              style={{
-                color: "#a1a1aa",
-                fontSize: "14px",
-                lineHeight: "1.6",
-                marginBottom: "30px",
-              }}>
+ style={{
+ color: "#a1a1aa",
+ fontSize: "14px",
+ lineHeight: "1.6",
+ marginBottom: "30px",
+ }}>
               A critical error occurred in the application root. Our development
               team (Mikey) has been notified automatically.
             </p>
-            <button aria-label="Action button"
-              onClick={() => reset()}
+            <button
+ onClick={() => reset()}
               style={{
                 padding: "12px 24px",
                 backgroundColor: "transparent",

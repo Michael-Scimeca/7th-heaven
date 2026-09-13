@@ -36,16 +36,16 @@ export default async function Home() {
     <div id="home-page">
       {/* ====== HERO (Full 100vh Viewport Height) ====== */}
       <section
-        className="relative w-full h-[100dvh] max-h-[100dvh] p-0 m-0 overflow-hidden morph-pick"
-        data-pick-label="Play Music"
-        id="hero"
-        style={{
-          marginLeft: "calc(-1 * var(--page-padding-x))",
-          marginRight: "calc(-1 * var(--page-padding-x))",
-          width: "calc(100% + 2 * var(--page-padding-x))",
-        }}>
+ className="relative w-full h-[100dvh] max-h-[100dvh] p-0 m-0 overflow-hidden morph-pick"
+ data-pick-label="Play Music"
+ id="hero"
+ style={{
+ marginLeft: "calc(-1 * var(--page-padding-x))",
+ marginRight: "calc(-1 * var(--page-padding-x))",
+ width: "calc(100% + 2 * var(--page-padding-x))",
+ }}>
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
-        <div id="hero-card" className="relative w-full h-full max-h-[100dvh] overflow-hidden    flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
+        <div id="hero-card" className="relative w-full h-full max-h-[100dvh] overflow-hidden flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
           <HeroVideoPlayer sanityContent={sanityContent} />
         </div>
       </section>

@@ -29,11 +29,11 @@ function Counter({ end, label, sublabel }: { end: number; label: string; sublabe
   }, [end]);
   return (
     <div ref={ref} className="text-center px-6 py-8">
-      <div className="text-6xl md:text-7xl text-white tabular-nums   " style={{ fontStyle: "italic" }}>
+      <div className="text-6xl md:text-7xl text-white tabular-nums " style={{ fontStyle: "italic" }}>
         {count}<span style={{ color: "#851DEF" }}>+</span>
       </div>
       <div className="text-base uppercase tracking-[0.15em] text-white mt-2">{label}</div>
-      {sublabel && <div className="text-white/30    max-w-[180px] mx-auto">{sublabel}</div>}
+      {sublabel && <div className="text-white/30 max-w-[180px] mx-auto">{sublabel}</div>}
     </div>
   );
 }
@@ -57,7 +57,7 @@ export default function FeaturesPage() {
         </div>
 
         <div className="relative max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-lg bg-[var(--color-accent)]/10 border border-[#851DEF]/30 text-[#c084fc] uppercase   mb-10">
+          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-lg bg-[var(--color-accent)]/10 border border-[#851DEF]/30 text-[#c084fc] uppercase mb-10">
             Full Platform Overview · All Features Live & Documented
           </div>
 
@@ -123,10 +123,10 @@ export default function FeaturesPage() {
             {CATEGORIES.map(cat => {
               const count = cat.key === "all" ? FEATURES.length : FEATURES.filter(f => f.category.includes(cat.key as Category)).length;
               return (
-                <button aria-label="Action button" key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
+                <button key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-lg    uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
-                  <span className={`ml-1 px-1.5 py-0.5 rounded-lg    ${activeCategory === cat.key ? "bg-white/20 text-white" : " bg-[#00000029] text-white/30"}`}>{count}</span>
+                  <span className={`ml-1 px-1.5 py-0.5 rounded-lg ${activeCategory === cat.key ? "bg-white/20 text-white" : " bg-[#00000029] text-white/30"}`}>{count}</span>
                 </button>
               );
             })}
@@ -168,15 +168,15 @@ export default function FeaturesPage() {
           <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
-          <h2 className="text-6xl md:text-8xl uppercase text-white mb-4   " style={{ fontStyle: "italic" }}>
+          <h2 className="text-6xl md:text-8xl uppercase text-white mb-4 " style={{ fontStyle: "italic" }}>
             Ready to<br /><span style={{ color: "#851DEF" }}>Experience It?</span>
           </h2>
           <p className="mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>
           <p className="mb-12">Questions? Reach out via the contact page.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <CosmicRadialButton
-              icon={false}
-              onClick={() => window.location.href = "/fans"}
+ icon={false}
+ onClick={() => window.location.href = "/fans"}
               className="px-8 py-4 text-white text-base tracking-[0.15em] rounded-lg">
               Join as a Fan →
             </CosmicRadialButton>

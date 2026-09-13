@@ -53,7 +53,6 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
   const [openYears, setOpenYears] = useState<Record<string, boolean>>({});
 
 
-
   // Filtered shows logic
   const filteredYears = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -128,33 +127,33 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
       <div className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">{totalShowsCount}+</span>
-          <span className="uppercase   ">Concerts Cataloged</span>
+          <span className="uppercase ">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">40+</span>
-          <span className="uppercase   ">Years of Live Rock</span>
+          <span className="uppercase ">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">500+</span>
-          <span className="uppercase   ">Unique Venues</span>
+          <span className="uppercase ">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">5+</span>
-          <span className="uppercase   ">Countries Played</span>
+          <span className="uppercase ">Countries Played</span>
         </div>
       </div>
 
       {/* ── FILTER & SEARCH CONTROLS ── */}
-      <div className="   p-0 border-0 mb-8">
+      <div className=" p-0 border-0 mb-8">
         <div className="flex flex-col lg:flex-row items-start gap-4">
           {/* Search Input Bar */}
           <div className="w-full lg:w-72 shrink-0">
             <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder={sanityContent?.searchPlaceholder || "Search venue, city, year..."}
-              containerClassName="w-full"
-            />
+ value={searchQuery}
+ onChange={setSearchQuery}
+ placeholder={sanityContent?.searchPlaceholder || "Search venue, city, year..."}
+ containerClassName="w-full"
+ />
           </div>
 
           {/* Years Pill List Next to Search Input */}
@@ -162,8 +161,8 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
             <span className="uppercase shrink-0 mr-1">
               {sanityContent?.jumpToYearLabel || "Jump to Year:"}
             </span>
-            <button aria-label="Action button"
-              onClick={() => setSelectedYear("ALL")}
+            <button
+ onClick={() => setSelectedYear("ALL")}
               className={`px-3 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer ${selectedYear === "All"
                 ? "bg-[var(--color-accent)] text-white "
                 : " bg-[#00000029] text-white/70 hover:text-white border-0"
@@ -172,8 +171,8 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
             </button>
             {years.map((y) => (
               <button aria-label="Previous"
-                key={y.year}
-                onClick={() => {
+ key={y.year}
+ onClick={() => {
                   setSelectedYear(y.year);
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
@@ -200,7 +199,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.
           </p>
           <button aria-label="Search"
-            onClick={() => {
+ onClick={() => {
               setSearchQuery("");
               setSelectedYear("ALL");
               setSelectedCategory("ALL");
@@ -215,11 +214,11 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
             const isOpen = !!openYears[yGroup.year];
             return (
               <div
-                key={yGroup.year}
-                className="overflow-hidden">
+ key={yGroup.year}
+ className="overflow-hidden">
                 {/* Year Header Accordion Bar */}
-                <button aria-label="Action button"
-                  onClick={() => toggleYear(yGroup.year)}
+                <button
+ onClick={() => toggleYear(yGroup.year)}
                   className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left transition-colors"
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}>
                   <div className="flex items-center gap-3">
@@ -243,9 +242,9 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
 
                       return (
                         <div
-                          key={`${yGroup.year}-${idx}`}
-                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
-                          style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
+ key={`${yGroup.year}-${idx}`}
+ className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
+ style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
                           {/* Date & Day */}
                           <div className="w-full sm:w-48 shrink-0 font-semibold flex items-center gap-2">
                             <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>

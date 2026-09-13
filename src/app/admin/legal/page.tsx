@@ -333,7 +333,7 @@ export default function AdminLegalPage() {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-16    text-white selection:bg-purple-600 selection:text-white">
+    <div className="min-h-screen pt-28 pb-16 text-white selection:bg-purple-600 selection:text-white">
       <div className="site-container py-8">
 
         {/* Header Bar with Live Compliance Audit Badge */}
@@ -349,7 +349,7 @@ export default function AdminLegalPage() {
             <h1>
               Legal & Compliance <span className="gradient-text">Inspection Hub</span>
             </h1>
-            <p className="mt-2 max-w-3xl   ">
+            <p className="mt-2 max-w-3xl ">
               Comprehensive regulatory audit panel covering TCPA SMS mandates, DMCA copyright safe harbor, ADA accessibility (WCAG 2.1 AA), GDPR/CCPA privacy rights, PCI-DSS e-commerce security, COPPA minor protections, and database RLS safeguards.
             </p>
           </div>
@@ -369,15 +369,15 @@ export default function AdminLegalPage() {
             </div>
 
             <Link
-              href="/admin/admin"
-              className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg uppercase text-white/80 hover:text-white transition-colors text-center">
+ href="/admin/admin"
+ className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg uppercase text-white/80 hover:text-white transition-colors text-center">
               ← Back to Admin
             </Link>
           </div>
         </div>
 
         {/* Sidebar & Detail Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8   ">
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 ">
 
           {/* Left Menu Tabs */}
           <div className="space-y-3">
@@ -391,9 +391,9 @@ export default function AdminLegalPage() {
 
               return (
                 <button
-                  aria-label={sec.title}
-                  key={sec.id}
-                  onClick={() => setSelectedSection(sec.id)}
+ aria-label={sec.title}
+ key={sec.id}
+ onClick={() => setSelectedSection(sec.id)}
                   className={`w-full flex items-center justify-between p-4 rounded-lg  border text-left transition-[border-color,background-color,color,box-shadow] duration-200 cursor-pointer ${isSelected
                     ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)] text-white`
                     : ` border-white/10  bg-white/[0.02]    border-white/10     bg-[#00000029]    text-white/70`
@@ -404,7 +404,7 @@ export default function AdminLegalPage() {
                     </div>
                     <div>
                       <h3 className="text-white">{sec.title}</h3>
-                      <p className="   line-clamp-1">{sec.subtitle}</p>
+                      <p className=" line-clamp-1">{sec.subtitle}</p>
                     </div>
                   </div>
                   {categoryPassed && (
@@ -438,7 +438,7 @@ export default function AdminLegalPage() {
                   <h2 className="uppercase text-white">
                     {active.title}
                   </h2>
-                  <p className="  ">{active.subtitle}</p>
+                  <p className=" ">{active.subtitle}</p>
                 </div>
               </div>
 
@@ -468,25 +468,25 @@ export default function AdminLegalPage() {
                 const isChecked = passedChecks[req.id];
                 return (
                   <div
-                    key={req.id}
-                    className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02] border-white/10 '
-                      : 'bg-rose-950/10 border-rose-500/30'
-                      }`}>
+ key={req.id}
+ className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02] border-white/10 '
+ : 'bg-rose-950/10 border-rose-500/30'
+ }`}>
                     <div className="flex items-start justify-between gap-4 mb-2">
                       <div className="flex items-start gap-3">
                         <div className="mt-0.5 shrink-0">
                           <SquishyToggle
-                            id={`legal-toggle-${req.id}`}
-                            label={`Toggle inspection for ${req.title}`}
-                            checked={!!isChecked}
-                            onChange={() => toggleCheck(req.id)}
+ id={`legal-toggle-${req.id}`}
+ label={`Toggle inspection for ${req.title}`}
+ checked={!!isChecked}
+ onChange={() => toggleCheck(req.id)}
                           />
                         </div>
                         <div>
-                          <h4 className={`   transition-colors ${isChecked ? 'text-white' : 'text-rose-200'}`}>
+                          <h4 className={` transition-colors ${isChecked ? 'text-white' : 'text-rose-200'}`}>
                             {req.title}
                           </h4>
-                          <p className="  ">{req.description}</p>
+                          <p className=" ">{req.description}</p>
                         </div>
                       </div>
 

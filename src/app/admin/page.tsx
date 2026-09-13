@@ -229,18 +229,18 @@ export default function AdminGatewayPage() {
 
       {/* Blurred Hero Background Overlay */}
       <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          backgroundImage: "url('/images/hero/hero-band-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.55) blur(3px)",
-          transform: "scale(1.08)",
-          zIndex: 0,
-          pointerEvents: "none"
-        }}
-      />
+ style={{
+ position: "fixed",
+ inset: 0,
+ backgroundImage: "url('/images/hero/hero-band-bg.png')",
+ backgroundSize: "cover",
+ backgroundPosition: "center",
+ filter: "brightness(0.55) blur(3px)",
+ transform: "scale(1.08)",
+ zIndex: 0,
+ pointerEvents: "none"
+ }}
+ />
       <div className="fixed inset-0 bg-black/55 backdrop-blur-[45px] z-0 pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
@@ -248,8 +248,8 @@ export default function AdminGatewayPage() {
         {/* ═══════════ STEP 1: Login Form ═══════════ */}
         {step === "login" && (
           <div
-            className="rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-            style={MODAL_GLASS_STYLE}>
+ className="rounded-lg overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+ style={MODAL_GLASS_STYLE}>
             <div className="p-8 sm:p-10">
               <div className="text-center mb-8">
                 <div className="w-14 h-14 mx-auto mb-4 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)] shadow-[0_0_24px_rgba(147,51,234,0.4)]">
@@ -276,8 +276,8 @@ export default function AdminGatewayPage() {
                     <Link href="/fans" className="text-[0.65rem] text-[var(--color-accent)] hover:text-purple-300 uppercase tracking-[0.15em] transition-colors">
                       ← Back to Fan Dashboard
                     </Link>
-                    <button aria-label="Action button"
-                      onClick={() => logout()}
+                    <button
+ onClick={() => logout()}
                       className="text-[0.65rem] text-rose-400 hover:text-rose-300 uppercase tracking-[0.15em] transition-colors cursor-pointer">
                       Sign Out & Switch Account
                     </button>
@@ -287,11 +287,10 @@ export default function AdminGatewayPage() {
                 <form onSubmit={handleAdminLogin} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
                   <div>
                     <label htmlFor="root-admin-login-email" className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block">Email</label>
-                    <input aria-label="Input field"
-                      id="root-admin-login-email"
-                      type="email"
-                      value={adminEmail}
-                      onChange={e => setAdminEmail(e.target.value)}
+                    <input id="root-admin-login-email"
+ type="email"
+ value={adminEmail}
+ onChange={e => setAdminEmail(e.target.value)}
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
@@ -301,11 +300,10 @@ export default function AdminGatewayPage() {
                   </div>
                   <div>
                     <label htmlFor="root-admin-login-password" className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block">Password</label>
-                    <input aria-label="Input field"
-                      id="root-admin-login-password"
-                      type="password"
-                      value={adminPassword}
-                      onChange={e => setAdminPassword(e.target.value)}
+                    <input id="root-admin-login-password"
+ type="password"
+ value={adminPassword}
+ onChange={e => setAdminPassword(e.target.value)}
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
@@ -318,17 +316,17 @@ export default function AdminGatewayPage() {
                     <p className="text-rose-400 bg-rose-500/10 px-3 py-2 border border-rose-500/20 rounded-lg text-center">{adminLoginError}</p>
                   )}
 
-                  <button aria-label="Action button"
-                    type="submit"
-                    disabled={adminLoginLoading}
-                    className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)]">
+                  <button
+ type="submit"
+ disabled={adminLoginLoading}
+ className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)]">
                     {adminLoginLoading ? "Authenticating..." : "Sign In as Admin"}
                   </button>
 
                   {process.env.NODE_ENV === "development" && (
-                    <button aria-label="Action button"
-                      type="button"
-                      onClick={() => {
+                    <button
+ type="button"
+ onClick={() => {
                         if (typeof window !== "undefined") {
                           localStorage.setItem("7h_dev_bypass", "true");
                           sessionStorage.setItem("7h_admin_2fa_verified", "true");
@@ -355,19 +353,19 @@ export default function AdminGatewayPage() {
             <div className="text-center mb-8 relative z-10">
               <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
               <h2 className="text-xl font-bold uppercase mb-2">Admin 2FA Verification</h2>
-              <p className="  ">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
+              <p className=" ">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
             </div>
 
             <div
-              className="rounded-lg px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
-              style={{
-                background: "rgba(18, 10, 34, 0.85)",
-                backdropFilter: "blur(32px) saturate(180%)",
-                WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                border: "1px solid rgba(168, 85, 247, 0.4)",
-                borderRadius: 24,
-                boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-              }}>
+ className="rounded-lg px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
+ style={{
+ background: "rgba(18, 10, 34, 0.85)",
+ backdropFilter: "blur(32px) saturate(180%)",
+ WebkitBackdropFilter: "blur(32px) saturate(180%)",
+ border: "1px solid rgba(168, 85, 247, 0.4)",
+ borderRadius: 24,
+ boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+ }}>
               <p className="uppercase text-center mb-5">Enter 6-Digit PIN</p>
 
               <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
@@ -383,7 +381,7 @@ export default function AdminGatewayPage() {
                   return (
                     <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0">
                       <input aria-label={`Admin PIN digit ${i + 1}`}
-                        ref={el => { inputRefs.current[i] = el; }}
+ ref={el => { inputRefs.current[i] = el; }}
                         type="text"
                         inputMode="numeric"
                         maxLength={1}
@@ -410,20 +408,20 @@ export default function AdminGatewayPage() {
                 </div>
               )}
 
-              <button aria-label="Action button"
-                onClick={handleVerify}
-                disabled={fullPin.length < 6 || verifyStatus === 'checking'}
-                style={{
-                  opacity: fullPin.length < 6 ? 0.35 : 1,
-                  background: fullPin.length < 6
-                    ? "rgba(168,85,247,0.15)"
-                    : "linear-gradient(135deg, #7c00ff, #a855f7)",
-                  border: "none",
-                  color: fullPin.length < 6 ? "rgba(255,255,255,0.4)" : "#fff",
-                  boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
-                  transition: "all 0.25s ease",
-                }}
-                className="w-full py-3.5 uppercase cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed">
+              <button
+ onClick={handleVerify}
+ disabled={fullPin.length < 6 || verifyStatus === 'checking'}
+ style={{
+ opacity: fullPin.length < 6 ? 0.35 : 1,
+ background: fullPin.length < 6
+ ? "rgba(168,85,247,0.15)"
+ : "linear-gradient(135deg, #7c00ff, #a855f7)",
+ border: "none",
+ color: fullPin.length < 6 ? "rgba(255,255,255,0.4)" : "#fff",
+ boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
+ transition: "all 0.25s ease",
+ }}
+ className="w-full py-3.5 uppercase cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed">
                 {verifyStatus === 'checking' ? 'Verifying...' : 'Access My Dashboard →'}
               </button>
 
@@ -432,19 +430,19 @@ export default function AdminGatewayPage() {
                 <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>
                   Didn&apos;t receive the code?
                 </p>
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={handleResend}
-                  disabled={verifyStatus === "resending"}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: verifyStatus === "resent" ? "#34d399" : "#a855f7",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                  }}>
+                <button
+ type="button"
+ onClick={handleResend}
+ disabled={verifyStatus === "resending"}
+ style={{
+ background: "none",
+ border: "none",
+ color: verifyStatus === "resent" ? "#34d399" : "#a855f7",
+ fontSize: 12,
+ fontWeight: 700,
+ cursor: "pointer",
+ textDecoration: "underline",
+ }}>
                   {verifyStatus === "resending" ? "Sending…" : verifyStatus === "resent" ? "✓ Code resent!" : "Resend Code"}
                 </button>
               </div>
@@ -452,9 +450,9 @@ export default function AdminGatewayPage() {
               <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "18px 0" }} />
 
               {/* Back to login */}
-              <button aria-label="Action button"
-                type="button"
-                onClick={() => {
+              <button
+ type="button"
+ onClick={() => {
                   setStep("login");
                   setPin(["", "", "", "", "", ""]);
                   setVerifyError("");
