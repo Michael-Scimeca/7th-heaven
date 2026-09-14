@@ -4533,41 +4533,48 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="pl-0 select-none">
                 {/* Header Sorter Row */}
                 <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-3 border-b border-white/15 text-left uppercase select-none">
-                  <div className="col-span-4">Planner / Venue</div>
-                  <div className="col-span-5">Contact Details</div>
-                  <div className="col-span-3 text-right">Quick Actions</div>
+                  <div className="col-span-3">Planner / Venue</div>
+                  <div className="col-span-2">Category</div>
+                  <div className="col-span-2">Phone Number</div>
+                  <div className="col-span-3">Email</div>
+                  <div className="col-span-2 text-right">Quick Actions</div>
                 </div>
 
                 {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).map((planner: any) => (
                   <div key={planner.email} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center border-b border-white/10 px-4 py-4 transition-colors bg-[#00000029]">
-                    <div className="col-span-12 md:col-span-4 flex items-center gap-4 min-w-0">
+                    <div className="col-span-12 md:col-span-3 flex items-center gap-4 min-w-0">
                       <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
                         {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
                       </div>
                       <div className="overflow-hidden min-w-0">
                         <span className="text-white truncate block">{planner.name || 'Unknown Planner'}</span>
-                        <p className="truncate text-white/50 text-xs">{planner.venueName || planner.eventType?.replace('_', ' ') || 'Event Planner'}</p>
+                        <p className="truncate text-white/50 text-xs">{planner.venueName || 'General Venue'}</p>
                       </div>
                     </div>
 
-                    <div className="col-span-12 md:col-span-5 flex flex-col sm:flex-row sm:items-center gap-4 text-white/70 text-xs min-w-0">
-                      {planner.email && (
-                        <div className="flex items-center gap-1.5 truncate">
-                          <span className="truncate">{planner.email}</span>
-                        </div>
-                      )}
+                    <div className="col-span-12 md:col-span-2 min-w-0">
+                      <span className="text-white/70 text-sm truncate block capitalize font-medium">
+                        {planner.eventType ? planner.eventType.replace(/_/g, ' ') : planner.category || 'Event Planner'}
+                      </span>
+                    </div>
+
+                    <div className="col-span-12 md:col-span-2 min-w-0">
                       {planner.phone ? (
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          <span>{planner.phone}</span>
-                        </div>
+                        <span className="text-white/70 text-sm truncate block">{planner.phone}</span>
                       ) : (
-                        <div className="flex items-center gap-1.5 text-white/30 shrink-0">
-                          <span>No phone</span>
-                        </div>
+                        <span className="text-white/30 text-sm">No phone</span>
                       )}
                     </div>
 
-                    <div className="col-span-12 md:col-span-3 flex items-center gap-2 shrink-0 md:justify-end">
+                    <div className="col-span-12 md:col-span-3 min-w-0">
+                      {planner.email ? (
+                        <span className="text-white/70 text-sm truncate block">{planner.email}</span>
+                      ) : (
+                        <span className="text-white/30 text-sm">No email</span>
+                      )}
+                    </div>
+
+                    <div className="col-span-12 md:col-span-2 flex items-center gap-2 shrink-0 md:justify-end">
                       <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[0.9rem] uppercase !text-white hover:text-white transition-colors">
                         Email
                       </a>
