@@ -174,7 +174,7 @@ const SECTIONS: ComplianceSection[] = [
     title: "GDPR, CCPA & Privacy Rights",
     subtitle: "Consumer data protection, right-to-delete & cookie consent",
     color: "  ",
-    borderColor: "border-cyan-500/30",
+    borderColor: "border-purple-500/30",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -369,8 +369,8 @@ export default function AdminLegalPage() {
             </div>
 
             <Link
- href="/admin/admin"
- className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg uppercase text-white/80 hover:text-white transition-colors text-center">
+              href="/admin/admin"
+              className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg uppercase text-white/80 hover:text-white transition-colors text-center">
               ← Back to Admin
             </Link>
           </div>
@@ -391,9 +391,9 @@ export default function AdminLegalPage() {
 
               return (
                 <button
- aria-label={sec.title}
- key={sec.id}
- onClick={() => setSelectedSection(sec.id)}
+                  aria-label={sec.title}
+                  key={sec.id}
+                  onClick={() => setSelectedSection(sec.id)}
                   className={`w-full flex items-center justify-between p-4 rounded-lg  border text-left transition-[border-color,background-color,color,box-shadow] duration-200 cursor-pointer ${isSelected
                     ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)] text-white`
                     : ` border-white/10  bg-white/[0.02]    border-white/10     bg-[#00000029]    text-white/70`
@@ -468,18 +468,18 @@ export default function AdminLegalPage() {
                 const isChecked = passedChecks[req.id];
                 return (
                   <div
- key={req.id}
- className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02] border-white/10 '
- : 'bg-rose-950/10 border-rose-500/30'
- }`}>
+                    key={req.id}
+                    className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02] border-white/10 '
+                      : 'bg-rose-950/10 border-rose-500/30'
+                      }`}>
                     <div className="flex items-start justify-between gap-4 mb-2">
                       <div className="flex items-start gap-3">
                         <div className="mt-0.5 shrink-0">
                           <SquishyToggle
- id={`legal-toggle-${req.id}`}
- label={`Toggle inspection for ${req.title}`}
- checked={!!isChecked}
- onChange={() => toggleCheck(req.id)}
+                            id={`legal-toggle-${req.id}`}
+                            label={`Toggle inspection for ${req.title}`}
+                            checked={!!isChecked}
+                            onChange={() => toggleCheck(req.id)}
                           />
                         </div>
                         <div>

@@ -182,8 +182,8 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
         </span>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           <button
- type="button"
- onClick={() => handleApplyPreset("cancellation")}
+            type="button"
+            onClick={() => handleApplyPreset("cancellation")}
             className={`px-3.5 py-2.5 rounded-lg    text-left transition-all cursor-pointer border ${alertType === "cancellation"
               ? "bg-rose-600 text-white border-rose-400/50 shadow-rose-900/30"
               : "bg-white/[0.03] border-white/10 hover:bg-white/10   border-white/10   "
@@ -195,8 +195,8 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           </button>
 
           <button
- type="button"
- onClick={() => handleApplyPreset("time_change")}
+            type="button"
+            onClick={() => handleApplyPreset("time_change")}
             className={`px-3.5 py-2.5 rounded-lg    text-left transition-all cursor-pointer border ${alertType === "time_change"
               ? "bg-purple-700 text-white border-purple-400/50 shadow-purple-900/30"
               : "bg-white/[0.03] border-white/10 hover:bg-white/10   border-white/10   "
@@ -208,8 +208,8 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           </button>
 
           <button
- type="button"
- onClick={() => handleApplyPreset("venue_change")}
+            type="button"
+            onClick={() => handleApplyPreset("venue_change")}
             className={`px-3.5 py-2.5 rounded-lg    text-left transition-all cursor-pointer border ${alertType === "venue_change"
               ? "bg-[var(--color-accent)] text-white border-purple-400/50 shadow-purple-900/30"
               : "bg-white/[0.03] border-white/10 hover:bg-white/10   border-white/10   "
@@ -221,10 +221,10 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           </button>
 
           <button
- type="button"
- onClick={() => handleApplyPreset("announcement")}
+            type="button"
+            onClick={() => handleApplyPreset("announcement")}
             className={`px-3.5 py-2.5 rounded-lg    text-left transition-all cursor-pointer border ${alertType === "announcement"
-              ? "bg-cyan-600 text-white border-cyan-400/50 shadow-cyan-900/30"
+              ? "bg-cyan-600 text-white border-purple-400/50 shadow-cyan-900/30"
               : "bg-white/[0.03] border-white/10 hover:bg-white/10   border-white/10   "
               }`}>
             <span className="flex items-center gap-1.5">
@@ -243,11 +243,11 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             2. Target Show Date / Venue
           </label>
           <GooeyMessagesDropdown
- fullWidth={true}
- placeholder="Select Show Date / Venue"
- defaultSelectedId={selectedShowDate || showOptions[0]?.id}
- customers={showOptions}
- onSelect={(opt) => setSelectedShowDate(opt.id)}
+            fullWidth={true}
+            placeholder="Select Show Date / Venue"
+            defaultSelectedId={selectedShowDate || showOptions[0]?.id}
+            customers={showOptions}
+            onSelect={(opt) => setSelectedShowDate(opt.id)}
             className="w-full"
           />
         </div>
@@ -258,11 +258,11 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             3. Target Audience
           </label>
           <GooeyMessagesDropdown
- fullWidth={true}
- placeholder="Select Target Audience"
- defaultSelectedId={targetAudience}
- customers={audienceOptions}
- onSelect={(opt) => setTargetAudience(opt.id as any)}
+            fullWidth={true}
+            placeholder="Select Target Audience"
+            defaultSelectedId={targetAudience}
+            customers={audienceOptions}
+            onSelect={(opt) => setTargetAudience(opt.id as any)}
             className="w-full"
           />
         </div>
@@ -337,9 +337,9 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
               Message Title / Header
             </label>
             <input id="emg-msg-title"
- type="text"
- value={customTitle !== "" ? customTitle : activeTitle}
- onChange={(e) => setCustomTitle(e.target.value)}
+              type="text"
+              value={customTitle !== "" ? customTitle : activeTitle}
+              onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="e.g. SHOW CANCELLED: Broken Oar"
               className="w-full border border-[var(--border-color)] rounded-lg px-3 py-2 !text-xs placeholder: outline-none focus:border-purple-500"
             />
@@ -355,10 +355,10 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
               </span>
             </div>
             <textarea aria-label="Text input"
- id="emg-msg-body"
- rows={3}
- value={customBody !== "" ? customBody : activeBody}
- onChange={(e) => setCustomBody(e.target.value)}
+              id="emg-msg-body"
+              rows={3}
+              value={customBody !== "" ? customBody : activeBody}
+              onChange={(e) => setCustomBody(e.target.value)}
               placeholder="Write your emergency broadcast message text..."
               className="w-full border border-[var(--border-color)] rounded-lg p-2.5 !text-xs font-semibold placeholder: outline-none focus:border-purple-500 resize-none"
             />
@@ -396,10 +396,10 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
         </div>
 
         <button
- type="button"
- onClick={handleDispatch}
- disabled={isSending}
- className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50 flex items-center gap-1.5">
+          type="button"
+          onClick={handleDispatch}
+          disabled={isSending}
+          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50 flex items-center gap-1.5">
           {isSending ? (
             <>
               <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-lg animate-spin" />
@@ -417,7 +417,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
       {/* Dispatch Result Feedback */}
       {dispatchResult && (
         <div className={`p-3 rounded-lg border flex items-center justify-between animate-[fadeIn_0.2s_ease-out] ${dispatchResult.success ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300" : "bg-rose-500/15 border-rose-500/30 text-rose-300"
- }`}>
+          }`}>
           <div>
             <span className="block uppercase ">
               {dispatchResult.success ? "Broadcast Dispatched Successfully!" : "Dispatch Failed"}
@@ -425,8 +425,8 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             <p className="font-normal opacity-90">{dispatchResult.message || dispatchResult.error}</p>
           </div>
           <button
- type="button"
- onClick={() => setDispatchResult(null)}
+            type="button"
+            onClick={() => setDispatchResult(null)}
             className="text-white/40 hover:text-white cursor-pointer border-none ">
             ✕
           </button>

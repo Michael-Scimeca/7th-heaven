@@ -37,10 +37,10 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <div className="flex items-center gap-1.5 flex-wrap">
           {OPTION_2_VARIATIONS.map((opt) => (
             <button
- key={opt.id}
- type="button"
- onClick={() => setActiveLayout(opt.id)}
-              className={`px-3 py-1.5    uppercase transition-colors cursor-pointer border ${activeLayout === opt.id ? "bg-cyan-500 text-black border-cyan-400    shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+              key={opt.id}
+              type="button"
+              onClick={() => setActiveLayout(opt.id)}
+              className={`px-3 py-1.5    uppercase transition-colors cursor-pointer border ${activeLayout === opt.id ? "bg-cyan-500 text-black border-purple-400    shadow-[0_0_12px_rgba(6,182,212,0.4)]"
                 : " bg-[#00000029] border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}>
               {opt.name}
@@ -57,7 +57,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
           <div className="site-container relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5 text-left">
-              <span className="uppercase text-purple-400 px-3 py-1 border border-cyan-500/20">
+              <span className="uppercase text-purple-400 px-3 py-1 border border-purple-500/20">
                 OPTION 2A — CLASSIC DARK GLASS
               </span>
               <h1 className="mt-4 mb-4">
@@ -96,7 +96,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               </p>
             </div>
 
-            <div className="lg:col-span-7 relative overflow-hidden border border-cyan-500/40 bg-black/80 p-8 md:p-10">
+            <div className="lg:col-span-7 relative overflow-hidden border border-purple-500/40 bg-black/80 p-8 md:p-10">
               <div className="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none" style={{ backgroundImage: "url('/images/hero/hero-band-bg.png')" }} />
               <div className="relative z-10">
                 <div className="flex items-center justify-between gap-4 mb-4">
@@ -121,7 +121,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <section className="relative py-16 md:py-24 overflow-hidden bg-[#0a0712] text-left">
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Card */}
-            <div className="lg:col-span-7 bg-[#130d24] border border-cyan-500/30 p-8 md:p-10">
+            <div className="lg:col-span-7 bg-[#130d24] border border-purple-500/30 p-8 md:p-10">
               <div className="flex items-center justify-between mb-4">
                 <span className="uppercase text-purple-400 px-2.5 py-1">
                   OPTION 2C — REVERSED LEFT CARD
@@ -149,9 +149,9 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
       {/* ── 2D. Neon Line Divider ── */}
       {activeLayout === "2D" && (
         <section className="relative py-16 md:py-24 overflow-hidden text-left">
-          <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch border border-cyan-500/30">
+          <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch border border-purple-500/30">
             {/* Left Column */}
-            <div className="lg:col-span-5 p-8 md:p-12 bg-[#090512] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-cyan-500/30">
+            <div className="lg:col-span-5 p-8 md:p-12 bg-[#090512] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-purple-500/30">
               <span className="uppercase text-purple-400mb-2">OPTION 2D — NEON LINE DIVIDER</span>
               <h1>
                 7th Heaven <br /><span>Dispatch</span>
@@ -180,7 +180,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-4">
               <div className="space-y-3">
-                <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 uppercase inline-block">
+                <span className="px-3 py-1 bg-cyan-500/20 border border-purple-500/40 uppercase inline-block">
                   OPTION 2E — STACKED BADGE
                 </span>
                 <h1>
@@ -192,7 +192,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               </div>
             </div>
 
-            <div className="lg:col-span-8 bg-gradient-to-r from-[#120a24] to-[#0a0514] border border-cyan-400/30 p-8 md:p-12">
+            <div className="lg:col-span-8 bg-gradient-to-r from-[#120a24] to-[#0a0514] border border-purple-400/30 p-8 md:p-12">
               <span className="uppercase block mb-2">{featured.date}</span>
               <h2 className="text-white mb-4">{featured.title}</h2>
               <p>{featured.content}</p>

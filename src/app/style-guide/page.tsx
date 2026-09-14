@@ -202,19 +202,19 @@ function HoldToActivateButtonDemo() {
 
       <div className="flex flex-wrap items-center gap-4">
         <button
- onMouseDown={startHold}
- onMouseUp={cancelHold}
- onMouseLeave={cancelHold}
- onTouchStart={startHold}
- onTouchEnd={cancelHold}
- className={`relative overflow-hidden px-8 py-3.5 rounded-lg uppercase transition-all cursor-pointer select-none border ${activated ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.6)]"
- : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
- }`}>
+          onMouseDown={startHold}
+          onMouseUp={cancelHold}
+          onMouseLeave={cancelHold}
+          onTouchStart={startHold}
+          onTouchEnd={cancelHold}
+          className={`relative overflow-hidden px-8 py-3.5 rounded-lg uppercase transition-all cursor-pointer select-none border ${activated ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.6)]"
+            : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
+            }`}>
           {holding && !activated && (
             <div
- className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 opacity-60 transition-all duration-75"
- style={{ width: `${progress}%` }}
- />
+              className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 opacity-60 transition-all duration-75"
+              style={{ width: `${progress}%` }}
+            />
           )}
           <span className="relative z-10 flex items-center gap-2">
             {activated ? (
@@ -235,8 +235,8 @@ function HoldToActivateButtonDemo() {
 
         {activated && (
           <button
- onClick={reset}
- className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 transition">
+            onClick={reset}
+            className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 transition">
             Reset
           </button>
         )}
@@ -370,8 +370,8 @@ function CosmicRadialButtonDemo() {
           </div>
           <div className="flex items-center gap-2">
             <button
- type="button"
- onClick={() => setRenderEngine("property")}
+              type="button"
+              onClick={() => setRenderEngine("property")}
               className={`px-3 py-1 rounded-lg    transition-all cursor-pointer border ${renderEngine === "property"
                 ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
                 : " bg-[#00000029] text-white border-white/10 hover:bg-white/10"
@@ -379,8 +379,8 @@ function CosmicRadialButtonDemo() {
               ⚡ CSS @property Engine (Smooth CSS Transition)
             </button>
             <button
- type="button"
- onClick={() => setRenderEngine("raf")}
+              type="button"
+              onClick={() => setRenderEngine("raf")}
               className={`px-3 py-1 rounded-lg    transition-all cursor-pointer border ${renderEngine === "raf"
                 ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
                 : " bg-[#00000029] text-white border-white/10 hover:bg-white/10"
@@ -398,12 +398,12 @@ function CosmicRadialButtonDemo() {
               <span className="text-purple-300">{transitionDuration.toFixed(1)}s</span>
             </div>
             <input
- type="range"
- min="0.2"
- max="4.0"
- step="0.1"
- value={transitionDuration}
- onChange={(e) => setTransitionDuration(Number(e.target.value))}
+              type="range"
+              min="0.2"
+              max="4.0"
+              step="0.1"
+              value={transitionDuration}
+              onChange={(e) => setTransitionDuration(Number(e.target.value))}
               disabled={renderEngine === "raf"}
               className="w-full accent-purple-500 cursor-pointer disabled:opacity-30"
             />
@@ -416,12 +416,12 @@ function CosmicRadialButtonDemo() {
               <span className="text-purple-300">{driftIntervalSec.toFixed(1)}s</span>
             </div>
             <input
- type="range"
- min="0.8"
- max="5.0"
- step="0.2"
- value={driftIntervalSec}
- onChange={(e) => setDriftIntervalSec(Number(e.target.value))}
+              type="range"
+              min="0.8"
+              max="5.0"
+              step="0.2"
+              value={driftIntervalSec}
+              onChange={(e) => setDriftIntervalSec(Number(e.target.value))}
               className="w-full accent-purple-500 cursor-pointer"
             />
           </div>
@@ -430,8 +430,8 @@ function CosmicRadialButtonDemo() {
           <div className="space-y-1">
             <span className="font-semibold block text-white/80">Transition Easing Curve</span>
             <select
- value={easingCurve}
- onChange={(e) => setEasingCurve(e.target.value)}
+              value={easingCurve}
+              onChange={(e) => setEasingCurve(e.target.value)}
               disabled={renderEngine === "raf"}
               className="w-full px-3 py-1.5 rounded-lg bg-black/60 border border-white/10 text-white focus:outline-none cursor-pointer disabled:opacity-30">
               <option value="cubic-bezier(0.4, 0, 0.2, 1)">Fluid Smooth (cubic-bezier(0.4, 0, 0.2, 1))</option>
@@ -447,16 +447,16 @@ function CosmicRadialButtonDemo() {
         <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/10 flex-wrap">
           <div className="flex items-center gap-2">
             <button
- type="button"
- onClick={randomizePositions}
- className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg cursor-pointer transition-all active:scale-95 flex items-center gap-1.5">
+              type="button"
+              onClick={randomizePositions}
+              className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg cursor-pointer transition-all active:scale-95 flex items-center gap-1.5">
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Randomize Positions (±30%)</span>
             </button>
 
             <button
- type="button"
- onClick={() => setIsAutoDrifting(!isAutoDrifting)}
+              type="button"
+              onClick={() => setIsAutoDrifting(!isAutoDrifting)}
               className={`px-3.5 py-1.5    rounded-lg transition-all cursor-pointer border ${isAutoDrifting ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
                 : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20"
                 }`}>
@@ -465,8 +465,8 @@ function CosmicRadialButtonDemo() {
           </div>
 
           <button
- type="button"
- onClick={() => {
+            type="button"
+            onClick={() => {
               navigator.clipboard?.writeText(generatedCSSCode);
               setCopiedCode(true);
               setTimeout(() => setCopiedCode(false), 2000);
@@ -484,22 +484,22 @@ function CosmicRadialButtonDemo() {
 
         {/* Reusable CosmicRadialButton Component Instance with Default Icon */}
         <CosmicRadialButton
- engine={renderEngine}
- duration={transitionDuration}
- easing={easingCurve}
- autoDrift={isAutoDrifting}
- driftInterval={driftIntervalSec}>
+          engine={renderEngine}
+          duration={transitionDuration}
+          easing={easingCurve}
+          autoDrift={isAutoDrifting}
+          driftInterval={driftIntervalSec}>
           Cosmic Morphing Radial CTA
         </CosmicRadialButton>
 
         {/* Custom Icon Component Example (<Zap />) */}
         <CosmicRadialButton
- engine={renderEngine}
- duration={transitionDuration}
- easing={easingCurve}
- autoDrift={isAutoDrifting}
- driftInterval={driftIntervalSec}
- icon={<Zap className="w-4 h-4 text-amber-300 animate-bounce" />}>
+          engine={renderEngine}
+          duration={transitionDuration}
+          easing={easingCurve}
+          autoDrift={isAutoDrifting}
+          driftInterval={driftIntervalSec}
+          icon={<Zap className="w-4 h-4 text-amber-300 animate-bounce" />}>
           Upgrade to Pro
         </CosmicRadialButton>
 
@@ -537,10 +537,10 @@ function SparkleGenerateButtonDemo() {
             Sparkle Generate Button (GSAP Dust Particles)
           </h3>
           <span
- className={`px-2 py-0.5 rounded text-[11px] border ${isActive
- ? "bg-purple-500/20 text-purple-300 border-purple-500/50"
- : "bg-white/5 text-white/50 border-white/10"
- }`}>
+            className={`px-2 py-0.5 rounded text-[11px] border ${isActive
+              ? "bg-purple-500/20 text-purple-300 border-purple-500/50"
+              : "bg-white/5 text-white/50 border-white/10"
+              }`}>
             {isActive ? "ACTIVE (LOCKED)" : "HOVER TRIGGER"}
           </span>
         </div>
@@ -552,9 +552,9 @@ function SparkleGenerateButtonDemo() {
         {/* Active Checkbox */}
         <label className="flex items-center gap-3 cursor-pointer select-none group">
           <input
- type="checkbox"
- checked={isActive}
- onChange={(e) => setIsActive(e.target.checked)}
+            type="checkbox"
+            checked={isActive}
+            onChange={(e) => setIsActive(e.target.checked)}
             className="w-5 h-5 rounded border-purple-400/50 text-purple-600 focus:ring-purple-500 focus:ring-offset-gray-900 bg-purple-950/40 cursor-pointer accent-purple-500"
           />
           <div>
@@ -571,10 +571,10 @@ function SparkleGenerateButtonDemo() {
             Button Text
           </label>
           <input
- id="sgb-button-text-input"
- type="text"
- value={buttonText}
- onChange={(e) => setButtonText(e.target.value)}
+            id="sgb-button-text-input"
+            type="text"
+            value={buttonText}
+            onChange={(e) => setButtonText(e.target.value)}
             placeholder="Generate Site"
             className="w-full px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500"
           />
@@ -587,13 +587,13 @@ function SparkleGenerateButtonDemo() {
             <span className="text-white/60">{particleCount} dots</span>
           </div>
           <input
- id="sgb-particle-count-slider"
- type="range"
- min="0"
- max="30"
- step="1"
- value={particleCount}
- onChange={(e) => setParticleCount(Number(e.target.value))}
+            id="sgb-particle-count-slider"
+            type="range"
+            min="0"
+            max="30"
+            step="1"
+            value={particleCount}
+            onChange={(e) => setParticleCount(Number(e.target.value))}
             className="w-full accent-purple-500 cursor-pointer"
           />
         </div>
@@ -920,12 +920,12 @@ export default function StyleGuidePage() {
 
           <div className="flex items-center gap-3">
             <button
- onClick={() => resetToDefaults()}
+              onClick={() => resetToDefaults()}
               className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 text-white/80 transition flex items-center gap-2">
               <RefreshCw className="w-3.5 h-3.5" /> Reset Tokens
             </button>
             <button
- onClick={() => saveTheme()}
+              onClick={() => saveTheme()}
               disabled={isSaving}
               className={`px-5 py-2.5 rounded-lg    uppercase transition flex items-center gap-2 ${hasUnsavedChanges ? "bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)]"
                 : "bg-white/10 text-white/50 cursor-default"
@@ -942,9 +942,9 @@ export default function StyleGuidePage() {
             const isActive = activeSection === sec.id;
             return (
               <a
- key={sec.id}
- href={`#${sec.id}`}
- onClick={() => setActiveSection(sec.id)}
+                key={sec.id}
+                href={`#${sec.id}`}
+                onClick={() => setActiveSection(sec.id)}
                 className={`px-4 py-2.5 rounded-lg    whitespace-nowrap transition flex items-center gap-2 border ${isActive ? "bg-purple-600/30 text-purple-300 border-purple-500/50 "
                   : "   text-white hover:text-white border-transparent hover:border-white/10"
                   }`}>
@@ -1012,10 +1012,10 @@ export default function StyleGuidePage() {
                   </div>
 
                   <button
- onClick={handleCopyStudioFormula}
- className={`px-4 py-2.5 rounded-lg uppercase transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
- : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
- }`}>
+                    onClick={handleCopyStudioFormula}
+                    className={`px-4 py-2.5 rounded-lg uppercase transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
+                      : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+                      }`}>
                     {copiedStudioFormula ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copiedStudioFormula ? "Formula Copied!" : "Copy CSS clamp()"}</span>
                   </button>
@@ -1029,8 +1029,8 @@ export default function StyleGuidePage() {
                   <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
                     {tiersList.map((t) => (
                       <button
- key={t}
- onClick={() => setStudioSelectedTier(t)}
+                        key={t}
+                        onClick={() => setStudioSelectedTier(t)}
                         className={`px-3 py-1.5 rounded-lg    transition-all ${studioSelectedTier === t ? "bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105"
                           : "bg-white/[0.04] text-white hover:text-white hover:bg-white/10 border border-white/10"
                           }`}>
@@ -1050,20 +1050,20 @@ export default function StyleGuidePage() {
                       </span>
                       <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
                         <input
- type="number"
- value={studioMinFs}
- onChange={(e) => setStudioMinFs(e.target.value ? Number(e.target.value) : 0)}
+                          type="number"
+                          value={studioMinFs}
+                          onChange={(e) => setStudioMinFs(e.target.value ? Number(e.target.value) : 0)}
                           className="w-12 text-right text-emerald-300 outline-none"
                         />
                         <span className="text-white/40">px</span>
                       </div>
                     </div>
                     <input
- type="range"
- min="12"
- max="128"
- value={studioMinFs}
- onChange={(e) => setStudioMinFs(e.target.value ? Number(e.target.value) : 0)}
+                      type="range"
+                      min="12"
+                      max="128"
+                      value={studioMinFs}
+                      onChange={(e) => setStudioMinFs(e.target.value ? Number(e.target.value) : 0)}
                       className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
                     />
                     <p>
@@ -1079,20 +1079,20 @@ export default function StyleGuidePage() {
                       </span>
                       <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
                         <input
- type="number"
- value={studioMaxFs}
- onChange={(e) => setStudioMaxFs(e.target.value ? Number(e.target.value) : 0)}
+                          type="number"
+                          value={studioMaxFs}
+                          onChange={(e) => setStudioMaxFs(e.target.value ? Number(e.target.value) : 0)}
                           className="w-12 text-right text-purple-300 outline-none"
                         />
                         <span className="text-white/40">px</span>
                       </div>
                     </div>
                     <input
- type="range"
- min="12"
- max="128"
- value={studioMaxFs}
- onChange={(e) => setStudioMaxFs(e.target.value ? Number(e.target.value) : 0)}
+                      type="range"
+                      min="12"
+                      max="128"
+                      value={studioMaxFs}
+                      onChange={(e) => setStudioMaxFs(e.target.value ? Number(e.target.value) : 0)}
                       className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
                     />
                     <p>
@@ -1108,21 +1108,21 @@ export default function StyleGuidePage() {
                       </span>
                       <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
                         <input
- type="number"
- value={studioMinVw}
- onChange={(e) => setStudioMinVw(e.target.value ? Number(e.target.value) : 0)}
+                          type="number"
+                          value={studioMinVw}
+                          onChange={(e) => setStudioMinVw(e.target.value ? Number(e.target.value) : 0)}
                           className="w-16 text-right text-amber-300 outline-none"
                         />
                         <span className="text-white/40">px</span>
                       </div>
                     </div>
                     <input
- type="range"
- min="320"
- max="1920"
- step="5"
- value={studioMinVw}
- onChange={(e) => setStudioMinVw(e.target.value ? Number(e.target.value) : 0)}
+                      type="range"
+                      min="320"
+                      max="1920"
+                      step="5"
+                      value={studioMinVw}
+                      onChange={(e) => setStudioMinVw(e.target.value ? Number(e.target.value) : 0)}
                       className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
                     />
                     <p>
@@ -1138,21 +1138,21 @@ export default function StyleGuidePage() {
                       </span>
                       <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
                         <input
- type="number"
- value={studioMaxVw}
- onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
+                          type="number"
+                          value={studioMaxVw}
+                          onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
                           className="w-16 text-right outline-none"
                         />
                         <span className="text-white/40">px</span>
                       </div>
                     </div>
                     <input
- type="range"
- min="320"
- max="1920"
- step="5"
- value={studioMaxVw}
- onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
+                      type="range"
+                      min="320"
+                      max="1920"
+                      step="5"
+                      value={studioMaxVw}
+                      onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
                       className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10 accent-cyan-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.9)]"
                     />
                     <p>
@@ -1173,7 +1173,7 @@ export default function StyleGuidePage() {
                   </div>
                   <div className="flex items-center gap-2 bg-black/40 p-1 rounded-lg border border-white/10 self-start sm:self-auto">
                     <button
- onClick={() => setStudioMode("locked")}
+                      onClick={() => setStudioMode("locked")}
                       className={`px-3 py-1.5 rounded-lg    transition ${studioMode === "locked"
                         ? "bg-purple-500 text-white "
                         : "text-white/50 hover:text-white"
@@ -1181,7 +1181,7 @@ export default function StyleGuidePage() {
                       🔒 Lock at {studioMinFs}px
                     </button>
                     <button
- onClick={() => setStudioMode("chained")}
+                      onClick={() => setStudioMode("chained")}
                       className={`px-3 py-1.5 rounded-lg    transition ${studioMode === "chained"
                         ? "bg-purple-500 text-white "
                         : "text-white/50 hover:text-white"
@@ -1202,7 +1202,7 @@ export default function StyleGuidePage() {
 
                     <div className="flex items-center gap-2">
                       <span className="text-white/40">Live Viewport:</span>
-                      <span className="bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-lg">
+                      <span className="bg-cyan-500/10 border border-purple-500/20 px-2 py-0.5 rounded-lg">
                         {liveWinW}px
                       </span>
                       <span className="text-white/40">Computed Size:</span>
@@ -1390,9 +1390,9 @@ ${deskRules.join("\n")}
                           <div className="flex items-center gap-2 bg-white/[0.02] border border-emerald-500/40 rounded-lg p-1.5 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
                             <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
                               <input
- type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMin}
- className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
- onInput={(e) => {
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMin}
+                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                                onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
                                   const labelMMin = row?.querySelector("[data-val='mMin']");
@@ -1403,9 +1403,9 @@ ${deskRules.join("\n")}
                             </div>
                             <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
                               <input
- type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMax}
- className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
- onInput={(e) => {
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMax}
+                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                                onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
                                   if (!row) return;
@@ -1440,9 +1440,9 @@ ${deskRules.join("\n")}
                           <div className="flex items-center gap-2 bg-white/[0.02] border border-amber-500/40 rounded-lg p-1.5 shadow-[0_0_12px_rgba(251,191,36,0.15)]">
                             <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
                               <input
- type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMin}
- className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
- onInput={(e) => {
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMin}
+                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                                onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
                                   if (!row) return;
@@ -1463,9 +1463,9 @@ ${deskRules.join("\n")}
                             </div>
                             <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
                               <input
- type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMax}
- className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
- onInput={(e) => {
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMax}
+                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                                onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
                                   if (!row) return;
@@ -1500,9 +1500,9 @@ ${deskRules.join("\n")}
                           <div className="flex items-center gap-2 bg-white/[0.02] rounded-lg p-1.5 shadow-[0_0_12px_rgba(168,85,247,0.15)]">
                             <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
                               <input
- type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMin}
- className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
- onInput={(e) => {
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMin}
+                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                                onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
                                   if (!row) return;
@@ -1523,9 +1523,9 @@ ${deskRules.join("\n")}
                             </div>
                             <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
                               <input
- type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMax}
- className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
- onInput={(e) => {
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMax}
+                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                                onInput={(e) => {
                                   const val = (e.target as HTMLInputElement).value;
                                   const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
                                   const labelDMax = row?.querySelector("[data-val='dMax']");
@@ -1555,7 +1555,7 @@ ${deskRules.join("\n")}
 
                   <div className="flex items-center gap-3">
                     <button
- onClick={() => {
+                      onClick={() => {
                         const section = document.getElementById("typography");
                         if (!section) return;
 
@@ -1614,7 +1614,7 @@ ${deskRules.join("\n")}
                     </button>
 
                     <button
- onClick={() => {
+                      onClick={() => {
                         const tag = document.getElementById("fluid-type-overrides");
                         if (tag) tag.remove();
                         const section = document.getElementById("typography");
@@ -1659,7 +1659,7 @@ ${deskRules.join("\n")}
                           </h3>
                         </div>
                         <button
- onClick={() => setShowCssModal(false)}
+                          onClick={() => setShowCssModal(false)}
                           className="text-white/40 hover:text-white text-xl p-1 transition">
                           ✕
                         </button>
@@ -1675,7 +1675,7 @@ ${deskRules.join("\n")}
 
                       <div className="flex justify-end gap-3 pt-2">
                         <button
- onClick={() => {
+                          onClick={() => {
                             navigator.clipboard.writeText(generatedCssExport);
                             setCssCopied(true);
                             setTimeout(() => setCssCopied(false), 2000);
@@ -1684,7 +1684,7 @@ ${deskRules.join("\n")}
                           📋 Copy Again
                         </button>
                         <button
- onClick={() => setShowCssModal(false)}
+                          onClick={() => setShowCssModal(false)}
                           className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white uppercase transition">
                           Close
                         </button>
@@ -1711,7 +1711,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* White Standard Callout */}
-          <div className="p-5 rounded-lg bg-white/[0.03] border border-cyan-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="p-5 rounded-lg bg-white/[0.03] border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <span className="text-purple-400uppercase block mb-1">
                 Standardized White Palette Rules
@@ -1734,20 +1734,20 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {Object.entries(tokens.colors || {}).map(([varName, colorVal]) => (
               <div
- key={varName}
- onClick={() => handleCopyToken(varName, colorVal)}
+                key={varName}
+                onClick={() => handleCopyToken(varName, colorVal)}
                 className="group relative p-3 rounded-lg bg-[#0d091a] border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex flex-col justify-between h-40">
                 {/* Swatch Box with Dark Checkerboard Pattern */}
                 <div
- className="w-full h-20 rounded-lg border border-white/10 overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
- style={{
- backgroundImage: `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)`,
- backgroundSize: "8px 8px",
- backgroundColor: "#05030a",
- }}>
+                  className="w-full h-20 rounded-lg border border-white/10 overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
+                  style={{
+                    backgroundImage: `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)`,
+                    backgroundSize: "8px 8px",
+                    backgroundColor: "#05030a",
+                  }}>
                   <div
- className="absolute inset-0 flex items-center justify-center"
- style={{ backgroundColor: colorVal.startsWith("var(") ? "#9333ea" : colorVal }}>
+                    className="absolute inset-0 flex items-center justify-center"
+                    style={{ backgroundColor: colorVal.startsWith("var(") ? "#9333ea" : colorVal }}>
                     <span className="opacity-0 group-hover:opacity-100 transition text-[10px] bg-black/80 px-2 py-1 rounded text-white flex items-center gap-1">
                       {copiedToken === varName ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                       {copiedToken === varName ? "Copied!" : "Copy"}
@@ -1775,27 +1775,27 @@ ${deskRules.join("\n")}
               <div>
                 <label className="block text-white mb-1">Accent Glow Color</label>
                 <input
- type="text"
- value={tokens.colors["--color-accent-glow"] || "rgba(147, 51, 234, 0.4)"}
- onChange={(e) => updateToken("colors", "--color-accent-glow", e.target.value)}
+                  type="text"
+                  value={tokens.colors["--color-accent-glow"] || "rgba(147, 51, 234, 0.4)"}
+                  onChange={(e) => updateToken("colors", "--color-accent-glow", e.target.value)}
                   className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 text-white focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
                 <label className="block text-white mb-1">Border Main Color</label>
                 <input
- type="text"
- value={tokens.colors["--color-border-main"] || "rgba(255, 255, 255, 0.08)"}
- onChange={(e) => updateToken("colors", "--color-border-main", e.target.value)}
+                  type="text"
+                  value={tokens.colors["--color-border-main"] || "rgba(255, 255, 255, 0.08)"}
+                  onChange={(e) => updateToken("colors", "--color-border-main", e.target.value)}
                   className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 text-white focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
                 <label className="block text-white mb-1">Chat Glow Color</label>
                 <input
- type="text"
- value={tokens.colors["--chat-glow-color"] || "rgba(168, 85, 247, 0.35)"}
- onChange={(e) => updateToken("colors", "--chat-glow-color", e.target.value)}
+                  type="text"
+                  value={tokens.colors["--chat-glow-color"] || "rgba(168, 85, 247, 0.35)"}
+                  onChange={(e) => updateToken("colors", "--chat-glow-color", e.target.value)}
                   className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 text-white focus:border-purple-500 outline-none"
                 />
               </div>
@@ -1841,7 +1841,7 @@ ${deskRules.join("\n")}
                 <button className="px-5 py-2.5 rounded-lg bg-cyan-300 text-slate-950 uppercase shadow-[0_0_25px_rgba(34,211,238,0.7)] ring-2 ring-cyan-200 transition">
                   Hover / Active
                 </button>
-                <button disabled className="px-5 py-2.5 rounded-lg bg-cyan-400/20 /40 uppercase cursor-not-allowed border border-cyan-500/10">
+                <button disabled className="px-5 py-2.5 rounded-lg bg-cyan-400/20 /40 uppercase cursor-not-allowed border border-purple-500/10">
                   Disabled
                 </button>
               </div>
@@ -1923,10 +1923,10 @@ ${deskRules.join("\n")}
                 <label className="block text-white/70 mb-1">Default State</label>
                 <div className="input-glow-border rounded-lg">
                   <input
- type="text"
- placeholder="Enter full name..."
- className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 outline-none transition"
- />
+                    type="text"
+                    placeholder="Enter full name..."
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 outline-none transition"
+                  />
                 </div>
               </div>
 
@@ -1935,9 +1935,9 @@ ${deskRules.join("\n")}
                 <label className="block text-purple-300 mb-1">Focused / Active State</label>
                 <div className="input-glow-border rounded-lg active">
                   <input
- type="text"
- value={textInput}
- onChange={(e) => setTextInput(e.target.value)}
+                    type="text"
+                    value={textInput}
+                    onChange={(e) => setTextInput(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-lg bg-white/10 border-none text-white/80 outline-none transition"
                   />
                 </div>
@@ -1947,11 +1947,11 @@ ${deskRules.join("\n")}
               <div>
                 <label className="block text-red-400 mb-1">Error State</label>
                 <input
- type="text"
- value="invalid_email_format"
- readOnly
- className="w-full px-4 py-2.5 rounded-lg bg-red-500/10 border border-red-500/50 text-red-300 outline-none focus:ring-1 focus:ring-red-400/50 transition"
- />
+                  type="text"
+                  value="invalid_email_format"
+                  readOnly
+                  className="w-full px-4 py-2.5 rounded-lg bg-red-500/10 border border-red-500/50 text-red-300 outline-none focus:ring-1 focus:ring-red-400/50 transition"
+                />
                 <span className="text-[10px] text-red-400 block">Please enter a valid email address.</span>
               </div>
 
@@ -1959,11 +1959,11 @@ ${deskRules.join("\n")}
               <div>
                 <label className="block text-white/40 mb-1">Disabled State</label>
                 <input
- type="text"
- value="Read-only System ID: 7H-ADMIN-99"
- disabled
- className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/30 cursor-not-allowed"
- />
+                  type="text"
+                  value="Read-only System ID: 7H-ADMIN-99"
+                  disabled
+                  className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/30 cursor-not-allowed"
+                />
               </div>
             </div>
 
@@ -1975,11 +1975,11 @@ ${deskRules.join("\n")}
               <div>
                 <label className="block text-white/70 mb-1">Search Bar (Global Reusable Component)</label>
                 <SearchInput
- value={searchInput}
- onChange={setSearchInput}
- placeholder="Search shows, venues, tours, or keywords..."
- containerClassName="w-full"
- />
+                  value={searchInput}
+                  onChange={setSearchInput}
+                  placeholder="Search shows, venues, tours, or keywords..."
+                  containerClassName="w-full"
+                />
               </div>
 
               {/* Textarea */}
@@ -1987,9 +1987,9 @@ ${deskRules.join("\n")}
                 <label className="block text-white/70 mb-1">Textarea Input</label>
                 <div className="input-glow-border w-full rounded-lg">
                   <textarea
- rows={4}
- value={textareaInput}
- onChange={(e) => setTextareaInput(e.target.value)}
+                    rows={4}
+                    value={textareaInput}
+                    onChange={(e) => setTextareaInput(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border-none text-white/80 placeholder-white/40 outline-none focus:ring-0 transition resize-none"
                   />
                 </div>
@@ -2016,8 +2016,8 @@ ${deskRules.join("\n")}
                     return (
                       <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0 transition-all duration-200">
                         <input
- aria-label={`Default PIN digit ${i + 1}`}
- ref={el => { pinDefaultRefs.current[i] = el; }}
+                          aria-label={`Default PIN digit ${i + 1}`}
+                          ref={el => { pinDefaultRefs.current[i] = el; }}
                           type="text"
                           inputMode="numeric"
                           maxLength={1}
@@ -2056,8 +2056,8 @@ ${deskRules.join("\n")}
                     return (
                       <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0 transition-all duration-200">
                         <input
- aria-label={`PIN digit ${i + 1}`}
- ref={el => { pinRefs.current[i] = el; }}
+                          aria-label={`PIN digit ${i + 1}`}
+                          ref={el => { pinRefs.current[i] = el; }}
                           type="text"
                           inputMode="numeric"
                           maxLength={1}
@@ -2093,15 +2093,15 @@ ${deskRules.join("\n")}
                   ].map(({ id, char: d }, i) => (
                     <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0">
                       <input
- aria-label={`Filled PIN digit ${i + 1}`}
- type="text"
- inputMode="numeric"
- maxLength={1}
- value={d}
- readOnly
- style={{ padding: 0 }}
- className="w-full h-full text-center text-xl rounded-lg border-2 bg-black/70 !p-0 outline-none border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] cursor-default"
- />
+                        aria-label={`Filled PIN digit ${i + 1}`}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={d}
+                        readOnly
+                        style={{ padding: 0 }}
+                        className="w-full h-full text-center text-xl rounded-lg border-2 bg-black/70 !p-0 outline-none border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] cursor-default"
+                      />
                     </div>
                   ))}
                 </div>
@@ -2121,15 +2121,15 @@ ${deskRules.join("\n")}
                   ].map(({ id, char: d }, i) => (
                     <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0">
                       <input
- aria-label={`Error PIN digit ${i + 1}`}
- type="text"
- inputMode="numeric"
- maxLength={1}
- value={d}
- readOnly
- style={{ padding: 0 }}
- className="w-full h-full text-center text-xl rounded-lg border-2 bg-red-950/50 !p-0 outline-none border-red-500/70 text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] cursor-default animate-[shake_0.3s_ease-in-out]"
- />
+                        aria-label={`Error PIN digit ${i + 1}`}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={d}
+                        readOnly
+                        style={{ padding: 0 }}
+                        className="w-full h-full text-center text-xl rounded-lg border-2 bg-red-950/50 !p-0 outline-none border-red-500/70 text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] cursor-default animate-[shake_0.3s_ease-in-out]"
+                      />
                     </div>
                   ))}
                 </div>
@@ -2151,27 +2151,27 @@ ${deskRules.join("\n")}
                     <h4 className="text-white uppercase mb-1">Crew PIN Verification</h4>
                     <p className="mb-4">Enter your 6-digit PIN to verify crew access</p>
                     <div
- className="rounded-lg px-4 py-6 w-full no-glow"
- style={{
- background: "rgba(18, 10, 34, 0.85)",
- backdropFilter: "blur(32px) saturate(180%)",
- WebkitBackdropFilter: "blur(32px) saturate(180%)",
- border: "1px solid rgba(168, 85, 247, 0.4)",
- borderRadius: 24,
- boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
- }}>
+                      className="rounded-lg px-4 py-6 w-full no-glow"
+                      style={{
+                        background: "rgba(18, 10, 34, 0.85)",
+                        backdropFilter: "blur(32px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                        border: "1px solid rgba(168, 85, 247, 0.4)",
+                        borderRadius: 24,
+                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}>
                       <p className="uppercase text-center mb-4">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
                             <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
- className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
                       <button disabled
- style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
- className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                        className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
                       <div className="mt-3 text-center">
                         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
                         <button type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
@@ -2191,26 +2191,26 @@ ${deskRules.join("\n")}
                     <h4 className="text-white uppercase mb-1">Planner Access PIN</h4>
                     <p className="mb-4">Enter your 6-digit PIN to access your Planner Dashboard</p>
                     <div
- className="rounded-lg px-4 py-6 w-full no-glow"
- style={{
- background: "rgba(18, 10, 34, 0.85)",
- backdropFilter: "blur(32px) saturate(180%)",
- WebkitBackdropFilter: "blur(32px) saturate(180%)",
- border: "1px solid rgba(168, 85, 247, 0.4)",
- borderRadius: 24,
- boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
- }}>
+                      className="rounded-lg px-4 py-6 w-full no-glow"
+                      style={{
+                        background: "rgba(18, 10, 34, 0.85)",
+                        backdropFilter: "blur(32px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                        border: "1px solid rgba(168, 85, 247, 0.4)",
+                        borderRadius: 24,
+                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
                             <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
- className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
                       <button disabled
- style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
- className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                        className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
                       <div className="space-y-1.5 mt-3 text-center">
                         <button type="button" style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Resend PIN</button>
                         <button type="button" style={{ display: "block", margin: "4px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Need a PIN sent to your email?</button>
@@ -2238,15 +2238,15 @@ ${deskRules.join("\n")}
                     <p className="mb-1">We sent a 6-digit verification code to</p>
                     <p className="text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-4">your email address</p>
                     <div
- className="rounded-lg px-4 py-6 w-full no-glow"
- style={{
- background: "rgba(18, 10, 34, 0.85)",
- backdropFilter: "blur(32px) saturate(180%)",
- WebkitBackdropFilter: "blur(32px) saturate(180%)",
- border: "1px solid rgba(168, 85, 247, 0.4)",
- borderRadius: 24,
- boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
- }}>
+                      className="rounded-lg px-4 py-6 w-full no-glow"
+                      style={{
+                        background: "rgba(18, 10, 34, 0.85)",
+                        backdropFilter: "blur(32px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                        border: "1px solid rgba(168, 85, 247, 0.4)",
+                        borderRadius: 24,
+                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}>
                       {/* Progress bar */}
                       <div className="w-full h-0.5 bg-white/10 rounded-lg mb-5 overflow-hidden">
                         <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg transition-all duration-300" style={{ width: "0%" }} />
@@ -2255,13 +2255,13 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
                             <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
- className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
                       <button disabled
- style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
- className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                        className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
                       <div className="mt-3 text-center">
                         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
                         <button type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
@@ -2282,27 +2282,27 @@ ${deskRules.join("\n")}
                     <h4 className="text-white uppercase mb-1">Admin 2FA Verification</h4>
                     <p className="mb-4">Enter your 6-digit PIN after login</p>
                     <div
- className="rounded-lg px-4 py-6 w-full no-glow"
- style={{
- background: "rgba(18, 10, 34, 0.85)",
- backdropFilter: "blur(32px) saturate(180%)",
- WebkitBackdropFilter: "blur(32px) saturate(180%)",
- border: "1px solid rgba(168, 85, 247, 0.4)",
- borderRadius: 24,
- boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
- }}>
+                      className="rounded-lg px-4 py-6 w-full no-glow"
+                      style={{
+                        background: "rgba(18, 10, 34, 0.85)",
+                        backdropFilter: "blur(32px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                        border: "1px solid rgba(168, 85, 247, 0.4)",
+                        borderRadius: 24,
+                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}>
                       <p className="uppercase text-center mb-4">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
                             <input aria-label={`Admin PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
- className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                              className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                           </div>
                         ))}
                       </div>
                       <button disabled
- style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
- className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                        className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
                       <div className="mt-3 text-center">
                         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
                         <button type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
@@ -2334,15 +2334,15 @@ ${deskRules.join("\n")}
                   <h4 className="text-white uppercase mb-1">Sign In Modal</h4>
                   <p className="mb-4">Existing member login interface</p>
                   <div
- className="rounded-lg p-6 w-full no-glow relative"
- style={{
- background: "rgba(18, 10, 34, 0.85)",
- backdropFilter: "blur(32px) saturate(180%)",
- WebkitBackdropFilter: "blur(32px) saturate(180%)",
- border: "1px solid rgba(168, 85, 247, 0.4)",
- borderRadius: 24,
- boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
- }}>
+                    className="rounded-lg p-6 w-full no-glow relative"
+                    style={{
+                      background: "rgba(18, 10, 34, 0.85)",
+                      backdropFilter: "blur(32px) saturate(180%)",
+                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                      border: "1px solid rgba(168, 85, 247, 0.4)",
+                      borderRadius: 24,
+                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                    }}>
                     {/* Close Button */}
                     <div className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white cursor-pointer hover:bg-white/20 transition">✕</div>
 
@@ -2371,9 +2371,9 @@ ${deskRules.join("\n")}
                       <div className="grid grid-cols-5 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
                         {(['fan', 'crew', 'planner', 'cruise', 'admin'] as const).map((r) => (
                           <button
- key={r}
- type="button"
- onClick={() => setSignInRole(r as any)}
+                            key={r}
+                            type="button"
+                            onClick={() => setSignInRole(r as any)}
                             className={`py-1.5 px-1 text-[10px]    uppercase rounded-lg text-center transition-all cursor-pointer ${signInRole === (r as any) ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
                               : "text-white/50 hover:text-white/90"
                               }`}>
@@ -2435,15 +2435,15 @@ ${deskRules.join("\n")}
                   <h4 className="text-white uppercase mb-1">Sign Up Modal</h4>
                   <p className="mb-4">New fan registration interface</p>
                   <div
- className="rounded-lg p-6 w-full no-glow relative"
- style={{
- background: "rgba(18, 10, 34, 0.85)",
- backdropFilter: "blur(32px) saturate(180%)",
- WebkitBackdropFilter: "blur(32px) saturate(180%)",
- border: "1px solid rgba(168, 85, 247, 0.4)",
- borderRadius: 24,
- boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
- }}>
+                    className="rounded-lg p-6 w-full no-glow relative"
+                    style={{
+                      background: "rgba(18, 10, 34, 0.85)",
+                      backdropFilter: "blur(32px) saturate(180%)",
+                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                      border: "1px solid rgba(168, 85, 247, 0.4)",
+                      borderRadius: 24,
+                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                    }}>
                     {/* Close Button */}
                     <div className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white cursor-pointer hover:bg-white/20 transition">✕</div>
 
@@ -2470,9 +2470,9 @@ ${deskRules.join("\n")}
                       <div className="grid grid-cols-2 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
                         {(['fan', 'planner'] as const).map((r) => (
                           <button
- key={r}
- type="button"
- onClick={() => setSignUpRole(r)}
+                            key={r}
+                            type="button"
+                            onClick={() => setSignUpRole(r)}
                             className={`py-1.5 px-2 text-[10px]    uppercase rounded-lg text-center transition-all cursor-pointer ${signUpRole === r ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
                               : "text-white/50 hover:text-white/90"
                               }`}>
@@ -2551,12 +2551,12 @@ ${deskRules.join("\n")}
                                 </div>
                                 <div className="shrink-0 relative z-30">
                                   <GooeyDropdown
- label={`${previewRadius} MI`}
- accentColor="#242630"
- glassOpacity={1.0}
- backdropBlur={0}
- items={[
- { label: "15 MI", onClick: () => setPreviewRadius("15") },
+                                    label={`${previewRadius} MI`}
+                                    accentColor="#242630"
+                                    glassOpacity={1.0}
+                                    backdropBlur={0}
+                                    items={[
+                                      { label: "15 MI", onClick: () => setPreviewRadius("15") },
                                       { label: "25 MI", onClick: () => setPreviewRadius("25") },
                                       { label: "50 MI", onClick: () => setPreviewRadius("50") },
                                       { label: "100 MI", onClick: () => setPreviewRadius("100") },
@@ -2607,31 +2607,31 @@ ${deskRules.join("\n")}
               <div className="space-y-3">
                 <div className="flex items-center gap-3 cursor-pointer">
                   <SquishyToggle
- id="sg-newsletter-toggle"
- label="Subscribe to official band newsletter announcements"
- checked={checkboxState}
- onChange={setCheckboxState}
- />
+                    id="sg-newsletter-toggle"
+                    label="Subscribe to official band newsletter announcements"
+                    checked={checkboxState}
+                    onChange={setCheckboxState}
+                  />
                   <span className="text-white/90">Subscribe to official band newsletter announcements</span>
                 </div>
 
                 <div className="flex items-center gap-3 cursor-pointer">
                   <SquishyToggle
- id="sg-unchecked-toggle"
- label="Unchecked state"
- checked={false}
- onChange={() => { }}
+                    id="sg-unchecked-toggle"
+                    label="Unchecked state"
+                    checked={false}
+                    onChange={() => { }}
                   />
                   <span className="text-white">Unchecked state</span>
                 </div>
 
                 <div className="flex items-center gap-3 opacity-40">
                   <SquishyToggle
- id="sg-disabled-toggle"
- label="Disabled checked state"
- disabled={true}
- checked={true}
- onChange={() => { }}
+                    id="sg-disabled-toggle"
+                    label="Disabled checked state"
+                    disabled={true}
+                    checked={true}
+                    onChange={() => { }}
                   />
                   <span className="text-white/40">Disabled checked state</span>
                 </div>
@@ -2642,22 +2642,22 @@ ${deskRules.join("\n")}
                 <div className="flex flex-col gap-2">
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input
- type="radio"
- name="tier"
- value="full_band"
- checked={radioState === "full_band"}
- onChange={(e) => setRadioState(e.target.value)}
+                      type="radio"
+                      name="tier"
+                      value="full_band"
+                      checked={radioState === "full_band"}
+                      onChange={(e) => setRadioState(e.target.value)}
                       className="w-4 h-4 text-purple-600 accent-purple-600 cursor-pointer"
                     />
                     <span className="text-white/90">Full Electric Band (6-Piece)</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input
- type="radio"
- name="tier"
- value="acoustic"
- checked={radioState === "acoustic"}
- onChange={(e) => setRadioState(e.target.value)}
+                      type="radio"
+                      name="tier"
+                      value="acoustic"
+                      checked={radioState === "acoustic"}
+                      onChange={(e) => setRadioState(e.target.value)}
                       className="w-4 h-4 text-purple-600 accent-purple-600 cursor-pointer"
                     />
                     <span className="text-white/80">Acoustic Trio Setup</span>
@@ -2677,11 +2677,11 @@ ${deskRules.join("\n")}
                     <span className="text-[11px] text-white/50 block">Receive live show reminders</span>
                   </div>
                   <SquishyToggle
- id="style-guide-push-notifications"
- checked={toggleState}
- onChange={setToggleState}
- label="Push Notifications"
- />
+                    id="style-guide-push-notifications"
+                    checked={toggleState}
+                    onChange={setToggleState}
+                    label="Push Notifications"
+                  />
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -2690,9 +2690,9 @@ ${deskRules.join("\n")}
                     <span className="text-[11px] text-white/40 block">System locked</span>
                   </div>
                   <SquishyToggle
- id="style-guide-disabled-toggle"
- checked={false}
- onChange={() => { }}
+                    id="style-guide-disabled-toggle"
+                    checked={false}
+                    onChange={() => { }}
                     disabled
                     label="Disabled toggle"
                   />
@@ -2727,14 +2727,14 @@ ${deskRules.join("\n")}
               </p>
               <div className="pt-2">
                 <GooeyMessagesDropdown
- placeholder="CITY"
- customers={[
- { id: "chicago", name: "Chicago, IL (14)" },
- { id: "naperville", name: "Naperville, IL (8)" },
- { id: "milwaukee", name: "Milwaukee, WI (5)" },
- { id: "vegas", name: "Las Vegas, NV (3)" },
- ]}
- onSelect={(opt) => setSelectedDropdown(opt.id)}
+                  placeholder="CITY"
+                  customers={[
+                    { id: "chicago", name: "Chicago, IL (14)" },
+                    { id: "naperville", name: "Naperville, IL (8)" },
+                    { id: "milwaukee", name: "Milwaukee, WI (5)" },
+                    { id: "vegas", name: "Las Vegas, NV (3)" },
+                  ]}
+                  onSelect={(opt) => setSelectedDropdown(opt.id)}
                 />
               </div>
             </div>
@@ -2756,8 +2756,8 @@ ${deskRules.join("\n")}
 
             <div className="flex items-center gap-2 shrink-0">
               <button
- type="button"
- onClick={() => {
+                type="button"
+                onClick={() => {
                   const cssVars = `/* 7th Heaven Chat Style CSS Specs */
 :root {
   --chat-bubble-radius: ${bubbleRadius}px;
@@ -2781,8 +2781,8 @@ ${deskRules.join("\n")}
               </button>
 
               <button
- type="button"
- onClick={() => {
+                type="button"
+                onClick={() => {
                   setBubbleRadius(16);
                   setBubbleBorderWidth(0);
                   setBubbleBorderColor("transparent");
@@ -2812,8 +2812,8 @@ ${deskRules.join("\n")}
               <div className="flex items-center gap-2 bg-[#00000029] border border-white/10 p-1.5 rounded-xl">
                 <span className="text-[11px] text-white/80 pl-1">Multi-User Unique Colors:</span>
                 <button
- type="button"
- onClick={() => setMultiUserColorMode(!multiUserColorMode)}
+                  type="button"
+                  onClick={() => setMultiUserColorMode(!multiUserColorMode)}
                   className={`px-2.5 py-1 rounded-lg text-[10px]    uppercase transition ${multiUserColorMode ? "bg-emerald-600 text-white "
                     : "bg-white/10 text-white/50"
                     }`}>
@@ -2831,19 +2831,19 @@ ${deskRules.join("\n")}
                   <span className="text-purple-300">{bubbleRadius}px</span>
                 </div>
                 <input
- type="range"
- min="0"
- max="32"
- value={bubbleRadius}
- onChange={(e) => setBubbleRadius(Number(e.target.value))}
+                  type="range"
+                  min="0"
+                  max="32"
+                  value={bubbleRadius}
+                  onChange={(e) => setBubbleRadius(Number(e.target.value))}
                   className="w-full accent-purple-500 bg-white/10 rounded-lg cursor-pointer"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[0, 8, 16, 24].map((r) => (
                     <button
- key={r}
- type="button"
- onClick={() => setBubbleRadius(r)}
+                      key={r}
+                      type="button"
+                      onClick={() => setBubbleRadius(r)}
                       className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubbleRadius === r ? "bg-purple-600 border-purple-400 text-white"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
@@ -2860,20 +2860,20 @@ ${deskRules.join("\n")}
                   <span>{bubbleBorderWidth}px</span>
                 </div>
                 <input
- type="range"
- min="0"
- max="6"
- value={bubbleBorderWidth}
- onChange={(e) => setBubbleBorderWidth(Number(e.target.value))}
+                  type="range"
+                  min="0"
+                  max="6"
+                  value={bubbleBorderWidth}
+                  onChange={(e) => setBubbleBorderWidth(Number(e.target.value))}
                   className="w-full accent-cyan-500 bg-white/10 rounded-lg cursor-pointer"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[0, 1, 2, 3].map((w) => (
                     <button
- key={w}
- type="button"
- onClick={() => setBubbleBorderWidth(w)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubbleBorderWidth === w ? "bg-cyan-600 border-cyan-400 text-white"
+                      key={w}
+                      type="button"
+                      onClick={() => setBubbleBorderWidth(w)}
+                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubbleBorderWidth === w ? "bg-cyan-600 border-purple-400 text-white"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
                       {w === 0 ? "0px" : `${w}px`}
@@ -2889,19 +2889,19 @@ ${deskRules.join("\n")}
                   <span className="text-emerald-300">{bubbleFontSize}px</span>
                 </div>
                 <input
- type="range"
- min="10"
- max="20"
- value={bubbleFontSize}
- onChange={(e) => setBubbleFontSize(Number(e.target.value))}
+                  type="range"
+                  min="10"
+                  max="20"
+                  value={bubbleFontSize}
+                  onChange={(e) => setBubbleFontSize(Number(e.target.value))}
                   className="w-full accent-emerald-500 bg-white/10 rounded-lg cursor-pointer"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[10, 12, 14, 16].map((s) => (
                     <button
- key={s}
- type="button"
- onClick={() => setBubbleFontSize(s)}
+                      key={s}
+                      type="button"
+                      onClick={() => setBubbleFontSize(s)}
                       className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubbleFontSize === s ? "bg-emerald-600 border-emerald-400 text-white"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
@@ -2918,20 +2918,20 @@ ${deskRules.join("\n")}
                   <span>{bubblePaddingY}px</span>
                 </div>
                 <input
- type="range"
- min="4"
- max="24"
- value={bubblePaddingY}
- onChange={(e) => setBubblePaddingY(Number(e.target.value))}
+                  type="range"
+                  min="4"
+                  max="24"
+                  value={bubblePaddingY}
+                  onChange={(e) => setBubblePaddingY(Number(e.target.value))}
                   className="w-full accent-cyan-500 bg-white/10 rounded-lg cursor-pointer"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[6, 10, 14, 18].map((py) => (
                     <button
- key={py}
- type="button"
- onClick={() => setBubblePaddingY(py)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubblePaddingY === py ? "bg-cyan-600 border-cyan-400 text-white"
+                      key={py}
+                      type="button"
+                      onClick={() => setBubblePaddingY(py)}
+                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubblePaddingY === py ? "bg-cyan-600 border-purple-400 text-white"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
                       {py}px
@@ -2947,19 +2947,19 @@ ${deskRules.join("\n")}
                   <span className="text-purple-300">{bubblePaddingX}px</span>
                 </div>
                 <input
- type="range"
- min="8"
- max="32"
- value={bubblePaddingX}
- onChange={(e) => setBubblePaddingX(Number(e.target.value))}
+                  type="range"
+                  min="8"
+                  max="32"
+                  value={bubblePaddingX}
+                  onChange={(e) => setBubblePaddingX(Number(e.target.value))}
                   className="w-full accent-purple-500 bg-white/10 rounded-lg cursor-pointer"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[12, 16, 20, 24].map((px) => (
                     <button
- key={px}
- type="button"
- onClick={() => setBubblePaddingX(px)}
+                      key={px}
+                      type="button"
+                      onClick={() => setBubblePaddingX(px)}
                       className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubblePaddingX === px ? "bg-purple-600 border-purple-400 text-white"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
@@ -2976,19 +2976,19 @@ ${deskRules.join("\n")}
                   <span className="text-amber-300">{messageSpacing}px</span>
                 </div>
                 <input
- type="range"
- min="4"
- max="28"
- value={messageSpacing}
- onChange={(e) => setMessageSpacing(Number(e.target.value))}
+                  type="range"
+                  min="4"
+                  max="28"
+                  value={messageSpacing}
+                  onChange={(e) => setMessageSpacing(Number(e.target.value))}
                   className="w-full accent-amber-500 bg-white/10 rounded-lg cursor-pointer"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[8, 12, 16, 20].map((sp) => (
                     <button
- key={sp}
- type="button"
- onClick={() => setMessageSpacing(sp)}
+                      key={sp}
+                      type="button"
+                      onClick={() => setMessageSpacing(sp)}
                       className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${messageSpacing === sp ? "bg-amber-600 border-amber-400 text-white"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
@@ -3005,19 +3005,19 @@ ${deskRules.join("\n")}
                   <span className="text-pink-300">{bubbleOpacity}%</span>
                 </div>
                 <input
- type="range"
- min="10"
- max="100"
- value={bubbleOpacity}
- onChange={(e) => setBubbleOpacity(Number(e.target.value))}
+                  type="range"
+                  min="10"
+                  max="100"
+                  value={bubbleOpacity}
+                  onChange={(e) => setBubbleOpacity(Number(e.target.value))}
                   className="w-full accent-pink-500 bg-white/10 rounded-lg cursor-pointer"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[20, 50, 80, 100].map((o) => (
                     <button
- key={o}
- type="button"
- onClick={() => setBubbleOpacity(o)}
+                      key={o}
+                      type="button"
+                      onClick={() => setBubbleOpacity(o)}
                       className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubbleOpacity === o ? "bg-pink-600 border-pink-400 text-white"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
@@ -3040,9 +3040,9 @@ ${deskRules.join("\n")}
                     { label: "Amber", val: "#f59e0b", bg: "#f59e0b" },
                   ].map((p) => (
                     <button
- key={p.val}
- type="button"
- onClick={() => {
+                      key={p.val}
+                      type="button"
+                      onClick={() => {
                         setBubbleColorPalette(p.val);
                         setMultiUserColorMode(false);
                       }}
@@ -3056,9 +3056,9 @@ ${deskRules.join("\n")}
                 </div>
                 <div className="flex items-center gap-2 pt-1">
                   <input
- type="color"
- value={customHexColor}
- onChange={(e) => {
+                    type="color"
+                    value={customHexColor}
+                    onChange={(e) => {
                       setCustomHexColor(e.target.value);
                       setBubbleColorPalette(e.target.value);
                       setMultiUserColorMode(false);
@@ -3083,9 +3083,9 @@ ${deskRules.join("\n")}
                     { label: "Neon", val: "neon" },
                   ].map((bg) => (
                     <button
- key={bg.val}
- type="button"
- onClick={() => setBubbleBgStyle(bg.val)}
+                      key={bg.val}
+                      type="button"
+                      onClick={() => setBubbleBgStyle(bg.val)}
                       className={`py-1 px-1.5 rounded text-[10px]    border truncate transition ${bubbleBgStyle === bg.val ? "bg-purple-600/40 border-purple-400 text-purple-200"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
@@ -3099,34 +3099,34 @@ ${deskRules.join("\n")}
           </div>
 
           <div
- style={{
- ['--chat-bubble-radius' as any]: `${bubbleRadius}px`,
- ['--chat-bubble-border-width' as any]: `${bubbleBorderWidth}px`,
- ['--chat-bubble-font-size' as any]: `${bubbleFontSize}px`,
- ['--chat-bubble-padding-y' as any]: `${bubblePaddingY}px`,
- ['--chat-bubble-padding-x' as any]: `${bubblePaddingX}px`,
- ['--chat-message-spacing' as any]: `${messageSpacing}px`,
- ['--chat-bubble-member-border' as any]: bubbleBorderColor,
- ['--chat-bubble-self-border' as any]: bubbleBorderColor,
- ['--chat-bubble-admin-border' as any]: bubbleBorderColor,
- ['--chat-bubble-override-bg' as any]: multiUserColorMode
- ? undefined
- : bubbleColorPalette !== 'default'
- ? bubbleColorPalette
- : bubbleBgStyle === 'glass' ? `rgba(8, 145, 178, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#0f172a' : bubbleBgStyle === 'neon' ? '#0284c7' : `rgba(22, 101, 124, ${bubbleOpacity / 100})`,
- ['--chat-bubble-self-bg' as any]: multiUserColorMode
- ? undefined
- : bubbleColorPalette !== 'default'
- ? bubbleColorPalette
- : bubbleBgStyle === 'glass' ? `rgba(126, 34, 206, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#1e1b4b' : bubbleBgStyle === 'neon' ? '#9333ea' : `rgba(126, 34, 206, ${bubbleOpacity / 100})`,
- ['--chat-bubble-admin-bg' as any]: multiUserColorMode
- ? undefined
- : bubbleColorPalette !== 'default'
- ? bubbleColorPalette
- : bubbleBgStyle === 'glass' ? `rgba(46, 16, 101, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
- }}
- className="morph-pick rounded-lg border border-white/10 overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
- data-pick-label="Live Chat">
+            style={{
+              ['--chat-bubble-radius' as any]: `${bubbleRadius}px`,
+              ['--chat-bubble-border-width' as any]: `${bubbleBorderWidth}px`,
+              ['--chat-bubble-font-size' as any]: `${bubbleFontSize}px`,
+              ['--chat-bubble-padding-y' as any]: `${bubblePaddingY}px`,
+              ['--chat-bubble-padding-x' as any]: `${bubblePaddingX}px`,
+              ['--chat-message-spacing' as any]: `${messageSpacing}px`,
+              ['--chat-bubble-member-border' as any]: bubbleBorderColor,
+              ['--chat-bubble-self-border' as any]: bubbleBorderColor,
+              ['--chat-bubble-admin-border' as any]: bubbleBorderColor,
+              ['--chat-bubble-override-bg' as any]: multiUserColorMode
+                ? undefined
+                : bubbleColorPalette !== 'default'
+                  ? bubbleColorPalette
+                  : bubbleBgStyle === 'glass' ? `rgba(8, 145, 178, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#0f172a' : bubbleBgStyle === 'neon' ? '#0284c7' : `rgba(22, 101, 124, ${bubbleOpacity / 100})`,
+              ['--chat-bubble-self-bg' as any]: multiUserColorMode
+                ? undefined
+                : bubbleColorPalette !== 'default'
+                  ? bubbleColorPalette
+                  : bubbleBgStyle === 'glass' ? `rgba(126, 34, 206, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#1e1b4b' : bubbleBgStyle === 'neon' ? '#9333ea' : `rgba(126, 34, 206, ${bubbleOpacity / 100})`,
+              ['--chat-bubble-admin-bg' as any]: multiUserColorMode
+                ? undefined
+                : bubbleColorPalette !== 'default'
+                  ? bubbleColorPalette
+                  : bubbleBgStyle === 'glass' ? `rgba(46, 16, 101, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
+            }}
+            className="morph-pick rounded-lg border border-white/10 overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
+            data-pick-label="Live Chat">
             <CruiseChat activeChannel="general" />
           </div>
         </section>
@@ -3158,11 +3158,11 @@ ${deskRules.join("\n")}
           <div className="space-y-3 pt-4 border-t border-white/10">
             <h3 className="text-amber-400 uppercase r">Announcement Banner Component</h3>
             <AnnouncementBanner
- text="⚡ 7TH HEAVEN CRUISE 2026 PRE-SALE IS NOW OPEN FOR VIP MEMBERS!"
- link="/cruise"
- linkText="BOOK CABIN NOW →"
- inline={true}
- />
+              text="⚡ 7TH HEAVEN CRUISE 2026 PRE-SALE IS NOW OPEN FOR VIP MEMBERS!"
+              link="/cruise"
+              linkText="BOOK CABIN NOW →"
+              inline={true}
+            />
           </div>
 
           {/* Cards & Alerts Grid */}
@@ -3200,7 +3200,7 @@ ${deskRules.join("\n")}
                 </p>
               </div>
               <button
- onClick={() => openModal("login")}
+                onClick={() => openModal("login")}
                 className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 uppercase transition flex items-center justify-center gap-2">
                 <Lock className="w-3.5 h-3.5" /> Launch Login Modal
               </button>
@@ -3232,8 +3232,8 @@ ${deskRules.join("\n")}
                 </p>
               </div>
               <button
- onClick={() => setShowGlassModal(true)}
-                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 uppercase transition flex items-center justify-center gap-2 cursor-pointer">
+                onClick={() => setShowGlassModal(true)}
+                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-purple-500/40 uppercase transition flex items-center justify-center gap-2 cursor-pointer">
                 <Eye className="w-3.5 h-3.5" /> Preview Glass Modal
               </button>
             </div>
@@ -3253,7 +3253,7 @@ ${deskRules.join("\n")}
                 )}
               </div>
               <button
- onClick={() => { setShowConfirmModal(true); setConfirmResult(null); }}
+                onClick={() => { setShowConfirmModal(true); setConfirmResult(null); }}
                 className="px-4 py-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 uppercase transition flex items-center justify-center gap-2 cursor-pointer">
                 <Trash2 className="w-3.5 h-3.5" /> Open Confirm Dialog
               </button>
@@ -3269,7 +3269,7 @@ ${deskRules.join("\n")}
                 </p>
               </div>
               <button
- onClick={() => openModal("login")}
+                onClick={() => openModal("login")}
                 className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 uppercase transition flex items-center justify-center gap-2 cursor-pointer">
                 <Lock className="w-3.5 h-3.5" /> Launch Login Modal
               </button>
@@ -3311,21 +3311,21 @@ ${deskRules.join("\n")}
           {showGlassModal && (
             <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
               <button
- type="button"
- aria-label="Close backdrop"
- className="absolute inset-0 bg-black/60 backdrop-blur-[45px] border-0 p-0 cursor-default"
- onClick={() => setShowGlassModal(false)}
+                type="button"
+                aria-label="Close backdrop"
+                className="absolute inset-0 bg-black/60 backdrop-blur-[45px] border-0 p-0 cursor-default"
+                onClick={() => setShowGlassModal(false)}
               />
               <div
- className="relative w-full max-w-sm rounded-lg px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease] text-center"
- style={{
- background: "var(--color-bg-glass)",
- backdropFilter: "blur(32px) saturate(180%)",
- WebkitBackdropFilter: "blur(32px) saturate(180%)",
- border: "1px solid var(--color-border-main)",
- }}>
+                className="relative w-full max-w-sm rounded-lg px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease] text-center"
+                style={{
+                  background: "var(--color-bg-glass)",
+                  backdropFilter: "blur(32px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                  border: "1px solid var(--color-border-main)",
+                }}>
                 <button
- onClick={() => setShowGlassModal(false)}
+                  onClick={() => setShowGlassModal(false)}
                   aria-label="Close modal"
                   className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer">
                   <X className="w-3.5 h-3.5" />
@@ -3342,13 +3342,13 @@ ${deskRules.join("\n")}
                 <div className="space-y-3">
                   <div className="input-glow-border rounded-lg w-full">
                     <input
- type="text"
- placeholder="Enter your email..."
- className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 outline-none transition"
- />
+                      type="text"
+                      placeholder="Enter your email..."
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 outline-none transition"
+                    />
                   </div>
                   <button
- onClick={() => setShowGlassModal(false)}
+                    onClick={() => setShowGlassModal(false)}
                     className="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white uppercase transition cursor-pointer">
                     Continue
                   </button>
@@ -3361,19 +3361,19 @@ ${deskRules.join("\n")}
           {showConfirmModal && (
             <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
               <button
- type="button"
- aria-label="Close backdrop"
- className="absolute inset-0 bg-black/60 backdrop-blur-[45px] border-0 p-0 cursor-default"
- onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
+                type="button"
+                aria-label="Close backdrop"
+                className="absolute inset-0 bg-black/60 backdrop-blur-[45px] border-0 p-0 cursor-default"
+                onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
               />
               <div
- className="relative w-full max-w-sm rounded-lg px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease]"
- style={{
- background: "var(--color-bg-surface)",
- backdropFilter: "blur(32px) saturate(180%)",
- WebkitBackdropFilter: "blur(32px) saturate(180%)",
- border: "1px solid var(--color-border-main)",
- }}>
+                className="relative w-full max-w-sm rounded-lg px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease]"
+                style={{
+                  background: "var(--color-bg-surface)",
+                  backdropFilter: "blur(32px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                  border: "1px solid var(--color-border-main)",
+                }}>
                 <div className="w-14 h-14 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-4">
                   <Trash2 className="w-7 h-7 text-red-400" />
                 </div>
@@ -3383,12 +3383,12 @@ ${deskRules.join("\n")}
                 </p>
                 <div className="flex gap-3">
                   <button
- onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
+                    onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
                     className="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition cursor-pointer">
                     Cancel
                   </button>
                   <button
- onClick={() => { setShowConfirmModal(false); setConfirmResult('confirmed'); }}
+                    onClick={() => { setShowConfirmModal(false); setConfirmResult('confirmed'); }}
                     className="flex-1 py-3 rounded-lg bg-red-600 hover:bg-red-500 text-white uppercase transition cursor-pointer">
                     Delete
                   </button>
@@ -3486,8 +3486,8 @@ ${deskRules.join("\n")}
             <div className="space-y-3 md:col-span-2">
               <p className="uppercase text-purple-400">Both Axes (2D Scroll)</p>
               <div
- data-lenis-prevent
- className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-lg p-4">
+                data-lenis-prevent
+                className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-lg p-4">
                 <div style={{ minWidth: 900 }} className="space-y-2">
                   {Array.from({ length: 10 }).map((_, row) => (
                     <div key={row} className="flex gap-2">
@@ -3587,10 +3587,10 @@ ${deskRules.join("\n")}
               </p>
             </div>
             <button
- onClick={handleCopyCanvasSpec}
- className={`px-4 py-2.5 rounded-lg uppercase transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
- : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
- }`}>
+              onClick={handleCopyCanvasSpec}
+              className={`px-4 py-2.5 rounded-lg uppercase transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
+                : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
+                }`}>
               {copiedCanvasSpec ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copiedCanvasSpec ? "Canvas Specs Copied!" : "Copy Canvas & Grain Spec"}</span>
             </button>
@@ -3613,19 +3613,19 @@ ${deskRules.join("\n")}
                   <span className="text-emerald-400">{canvasGrainOpacity}% ({(canvasGrainOpacity / 100).toFixed(2)})</span>
                 </div>
                 <input
- type="range"
- min="0"
- max="30"
- value={canvasGrainOpacity}
- onChange={(e) => setCanvasGrainOpacity(Number(e.target.value))}
+                  type="range"
+                  min="0"
+                  max="30"
+                  value={canvasGrainOpacity}
+                  onChange={(e) => setCanvasGrainOpacity(Number(e.target.value))}
                   className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                 />
                 <div className="flex gap-1.5 pt-1">
                   {[0, 4, 6, 10, 18, 25].map((op) => (
                     <button
- key={op}
- type="button"
- onClick={() => setCanvasGrainOpacity(op)}
+                      key={op}
+                      type="button"
+                      onClick={() => setCanvasGrainOpacity(op)}
                       className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${canvasGrainOpacity === op ? "bg-emerald-600 border-emerald-400 text-white"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
@@ -3642,20 +3642,20 @@ ${deskRules.join("\n")}
                   <span className="text-emerald-400">{canvasGrainSize}</span>
                 </div>
                 <input
- type="range"
- min="0.1"
- max="3.0"
- step="0.05"
- value={canvasGrainSize}
- onChange={(e) => setCanvasGrainSize(Number(e.target.value))}
+                  type="range"
+                  min="0.1"
+                  max="3.0"
+                  step="0.05"
+                  value={canvasGrainSize}
+                  onChange={(e) => setCanvasGrainSize(Number(e.target.value))}
                   className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                 />
                 <div className="flex gap-1.5 pt-1">
                   {[0.3, 0.5, 0.65, 0.85, 1.2, 2.0].map((sz) => (
                     <button
- key={sz}
- type="button"
- onClick={() => setCanvasGrainSize(sz)}
+                      key={sz}
+                      type="button"
+                      onClick={() => setCanvasGrainSize(sz)}
                       className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${canvasGrainSize === sz ? "bg-emerald-600 border-emerald-400 text-white"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
@@ -3677,9 +3677,9 @@ ${deskRules.join("\n")}
                     { label: "Dodge", val: "color-dodge" },
                   ].map((mode) => (
                     <button
- key={mode.val}
- type="button"
- onClick={() => setCanvasGrainBlend(mode.val)}
+                      key={mode.val}
+                      type="button"
+                      onClick={() => setCanvasGrainBlend(mode.val)}
                       className={`py-1.5 px-1 rounded text-[10px]    border truncate transition ${canvasGrainBlend === mode.val ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
                         : " bg-[#00000029] border-white/10 text-white hover:text-white"
                         }`}>
@@ -3717,12 +3717,12 @@ ${deskRules.join("\n")}
                     <span className={` text-${ctrl.color}-400`}>{ctrl.value}</span>
                   </div>
                   <input
- type="range"
- min={ctrl.min}
- max={ctrl.max}
- step={ctrl.step}
- value={ctrl.value}
- onChange={(e) => ctrl.set(Number(e.target.value))}
+                    type="range"
+                    min={ctrl.min}
+                    max={ctrl.max}
+                    step={ctrl.step}
+                    value={ctrl.value}
+                    onChange={(e) => ctrl.set(Number(e.target.value))}
                     className={`w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-${ctrl.color}-500`}
                   />
                 </div>
@@ -3740,9 +3740,9 @@ ${deskRules.join("\n")}
                     { label: "True Black", bg: "#000000" },
                   ].map((bg) => (
                     <button
- key={bg.bg}
- type="button"
- onClick={() => setCanvasBgColor(bg.bg)}
+                      key={bg.bg}
+                      type="button"
+                      onClick={() => setCanvasBgColor(bg.bg)}
                       style={{ backgroundColor: bg.bg }}
                       title={bg.label}
                       className={`w-6 h-6 rounded-lg border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : " border-white/10 "
@@ -3750,9 +3750,9 @@ ${deskRules.join("\n")}
                     />
                   ))}
                   <input
- type="color"
- value={canvasBgColor}
- onChange={(e) => setCanvasBgColor(e.target.value)}
+                    type="color"
+                    value={canvasBgColor}
+                    onChange={(e) => setCanvasBgColor(e.target.value)}
                     className="w-6 h-6 rounded-lg border border-white/10 cursor-pointer ml-auto"
                     title="Custom Hex Picker"
                   />
@@ -3801,19 +3801,19 @@ ${deskRules.join("\n")}
                   </div>
                   <div className="flex items-center gap-3">
                     <div
- className="w-8 h-8 rounded-lg border border-white/10 shrink-0"
- style={{ backgroundColor: currentValue }}
- />
+                      className="w-8 h-8 rounded-lg border border-white/10 shrink-0"
+                      style={{ backgroundColor: currentValue }}
+                    />
                     <input
- type="text"
- value={currentValue}
- onChange={(e) => updateToken(item.category, item.token, e.target.value)}
+                      type="text"
+                      value={currentValue}
+                      onChange={(e) => updateToken(item.category, item.token, e.target.value)}
                       className="flex-1 px-3 py-1.5 bg-[#00000029] border border-white/10 rounded-lg text-white focus:border-pink-500 focus:outline-none transition"
                       placeholder="rgba(255,255,255,0.03)"
                     />
                     <button
- type="button"
- onClick={() => updateToken(item.category, item.token, "transparent")}
+                      type="button"
+                      onClick={() => updateToken(item.category, item.token, "transparent")}
                       className="px-2 py-1.5 text-[10px] uppercase text-white bg-[#00000029] border border-white/10 rounded-lg hover:text-white hover:border-white/30 transition">
                       Clear
                     </button>
@@ -3825,9 +3825,9 @@ ${deskRules.join("\n")}
                       : ["transparent", "rgba(255,255,255,0.02)", "rgba(255,255,255,0.03)", "rgba(255,255,255,0.05)", "rgba(18,18,24,0.45)", "rgba(15,5,29,0.55)"]
                     ).map((preset) => (
                       <button
- key={preset}
- type="button"
- onClick={() => updateToken(item.category, item.token, preset)}
+                        key={preset}
+                        type="button"
+                        onClick={() => updateToken(item.category, item.token, preset)}
                         className={`px-2 py-1 rounded text-[12px]    border transition ${currentValue === preset ? "bg-pink-600/40 border-pink-400 text-pink-200"
                           : " bg-[#00000029] border-white/10 text-white/50 hover:text-white"
                           }`}>
@@ -3884,9 +3884,9 @@ ${deskRules.join("\n")}
                     { id: "interior", label: "Interior Rooms", desc: "Efficient, comfortable, and budget-friendly." },
                   ].map(tab => (
                     <button
- key={tab.id}
- type="button"
- onClick={() => setStateroomTab(tab.id as any)}
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setStateroomTab(tab.id as any)}
                       className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 text-white"
                         : " bg-[#00000029] hover:bg-white/10 text-white/80"
                         }`}>
@@ -3946,9 +3946,9 @@ ${deskRules.join("\n")}
                   <div className="flex gap-1.5 bg-[#00000029] p-1.5 border border-white/10 rounded-xl">
                     {(["sea", "sky", "star"] as const).map(perk => (
                       <button
- key={perk}
- type="button"
- onClick={() => setSuiteTab(perk)}
+                        key={perk}
+                        type="button"
+                        onClick={() => setSuiteTab(perk)}
                         className={`px-4 py-2 rounded-lg    uppercase transition-colors cursor-pointer ${suiteTab === perk ? "bg-cyan-600 text-white shadow-cyan-600/30"
                           : "   text-white hover:text-white"
                           }`}>
@@ -4072,8 +4072,8 @@ ${deskRules.join("\n")}
                 const isYo = room.code === "YO";
                 return (
                   <div
- key={room.code}
- className="overflow-hidden rounded-lg flex flex-col justify-between group relative shadow-none border-0 ">
+                    key={room.code}
+                    className="overflow-hidden rounded-lg flex flex-col justify-between group relative shadow-none border-0 ">
                     {isYo && (
                       <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] uppercase px-2.5 py-1 rounded-lg flex items-center gap-1 border-0 z-10">
                         <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
@@ -4089,7 +4089,7 @@ ${deskRules.join("\n")}
                       <div className="px-0 py-5">
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
                           <span className={`text-[10px] uppercase px-2.5 py-0.5 rounded border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'
- }`}>{room.label}</span>
+                            }`}>{room.label}</span>
                         </div>
                         <span className="text-[10px] text-white/50 uppercase block">{room.code} Category</span>
                         <h4 className="text-white uppercase mt-0.5 text-left">{room.title}</h4>
@@ -4103,10 +4103,10 @@ ${deskRules.join("\n")}
                       </div>
                       <span className="text-[10px] text-white/50 uppercase block ">Rates as of June 27, 2026</span>
                       <button
- type="button"
- className={`mt-4 w-full py-2.5 px-4 rounded-lg uppercase flex items-center justify-center gap-1.5 cursor-pointer border-0 ${isYo ? 'bg-purple-600 hover:bg-purple-500 text-white'
- : 'bg-purple-600 hover:bg-purple-500 text-white'
- }`}>
+                        type="button"
+                        className={`mt-4 w-full py-2.5 px-4 rounded-lg uppercase flex items-center justify-center gap-1.5 cursor-pointer border-0 ${isYo ? 'bg-purple-600 hover:bg-purple-500 text-white'
+                          : 'bg-purple-600 hover:bg-purple-500 text-white'
+                          }`}>
                         <span>Select Prevailing Rate</span>
 
                       </button>
@@ -4360,8 +4360,8 @@ ${deskRules.join("\n")}
                 <div className="space-y-3 mt-6">
                   <span className="text-[10px] text-white/40 uppercase block">2. Frosted Glass Select Crew Group Popover</span>
                   <div
- className="w-full max-w-sm bg-[#14151f]/80backdrop-blur-[18px] border border-white/10 rounded-lg p-4 flex flex-col gap-2 "
- style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
+                    className="w-full max-w-sm bg-[#14151f]/80backdrop-blur-[18px] border border-white/10 rounded-lg p-4 flex flex-col gap-2 "
+                    style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
                     <div className="text-white/90 uppercase px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
                       <span>Select Crew Group</span>
                       <span className="text-white/50 px-2 py-0.5 bg-[#00000029] rounded-lg border border-white/10">3 saved</span>
@@ -4374,9 +4374,9 @@ ${deskRules.join("\n")}
                         { name: "Production Tech Crew", count: "6 members" },
                       ].map((grp, i) => (
                         <button
- key={grp.name}
- type="button"
- className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-white transition-all cursor-pointer border border-white/10 border-white/10 flex items-center gap-3 ">
+                          key={grp.name}
+                          type="button"
+                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-white transition-all cursor-pointer border border-white/10 border-white/10 flex items-center gap-3 ">
                           <span className="w-7 h-7 rounded-lg bg- purple-white/20 border border-purple-500/30 text-purple-300 flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
                             <span className="truncate font-extrabold">{grp.name}</span>
@@ -4417,11 +4417,11 @@ ${deskRules.join("\n")}
                   <div className=" space-y-1.5">
                     <label className="text-[12px] uppercase text-white/50 block">Group Name</label>
                     <input
- type="text"
- readOnly
- value="Weekend Tech Crew"
- className="w-full px-3.5 py-2.5 border border-white/10 rounded-lg text-white"
- />
+                      type="text"
+                      readOnly
+                      value="Weekend Tech Crew"
+                      className="w-full px-3.5 py-2.5 border border-white/10 rounded-lg text-white"
+                    />
                   </div>
 
                   {/* Member selection list item */}
@@ -4461,10 +4461,10 @@ ${deskRules.join("\n")}
                               const isSelected = preset === "STAGE MANAGER" || preset === "LIGHTS";
                               return (
                                 <span
- key={preset}
- className={`px-2 py-0.5 rounded-lg text-[10.5px] uppercase border ${isSelected ? 'bg-purple-600 text-white border-purple-500 '
- : ' bg-[#00000029] border-white/10 text-white/70'
- }`}>
+                                  key={preset}
+                                  className={`px-2 py-0.5 rounded-lg text-[10.5px] uppercase border ${isSelected ? 'bg-purple-600 text-white border-purple-500 '
+                                    : ' bg-[#00000029] border-white/10 text-white/70'
+                                    }`}>
                                   {isSelected ? `✓ ${preset}` : preset}
                                 </span>
                               );

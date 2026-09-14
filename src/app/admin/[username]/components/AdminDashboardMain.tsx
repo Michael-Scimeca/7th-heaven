@@ -209,9 +209,9 @@ const CrewAvatar = React.memo(({ member }: { member: any }) => {
   if (avatarUrl && !imgError) {
     return (
       <img
- src={avatarUrl}
- alt={name}
- onError={() => setImgError(true)}
+        src={avatarUrl}
+        alt={name}
+        onError={() => setImgError(true)}
         className="w-11 h-11 rounded-full object-cover border border-white/10 shrink-0"
       />
     );
@@ -219,8 +219,8 @@ const CrewAvatar = React.memo(({ member }: { member: any }) => {
 
   return (
     <div
- className="w-11 h-11 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center shrink-0 text-white select-none border border-white/10"
- style={{ color: '#ffffff' }}>
+      className="w-11 h-11 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center shrink-0 text-white select-none border border-white/10"
+      style={{ color: '#ffffff' }}>
       {initials}
     </div>
   );
@@ -242,8 +242,8 @@ const SidebarDateButton = React.memo(({
 }) => {
   return (
     <button
- type="button"
- onClick={() => show.date && onClick(show.date)}
+      type="button"
+      onClick={() => show.date && onClick(show.date)}
       className={`w-full text-left px-2 py-1.5 flex items-center border-b border-white/10 gap-2 cursor-pointer transition-colors duration-150 group !rounded-none ${isSelected ? ' bg-[#00000029] !rounded-none'
         : isActiveWeek
           ? ' bg-[#00000029] '
@@ -335,8 +335,8 @@ function DutyRoleEditorPopover({
 
   return (
     <div
- className={`absolute right-0 ${positionClasses} p-4 sm:p-5 bg-[#0f0720]/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3.5 w-[340px] sm:w-[380px] max-h-[85vh] overflow-y-auto custom-scrollbar text-white z-50 animate-[scaleIn_0.15s_ease-out]`}
- onClick={(e) => e.stopPropagation()}>
+      className={`absolute right-0 ${positionClasses} p-4 sm:p-5 bg-[#0f0720]/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3.5 w-[340px] sm:w-[380px] max-h-[85vh] overflow-y-auto custom-scrollbar text-white z-50 animate-[scaleIn_0.15s_ease-out]`}
+      onClick={(e) => e.stopPropagation()}>
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
         <div className="truncate pr-2">
@@ -345,8 +345,8 @@ function DutyRoleEditorPopover({
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           <button
- type="button"
- onClick={(e) => {
+            type="button"
+            onClick={(e) => {
               e.stopPropagation();
               handleSaveDuty(memberId);
             }}
@@ -355,9 +355,9 @@ function DutyRoleEditorPopover({
             {savingDuty ? 'Saving...' : 'Save'}
           </button>
           <button
- type="button"
- aria-label="Cancel editing duty member"
- onClick={(e) => {
+            type="button"
+            aria-label="Cancel editing duty member"
+            onClick={(e) => {
               e.stopPropagation();
               setEditingDutyMemberId(null);
             }}
@@ -376,9 +376,9 @@ function DutyRoleEditorPopover({
             const isSelected = currentList.includes(chip.toUpperCase());
             return (
               <button
- key={chip}
- type="button"
- onClick={() => {
+                key={chip}
+                type="button"
+                onClick={() => {
                   let updated: string[];
                   if (isSelected) {
                     updated = currentList.filter(c => c !== chip.toUpperCase());
@@ -403,18 +403,18 @@ function DutyRoleEditorPopover({
           <span className="text-[10px] uppercase text-white">Custom / Edit Text:</span>
           {editingDutyValue && (
             <button
- type="button"
- onClick={() => setEditingDutyValue('')}
+              type="button"
+              onClick={() => setEditingDutyValue('')}
               className="text-[10px] text-rose-400 hover:text-rose-300 border-none cursor-pointer transition-colors">
               Clear Roles
             </button>
           )}
         </div>
         <GlowInput
- type="text"
- aria-label="Custom duty roles"
- value={editingDutyValue}
- onChange={(e) => setEditingDutyValue(e.target.value)}
+          type="text"
+          aria-label="Custom duty roles"
+          value={editingDutyValue}
+          onChange={(e) => setEditingDutyValue(e.target.value)}
           placeholder="e.g. STAGE HAND, MERCH..."
           className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-purple-400 focus:bg-white/15 transition-all shadow-inner"
           onKeyDown={(e) => {
@@ -3117,17 +3117,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     return (
       <AdminAuthGate
- isWrongRole={isWrongRole}
- adminLoginEmail={adminEmail}
- setAdminLoginEmail={setAdminEmail}
- adminLoginPassword={adminPassword}
- setAdminLoginPassword={setAdminPassword}
- adminLoginError={adminLoginError}
- adminLoginLoading={adminLoginLoading}
- handleAdminLoginSubmit={handleAdminLogin}
- openModal={openModal}
- router={router}
- />
+        isWrongRole={isWrongRole}
+        adminLoginEmail={adminEmail}
+        setAdminLoginEmail={setAdminEmail}
+        adminLoginPassword={adminPassword}
+        setAdminLoginPassword={setAdminPassword}
+        adminLoginError={adminLoginError}
+        adminLoginLoading={adminLoginLoading}
+        handleAdminLoginSubmit={handleAdminLogin}
+        openModal={openModal}
+        router={router}
+      />
     );
   }
 
@@ -3252,7 +3252,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/* Main toggle — auto-saves */}
                   <div onClick={(e) => e.stopPropagation()}>
                     <button
- onClick={async () => {
+                      onClick={async () => {
                         const newActive = !bannerActive;
                         setBannerActive(newActive);
                         await updateGlobalBanner({ isActive: newActive });
@@ -3282,9 +3282,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/* Save status toast */}
                   {bannerSaveStatus && (
                     <div className={`flex items-center gap-2 px-4 py-2.5 text-[0.9rem] uppercase animate-[slideIn_0.3s_ease-out] backdrop-blur-[45px] ${bannerSaveStatus === 'saved'
- ? 'bg-emerald-500/10 text-[var(--color-accent)] border border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
- : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
- }`}>
+                      ? 'bg-emerald-500/10 text-[var(--color-accent)] border border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
+                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
+                      }`}>
                       {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
                     </div>
                   )}
@@ -3293,18 +3293,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex flex-col gap-3 mt-auto">
                     <div className="w-full text-white [&_.ql-editor]:min-h-[200px]">
                       <ReactQuill
- theme="snow"
- value={bannerText}
- onChange={setBannerText}
- placeholder="Alert message (e.g. Weather delay tonight)"
- className="overflow-hidden"
- />
+                        theme="snow"
+                        value={bannerText}
+                        onChange={setBannerText}
+                        placeholder="Alert message (e.g. Weather delay tonight)"
+                        className="overflow-hidden"
+                      />
                     </div>
 
                     {/* Controls row */}
                     <div className="flex flex-wrap items-center justify-between gap-4 py-2 pr-2 pl-0 border-b border-white/5">
                       <button
- onClick={() => updateGlobalBanner()}
+                        onClick={() => updateGlobalBanner()}
                         disabled={bannerUpdating}
                         className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white uppercase rounded-lg border border-[var(--color-accent)]/50 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0">
                         {bannerUpdating ? 'Saving...' : 'Dispatch'}
@@ -3322,9 +3322,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           const isSelected = !!bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - (Date.now() + hours * 3600000)) < 60000;
                           return (
                             <FoolishShrimpButton
- key={label}
- isActive={isSelected}
- onClick={async () => {
+                              key={label}
+                              isActive={isSelected}
+                              onClick={async () => {
                                 const expiry = new Date(Date.now() + hours * 3600000).toISOString();
                                 setBannerExpiresAt(expiry);
                                 await updateGlobalBanner({ expiresAt: expiry });
@@ -3335,8 +3335,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           );
                         })}
                         <FoolishShrimpButton
- isActive={!bannerExpiresAt}
- onClick={async () => {
+                          isActive={!bannerExpiresAt}
+                          onClick={async () => {
                             setBannerExpiresAt(null);
                             await updateGlobalBanner({ expiresAt: null });
                           }}
@@ -3680,9 +3680,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   const renderShopify = () => (
     <div className="overflow-hidden">
       <div
- role="button"
- tabIndex={0}
- onClick={() => toggleSection('shopify')}
+        role="button"
+        tabIndex={0}
+        onClick={() => toggleSection('shopify')}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('shopify'); } }}
         className="py-6 pr- pl-0 border-b border-white/10 flex items-center justify-between select-none hover:bg-white/[0.02] transition-colors cursor-pointer">
         <div className="flex flex-col">
@@ -3697,14 +3697,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           {/* Shopify vs Simulated Toggle */}
           <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
             <FoolishShrimpButton
- isActive={shopifyTab === 'shopify'}
- onClick={() => setShopifyTab('shopify')}
+              isActive={shopifyTab === 'shopify'}
+              onClick={() => setShopifyTab('shopify')}
               className="px-4 py-2 text-xs uppercase cursor-pointer whitespace-nowrap">
               Shopify API
             </FoolishShrimpButton>
             <FoolishShrimpButton
- isActive={shopifyTab === 'simulated'}
- onClick={() => setShopifyTab('simulated')}
+              isActive={shopifyTab === 'simulated'}
+              onClick={() => setShopifyTab('simulated')}
               className="px-4 py-2 text-xs uppercase cursor-pointer whitespace-nowrap">
               Simulated Checkouts
             </FoolishShrimpButton>
@@ -3714,9 +3714,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="flex items-center gap-1.5">
                 {[7, 30, 90].map(d => (
                   <FoolishShrimpButton
- key={d}
- isActive={shopifyPeriod === d}
- onClick={async () => {
+                    key={d}
+                    isActive={shopifyPeriod === d}
+                    onClick={async () => {
                       setShopifyPeriod(d);
                       setShopifyLoading(true);
                       try {
@@ -3731,7 +3731,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 ))}
               </div>
               <button
- onClick={async () => {
+                onClick={async () => {
                   setShopifyLoading(true);
                   try {
                     const res = await fetch(`/api/shopify/orders?days=${shopifyPeriod}`);
@@ -3816,8 +3816,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </td>
                             <td className="px-4 py-3 text-center">
                               <button
- type="button"
- onClick={() => openQrModal(p)}
+                                type="button"
+                                onClick={() => openQrModal(p)}
                                 className="inline-flex items-center justify-center p-1.5 bg-[#00000029] hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
                                 title="View & Print QR Code">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
@@ -3894,10 +3894,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 <td className="px-4 py-3">
                                   <div className="flex items-center gap-3">
                                     <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] shrink-0 ${i === 0 ? 'bg-white/20 text-purple-300 border border-purple-500/30' :
- i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' :
- i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' :
- ' bg-[#00000029] text-white/30 border border-white/10'
- }`}>{i + 1}</span>
+                                      i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' :
+                                        i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' :
+                                          ' bg-[#00000029] text-white/30 border border-white/10'
+                                      }`}>{i + 1}</span>
                                     <span className="truncate max-w-[180px]">{p.title}</span>
                                   </div>
                                 </td>
@@ -3936,9 +3936,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   </span>
                                   <div className="flex-1 h-5 bg-[#00000029] rounded-full overflow-hidden">
                                     <div
- className="h-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48] rounded-full transition-colors duration-500"
- style={{ width: `${Math.max(pct, 2)}%` }}
- />
+                                      className="h-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48] rounded-full transition-colors duration-500"
+                                      style={{ width: `${Math.max(pct, 2)}%` }}
+                                    />
                                   </div>
                                   <span className="text-[0.65rem] text-white w-16 text-right">${Number(amount).toFixed(0)}</span>
                                 </div>
@@ -3993,13 +3993,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               <td className="px-4 py-3">
                                 <div className="flex flex-col gap-1">
                                   <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.financialStatus === 'PAID' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
- : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
- : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
- }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
+                                    : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                                      : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                    }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
                                   {order.fulfillmentStatus && (
                                     <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.fulfillmentStatus === 'FULFILLED' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
- : ' bg-[#00000029] text-white/30 border border-white/10'
- }`}>{order.fulfillmentStatus?.toLowerCase()}</span>
+                                      : ' bg-[#00000029] text-white/30 border border-white/10'
+                                      }`}>{order.fulfillmentStatus?.toLowerCase()}</span>
                                   )}
                                 </div>
                               </td>
@@ -4044,8 +4044,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </td>
                             <td className="px-4 py-3 text-center">
                               <button
- type="button"
- onClick={() => openQrModal(p)}
+                                type="button"
+                                onClick={() => openQrModal(p)}
                                 className="inline-flex items-center justify-center p-1.5 bg-[#00000029] hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
                                 title="View & Print QR Code">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
@@ -4156,16 +4156,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </td>
                             <td className="px-4 py-3">
                               <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase ${order.source === 'Flash Drop' ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30'
- : order.source === 'Raffle' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
- : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
- }`}>{order.source}</span>
+                                : order.source === 'Raffle' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                  : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
+                                }`}>{order.source}</span>
                             </td>
                             <td className="px-4 py-3">
                               <div className="flex flex-col gap-1">
                                 <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
- : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
- : ' bg-[#00000029] text-white/40 border border-white/10'
- }`}>{order.status}</span>
+                                  : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                    : ' bg-[#00000029] text-white/40 border border-white/10'
+                                  }`}>{order.status}</span>
                                 {order.trackingNumber && (
                                   <div className="text-[0.55rem] text-[var(--color-accent)]/80 mt-0.5">
                                     {order.trackingNumber}
@@ -4176,14 +4176,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <td className="px-4 py-3">
                               {order.status === 'Pending' && order.method === 'shipping' && (
                                 <button
- onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
+                                  onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
                                   className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] uppercase rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)] active:scale-95">
                                   Ship Package
                                 </button>
                               )}
                               {order.status === 'Ready for Pickup' && (
                                 <button
- onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
+                                  onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
                                   className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[0.55rem] uppercase rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)] active:scale-95">
                                   Claim Merch
                                 </button>
@@ -4256,9 +4256,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-3 p-4 items-center">
                       {/* Client */}
                       <div
- role="button"
- tabIndex={0}
- onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}
                         onKeyDown={(e) => {
                           if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault();
@@ -4278,10 +4278,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               <p className="text-purple-300 uppercase text-[11px]">Set Official Load-In / Out Time:</p>
                               <div className="input-glow-border rounded-lg w-full">
                                 <input
- type="text"
- autoFocus
- value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
- onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
+                                  type="text"
+                                  autoFocus
+                                  value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
+                                  onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
                                   onKeyDown={async (e) => {
                                     if (e.key === "Enter") {
                                       e.preventDefault();
@@ -4297,15 +4297,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               </div>
                               <div className="flex items-center justify-between gap-1.5 pt-0.5">
                                 <button
- type="button"
- onClick={(e) => { e.stopPropagation(); setEditingInlineLoadInId(null); }}
+                                  type="button"
+                                  onClick={(e) => { e.stopPropagation(); setEditingInlineLoadInId(null); }}
                                   className="px-2 py-1 text-[12px] uppercase text-white/50 hover:text-white transition-colors cursor-pointer">
                                   Cancel
                                 </button>
                                 <button
- type="button"
- disabled={loadInSaving[b.bookingId]}
- onClick={async (e) => {
+                                  type="button"
+                                  disabled={loadInSaving[b.bookingId]}
+                                  onClick={async (e) => {
                                     e.stopPropagation();
                                     await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
                                     setEditingInlineLoadInId(null);
@@ -4317,12 +4317,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
                           ) : (
                             <button
- type="button"
- onClick={(e) => { e.stopPropagation(); setEditingInlineLoadInId(b.bookingId); }}
+                              type="button"
+                              onClick={(e) => { e.stopPropagation(); setEditingInlineLoadInId(b.bookingId); }}
                               title="Click to set official load-in/out time and email planner"
                               className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem]    uppercase px-2.5 py-1 rounded-full transition-all cursor-pointer active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime)
                                 ? "text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 animate-pulse"
-                                : " bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30"
+                                : " bg-cyan-500/15 hover:bg-cyan-500/25 border border-purple-500/30"
                                 }`}>
                               {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) ? (
                                 <>⚡ Load-In Unsure (Click to Set) ✍️</>
@@ -4356,9 +4356,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         {b.status === 'pending' && (
                           <div className="flex items-center gap-1.5 ml-1">
                             <button
- aria-label="Approve booking"
- disabled={updatingBookingId === b.bookingId}
- onClick={async () => {
+                              aria-label="Approve booking"
+                              disabled={updatingBookingId === b.bookingId}
+                              onClick={async () => {
                                 if (bookingUpdatingRef.current) return;
                                 if (!confirm(`Approve booking ${b.bookingId}?`)) return;
                                 bookingUpdatingRef.current = true;
@@ -4375,9 +4375,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {updatingBookingId === b.bookingId ? '...' : 'Approve'}
                             </button>
                             <button
- aria-label="Reject booking"
- disabled={updatingBookingId === b.bookingId}
- onClick={async () => {
+                              aria-label="Reject booking"
+                              disabled={updatingBookingId === b.bookingId}
+                              onClick={async () => {
                                 if (bookingUpdatingRef.current) return;
                                 if (!confirm(`Reject booking ${b.bookingId}?`)) return;
                                 bookingUpdatingRef.current = true;
@@ -4468,16 +4468,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                             <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap pt-1">
                               <input
- type="text"
- value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
- onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
+                                type="text"
+                                value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
+                                onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
                                 placeholder="e.g. 5:00 PM (2 hours before show)"
-                                className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-3.5 py-2 text-white focus:border-cyan-400 focus:outline-none placeholder:text-white/30"
+                                className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-3.5 py-2 text-white focus:border-purple-400 focus:outline-none placeholder:text-white/30"
                               />
                               <button
- type="button"
- disabled={loadInSaving[b.bookingId]}
- onClick={() => handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email)}
+                                type="button"
+                                disabled={loadInSaving[b.bookingId]}
+                                onClick={() => handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email)}
                                 className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white uppercase rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0">
                                 {loadInSaving[b.bookingId] ? "Sending..." : "Save & Email Planner ✉️"}
                               </button>
@@ -4704,12 +4704,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
                     <div className="flex gap-2 shrink-0">
                       <button
- onClick={() => moderateMemory(mem.id, 'reject')}
+                        onClick={() => moderateMemory(mem.id, 'reject')}
                         className="px-4 py-2 uppercase text-white bg-red-600 hover:bg-red-500 transition-colors rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer">
                         Reject
                       </button>
                       <button
- onClick={() => moderateMemory(mem.id, 'approve')}
+                        onClick={() => moderateMemory(mem.id, 'approve')}
                         className="px-4 py-2 uppercase text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.3)]">
                         Approve
                       </button>
@@ -4787,12 +4787,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <td className="p-4 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <Link
- href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
- className="px-4 py-2 bg-[#00000029] hover:bg-white/10 text-white hover:text-white border border-white/10 text-[0.9rem] uppercase rounded-lg transition-colors inline-block">
+                            href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
+                            className="px-4 py-2 bg-[#00000029] hover:bg-white/10 text-white hover:text-white border border-white/10 text-[0.9rem] uppercase rounded-lg transition-colors inline-block">
                             View
                           </Link>
                           <button
- onClick={() => killStream(feed)}
+                            onClick={() => killStream(feed)}
                             className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.9rem] uppercase rounded-lg transition-colors">
                             Shut Down
                           </button>
@@ -4812,9 +4812,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   const renderSmsBlast = () => (
     <div className="overflow-hidden">
       <div
- role="button"
- tabIndex={0}
- onClick={() => toggleSection('smsblast')}
+        role="button"
+        tabIndex={0}
+        onClick={() => toggleSection('smsblast')}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('smsblast'); } }}
         className="py-6 pl-0 border-b border-white/10 flex items-center justify-between select-none hover:bg-white/[0.02] !rounded-none cursor-pointer">
         <div className="flex flex-col">
@@ -4829,15 +4829,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="flex items-center gap-4">
             {/* Auto-blast toggle */}
             <div
- className="flex items-center gap-2"
- onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-2"
+              onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}>
               <span className="uppercase text-white/30">Auto-Blast</span>
               <SquishyToggle
- id="sms-auto-blast-toggle"
- label="Toggle Auto-Blast"
- checked={smsAutoBlast}
- onChange={async (newVal) => {
+                id="sms-auto-blast-toggle"
+                label="Toggle Auto-Blast"
+                checked={smsAutoBlast}
+                onChange={async (newVal) => {
                   setSmsAutoBlast(newVal);
                   try {
                     await fetch('/api/admin/settings', {
@@ -4873,8 +4873,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="flex items-center gap-2">
                 <span className="uppercase">Days before:</span>
                 <GooeyMessagesDropdown
- selected={String(smsAutoBlastDays)}
- options={[1, 2, 3, 5, 7].map(d => ({ label: String(d), value: String(d) }))}
+                  selected={String(smsAutoBlastDays)}
+                  options={[1, 2, 3, 5, 7].map(d => ({ label: String(d), value: String(d) }))}
                   onChange={async (selectedVal: string) => {
                     const d = parseInt(selectedVal, 10);
                     if (isNaN(d)) return;
@@ -4904,13 +4904,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="space-y-4">
               <div>
                 <Dropdown
- id="sms-selected-show-select"
- fullWidth={false}
- placeholder="Select an upcoming show"
- selected={smsSelectedShow}
- options={[
- { label: "Select an upcoming show", value: "" },
- ...smsShows.map((show: any) => {
+                  id="sms-selected-show-select"
+                  fullWidth={false}
+                  placeholder="Select an upcoming show"
+                  selected={smsSelectedShow}
+                  options={[
+                    { label: "Select an upcoming show", value: "" },
+                    ...smsShows.map((show: any) => {
                       const dateStr = (() => {
                         try {
                           const d = new Date(show.date + 'T12:00:00');
@@ -5033,11 +5033,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   {/* Real iPhone 16 Pro Frame Device */}
                   <div
- className="relative mx-auto w-[330px] h-[660px] select-none filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)] overflow-hidden rounded-[52px]"
- style={{
- clipPath: "inset(5.2% 8.8% 5.2% 8.8% round 52px)",
- WebkitClipPath: "inset(5.2% 8.8% 5.2% 8.8% round 52px)",
- }}>
+                    className="relative mx-auto w-[330px] h-[660px] select-none filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)] overflow-hidden rounded-[52px]"
+                    style={{
+                      clipPath: "inset(5.2% 8.8% 5.2% 8.8% round 52px)",
+                      WebkitClipPath: "inset(5.2% 8.8% 5.2% 8.8% round 52px)",
+                    }}>
                     {/* Screen Content placed precisely inside the screen cutout */}
                     <div className="absolute top-[24px] left-[20px] right-[20px] bottom-[24px] rounded-[44px] overflow-hidden bg-[#07070b] flex flex-col justify-between pt-7">
                       {/* Status Bar */}
@@ -5083,12 +5083,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Real iPhone 16 Pro Bezel Frame Image Overlay */}
                     <NextImage
- src="/images/mockups/iphone-frame.png"
- alt="iPhone 16 Pro Frame"
- fill
- sizes="(max-width: 768px) 100vw, 380px"
- className="object-contain pointer-events-none z-20"
- />
+                      src="/images/mockups/iphone-frame.png"
+                      alt="iPhone 16 Pro Frame"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 380px"
+                      className="object-contain pointer-events-none z-20"
+                    />
                   </div>
 
                   {/* Character & Segment Stats */}
@@ -5114,12 +5114,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </span>
                     <div className="w-full text-black [&_.ql-editor]:min-h-[110px] relative z-20">
                       <ReactQuill
- theme="snow"
- value={smsCustomMsg}
- onChange={setSmsCustomMsg}
- placeholder="Leave empty to use the auto-generated message above"
- className="text-white overflow-hidden"
- />
+                        theme="snow"
+                        value={smsCustomMsg}
+                        onChange={setSmsCustomMsg}
+                        placeholder="Leave empty to use the auto-generated message above"
+                        className="text-white overflow-hidden"
+                      />
                     </div>
                   </div>
 
@@ -5170,8 +5170,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       )}
                     </div>
                     <button
- disabled={smsSending || !smsSelectedShow}
- onClick={async () => {
+                      disabled={smsSending || !smsSelectedShow}
+                      onClick={async () => {
                         if (smsSendingRef.current) return;
                         const show = smsShows.find((s: any) => s._id === smsSelectedShow);
                         if (!show) return;
@@ -5509,8 +5509,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="flex items-center gap-2">
                       <span className="uppercase text-black/60 dark:text-white/40 block">Choose Recipients</span>
                       <button
- type="button"
- onClick={() => setIsManageRolesModalOpen(true)}
+                        type="button"
+                        onClick={() => setIsManageRolesModalOpen(true)}
                         className=" border-none p-0 text-white/70 hover:text-white underline decoration-purple-400/60 underline-offset-4 hover:decoration-purple-400 transition-all cursor-pointer flex items-center gap-1">
                         <Plus className="w-3 h-3 text-purple-400" />
                         <span>Manage Preset Roles</span>
@@ -5543,19 +5543,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             return (
                               <li key={r.id} className="border-b border-white/10 last:border-b-0 list-none bg-[#00000029] !mb-0">
                                 <div
- className={`flex items-center justify-between gap-2.5 px-2.5 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked ? 'text-white'
- : ''
- }`}
- title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}>
+                                  className={`flex items-center justify-between gap-2.5 px-2.5 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked ? 'text-white'
+                                    : ''
+                                    }`}
+                                  title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}>
                                   <div
- role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggleMember(r); } }}
+                                    role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggleMember(r); } }}
                                     onClick={() => handleToggleMember(r)}
                                     className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer border-none">
                                     <SquishyToggle
- id={`roster-toggle-1-${r.id}`}
- label={`Select ${r.name}`}
- checked={isChecked}
- onChange={() => handleToggleMember(r)}
+                                      id={`roster-toggle-1-${r.id}`}
+                                      label={`Select ${r.name}`}
+                                      checked={isChecked}
+                                      onChange={() => handleToggleMember(r)}
                                     />
 
                                     {/* Avatar */}
@@ -5563,10 +5563,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
                                       return avatarSrc ? (
                                         <img
- src={avatarSrc}
- alt={r.name}
- className={` w-11 h-11 rounded-full object-cover shrink-0 border-2 border-white ${!r.phone ? 'opacity-40' : ''}`}
- onError={(e) => {
+                                          src={avatarSrc}
+                                          alt={r.name}
+                                          className={` w-11 h-11 rounded-full object-cover shrink-0 border-2 border-white ${!r.phone ? 'opacity-40' : ''}`}
+                                          onError={(e) => {
                                             const fallback = resolveMemberAvatar(r.name, '');
                                             if (fallback && !e.currentTarget.src.endsWith(fallback)) {
                                               e.currentTarget.src = fallback;
@@ -5575,7 +5575,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         />
                                       ) : (
                                         <div
- className={` w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 shrink-0 flex items-center justify-center text-white uppercase ${!r.phone ? 'opacity-40' : ''}`}>
+                                          className={` w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 shrink-0 flex items-center justify-center text-white uppercase ${!r.phone ? 'opacity-40' : ''}`}>
                                           {getFirstAndLastInitials(r.name)}
                                         </div>
                                       );
@@ -5589,8 +5589,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   <div className="flex items-center gap-1.5 shrink-0 relative">
                                     {r.duty ? (
                                       <button
- type="button"
- onClick={(e) => {
+                                        type="button"
+                                        onClick={(e) => {
                                           e.stopPropagation();
                                           setEditingDutyMemberId(isEditingThis ? null : editKey);
                                           setEditingDutyValue(r.duty || '');
@@ -5601,8 +5601,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       </button>
                                     ) : (
                                       <button
- type="button"
- onClick={(e) => {
+                                        type="button"
+                                        onClick={(e) => {
                                           e.stopPropagation();
                                           setEditingDutyMemberId(isEditingThis ? null : editKey);
                                           setEditingDutyValue(r.duty || '');
@@ -5615,8 +5615,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     )}
 
                                     <button
- type="button"
- onClick={(e) => {
+                                      type="button"
+                                      onClick={(e) => {
                                         e.stopPropagation();
                                         setEditingDutyMemberId(isEditingThis ? null : editKey);
                                         setEditingDutyValue(r.duty || '');
@@ -5628,16 +5628,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                     {isEditingThis && (
                                       <DutyRoleEditorPopover
- memberName={r.name}
- editKey={editKey}
- editingDutyValue={editingDutyValue}
- setEditingDutyValue={setEditingDutyValue}
- handleSaveDuty={handleSaveDuty}
- savingDuty={savingDuty}
- setEditingDutyMemberId={setEditingDutyMemberId}
- presetRoles={presetRoles}
- memberId={r.id}
- position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
+                                        memberName={r.name}
+                                        editKey={editKey}
+                                        editingDutyValue={editingDutyValue}
+                                        setEditingDutyValue={setEditingDutyValue}
+                                        handleSaveDuty={handleSaveDuty}
+                                        savingDuty={savingDuty}
+                                        setEditingDutyMemberId={setEditingDutyMemberId}
+                                        presetRoles={presetRoles}
+                                        memberId={r.id}
+                                        position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
                                       />
                                     )}
                                   </div>
@@ -5657,8 +5657,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div>
                       <div className="flex items-center justify-between mb-6">
                         <CosmicRadialButton
- type="button"
- onClick={() => {
+                          type="button"
+                          onClick={() => {
                             setNewSmsGroupError('');
                             setShowSaveSmsGroup(true);
                           }}
@@ -5668,15 +5668,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </CosmicRadialButton>
                       </div>
                       <Dropdown
- id="crew-sms-select-group"
- fullWidth={false}
- placeholder="Choose a group..."
- selected={selectedGroup}
- options={[
- { label: "Choose a group...", value: "" },
- { label: `All Crew & Admins (${recipients.length})`, value: "all" },
- { label: "Create New Group...", value: "CREATE_NEW" },
- ...crewGroups.map((g) => ({ label: `${g.name} (${g.memberIds.length})`, value: g.name })),
+                        id="crew-sms-select-group"
+                        fullWidth={false}
+                        placeholder="Choose a group..."
+                        selected={selectedGroup}
+                        options={[
+                          { label: "Choose a group...", value: "" },
+                          { label: `All Crew & Admins (${recipients.length})`, value: "all" },
+                          { label: "Create New Group...", value: "CREATE_NEW" },
+                          ...crewGroups.map((g) => ({ label: `${g.name} (${g.memberIds.length})`, value: g.name })),
                         ]}
                         onChange={(val) => {
                           if (val === 'CREATE_NEW') {
@@ -5692,14 +5692,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Select Show */}
                     <div>
                       <Dropdown
- id="crew-sms-select-show"
- fullWidth={false}
- placeholder="Choose a show..."
- selected={smsSelectedShowDate}
- options={[
- { label: "Choose a show...", value: "" },
- ...tourDates
- .filter((show: any) => show.date)
+                        id="crew-sms-select-show"
+                        fullWidth={false}
+                        placeholder="Choose a show..."
+                        selected={smsSelectedShowDate}
+                        options={[
+                          { label: "Choose a show...", value: "" },
+                          ...tourDates
+                            .filter((show: any) => show.date)
                             .sort((a: any, b: any) => a.date.localeCompare(b.date))
                             .map((show: any) => ({
                               label: `${show.date} - ${show.venue || show.venue_name || 'Show'}`,
@@ -5722,8 +5722,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <span className="text-white">{showVenue} ({smsSelectedShowDate})</span>
                           </div>
                           <button
- type="button"
- onClick={() => selectShowForSms('')}
+                            type="button"
+                            onClick={() => selectShowForSms('')}
                             className="text-white/40 hover:text-white transition-colors border-none cursor-pointer"
                             title="Clear targeted show">
 
@@ -5746,8 +5746,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div className="flex items-center justify-between">
                             <span className="text-[0.65rem] text-white/40 uppercase">Group Members ({names.length})</span>
                             <button
- type="button"
- onClick={() => {
+                              type="button"
+                              onClick={() => {
                                 if (confirm(`Are you sure you want to delete the group "${group.name}"?`)) {
                                   const updated = crewGroups.filter(g => g.name !== group.name);
                                   setCrewGroups(updated);
@@ -5773,10 +5773,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div className="flex flex-col gap-1">
                             <label htmlFor="admin-new-sms-group-name" className="text-[0.55rem] uppercase text-white/40">New Group Name</label>
                             <GlowInput
- id="admin-new-sms-group-name"
- type="text"
- value={newSmsGroupName}
- onChange={(e) => {
+                              id="admin-new-sms-group-name"
+                              type="text"
+                              value={newSmsGroupName}
+                              onChange={(e) => {
                                 setNewSmsGroupName(e.target.value);
                                 if (newSmsGroupError) setNewSmsGroupError('');
                               }}
@@ -5800,32 +5800,32 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     const displayRole = r.duty || r.role || 'CREW';
                                     return (
                                       <div
- key={r.id}
- className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-2 px-1.5 hover:bg-white/10 relative">
+                                        key={r.id}
+                                        className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-2 px-1.5 hover:bg-white/10 relative">
                                         <div
- className="flex items-center gap-2 cursor-pointer flex-1"
- onClick={() => {
+                                          className="flex items-center gap-2 cursor-pointer flex-1"
+                                          onClick={() => {
                                             if (newSmsGroupError) setNewSmsGroupError("");
                                             handleToggleMember(r);
                                           }}>
                                           <SquishyToggle
- id={`roster-toggle-popover-${r.id}`}
- label={`Select ${r.name}`}
- checked={isChecked}
- onChange={() => handleToggleMember(r)}
+                                            id={`roster-toggle-popover-${r.id}`}
+                                            label={`Select ${r.name}`}
+                                            checked={isChecked}
+                                            onChange={() => handleToggleMember(r)}
                                           />
                                           {(() => {
                                             const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
                                             return avatarSrc ? (
                                               <img
- src={avatarSrc}
- alt={r.name}
- className="w-7 h-7 rounded-full object-cover shrink-0 border border-purple-400/40 shadow-sm"
- />
+                                                src={avatarSrc}
+                                                alt={r.name}
+                                                className="w-7 h-7 rounded-full object-cover shrink-0 border border-purple-400/40 shadow-sm"
+                                              />
                                             ) : (
                                               <div
- className="w-7 h-7 rounded-full border border-purple-400/40 shrink-0 flex items-center justify-center text-[10px] text-white uppercase "
- style={{ backgroundColor: getAvatarColor(r.name) }}>
+                                                className="w-7 h-7 rounded-full border border-purple-400/40 shrink-0 flex items-center justify-center text-[10px] text-white uppercase "
+                                                style={{ backgroundColor: getAvatarColor(r.name) }}>
                                                 {getFirstAndLastInitials(r.name)}
                                               </div>
                                             );
@@ -5835,8 +5835,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                         <div className="relative shrink-0">
                                           <button
- type="button"
- onClick={(e) => {
+                                            type="button"
+                                            onClick={(e) => {
                                               e.stopPropagation();
                                               setEditingDutyMemberId(isEditingThis ? null : editKey);
                                               setEditingDutyValue(r.duty || r.role || '');
@@ -5846,16 +5846,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                             <span className="truncate">{displayRole}</span>
                                             {isEditingThis && (
                                               <DutyRoleEditorPopover
- memberName={r.name}
- editKey={editKey}
- editingDutyValue={editingDutyValue}
- setEditingDutyValue={setEditingDutyValue}
- handleSaveDuty={handleSaveDuty}
- savingDuty={savingDuty}
- setEditingDutyMemberId={setEditingDutyMemberId}
- presetRoles={presetRoles}
- memberId={r.id}
- position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
+                                                memberName={r.name}
+                                                editKey={editKey}
+                                                editingDutyValue={editingDutyValue}
+                                                setEditingDutyValue={setEditingDutyValue}
+                                                handleSaveDuty={handleSaveDuty}
+                                                savingDuty={savingDuty}
+                                                setEditingDutyMemberId={setEditingDutyMemberId}
+                                                presetRoles={presetRoles}
+                                                memberId={r.id}
+                                                position={rIndex >= rArr.length / 2 ? 'top' : 'bottom'}
                                               />
                                             )}
                                           </button>
@@ -5876,15 +5876,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                           <div className="flex items-center gap-2 mt-1">
                             <CosmicRadialButton
- type="button"
- onClick={handleSaveSmsGroup}
- icon={false}
- className="px-4 py-2 uppercase cursor-pointer flex-1">
+                              type="button"
+                              onClick={handleSaveSmsGroup}
+                              icon={false}
+                              className="px-4 py-2 uppercase cursor-pointer flex-1">
                               Save Group
                             </CosmicRadialButton>
                             <button
- type="button"
- onClick={() => {
+                              type="button"
+                              onClick={() => {
                                 setNewSmsGroupError('');
                                 setShowSaveSmsGroup(false);
                               }}
@@ -5895,8 +5895,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                       ) : (
                         <CosmicRadialButton
- type="button"
- onClick={() => {
+                          type="button"
+                          onClick={() => {
                             setNewSmsGroupError('');
                             setShowSaveSmsGroup(true);
                           }}
@@ -5920,8 +5920,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </p>
                     )}
                     <button
- disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
- onClick={async () => {
+                      disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
+                      onClick={async () => {
                         const sendCount = selectedCrewPhones.length > 0 ? selectedCrewPhones.length : recipients.length;
                         if (crewAlertSendingRef.current) return;
                         const isAll = selectedCrewPhones.length === 0;
@@ -6004,17 +6004,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* SMS & Email Option Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div
- role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendSmsAlert(prev => !prev); } }}
+                    role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendSmsAlert(prev => !prev); } }}
                     onClick={() => setSendSmsAlert(prev => !prev)}
                     className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendSmsAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                       : 'bg-white/[0.01] text-white/40'
                       }`}>
                     <div className="flex items-center gap-2">
                       <SquishyToggle
- id="alert-sms-toggle"
- label="SMS TEXTS"
- checked={sendSmsAlert}
- onChange={(val) => setSendSmsAlert(val)}
+                        id="alert-sms-toggle"
+                        label="SMS TEXTS"
+                        checked={sendSmsAlert}
+                        onChange={(val) => setSendSmsAlert(val)}
                       />
                       <span className="uppercase text-purple-300">SMS TEXTS</span>
                     </div>
@@ -6022,17 +6022,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   <div
- role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendEmailAlert(prev => !prev); } }}
+                    role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendEmailAlert(prev => !prev); } }}
                     onClick={() => setSendEmailAlert(prev => !prev)}
                     className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendEmailAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                       : 'bg-white/[0.01] text-white/40'
                       }`}>
                     <div className="flex items-center gap-2">
                       <SquishyToggle
- id="alert-email-toggle"
- label="EMAIL ALERTS"
- checked={sendEmailAlert}
- onChange={(val) => setSendEmailAlert(val)}
+                        id="alert-email-toggle"
+                        label="EMAIL ALERTS"
+                        checked={sendEmailAlert}
+                        onChange={(val) => setSendEmailAlert(val)}
                       />
                       <span className="uppercase text-purple-300">EMAIL ALERTS</span>
                     </div>
@@ -6041,17 +6041,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   {sendSmsAlert && (
                     <div
- role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCrewSendAsGroup(prev => !prev); } }}
+                      role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCrewSendAsGroup(prev => !prev); } }}
                       onClick={() => setCrewSendAsGroup(prev => !prev)}
                       className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${crewSendAsGroup ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                         : 'bg-white/[0.01] text-white/40'
                         }`}>
                       <div className="flex items-center gap-2">
                         <SquishyToggle
- id="alert-group-toggle"
- label="SEND AS GROUP TEXT"
- checked={crewSendAsGroup}
- onChange={(val) => setCrewSendAsGroup(val)}
+                          id="alert-group-toggle"
+                          label="SEND AS GROUP TEXT"
+                          checked={crewSendAsGroup}
+                          onChange={(val) => setCrewSendAsGroup(val)}
                         />
                         <span className="uppercase text-purple-300">SEND AS GROUP TEXT</span>
                       </div>
@@ -6071,8 +6071,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </p>
                   )}
                   <button
- disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
- onClick={async () => {
+                    disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
+                    onClick={async () => {
                       const sendCount = selectedCrewPhones.length > 0 ? selectedCrewPhones.length : recipients.length;
                       if (crewAlertSendingRef.current) return;
                       const isAll = selectedCrewPhones.length === 0;
@@ -6181,11 +6181,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     <div className="w-full h-[380px] overflow-hidden border border-white/10 shadow-inner bg-[#050508]">
                       <iframe
- srcDoc={emailHtmlPreview}
- title="Crew Email Template Live Preview"
- className="w-full h-full border-none"
- sandbox="allow-same-origin"
- />
+                        srcDoc={emailHtmlPreview}
+                        title="Crew Email Template Live Preview"
+                        className="w-full h-full border-none"
+                        sandbox="allow-same-origin"
+                      />
                     </div>
                   </div>
                 </div>
@@ -6196,16 +6196,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {isManageRolesModalOpen && (
                 <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[9999] animate-[fadeIn_0.2s_ease-out] p-4">
                   <div
- className="bg-[#0c0c0e]/85 backdrop-blur-xl border border-white/10 p-6 max-w-md w-full space-y-4 relative animate-[scaleIn_0.2s_ease-out] shadow-2xl"
- onClick={(e) => e.stopPropagation()}>
+                    className="bg-[#0c0c0e]/85 backdrop-blur-xl border border-white/10 p-6 max-w-md w-full space-y-4 relative animate-[scaleIn_0.2s_ease-out] shadow-2xl"
+                    onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center justify-between border-b border-white/10 pb-3">
                       <h3 className="uppercase text-white flex items-center gap-2">
                         <Plus className="w-4 h-4 text-purple-400" />
                         Manage Preset Roles
                       </h3>
                       <button
- type="button"
- onClick={() => setIsManageRolesModalOpen(false)}
+                        type="button"
+                        onClick={() => setIsManageRolesModalOpen(false)}
                         className="text-white/40 hover:text-white transition-colors border-none cursor-pointer">
                         Close
                       </button>
@@ -6216,10 +6216,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <label htmlFor="admin-new-preset-role" className="text-[0.9rem] uppercase text-white/40">Add New Preset Role</label>
                       <div className="flex gap-2">
                         <input
- id="admin-new-preset-role"
- type="text"
- value={newPresetRoleInput}
- onChange={(e) => setNewPresetRoleInput(e.target.value)}
+                          id="admin-new-preset-role"
+                          type="text"
+                          value={newPresetRoleInput}
+                          onChange={(e) => setNewPresetRoleInput(e.target.value)}
                           placeholder="e.g. LIGHTING DESIGNER"
                           className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 outline-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 focus:shadow-[0_0_12px_rgba(168,85,247,0.4)] transition-all"
                           onKeyDown={(e) => {
@@ -6230,8 +6230,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           }}
                         />
                         <button
- type="button"
- onClick={() => {
+                          type="button"
+                          onClick={() => {
                             handleAddPresetRole(newPresetRoleInput);
                             setNewPresetRoleInput('');
                           }}
@@ -6252,8 +6252,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <div key={role} className="flex items-center justify-between gap-3 px-3 py-2 bg-white/[0.02] border border-white/10 rounded-lg hover:bg-white/[0.04]">
                               <span className="text-white/90">{role}</span>
                               <button
- type="button"
- onClick={() => handleDeletePresetRole(role)}
+                                type="button"
+                                onClick={() => handleDeletePresetRole(role)}
                                 className="p-1 -lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 transition-colors cursor-pointer border-none flex items-center justify-center"
                                 title="Delete Preset">
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
@@ -6332,8 +6332,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <span className="text-[0.65rem] uppercase text-white/40 block">Choose Recipients</span>
                     <div className="flex items-center gap-2">
                       <SectionBadge
- label={`Select All (${allBandCombined.length})`}
- isActive={selectedBandPhones.length === allBandCombined.length && allBandCombined.length > 0}
+                        label={`Select All (${allBandCombined.length})`}
+                        isActive={selectedBandPhones.length === allBandCombined.length && allBandCombined.length > 0}
                         onClick={() => {
                           const allKeys = allBandCombined.flatMap(b => { const k = normalizePhoneNumber(b.phone) || b.id || b.name; return k ? [k] : []; });
                           setSelectedBandPhones(allKeys);
@@ -6342,8 +6342,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       />
                       {selectedBandPhones.length > 0 && (
                         <SectionBadge
- label="Clear All"
- onClick={() => setSelectedBandPhones([])}
+                          label="Clear All"
+                          onClick={() => setSelectedBandPhones([])}
                           className="cursor-pointer"
                         />
                       )}
@@ -6386,8 +6386,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                             return (
                               <div
- key={r.id}
- role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSelection(); } }}
+                                key={r.id}
+                                role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSelection(); } }}
                                 onClick={toggleSelection}
                                 className={`flex items-center justify-between !bg-[#00000029] gap-2.5 !px-2 py-3 border-b border-white/10 !rounded-none transition-colors duration-200 cursor-pointer select-none min-h-[48px] ${isChecked ? ' text-white'
                                   : 'hover:bg-white/[0.04] text-white/80'
@@ -6395,10 +6395,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}>
                                 <div className="flex items-center gap-3 flex-1 min-w-0">
                                   <SquishyToggle
- id={`roster-toggle-2-${r.id}`}
- label={`Select ${r.name}`}
- checked={isChecked}
- onChange={() => toggleSelection()}
+                                    id={`roster-toggle-2-${r.id}`}
+                                    label={`Select ${r.name}`}
+                                    checked={isChecked}
+                                    onChange={() => toggleSelection()}
                                   />
 
                                   {/* Avatar */}
@@ -6406,10 +6406,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
                                     return avatarSrc ? (
                                       <img
- src={avatarSrc}
- alt={r.name}
- className="w-11 h-11 rounded-full object-cover shrink-0 border-2 border-white/10"
- onError={(e) => {
+                                        src={avatarSrc}
+                                        alt={r.name}
+                                        className="w-11 h-11 rounded-full object-cover shrink-0 border-2 border-white/10"
+                                        onError={(e) => {
                                           const fallback = resolveMemberAvatar(r.name, '');
                                           if (fallback && !e.currentTarget.src.endsWith(fallback)) {
                                             e.currentTarget.src = fallback;
@@ -6418,8 +6418,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       />
                                     ) : (
                                       <div
- className="w-11 h-11 rounded-full border-2 border-purple-400/50 shrink-0 flex items-center justify-center text-white uppercase "
- style={{ backgroundColor: getAvatarColor(r.name) }}>
+                                        className="w-11 h-11 rounded-full border-2 border-purple-400/50 shrink-0 flex items-center justify-center text-white uppercase "
+                                        style={{ backgroundColor: getAvatarColor(r.name) }}>
                                         {getFirstAndLastInitials(r.name)}
                                       </div>
                                     );
@@ -6449,13 +6449,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div>
                       <label htmlFor="admin-band-sms-show-select" className="text-white/40 block mb-2">Select Upcoming Show</label>
                       <Dropdown
- id="admin-band-sms-show-select"
- fullWidth={true}
- placeholder="-- Choose target show --"
- selected={bandSmsSelectedShowDate}
- options={[
- { label: "-- Choose target show --", value: "" },
- ...tourDates.map((s: any) => ({
+                        id="admin-band-sms-show-select"
+                        fullWidth={true}
+                        placeholder="-- Choose target show --"
+                        selected={bandSmsSelectedShowDate}
+                        options={[
+                          { label: "-- Choose target show --", value: "" },
+                          ...tourDates.map((s: any) => ({
                             label: `${s.date} - ${s.venue || s.venue_name}`,
                             value: s.date,
                           })),
@@ -6472,9 +6472,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <span>Targeting show: <strong>{tourDates.find((s: any) => s.date === bandSmsSelectedShowDate)?.venue || 'Selected show'}</strong></span>
                         </div>
                         <button
- type="button"
- aria-label="Clear selected show"
- onClick={() => selectShowForBandSms('')}
+                          type="button"
+                          aria-label="Clear selected show"
+                          onClick={() => selectShowForBandSms('')}
                           className="text-[var(--color-accent)] hover:text-purple-300 border-none cursor-pointer">
 
                         </button>
@@ -6484,17 +6484,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* SMS / Email Option Toggle Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div
- role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandSmsAlert(prev => !prev); } }}
+                        role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandSmsAlert(prev => !prev); } }}
                         onClick={() => setSendBandSmsAlert(prev => !prev)}
                         className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandSmsAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                           : 'bg-white/[0.01] text-white/40'
                           }`}>
                         <div className="flex items-center gap-2">
                           <SquishyToggle
- id="band-alert-sms-toggle"
- label="SMS TEXTS"
- checked={sendBandSmsAlert}
- onChange={(val) => setSendBandSmsAlert(val)}
+                            id="band-alert-sms-toggle"
+                            label="SMS TEXTS"
+                            checked={sendBandSmsAlert}
+                            onChange={(val) => setSendBandSmsAlert(val)}
                           />
                           <span className="uppercase text-purple-300">SMS TEXTS</span>
                         </div>
@@ -6502,17 +6502,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
 
                       <div
- role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandEmailAlert(prev => !prev); } }}
+                        role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandEmailAlert(prev => !prev); } }}
                         onClick={() => setSendBandEmailAlert(prev => !prev)}
                         className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandEmailAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                           : 'bg-white/[0.01] text-white/40'
                           }`}>
                         <div className="flex items-center gap-2">
                           <SquishyToggle
- id="band-alert-email-toggle"
- label="EMAIL ALERTS"
- checked={sendBandEmailAlert}
- onChange={(val) => setSendBandEmailAlert(val)}
+                            id="band-alert-email-toggle"
+                            label="EMAIL ALERTS"
+                            checked={sendBandEmailAlert}
+                            onChange={(val) => setSendBandEmailAlert(val)}
                           />
                           <span className="uppercase text-purple-300">EMAIL ALERTS</span>
                         </div>
@@ -6526,10 +6526,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <label htmlFor="admin-band-email-subject" className="text-[0.9rem] uppercase text-white/50 block">EMAIL SUBJECT LINE</label>
                         <div className="input-glow-border rounded-lg w-full">
                           <input
- id="admin-band-email-subject"
- type="text"
- value={bandEmailSubject}
- onChange={(e) => setBandEmailSubject(e.target.value)}
+                            id="admin-band-email-subject"
+                            type="text"
+                            value={bandEmailSubject}
+                            onChange={(e) => setBandEmailSubject(e.target.value)}
                             placeholder="e.g. Band Schedule Update"
                             className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 transition-colors"
                           />
@@ -6542,9 +6542,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <label htmlFor="admin-band-broadcast-msg" className="text-[0.65rem] uppercase text-white/50 block">BROADCAST MESSAGE</label>
                       <div className="input-glow-border rounded-lg w-full">
                         <textarea
- id="admin-band-broadcast-msg"
- value={bandAlertMsg}
- onChange={(e) => setBandAlertMsg(e.target.value)}
+                          id="admin-band-broadcast-msg"
+                          value={bandAlertMsg}
+                          onChange={(e) => setBandAlertMsg(e.target.value)}
                           placeholder="Write message to send..."
                           rows={5}
                           style={{ backgroundColor: '#181924', color: '#ffffff' }}
@@ -6556,8 +6556,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Feedback Logs */}
                     {bandAlertResult && (
                       <div className={`p-3 border flex flex-col gap-1 ${bandAlertResult.success ? 'bg-emerald-500/10 border-white/10 text-[var(--color-accent)]'
- : 'bg-red-500/10 border-red-500/20 text-red-400'
- }`}>
+                        : 'bg-red-500/10 border-red-500/20 text-red-400'
+                        }`}>
                         <span className="flex items-center gap-1">
                           {bandAlertResult.success ? ' Dispatch Successful' : ' Dispatch Failed'}
                         </span>
@@ -6572,10 +6572,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Send Button */}
                     <div>
                       <button
- type="button"
- onClick={handleSendBandAlert}
- disabled={bandAlertSending || !bandAlertMsg.trim() || selectedBandPhones.length === 0}
- className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white uppercase rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none">
+                        type="button"
+                        onClick={handleSendBandAlert}
+                        disabled={bandAlertSending || !bandAlertMsg.trim() || selectedBandPhones.length === 0}
+                        className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white uppercase rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none">
                         {bandAlertSending ? (
                           <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
                         ) : (
@@ -6619,9 +6619,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     </div>
                                   </div>
                                   <button
- type="button"
- aria-label="Remove recipient"
- onClick={() => setSelectedBandPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
+                                    type="button"
+                                    aria-label="Remove recipient"
+                                    onClick={() => setSelectedBandPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
                                     className="text-white/30 hover:text-rose-400 transition-colors border-none cursor-pointer p-1 text-[var(--font-size-2xs)] shrink-0">
 
                                   </button>
@@ -6685,11 +6685,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   <div className="w-full h-[380px] overflow-hidden border border-white/10 shadow-inner bg-[#050508]">
                     <iframe
- srcDoc={bandEmailHtmlPreview}
- title="Band Email Template Live Preview"
- className="w-full h-full border-none"
- sandbox="allow-same-origin"
- />
+                      srcDoc={bandEmailHtmlPreview}
+                      title="Band Email Template Live Preview"
+                      className="w-full h-full border-none"
+                      sandbox="allow-same-origin"
+                    />
                   </div>
                 </div>
               </div>
@@ -6727,10 +6727,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-newsletter-blast-subject" className="text-[0.9rem] uppercase text-white/40 mb-2 block">Subject Line</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
- id="admin-newsletter-blast-subject"
- type="text"
- value={blastSubject}
- onChange={e => setBlastSubject(e.target.value)}
+                    id="admin-newsletter-blast-subject"
+                    type="text"
+                    value={blastSubject}
+                    onChange={e => setBlastSubject(e.target.value)}
                     placeholder="e.g.  New Show Announced — Chicago June 15th!"
                     className="w-full border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
                   />
@@ -6740,9 +6740,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-newsletter-blast-body" className="text-[0.9rem] uppercase text-white/40 mb-2 block">Message Body</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <textarea
- id="admin-newsletter-blast-body"
- value={blastBody}
- onChange={e => setBlastBody(e.target.value)}
+                    id="admin-newsletter-blast-body"
+                    value={blastBody}
+                    onChange={e => setBlastBody(e.target.value)}
                     placeholder="Write your announcement here..."
                     rows={6}
                     className="w-full border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors resize-none"
@@ -6759,8 +6759,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   )}
                 </div>
                 <CosmicRadialButton
- disabled={blastSending || !blastSubject.trim() || !blastBody.trim()}
- onClick={async () => {
+                  disabled={blastSending || !blastSubject.trim() || !blastBody.trim()}
+                  onClick={async () => {
                     if (blastSendingRef.current) return;
                     if (!confirm(`Send this email to ALL ${fanDataRef.current?.total || 0} fans?`)) return;
                     blastSendingRef.current = true;
@@ -6899,7 +6899,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
 
               {/* Cruise Flows */}
-              <div className="bg-black/30 border border-cyan-500/10 p-4 flex flex-col justify-between">
+              <div className="bg-black/30 border border-purple-500/10 p-4 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-2 text-[#c27aff] uppercase mb-3">
                     <span></span> Cruise System
@@ -6911,7 +6911,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       { name: 'Cruise Cancellation', trigger: 'Sent when reservation is cancelled by user/admin.' },
                       { name: 'Cruise Community Blast', trigger: 'Sent when cruise admin broadcasts to cruise page chat group.' }
                     ].map((email) => (
-                      <div key={email.name} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg p-2.5 hover:border-cyan-500/30 transition-colors">
+                      <div key={email.name} className="bg-cyan-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
                         <h4>{email.name}</h4>
                         <p className="mt-1 leading-normal">{email.trigger}</p>
                       </div>
@@ -6966,9 +6966,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="flex items-center gap-1.5 p-1 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
             {['All', 'fan', 'crew', 'admin'].map(role => (
               <FoolishShrimpButton
- key={role}
- isActive={filterRole === role}
- onClick={() => setFilterRole(role as any)}
+                key={role}
+                isActive={filterRole === role}
+                onClick={() => setFilterRole(role as any)}
                 className="px-3 py-1.5 text-[0.65rem] uppercase cursor-pointer whitespace-nowrap">
                 {role}
               </FoolishShrimpButton>
@@ -7015,17 +7015,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 const avatarSrc = resolveMemberAvatar(user.name, (user as any).avatar || (user as any).avatar_url);
                                 return avatarSrc ? (
                                   <img
- src={avatarSrc}
- alt={user.name}
- className="w-11 h-11 rounded-full object-cover shrink-0 border border-purple-400/30"
- onError={(e) => {
+                                    src={avatarSrc}
+                                    alt={user.name}
+                                    className="w-11 h-11 rounded-full object-cover shrink-0 border border-purple-400/30"
+                                    onError={(e) => {
                                       (e.currentTarget as HTMLElement).style.display = 'none';
                                     }}
                                   />
                                 ) : (
                                   <div
- className="w-11 h-11 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5"
- style={{ backgroundColor: getAvatarColor(user.name) }}>
+                                    className="w-11 h-11 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5"
+                                    style={{ backgroundColor: getAvatarColor(user.name) }}>
                                     {user.name ? user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) : '?'}
                                   </div>
                                 );
@@ -7041,9 +7041,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div>
                             <div className="flex items-center gap-1.5">
                               <span className={`w-2 h-2 rounded-full ${user.status === 'streaming' ? 'bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]'
- : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]'
- : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
- }`} />
+                                : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]'
+                                  : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+                                }`} />
                               <span className="text-[0.9rem] uppercase text-white/50">{user.status}</span>
                             </div>
                           </div>
@@ -7051,12 +7051,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             {user.role !== 'admin' ? (
                               <div className="flex items-center justify-end gap-2">
                                 <button
- onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
+                                  onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
                                   className="px-3 py-2 bg-[#00000029] border border-white/10 text-white bg-[#00000029] hover:text-white text-[0.9rem] uppercase rounded transition-colors">
                                   {viewingUser === user.id ? 'Hide' : 'View'}
                                 </button>
                                 <button
- onClick={() => banUser(user.id, user.name)}
+                                  onClick={() => banUser(user.id, user.name)}
                                   className="px-3 py-2 bg-[#00000029] border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.9rem] uppercase rounded transition-colors">
                                   Remove
                                 </button>
@@ -7082,7 +7082,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 </span>
                                 {user.role === 'crew' && (
                                   <button
- onClick={async () => {
+                                    onClick={async () => {
                                       const res = await adminResetPassword(user.id, user.email);
                                       if (res.success) {
                                         const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
@@ -7153,11 +7153,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-create-crew-name" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Full Name</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
- id="admin-create-crew-name"
- type="text"
- placeholder="e.g. Alex Rivera"
- value={newCrewName}
- onChange={e => setNewCrewName(e.target.value)}
+                    id="admin-create-crew-name"
+                    type="text"
+                    placeholder="e.g. Alex Rivera"
+                    value={newCrewName}
+                    onChange={e => setNewCrewName(e.target.value)}
                     className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
@@ -7166,11 +7166,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-create-crew-username" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Username</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
- id="admin-create-crew-username"
- type="text"
- placeholder="e.g. alex_7h"
- value={newCrewUsername}
- onChange={e => setNewCrewUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+                    id="admin-create-crew-username"
+                    type="text"
+                    placeholder="e.g. alex_7h"
+                    value={newCrewUsername}
+                    onChange={e => setNewCrewUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                     maxLength={24}
                     className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
@@ -7180,11 +7180,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-create-crew-email" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Email Address</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
- id="admin-create-crew-email"
- type="email"
- placeholder="crew@7thheaven.com"
- value={newCrewEmail}
- onChange={e => setNewCrewEmail(e.target.value)}
+                    id="admin-create-crew-email"
+                    type="email"
+                    placeholder="crew@7thheaven.com"
+                    value={newCrewEmail}
+                    onChange={e => setNewCrewEmail(e.target.value)}
                     className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
@@ -7193,11 +7193,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-create-crew-password" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Password</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
- id="admin-create-crew-password"
- type="password"
- placeholder="Min 6 characters"
- value={newCrewPassword}
- onChange={e => setNewCrewPassword(e.target.value)}
+                    id="admin-create-crew-password"
+                    type="password"
+                    placeholder="Min 6 characters"
+                    value={newCrewPassword}
+                    onChange={e => setNewCrewPassword(e.target.value)}
                     className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
@@ -7206,11 +7206,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-create-crew-phone" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Phone Number <span className="text-purple-300">*</span></label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
- id="admin-create-crew-phone"
- type="tel"
- placeholder="(555) 123-4567"
- value={newCrewPhone}
- onChange={e => {
+                    id="admin-create-crew-phone"
+                    type="tel"
+                    placeholder="(555) 123-4567"
+                    value={newCrewPhone}
+                    onChange={e => {
                       const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
                       if (digits.length <= 3) setNewCrewPhone(digits);
                       else if (digits.length <= 6) setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3)}`);
@@ -7221,9 +7221,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
               </div>
               <FoolishShrimpButton
- onClick={createCrew}
- disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
- className="px-6 py-3 text-[0.7rem] uppercase tracking-[0.15em] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
+                onClick={createCrew}
+                disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
+                className="px-6 py-3 text-[0.7rem] uppercase tracking-[0.15em] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 Create Account
               </FoolishShrimpButton>
@@ -7249,7 +7249,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 shrink-0">Temp Password</span>
                         <code className="text-purple-300 select-all">{createdCrew.password}</code>
                         <button
- onClick={() => { navigator.clipboard.writeText(createdCrew.password); }}
+                          onClick={() => { navigator.clipboard.writeText(createdCrew.password); }}
                           className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
                       </div>
                     </div>
@@ -7257,8 +7257,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button aria-label="Dismiss created crew notification" onClick={() => setCreatedCrew(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0">✕</button>
                 </div>
                 <button
- onClick={scrollToRegistry}
- className="mt-4 w-full py-2.5 bg-emerald-500/10 border border-white/10 text-[var(--color-accent)] text-[0.65rem] uppercase tracking-[0.15em] hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2">
+                  onClick={scrollToRegistry}
+                  className="mt-4 w-full py-2.5 bg-emerald-500/10 border border-white/10 text-[var(--color-accent)] text-[0.65rem] uppercase tracking-[0.15em] hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                   View in Registry ↓
                 </button>
@@ -7329,11 +7329,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-create-admin-name" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Full Name</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
- id="admin-create-admin-name"
- type="text"
- placeholder="e.g. Michael Scimeca"
- value={newAdminName}
- onChange={e => setNewAdminName(e.target.value)}
+                    id="admin-create-admin-name"
+                    type="text"
+                    placeholder="e.g. Michael Scimeca"
+                    value={newAdminName}
+                    onChange={e => setNewAdminName(e.target.value)}
                     className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
@@ -7342,11 +7342,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-create-admin-email" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Email Address</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
- id="admin-create-admin-email"
- type="email"
- placeholder="admin@7thheaven.com"
- value={newAdminEmail}
- onChange={e => setNewAdminEmail(e.target.value)}
+                    id="admin-create-admin-email"
+                    type="email"
+                    placeholder="admin@7thheaven.com"
+                    value={newAdminEmail}
+                    onChange={e => setNewAdminEmail(e.target.value)}
                     className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
@@ -7355,19 +7355,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <label htmlFor="admin-create-admin-username" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Username</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
- id="admin-create-admin-username"
- type="text"
- placeholder="e.g. mikeys"
- value={newAdminUsername}
- onChange={e => setNewAdminUsername(e.target.value)}
+                    id="admin-create-admin-username"
+                    type="text"
+                    placeholder="e.g. mikeys"
+                    value={newAdminUsername}
+                    onChange={e => setNewAdminUsername(e.target.value)}
                     className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
               </div>
               <FoolishShrimpButton
- onClick={createAdmin}
- disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
- className="px-6 py-3 text-[0.7rem] uppercase tracking-[0.15em] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
+                onClick={createAdmin}
+                disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
+                className="px-6 py-3 text-[0.7rem] uppercase tracking-[0.15em] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 {adminCreateLoading ? 'Creating…' : 'Create Admin'}
               </FoolishShrimpButton>
@@ -7393,7 +7393,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 shrink-0">Temp Password</span>
                         <code className="text-purple-300 select-all">{createdAdmin.password}</code>
                         <button
- onClick={() => { navigator.clipboard.writeText(createdAdmin.password); }}
+                          onClick={() => { navigator.clipboard.writeText(createdAdmin.password); }}
                           className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
                       </div>
                       <p className="mt-2"> Welcome email sent to {createdAdmin.email}</p>
@@ -7445,9 +7445,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         const enabled = !!perms[key];
                         return (
                           <button
- key={key}
- type="button"
- onClick={() => {
+                            key={key}
+                            type="button"
+                            onClick={() => {
                               const updated = {
                                 ...adminPermissions,
                                 [email]: {
@@ -7628,7 +7628,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {signups.length > 0 && (
                 <div className="flex items-center justify-between bg-black/20 px-4 py-3 border-t border-r border-l border-white/5">
                   <div className="flex items-center gap-3">
-                    <button aria-label="Select all passenger emails" onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40 ' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/25'}`}>
+                    <button aria-label="Select all passenger emails" onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-purple-500/40 ' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/25'}`}>
                       {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                     </button>
                     <span className="text-[0.9rem] text-white/40 uppercase">
@@ -7636,7 +7636,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </span>
                   </div>
                   <button
- onClick={() => { setCruiseEmailOpen(!cruiseEmailOpen); setCruiseEmailResult(null); }}
+                    onClick={() => { setCruiseEmailOpen(!cruiseEmailOpen); setCruiseEmailResult(null); }}
                     disabled={cruiseSelectedEmails.length === 0}
                     className="px-4 py-2 bg-purple-600/15 hover:bg-purple-600/25 border border-purple-500/30 text-purple-300 text-[0.9rem] uppercase rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
@@ -7647,7 +7647,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
               {/* Email compose panel */}
               {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
-                <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
+                <div className="mb-5 bg-cyan-500/5 border border-purple-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
                   <div className="flex items-center justify-between">
                     <p className="uppercase /60">Compose Cruise Email</p>
                     <button aria-label="Close email compose panel" onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer">✕</button>
@@ -7665,12 +7665,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <label htmlFor="admin-cruise-email-subject" className="text-[0.55rem] uppercase text-white/30 mb-1.5 block">Subject</label>
                     <div className="input-glow-border rounded-lg w-full">
                       <input
- id="admin-cruise-email-subject"
- type="text"
- value={cruiseEmailSubject}
- onChange={e => setCruiseEmailSubject(e.target.value)}
+                        id="admin-cruise-email-subject"
+                        type="text"
+                        value={cruiseEmailSubject}
+                        onChange={e => setCruiseEmailSubject(e.target.value)}
                         placeholder="e.g. Important Cruise Update — Departure Details"
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors"
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-purple-500/50 transition-colors"
                       />
                     </div>
                   </div>
@@ -7678,12 +7678,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <label htmlFor="admin-cruise-email-body" className="text-[0.55rem] uppercase text-white/30 mb-1.5 block">Message</label>
                     <div className="input-glow-border rounded-lg w-full">
                       <textarea
- id="admin-cruise-email-body"
- value={cruiseEmailBody}
- onChange={e => setCruiseEmailBody(e.target.value)}
+                        id="admin-cruise-email-body"
+                        value={cruiseEmailBody}
+                        onChange={e => setCruiseEmailBody(e.target.value)}
                         placeholder="Write your message to cruise passengers..."
                         rows={5}
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-purple-500/50 transition-colors resize-none"
                       />
                     </div>
                   </div>
@@ -7697,9 +7697,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       )}
                     </div>
                     <button
- disabled={cruiseEmailSending || !cruiseEmailSubject.trim() || !cruiseEmailBody.trim()}
- onClick={sendCruiseEmail}
- className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed text-white text-[0.65rem] uppercase rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] cursor-pointer">
+                      disabled={cruiseEmailSending || !cruiseEmailSubject.trim() || !cruiseEmailBody.trim()}
+                      onClick={sendCruiseEmail}
+                      className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed text-white text-[0.65rem] uppercase rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] cursor-pointer">
                       {cruiseEmailSending ? (
                         <><span className="w-3.5 h-3.5 border-2 border-white/10 border-t-white rounded-full animate-spin" /> Sending...</>
                       ) : (
@@ -7731,14 +7731,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {(() => {
                     const cruiseSelectedEmailsSet = new Set(cruiseSelectedEmails);
                     return signups.map((s: any, i: number) => (
-                      <div key={s.id || s.email} className={`grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 items-center bg-black/20 hover:bg-white/[0.03] px-4 py-3 border-b mb-0 group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-cyan-500/40 bg-cyan-500/10' : ' border-white/10 hover:border-cyan-500/20'}`}>
+                      <div key={s.id || s.email} className={`grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 items-center bg-black/20 hover:bg-white/[0.03] px-4 py-3 border-b mb-0 group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-purple-500/40 bg-cyan-500/10' : ' border-white/10 hover:border-purple-500/20'}`}>
                         {/* Email checkbox */}
                         <div className="flex justify-center">
                           <SquishyToggle
- id={`cruise-email-toggle-${s.email || i}`}
- label={`Select ${s.name || s.email}`}
- checked={cruiseSelectedEmailsSet.has(s.email)}
- onChange={() => s.email && toggleEmail(s.email)}
+                            id={`cruise-email-toggle-${s.email || i}`}
+                            label={`Select ${s.name || s.email}`}
+                            checked={cruiseSelectedEmailsSet.has(s.email)}
+                            onChange={() => s.email && toggleEmail(s.email)}
                           />
                         </div>
                         {/* Row number */}
@@ -7787,7 +7787,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
               {/* Bottom actions */}
               <div className="flex gap-3 mt-4">
-                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] uppercase transition-colors cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2">
+                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] uppercase transition-colors cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-purple-400/30 flex items-center justify-center gap-2">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
                   Export CSV
                 </button>
@@ -8470,9 +8470,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       if (shift.isTimeOff) {
         return (
           <button
- type="button"
- key={shift.id}
- onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleEditShiftClick(shift); } }}
+            type="button"
+            key={shift.id}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleEditShiftClick(shift); } }}
             onClick={(e) => {
               e.stopPropagation();
               handleEditShiftClick(shift);
@@ -8494,10 +8494,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       return (
         <div
- key={shift.id}
- id={`shift-card-${shift.id}`}
- draggable={!activeLockingEditor}
- onDragStart={(e) => {
+          key={shift.id}
+          id={`shift-card-${shift.id}`}
+          draggable={!activeLockingEditor}
+          onDragStart={(e) => {
             if (activeLockingEditor) {
               e.preventDefault();
               setAlertModal({ isOpen: true, title: 'Shift Locked', message: `${activeLockingEditor.name} is currently editing this shift. Locks auto-release when changes are saved to prevent schedule mix-ups!`, type: 'warning' });
@@ -8538,9 +8538,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           {/* Action buttons — visible on hover */}
           <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
- type="button"
- aria-label="Edit shift"
- onClick={(e) => {
+              type="button"
+              aria-label="Edit shift"
+              onClick={(e) => {
                 e.stopPropagation();
                 handleEditShiftClick(shift);
               }}
@@ -8552,9 +8552,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </svg>
             </button>
             <button
- type="button"
- aria-label="Delete shift"
- onClick={(e) => {
+              type="button"
+              aria-label="Delete shift"
+              onClick={(e) => {
                 e.stopPropagation();
                 deleteScheduleItem(shift.id);
               }}
@@ -8568,9 +8568,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
 
           <div
- role="button"
- tabIndex={0}
- onKeyDown={(e) => {
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 e.stopPropagation();
@@ -8604,10 +8604,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="flex items-center gap-1.5 pb-0.5 border-b border-white/15 w-full overflow-hidden">
                       {avatarUrl ? (
                         <img
- src={avatarUrl}
- alt={memberName}
- className="w-8 h-8 rounded-full object-cover border border-white/30 shrink-0"
- />
+                          src={avatarUrl}
+                          alt={memberName}
+                          className="w-8 h-8 rounded-full object-cover border border-white/30 shrink-0"
+                        />
                       ) : (
                         <div className="w-8 h-8 rounded-full text-white flex items-center justify-center shrink-0">
                           {memberName[0]?.toUpperCase()}
@@ -8628,8 +8628,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {shift.role ? (
                     shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string) => (
                       <span
- key={singleRole}
- className="px-1.5 py-0.5 rounded text-[12.5px] uppercase select-none truncate max-w-full">
+                        key={singleRole}
+                        className="px-1.5 py-0.5 rounded text-[12.5px] uppercase select-none truncate max-w-full">
                         {singleRole}
                       </span>
                     ))
@@ -8638,8 +8638,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     if (tag === shift.role || STANDARD_ROLE_TAGS_SET.has(tag.toUpperCase())) return [];
                     return [(
                       <span
- key={tag}
- className="px-1.5 py-0.5 rounded text-[8.5px] uppercase bg-black/40 text-white/80 border border-white/10 select-none">
+                        key={tag}
+                        className="px-1.5 py-0.5 rounded text-[8.5px] uppercase bg-black/40 text-white/80 border border-white/10 select-none">
                         {tag}
                       </span>
                     )];
@@ -8702,18 +8702,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 if (hasImage) {
                   return (
                     <img
- src={avatarUrl}
- alt="7th Heaven Media"
- className="w-full h-full object-cover rounded-full overflow-hidden"
- />
+                      src={avatarUrl}
+                      alt="7th Heaven Media"
+                      className="w-full h-full object-cover rounded-full overflow-hidden"
+                    />
                   );
                 }
                 const initials = member?.initials || displayName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
                 const color = member?.color || getAvatarColor(displayName);
                 return (
                   <div
- className="w-full h-full flex items-center justify-center text-white rounded-full overflow-hidden"
- style={{ backgroundColor: color }}>
+                    className="w-full h-full flex items-center justify-center text-white rounded-full overflow-hidden"
+                    style={{ backgroundColor: color }}>
                     {initials}
                   </div>
                 );
@@ -8766,18 +8766,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     if (hasImage) {
                       return (
                         <img
- src={avatarUrl}
- alt="7th Heaven Media"
- className="w-4 h-4 rounded-full object-cover shrink-0"
- />
+                          src={avatarUrl}
+                          alt="7th Heaven Media"
+                          className="w-4 h-4 rounded-full object-cover shrink-0"
+                        />
                       );
                     }
                     const initials = member?.initials || displayName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
                     const color = member?.color || getAvatarColor(displayName);
                     return (
                       <div
- className="w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-5xs)] shrink-0 text-white"
- style={{ backgroundColor: color }}>
+                        className="w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-5xs)] shrink-0 text-white"
+                        style={{ backgroundColor: color }}>
                         {initials}
                       </div>
                     );
@@ -8822,8 +8822,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           }
           return (
             <span
- key={r}
- className={`inline-block px-1.5 py-0.5 text-[12px] uppercase rounded-lg border shrink-0`}>
+              key={r}
+              className={`inline-block px-1.5 py-0.5 text-[12px] uppercase rounded-lg border shrink-0`}>
               {r}
             </span>
           );
@@ -8833,8 +8833,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       return (
         <CustomScrollbar className="w-full flex-1 min-h-0" topOffset={42} direction="both">
           <div
- style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${240 + filteredDays.length * 144}px` }}
- className="w-full flex flex-col text-left select-none ">
+            style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${240 + filteredDays.length * 144}px` }}
+            className="w-full flex flex-col text-left select-none ">
             <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/55 backdrop-blur-xl border-b border-white/10 ">
               <div className="flex w-full border-r border-[var(--border-color)] text-[10px] r">
                 <div className="p-1.5 w-60 shrink-0 border-r border-[var(--border-color)] border-b border-[var(--border-color)] flex items-center bg-[var(--color-bg-card)]">
@@ -8853,9 +8853,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   const isNextShow = day.dateStr === nextShowDate;
                   return (
                     <div
- key={day.dateStr}
- id={`col-header-${day.dateStr}`}
- onClick={() => {
+                      key={day.dateStr}
+                      id={`col-header-${day.dateStr}`}
+                      onClick={() => {
                         const nextDate = (selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr) ? null : day.dateStr;
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
@@ -8878,8 +8878,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           </div>
                           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button
- type="button"
- onClick={(e) => {
+                              type="button"
+                              onClick={(e) => {
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
@@ -8890,8 +8890,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               </svg>
                             </button>
                             <button
- type="button"
- onClick={(e) => {
+                              type="button"
+                              onClick={(e) => {
                                 e.stopPropagation();
                                 setScheduleSortByDate(prev => prev === day.dateStr ? null : day.dateStr);
                               }}
@@ -8905,8 +8905,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                         {dayShow && (
                           <button
- type="button"
- onClick={(e) => {
+                            type="button"
+                            onClick={(e) => {
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
@@ -8933,13 +8933,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     const isNextShow = day.dateStr === nextShowDate;
                     return (
                       <div
- key={day.dateStr}
- className={`p-1 flex-1 min-w-[130px] border-r border-[var(--border-color)] transition-colors cursor-pointer ${isSelectedDay ? 'bg-purple-500/10 border-x border-purple-500/30'
- : isNextShow
- ? 'bg-purple-500/10 border-x border-white/20'
- : ' '
- }`}
- onDragOver={(e) => {
+                        key={day.dateStr}
+                        className={`p-1 flex-1 min-w-[130px] border-r border-[var(--border-color)] transition-colors cursor-pointer ${isSelectedDay ? 'bg-purple-500/10 border-x border-purple-500/30'
+                          : isNextShow
+                            ? 'bg-purple-500/10 border-x border-white/20'
+                            : ' '
+                          }`}
+                        onDragOver={(e) => {
                           e.preventDefault();
                           if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
                         }}
@@ -8947,7 +8947,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <div className="flex flex-col gap-1.5 h-full w-full select-none min-h-[48px]" onClick={(e) => e.stopPropagation()}>
                           {/* Top Box: Add Crew Member */}
                           <div
- role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCellClick(day.dateStr, "openshifts", "SERVER"); } }}
+                            role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCellClick(day.dateStr, "openshifts", "SERVER"); } }}
                             onClick={(e) => {
                               e.stopPropagation();
                               handleCellClick(day.dateStr, "openshifts", "SERVER");
@@ -8963,7 +8963,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div className="flex gap-1 w-full relative">
                             {/* Left Box: Add Crew Group */}
                             <div
- role="button" tabIndex={0} onKeyDown={(e) => {
+                              role="button" tabIndex={0} onKeyDown={(e) => {
                                 if (e.key === "Enter" || e.key === " ") {
                                   e.preventDefault();
                                   setCellGroupPopover(prev => prev === `openshifts_group_${day.dateStr}` ? null : `openshifts_group_${day.dateStr}`);
@@ -8982,7 +8982,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                             {/* Right Box: Create Group */}
                             <div
- role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); createGroupForDateRef.current = day.dateStr; } }}
+                              role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); createGroupForDateRef.current = day.dateStr; } }}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 createGroupForDateRef.current = day.dateStr;
@@ -9101,9 +9101,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         const isNextShow = day.dateStr === nextShowDate;
                         return (
                           <div
- key={day.dateStr}
- tabIndex={0}
- onKeyDown={(e) => {
+                            key={day.dateStr}
+                            tabIndex={0}
+                            onKeyDown={(e) => {
                               if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
                                 handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
@@ -9125,8 +9125,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
                             {dayShifts.length > 0 && (
                               <button
- type="button"
- onClick={(e) => {
+                                type="button"
+                                onClick={(e) => {
                                   e.stopPropagation();
                                   handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
                                 }}
@@ -9159,10 +9159,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             return (
               <div
- key={day.dateStr}
- className={`border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-colors ${isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'
- }`}
- onDragOver={(e) => {
+                key={day.dateStr}
+                className={`border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-colors ${isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'
+                  }`}
+                onDragOver={(e) => {
                   e.preventDefault();
                   if (e.dataTransfer) {
                     e.dataTransfer.dropEffect = "move";
@@ -9215,8 +9215,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     if (!dayShow) return null;
                     return (
                       <button
- type="button"
- onClick={(e) => {
+                        type="button"
+                        onClick={(e) => {
                           e.stopPropagation();
                           setSelectedShowCrewDate(day.dateStr);
                         }}
@@ -9262,8 +9262,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       if (!dayShow) return null;
                       return (
                         <button
- type="button"
- onClick={(e) => {
+                          type="button"
+                          onClick={(e) => {
                             e.stopPropagation();
                             setSelectedShowCrewDate(day.dateStr);
                           }}
@@ -9292,11 +9292,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
                 {Array.from({ length: 17 }).map((_, idx) => (
                   <div
- key={idx}
- className={`w-full h-0 border-b ${idx % 2 === 0 ? ' border-white/10 border-solid'
- : ' border-white/10 border-dashed'
- }`}
- />
+                    key={idx}
+                    className={`w-full h-0 border-b ${idx % 2 === 0 ? ' border-white/10 border-solid'
+                      : ' border-white/10 border-dashed'
+                      }`}
+                  />
                 ))}
               </div>
 
@@ -9304,9 +9304,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 const dayShifts = (schedulesByDate[day.dateStr] || []).filter(s => s.crewId !== 'openshifts');
                 return (
                   <div
- key={day.dateStr}
- className="h-full relative rounded-lg overflow-y-hidden"
- onDragOver={(e) => e.preventDefault()}
+                    key={day.dateStr}
+                    className="h-full relative rounded-lg overflow-y-hidden"
+                    onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => {
                       e.preventDefault();
                       const dragData = e.dataTransfer.getData("text/plain");
@@ -9342,11 +9342,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       const roleStyle = getShiftColor(shift, colorCodingMode);
                       return (
                         <div
- key={shift.id}
- id={`shift-card-timeline-${shift.id}`}
- role="button"
- tabIndex={0}
- onKeyDown={(e) => {
+                          key={shift.id}
+                          id={`shift-card-timeline-${shift.id}`}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
                             if (e.key === "Enter" || e.key === " ") {
                               e.preventDefault();
                               e.stopPropagation();
@@ -9428,8 +9428,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
               <div className="flex items-center gap-2">
                 <button
- type="button"
- onClick={() => {
+                  type="button"
+                  onClick={() => {
                     setCoEditorConflictAlert({
                       isOpen: true,
                       editorName: 'Marcus Vance',
@@ -9443,8 +9443,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   Simulate Mix-Up Conflict
                 </button>
                 <button
- type="button"
- onClick={() => setShowCoEditorModal(true)}
+                  type="button"
+                  onClick={() => setShowCoEditorModal(true)}
                   className="px-2.5 py-1 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white/70 hover:text-white text-[11px] rounded transition-colors cursor-pointer flex items-center gap-1">
                   Co-Editor Settings
                 </button>
@@ -9484,8 +9484,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   <div className="flex items-center justify-end gap-3 pt-2">
                     <button
- type="button"
- onClick={() => setCoEditorConflictAlert(null)}
+                      type="button"
+                      onClick={() => setCoEditorConflictAlert(null)}
                       className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase rounded-lg transition-colors cursor-pointer">
                       Accept Remote Sync
                     </button>
@@ -9539,7 +9539,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   <div className="flex items-center justify-end">
                     <button
- onClick={() => setShowCoEditorModal(false)}
+                      onClick={() => setShowCoEditorModal(false)}
                       className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors">
                       Close
                     </button>
@@ -9559,15 +9559,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </h3>
                   <div className="flex items-center border border-white/10 bg-black/40 rounded-lg overflow-hidden">
                     <button
- type="button"
- onClick={handlePrevWeek}
- className="p-2 bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none "
- title="Previous Week">
+                      type="button"
+                      onClick={handlePrevWeek}
+                      className="p-2 bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none "
+                      title="Previous Week">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
                     </button>
                     <button
- type="button"
- onClick={() => {
+                      type="button"
+                      onClick={() => {
                         document.getElementById('wiw-date-picker')?.click();
                       }}
                       className="p-2 bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none "
@@ -9575,11 +9575,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
                     </button>
                     <input
- type="date"
- id="wiw-date-picker"
- aria-label="Select date"
- className="sr-only"
- onChange={(e) => {
+                      type="date"
+                      id="wiw-date-picker"
+                      aria-label="Select date"
+                      className="sr-only"
+                      onChange={(e) => {
                         if (e.target.value) {
                           const chosen = new Date(e.target.value);
                           const day = chosen.getDay();
@@ -9589,46 +9589,46 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       }}
                     />
                     <button
- type="button"
- onClick={handleNextWeek}
- className="p-2 bg-[#00000029] transition-colors text-white/40 hover:text-white cursor-pointer border-none "
- title="Next Week">
+                      type="button"
+                      onClick={handleNextWeek}
+                      className="p-2 bg-[#00000029] transition-colors text-white/40 hover:text-white cursor-pointer border-none "
+                      title="Next Week">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
                     </button>
                   </div>
 
                   <button
- type="button"
- onClick={handleGoToToday}
- className="px-3 py-1.5 border border-white/10 bg-black/40 bg-[#00000029] text-white/70 hover:text-white rounded-lg transition-colors cursor-pointer border-solid">
+                    type="button"
+                    onClick={handleGoToToday}
+                    className="px-3 py-1.5 border border-white/10 bg-black/40 bg-[#00000029] text-white/70 hover:text-white rounded-lg transition-colors cursor-pointer border-solid">
                     TODAY
                   </button>
 
                   <button
- type="button"
- onClick={handleGoToMonth}
- className={`px-3 py-1.5 border rounded-lg transition-colors cursor-pointer border-solid ${calendarRange === 'month'
- ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-white/20'
- : ' border-white/10 bg-black/40 bg-[#00000029] text-white/70 hover:text-white'
- }`}>
+                    type="button"
+                    onClick={handleGoToMonth}
+                    className={`px-3 py-1.5 border rounded-lg transition-colors cursor-pointer border-solid ${calendarRange === 'month'
+                      ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-white/20'
+                      : ' border-white/10 bg-black/40 bg-[#00000029] text-white/70 hover:text-white'
+                      }`}>
                     MONTH
                   </button>
 
                   {/* Week Selector */}
                   <Dropdown
- fullWidth={false}
- placeholder="Current Week"
- selected={calendarRange === '4weeks' ? '4weeks' : calendarRange === 'month' ? 'month' : 'week'}
- options={[
- { label: 'Current Week', value: 'week' },
- { label: 'Next Week', value: 'nextweek' },
- { label: 'In 2 Weeks', value: 'in2weeks' },
- { label: 'In 3 Weeks', value: 'in3weeks' },
- { label: 'In 4 Weeks', value: 'in4weeks' },
- { label: 'Next 4 Weeks', value: '4weeks' },
- { label: 'Full Month', value: 'month' },
- ]}
- onChange={(val) => {
+                    fullWidth={false}
+                    placeholder="Current Week"
+                    selected={calendarRange === '4weeks' ? '4weeks' : calendarRange === 'month' ? 'month' : 'week'}
+                    options={[
+                      { label: 'Current Week', value: 'week' },
+                      { label: 'Next Week', value: 'nextweek' },
+                      { label: 'In 2 Weeks', value: 'in2weeks' },
+                      { label: 'In 3 Weeks', value: 'in3weeks' },
+                      { label: 'In 4 Weeks', value: 'in4weeks' },
+                      { label: 'Next 4 Weeks', value: '4weeks' },
+                      { label: 'Full Month', value: 'month' },
+                    ]}
+                    onChange={(val) => {
                       if (val === 'week') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime)); }
                       else if (val === 'nextweek') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 7 * 86400000)); }
                       else if (val === 'in2weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 14 * 86400000)); }
@@ -9642,8 +9642,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/*  Tour Dates Quick-Jump */}
                   <div className="relative" data-tour-dropdown>
                     <button
- type="button"
- onClick={() => setShowTourDropdown(prev => !prev)}
+                      type="button"
+                      onClick={() => setShowTourDropdown(prev => !prev)}
                       className={`px-3 py-1.5 border    rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
                         : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
                         }`}>
@@ -9667,9 +9667,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 : 'Unknown';
                               return (
                                 <button
- key={show._id || `${show.date}-${show.venue}`}
- type="button"
- onClick={() => {
+                                  key={show._id || `${show.date}-${show.venue}`}
+                                  type="button"
+                                  onClick={() => {
                                     if (show.date) {
                                       const chosen = new Date(show.date + 'T12:00:00');
                                       const day = chosen.getDay();
@@ -9692,8 +9692,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   {/* Shows Only Toggle */}
                   <button
- type="button"
- onClick={() => setShowTourDatesOnly(prev => !prev)}
+                    type="button"
+                    onClick={() => setShowTourDatesOnly(prev => !prev)}
                     className={`px-3 py-1.5 border    rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
                       : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
                       }`}
@@ -9703,12 +9703,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   {/* Crew Member Filter */}
                   <Dropdown
- fullWidth={false}
- placeholder="Crew Member"
- selected={scheduleCrewFilter}
- options={[
- { label: 'Crew Member', value: '' },
- ...crewMembers.flatMap(m => m.id !== 'openshifts' ? [{
+                    fullWidth={false}
+                    placeholder="Crew Member"
+                    selected={scheduleCrewFilter}
+                    options={[
+                      { label: 'Crew Member', value: '' },
+                      ...crewMembers.flatMap(m => m.id !== 'openshifts' ? [{
                         label: m.name,
                         value: m.id,
                       }] : []),
@@ -9718,8 +9718,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   {/* Advanced Filters Trigger */}
                   <button
- type="button"
- onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
+                    type="button"
+                    onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
                     className={`px-3 py-1.5 border    rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? 'border-purple-500/40 bg-purple-500/15 text-purple-300    shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
                       : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
                       }`}
@@ -9734,21 +9734,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   {/* Color Coding Mode Selector */}
                   <Dropdown
- fullWidth={false}
- placeholder="Role Colors"
- selected={colorCodingMode}
- options={[
- { label: 'Role Colors', value: 'role' },
- { label: 'Event Type Colors', value: 'eventType' },
- { label: 'Band Colors', value: 'band' },
- ]}
- onChange={(val) => setColorCodingMode(val as any)}
+                    fullWidth={false}
+                    placeholder="Role Colors"
+                    selected={colorCodingMode}
+                    options={[
+                      { label: 'Role Colors', value: 'role' },
+                      { label: 'Event Type Colors', value: 'eventType' },
+                      { label: 'Band Colors', value: 'band' },
+                    ]}
+                    onChange={(val) => setColorCodingMode(val as any)}
                   />
 
                   {activeFiltersCount > 0 && (
                     <button
- type="button"
- onClick={() => {
+                      type="button"
+                      onClick={() => {
                         setScheduleCrewFilter('');
                         setSchedulePersonSearch('');
                         setScheduleVenueSearch('');
@@ -9767,8 +9767,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/*  Clear All Shifts / Start Fresh Button */}
                   {schedules.length > 0 && (
                     <button
- type="button"
- onClick={() => {
+                      type="button"
+                      onClick={() => {
                         if (confirm("Are you sure you want to clear all shift timeframes and start fresh?")) {
                           setSchedules([]);
                           if (typeof window !== 'undefined') {
@@ -9784,20 +9784,20 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   {/*  Generate Test Data Action */}
                   <button
- type="button"
- onClick={handleGenerateTestData}
- className="px-3 py-1.5 bg-white/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
- title="Generate realistic test schedule data for 2-4 weeks with edge cases">
+                    type="button"
+                    onClick={handleGenerateTestData}
+                    className="px-3 py-1.5 bg-white/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
+                    title="Generate realistic test schedule data for 2-4 weeks with edge cases">
                     Generate Test Data
                   </button>
 
                   {/*  Purge Test Data Action */}
                   {schedules.some(s => s.isTestData || s.id.startsWith('test_shift_') || (s.notes && s.notes.includes('[TEST]'))) && (
                     <button
- type="button"
- onClick={handlePurgeTestData}
- className="px-3 py-1.5 bg-white/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none animate-pulse"
- title="Purge all test schedule data ([TEST] shifts)">
+                      type="button"
+                      onClick={handlePurgeTestData}
+                      className="px-3 py-1.5 bg-white/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none animate-pulse"
+                      title="Purge all test schedule data ([TEST] shifts)">
                       Purge Test Data
                     </button>
                   )}
@@ -9823,11 +9823,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     return (
                       <Dropdown
- fullWidth={false}
- placeholder={`${coverageRequests.length} Coverage ${coverageRequests.length === 1 ? 'Request' : 'Requests'}`}
- selected=""
- options={options}
- onChange={(val) => {
+                        fullWidth={false}
+                        placeholder={`${coverageRequests.length} Coverage ${coverageRequests.length === 1 ? 'Request' : 'Requests'}`}
+                        selected=""
+                        options={options}
+                        onChange={(val) => {
                           if (!val) return;
                           const shift = schedules.find(s => s.id === val);
                           if (shift) {
@@ -9849,18 +9849,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <label htmlFor="admin-sched-person-search" className="uppercase text-white/50 r">Search Person / Role</label>
                       <div className="relative w-full input-glow-border rounded-lg">
                         <input
- id="admin-sched-person-search"
- type="text"
- value={schedulePersonSearch}
- onChange={(e) => setSchedulePersonSearch(e.target.value)}
+                          id="admin-sched-person-search"
+                          type="text"
+                          value={schedulePersonSearch}
+                          onChange={(e) => setSchedulePersonSearch(e.target.value)}
                           placeholder="Name, role, e.g. Dave, Audio..."
                           className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white placeholder-white/20 outline-none transition-colors"
                         />
                         {schedulePersonSearch && (
                           <button
- type="button"
- aria-label="Clear person search"
- onClick={() => setSchedulePersonSearch('')}
+                            type="button"
+                            aria-label="Clear person search"
+                            onClick={() => setSchedulePersonSearch('')}
                             className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white border-none cursor-pointer z-10">✕</button>
                         )}
                       </div>
@@ -9871,18 +9871,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <label htmlFor="admin-sched-venue-search" className="uppercase text-white/50 r">Search Venue Name</label>
                       <div className="relative w-full input-glow-border rounded-lg">
                         <input
- id="admin-sched-venue-search"
- type="text"
- value={scheduleVenueSearch}
- onChange={(e) => setScheduleVenueSearch(e.target.value)}
+                          id="admin-sched-venue-search"
+                          type="text"
+                          value={scheduleVenueSearch}
+                          onChange={(e) => setScheduleVenueSearch(e.target.value)}
                           placeholder="Venue, e.g. Blarney, Cruise..."
                           className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white placeholder-white/20 outline-none transition-colors"
                         />
                         {scheduleVenueSearch && (
                           <button
- type="button"
- aria-label="Clear venue search"
- onClick={() => setScheduleVenueSearch('')}
+                            type="button"
+                            aria-label="Clear venue search"
+                            onClick={() => setScheduleVenueSearch('')}
                             className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white border-none cursor-pointer z-10">✕</button>
                         )}
                       </div>
@@ -9892,19 +9892,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor="admin-sched-event-type" className="uppercase text-white/50 r">Show / Event Type</label>
                       <Dropdown
- id="admin-sched-event-type"
- fullWidth={true}
- placeholder="Any Event Type"
- selected={scheduleEventTypeFilter}
- options={[
- { label: 'Any Event Type', value: '' },
- { label: 'Festival', value: 'festival' },
- { label: 'Private Event', value: 'private' },
- { label: 'Corporate', value: 'corporate' },
- { label: 'Cruise', value: 'cruise' },
- { label: 'Club / Bar', value: 'club' },
- ]}
- onChange={(val) => setScheduleEventTypeFilter(val)}
+                        id="admin-sched-event-type"
+                        fullWidth={true}
+                        placeholder="Any Event Type"
+                        selected={scheduleEventTypeFilter}
+                        options={[
+                          { label: 'Any Event Type', value: '' },
+                          { label: 'Festival', value: 'festival' },
+                          { label: 'Private Event', value: 'private' },
+                          { label: 'Corporate', value: 'corporate' },
+                          { label: 'Cruise', value: 'cruise' },
+                          { label: 'Club / Bar', value: 'club' },
+                        ]}
+                        onChange={(val) => setScheduleEventTypeFilter(val)}
                       />
                     </div>
 
@@ -9914,10 +9914,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex items-center gap-2">
                         <div className="w-full input-glow-border rounded-lg">
                           <input
- type="date"
- aria-label="Schedule start date"
- value={scheduleStartDate}
- onChange={(e) => setScheduleStartDate(e.target.value)}
+                            type="date"
+                            aria-label="Schedule start date"
+                            value={scheduleStartDate}
+                            onChange={(e) => setScheduleStartDate(e.target.value)}
                             onClick={(e) => e.currentTarget.showPicker?.()}
                             className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
                           />
@@ -9925,18 +9925,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <span className="text-white/35">TO</span>
                         <div className="w-full input-glow-border rounded-lg">
                           <input
- type="date"
- aria-label="Schedule end date"
- value={scheduleEndDate}
- onChange={(e) => setScheduleEndDate(e.target.value)}
+                            type="date"
+                            aria-label="Schedule end date"
+                            value={scheduleEndDate}
+                            onChange={(e) => setScheduleEndDate(e.target.value)}
                             onClick={(e) => e.currentTarget.showPicker?.()}
                             className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
                           />
                         </div>
                         {(scheduleStartDate || scheduleEndDate) && (
                           <button
- type="button"
- onClick={() => {
+                            type="button"
+                            onClick={() => {
                               setScheduleStartDate('');
                               setScheduleEndDate('');
                             }}
@@ -9963,8 +9963,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex items-center gap-2">
                         <span className="text-purple-300/80 font-semibold">Filters active</span>
                         <button
- type="button"
- onClick={() => {
+                          type="button"
+                          onClick={() => {
                             setScheduleCrewFilter('');
                             setSchedulePersonSearch('');
                             setScheduleVenueSearch('');
@@ -9995,7 +9995,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* Right Sidebar: Tour Dates & Crew */}
                 <div
 
- className="w-[280px] shrink-0 border-t border-r border-b border-[#ffffff1f] h-full hidden xl:flex xl:flex-col z-10">
+                  className="w-[280px] shrink-0 border-t border-r border-b border-[#ffffff1f] h-full hidden xl:flex xl:flex-col z-10">
 
                   {/* Tour Dates Section Box */}
                   <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02] relative">
@@ -10028,13 +10028,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                           return (
                             <SidebarDateButton
- key={show._id || `${show.date}-${show.venue}`}
- show={show}
- isSelected={isSelected}
- isActiveWeek={isActiveWeek}
- shiftCount={shiftCount}
- onClick={handleDateClick}
- />
+                              key={show._id || `${show.date}-${show.venue}`}
+                              show={show}
+                              isSelected={isSelected}
+                              isActiveWeek={isActiveWeek}
+                              shiftCount={shiftCount}
+                              onClick={handleDateClick}
+                            />
                           );
                         });
                       })()}
@@ -10053,10 +10053,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="fixed top-0 right-0 bottom-0 left-0 inset-0 w-screen h-screen h-[100vh] h-[100dvh] z-[100000] flex justify-end animate-[fadeIn_0.2s_ease]">
                     {/* Backdrop Click Overlay */}
                     <button
- type="button"
- aria-label="Close overlay"
- className="absolute inset-0 bg-black/15 cursor-default border-0 w-full h-full"
- onClick={() => {
+                      type="button"
+                      aria-label="Close overlay"
+                      className="absolute inset-0 bg-black/15 cursor-default border-0 w-full h-full"
+                      onClick={() => {
                         setActiveDropDay(null);
                         setDraggedCrewMemberId(null);
                         setEditingShiftId(null);
@@ -10079,8 +10079,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           </p>
                         </div>
                         <button
- aria-label="Close active drop day modal"
- onClick={() => {
+                          aria-label="Close active drop day modal"
+                          onClick={() => {
                             setActiveDropDay(null);
                             setDraggedCrewMemberId(null);
                             setEditingShiftId(null);
@@ -10102,8 +10102,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             return (
                               <div className="shrink-0">
                                 <button
- type="button"
- onClick={() => {
+                                  type="button"
+                                  onClick={() => {
                                     setSchedules(current => {
                                       const updated = current.map(s => {
                                         if (s.id === editingShiftId) {
@@ -10135,8 +10135,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   </div>
                                 </div>
                                 <button
- type="button"
- onClick={() => {
+                                  type="button"
+                                  onClick={() => {
                                     setSchedules(current => current.map(s => {
                                       if (s.id === editingShiftId) {
                                         return { ...s, isCoverageRequested: false };
@@ -10156,16 +10156,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   {/* Tab/Toggle for Fit Role vs Override */}
                                   <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/20">
                                     <button
- type="button"
- onClick={() => setOnlyShowFitRole(true)}
+                                      type="button"
+                                      onClick={() => setOnlyShowFitRole(true)}
                                       className={`px-2 py-0.5    uppercase rounded transition-colors cursor-pointer ${onlyShowFitRole ? 'bg-purple-600 text-white    '
                                         : ' text-white hover:text-white'
                                         }`}>
                                       Fit Role ({editingShift.role})
                                     </button>
                                     <button
- type="button"
- onClick={() => setOnlyShowFitRole(false)}
+                                      type="button"
+                                      onClick={() => setOnlyShowFitRole(false)}
                                       className={`px-2 py-0.5    uppercase rounded transition-colors cursor-pointer ${!onlyShowFitRole ? 'bg-red-500/20 text-red-300 border border-red-500/30    '
                                         : ' text-white hover:text-white'
                                         }`}>
@@ -10210,17 +10210,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                               const avatarSrc = resolveMemberAvatar(member.name, member.avatar);
                                               return avatarSrc ? (
                                                 <img
- src={avatarSrc}
- alt={member.name}
- className="w-5 h-5 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
- onError={(e) => {
+                                                  src={avatarSrc}
+                                                  alt={member.name}
+                                                  className="w-5 h-5 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
+                                                  onError={(e) => {
                                                     (e.currentTarget as HTMLElement).style.display = 'none';
                                                   }}
                                                 />
                                               ) : (
                                                 <div
- className="w-5 h-5 rounded-full flex items-center justify-center text-4xs text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
- style={member.color ? { backgroundColor: member.color } : undefined}>
+                                                  className="w-5 h-5 rounded-full flex items-center justify-center text-4xs text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
+                                                  style={member.color ? { backgroundColor: member.color } : undefined}>
                                                   {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                                 </div>
                                               );
@@ -10238,9 +10238,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                             </div>
                                           </div>
                                           <button
- type="button"
- disabled={isOverlapping}
- onClick={() => {
+                                            type="button"
+                                            disabled={isOverlapping}
+                                            onClick={() => {
                                               // Reassign shift to this member
                                               setSchedules(current => {
                                                 return current.map(s => {
@@ -10322,13 +10322,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             {/* Search and Grouping Controls */}
                             <div className="shrink-0 mb-3 w-full admin-crew-search-wrapper">
                               <SearchInput
- ariaLabel="Search crew members"
- value={drawerCrewSearch}
- onChange={setDrawerCrewSearch}
- placeholder="Search crew members..."
- width="100%"
- containerClassName="max-w-none w-full"
- />
+                                ariaLabel="Search crew members"
+                                value={drawerCrewSearch}
+                                onChange={setDrawerCrewSearch}
+                                placeholder="Search crew members..."
+                                width="100%"
+                                containerClassName="max-w-none w-full"
+                              />
                             </div>
 
                             <CustomScrollbar direction="vertical" className="flex-1 min-h-0">
@@ -10357,17 +10357,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                       return (
                                         <div
- key={member.id}
- className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active ? ' border border-purple-500/40 shadow-purple-900/20'
- : 'border border-transparent'
- }`}>
+                                          key={member.id}
+                                          className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active ? ' border border-purple-500/40 shadow-purple-900/20'
+                                            : 'border border-transparent'
+                                            }`}>
                                           <div className="flex items-center justify-between">
                                             <label className="flex items-center gap-3 select-none cursor-pointer w-full">
                                               <SquishyToggle
- id={`crew-assign-toggle-${member.id}`}
- label={`Toggle assignment for ${member.name || member.id}`}
- checked={!!assignment.active}
- onChange={(checked) => {
+                                                id={`crew-assign-toggle-${member.id}`}
+                                                label={`Toggle assignment for ${member.name || member.id}`}
+                                                checked={!!assignment.active}
+                                                onChange={(checked) => {
                                                   setSelectedCrewAssignments(prev => ({
                                                     ...prev,
                                                     [member.id]: {
@@ -10386,16 +10386,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                   const avatarSrc = resolveMemberAvatar(member.name, member.avatar);
                                                   return avatarSrc ? (
                                                     <img
- src={avatarSrc}
- alt={member.name}
- className="w-11 h-11 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
- onError={(e) => {
+                                                      src={avatarSrc}
+                                                      alt={member.name}
+                                                      className="w-11 h-11 rounded-full object-cover shrink-0 border border-[var(--color-accent)]/20"
+                                                      onError={(e) => {
                                                         (e.currentTarget as HTMLElement).style.display = 'none';
                                                       }}
                                                     />
                                                   ) : (
                                                     <div
- className="w-11 h-11 rounded-full flex items-center justify-center text-[10px] text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20">
+                                                      className="w-11 h-11 rounded-full flex items-center justify-center text-[10px] text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20">
                                                       {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                                     </div>
                                                   );
@@ -10419,8 +10419,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                       <div className="mt-1.5 flex flex-wrap gap-1">
                                                         {memberShifts.map((s, idx) => (
                                                           <span
- key={idx}
- className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 uppercase text-4xs px-1.5 py-0.5 rounded select-none">
+                                                            key={idx}
+                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 uppercase text-4xs px-1.5 py-0.5 rounded select-none">
                                                             {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
                                                           </span>
                                                         ))}
@@ -10446,8 +10446,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                     <span className="uppercase text-purple-300 " style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
                                                     {dropTimeFrames.length > 1 && (
                                                       <button
- type="button"
- onClick={() => {
+                                                        type="button"
+                                                        onClick={() => {
                                                           setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
                                                         }}
                                                         className="text-white/40 hover:text-red-400 text-[10px] border-none cursor-pointer uppercase "
@@ -10461,8 +10461,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                     <div>
                                                       <label className="text-[10px] uppercase text-white/50 mb-1 block font-semibold " style={{ fontSize: '10px' }}>Start Time</label>
                                                       <GooeyMessagesDropdown
- placeholder="Select Start Time"
- selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "12 PM"}
+                                                        placeholder="Select Start Time"
+                                                        selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "12 PM"}
                                                         options={generateTimeOptions().map(opt => opt.label)}
                                                         onChange={(selectedLabel) => {
                                                           const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
@@ -10485,8 +10485,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                     <div>
                                                       <label className="text-[10px] uppercase text-white/50 mb-1 block font-semibold " style={{ fontSize: '10px' }}>End Time</label>
                                                       <GooeyMessagesDropdown
- placeholder="Select End Time"
- selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "5 PM"}
+                                                        placeholder="Select End Time"
+                                                        selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "5 PM"}
                                                         options={generateTimeOptions().map(opt => opt.label)}
                                                         onChange={(selectedLabel) => {
                                                           const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
@@ -10511,10 +10511,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                     <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase text-white/50 mb-1 block font-semibold " style={{ fontSize: '10px' }}>Role / Duty</label>
                                                     <div className="input-glow-border rounded-lg w-full">
                                                       <input
- id={`admin-drawer-role-${index}`}
- type="text"
- value={tf.role}
- onChange={e => {
+                                                        id={`admin-drawer-role-${index}`}
+                                                        type="text"
+                                                        value={tf.role}
+                                                        onChange={e => {
                                                           const val = e.target.value;
                                                           setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
                                                         }}
@@ -10528,10 +10528,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                         const isSelected = currentRoles.includes(preset.toUpperCase());
                                                         return (
                                                           <SectionBadge
- key={preset}
- label={preset}
- isActive={isSelected}
- onClick={() => {
+                                                            key={preset}
+                                                            label={preset}
+                                                            isActive={isSelected}
+                                                            onClick={() => {
                                                               const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
                                                               const upperPreset = preset.toUpperCase();
                                                               const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
@@ -10554,9 +10554,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                   <div className="space-y-1">
                                                     <label className="text-[10px] uppercase text-white/50 mb-1 block font-semibold " style={{ fontSize: '10px' }}>Tags</label>
                                                     <GooeyMessagesDropdown
- placeholder="Select tags..."
- showAllOption={false}
- options={["Overtime", "Double Shift", "Split Shift", "Standby", "Backup", "Training"].map(t => ({ label: t, value: t }))}
+                                                      placeholder="Select tags..."
+                                                      showAllOption={false}
+                                                      options={["Overtime", "Double Shift", "Split Shift", "Standby", "Backup", "Training"].map(t => ({ label: t, value: t }))}
                                                       onChange={(val) => {
                                                         setDropTimeFrames((prev: any[]) => prev.map((item: any, i: number) => {
                                                           if (i !== index) return item;
@@ -10575,13 +10575,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                       <div className="flex flex-wrap gap-1 mt-1.5">
                                                         {tf.tags.map(tag => (
                                                           <span
- key={tag}
- className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 uppercase text-4xs px-2 py-0.5 rounded ">
+                                                            key={tag}
+                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 uppercase text-4xs px-2 py-0.5 rounded ">
                                                             {tag}
                                                             <button
- type="button"
- aria-label={`Remove ${tag} tag`}
- onClick={() => {
+                                                              type="button"
+                                                              aria-label={`Remove ${tag} tag`}
+                                                              onClick={() => {
                                                                 setDropTimeFrames(prev => prev.map((item, i) => {
                                                                   if (i === index) {
                                                                     return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
@@ -10602,8 +10602,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                               {dropTimeFrames.length < 3 && (
                                                 <button
- type="button"
- onClick={() => {
+                                                  type="button"
+                                                  onClick={() => {
                                                     setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
                                                   }}
                                                   className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-white/20 text-purple-300 rounded-lg uppercase transition-colors cursor-pointer flex items-center justify-center gap-1.5 "
@@ -10628,16 +10628,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {/* Drawer Footer */}
                       <div className="p-3.5 border-t border-white/10 space-y-1.5 shrink-0">
                         <button
- type="button"
- onClick={addScheduleItem}
- className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white text-[11px] uppercase rounded-lg transition-colors cursor-pointer border-none">
+                          type="button"
+                          onClick={addScheduleItem}
+                          className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white text-[11px] uppercase rounded-lg transition-colors cursor-pointer border-none">
                           {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
                         </button>
 
                         {editingShiftId && (
                           <button
- type="button"
- onClick={() => {
+                            type="button"
+                            onClick={() => {
                               deleteScheduleItem(editingShiftId);
                               setActiveDropDay(null);
                               setDraggedCrewMemberId(null);
@@ -10658,21 +10658,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/*  Custom Alert / Notification Modal */}
               {alertModal.isOpen && (
                 <dialog
- open
- aria-label="Schedule Notice Modal"
- className="fixed inset-0 bg-black/75 z-[120] flex items-center justify-center p-4 m-0 border-none max-w-none w-full h-full animate-[fadeIn_0.2s_ease]"
- onKeyDown={(e) => {
+                  open
+                  aria-label="Schedule Notice Modal"
+                  className="fixed inset-0 bg-black/75 z-[120] flex items-center justify-center p-4 m-0 border-none max-w-none w-full h-full animate-[fadeIn_0.2s_ease]"
+                  onKeyDown={(e) => {
                     if (e.key === "Escape") setAlertModal({ ...alertModal, isOpen: false });
                   }}>
                   <button
- type="button"
- aria-label="Close modal backdrop"
- onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
+                    type="button"
+                    aria-label="Close modal backdrop"
+                    onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
                     className="absolute inset-0 cursor-pointer border-none w-full h-full"
                   />
                   <div
- className="bg-[#181920]/85 backdrop-blur-xl border border-purple-500/30 w-full max-w-md p-6 flex flex-col items-center text-center space-y-4 animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] select-none relative z-10 shadow-2xl"
- onClick={(e) => e.stopPropagation()}>
+                    className="bg-[#181920]/85 backdrop-blur-xl border border-purple-500/30 w-full max-w-md p-6 flex flex-col items-center text-center space-y-4 animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] select-none relative z-10 shadow-2xl"
+                    onClick={(e) => e.stopPropagation()}>
                     <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-2xl shadow-inner shrink-0">
                       {alertModal.type === 'error' ? '' : alertModal.type === 'success' ? '' : alertModal.type === 'info' ? 'ℹ' : ''}
                     </div>
@@ -10681,8 +10681,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <p className="mt-2 whitespace-pre-line">{alertModal.message}</p>
                     </div>
                     <button
- type="button"
- onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
+                      type="button"
+                      onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
                       className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer border-none mt-2">
                       Got It
                     </button>
@@ -10697,17 +10697,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="fixed top-0 right-0 bottom-0 left-0 inset-0 w-screen h-screen h-[100vh] h-[100dvh] z-[100000] flex justify-end animate-[fadeIn_0.2s_ease]">
                     {/* Backdrop Click Overlay */}
                     <button
- type="button"
- aria-label="Close select group drawer"
- className="absolute inset-0 bg-black/15 cursor-default border-0 w-full h-full"
- onClick={() => setCellGroupPopover(null)}
+                      type="button"
+                      aria-label="Close select group drawer"
+                      className="absolute inset-0 bg-black/15 cursor-default border-0 w-full h-full"
+                      onClick={() => setCellGroupPopover(null)}
                     />
 
                     {/* Full Height Right-Side Drawer Panel */}
                     <div
- data-group-popover-cell
- className="relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between bg-[#0a00653b] backdrop-blur-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10 "
- onClick={(e) => e.stopPropagation()}>
+                      data-group-popover-cell
+                      className="relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between bg-[#0a00653b] backdrop-blur-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10 "
+                      onClick={(e) => e.stopPropagation()}>
                       {/* Drawer Header */}
                       <div className="p-5 border-b border-white/10 flex items-start justify-between shrink-0">
                         <div className="min-w-0 flex-1 pr-2">
@@ -10717,8 +10717,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <div className="flex items-center gap-3 shrink-0">
                           <span className="text-white/50 px-2.5 py-1 bg-[#00000029] rounded-full border border-white/10 whitespace-nowrap shrink-0">{crewGroups.length} saved</span>
                           <button
- aria-label="Close select group drawer"
- onClick={() => setCellGroupPopover(null)}
+                            aria-label="Close select group drawer"
+                            onClick={() => setCellGroupPopover(null)}
                             className="text-white/40 hover:text-white transition-colors cursor-pointer border-none ">
                             ✕
                           </button>
@@ -10731,8 +10731,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div className="py-12 text-center space-y-4">
                             <span className="text-white/50 block">No saved crew groups yet</span>
                             <button
- type="button"
- onClick={() => {
+                              type="button"
+                              onClick={() => {
                                 setCellGroupPopover(null);
                                 createGroupForDateRef.current = dateStr;
                                 const initialSettings: any = {};
@@ -10753,9 +10753,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <span className="uppercase text-white/50 block">Saved Groups</span>
                             {crewGroups.map((g, gIdx) => (
                               <button
- key={gIdx}
- type="button"
- onClick={() => {
+                                key={gIdx}
+                                type="button"
+                                onClick={() => {
                                   handleAddGroupToDay(dateStr, g);
                                   setCellGroupPopover(null);
                                 }}
@@ -10775,15 +10775,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {/* Drawer Footer */}
                       <div className="p-5 border-t border-white/10 flex items-center justify-between gap-3 shrink-0">
                         <button
- type="button"
- onClick={() => setCellGroupPopover(null)}
+                          type="button"
+                          onClick={() => setCellGroupPopover(null)}
                           className="px-4 py-2 border border-white/10 bg-[#00000029] text-white/70 hover:text-white uppercase rounded-lg transition-colors cursor-pointer">
                           Cancel
                         </button>
 
                         <button
- type="button"
- onClick={() => {
+                          type="button"
+                          onClick={() => {
                             setCellGroupPopover(null);
                             createGroupForDateRef.current = dateStr;
                             const initialSettings: any = {};
@@ -10810,18 +10810,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="fixed top-0 right-0 bottom-0 left-0 inset-0 w-screen h-screen h-[100vh] h-[100dvh] z-[100000] flex justify-end animate-[fadeIn_0.2s_ease]">
                   {/* Backdrop Click Overlay */}
                   <button
- type="button"
- aria-label="Close create group modal"
- className="absolute inset-0 bg-black/15 cursor-default border-0 w-full h-full"
- onClick={() => {
+                    type="button"
+                    aria-label="Close create group modal"
+                    className="absolute inset-0 bg-black/15 cursor-default border-0 w-full h-full"
+                    onClick={() => {
                       setIsCreateGroupModalOpen(false);
                       createGroupForDateRef.current = null;
                     }}
                   />
 
                   <div
- className="bg-[#0a00653b] backdrop-blur-2xl relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
- onClick={(e) => e.stopPropagation()}>
+                    className="bg-[#0a00653b] backdrop-blur-2xl relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
+                    onClick={(e) => e.stopPropagation()}>
                     {/* Modal Header */}
                     <div className="p-5 border-b border-white/10 flex items-start justify-between shrink-0">
                       <div>
@@ -10829,8 +10829,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <p className="mt-1">Select members and customize their shift slots</p>
                       </div>
                       <button
- aria-label="Close create group modal"
- onClick={() => {
+                        aria-label="Close create group modal"
+                        onClick={() => {
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
                         }}
@@ -10846,10 +10846,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="mt-2 space-y-1.5">
                         <label htmlFor="admin-new-group-name" className="uppercase text-white/50 font-extrabold">Group Name</label>
                         <GlowInput
- id="admin-new-group-name"
- type="text"
- value={newGroupNameInput}
- onChange={(e) => setNewGroupNameInput(e.target.value)}
+                          id="admin-new-group-name"
+                          type="text"
+                          value={newGroupNameInput}
+                          onChange={(e) => setNewGroupNameInput(e.target.value)}
                           placeholder="e.g. Weekend Tech Crew"
                           className="w-full px-3.5 py-2.5 border border-white/10 text-white transition-all"
                         />
@@ -10870,10 +10870,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   {/* Left checkbox and avatar */}
                                   <div className="flex items-center gap-3 min-w-0">
                                     <SquishyToggle
- id={`group-member-toggle-${m.id}`}
- label={`Toggle active for ${m.name || m.id}`}
- checked={!!setting.active}
- onChange={(act) => {
+                                      id={`group-member-toggle-${m.id}`}
+                                      label={`Toggle active for ${m.name || m.id}`}
+                                      checked={!!setting.active}
+                                      onChange={(act) => {
                                         setNewGroupMemberSettings(prev => ({
                                           ...prev,
                                           [m.id]: {
@@ -10890,15 +10890,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       <p className="text-white text-sm truncate ">{m.name}</p>
                                       <span className="text-white/50 block mt-0.5 font-normal truncate">
                                         <a
- href={`tel:${(m.phone || '(555) 123-4567').replace(/[^\d+]/g, '')}`}
- onClick={(e) => e.stopPropagation()}
+                                          href={`tel:${(m.phone || '(555) 123-4567').replace(/[^\d+]/g, '')}`}
+                                          onClick={(e) => e.stopPropagation()}
                                           className="hover:underline transition-colors">
                                           {m.phone || '(555) 123-4567'}
                                         </a>
                                         <span className="mx-1 text-white/30">|</span>
                                         <a
- href={`mailto:${m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}`}
- onClick={(e) => e.stopPropagation()}
+                                          href={`mailto:${m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}`}
+                                          onClick={(e) => e.stopPropagation()}
                                           className="hover:underline transition-colors">
                                           {m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}
                                         </a>
@@ -10918,8 +10918,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           </span>
                                           {(setting.timeFrames || []).length > 1 && (
                                             <button
- type="button"
- onClick={() => {
+                                              type="button"
+                                              onClick={() => {
                                                 const currentTfs = setting.timeFrames || [];
                                                 const nextTfs = currentTfs.filter((_, i) => i !== tfIdx);
                                                 setNewGroupMemberSettings(prev => ({
@@ -10942,8 +10942,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           <div>
                                             <label className="uppercase text-white/50 block" style={{ fontSize: '7.5px' }}>Start Time</label>
                                             <GooeyMessagesDropdown
- placeholder="Select Start Time"
- selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "5 PM"}
+                                              placeholder="Select Start Time"
+                                              selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "5 PM"}
                                               options={generateTimeOptions().slice(0, -1).map(opt => opt.label)}
                                               onChange={(selectedLabel) => {
                                                 const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
@@ -10966,8 +10966,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           <div>
                                             <label className="uppercase text-white/50 block" style={{ fontSize: '7.5px' }}>End Time</label>
                                             <GooeyMessagesDropdown
- placeholder="Select End Time"
- selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "10 PM"}
+                                              placeholder="Select End Time"
+                                              selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "10 PM"}
                                               options={generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => opt.label)}
                                               onChange={(selectedLabel) => {
                                                 const found = generateTimeOptions().find(opt => opt.label === selectedLabel);
@@ -10996,9 +10996,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                               const isSelected = currentRoles.includes(preset.toUpperCase());
                                               return (
                                                 <button
- key={preset}
- type="button"
- onClick={() => {
+                                                  key={preset}
+                                                  type="button"
+                                                  onClick={() => {
                                                     const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
                                                     const upperPreset = preset.toUpperCase();
                                                     const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
@@ -11026,8 +11026,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     ))}
 
                                     <button
- type="button"
- onClick={() => {
+                                      type="button"
+                                      onClick={() => {
                                         const currentTfs = setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }];
                                         const lastEnd = currentTfs[currentTfs.length - 1]?.endHour || 17;
                                         const newStart = Math.min(23, lastEnd);
@@ -11057,8 +11057,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Modal Footer */}
                     <div className="p-5 border-t border-white/10 flex items-center justify-between gap-3 shrink-0">
                       <button
- type="button"
- onClick={() => {
+                        type="button"
+                        onClick={() => {
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
                         }}
@@ -11067,8 +11067,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </button>
 
                       <button
- type="button"
- disabled={!newGroupNameInput.trim() || !Object.values(newGroupMemberSettings).some(s => s.active)}
+                        type="button"
+                        disabled={!newGroupNameInput.trim() || !Object.values(newGroupMemberSettings).some(s => s.active)}
                         onClick={() => {
                           const activeMembers = Object.entries(newGroupMemberSettings).filter(([_, s]) => s.active);
                           const memberIds = activeMembers.map(([id]) => id);
@@ -11119,10 +11119,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="fixed top-0 right-0 bottom-0 left-0 inset-0 w-screen h-screen h-[100vh] h-[100dvh] z-[100000] flex justify-end animate-[fadeIn_0.2s_ease]">
                     {/* Backdrop Click Overlay */}
                     <button
- type="button"
- aria-label="Close overlay"
- className="absolute inset-0 bg-black/15 cursor-default border-0 w-full h-full"
- onClick={() => setSelectedShowCrewDate(null)}
+                      type="button"
+                      aria-label="Close overlay"
+                      className="absolute inset-0 bg-black/15 cursor-default border-0 w-full h-full"
+                      onClick={() => setSelectedShowCrewDate(null)}
                     />
 
                     <div className="bg-[#0a00653b] backdrop-blur-2xl relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10">
@@ -11138,8 +11138,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           </p>
                         </div>
                         <button
- aria-label="Close selected show crew date modal"
- onClick={() => setSelectedShowCrewDate(null)}
+                          aria-label="Close selected show crew date modal"
+                          onClick={() => setSelectedShowCrewDate(null)}
                           className="text-white/45 hover:text-white transition-colors cursor-pointer border-none ">✕</button>
                       </div>
 
@@ -11196,8 +11196,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     <div className="text-right shrink-0">
                                       <span className="text-white/85 block">{shift.time}</span>
                                       <button
- type="button"
- onClick={() => {
+                                        type="button"
+                                        onClick={() => {
                                           setSelectedShowCrewDate(null);
                                           handleEditShiftClick(shift);
                                         }}
@@ -11227,8 +11227,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     <span className="text-white/40 block mt-0.5">{shift.time}</span>
                                   </div>
                                   <button
- type="button"
- onClick={() => {
+                                    type="button"
+                                    onClick={() => {
                                       setSelectedShowCrewDate(null);
                                       handleEditShiftClick(shift);
                                     }}
@@ -11264,11 +11264,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {/* Admin Identity & Badges */}
         <div className="flex gap-5">
           <input
- type="file"
- ref={adminPhotoInputRef}
- accept="image/*"
- className="hidden"
- onChange={async (e) => {
+            type="file"
+            ref={adminPhotoInputRef}
+            accept="image/*"
+            className="hidden"
+            onChange={async (e) => {
               const file = e.target.files?.[0];
               if (!file) return;
               if (!file.type.startsWith("image/")) return;
@@ -11289,8 +11289,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           />
           <div className="relative w-12 h-12 shrink-0">
             <button
- type="button"
- onClick={() => adminPhotoInputRef.current?.click()}
+              type="button"
+              onClick={() => adminPhotoInputRef.current?.click()}
               title="Click to upload crew photo"
               className="w-full h-full bg-gradient-to-br from-purple-500/30 to-purple-800/20 flex items-center justify-center text-xl text-white !rounded-full overflow-hidden cursor-pointer group transition-colors border border-white/10">
               {isAvatarUrl ? (
@@ -11331,15 +11331,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           {/* Mode Switcher Pills */}
           <div className="flex items-center gap-2 select-none">
             <FoolishShrimpButton
- isActive={adminTab === 'band'}
- onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
+              isActive={adminTab === 'band'}
+              onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
               className="px-5 py-2 text-[10px] uppercase cursor-pointer whitespace-nowrap">
               Band &amp; Site
             </FoolishShrimpButton>
 
             <FoolishShrimpButton
- isActive={adminTab === 'cruise'}
- onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
+              isActive={adminTab === 'cruise'}
+              onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
               className="px-5 py-2 text-[10px] uppercase cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap">
               <span>Cruise</span>
               {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
@@ -11352,8 +11352,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           {/* Exit Link */}
           <Link
- href="/"
- className="uppercase text-black/70 hover:text-black transition-colors flex items-center gap-1.5 py-2 px-1 cursor-pointer">
+            href="/"
+            className="uppercase text-black/70 hover:text-black transition-colors flex items-center gap-1.5 py-2 px-1 cursor-pointer">
             Exit to Site
           </Link>
         </div>
@@ -11440,8 +11440,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {entry.details && (
                         <div className="mt-1 mb-2">
                           <button
- type="button"
- onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
+                            type="button"
+                            onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
                             className="inline-flex items-center gap-1 text-white hover:text-white underline decoration-white/40 hover:decoration-white transition-colors cursor-pointer">
                             {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
                           </button>
@@ -11481,7 +11481,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     <span className="text-white/40 uppercase block">Visual Template Render</span>
                                     <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-lg overflow-hidden p-0.5">
                                       <iframe
- srcDoc={`
+                                        srcDoc={`
  <!DOCTYPE html>
                                           <html>
                                             <head>
@@ -11562,10 +11562,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div>
                       <label htmlFor="admin-guidelines-title" className="text-white/70 uppercase r block mb-2 ">Section Title</label>
                       <input
- id="admin-guidelines-title"
- type="text"
- value={adminGuidelinesTitle}
- onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
+                        id="admin-guidelines-title"
+                        type="text"
+                        value={adminGuidelinesTitle}
+                        onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
                         placeholder="Cruise Information & Guidelines"
                         className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all text-sm shadow-inner"
                       />
@@ -11574,17 +11574,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <label htmlFor="admin-guidelines-subtitle" className="text-white/70 uppercase r block mb-2 ">Subtitle Badge</label>
                       <div className="relative">
                         <input
- id="admin-guidelines-subtitle"
- type="text"
- value={adminGuidelinesSubtitle}
- onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
+                          id="admin-guidelines-subtitle"
+                          type="text"
+                          value={adminGuidelinesSubtitle}
+                          onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
                           placeholder="Cruiser Welcome Pack"
                           className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 pr-12 placeholder: /40 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all text-sm shadow-inner"
                         />
                         <button
- type="button"
- className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-lg bg-gradient-to-r from-purple-500/40 to-pink-500/40 border border-purple-400/30 text-white hover:brightness-125 transition-all text-xs"
- title="Badge options">
+                          type="button"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-lg bg-gradient-to-r from-purple-500/40 to-pink-500/40 border border-purple-400/30 text-white hover:brightness-125 transition-all text-xs"
+                          title="Badge options">
                           <span className=" er">•••</span>
                         </button>
                       </div>
@@ -11600,8 +11600,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   <div className="flex justify-end pt-2 border-t border-white/5">
                     <FoolishShrimpButton
- type="button"
- onClick={async () => {
+                      type="button"
+                      onClick={async () => {
                         if (adminGuidelinesUpdatingRef.current) return;
                         adminGuidelinesUpdatingRef.current = true;
                         setAdminGuidelinesUpdating(true);
@@ -11670,10 +11670,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div>
                         <label htmlFor="admin-cruise-blast-subject" className="text-white/70 uppercase r block mb-2 ">Notice Title / Email Subject Line</label>
                         <input
- id="admin-cruise-blast-subject"
- type="text"
- value={cruiseBlastSubject}
- onChange={(e) => setCruiseBlastSubject(e.target.value)}
+                          id="admin-cruise-blast-subject"
+                          type="text"
+                          value={cruiseBlastSubject}
+                          onChange={(e) => setCruiseBlastSubject(e.target.value)}
                           placeholder="e.g. TEST, CAPTAIN'S LOG, or Cruise Update..."
                           className="w-full bg-[#18072b]/90 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all text-sm shadow-inner"
                         />
@@ -11690,27 +11690,27 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex flex-wrap items-center gap-6 pt-2 border-t border-white/5">
                         <div className="flex items-center gap-2 cursor-pointer select-none" onClick={() => setPostNoticeToDashboard(!postNoticeToDashboard)}>
                           <SquishyToggle
- id="post-notice-dashboard-toggle"
- label="Live Banner on Dashboard"
- checked={postNoticeToDashboard}
- onChange={setPostNoticeToDashboard}
- />
+                            id="post-notice-dashboard-toggle"
+                            label="Live Banner on Dashboard"
+                            checked={postNoticeToDashboard}
+                            onChange={setPostNoticeToDashboard}
+                          />
                           <span className="text-white/80"> Live Banner on Dashboard</span>
                         </div>
                         <div className="flex items-center gap-2 cursor-pointer select-none" onClick={() => setSendEmailToPassengers(!sendEmailToPassengers)}>
                           <SquishyToggle
- id="send-email-passengers-toggle"
- label="Email Passenger Signups"
- checked={sendEmailToPassengers}
- onChange={setSendEmailToPassengers}
- />
+                            id="send-email-passengers-toggle"
+                            label="Email Passenger Signups"
+                            checked={sendEmailToPassengers}
+                            onChange={setSendEmailToPassengers}
+                          />
                           <span className="text-white/80"> Email Passenger Signups</span>
                         </div>
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2 justify-end mt-auto pt-3 border-t border-white/5">
                         <FoolishShrimpButton
- onClick={async () => {
+                          onClick={async () => {
                             if (cruiseUpdatingRef.current) return;
                             cruiseUpdatingRef.current = true;
                             setCruiseUpdating(true);
@@ -11759,14 +11759,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         {/* Live Preview Tab Switcher */}
                         <div className="flex items-center gap-2 select-none">
                           <FoolishShrimpButton
- isActive={livePreviewTab === 'dashboard'}
- onClick={() => setLivePreviewTab('dashboard')}
+                            isActive={livePreviewTab === 'dashboard'}
+                            onClick={() => setLivePreviewTab('dashboard')}
                             className="px-4 py-2 text-xs uppercase r cursor-pointer whitespace-nowrap">
                             CRUISE DASHBOARD BANNER
                           </FoolishShrimpButton>
                           <FoolishShrimpButton
- isActive={livePreviewTab === 'email'}
- onClick={() => setLivePreviewTab('email')}
+                            isActive={livePreviewTab === 'email'}
+                            onClick={() => setLivePreviewTab('email')}
                             className="px-4 py-2 text-xs uppercase r cursor-pointer whitespace-nowrap">
                             EMAIL BROADCAST
                           </FoolishShrimpButton>
@@ -11774,13 +11774,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
 
                       <CruiseLivePreview
- livePreviewTab={livePreviewTab}
- cruiseBlastSubject={cruiseBlastSubject}
- cruiseMessage={cruiseMessage}
- sanitizeHtml={sanitizeHtml}
- cleanWysiwygHtml={cleanWysiwygHtml}
- cruiseCommunityBlast={cruiseCommunityBlast}
- />
+                        livePreviewTab={livePreviewTab}
+                        cruiseBlastSubject={cruiseBlastSubject}
+                        cruiseMessage={cruiseMessage}
+                        sanitizeHtml={sanitizeHtml}
+                        cleanWysiwygHtml={cleanWysiwygHtml}
+                        cruiseCommunityBlast={cruiseCommunityBlast}
+                      />
                     </div>
                   </div>
                 </div>
@@ -11860,15 +11860,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {showSetPassword && (
         <CrewSetPasswordModal
- email={firstLoginEmail}
- onComplete={() => setShowSetPassword(false)}
+          email={firstLoginEmail}
+          onComplete={() => setShowSetPassword(false)}
         />
       )}
 
       {selectedQrProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
           <style dangerouslySetInnerHTML={{
- __html: `
+            __html: `
  @media print {
  html, body, main, #__next, div:not(.print-tag-container):not(.print-tag-card):not(.print-tag-card *) {
  background: white !important;
@@ -11921,8 +11921,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <p className="mt-1">Generate printable retail labels for the merch table</p>
               </div>
               <button
- aria-label="Close QR product label modal"
- onClick={() => setSelectedQrProduct(null)}
+                aria-label="Close QR product label modal"
+                onClick={() => setSelectedQrProduct(null)}
                 className="w-8 h-8 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center text-white hover:text-white hover:bg-white/10 transition-colors cursor-pointer">✕
 
               </button>
@@ -11937,8 +11937,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <span className="block text-[0.65rem] text-white uppercase mb-1.5">Link Destination Type</span>
                       <div className="grid grid-cols-2 gap-2">
                         <button
- type="button"
- onClick={() => setQrLinkType('product')}
+                          type="button"
+                          onClick={() => setQrLinkType('product')}
                           className={`px-3 py-2    uppercase border rounded-lg transition-colors cursor-pointer ${qrLinkType === 'product'
                             ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
                             : 'bg-black/20 border-white/10 text-white/40   text-white hover:border-white/20'
@@ -11946,8 +11946,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           Product Detail Page
                         </button>
                         <button
- type="button"
- onClick={() => setQrLinkType('checkout')}
+                          type="button"
+                          onClick={() => setQrLinkType('checkout')}
                           disabled={!selectedQrProduct.variants || selectedQrProduct.variants.length === 0}
                           className={`px-3 py-2    uppercase border rounded-lg transition-colors cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${qrLinkType === 'checkout'
                             ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
@@ -11964,8 +11964,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}
                         </label>
                         <select
- id="admin-qr-variant-select"
- value={selectedQrVariant ? selectedQrProduct.variants.findIndex((v: any) => v.id === selectedQrVariant.id) : '-1'}
+                          id="admin-qr-variant-select"
+                          value={selectedQrVariant ? selectedQrProduct.variants.findIndex((v: any) => v.id === selectedQrVariant.id) : '-1'}
                           onChange={(e) => {
                             const val = parseInt(e.target.value);
                             setSelectedQrVariant(val === -1 ? null : selectedQrProduct.variants[val]);
@@ -11989,10 +11989,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div>
                       <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] text-white uppercase mb-1.5">Sub-label Text</label>
                       <input
- id="admin-qr-subtitle-input"
- type="text"
- value={qrSubtitle}
- onChange={(e) => setQrSubtitle(e.target.value)}
+                        id="admin-qr-subtitle-input"
+                        type="text"
+                        value={qrSubtitle}
+                        onChange={(e) => setQrSubtitle(e.target.value)}
                         placeholder="Official Merchandise"
                         className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white outline-none focus:border-[var(--color-accent)]/50"
                       />
@@ -12004,9 +12004,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <p>Include product price at the bottom of the card</p>
                       </div>
                       <button
- type="button"
- aria-label="Toggle include price tag"
- onClick={() => setQrIncludePrice(!qrIncludePrice)}
+                        type="button"
+                        aria-label="Toggle include price tag"
+                        onClick={() => setQrIncludePrice(!qrIncludePrice)}
                         className={`w-10 h-6 rounded-full p-1 transition-colors cursor-pointer ${qrIncludePrice ? 'bg-[var(--color-accent)]' : 'bg-white/10'}`}>
                         <div className={`w-4 h-4 bg-white rounded-full transition-transform ${qrIncludePrice ? 'translate-x-4' : 'translate-x-0'}`} />
                       </button>
@@ -12039,15 +12039,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     <div className="p-3 bg-white border border-black/10 flex items-center justify-center">
                       <QRCode
- value={
- qrLinkType === 'checkout' && selectedQrVariant
- ? `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/cart/${selectedQrVariant.id.split('/').pop()}:1`
- : `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/products/${selectedQrProduct.handle}`
- }
- size={150}
- style={{ height: "auto", maxWidth: "100%", width: "100%" }}
- viewBox="0 0 150 150"
- />
+                        value={
+                          qrLinkType === 'checkout' && selectedQrVariant
+                            ? `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/cart/${selectedQrVariant.id.split('/').pop()}:1`
+                            : `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/products/${selectedQrProduct.handle}`
+                        }
+                        size={150}
+                        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                        viewBox="0 0 150 150"
+                      />
                     </div>
 
                     <div className="text-center w-full">
@@ -12065,12 +12065,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             <div className="p-6 border-t border-white/10 bg-black/20 flex items-center justify-end gap-3">
               <button
- onClick={() => setSelectedQrProduct(null)}
+                onClick={() => setSelectedQrProduct(null)}
                 className="px-4 py-2 text-white hover:text-white uppercase rounded-lg transition-colors cursor-pointer">
                 Cancel
               </button>
               <button
- onClick={() => window.print()}
+                onClick={() => window.print()}
                 className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] uppercase transition-colors shadow-[0_4px_15px_rgba(255,10,61,0.3)] border border-white/10 flex items-center gap-2 cursor-pointer">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9" /><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /><rect x="6" y="14" width="12" height="8" /></svg>
                 Print Label

@@ -36,6 +36,18 @@ const ExternalIcon = () => (
   </svg>
 );
 
+const DEFAULT_TITLES: Record<Group, string> = {
+  fans: "Instant Show & Merch Push Alerts",
+  crew: "Crew Member Live Stream Push Alerts",
+  cruise: "Cruise Passenger Push Alerts",
+};
+
+const DEFAULT_SUBTITLES: Record<Group, string> = {
+  fans: "Get instant free push alerts on your phone whenever 7th Heaven drops new show dates, tickets, or merch!",
+  crew: "Subscribe to get instant free push alerts on your phone or browser whenever a 7th Heaven crew or band member goes live!",
+  cruise: "Stay updated on cruise cabin pricing, setlist voting, and shore excursion announcements.",
+};
+
 export default function PushAlertsCard({
   group,
   className = "",
@@ -69,23 +81,11 @@ export default function PushAlertsCard({
   }, [group]);
 
   const server = info?.server || "https://ntfy.sh";
-  const serverHost = server.replace(/^https?:\/\//, "");
   const topic = info?.topic || "";
   const webUrl = topic ? `${server}/${topic}` : "";
 
-  const defaultTitle =
-    group === "fans"
-      ? "Instant Show & Merch Push Alerts"
-      : group === "crew"
-        ? "Crew Member Live Stream Push Alerts"
-        : "Cruise Passenger Push Alerts";
-
-  const defaultSubtitle =
-    group === "fans"
-      ? "Get instant free push alerts on your phone whenever 7th Heaven drops new show dates, tickets, or merch!"
-      : group === "crew"
-        ? "Subscribe to get instant free push alerts on your phone or browser whenever a 7th Heaven crew or band member goes live!"
-        : "Stay updated on cruise cabin pricing, setlist voting, and shore excursion announcements.";
+  const defaultTitle = DEFAULT_TITLES[group];
+  const defaultSubtitle = DEFAULT_SUBTITLES[group];
 
   return (
     <>
@@ -111,15 +111,13 @@ export default function PushAlertsCard({
           ) : (
             <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3">
               {/* Primary Action: Open Subscription Modal to collect Name & Email */}
-              <button
- type="button"
- onClick={() => setShowModal(true)}
-                className="inline-flex items-center justify-center gap-2">
-                <CosmicRadialButton className="justify-center !py-2.5 !px-5 uppercase !text-white ">
-                  <BellIcon />
-                  {subscribed ? "✓ Live Alerts Enabled 🔔" : "Enable Push Alerts"}
-                </CosmicRadialButton>
-              </button>
+              <CosmicRadialButton
+                onClick={() => setShowModal(true)}
+                className="justify-center !py-2.5 !px-5 uppercase !text-white"
+              >
+                <BellIcon />
+                {subscribed ? "✓ Live Alerts Enabled 🔔" : "Enable Push Alerts"}
+              </CosmicRadialButton>
 
               {/* Secondary Action: Open Web Version */}
               {webUrl ? (

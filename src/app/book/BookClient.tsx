@@ -719,8 +719,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     {editingEmail ? (
                       <div className="flex gap-2">
                         <input type="email"
- value={accountEmail}
- onChange={e => setAccountEmail(e.target.value)}
+                          value={accountEmail}
+                          onChange={e => setAccountEmail(e.target.value)}
                           autoFocus
                           disabled={pinSent || pinLoading}
                           className="flex-1 border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
@@ -741,17 +741,17 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     <div>
                       <div className="flex gap-2">
                         <input type="password"
- placeholder="Set a password (6+ chars)"
- value={accountPassword}
- onChange={e => setAccountPassword(e.target.value)}
+                          placeholder="Set a password (6+ chars)"
+                          value={accountPassword}
+                          onChange={e => setAccountPassword(e.target.value)}
                           disabled={pinLoading}
                           className="flex-1 border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
                         <button
- type="button"
- disabled={!accountPassword || accountPassword.length < 6 || !accountEmail || pinLoading}
- onClick={handleSendPin}
- className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg uppercase transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]">
+                          type="button"
+                          disabled={!accountPassword || accountPassword.length < 6 || !accountEmail || pinLoading}
+                          onClick={handleSendPin}
+                          className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg uppercase transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]">
                           {pinLoading ? (
                             <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
                           ) : (
@@ -765,18 +765,18 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     <div>
                       <div className="flex gap-2 mb-2">
                         <input type="text"
- maxLength={6}
- placeholder="Enter 6-digit code"
- value={pinCode}
- onChange={e => setPinCode(e.target.value.replace(/\D/g, ''))}
+                          maxLength={6}
+                          placeholder="Enter 6-digit code"
+                          value={pinCode}
+                          onChange={e => setPinCode(e.target.value.replace(/\D/g, ''))}
                           disabled={pinLoading}
                           className="flex-1 border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors text-center disabled:opacity-50"
                         />
                         <button
- type="button"
- disabled={pinCode.length !== 6 || pinLoading}
- onClick={handleVerifyPin}
- className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg uppercase transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]">
+                          type="button"
+                          disabled={pinCode.length !== 6 || pinLoading}
+                          onClick={handleVerifyPin}
+                          className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg uppercase transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]">
                           {pinLoading ? (
                             <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
                           ) : (
@@ -786,15 +786,15 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       </div>
                       <div className="flex justify-between items-center mt-2">
                         <button
- type="button"
- onClick={handleSendPin}
- disabled={pinLoading}
- className="text-[var(--color-accent)] hover:underline disabled:opacity-40">
+                          type="button"
+                          onClick={handleSendPin}
+                          disabled={pinLoading}
+                          className="text-[var(--color-accent)] hover:underline disabled:opacity-40">
                           Resend Code
                         </button>
                         <button
- type="button"
- onClick={() => { setPinSent(false); setPinCode(""); setPinError(""); }}
+                          type="button"
+                          onClick={() => { setPinSent(false); setPinCode(""); setPinError(""); }}
                           disabled={pinLoading}
                           className="text-white/30 text-white hover:underline">
                           Back to Password
@@ -810,8 +810,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   )}
 
                   <button
- type="button"
- onClick={() => {
+                    type="button"
+                    onClick={() => {
                       setCreatingAccount(false);
                       setEditingEmail(false);
                       setPinSent(false);
@@ -828,8 +828,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     <span className="text-lg text-white/40">{formData.email}</span>
                   </div>
                   <button
- type="button"
- onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
+                    type="button"
+                    onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
                     className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white uppercase text-base py-4 px-8 transition-colors border border-white/10 hover:border-[var(--color-accent)]/60 cursor-pointer">
                     Create Account
                   </button>
@@ -872,9 +872,9 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 </div>
               </div>
               <button
- type="button"
- onClick={handleLoadLastForm}
- className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer rounded-lg shrink-0 flex items-center gap-1.5">
+                type="button"
+                onClick={handleLoadLastForm}
+                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer rounded-lg shrink-0 flex items-center gap-1.5">
                 <Zap className="w-3.5 h-3.5" /> Populate
               </button>
             </div>
@@ -892,12 +892,12 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             </p>
             <div className="mb-6">
               <CalendarPicker
- label="Primary Event Schedule"
- required
- slots={bookingSlots}
- onChangeSlots={setBookingSlots}
- startTime={formData.startTime}
- onStartTimeChange={(t) => setFormData(p => ({ ...p, startTime: t }))}
+                label="Primary Event Schedule"
+                required
+                slots={bookingSlots}
+                onChangeSlots={setBookingSlots}
+                startTime={formData.startTime}
+                onStartTimeChange={(t) => setFormData(p => ({ ...p, startTime: t }))}
                 endTime={formData.endTime}
                 onEndTimeChange={(t) => setFormData(p => ({ ...p, endTime: t }))}
                 selectedType={selectedType || undefined}
@@ -962,7 +962,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     <h4 className="uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
                     <p className=" uppercase">Configure individual times and formats for each show below</p>
                   </div>
-                  <span className="uppercase bg-cyan-500/20 px-3 py-1 rounded-lg border border-cyan-400/30">
+                  <span className="uppercase bg-cyan-500/20 px-3 py-1 rounded-lg border border-purple-400/30">
                     {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
                   </span>
                 </div>
@@ -971,26 +971,26 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     const formattedDate = new Date(slot.date + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
                     return (
                       <div
- key={slot.id}
- className="bg-[#00000029] border border-white/10 hover:border-cyan-400/40 p-6 rounded-lg relative group transition-colors ">
+                        key={slot.id}
+                        className="bg-[#00000029] border border-white/10 hover:border-purple-400/40 p-6 rounded-lg relative group transition-colors ">
                         {/* Duplicate and Remove buttons */}
                         <div className="absolute top-4 right-4 flex items-center gap-1.5">
                           <button
- type="button"
- onClick={() => {
+                            type="button"
+                            onClick={() => {
                               const newSlot = {
                                 ...slot,
                                 id: Math.random().toString(36).substring(2, 9),
                               };
                               setBookingSlots([...bookingSlots, newSlot]);
                             }}
-                            className="text-white transition-colors cursor-pointer uppercase flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/10 hover:border-cyan-400/30"
+                            className="text-white transition-colors cursor-pointer uppercase flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/10 hover:border-purple-400/30"
                             title="Add another show on this date">
                             <Plus className="w-3 h-3" /> Add Another
                           </button>
                           <button
- type="button"
- onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
+                            type="button"
+                            onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
                             className="text-white hover:text-rose-400 transition-colors cursor-pointer uppercase flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border border-white/10 hover:border-rose-500/30"
                             title="Remove this show">
                             <X className="w-3 h-3" /> Remove
@@ -1007,16 +1007,16 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           <div>
                             <label htmlFor={`slot-format-${slot.id}`} className="uppercase text-white/50 block mb-1.5">Show Format</label>
                             <Dropdown
- id={`slot-format-${slot.id}`}
- fullWidth={true}
- selected={slot.eventType}
- options={[
- { label: "Full Band", value: "full_band" },
- { label: "Unplugged", value: "unplugged" },
- { label: "Private Event", value: "private" },
- { label: "Custom Booking", value: "custom" },
- ]}
- onChange={(val) => {
+                              id={`slot-format-${slot.id}`}
+                              fullWidth={true}
+                              selected={slot.eventType}
+                              options={[
+                                { label: "Full Band", value: "full_band" },
+                                { label: "Unplugged", value: "unplugged" },
+                                { label: "Private Event", value: "private" },
+                                { label: "Custom Booking", value: "custom" },
+                              ]}
+                              onChange={(val) => {
                                 const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: val } : s);
                                 setBookingSlots(updated);
                               }}
@@ -1024,13 +1024,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             />
                             {slot.eventType === 'custom' && (
                               <input type="text"
- placeholder="Describe show type (e.g. Street Fest)..."
- value={slot.customEventType || ""}
- onChange={(e) => {
+                                placeholder="Describe show type (e.g. Street Fest)..."
+                                value={slot.customEventType || ""}
+                                onChange={(e) => {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
                                   setBookingSlots(updated);
                                 }}
-                                className="w-full .5 bg-[#00000029] backdrop-blur-[45px] border border-cyan-400/40 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                className="w-full .5 bg-[#00000029] backdrop-blur-[45px] border border-purple-400/40 py-2 px-3 rounded-lg outline-none text-white focus:border-purple-400 placeholder:text-white/30 shadow-inner"
                               />
                             )}
                           </div>
@@ -1040,11 +1040,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             <div>
                               <label htmlFor={`slot-start-${slot.id}`} className="uppercase text-white/50 block mb-1.5">Start Time</label>
                               <Dropdown
- id={`slot-start-${slot.id}`}
- fullWidth={true}
- selected={slot.startTime}
- options={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"]}
- onChange={(val) => {
+                                id={`slot-start-${slot.id}`}
+                                fullWidth={true}
+                                selected={slot.startTime}
+                                options={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"]}
+                                onChange={(val) => {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: val } : s);
                                   setBookingSlots(updated);
                                 }}
@@ -1054,11 +1054,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             <div>
                               <label htmlFor={`slot-end-${slot.id}`} className="uppercase text-white/50 block mb-1.5">End Time</label>
                               <Dropdown
- id={`slot-end-${slot.id}`}
- fullWidth={true}
- selected={slot.endTime}
- options={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"]}
- onChange={(val) => {
+                                id={`slot-end-${slot.id}`}
+                                fullWidth={true}
+                                selected={slot.endTime}
+                                options={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"]}
+                                onChange={(val) => {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: val } : s);
                                   setBookingSlots(updated);
                                 }}
@@ -1074,8 +1074,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             <span className="uppercase text-white/50 block mb-2">Contact & Venue Details</span>
                             <div className="grid grid-cols-2 gap-1.5 bg-black/50 p-1 border border-white/10 rounded-lg">
                               <button
- type="button"
- onClick={() => {
+                                type="button"
+                                onClick={() => {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? {
                                     ...s,
                                     useSeparateInfo: false,
@@ -1092,8 +1092,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 Share Main Info
                               </button>
                               <button
- type="button"
- onClick={() => {
+                                type="button"
+                                onClick={() => {
                                   const updated = bookingSlots.map(s => s.id === slot.id ? {
                                     ...s,
                                     useSeparateInfo: true,
@@ -1140,8 +1140,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 <span className="uppercase text-white/40">Separate Show Info</span>
                                 <div className="flex gap-2">
                                   <button
- type="button"
- onClick={() => {
+                                    type="button"
+                                    onClick={() => {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? {
                                         ...s,
                                         contactName: formData.name,
@@ -1158,8 +1158,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   </button>
                                   {hasSavedForm && (
                                     <button
- type="button"
- onClick={() => {
+                                      type="button"
+                                      onClick={() => {
                                         try {
                                           const saved = localStorage.getItem('7h_planner_last_form_v1') || localStorage.getItem('7h_planner_last_form');
                                           if (saved) {
@@ -1188,27 +1188,27 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 <div>
                                   <label htmlFor={`slot-contact-name-${slot.id}`} className="uppercase text-white/50 block mb-1">Contact Name</label>
                                   <input id={`slot-contact-name-${slot.id}`}
- type="text"
- placeholder="e.g. Jane Doe"
- value={slot.contactName || ""}
- onChange={(e) => {
+                                    type="text"
+                                    placeholder="e.g. Jane Doe"
+                                    value={slot.contactName || ""}
+                                    onChange={(e) => {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-purple-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
                                   <label htmlFor={`slot-contact-email-${slot.id}`} className="uppercase text-white/50 block mb-1">Contact Email</label>
                                   <input id={`slot-contact-email-${slot.id}`}
- type="email"
- placeholder="e.g. jane@email.com"
- value={slot.contactEmail || ""}
- onChange={(e) => {
+                                    type="email"
+                                    placeholder="e.g. jane@email.com"
+                                    value={slot.contactEmail || ""}
+                                    onChange={(e) => {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-purple-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1216,14 +1216,14 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               <div>
                                 <label htmlFor={`slot-venue-name-${slot.id}`} className="uppercase text-white/50 block mb-1">Venue Name</label>
                                 <input id={`slot-venue-name-${slot.id}`}
- type="text"
- placeholder="e.g. House of Blues"
- value={slot.venueName || ""}
- onChange={(e) => {
+                                  type="text"
+                                  placeholder="e.g. House of Blues"
+                                  value={slot.venueName || ""}
+                                  onChange={(e) => {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                  className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-purple-400 placeholder:text-white/30 shadow-inner"
                                 />
                               </div>
 
@@ -1231,27 +1231,27 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 <div>
                                   <label htmlFor={`slot-venue-city-${slot.id}`} className="uppercase text-white/50 block mb-1">City</label>
                                   <input id={`slot-venue-city-${slot.id}`}
- type="text"
- placeholder="Chicago"
- value={slot.venueCity || ""}
- onChange={(e) => {
+                                    type="text"
+                                    placeholder="Chicago"
+                                    value={slot.venueCity || ""}
+                                    onChange={(e) => {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-purple-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                                 <div>
                                   <label htmlFor={`slot-venue-state-${slot.id}`} className="uppercase text-white/50 block mb-1">State</label>
                                   <input id={`slot-venue-state-${slot.id}`}
- type="text"
- placeholder="IL"
- value={slot.venueState || ""}
- onChange={(e) => {
+                                    type="text"
+                                    placeholder="IL"
+                                    value={slot.venueState || ""}
+                                    onChange={(e) => {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+                                    className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-purple-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
                               </div>
@@ -1261,8 +1261,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                         <div className="mt-4 pt-4 border-t border-white/10">
                           <button aria-label="Previous"
- type="button"
- onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
+                            type="button"
+                            onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
                             className="w-full text-left flex items-center justify-between uppercase hover:text-purple-400 transition-colors">
                             <span className="flex items-center gap-1.5"><Megaphone className="w-3.5 h-3.5" /> Tour Page Details {expandedMetadata[slot.id] ? <ChevronDown className="w-3.5 h-3.5 inline" /> : <ChevronRight className="w-3.5 h-3.5 inline" />}</span>
                             <span className="text-white/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
@@ -1318,18 +1318,18 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                 <div>
                   <InputField
- label="Load-in / Setup Time"
- name="loadInTime"
- value={isLoadInUnsure ? "Unsure — Band admin will confirm & email setup time" : formData.loadInTime}
- onChange={handleChange}
- disabled={isLoadInUnsure}
- placeholder="e.g. 5:00 PM (2 hrs before)"
- labelRight={
- <div className="flex items-center gap-1.5">
+                    label="Load-in / Setup Time"
+                    name="loadInTime"
+                    value={isLoadInUnsure ? "Unsure — Band admin will confirm & email setup time" : formData.loadInTime}
+                    onChange={handleChange}
+                    disabled={isLoadInUnsure}
+                    placeholder="e.g. 5:00 PM (2 hrs before)"
+                    labelRight={
+                      <div className="flex items-center gap-1.5">
                         <SquishyToggle
- id="toggle-loadin-unsure"
- checked={isLoadInUnsure}
- onChange={(next) => {
+                          id="toggle-loadin-unsure"
+                          checked={isLoadInUnsure}
+                          onChange={(next) => {
                             setIsLoadInUnsure(next);
                             if (next) {
                               setFormData(prev => ({ ...prev, loadInTime: "Unsure — Band admin will confirm & email setup time" }));
@@ -1370,7 +1370,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               </div>
 
               {addressNotification && (
-                <div className="flex items-center gap-2.5 p-3 bg-cyan-950/70 border border-cyan-400/40 rounded-lg animate-[fade-in_0.15s_ease-out]">
+                <div className="flex items-center gap-2.5 p-3 bg-cyan-950/70 border border-purple-400/40 rounded-lg animate-[fade-in_0.15s_ease-out]">
                   <CheckCircle2 className="w-4 h-4 text-purple-400shrink-0" />
                   <span>{addressNotification}</span>
                 </div>
@@ -1387,9 +1387,9 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <div className="flex items-end pb-0.5 gap-2.5 flex-wrap md:flex-nowrap">
                   <div className="flex items-center gap-3 px-3.5 py-2 rounded-lg text-[#c27aff] select-none shadow-inner">
                     <SquishyToggle
- id="toggle-parking-notes"
- checked={hasParkingNotes}
- onChange={(next) => {
+                      id="toggle-parking-notes"
+                      checked={hasParkingNotes}
+                      onChange={(next) => {
                         setHasParkingNotes(next);
                         if (!next) {
                           setFormData(prev => ({ ...prev, parkingNotes: "" }));
@@ -1405,8 +1405,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                 {/* Interactive Map Picker Modal */}
                 <MapPickerModal
- isOpen={showMapPicker}
- onClose={() => setShowMapPicker(false)}
+                  isOpen={showMapPicker}
+                  onClose={() => setShowMapPicker(false)}
                   initialAddress={formData.parkingAddress || `${formData.venueName} ${formData.venueCity} ${formData.venueState}`.trim()}
                   savedAddresses={savedAddresses}
                   onSelectSaved={handleSelectSavedAddress}
@@ -1434,27 +1434,27 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         </label>
                         <div className="flex items-center gap-2 flex-wrap">
                           <button
- type="button"
- onClick={() => setShowMapPicker(true)}
+                            type="button"
+                            onClick={() => setShowMapPicker(true)}
                             className="text-[#c27aff] hover:text-purple-300 flex items-center gap-1 hover:underline cursor-pointer">
                             <MapPin className="w-3.5 h-3.5" /> Pick on Map
                           </button>
                           <span className="text-white/20">•</span>
                           <a
- href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
- [formData.parkingAddress || formData.venueName, formData.venueCity, formData.venueState, "parking"]
- .filter(Boolean)
- .join(" ") || "Chicago IL parking"
- )}`}
- target="_blank"
- rel="noopener noreferrer"
- className="text-purple-300 hover:text-purple-200 flex items-center gap-1 hover:underline">
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                              [formData.parkingAddress || formData.venueName, formData.venueCity, formData.venueState, "parking"]
+                                .filter(Boolean)
+                                .join(" ") || "Chicago IL parking"
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-purple-300 hover:text-purple-200 flex items-center gap-1 hover:underline">
                             <Compass className="w-3.5 h-3.5 text-purple-300" /> Search Google Maps ↗
                           </a>
                           <span className="text-white/20">•</span>
                           <button
- type="button"
- onClick={() => handleSaveCurrentAddress()}
+                            type="button"
+                            onClick={() => handleSaveCurrentAddress()}
                             className="text-emerald-400 hover:text-emerald-300 flex items-center gap-1 hover:underline cursor-pointer">
                             <Bookmark className="w-3.5 h-3.5" /> Save Link
                           </button>
@@ -1462,15 +1462,15 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       </div>
                       <div className="input-glow-border rounded-lg">
                         <input
- aria-label="Google Maps Parking Location Link"
- id="parkingAddress"
- name="parkingAddress"
- type="text"
- value={formData.parkingAddress}
- onChange={handleChange}
- placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
- className="w-full bg-[#00000029] border-0 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
- />
+                          aria-label="Google Maps Parking Location Link"
+                          id="parkingAddress"
+                          name="parkingAddress"
+                          type="text"
+                          value={formData.parkingAddress}
+                          onChange={handleChange}
+                          placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
+                          className="w-full bg-[#00000029] border-0 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
+                        />
                       </div>
                     </div>
 
@@ -1480,14 +1480,14 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       </label>
                       <div className="input-glow-border rounded-lg">
                         <textarea
- id="parkingNotes"
- name="parkingNotes"
- value={formData.parkingNotes}
- onChange={handleChange}
- rows={3}
- placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
- className="w-full bg-[#00000029] border-0 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[90px]"
- />
+                          id="parkingNotes"
+                          name="parkingNotes"
+                          value={formData.parkingNotes}
+                          onChange={handleChange}
+                          rows={3}
+                          placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
+                          className="w-full bg-[#00000029] border-0 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[90px]"
+                        />
                       </div>
                     </div>
                   </div>
@@ -1514,7 +1514,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-white/10 pt-8">
                     <div>
                       <InputField
- label={sanityContent?.sections?.find((s: any) => s.sectionId === "attendance")?.title || "Expected Attendance"}
+                        label={sanityContent?.sections?.find((s: any) => s.sectionId === "attendance")?.title || "Expected Attendance"}
                         name="expectedAttendance"
                         value={formData.expectedAttendance}
                         onChange={handleChange}
@@ -1538,10 +1538,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       const isActive = addOnsSet.has(option.id);
                       return (
                         <button aria-label="Previous"
- key={option.id}
- type="button"
- onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                          className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ? 'border-cyan-400 bg-cyan-500/20 '
+                          key={option.id}
+                          type="button"
+                          onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
+                          className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ? 'border-purple-400 bg-cyan-500/20 '
                             : ' border-white/10 bg-[#00000029]   border-white/10 hover:bg-white/10'
                             }`}>
                           <span className="text-xl mt-0.5">{option.icon}</span>
@@ -1563,7 +1563,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-3 flex-wrap">
                     <span className="text-base uppercase text-white/50">Selected:</span>
                     {addOns.map(id => (
-                      <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 text-base rounded-lg border border-cyan-400/30">
+                      <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 text-base rounded-lg border border-purple-400/30">
                         {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                         <button aria-label="Previous" type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5 /50 cursor-pointer">×</button>
                       </span>
@@ -1580,11 +1580,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <p className="mb-4">{sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.subtitle || "Anything else you'd like to mention? Special requests, questions, or details for our band manager."}</p>
                 <div className="input-glow-border rounded-lg">
                   <textarea aria-label="Text input"
- name="details"
- value={formData.details}
- onChange={handleChange}
- rows={5}
- placeholder={sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.body || "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"}
+                    name="details"
+                    value={formData.details}
+                    onChange={handleChange}
+                    rows={5}
+                    placeholder={sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.body || "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"}
                     className="w-full bg-[#00000029] border-0 text-white text-base px-4 py-3 focus:outline-none transition resize-none placeholder:text-white/40 rounded-lg"
                   />
                 </div>
@@ -1609,7 +1609,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <div className=" border-0 p-0 shadow-none">
                   <h3 className="uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
-                  <div className="flex flex-col gap-4 mb-8">
+                  <div className="flex flex-col  mb-8">
                     <div className="flex justify-between items-start">
                       <span className="text-lg text-white/50 uppercase ">Date</span>
                       <span className="text-base text-white text-right">
@@ -1680,10 +1680,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   )}
 
                   <CosmicRadialButton
- type="submit"
- icon={false}
- disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
- className="w-full text-white text-base py-4 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed">
+                    type="submit"
+                    icon={false}
+                    disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
+                    className="w-full text-white text-base py-4 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed">
                     {submitting ? (
                       <>
                         <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
@@ -1716,15 +1716,15 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
         <div>
           <label htmlFor={`slot-age-limit-${slot.id}`} className="uppercase text-white/50 block mb-1">Age Limit</label>
           <Dropdown
- id={`slot-age-limit-${slot.id}`}
- fullWidth={true}
- selected={slot.ageRestriction || "all_ages"}
- options={[
- { label: "All Ages", value: "all_ages" },
- { label: "21 & Over", value: "21_plus" },
- { label: "18 & Over", value: "18_plus" },
- ]}
- onChange={(val) => {
+            id={`slot-age-limit-${slot.id}`}
+            fullWidth={true}
+            selected={slot.ageRestriction || "all_ages"}
+            options={[
+              { label: "All Ages", value: "all_ages" },
+              { label: "21 & Over", value: "21_plus" },
+              { label: "18 & Over", value: "18_plus" },
+            ]}
+            onChange={(val) => {
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: val } : s);
               setBookingSlots(updated);
             }}
@@ -1734,12 +1734,12 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
         <div>
           <label htmlFor={`slot-doors-time-${slot.id}`} className="uppercase text-white/50 block mb-1">Doors Time</label>
           <Dropdown
- id={`slot-doors-time-${slot.id}`}
- fullWidth={true}
- placeholder="Same as Start"
- selected={slot.doorsTime || ""}
- options={["Same as Start", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"]}
- onChange={(val) => {
+            id={`slot-doors-time-${slot.id}`}
+            fullWidth={true}
+            placeholder="Same as Start"
+            selected={slot.doorsTime || ""}
+            options={["Same as Start", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"]}
+            onChange={(val) => {
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: val } : s);
               setBookingSlots(updated);
             }}
@@ -1752,27 +1752,27 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
         <div>
           <label htmlFor={`slot-cover-${slot.id}`} className="uppercase text-white/50 block mb-1">Cover / Price</label>
           <input id={`slot-cover-${slot.id}`}
- type="text"
- placeholder="e.g. Free, $15..."
- value={slot.cover || ""}
- onChange={(e) => {
+            type="text"
+            placeholder="e.g. Free, $15..."
+            value={slot.cover || ""}
+            onChange={(e) => {
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-2 px-3 rounded-lg outline-none text-white focus:border-purple-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
         <div>
           <label htmlFor={`slot-ticket-link-${slot.id}`} className="uppercase text-white/50 block mb-1">Ticket Link</label>
           <input id={`slot-ticket-link-${slot.id}`}
- type="text"
- placeholder="https://..."
- value={slot.ticketLink || ""}
- onChange={(e) => {
+            type="text"
+            placeholder="https://..."
+            value={slot.ticketLink || ""}
+            onChange={(e) => {
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
+            className="w-full bg-[#00000029] backdrop-blur-[45px] border border-white/10 py-2 px-3 rounded-lg outline-none text-white focus:border-purple-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
       </div>
@@ -1818,9 +1818,9 @@ function MapPickerModal({
             <h3 className="uppercase text-white">Google Maps Location & Address Picker</h3>
           </div>
           <button aria-label="Close modal"
- type="button"
- onClick={onClose}
- className="p-1 text-white/50 hover:text-white transition-colors cursor-pointer">
+            type="button"
+            onClick={onClose}
+            className="p-1 text-white/50 hover:text-white transition-colors cursor-pointer">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -1835,9 +1835,9 @@ function MapPickerModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {savedAddresses.map((item) => (
                 <div
- key={item.id}
- className="p-3 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-purple-400/50 rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer"
- onClick={() => {
+                  key={item.id}
+                  className="p-3 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-purple-400/50 rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer"
+                  onClick={() => {
                     if (onSelectSaved) {
                       onSelectSaved(item);
                       onClose();
@@ -1857,8 +1857,8 @@ function MapPickerModal({
                   </div>
                   <div className="flex items-center gap-1 shrink-0 opacity-80 group-hover:opacity-100">
                     <button
- type="button"
- onClick={(e) => {
+                      type="button"
+                      onClick={(e) => {
                         e.stopPropagation();
                         if (onSelectSaved) {
                           onSelectSaved(item);
@@ -1873,8 +1873,8 @@ function MapPickerModal({
                     </button>
                     {!item.id.startsWith("preset-") && onDeleteSavedAddress && (
                       <button
- type="button"
- onClick={(e) => {
+                        type="button"
+                        onClick={(e) => {
                           e.stopPropagation();
                           onDeleteSavedAddress(item.id);
                         }}
@@ -1894,16 +1894,16 @@ function MapPickerModal({
           <label className="uppercase text-purple-400block">Search Location or Paste Google Maps Address</label>
           <div className="flex gap-2">
             <input type="text"
- value={addressInput}
- onChange={(e) => setAddressInput(e.target.value)}
+              value={addressInput}
+              onChange={(e) => setAddressInput(e.target.value)}
               placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
-              className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-cyan-400 focus:outline-none"
+              className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-purple-400 focus:outline-none"
             />
             <a
- href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}
- target="_blank"
- rel="noopener noreferrer"
- className="px-3.5 py-2.5 bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/40 rounded-lg text-white uppercase transition-colors inline-flex items-center gap-1.5 shrink-0">
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2.5 bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/40 rounded-lg text-white uppercase transition-colors inline-flex items-center gap-1.5 shrink-0">
               <Navigation className="w-3.5 h-3.5" /> Open Map
             </a>
           </div>
@@ -1912,8 +1912,8 @@ function MapPickerModal({
         <div className="flex items-center justify-between gap-3 pt-4 border-t border-white/10 flex-wrap">
           {onSaveNewAddress && (
             <button
- type="button"
- onClick={() => {
+              type="button"
+              onClick={() => {
                 if (addressInput.trim()) {
                   onSaveNewAddress(addressInput.trim());
                 }
@@ -1924,14 +1924,14 @@ function MapPickerModal({
           )}
           <div className="flex items-center gap-3 ml-auto">
             <button aria-label="Cancel button"
- type="button"
- onClick={onClose}
- className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 rounded-lg text-white hover:text-white uppercase transition-colors">
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 rounded-lg text-white hover:text-white uppercase transition-colors">
               Cancel
             </button>
             <button aria-label="Save button"
- type="button"
- onClick={() => {
+              type="button"
+              onClick={() => {
                 onSave(addressInput);
                 onClose();
               }}

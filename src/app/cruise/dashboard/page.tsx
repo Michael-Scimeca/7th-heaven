@@ -184,13 +184,13 @@ export default function CruiseDashboardGate() {
                 <div>
                   <label htmlFor="cruise-pin-input" className="block text-white/40 uppercase mb-1.5">6-Digit Verification PIN</label>
                   <input id="cruise-pin-input"
- type="text"
- required
- placeholder="123456"
- maxLength={6}
- value={pinInput}
- onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
-                    className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-center text-lg tracking-[0.3em] text-white focus:border-cyan-400/50 outline-none transition-colors"
+                    type="text"
+                    required
+                    placeholder="123456"
+                    maxLength={6}
+                    value={pinInput}
+                    onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
+                    className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-center text-lg tracking-[0.3em] text-white focus:border-purple-400/50 outline-none transition-colors"
                   />
                 </div>
 
@@ -222,10 +222,10 @@ export default function CruiseDashboardGate() {
             <>
               {/* Tabs */}
               <div className="flex border-b border-white/10">
-                <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4    uppercase transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
+                <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4    uppercase transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-purple-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
                   Log In
                 </button>
-                <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4    uppercase transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
+                <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4    uppercase transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-purple-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
                   Register
                 </button>
               </div>
@@ -236,11 +236,11 @@ export default function CruiseDashboardGate() {
                     <p className="mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                     <div>
                       <label htmlFor="cruise-login-email" className="block text-white/40 uppercase mb-1.5">Email Address</label>
-                      <input id="cruise-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input id="cruise-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-purple-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="cruise-login-password" className="block text-white/40 uppercase mb-1.5">Password</label>
-                      <input id="cruise-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input id="cruise-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-purple-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 mt-2">{authError}</p>}
@@ -251,8 +251,8 @@ export default function CruiseDashboardGate() {
 
                     <div className="pt-3 border-t border-white/10 mt-4">
                       <button
- type="button"
- onClick={() => router.replace('/cruise/demo')}
+                        type="button"
+                        onClick={() => router.replace('/cruise/demo')}
                         className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white uppercase r transition-all flex items-center justify-center gap-2 cursor-pointer rounded-lg">
                         ⚡ Instant Demo Access
                       </button>
@@ -263,19 +263,19 @@ export default function CruiseDashboardGate() {
                     <p className="mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                     <div>
                       <label htmlFor="cruise-reg-name" className="block text-white/40 uppercase mb-1.5">Full Legal Name *</label>
-                      <input id="cruise-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input id="cruise-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-purple-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="cruise-reg-email" className="block text-white/40 uppercase mb-1.5">Email Address *</label>
-                      <input id="cruise-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input id="cruise-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-purple-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="cruise-reg-phone" className="block text-white/40 uppercase mb-1.5">Phone Number *</label>
-                      <input id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-purple-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="cruise-reg-password" className="block text-white/40 uppercase mb-1.5">Choose Password *</label>
-                      <input id="cruise-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <input id="cruise-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-white focus:border-purple-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 mt-2">{authError}</p>}
@@ -286,8 +286,8 @@ export default function CruiseDashboardGate() {
 
                     <div className="pt-3 border-t border-white/10 mt-4">
                       <button
- type="button"
- onClick={() => router.replace('/cruise/demo')}
+                        type="button"
+                        onClick={() => router.replace('/cruise/demo')}
                         className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white uppercase r transition-all flex items-center justify-center gap-2 cursor-pointer rounded-lg">
                         ⚡ Instant Demo Access →
                       </button>

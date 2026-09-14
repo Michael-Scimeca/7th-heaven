@@ -425,13 +425,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {/* Account Identity Header */}
         <div className="mb-10 border-b border-[var(--border-color)] pb-5">
           <MemberHeaderBadge
- name={effectiveMember?.name || member?.name || 'Fan Guest'}
- email={effectiveMember?.email || member?.email || ''}
- avatar={effectiveMember?.avatar || member?.avatar}
- badgeLabel={effectiveMember?.role === 'admin' ? 'ADMIN' : effectiveMember?.role === 'crew' ? 'CREW' : 'FAN'}
- badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
- subtitle="Access your fan profile, exclusive content, merch, show history, and cruise updates all in one place."
- />
+            name={effectiveMember?.name || member?.name || 'Fan Guest'}
+            email={effectiveMember?.email || member?.email || ''}
+            avatar={effectiveMember?.avatar || member?.avatar}
+            badgeLabel={effectiveMember?.role === 'admin' ? 'ADMIN' : effectiveMember?.role === 'crew' ? 'CREW' : 'FAN'}
+            badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
+            subtitle="Access your fan profile, exclusive content, merch, show history, and cruise updates all in one place."
+          />
         </div>
 
         {/* Cruise Hub Toggle */}
@@ -439,13 +439,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
           <div className="flex justify-center mb-10 -mt-2">
             <div className="bg-[#00000029] border border-white/10 rounded-lg p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
               <button
- onClick={() => setDashboardView('fan')}
+                onClick={() => setDashboardView('fan')}
                 className={`px-6 py-2 rounded-lg    uppercase transition-colors cursor-pointer ${dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-white/40 hover:text-white'
                   }`}>
                 Fan Dashboard
               </button>
               <button
- onClick={() => setDashboardView('cruise')}
+                onClick={() => setDashboardView('cruise')}
                 className={`px-6 py-2 rounded-lg    uppercase transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-white/40    '
                   }`}>
                 Cruise Hub
@@ -474,18 +474,18 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
             {/* Captain's Log */}
             {cruiseAnnouncement && (
-              <div className="relative overflow-hidden bg-gradient-to-br from-cyan-50 to-[#0a0a0f] border border-cyan-500/30 mb-8">
+              <div className="relative overflow-hidden bg-gradient-to-br from-cyan-50 to-[#0a0a0f] border border-purple-500/30 mb-8">
                 <div className="absolute top-0 right-0 w-64 h-64 rounded-lg blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500" />
                 <div className="p-6 md:p-8 relative z-10">
                   <div className="flex items-center gap-3 mb-5">
                     <h3 className="text-black uppercase">Captain&apos;s Log</h3>
-                    <span className="ml-auto uppercase text-cyan-500/60 border border-cyan-500/20 px-2 py-1 rounded">Priority Update</span>
+                    <span className="ml-auto uppercase text-cyan-500/60 border border-purple-500/20 px-2 py-1 rounded">Priority Update</span>
                   </div>
                   <div
- className="text-black/80 space-y-4 [&_a]: [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:"
- dangerouslySetInnerHTML={{ __html: sanitizeHtml(cruiseAnnouncement) }}
- />
+                    className="text-black/80 space-y-4 [&_a]: [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:"
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(cruiseAnnouncement) }}
+                  />
                 </div>
               </div>
             )}
@@ -792,7 +792,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([show.venue, show.city, show.state].filter(Boolean).join(' '))}`;
                               return (
                                 <a href={mapsHref} target="_blank" rel="noopener noreferrer"
- className="inline-flex items-center gap-1.5 text-xs uppercase !text-white bg-[#00000029] border border-white/15 backdrop-blur-[16px] px-2.5 py-1 rounded-lg hover:bg-white/15 hover:text-white transition-all shadow-sm">
+                                  className="inline-flex items-center gap-1.5 text-xs uppercase !text-white bg-[#00000029] border border-white/15 backdrop-blur-[16px] px-2.5 py-1 rounded-lg hover:bg-white/15 hover:text-white transition-all shadow-sm">
                                   <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
                                   Directions
                                 </a>
@@ -899,7 +899,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           </div>
                         </div>
                         <button
- onClick={() => handleUnsubscribeShow(sub.showId)}
+                          onClick={() => handleUnsubscribeShow(sub.showId)}
                           className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-[var(--font-size-2xs)] uppercase rounded-lg transition-colors cursor-pointer">
                           Cancel Alert
                         </button>
@@ -918,12 +918,12 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
             {!isCruiser && isCruiseBannerActive && (
               <Link href="/cruise" className="block mb-10 group">
-                <div className="relative overflow-hidden border border-cyan-500/20 p-6 md:p-8 hover:border-cyan-500/40 transition-colors text-white">
+                <div className="relative overflow-hidden border border-purple-500/20 p-6 md:p-8 hover:border-purple-500/40 transition-colors text-white">
                   <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div className="flex items-start gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="uppercase text-purple-400 px-2.5 py-1 rounded-lg border border-cyan-500/20">Limited Spots</span>
+                          <span className="uppercase text-purple-400 px-2.5 py-1 rounded-lg border border-purple-500/20">Limited Spots</span>
                         </div>
                         <h3 className="text-white uppercase mb-1">7th Heaven is Setting Sail!</h3>
                         <p className="max-w-lg">
@@ -954,26 +954,26 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p>We&apos;ll text <span className="text-white">({liveAlertPhone.slice(0, 3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
                       </div>
                       <button
- onClick={() => { localStorage.removeItem('7h_live_alert_phone'); setLiveAlertSubscribed(false); setLiveAlertStatus('idle'); setLiveAlertPhone(''); }}
+                        onClick={() => { localStorage.removeItem('7h_live_alert_phone'); setLiveAlertSubscribed(false); setLiveAlertStatus('idle'); setLiveAlertPhone(''); }}
                         className="ml-auto text-white/40 hover:text-red-400 uppercase transition-colors cursor-pointer">Unsubscribe</button>
                     </div>
                   ) : (
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full">
                       <div className="w-full sm:max-w-[300px] flex items-center">
                         <GlowInput
- id="live-alert-phone-input"
- aria-label="Phone number for live alerts"
- type="tel"
- placeholder="(312) 555-0199"
- value={liveAlertPhone}
- onChange={(e) => setLiveAlertPhone(e.target.value)}
+                          id="live-alert-phone-input"
+                          aria-label="Phone number for live alerts"
+                          type="tel"
+                          placeholder="(312) 555-0199"
+                          value={liveAlertPhone}
+                          onChange={(e) => setLiveAlertPhone(e.target.value)}
                         />
                       </div>
                       <CosmicRadialButton
- onClick={handleLiveAlertSubscribe}
- disabled={liveAlertStatus === 'saving'}
- icon={false}
- className="w-full sm:w-auto px-6 py-3.5 whitespace-nowrap shrink-0 text-white uppercase cursor-pointer text-center justify-center">
+                        onClick={handleLiveAlertSubscribe}
+                        disabled={liveAlertStatus === 'saving'}
+                        icon={false}
+                        className="w-full sm:w-auto px-6 py-3.5 whitespace-nowrap shrink-0 text-white uppercase cursor-pointer text-center justify-center">
                         {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me'}
                       </CosmicRadialButton>
                     </div>

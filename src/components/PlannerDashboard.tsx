@@ -324,11 +324,11 @@ export default function PlannerDashboard() {
                 {plannerMode === 'signup' && (
                   <div className="flex items-center gap-2.5 my-1.5 select-none cursor-pointer" onClick={() => setPlannerAgeConfirmed(!plannerAgeConfirmed)}>
                     <SquishyToggle
- id="planner-age-confirm-toggle"
- label="I confirm that I am 18 years of age or older"
- checked={plannerAgeConfirmed}
- onChange={setPlannerAgeConfirmed}
- />
+                      id="planner-age-confirm-toggle"
+                      label="I confirm that I am 18 years of age or older"
+                      checked={plannerAgeConfirmed}
+                      onChange={setPlannerAgeConfirmed}
+                    />
                     <span className="text-[var(--font-size-2xs)] font-semibold text-white/70">
                       I confirm that I am <span className="text-white">18 years of age or older</span>
                     </span>
@@ -340,7 +340,7 @@ export default function PlannerDashboard() {
                 )}
 
                 <button type="submit" disabled={plannerLoginLoading}
- className="w-full py-3.5 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:bg-[var(--color-accent)] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.2)]">
+                  className="w-full py-3.5 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:bg-[var(--color-accent)] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.2)]">
                   {plannerLoginLoading ? 'Authenticating...' : plannerMode === 'signup' ? 'Create Planner Account' : 'Sign In as Planner'}
                 </button>
 
@@ -390,38 +390,40 @@ export default function PlannerDashboard() {
   const s = STATUS_CONFIG[booking.status];
 
   return (
-    <section className=" ">
+    <>
 
 
       {/* Cancel Confirmation Modal */}
       {showCancelConfirm && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowCancelConfirm(false)}>
-          <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-lg shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="w-12 h-12 rounded-lg bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
-              <History className="w-5 h-5 text-rose-500" />
-            </div>
-            <h3 className="text-white text-center mb-2">Cancel This Booking?</h3>
-            <p className="text-center mb-2">{booking.eventName}</p>
-            <p className="text-center mb-8">This will send a cancellation request to 7th Heaven. You can always rebook later.</p>
-            <div className="flex gap-3">
-              <button
- onClick={() => setShowCancelConfirm(false)}
-                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white uppercase transition-colors">
-                Keep Booking
-              </button>
-              <button
- onClick={handleCancelRequest}
- className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white uppercase transition-colors">
-                Yes, Cancel
-              </button>
+        <section>
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowCancelConfirm(false)}>
+            <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-lg shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
+              <div className="w-12 h-12 rounded-lg bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
+                <History className="w-5 h-5 text-rose-500" />
+              </div>
+              <h3 className="text-white text-center mb-2">Cancel This Booking?</h3>
+              <p className="text-center mb-2">{booking.eventName}</p>
+              <p className="text-center mb-8">This will send a cancellation request to 7th Heaven. You can always rebook later.</p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowCancelConfirm(false)}
+                  className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white uppercase transition-colors">
+                  Keep Booking
+                </button>
+                <button
+                  onClick={handleCancelRequest}
+                  className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white uppercase transition-colors">
+                  Yes, Cancel
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       )}
 
 
       {/* BOOKING CARDS */}
-      <div className="grid grid-cols-1 gap-6">
+      <section className="grid grid-cols-1 gap-6">
         <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8 rounded-lg flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-colors`}>
           <div className={`absolute top-0 left-0 w-1 h-full ${s.bar}`} />
 
@@ -510,11 +512,11 @@ export default function PlannerDashboard() {
                   /* Edit mode actions */
                   <>
                     <button onClick={handleEditSave}
- className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors">
+                      className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors">
                       Save Changes
                     </button>
                     <button onClick={handleEditCancel}
- className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white uppercase transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white uppercase transition-colors border border-white/5">
                       Discard
                     </button>
                   </>
@@ -522,8 +524,8 @@ export default function PlannerDashboard() {
                   /* Cancelled state — rebook or revive */
                   <>
                     <a
- href={rebookUrl(booking, member)}
- className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors text-center rounded-lg">
+                      href={rebookUrl(booking, member)}
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors text-center rounded-lg">
                       Rebook This Event
                     </a>
                     {reviveTimeLeft && (
@@ -542,12 +544,12 @@ export default function PlannerDashboard() {
                   /* Normal actions */
                   <>
                     <a
- href={rebookUrl(booking, member)}
- className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors text-center rounded-lg">
+                      href={rebookUrl(booking, member)}
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors text-center rounded-lg">
                       Rebook This Event
                     </a>
                     <button onClick={handleEditStart}
- className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white uppercase transition-colors border border-white/5">
+                      className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white uppercase transition-colors border border-white/5">
                       Edit Logistics
                     </button>
                     <button onClick={() => setShowCancelConfirm(true)}
@@ -559,8 +561,8 @@ export default function PlannerDashboard() {
               </>
             ) : (
               <Link
- href="/planner"
- className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white uppercase transition-colors border border-white/10 flex items-center justify-center gap-2">
+                href="/planner"
+                className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white uppercase transition-colors border border-white/10 flex items-center justify-center gap-2">
                 <History className="w-4 h-4" />
                 Sign in to manage
               </Link>
@@ -568,11 +570,11 @@ export default function PlannerDashboard() {
           </div>
         </div>
 
-      </div>
+      </section>
 
 
       {/* ── Band & Event Contacts Panel ── */}
-      <div className="my-10">
+      <section className="my-10">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div>
             <h3 className="text-white uppercase">7th Heaven Band & Event Contacts</h3>
@@ -584,19 +586,19 @@ export default function PlannerDashboard() {
           {(activeContactFilter === "all" || activeContactFilter === "booking") && (
             <div className="w-full flex flex-col items-center text-center">
               <div
- className="relative w-full overflow-hidden flex items-end justify-center"
- style={{
- WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- }}>
+                className="relative w-full overflow-hidden flex items-end justify-center"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                }}>
                 <Image
- width={400}
- height={400}
- unoptimized
- src="/images/contact/Dickie-contact.png"
- alt="Richard Hofherr"
- className="w-full h-full object-contain object-bottom origin-bottom"
- />
+                  width={400}
+                  height={400}
+                  unoptimized
+                  src="/images/contact/Dickie-contact.png"
+                  alt="Richard Hofherr"
+                  className="w-full h-full object-contain object-bottom origin-bottom"
+                />
               </div>
               <div className="flex flex-col items-center text-center mt-2 w-full">
                 <div className="mb-2">
@@ -619,19 +621,19 @@ export default function PlannerDashboard() {
           {(activeContactFilter === "all" || activeContactFilter === "tech") && (
             <div className="w-full flex flex-col items-center text-center">
               <div
- className="relative w-full overflow-hidden flex items-end justify-center"
- style={{
- WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- }}>
+                className="relative w-full overflow-hidden flex items-end justify-center"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                }}>
                 <Image
- width={400}
- height={400}
- unoptimized
- src="/images/contact/Jeff-contact.png"
- alt="Jeff Dobbs"
- className="w-full h-full object-contain object-bottom origin-bottom"
- />
+                  width={400}
+                  height={400}
+                  unoptimized
+                  src="/images/contact/Jeff-contact.png"
+                  alt="Jeff Dobbs"
+                  className="w-full h-full object-contain object-bottom origin-bottom"
+                />
               </div>
               <div className="flex flex-col items-center text-center mt-2 w-full">
                 <div className="mb-2">
@@ -654,19 +656,19 @@ export default function PlannerDashboard() {
           {(activeContactFilter === "all" || activeContactFilter === "non-tech") && (
             <div className="w-full flex flex-col items-center text-center">
               <div
- className="relative w-full overflow-hidden flex items-end justify-center"
- style={{
- WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- }}>
+                className="relative w-full overflow-hidden flex items-end justify-center"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                }}>
                 <Image
- width={400}
- height={400}
- unoptimized
- src="/images/contact/Alan-contact.png"
- alt="Alan McRae"
- className="w-full h-full object-contain object-bottom origin-bottom"
- />
+                  width={400}
+                  height={400}
+                  unoptimized
+                  src="/images/contact/Alan-contact.png"
+                  alt="Alan McRae"
+                  className="w-full h-full object-contain object-bottom origin-bottom"
+                />
               </div>
               <div className="flex flex-col items-center text-center mt-2 w-full">
                 <div className="mb-2">
@@ -689,19 +691,19 @@ export default function PlannerDashboard() {
           {(activeContactFilter === "all" || activeContactFilter === "press") && (
             <div className="w-full flex flex-col items-center text-center">
               <div
- className="relative w-full overflow-hidden flex items-end justify-center"
- style={{
- WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- }}>
+                className="relative w-full overflow-hidden flex items-end justify-center"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                }}>
                 <Image
- width={400}
- height={400}
- unoptimized
- src="/images/contact/Lenny-contact.png"
- alt="Lenny Rago"
- className="w-full h-full object-contain object-bottom origin-bottom"
- />
+                  width={400}
+                  height={400}
+                  unoptimized
+                  src="/images/contact/Lenny-contact.png"
+                  alt="Lenny Rago"
+                  className="w-full h-full object-contain object-bottom origin-bottom"
+                />
               </div>
               <div className="flex flex-col items-center text-center mt-2 w-full">
                 <div className="mb-2">
@@ -721,12 +723,12 @@ export default function PlannerDashboard() {
             </div>
           )}
         </div>
-      </div>
+      </section>
 
       {/* ── Booking History Timeline ── */}
       {allBookings.length > 1 && (
-        <div className=" 0">
-          <div className="flex items-center gap-3 mb-6">
+        <section>
+          <div className="flex items-center mb-6">
 
             <div>
               <h3 className="text-white">Booking History</h3>
@@ -738,7 +740,7 @@ export default function PlannerDashboard() {
             {/* Timeline line */}
             <div className="absolute top-0 bottom-0 left-[5px] w-[1px] bg-white/10" />
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
               {allBookings.map((b, i) => {
                 const isActive = b.id === booking.id;
                 const sc = b.status === 'confirmed'
@@ -750,13 +752,13 @@ export default function PlannerDashboard() {
                 return (
                   <div key={b.id} className="flex gap-4 relative">
                     {/* Timeline dot */}
-                    <div className="shrink-0 mt-5 z-10">
+                    <div className="shrink-0 z-10">
                       <div className={`w-3 h-3 rounded-full ${sc.dot} ring-4 ring-[#e1e6ff29]`} />
                     </div>
 
                     {/* Card */}
                     <button
- onClick={() => { setBooking(b); setEditDraft(b); }}
+                      onClick={() => { setBooking(b); setEditDraft(b); }}
                       className={`flex-1 text-left px-5 py-4 border-b  border-white/10  !rounded-none transition-colors cursor-pointer ${isActive
                         ? ``
                         : ''
@@ -784,10 +786,10 @@ export default function PlannerDashboard() {
               })}
             </div>
           </div>
-        </div>
+        </section>
       )}
 
 
-    </section>
+    </>
   );
 }

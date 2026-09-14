@@ -9,7 +9,7 @@ const COLORS = {
   purple: "border-purple-500/30 bg-purple-500/5 text-purple-300",
   red: "border-red-500/30 bg-red-500/5 text-red-300",
   amber: "border-purple-500/30 bg-purple-600/5 text-purple-200",
-  cyan: "border-cyan-500/30 bg-cyan-500/5   ",
+  cyan: "border-purple-500/30 bg-cyan-500/5   ",
   emerald: "border-emerald-500/30 bg-emerald-500/5 text-emerald-300",
 };
 

@@ -3243,8 +3243,20 @@ textarea,
   }
 
   .snake-itinerary-card {
-    width: calc(100vw - 64px) !important;
-    max-width: calc(100vw - 64px) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0px;
+    border-radius: 20px;
+    text-align: left !important;
+  }
+
+  .snake-itinerary-cardRight {
+    text-align: left !important;
+  }
+
+  .snake-itinerary-cardRight .snake-itinerary-eventItem {
+    flex-direction: row !important;
+    text-align: left !important;
   }
 
   .snake-itinerary-header {
@@ -3275,13 +3287,6 @@ textarea,
     font-size: 16px;
   }
 
-  .snake-itinerary-card {
-    width: min(calc(50vw - 32px), 320px);
-    max-width: 320px;
-    padding: 16px 16px;
-    border-radius: 16px;
-  }
-
   .snake-itinerary-cardHeader {
     margin-bottom: 12px;
     padding-bottom: 10px;
@@ -3297,7 +3302,7 @@ textarea,
   }
 
   .snake-itinerary-cardTitle {
-    font-size: clamp(1.0rem, 3.5vw, 1.4rem);
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
     margin: 0 0 12px;
   }
 
@@ -3307,6 +3312,8 @@ textarea,
 
   .snake-itinerary-eventItem {
     gap: 10px;
+    flex-direction: row !important;
+    text-align: left !important;
   }
 
   .snake-itinerary-eventTime {
@@ -3320,66 +3327,6 @@ textarea,
 
   .snake-itinerary-eventSubtitle {
     font-size: 11px;
-  }
-}
-
-@media (max-width: 639.98px) {
-  .snake-itinerary-row {
-    grid-template-columns: 1fr 36px 1fr;
-  }
-
-  .snake-itinerary-slotLeft {
-    padding-right: 4px;
-  }
-
-  .snake-itinerary-slotRight {
-    padding-left: 4px;
-  }
-
-  .snake-itinerary-nodeIcon {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-  }
-
-  .snake-itinerary-card {
-    width: min(calc(50vw - 24px), 240px);
-    padding: 12px 12px;
-    border-radius: 14px;
-  }
-
-  .snake-itinerary-cardTitle {
-    font-size: 1.0rem;
-  }
-}
-
-@media (max-width: 639.98px) {
-  .snake-itinerary-row {
-    grid-template-columns: 1fr 36px 1fr;
-  }
-
-  .snake-itinerary-slotLeft {
-    padding-right: 4px;
-  }
-
-  .snake-itinerary-slotRight {
-    padding-left: 4px;
-  }
-
-  .snake-itinerary-nodeIcon {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-  }
-
-  .snake-itinerary-card {
-    width: min(calc(50vw - 24px), 240px);
-    padding: 12px 12px;
-    border-radius: 14px;
-  }
-
-  .snake-itinerary-cardTitle {
-    font-size: 1.0rem;
   }
 }
 

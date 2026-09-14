@@ -64,9 +64,9 @@ function ShipModel({
   return (
     <group ref={groupRef}>
       <primitive
- object={clonedScene}
- position={[0, offsetY, 0]}
- />
+        object={clonedScene}
+        position={[0, offsetY, 0]}
+      />
     </group>
   );
 }
@@ -105,14 +105,14 @@ function CircleVideoNode({
 
   return (
     <video
- ref={videoRef}
- src={src}
- loop
- muted
- playsInline
- preload="auto"
- className="w-full h-full object-cover rounded-lg pointer-events-none scale-125 transition-transform duration-500"
- >
+      ref={videoRef}
+      src={src}
+      loop
+      muted
+      playsInline
+      preload="auto"
+      className="w-full h-full object-cover rounded-lg pointer-events-none scale-125 transition-transform duration-500"
+    >
       <track kind="captions" />
     </video>
   );
@@ -421,10 +421,10 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
     } catch { }
   };
 
-  // Canvas height: scaled for mobile vs desktop so card bottom sits flush without massive trailing gaps
-  const stepH = isMobile ? 340 : 460;
+  // Canvas height: scaled for mobile vs desktop so cards have clean vertical spacing without excess trailing gap at bottom
+  const stepH = isMobile ? 580 : 480;
   const lastNodeY = (itinerary.length - 1) * stepH + 90;
-  const totalH = lastNodeY + (isMobile ? 140 : 450);
+  const totalH = lastNodeY + (isMobile ? 240 : 450);
 
   /* ── Node positions dynamically computed based on layoutMode ── */
   const nodes = itinerary.map((_, i) => {
@@ -723,9 +723,9 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
   return (
     <section
- className="snake-itinerary-root site-container"
- ref={sectionRef}
- >
+      className="snake-itinerary-root site-container"
+      ref={sectionRef}
+    >
 
       {/* ── Header (Inside Blue Container Box) ── */}
       {!hideHeader && (
@@ -738,10 +738,10 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
       {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
       {showSettings && mounted && createPortal(
         <div
- data-settings-panel
- className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 /40 border-2 border-cyan-400/50 rounded-lg shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
- style={{ zIndex: 999999, pointerEvents: 'auto' }}
- >
+          data-settings-panel
+          className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 /40 border-2 border-purple-400/50 rounded-lg shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
+          style={{ zIndex: 999999, pointerEvents: 'auto' }}
+        >
           <style>{`
               [data-settings-panel], [data-settings-panel] * {
                 cursor: default !important;
@@ -762,7 +762,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
               </div>
             </div>
             <button
- onClick={() => setShowSettings(false)}
+              onClick={() => setShowSettings(false)}
               className="text-white hover:text-white font-bold uppercase bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
             >
               ✕ Close
@@ -773,14 +773,14 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
             {/* SECTION 1: Velocity & Viewport Triggers */}
-            <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+            <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-purple-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
               <div className="flex justify-between items-center font-bold">
                 <span>⚡ Cruise Boat & Line Travel Speed</span>
                 <span className=" text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
               </div>
               <input type="range" min="0.2" max="4.0" step="0.1"
- value={tuning.speedMultiplier ?? 1.0}
- onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
+                value={tuning.speedMultiplier ?? 1.0}
+                onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer h-2"
               />
               <div className="flex justify-between text-white/50 font-bold uppercase tracking-wider">
@@ -797,8 +797,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{(tuning.shipAdvancePx ?? 80)}px</span>
               </div>
               <input type="range" min="-200" max="300" step="5"
- value={tuning.shipAdvancePx ?? 80}
- onChange={e => setTuning({ ...tuning, shipAdvancePx: Number(e.target.value) })}
+                value={tuning.shipAdvancePx ?? 80}
+                onChange={e => setTuning({ ...tuning, shipAdvancePx: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -810,8 +810,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{(tuning.lineFillLeadPx ?? 0)}px</span>
               </div>
               <input type="range" min="-200" max="200" step="5"
- value={tuning.lineFillLeadPx ?? 0}
- onChange={e => setTuning({ ...tuning, lineFillLeadPx: Number(e.target.value) })}
+                value={tuning.lineFillLeadPx ?? 0}
+                onChange={e => setTuning({ ...tuning, lineFillLeadPx: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -823,8 +823,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen</span>
               </div>
               <input type="range" min="0.0" max="1.0" step="0.01"
- value={tuning.scrollStartMul ?? 0.48}
- onChange={e => setTuning({ ...tuning, scrollStartMul: Number(e.target.value) })}
+                value={tuning.scrollStartMul ?? 0.48}
+                onChange={e => setTuning({ ...tuning, scrollStartMul: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -836,8 +836,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen</span>
               </div>
               <input type="range" min="0.0" max="1.0" step="0.01"
- value={tuning.scrollEndMul ?? 0.5}
- onChange={e => setTuning({ ...tuning, scrollEndMul: Number(e.target.value) })}
+                value={tuning.scrollEndMul ?? 0.5}
+                onChange={e => setTuning({ ...tuning, scrollEndMul: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -849,8 +849,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{tuning.minShipDist ?? 0}px</span>
               </div>
               <input type="range" min="0" max="400" step="10"
- value={tuning.minShipDist ?? 0}
- onChange={e => setTuning({ ...tuning, minShipDist: Number(e.target.value) })}
+                value={tuning.minShipDist ?? 0}
+                onChange={e => setTuning({ ...tuning, minShipDist: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -862,8 +862,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{tuning.maxShipDistPad ?? 0}px</span>
               </div>
               <input type="range" min="0" max="400" step="10"
- value={tuning.maxShipDistPad ?? 0}
- onChange={e => setTuning({ ...tuning, maxShipDistPad: Number(e.target.value) })}
+                value={tuning.maxShipDistPad ?? 0}
+                onChange={e => setTuning({ ...tuning, maxShipDistPad: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -875,8 +875,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{tuning.anchorOffsetX ?? 0}px</span>
               </div>
               <input type="range" min="-100" max="100" step="1"
- value={tuning.anchorOffsetX ?? 0}
- onChange={e => setTuning({ ...tuning, anchorOffsetX: Number(e.target.value) })}
+                value={tuning.anchorOffsetX ?? 0}
+                onChange={e => setTuning({ ...tuning, anchorOffsetX: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -888,8 +888,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{tuning.anchorOffsetY ?? 0}px</span>
               </div>
               <input type="range" min="-100" max="100" step="1"
- value={tuning.anchorOffsetY ?? 0}
- onChange={e => setTuning({ ...tuning, anchorOffsetY: Number(e.target.value) })}
+                value={tuning.anchorOffsetY ?? 0}
+                onChange={e => setTuning({ ...tuning, anchorOffsetY: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -901,8 +901,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
               </div>
               <input type="range" min="0.05" max="8.0" step="0.05"
- value={tuning.shipScale ?? 1.8}
- onChange={e => setTuning({ ...tuning, shipScale: Number(e.target.value) })}
+                value={tuning.shipScale ?? 1.8}
+                onChange={e => setTuning({ ...tuning, shipScale: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -914,15 +914,15 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{(tuning.shipOffsetY ?? 0.9).toFixed(1)}</span>
               </div>
               <input type="range" min="0.0" max="3.0" step="0.1"
- value={tuning.shipOffsetY ?? 0.9}
- onChange={e => setTuning({ ...tuning, shipOffsetY: Number(e.target.value) })}
+                value={tuning.shipOffsetY ?? 0.9}
+                onChange={e => setTuning({ ...tuning, shipOffsetY: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
 
             {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
-            <div className="col-span-1 md:col-span-2 bg-cyan-950/40 border border-cyan-500/30 p-4 space-y-3 mt-2">
-              <div className="flex items-center gap-2 border-b border-cyan-500/20 pb-2">
+            <div className="col-span-1 md:col-span-2 bg-cyan-950/40 border border-purple-500/30 p-4 space-y-3 mt-2">
+              <div className="flex items-center gap-2 border-b border-purple-500/20 pb-2">
                 <span className="text-lg">📍</span>
                 <h3 className="text-white font-bold uppercase tracking-wider">Port Circle & Corner Arrival Controls</h3>
               </div>
@@ -938,8 +938,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                       { id: 'spin', label: '🌀 Spin & Dock' },
                     ].map(act => (
                       <button
- key={act.id}
- onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
+                        key={act.id}
+                        onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
                         className={`flex-1 py-1.5 px-2 rounded-lg font-bold uppercase transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
                           ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
                           : ' bg-[#00000029] text-white hover:bg-white/10'
@@ -958,8 +958,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                     <span className=" ">{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
                   </div>
                   <input type="range" min="0.0" max="1.0" step="0.05"
- value={tuning.nodeMinScale ?? 0.0}
- onChange={e => setTuning({ ...tuning, nodeMinScale: Number(e.target.value) })}
+                    value={tuning.nodeMinScale ?? 0.0}
+                    onChange={e => setTuning({ ...tuning, nodeMinScale: Number(e.target.value) })}
                     className="w-full accent-cyan-400 cursor-pointer"
                   />
                 </div>
@@ -971,8 +971,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                     <span className=" ">{tuning.nodeDipRadius ?? 65}px</span>
                   </div>
                   <input type="range" min="20" max="250" step="5"
- value={tuning.nodeDipRadius ?? 65}
- onChange={e => setTuning({ ...tuning, nodeDipRadius: Number(e.target.value) })}
+                    value={tuning.nodeDipRadius ?? 65}
+                    onChange={e => setTuning({ ...tuning, nodeDipRadius: Number(e.target.value) })}
                     className="w-full accent-cyan-400 cursor-pointer"
                   />
                 </div>
@@ -984,8 +984,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                     <span className=" ">{tuning.nodePopDist ?? 60}px</span>
                   </div>
                   <input type="range" min="20" max="200" step="5"
- value={tuning.nodePopDist ?? 60}
- onChange={e => setTuning({ ...tuning, nodePopDist: Number(e.target.value) })}
+                    value={tuning.nodePopDist ?? 60}
+                    onChange={e => setTuning({ ...tuning, nodePopDist: Number(e.target.value) })}
                     className="w-full accent-cyan-400 cursor-pointer"
                   />
                 </div>
@@ -999,8 +999,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
               </div>
               <input type="range" min="0.05" max="1.0" step="0.05"
- value={tuning.lerpSpeed ?? 0.85}
- onChange={e => setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })}
+                value={tuning.lerpSpeed ?? 0.85}
+                onChange={e => setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -1012,8 +1012,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{tuning.rippleAmp ?? 7}px</span>
               </div>
               <input type="range" min="0" max="40" step="1"
- value={tuning.rippleAmp ?? 7}
- onChange={e => setTuning({ ...tuning, rippleAmp: Number(e.target.value) })}
+                value={tuning.rippleAmp ?? 7}
+                onChange={e => setTuning({ ...tuning, rippleAmp: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -1025,8 +1025,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}</span>
               </div>
               <input type="range" min="0.0001" max="0.0050" step="0.0001"
- value={tuning.waveSpeed ?? 0.0011}
- onChange={e => setTuning({ ...tuning, waveSpeed: Number(e.target.value) })}
+                value={tuning.waveSpeed ?? 0.0011}
+                onChange={e => setTuning({ ...tuning, waveSpeed: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -1038,8 +1038,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{tuning.lineWidth ?? 6}px</span>
               </div>
               <input type="range" min="2" max="20" step="1"
- value={tuning.lineWidth ?? 6}
- onChange={e => setTuning({ ...tuning, lineWidth: Number(e.target.value) })}
+                value={tuning.lineWidth ?? 6}
+                onChange={e => setTuning({ ...tuning, lineWidth: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -1051,8 +1051,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <span className=" ">{tuning.glowBlur ?? 6}px</span>
               </div>
               <input type="range" min="0" max="25" step="1"
- value={tuning.glowBlur ?? 6}
- onChange={e => setTuning({ ...tuning, glowBlur: Number(e.target.value) })}
+                value={tuning.glowBlur ?? 6}
+                onChange={e => setTuning({ ...tuning, glowBlur: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
             </div>
@@ -1062,9 +1062,9 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
           {/* Actions Bar */}
           <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 /40 backdrop-blur-[45px] pb-1 z-10">
             <button
- onClick={handleResetTuning}
- className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 text-white/70 font-bold uppercase transition-colors border border-white/10 cursor-pointer"
- >
+              onClick={handleResetTuning}
+              className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 text-white/70 font-bold uppercase transition-colors border border-white/10 cursor-pointer"
+            >
               🔄 Reset to Defaults
             </button>
 
@@ -1075,9 +1075,9 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 </span>
               )}
               <button
- onClick={handleSaveTuning}
- className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
- >
+                onClick={handleSaveTuning}
+                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-bold uppercase transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+              >
                 💾 Save Settings
               </button>
             </div>
@@ -1091,58 +1091,58 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
       <div ref={canvasRef} className="snake-itinerary-canvas" style={{ height: totalH, width: '100%', maxWidth: '100%' }}>
         {/* SVG — path + nodes */}
         <svg
- className="snake-itinerary-svg"
- viewBox={`0 0 ${SVG_W} ${totalH}`}
- preserveAspectRatio="none"
- aria-hidden="true"
- >
+          className="snake-itinerary-svg"
+          viewBox={`0 0 ${SVG_W} ${totalH}`}
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
           {/* FULL ROUTE GUIDE TRACK — Translucent route track line */}
           <path
- ref={trackRef}
- d={initialPathD}
- fill="none"
- stroke="rgba(6, 182, 212, 0.25)"
- strokeWidth={tuning.lineWidth ?? 6}
- strokeLinecap="round"
- style={{ fill: 'none' }}
- />
+            ref={trackRef}
+            d={initialPathD}
+            fill="none"
+            stroke="rgba(6, 182, 212, 0.25)"
+            strokeWidth={tuning.lineWidth ?? 6}
+            strokeLinecap="round"
+            style={{ fill: 'none' }}
+          />
 
           {/* BRIGHT FILL — scroll-driven, fills as you travel */}
           <path
- ref={fillRef}
- d={initialPathD}
- fill="none"
- stroke="#06b6d4"
- strokeWidth={tuning.lineWidth ?? 6}
- strokeLinecap="round"
- style={{ fill: 'none' }}
- />
+            ref={fillRef}
+            d={initialPathD}
+            fill="none"
+            stroke="#06b6d4"
+            strokeWidth={tuning.lineWidth ?? 6}
+            strokeLinecap="round"
+            style={{ fill: 'none' }}
+          />
 
           {/* Flowing current dashes on the fill */}
           <path
- ref={currentRef}
- d={initialPathD}
- fill="none"
- stroke="rgba(6,182,212,0.9)"
- strokeWidth="2"
- strokeLinecap="round"
- strokeDasharray="12 24 6 18"
- className="snake-itinerary-waterCurrent"
- style={{ fill: 'none' }}
- />
+            ref={currentRef}
+            d={initialPathD}
+            fill="none"
+            stroke="rgba(6,182,212,0.9)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeDasharray="12 24 6 18"
+            className="snake-itinerary-waterCurrent"
+            style={{ fill: 'none' }}
+          />
 
           {/* Bright flowing highlights */}
           <path
- ref={highlightRef}
- d={initialPathD}
- fill="none"
- stroke="rgba(255,255,255,0.3)"
- strokeWidth="1.5"
- strokeLinecap="round"
- strokeDasharray="4 40 2 50"
- className="snake-itinerary-waterHighlight"
- style={{ fill: 'none' }}
- />
+            ref={highlightRef}
+            d={initialPathD}
+            fill="none"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeDasharray="4 40 2 50"
+            className="snake-itinerary-waterHighlight"
+            style={{ fill: 'none' }}
+          />
 
         </svg>
 
@@ -1162,10 +1162,10 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
               {dayImage && (
                 <div className="relative aspect-[21/9] w-full rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-colors duration-500">
                   <Image width={200} height={200} unoptimized
- src={dayImage}
- alt={day.theme}
- className="w-full h-full object-cover"
- />
+                    src={dayImage}
+                    alt={day.theme}
+                    className="w-full h-full object-cover"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                 </div>
               )}
@@ -1207,7 +1207,16 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             zIndex: 20,
           };
 
-          if (layoutMode === 'harbor') {
+          if (isMobile) {
+            // Straight full-width card layout on mobile
+            cardStyle = {
+              ...cardStyle,
+              left: '0px',
+              right: '0px',
+              width: '100%',
+              maxWidth: '100%',
+            };
+          } else if (layoutMode === 'harbor') {
             // All cards aligned cleanly to the right of the harbor channel
             cardStyle = {
               ...cardStyle,
@@ -1241,15 +1250,15 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 ? { left: '0px' }
                 : { right: '0px' }
               ),
-              width: isMobile ? '100vw' : 'min(620px, 42vw)',
-              maxWidth: isMobile ? '100vw' : '620px',
+              width: 'min(620px, 42vw)',
+              maxWidth: '620px',
             };
           }
           return (
             <div
- key={`card-${i}-${day?.theme || day?.location || 'day'}`}
- ref={el => { cardRefs.current[i] = el; }}
-              className={`snake-itinerary-card ${node.isLeft ? "snake-itinerary-cardLeft" : "snake-itinerary-cardRight"}`}
+              key={`card-${i}-${day?.theme || day?.location || 'day'}`}
+              ref={el => { cardRefs.current[i] = el; }}
+              className={`snake-itinerary-card ${(!isMobile && !node.isLeft) ? "snake-itinerary-cardRight" : "snake-itinerary-cardLeft"}`}
               style={cardStyle}
             >
               {cardContent}
@@ -1259,24 +1268,24 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
         {/* 3D Cruise Ship follower riding the leading edge of the SVG fill */}
         <div
- ref={shipContainerRef}
- style={{
- position: 'absolute',
- width: isMobile ? 220 : 380,
- height: isMobile ? 220 : 380,
- pointerEvents: 'none',
- zIndex: 5,
- overflow: 'visible',
- transition: 'none',
- filter: 'none',
- }}
- >
+          ref={shipContainerRef}
+          style={{
+            position: 'absolute',
+            width: isMobile ? 220 : 380,
+            height: isMobile ? 220 : 380,
+            pointerEvents: 'none',
+            zIndex: 5,
+            overflow: 'visible',
+            transition: 'none',
+            filter: 'none',
+          }}
+        >
           <Canvas
- orthographic
- gl={{ powerPreference: 'high-performance', antialias: true, alpha: true }}
- camera={{ left: -250, right: 250, top: 250, bottom: -250, zoom: isMobile ? 42 : 55, position: [0, 0, 100] }}
- style={{ width: '100%', height: '100%', overflow: 'visible' }}
- >
+            orthographic
+            gl={{ powerPreference: 'high-performance', antialias: true, alpha: true }}
+            camera={{ left: -250, right: 250, top: 250, bottom: -250, zoom: isMobile ? 42 : 55, position: [0, 0, 100] }}
+            style={{ width: '100%', height: '100%', overflow: 'visible' }}
+          >
             {process.env.NODE_ENV === "development" && (
               <StatsGl className="r3f-gpu-stats" />
             )}
@@ -1285,11 +1294,11 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
             <Suspense fallback={null}>
               <ShipModel
- scale={tuning.shipScale || 1.0}
- offsetY={tuning.shipOffsetY}
- shipRotYRef={shipRotYRef}
- shipScaleFactorRef={shipScaleFactorRef}
- />
+                scale={tuning.shipScale || 1.0}
+                offsetY={tuning.shipOffsetY}
+                shipRotYRef={shipRotYRef}
+                shipScaleFactorRef={shipScaleFactorRef}
+              />
             </Suspense>
           </Canvas>
         </div>
@@ -1321,61 +1330,65 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
           return (
             <React.Fragment key={`node-group-${day?.id || i}-${day?.location || day?.theme || 'day'}`}>
-              {/* Day Badge — aligned flush with 0px margin */}
+              {/* Day Badge — aligned flush on left for mobile */}
               <div
- style={{
- position: 'absolute',
- ...(node.isLeft
- ? { left: '0px' }
- : { right: '0px', left: 'auto' }
- ),
- top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : (isActive ? 76 : 68)}px)`,
- transform: 'none',
- zIndex: 35,
- pointerEvents: 'none',
+                style={{
+                  position: 'absolute',
+                  ...(isMobile
+                    ? { left: '0px', right: 'auto' }
+                    : node.isLeft
+                      ? { left: '0px' }
+                      : { right: '0px', left: 'auto' }
+                  ),
+                  top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : (isActive ? 76 : 68)}px)`,
+                  transform: 'none',
+                  zIndex: 35,
+                  pointerEvents: 'none',
 
- backgroundColor: '#060614',
- boxShadow: 'none',
- }}
- className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)] font-bold uppercase px-4 py-1.5 rounded-lg backdrop-blur-[45px] flex items-center gap-1.5 bg-[#00000029] transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
- }`}
- >
+                  backgroundColor: '#060614',
+                  boxShadow: 'none',
+                }}
+                className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)] font-bold uppercase px-4 py-1.5 rounded-lg backdrop-blur-[45px] flex items-center gap-1.5 bg-[#00000029] transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
+                  }`}
+              >
                 {isSea ? (
                   <Waves className="w-3.5 h-3.5 shrink-0 inline-block" />
                 ) : (
                   <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0 inline-block" />
                 )} {formatNodeBadgeText(day, i)}
               </div>
-              {/* Circle Video Node — aligned flush with 0px margin */}
+              {/* Circle Video Node — aligned flush on left for mobile */}
               <div
- key={`node-ring-${day?.id || i}-${day?.location || day?.theme || 'day'}`}
- style={{
- position: 'absolute',
- ...(node.isLeft
- ? { left: '0px' }
- : { right: '0px', left: 'auto' }
- ),
- top: `${(node.y / totalH) * 100}%`,
- transform: node.isLeft ? 'translate(0, -50%)' : 'translate(0, -50%)',
- width: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
- height: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
- borderRadius: '50%',
- backgroundColor: '#0a0a12',
- border: isActive ? '3px solid #06b6d4' : '2px solid rgba(6,182,212,0.4)',
- boxShadow: 'none',
- zIndex: isActive ? 30 : 25,
- overflow: 'hidden',
- transition: 'all 0.3s ease',
- pointerEvents: 'none',
- display: 'flex',
- alignItems: 'center',
- justifyContent: 'center',
- }}
- >
+                key={`node-ring-${day?.id || i}-${day?.location || day?.theme || 'day'}`}
+                style={{
+                  position: 'absolute',
+                  ...(isMobile
+                    ? { left: '0px', right: 'auto' }
+                    : node.isLeft
+                      ? { left: '0px' }
+                      : { right: '0px', left: 'auto' }
+                  ),
+                  top: `${(node.y / totalH) * 100}%`,
+                  transform: 'translate(0, -50%)',
+                  width: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
+                  height: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
+                  borderRadius: '50%',
+                  backgroundColor: '#0a0a12',
+                  border: isActive ? '3px solid #06b6d4' : '2px solid rgba(6,182,212,0.4)',
+                  boxShadow: 'none',
+                  zIndex: isActive ? 30 : 25,
+                  overflow: 'hidden',
+                  transition: 'all 0.3s ease',
+                  pointerEvents: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
                 <CircleVideoNode
- src={videoSrc}
- shouldPlay={hasScrolledIntoRange && (isActive || isPassed)}
- />
+                  src={videoSrc}
+                  shouldPlay={hasScrolledIntoRange && (isActive || isPassed)}
+                />
               </div>
             </React.Fragment>
           );

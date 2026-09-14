@@ -97,8 +97,8 @@ export function DailyPoll() {
 
           return (
             <button
- key={opt.id}
- onClick={() => !voted && setVoted(opt.id)}
+              key={opt.id}
+              onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
               className={`w-full relative overflow-hidden border text-left transition-colors ${voted === opt.id ? 'border-emerald-500 bg-emerald-500/10'
                 : voted !== null
@@ -108,9 +108,9 @@ export function DailyPoll() {
               {/* Progress bar background (only shows after voting) */}
               {voted !== null && (
                 <div
- className={`absolute top-0 left-0 bottom-0 transition-colors duration-1000 ease-out ${isWinner ? 'bg-emerald-500/20' : ' bg-[#00000029] '}`}
- style={{ width: `${percent}%` }}
- />
+                  className={`absolute top-0 left-0 bottom-0 transition-colors duration-1000 ease-out ${isWinner ? 'bg-emerald-500/20' : ' bg-[#00000029] '}`}
+                  style={{ width: `${percent}%` }}
+                />
               )}
 
               <div className="relative z-10 flex items-center justify-between p-4">
@@ -160,9 +160,9 @@ export function OriginStats() {
             </div>
             <div className="w-full h-1.5 rounded-lg overflow-hidden border border-white/5">
               <div
- className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-lg opacity-80 group-hover:opacity-100 transition-colors duration-1000 delay-100"
- style={{ width: `${(stat.count / maxCount) * 100}%` }}
- />
+                className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-lg opacity-80 group-hover:opacity-100 transition-colors duration-1000 delay-100"
+                style={{ width: `${(stat.count / maxCount) * 100}%` }}
+              />
             </div>
           </div>
         ))}
@@ -198,15 +198,15 @@ export function PhotoWall() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         {MOCK_PHOTOS.map((src, i) => (
           <div
- key={i}
- className="aspect-square bg-[#00000029] border border-white/10 overflow-hidden group cursor-pointer relative">
+            key={i}
+            className="aspect-square bg-[#00000029] border border-white/10 overflow-hidden group cursor-pointer relative">
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-colors z-10 flex items-center justify-center backdrop-blur-[2px]">
               <span className="text-white text-2xl">📸</span>
             </div>
             <div
- className="w-full h-full bg-cover bg-center"
- style={{ backgroundImage: `url(${src})` }}
- />
+              className="w-full h-full bg-cover bg-center"
+              style={{ backgroundImage: `url(${src})` }}
+            />
           </div>
         ))}
       </div>
@@ -461,42 +461,42 @@ export function BookingManager({ email }: { email?: string }) {
       <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 p-4 border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputField
- label="Full Name"
- type="text"
- readOnly
- value={member?.name || ''}
- inputClassName="text-white/50 cursor-not-allowed px-3 py-2 text-base"
- />
+            label="Full Name"
+            type="text"
+            readOnly
+            value={member?.name || ''}
+            inputClassName="text-white/50 cursor-not-allowed px-3 py-2 text-base"
+          />
           <InputField
- label="Email Address"
- type="text"
- readOnly
- value={email || ''}
- inputClassName="text-white/50 cursor-not-allowed px-3 py-2 text-base"
- />
+            label="Email Address"
+            type="text"
+            readOnly
+            value={email || ''}
+            inputClassName="text-white/50 cursor-not-allowed px-3 py-2 text-base"
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <InputField
- label="Phone Number"
- required
- id="cruise-reg-phone"
- type="tel"
- placeholder="(555) 123-4567"
- value={regPhone}
- onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))}
+            label="Phone Number"
+            required
+            id="cruise-reg-phone"
+            type="tel"
+            placeholder="(555) 123-4567"
+            value={regPhone}
+            onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))}
             glow={true}
             inputClassName="px-3 py-2 text-base"
           />
           <InputField
- label="Party Size"
- required
- id="cruise-reg-party-size"
- type="number"
- min={1}
- max={10}
- value={regPartySize}
- onChange={e => setRegPartySize(parseInt(e.target.value) || 1)}
+            label="Party Size"
+            required
+            id="cruise-reg-party-size"
+            type="number"
+            min={1}
+            max={10}
+            value={regPartySize}
+            onChange={e => setRegPartySize(parseInt(e.target.value) || 1)}
             glow={true}
             inputClassName="px-3 py-2 text-base"
           />
@@ -517,10 +517,10 @@ export function BookingManager({ email }: { email?: string }) {
         {regError && <p className="text-rose-400 ">{regError}</p>}
 
         <CosmicRadialButton
- type="submit"
- icon={false}
- disabled={registering}
- className="w-full mt-2 py-2.5 text-white rounded-lg disabled:opacity-50">
+          type="submit"
+          icon={false}
+          disabled={registering}
+          className="w-full mt-2 py-2.5 text-white rounded-lg disabled:opacity-50">
           {registering ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Complete Cruise Registration"}
         </CosmicRadialButton>
       </form>
@@ -568,7 +568,7 @@ export function BookingManager({ email }: { email?: string }) {
             <span className="text-rose-400">{booking.balance_due || "$350.00"}</span>
             {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
               <button
- onClick={() => setIsPayModalOpen(true)}
+                onClick={() => setIsPayModalOpen(true)}
                 className="uppercase text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer">
                 💳 Pay Balance
               </button>
@@ -597,8 +597,8 @@ export function BookingManager({ email }: { email?: string }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Button 1: Cruise Admin Agent */}
           <CosmicRadialButton
- icon={false}
- onClick={() => window.location.href = `mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
+            icon={false}
+            onClick={() => window.location.href = `mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
               `7th Heaven Cruise Inquiry - ${booking.cabin_preference || 'Cabin 9122'} (${booking.name || 'Passenger'})`
             )}&body=${encodeURIComponent(
               `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || 'Cruise Guest'} (${booking.cabin_preference || 'Cabin 9122'}):\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
@@ -612,8 +612,8 @@ export function BookingManager({ email }: { email?: string }) {
 
           {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
           <CosmicRadialButton
- icon={false}
- onClick={() => window.location.href = `mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
+            icon={false}
+            onClick={() => window.location.href = `mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
               `7th Heaven Cruise Support - ${booking.name || 'Passenger'} (${booking.cabin_preference || 'Cabin 9122'})`
             )}&body=${encodeURIComponent(
               `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
@@ -639,8 +639,8 @@ export function BookingManager({ email }: { email?: string }) {
       </div>
 
       <PaymentModal
- isOpen={isPayModalOpen}
- onClose={() => setIsPayModalOpen(false)}
+        isOpen={isPayModalOpen}
+        onClose={() => setIsPayModalOpen(false)}
         balanceDue={booking.balance_due}
         email={email}
         onSuccess={() => {
@@ -753,12 +753,12 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <button type="button"
- className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-colors border-0"
- aria-label="Close modal background"
- onClick={processing || success ? undefined : onClose}
- />
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-colors border-0"
+        aria-label="Close modal background"
+        onClick={processing || success ? undefined : onClose}
+      />
 
-      <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-cyan-500/20 shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-colors duration-300 text-left">
+      <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-purple-500/20 shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-colors duration-300 text-left">
         {success ? (
           <div className="p-8 text-center space-y-4">
             <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
@@ -769,8 +769,8 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
             <button aria-label="Close"
- onClick={onClose}
- className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black uppercase transition-colors cursor-pointer shadow-emerald-500/15">
+              onClick={onClose}
+              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black uppercase transition-colors cursor-pointer shadow-emerald-500/15">
               Close
             </button>
           </div>
@@ -792,22 +792,22 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
 
             {processing ? (
               <div className="py-12 text-center space-y-4">
-                <div className="w-11 h-11 border-2 border-cyan-400 border-t-transparent rounded-lg animate-spin mx-auto" />
+                <div className="w-11 h-11 border-2 border-purple-400 border-t-transparent rounded-lg animate-spin mx-auto" />
                 <p className="text-purple-400uppercase animate-pulse">Processing Secure Payment...</p>
               </div>
             ) : (
               <>
                 <div className="flex gap-2 p-1 bg-black/40 border border-white/5">
                   <button
- type="button"
- onClick={() => { setTab('saved'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer ${tab === 'saved' ? ' border border-cyan-500/20   ' : 'text-white/40 border border-transparent'}`}>
+                    type="button"
+                    onClick={() => { setTab('saved'); setError(''); }}
+                    className={`flex-1 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer ${tab === 'saved' ? ' border border-purple-500/20   ' : 'text-white/40 border border-transparent'}`}>
                     Use Saved Card
                   </button>
                   <button
- type="button"
- onClick={() => { setTab('new'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer ${tab === 'new' ? ' border border-cyan-500/20   ' : 'text-white/40 border border-transparent'}`}>
+                    type="button"
+                    onClick={() => { setTab('new'); setError(''); }}
+                    className={`flex-1 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer ${tab === 'new' ? ' border border-purple-500/20   ' : 'text-white/40 border border-transparent'}`}>
                     Use New Card
                   </button>
                 </div>
@@ -822,7 +822,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                           <span className="text-white/40 uppercase r">Expires 12/28 • Demo Cruiser</span>
                         </div>
                       </div>
-                      <span className="text-purple-400uppercase border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
+                      <span className="text-purple-400uppercase border border-purple-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
                         Default
                       </span>
                     </div>
@@ -832,22 +832,22 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                     <div>
                       <label htmlFor="cruise-card-name" className="block text-white/40 uppercase mb-1.5">Cardholder Name</label>
                       <input id="cruise-card-name"
- type="text"
- placeholder="John Doe"
- value={cardName}
- onChange={e => setCardName(e.target.value)}
-                        className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors"
+                        type="text"
+                        placeholder="John Doe"
+                        value={cardName}
+                        onChange={e => setCardName(e.target.value)}
+                        className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-purple-400/50 outline-none transition-colors"
                       />
                     </div>
                     <div>
                       <label htmlFor="cruise-card-number" className="block text-white/40 uppercase mb-1.5">Card Number</label>
                       <div className="relative">
                         <input id="cruise-card-number"
- type="text"
- placeholder="4000 1234 5678 9010"
- value={cardNumber}
- onChange={e => handleCardNumberChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 pl-9 pr-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors"
+                          type="text"
+                          placeholder="4000 1234 5678 9010"
+                          value={cardNumber}
+                          onChange={e => handleCardNumberChange(e.target.value)}
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 pl-9 pr-3 py-2 text-white focus:border-purple-400/50 outline-none transition-colors"
                         />
                         <span className="absolute left-3 top-2.5 text-white/40">💳</span>
                       </div>
@@ -856,21 +856,21 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                       <div>
                         <label htmlFor="cruise-card-expiry" className="block text-white/40 uppercase mb-1.5">Expiry Date</label>
                         <input id="cruise-card-expiry"
- type="text"
- placeholder="MM/YY"
- value={cardExpiry}
- onChange={e => handleExpiryChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors"
+                          type="text"
+                          placeholder="MM/YY"
+                          value={cardExpiry}
+                          onChange={e => handleExpiryChange(e.target.value)}
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-purple-400/50 outline-none transition-colors"
                         />
                       </div>
                       <div>
                         <label htmlFor="cruise-card-cvc" className="block text-white/40 uppercase mb-1.5">CVC</label>
                         <input id="cruise-card-cvc"
- type="password"
- placeholder="123"
- value={cardCVC}
- onChange={e => handleCVCChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-cyan-400/50 outline-none transition-colors"
+                          type="password"
+                          placeholder="123"
+                          value={cardCVC}
+                          onChange={e => handleCVCChange(e.target.value)}
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-white focus:border-purple-400/50 outline-none transition-colors"
                         />
                       </div>
                     </div>
@@ -879,15 +879,15 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
 
                 <div className="flex gap-3 pt-2">
                   <button aria-label="Close"
- type="button"
- onClick={onClose}
- className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 uppercase transition-colors cursor-pointer">
+                    type="button"
+                    onClick={onClose}
+                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 uppercase transition-colors cursor-pointer">
                     Cancel
                   </button>
                   <CosmicRadialButton
- type="submit"
- icon={false}
- className="flex-1 py-2.5 text-white rounded-lg">
+                    type="submit"
+                    icon={false}
+                    className="flex-1 py-2.5 text-white rounded-lg">
                     Pay {balanceDue}
                   </CosmicRadialButton>
                 </div>
@@ -938,11 +938,11 @@ export function ImportantLinksWidget() {
       <div className="space-y-3 relative z-10">
         {links.map((link) => (
           <a
- key={link.url || link.title}
- href={link.url}
- target="_blank"
- rel="noopener noreferrer"
- className="w-full flex items-center justify-between p-3.5 bg-[#00000029] border border-white/10 hover:bg-white/10 hover:border-cyan-500/40 rounded-lg transition-colors text-left group/item">
+            key={link.url || link.title}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-between p-3.5 bg-[#00000029] border border-white/10 hover:bg-white/10 hover:border-purple-500/40 rounded-lg transition-colors text-left group/item">
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
               <span className="text-white group-hover/item: transition-colors">
@@ -993,7 +993,7 @@ export function SongRequestLeaderboard() {
               <div className="text-white/30">{song.votes} votes</div>
             </div>
             <button
- onClick={() => handleVote(song.id)}
+              onClick={() => handleVote(song.id)}
               className="w-8 h-8 rounded-lg border border-white/10 bg-[#00000029] flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-colors text-white/40">
               ▲
             </button>
@@ -1031,7 +1031,7 @@ export function CaptainsLog() {
 
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
         <button
- onClick={() => setIsPlaying(!isPlaying)}
+          onClick={() => setIsPlaying(!isPlaying)}
           className="w-12 h-12 rounded-lg bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] transition-colors">
           {isPlaying ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
@@ -1066,12 +1066,12 @@ const EXCURSIONS = [
 
 export function ExcursionTeasers() {
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-cyan-500/20 p-6">
+    <div className="bg-[var(--color-bg-surface)] border border-purple-500/20 p-6">
       <h2 className="uppercase text-purple-400mb-5">Band Excursions</h2>
 
       <div className="space-y-3">
         {EXCURSIONS.map((ex, i) => (
-          <div key={ex.title} className="p-3 bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
+          <div key={ex.title} className="p-3 bg-cyan-900/10 border border-purple-500/10 hover:border-purple-500/30 transition-colors flex items-center justify-between">
             <div>
               <div className="text-white ">{ex.title}</div>
               <div className="/80 uppercase r">Join {ex.bandMember}</div>

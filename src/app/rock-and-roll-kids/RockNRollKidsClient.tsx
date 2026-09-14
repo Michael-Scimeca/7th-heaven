@@ -257,7 +257,7 @@ const mainCharacters = [
     image: "/images/comics/Frank.png",
     desc: "Baseball cap backwards, driving deep basslines that keep the groove locked down in every battle.",
     icon: BassGuitarIcon,
-    color: "   border-cyan-500/30 bg-cyan-500/10",
+    color: "   border-purple-500/30 bg-cyan-500/10",
   },
   {
     role: "Drums & Percussion",
@@ -436,16 +436,16 @@ export default function RockNRollKidsClient({
 
           {/* Full Cast Lineup Image Banner (allc.png) */}
           <div
- className="relative w-full rounded-lg overflow-hidden mt-4">
+            className="relative w-full rounded-lg overflow-hidden mt-4">
             <Image
- src={getMediaUrl(sanityContent?.heroBannerImage, "/images/comics/allc.png")}
- alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
- width={1400}
- height={550}
- priority
- sizes="(max-width: 1280px) 100vw, 1400px"
- className="w-full h-auto object-contain rounded-xl"
- />
+              src={getMediaUrl(sanityContent?.heroBannerImage, "/images/comics/allc.png")}
+              alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
+              width={1400}
+              height={550}
+              priority
+              sizes="(max-width: 1280px) 100vw, 1400px"
+              className="w-full h-auto object-contain rounded-xl"
+            />
           </div>
           <div className="mt-8 mb-8 text-left w-full space-y-3">
             <h2 className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide mb-3 text-left">
@@ -461,18 +461,18 @@ export default function RockNRollKidsClient({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left pt-4 mb-12">
             {charactersList.map((char: any) => (
               <div
- key={char.name}
- className="flex flex-col justify-between group">
+                key={char.name}
+                className="flex flex-col justify-between group">
                 <div>
                   {char.image && (
                     <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-start">
                       <Image
- src={char.image}
- alt={char.name}
- fill
- sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
- className="object-contain object-left"
- />
+                        src={char.image}
+                        alt={char.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        className="object-contain object-left"
+                      />
                     </div>
                   )}
                   <SectionBadge className="mb-2 gap-1.5">
@@ -507,8 +507,8 @@ export default function RockNRollKidsClient({
                   <div className="flex flex-wrap gap-2.5">
                     {musicSinglesList.map((single: any) => (
                       <FoolishShrimpButton
- key={single.id}
- onClick={() => setSelectedVideo(single.id)}
+                        key={single.id}
+                        onClick={() => setSelectedVideo(single.id)}
                         className={`px-4 py-2 transition-all ${selectedVideo === single.id
                           ? "scale-105 opacity-100"
                           : "opacity-80 hover:opacity-100"
@@ -524,19 +524,19 @@ export default function RockNRollKidsClient({
               <div className="lg:col-span-7 space-y-4">
                 <div className="aspect-video w-full rounded-lg overflow-hidden">
                   <iframe
- src={`https://www.youtube.com/embed/${selectedVideo}`}
- title="Rock and Roll Kids Player"
- className="w-full h-full"
- allowFullScreen
- sandbox="allow-scripts allow-same-origin allow-presentation"
- />
+                    src={`https://www.youtube.com/embed/${selectedVideo}`}
+                    title="Rock and Roll Kids Player"
+                    className="w-full h-full"
+                    allowFullScreen
+                    sandbox="allow-scripts allow-same-origin allow-presentation"
+                  />
                 </div>
 
                 <div className="grid grid-rows-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
                   {videosList.map((v: any) => (
                     <FoolishShrimpButton
- key={v.id}
- onClick={() => setSelectedVideo(v.id)}
+                      key={v.id}
+                      onClick={() => setSelectedVideo(v.id)}
                       className={`!h-auto !py-3 !px-4 !justify-start text-left transition-all ${selectedVideo === v.id
                         ? "scale-[1.02] opacity-100"
                         : "opacity-80 hover:opacity-100"
@@ -579,17 +579,17 @@ export default function RockNRollKidsClient({
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {productsList.map((prod: any) => (
                 <div
- key={prod.id}
- className="bg-[#0b0718]/90 border border-white/10 rounded-xl overflow-hidden flex flex-col justify-between p-4 transition-all group">
+                  key={prod.id}
+                  className="bg-[#0b0718]/90 border border-white/10 rounded-xl overflow-hidden flex flex-col justify-between p-4 transition-all group">
                   <div>
                     <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden mb-3 bg-black/40">
                       <Image
- src={prod.coverImg}
- alt={prod.title}
- fill
- sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
- className="object-cover"
- />
+                        src={prod.coverImg}
+                        alt={prod.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        className="object-cover"
+                      />
                     </div>
                     <span className="text-[11px] text-purple-400 font-bold uppercase tracking-wider block mb-1">
                       {prod.badge}
@@ -603,10 +603,10 @@ export default function RockNRollKidsClient({
                   </div>
 
                   <a
- href={prod.amazonUrl}
- target="_blank"
- rel="noopener noreferrer"
- className="w-full block">
+                    href={prod.amazonUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full block">
                     <FoolishShrimpButton className="w-full !py-2 !px-3 text-center justify-center font-bold text-xs">
                       <span>Amazon Link</span>
                     </FoolishShrimpButton>
@@ -635,20 +635,20 @@ export default function RockNRollKidsClient({
                   <div className="relative w-full aspect-[4/3] sm:aspect-[1.2/1] max-h-[460px] rounded-2xl overflow-hidden transition-all flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)]">
                     {/* Mobile Image */}
                     <Image
- src={founder.mobileImg}
- alt={`${founder.name} Mobile`}
- fill
- sizes="(max-width: 640px) 100vw, 0px"
- className="object-contain object-bottom sm:hidden"
- />
+                      src={founder.mobileImg}
+                      alt={`${founder.name} Mobile`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 0px"
+                      className="object-contain object-bottom sm:hidden"
+                    />
                     {/* Desktop Image */}
                     <Image
- src={founder.desktopImg}
- alt={`${founder.name} Desktop`}
- fill
- sizes="(min-width: 641px) 50vw, 100vw"
- className="object-contain object-bottom hidden sm:block"
- />
+                      src={founder.desktopImg}
+                      alt={`${founder.name} Desktop`}
+                      fill
+                      sizes="(min-width: 641px) 50vw, 100vw"
+                      className="object-contain object-bottom hidden sm:block"
+                    />
                     {/* Bottom Gradient Mask Overlay */}
                     <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 pointer-events-none z-10" />
                   </div>
@@ -658,24 +658,24 @@ export default function RockNRollKidsClient({
                     </h3>
                     <div>
                       <SectionBadge
- label={founder.role}
- isActive
- />
+                        label={founder.role}
+                        isActive
+                      />
                     </div>
                     <p className="text-white/80 text-sm leading-relaxed max-w-md mx-auto mb-1">
                       {founder.desc}
                     </p>
                     {founder.phone ? (
                       <a
- href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
- className="!text-white font-bold text-sm sm:text-base hover:underline block mb-0 ">
+                        href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
+                        className="!text-white font-bold text-sm sm:text-base hover:underline block mb-0 ">
                         {founder.phone}
                       </a>
                     ) : null}
                     {founder.email ? (
                       <a
- href={`mailto:${founder.email}`}
- className="text-purple-400 font-bold text-sm sm:text-base hover:underline block">
+                        href={`mailto:${founder.email}`}
+                        className="text-purple-400 font-bold text-sm sm:text-base hover:underline block">
                         {founder.email}
                       </a>
                     ) : null}
