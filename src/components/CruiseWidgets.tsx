@@ -55,11 +55,11 @@ export function EmbarkationCountdown() {
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
             <div className="min-w-[48px] flex items-center justify-center">
-              <span className="text-white text-2xl md:text-3xl text-center">
+              <span className="text-white text-2xl md:text-3xl text-center font-bold">
                 {value.toString().padStart(2, '0')}
               </span>
             </div>
-            <span className="text-[10px] text-white/80 uppercase drop-">{unit}</span>
+            <span className="text-[10px] text-white/80 uppercase font-bold">{unit}</span>
           </div>
         ))}
       </div>

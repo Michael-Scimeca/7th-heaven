@@ -711,71 +711,7 @@ export default function CruiseDashboard() {
           </div>
         </header>
 
-        {/* Free Cruise Push Alerts Card */}
-        <PushAlertsCard group="cruise" className="mb-8" />
 
-        {(announcement || isAdmin) && (
-          <div className="relative overflow-hidden mb-8 p-6 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-lg group">
-            <div className="relative z-10">
-              <div className="flex items-start gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center shrink-0 mt-0.5 border border-purple-500/30">
-                  <span className="animate-pulse">🔔</span>
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[12px] tracking-[0.15em] uppercase px-2 py-0.5 rounded-lg border border-purple-500/30">Priority Update</span>
-                  </div>
-                  <h3 className="text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
-                </div>
-                {isAdmin && !isEditingAnnouncement && (
-                  <button onClick={() => setIsEditingAnnouncement(true)} className="ml-auto hover:text-white uppercase cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-purple-500/30">
-                    ✏️ Edit Announcement
-                  </button>
-                )}
-              </div>
-
-              {isEditingAnnouncement ? (
-                <div className="space-y-3">
-                  <div>
-                    <label htmlFor="cruise-hub-notice-title" className="text-[10px] text-white/50 uppercase block mb-1">Notice Header Title / Subject</label>
-                    <input id="cruise-hub-notice-title"
-                      type="text"
-                      value={announcementTitleInput}
-                      onChange={e => setAnnouncementTitleInput(e.target.value)}
-                      placeholder="e.g. TEST, Captain's Log, or Cruise Notice..."
-                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-3.5 py-2 text-white focus:border-purple-400 outline-none transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="cruise-hub-notice-content" className="text-[10px] text-white/50 uppercase block mb-1">Notice Content</label>
-                    <textarea aria-label="Text input"
-                      id="cruise-hub-notice-content"
-                      value={announcementInput}
-                      onChange={e => setAnnouncementInput(e.target.value)}
-                      placeholder="Type news/announcements here (HTML formatting allowed)..."
-                      className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg p-3.5 text-white focus:border-purple-400 outline-none h-32 resize-none transition-colors"
-                    />
-                  </div>
-                  <div className="flex gap-3 justify-end">
-                    <button onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 uppercase transition-colors cursor-pointer rounded-xl">
-                      Cancel
-                    </button>
-                    <button onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer rounded-lg shadow-purple-600/30">
-                      Save Announcement
-                    </button>
-                  </div>
-                </div>
-              ) : sanitizedAnnouncement ? (
-                <div
-                  className="text-white/80 space-y-4 [&_a]: [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-white [&_strong]: [&_h1]:text-lg [&_h1]: [&_h1]:text-white [&_h2]:text-base [&_h2]: [&_h2]:text-white"
-                  dangerouslySetInnerHTML={{ __html: sanitizedAnnouncement }}
-                />
-              ) : (
-                <p>No priority news announcements posted yet.</p>
-              )}
-            </div>
-          </div>
-        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 items-start">
           {/* Main Content Column (Left 2 Cols) */}
