@@ -1453,8 +1453,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     const weekdayNames = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
     if (scheduleStartDate) {
-      const start = new Date(scheduleStartDate + 'T12:00:00');
-      let end = scheduleEndDate ? new Date(scheduleEndDate + 'T12:00:00') : null;
+      let start = new Date(scheduleStartDate.includes('T') ? scheduleStartDate : scheduleStartDate + 'T12:00:00');
+      if (isNaN(start.getTime())) {
+        start = new Date();
+      }
+      let end = scheduleEndDate ? new Date(scheduleEndDate.includes('T') ? scheduleEndDate : scheduleEndDate + 'T12:00:00') : null;
       if (!end || isNaN(end.getTime()) || end < start) {
         end = new Date(start);
         end.setDate(start.getDate() + 6);
@@ -1462,24 +1465,24 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       const diffTime = Math.abs(end.getTime() - start.getTime());
       let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      if (isNaN(diffDays) || diffDays <= 0) diffDays = 7;
       if (diffDays > 62) diffDays = 62; // Safe upper bound
 
       for (let i = 0; i < diffDays; i++) {
         const d = new Date(start);
         d.setDate(start.getDate() + i);
-        const yyyy = d.getFullYear();
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        const dateStr = `${yyyy}-${mm}-${dd}`;
+        const dateStr = !isNaN(d.getTime())
+          ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+          : `date-start-${i}`;
 
-        const dayOfWeekIndex = (d.getDay() + 6) % 7;
+        const dayOfWeekIndex = isNaN(d.getDay()) ? (i % 7) : (d.getDay() + 6) % 7;
 
         days.push({
           dateStr,
           dayName: weekdayNames[dayOfWeekIndex],
-          dayOfMonth: d.getDate(),
-          monthName: d.toLocaleString('en-US', { month: 'short' }),
-          fullDate: d
+          dayOfMonth: isNaN(d.getDate()) ? (i + 1) : d.getDate(),
+          monthName: isNaN(d.getTime()) ? 'Jan' : d.toLocaleString('en-US', { month: 'short' }),
+          fullDate: isNaN(d.getTime()) ? new Date() : d
         });
       }
       return days;
@@ -1487,13 +1490,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     let numDays = 7;
     let start = new Date(currentWeekStart);
+    if (isNaN(start.getTime())) {
+      start = new Date();
+    }
 
     if (calendarRange === '4weeks') {
       numDays = 28;
     } else if (calendarRange === 'month') {
-      const isBridgeToJanuary = currentWeekStart.getMonth() === 11 && currentWeekStart.getDate() > 20;
-      const targetYear = isBridgeToJanuary ? currentWeekStart.getFullYear() + 1 : currentWeekStart.getFullYear();
-      const targetMonth = isBridgeToJanuary ? 0 : currentWeekStart.getMonth();
+      const isBridgeToJanuary = start.getMonth() === 11 && start.getDate() > 20;
+      const targetYear = isBridgeToJanuary ? start.getFullYear() + 1 : start.getFullYear();
+      const targetMonth = isBridgeToJanuary ? 0 : start.getMonth();
       start = new Date(targetYear, targetMonth, 1);
       numDays = new Date(targetYear, targetMonth + 1, 0).getDate();
     }
@@ -1501,19 +1507,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     for (let i = 0; i < numDays; i++) {
       const d = new Date(start);
       d.setDate(start.getDate() + i);
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const dd = String(d.getDate()).padStart(2, '0');
-      const dateStr = `${yyyy}-${mm}-${dd}`;
+      const dateStr = !isNaN(d.getTime())
+        ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+        : `date-week-${i}`;
 
-      const dayOfWeekIndex = (d.getDay() + 6) % 7;
+      const dayOfWeekIndex = isNaN(d.getDay()) ? (i % 7) : (d.getDay() + 6) % 7;
 
       days.push({
         dateStr,
         dayName: weekdayNames[dayOfWeekIndex],
-        dayOfMonth: d.getDate(),
-        monthName: d.toLocaleString('en-US', { month: 'short' }),
-        fullDate: d
+        dayOfMonth: isNaN(d.getDate()) ? (i + 1) : d.getDate(),
+        monthName: isNaN(d.getTime()) ? 'Jan' : d.toLocaleString('en-US', { month: 'short' }),
+        fullDate: isNaN(d.getTime()) ? new Date() : d
       });
     }
     return days;
