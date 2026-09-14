@@ -197,7 +197,9 @@ export function CalendarPicker({
               <div key={`empty-${i}`} className="h-12 w-full" />
             ))}
             {daysInMonth.map(date => {
-              const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+              const dateString = !isNaN(date.getTime())
+                ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+                : `invalid-date-${date.getTime()}`;
               const slotsForDay = slots.filter(s => s.date === dateString);
               const isSelected = slotsForDay.length > 0;
               const isPastDate = todayTimestamp > 0 && date.getTime() < todayTimestamp;

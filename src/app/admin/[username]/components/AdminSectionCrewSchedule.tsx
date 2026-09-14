@@ -2491,7 +2491,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                           {assignment.active && (
                                             <div className="mt-3.5 pt-3 border-t border-white/10 space-y-4 animate-[fadeIn_0.2s_ease]">
                                               {dropTimeFrames.map((tf: any, index: number) => (
-                                                <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 border border-white/10 space-y-3 relative rounded-lg animate-[fadeIn_0.2s_ease]">
+                                                <div key={tf.id || tf._id || `tf-${tf.role || 'role'}-${tf.startHour ?? 'start'}-${tf.endHour ?? 'end'}`} className="p-3.5 border border-white/10 space-y-3 relative rounded-lg animate-[fadeIn_0.2s_ease]">
                                                   <div className="flex items-center justify-between">
                                                     <span className="uppercase text-purple-300 " style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
                                                     {dropTimeFrames.length > 1 && (

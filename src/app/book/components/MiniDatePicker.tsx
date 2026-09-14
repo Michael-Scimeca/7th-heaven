@@ -94,12 +94,14 @@ export function MiniDatePicker({ label, value, onChange }: MiniDatePickerProps) 
                 {Array.from({ length: daysCount }).map((_, i) => {
                   const d = new Date(year, month, i + 1);
                   d.setHours(0, 0, 0, 0);
-                  const ds = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                  const ds = !isNaN(d.getTime())
+                    ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+                    : `date-${i}`;
                   const isPast = d < today;
                   const isSel = value === ds;
                   return (
                     <button
- key={ds} type="button" disabled={isPast}
+                      key={`${ds}-${i}`} type="button" disabled={isPast}
  onClick={() => { onChange(ds); setShowCal(false); }}
                       className={`h-10 w-full    rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-purple-600/40    ' : ' bg-[#00000029] hover:bg-white/15 text-white/80 cursor-pointer'}`}>
                       {i + 1}
