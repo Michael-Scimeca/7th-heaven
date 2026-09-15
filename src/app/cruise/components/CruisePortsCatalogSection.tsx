@@ -24,17 +24,14 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
   const sectionTagline = sanityContent?.sections?.find((s: any) => s.sectionId === "ports")?.subtitle || "Destination Explorer";
 
   return (
-    <div className="site-container py-section-fluid">
-      {/* ── SECTION 2: PORTS OF CALL ── */}
-      <div id="ports" style={{ contentVisibility: "auto", containIntrinsicSize: "700px" }}>
-        <LazyMount minHeight="700px" rootMargin="300px 0px">
-          {/* Ports of Call Section */}
-          <div>
-            <div className="text-center md:text-left mb-10">
-              <h3 className="uppercase mt-0.5">
-                {sectionTitle}
-              </h3>
-            </div>
+    <section id="ports" className="site-container py-section-fluid" style={{ contentVisibility: "auto", containIntrinsicSize: "700px" }}>
+      <LazyMount minHeight="700px" rootMargin="300px 0px">
+        <div>
+          <div className="text-center md:text-left mb-10">
+            <h2 className="uppercase mt-0.5">
+              {sectionTitle}
+            </h2>
+          </div>
 
             {/* LAYOUT 1: GRID VIEW */}
             {portLayoutMode === "grid" && (
@@ -344,9 +341,8 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 ))}
               </div>
             )}
-          </div>
-        </LazyMount>
-      </div>
-    </div>
+        </div>
+      </LazyMount>
+    </section>
   );
 }

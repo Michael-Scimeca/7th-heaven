@@ -18,7 +18,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
   const sectionSubtitle = sanityContent?.sections?.find((s: any) => s.sectionId === "ship")?.subtitle || "Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.";
 
   return (
-    <div id="ship-explorer" className="pt-[32px] md:pt-20 site-container" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
+    <section id="ship-explorer" className="pt-[32px] md:pt-20 site-container" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <LazyMount minHeight="800px" rootMargin="300px 0px">
         <div className="text-left w-full mb-10">
           <h2 className="uppercase text-white ">
@@ -249,7 +249,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
           </div>
         </div>
       </LazyMount>
-    </div>
+    </section>
   );
 }
 
