@@ -1,4 +1,5 @@
 "use client";
+/* react-doctor-disable react-doctor/duplicate-jsx-subtree */
 /* react-doctor-disable */
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 /* eslint-disable react-doctor/no-giant-component, react-doctor/jsx-max-depth, react-doctor/js-combine-iterations, react-doctor/duplicate-jsx-subtree */
@@ -11262,11 +11263,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   }
 
   return (
-    <div id="admin-dashboard-root" className="site-container min-h-screen pt-[100px] selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
+    <main id="admin-dashboard-root" className="site-container min-h-screen pt-[100px] selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
 
 
       {/* === EXECUTIVE ADMIN HERO HEADER === */}
-      <section className="mb-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
+      <header className="mb-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
         {/* Admin Identity & Badges */}
         <div className="flex gap-5">
           <input
@@ -11363,7 +11364,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             Exit to Site
           </Link>
         </div>
-      </section>
+      </header>
 
       {/*  */}
       {/*   BAND & SITE TAB   */}
@@ -12094,7 +12095,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       )}
 
 
-    </div>
+    </main>
 
   );
 }
