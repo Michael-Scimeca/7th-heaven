@@ -192,7 +192,7 @@ export default function CruiseVideoGallery() {
     : videos.filter(v => v.category === selectedCategory);
 
   return (
-    <section id="ship-videos" className="pt-10 md:pt-20 relative z-20 site-container">
+    <section id="ship-videos" className="pt-10 md:pt-20 relative z-20 site-container" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
         <div className="flex justify-center mb-3">

@@ -200,9 +200,9 @@ function CruiseCabinsPricingSectionComponent({
   };
 
   return (
-    <div className="site-container">
+    <>
       {/* ── SECTION 2: CABINS & PRICING ── */}
-      <LazyMount as="section" id="pricing" className="sm:-mt-28 md:-mt-40 lg:-mt-56 pt-4 sm:pt-8 relative z-20" minHeight="800px" rootMargin="300px 0px">
+      <LazyMount as="section" id="pricing" className="site-container sm:-mt-28 md:-mt-40 lg:-mt-56 pt-4 sm:pt-8 relative z-20" minHeight="800px" rootMargin="300px 0px">
         <div className="text-left max-w-3xl">
             <h2 className="uppercase text-white">
               {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")?.title || "Staterooms & Cruise Rates"}
@@ -609,7 +609,7 @@ function CruiseCabinsPricingSectionComponent({
       </LazyMount>
 
       {/* FEATURED ARTISTS */}
-      <LazyMount as="section" id="artists" className="py-section-fluid" minHeight="500px" rootMargin="300px 0px">
+      <LazyMount as="section" id="artists" className="site-container py-section-fluid" minHeight="500px" rootMargin="300px 0px">
         <div className="text-left w-full mb-10">
             <h2 className="uppercase text-white mt-2">
               Featured <span className="accent-gradient-text">Artists</span>
@@ -782,7 +782,7 @@ function CruiseCabinsPricingSectionComponent({
         </div>,
         document.body
       )}
-    </div >
+    </>
   );
 }
 
