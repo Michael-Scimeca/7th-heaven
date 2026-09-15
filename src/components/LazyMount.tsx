@@ -27,13 +27,19 @@ export default function LazyMount({
   minHeight = "400px",
   rootMargin = "800px 0px",
   className = "",
+  as: Component = "div",
+  id,
+  style,
 }: {
   children: ReactNode;
   minHeight?: string;
   rootMargin?: string;
   className?: string;
+  as?: React.ElementType;
+  id?: string;
+  style?: React.CSSProperties;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<any>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -53,9 +59,11 @@ export default function LazyMount({
     return () => observer.disconnect();
   }, [visible, rootMargin]);
 
+  const Tag = Component as any;
+
   return (
-    <div ref={ref} className={className} style={{ minHeight }}>
+    <Tag ref={ref} id={id} className={className} style={{ minHeight, ...style }}>
       {visible ? children : null}
-    </div>
+    </Tag>
   );
 }

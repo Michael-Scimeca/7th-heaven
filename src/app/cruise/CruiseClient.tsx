@@ -321,67 +321,55 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
     <main className="min-h-screen text-white pt-[100px]">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
- heroForegroundRef={heroForegroundRef}
- heroMaskSettings={heroMaskSettings}
- heroParallax={heroParallax}
- setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
- sanityContent={sanityContent}
- />
+        heroForegroundRef={heroForegroundRef}
+        heroMaskSettings={heroMaskSettings}
+        heroParallax={heroParallax}
+        setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
+        sanityContent={sanityContent}
+      />
 
       {transitionDone && (
         <>
           {/* SECTION 2: CABINS & PRICING */}
-          <LazyMount minHeight="800px" rootMargin="300px 0px">
-            <CruiseCabinsPricingSection
- handleSelectCabin={handleSelectCabin}
- handleSignup={handleSignup}
- formData={formData}
- setFormData={setFormData}
- guests={guests}
- toggleGuestActive={toggleGuestActive}
- updateGuest={updateGuest}
- signature={signature}
- setSignature={setSignature}
- signatureDate={signatureDate}
- signupStatus={signupStatus}
- formError={formError}
- isPaymentDropdownOpen={isPaymentDropdownOpen}
- setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
- signupCount={signupCount}
- totalGuests={totalGuests}
- joinedFans={joinedFans}
- CruiseCard1Section={CruiseCard1Section}
- CruiseCard2Section={CruiseCard2Section}
- CruiseNotesAndSignatureSection={CruiseNotesAndSignatureSection}
- PaymentPortalDropdownPanel={PaymentPortalDropdownPanel}
- sanityContent={sanityContent}
- />
-          </LazyMount>
+          <CruiseCabinsPricingSection
+            handleSelectCabin={handleSelectCabin}
+            handleSignup={handleSignup}
+            formData={formData}
+            setFormData={setFormData}
+            guests={guests}
+            toggleGuestActive={toggleGuestActive}
+            updateGuest={updateGuest}
+            signature={signature}
+            setSignature={setSignature}
+            signatureDate={signatureDate}
+            signupStatus={signupStatus}
+            formError={formError}
+            isPaymentDropdownOpen={isPaymentDropdownOpen}
+            setIsPaymentDropdownOpen={setIsPaymentDropdownOpen}
+            signupCount={signupCount}
+            totalGuests={totalGuests}
+            joinedFans={joinedFans}
+            CruiseCard1Section={CruiseCard1Section}
+            CruiseCard2Section={CruiseCard2Section}
+            CruiseNotesAndSignatureSection={CruiseNotesAndSignatureSection}
+            PaymentPortalDropdownPanel={PaymentPortalDropdownPanel}
+            sanityContent={sanityContent}
+          />
 
           {/* SECTION 3: PORTS OF CALL CATALOG */}
-          <LazyMount minHeight="600px" rootMargin="300px 0px">
-            <CruisePortsCatalogSection sanityContent={sanityContent} />
-          </LazyMount>
+          <CruisePortsCatalogSection sanityContent={sanityContent} />
 
           {/* SECTION 4: VOYAGE ITINERARY MAP */}
-          <LazyMount minHeight="800px" rootMargin="300px 0px">
-            <CruiseItinerarySection sanityContent={sanityContent} />
-          </LazyMount>
+          <CruiseItinerarySection sanityContent={sanityContent} />
 
           {/* SECTION 5: SHIP EXPLORER */}
-          <LazyMount minHeight="800px" rootMargin="300px 0px">
-            <CruiseShipExplorerSection sanityContent={sanityContent} />
-          </LazyMount>
+          <CruiseShipExplorerSection sanityContent={sanityContent} />
 
-          {/* SECTION 5: VIDEO VAULT & PROMOS */}
-          <LazyMount minHeight="800px" rootMargin="300px 0px">
-            <CruiseVideoVaultSection />
-          </LazyMount>
+          {/* SECTION 6: VIDEO VAULT & PROMOS */}
+          <CruiseVideoVaultSection />
 
-          {/* SECTION 6: FAQS */}
-          <LazyMount minHeight="600px" rootMargin="300px 0px">
-            <CruiseFaqSection sanityContent={sanityContent} />
-          </LazyMount>
+          {/* SECTION 7: FAQS */}
+          <CruiseFaqSection sanityContent={sanityContent} />
         </>
       )}
     </main>

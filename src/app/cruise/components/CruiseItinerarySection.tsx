@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
+import LazyMount from "@/components/LazyMount";
 import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "../cruiseData";
 
 interface CruiseItinerarySectionProps {
@@ -17,7 +18,7 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
   const rawItin2028 = sanityContent?.itinerary2028?.length ? sanityContent.itinerary2028 : ITINERARY_2028;
 
   return (
-    <section id="itinerary" className="pb-12 relative z-20" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
+    <LazyMount as="section" id="itinerary" className="pb-12 relative z-20" minHeight="800px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <div className="w-full mx-auto">
         <div className="text-left w-full site-container">
           <SectionBadge label="Interactive Voyage Map" className="mb-3" />
@@ -57,6 +58,6 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
  />
         </div>
       </div>
-    </section>
+    </LazyMount>
   );
 }

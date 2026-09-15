@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
+/* eslint-disable react-doctor/duplicate-jsx-subtree */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -37,6 +38,70 @@ interface CruiseCabinsPricingSectionProps {
   CruiseNotesAndSignatureSection: React.ComponentType<{ formData: any; setFormData: any; signature: string; setSignature: any; signatureDate: string }>;
   PaymentPortalDropdownPanel: React.ComponentType<{ isOpen: boolean; onClose: () => void }>;
   sanityContent?: any;
+}
+
+function RoomModalFooterButtons({
+  isSaving,
+  onCancel,
+}: {
+  isSaving: boolean;
+  onCancel: () => void;
+}) {
+  return (
+    <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+      <button
+        type="button"
+        onClick={onCancel}
+        className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        disabled={isSaving}
+        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+      >
+        {isSaving ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Saving to Sanity...</span>
+          </>
+        ) : (
+          <span>+ ADD STATEROOM TO SANITY</span>
+        )}
+      </button>
+    </div>
+  );
+}
+
+function ModalInputField({
+  label,
+  value,
+  onChange,
+  placeholder,
+  required = false,
+}: {
+  label: string;
+  value: string;
+  onChange: (val: string) => void;
+  placeholder: string;
+  required?: boolean;
+}) {
+  return (
+    <div>
+      <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+        {label}
+      </label>
+      <input
+        type="text"
+        required={required}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+      />
+    </div>
+  );
 }
 
 function CruiseCabinsPricingSectionComponent({
@@ -137,9 +202,8 @@ function CruiseCabinsPricingSectionComponent({
   return (
     <div className="site-container">
       {/* ── SECTION 2: CABINS & PRICING ── */}
-      <LazyMount minHeight="800px" rootMargin="300px 0px">
-        <section id="pricing" className="sm:-mt-28 md:-mt-40 lg:-mt-56 pt-4 sm:pt-8 relative z-20">
-          <div className="text-left max-w-3xl">
+      <LazyMount as="section" id="pricing" className="sm:-mt-28 md:-mt-40 lg:-mt-56 pt-4 sm:pt-8 relative z-20" minHeight="800px" rootMargin="300px 0px">
+        <div className="text-left max-w-3xl">
             <h2 className="uppercase text-white">
               {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")?.title || "Staterooms & Cruise Rates"}
             </h2>
@@ -542,13 +606,11 @@ function CruiseCabinsPricingSectionComponent({
               </div>
             </div>
           </div>
-        </section>
       </LazyMount>
 
       {/* FEATURED ARTISTS */}
-      <LazyMount minHeight="500px" rootMargin="300px 0px">
-        <section id="artists" className="py-section-fluid">
-          <div className="text-left w-full mb-10">
+      <LazyMount as="section" id="artists" className="py-section-fluid" minHeight="500px" rootMargin="300px 0px">
+        <div className="text-left w-full mb-10">
             <h2 className="uppercase text-white mt-2">
               Featured <span className="accent-gradient-text">Artists</span>
             </h2>
@@ -579,7 +641,6 @@ function CruiseCabinsPricingSectionComponent({
               </div>
             ))}
           </div>
-        </section>
       </LazyMount>
 
       {/* ── ADD ROOM MODAL PORTAL ── */}
@@ -665,34 +726,22 @@ function CruiseCabinsPricingSectionComponent({
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                    Price Per Person (USD) *
-                  </label>
-                  <input
- type="text"
- required
- value={roomForm.price}
- onChange={(e) => setRoomForm((prev) => ({ ...prev, price: e.target.value }))}
-                    placeholder="e.g. $2,433.27"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                  />
-                </div>
+                <ModalInputField
+                  label="Price Per Person (USD) *"
+                  value={roomForm.price}
+                  onChange={(val) => setRoomForm((prev) => ({ ...prev, price: val }))}
+                  placeholder="e.g. $2,433.27"
+                  required
+                />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                    Availability Badge Text
-                  </label>
-                  <input
- type="text"
- value={roomForm.badge}
- onChange={(e) => setRoomForm((prev) => ({ ...prev, badge: e.target.value }))}
-                    placeholder="e.g. 5 Cabins Left! or Available"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                  />
-                </div>
+                <ModalInputField
+                  label="Availability Badge Text"
+                  value={roomForm.badge}
+                  onChange={(val) => setRoomForm((prev) => ({ ...prev, badge: val }))}
+                  placeholder="e.g. 5 Cabins Left! or Available"
+                />
 
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
@@ -710,55 +759,24 @@ function CruiseCabinsPricingSectionComponent({
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                  Inclusions &amp; Perks
-                </label>
-                <input
- type="text"
- value={roomForm.inclusions}
- onChange={(e) => setRoomForm((prev) => ({ ...prev, inclusions: e.target.value }))}
-                  placeholder="e.g. Gratuities Included"
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                />
-              </div>
+              <ModalInputField
+                label="Inclusions &amp; Perks"
+                value={roomForm.inclusions}
+                onChange={(val) => setRoomForm((prev) => ({ ...prev, inclusions: val }))}
+                placeholder="e.g. Gratuities Included"
+              />
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
-                  Image Path / URL
-                </label>
-                <input
- type="text"
- value={roomForm.imagePath}
- onChange={(e) => setRoomForm((prev) => ({ ...prev, imagePath: e.target.value }))}
-                  placeholder="e.g. /images/cruise/d1_ocean_view_balcony.jpg"
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                />
-              </div>
+              <ModalInputField
+                label="Image Path / URL"
+                value={roomForm.imagePath}
+                onChange={(val) => setRoomForm((prev) => ({ ...prev, imagePath: val }))}
+                placeholder="e.g. /images/cruise/d1_ocean_view_balcony.jpg"
+              />
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
-                <button
- type="button"
- onClick={() => setIsAddRoomModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
- type="submit"
- disabled={isSavingRoom}
- className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
- >
-                  {isSavingRoom ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Saving to Sanity...</span>
-                    </>
-                  ) : (
-                    <span>+ ADD STATEROOM TO SANITY</span>
-                  )}
-                </button>
-              </div>
+              <RoomModalFooterButtons
+                isSaving={isSavingRoom}
+                onCancel={() => setIsAddRoomModalOpen(false)}
+              />
             </form>
           </div>
         </div>,
