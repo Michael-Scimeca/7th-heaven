@@ -103,10 +103,10 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
   };
 
   return (
-    <div>
+    <>
 
       {/* ── BREADCRUMB & HEADER SECTION ── */}
-      <div className="mb-4 md:mb-8">
+      <header className="mb-4 md:mb-8">
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-0 md:pb-6">
           <div>
@@ -121,10 +121,10 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
           <div className="flex items-center gap-3 shrink-0">
           </div>
         </div>
-      </div>
+      </header>
 
       {/* ── STATS BAR ── */}
-      <div className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
+      <section aria-label="Archive Statistics" className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">{totalShowsCount}+</span>
           <span className="uppercase ">Concerts Cataloged</span>
@@ -141,19 +141,19 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
           <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">5+</span>
           <span className="uppercase ">Countries Played</span>
         </div>
-      </div>
+      </section>
 
       {/* ── FILTER & SEARCH CONTROLS ── */}
-      <div className=" p-0 border-0 mb-8">
+      <nav aria-label="Archive Search and Year Filters" className=" p-0 border-0 mb-8">
         <div className="flex flex-col lg:flex-row items-start gap-4">
           {/* Search Input Bar */}
           <div className="w-full lg:w-72 shrink-0">
             <SearchInput
- value={searchQuery}
- onChange={setSearchQuery}
- placeholder={sanityContent?.searchPlaceholder || "Search venue, city, year..."}
- containerClassName="w-full"
- />
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder={sanityContent?.searchPlaceholder || "Search venue, city, year..."}
+              containerClassName="w-full"
+            />
           </div>
 
           {/* Years Pill List Next to Search Input */}
@@ -162,7 +162,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
               {sanityContent?.jumpToYearLabel || "Jump to Year:"}
             </span>
             <button
- onClick={() => setSelectedYear("ALL")}
+              onClick={() => setSelectedYear("ALL")}
               className={`px-3 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer ${selectedYear === "All"
                 ? "bg-[var(--color-accent)] text-white "
                 : " bg-[#00000029] text-white/70 hover:text-white border-0"
@@ -171,8 +171,8 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
             </button>
             {years.map((y) => (
               <button aria-label="Previous"
- key={y.year}
- onClick={() => {
+                key={y.year}
+                onClick={() => {
                   setSelectedYear(y.year);
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
@@ -188,7 +188,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
         <div className="font-semibold mt-3">
           Showing <span>{displayedCount}</span> of {totalShowsCount} shows
         </div>
-      </div>
+      </nav>
 
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
@@ -199,7 +199,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.
           </p>
           <button aria-label="Search"
- onClick={() => {
+            onClick={() => {
               setSearchQuery("");
               setSelectedYear("ALL");
               setSelectedCategory("ALL");
@@ -209,16 +209,16 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
           </button>
         </div>
       ) : (
-        <div className="space-y-0">
+        <section aria-label="Past Shows Accordion Archive" className="space-y-0">
           {filteredYears.map((yGroup) => {
             const isOpen = !!openYears[yGroup.year];
             return (
-              <div
- key={yGroup.year}
- className="overflow-hidden">
+              <article
+                key={yGroup.year}
+                className="overflow-hidden">
                 {/* Year Header Accordion Bar */}
                 <button
- onClick={() => toggleYear(yGroup.year)}
+                  onClick={() => toggleYear(yGroup.year)}
                   className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left transition-colors"
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}>
                   <div className="flex items-center gap-3">
@@ -242,9 +242,9 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
 
                       return (
                         <div
- key={`${yGroup.year}-${idx}`}
- className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
- style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
+                          key={`${yGroup.year}-${idx}`}
+                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
+                          style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
                           {/* Date & Day */}
                           <div className="w-full sm:w-48 shrink-0 font-semibold flex items-center gap-2">
                             <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>
@@ -284,11 +284,11 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                     })}
                   </div>
                 )}
-              </div>
+              </article>
             );
           })}
-        </div>
+        </section>
       )}
-    </div>
+    </>
   );
 }
