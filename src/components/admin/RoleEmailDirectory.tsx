@@ -251,7 +251,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       <div className="border-none overflow-hidden relative">
         <div className="w-full text-left">
           {/* Fixed Header Row */}
-          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 uppercase text-white border-b border-white/10 select-none]">
+          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 uppercase text-white border-b border-white/10 select-none] font-bold">
             <div>Name</div>
             <div>Email Address</div>
             <div>Role</div>
@@ -293,7 +293,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <div className="text-white select-all truncate">
                       {user.email}
                     </div>
-                    <div className="py-1 text-white rouned-lgtracking-wider">
+                    <div className="py-1 text-white rouned-lgtracking-wider font-bold">
                       {user.role}
                     </div>
                     <div className="text-white/50 font-semibold truncate">

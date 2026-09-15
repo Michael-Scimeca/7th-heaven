@@ -449,7 +449,6 @@ const DEFAULT_SECTION_ORDER = [
   'photomod',
   'smsblast',
   'newsletter',
-  'emailflow',
   'registry',
   'crewcreation',
   'admincreation',
@@ -4249,7 +4248,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             ) : (
               <div className="w-full flex flex-col gap-0 select-none">
                 {/* Header Row */}
-                <div className="hidden md:grid grid-cols-12 gap-3 px-4 py-3 border-b border-[#ffffff1f] text-left uppercase">
+                <div className="hidden md:grid grid-cols-12 gap-3 px-4 py-3 border-b border-[#ffffff1f] text-left uppercase font-bold">
                   <div className="col-span-4">Client</div>
                   <div className="col-span-2">Event Type</div>
                   <div className="col-span-2">Date</div>
@@ -4278,7 +4277,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="truncate group-hover:text-purple-300 transition-colors">{b.name}</div>
-                          <div className="text-[0.65rem] truncate">{b.email}</div>
+                          <div className="truncate">{b.email}</div>
 
                           {editingInlineLoadInId === b.bookingId ? (
                             <div className="mt-2 p-2 border-none space-y-2 z-30 min-w-[250px] inline-loadin-popover animate-[scaleIn_0.15s_ease-out]" onClick={(e) => e.stopPropagation()}>
@@ -4539,7 +4538,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             ) : (
               <div className="pl-0 select-none">
                 {/* Header Sorter Row */}
-                <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-3 border-b border-white/15 text-left uppercase select-none">
+                <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-3 border-b border-white/15 text-left uppercase select-none font-bold">
                   <div className="col-span-3">Planner / Venue</div>
                   <div className="col-span-2">Category</div>
                   <div className="col-span-2">Phone Number</div>
@@ -6020,7 +6019,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div
                     role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendSmsAlert(prev => !prev); } }}
                     onClick={() => setSendSmsAlert(prev => !prev)}
-                    className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendSmsAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                    className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendSmsAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                       : 'bg-white/[0.01] text-white/40'
                       }`}>
                     <div className="flex items-center gap-2">
@@ -6030,7 +6029,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         checked={sendSmsAlert}
                         onChange={(val) => setSendSmsAlert(val)}
                       />
-                      <span className="uppercase text-purple-300">SMS TEXTS</span>
+                      <span className="uppercase text-purple-300 font-bold">SMS TEXTS</span>
                     </div>
                     <span className="text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
                   </div>
@@ -6038,7 +6037,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div
                     role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendEmailAlert(prev => !prev); } }}
                     onClick={() => setSendEmailAlert(prev => !prev)}
-                    className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendEmailAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                    className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendEmailAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                       : 'bg-white/[0.01] text-white/40'
                       }`}>
                     <div className="flex items-center gap-2">
@@ -6048,7 +6047,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         checked={sendEmailAlert}
                         onChange={(val) => setSendEmailAlert(val)}
                       />
-                      <span className="uppercase text-purple-300">EMAIL ALERTS</span>
+                      <span className="uppercase text-purple-300 font-bold">EMAIL ALERTS</span>
                     </div>
                     <span className="text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
                   </div>
@@ -6057,7 +6056,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div
                       role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCrewSendAsGroup(prev => !prev); } }}
                       onClick={() => setCrewSendAsGroup(prev => !prev)}
-                      className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${crewSendAsGroup ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                      className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${crewSendAsGroup ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                         : 'bg-white/[0.01] text-white/40'
                         }`}>
                       <div className="flex items-center gap-2">
@@ -6067,7 +6066,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           checked={crewSendAsGroup}
                           onChange={(val) => setCrewSendAsGroup(val)}
                         />
-                        <span className="uppercase text-purple-300">SEND AS GROUP TEXT</span>
+                        <span className="uppercase text-purple-300 font-bold">SEND AS GROUP TEXT</span>
                       </div>
                       <span className="text-white/40 leading-normal">Appends list of recipients to SMS so everyone sees who is on alert</span>
                     </div>
@@ -6343,7 +6342,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* Left Column: Band List (Choose Recipients) */}
                 <div className="lg:col-span-2 space-y-4">
                   <div className="flex items-center justify-between flex-wrap gap-2">
-                    <span className="text-[0.65rem] uppercase text-white/40 block">Choose Recipients</span>
+                    <span className="text-[0.65rem] uppercase text-white/40 block font-bold">Choose Recipients</span>
                     <div className="flex items-center gap-2">
                       <SectionBadge
                         label={`Select All (${allBandCombined.length})`}
@@ -6500,7 +6499,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div
                         role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandSmsAlert(prev => !prev); } }}
                         onClick={() => setSendBandSmsAlert(prev => !prev)}
-                        className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandSmsAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                        className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandSmsAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                           : 'bg-white/[0.01] text-white/40'
                           }`}>
                         <div className="flex items-center gap-2">
@@ -6510,15 +6509,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             checked={sendBandSmsAlert}
                             onChange={(val) => setSendBandSmsAlert(val)}
                           />
-                          <span className="uppercase text-purple-300">SMS TEXTS</span>
+                          <span className="uppercase text-purple-300 font-bold">SMS TEXTS</span>
                         </div>
-                        <span className="text-[10px] text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
+                        <span className="text-[11px] font-bold text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
                       </div>
 
                       <div
                         role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandEmailAlert(prev => !prev); } }}
                         onClick={() => setSendBandEmailAlert(prev => !prev)}
-                        className={`p-5 md:p-6 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandEmailAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                        className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandEmailAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
                           : 'bg-white/[0.01] text-white/40'
                           }`}>
                         <div className="flex items-center gap-2">
@@ -6528,9 +6527,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             checked={sendBandEmailAlert}
                             onChange={(val) => setSendBandEmailAlert(val)}
                           />
-                          <span className="uppercase text-purple-300">EMAIL ALERTS</span>
+                          <span className="uppercase text-purple-300 font-bold">EMAIL ALERTS</span>
                         </div>
-                        <span className="text-[10px] text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
+                        <span className="text-[11px] text-white/40  font-bold leading-normal">Sends styled HTML alerts to registered emails</span>
                       </div>
                     </div>
 
@@ -6816,154 +6815,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     </div>
   );
 
-  const renderEmailFlow = () => (
-    <div className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emailflow'); } }} onClick={() => toggleSection('emailflow')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
-        <div className="flex flex-col">
-          <h3 className="cursor-pointer flex items-center gap-2 shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-            Email Template Flows
-            {renderInfoToggle('emailflow')}
-          </h3>
-          <p className="mt-0.5 ">Interactive catalog of the 25 email templates dispatched by actions taken on the Admin Dashboard</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link href="/sitemap/flows" className="px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/40 text-purple-200 border border-purple-500/30 text-[0.9rem] uppercase rounded-lg transition-colors flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
-            Fullscreen Flowchart ↗
-          </Link>
-          <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emailflow') ? 'rotate-0' : '-rotate-90')}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-          </div>
-        </div>
-      </div>
-      {renderInfoBanner('emailflow', 'Email Template Flows', 'Interactive catalog of the 25 email templates dispatched by actions taken on the Admin Dashboard.')}
 
-      <div style={{ display: isSectionOpen('emailflow') ? undefined : 'none' }}>
-        {isSectionOpen('emailflow') && (<>
-          <div className="py-6 pl-0">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-              {/* Booking Flows */}
-              <div className="bg-black/30 border border-emerald-500/10 p-4 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-[var(--color-accent)] uppercase mb-3">
-                    <span></span> Booking System
-                  </div>
-                  <div className="space-y-3">
-                    {[
-                      { name: 'Booking Confirmation', trigger: 'Sent to planner when they submit booking request form.' },
-                      { name: 'Booking Admin Alert', trigger: 'Sent to 7th Heaven admins to review new booking details.' },
-                      { name: 'Booking Status Update', trigger: 'Sent to planner when admin approves/declines booking.' },
-                      { name: 'Booking Cancelled', trigger: 'Sent when planner/admin cancels booking reservation.' }
-                    ].map((email) => (
-                      <div key={email.name} className="bg-emerald-500/5 border border-emerald-500/10 rounded-lg p-2.5 hover:border-emerald-500/30 transition-colors">
-                        <h4 className="text-emerald-200">{email.name}</h4>
-                        <p className="mt-1 leading-normal">{email.trigger}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Crew Flows */}
-              <div className="bg-black/30 border border-purple-500/15 p-4 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-purple-300 uppercase mb-3">
-                    <span></span> Crew Management
-                  </div>
-                  <div className="space-y-3">
-                    {[
-                      { name: 'Welcome — Crew', trigger: 'Sent when admin registers new crew account with temporary password.' },
-                      { name: 'Schedule Change Alert', trigger: 'Sent when admin adds, updates, or deletes crew schedule shifts.' },
-                      { name: 'Crew Alert (Email + SMS)', trigger: 'Sent when admin broadcasts text broadcast via Crew SMS panel.' },
-                      { name: 'Crew SMS Dispatched', trigger: 'Sent to admin showing confirmation and recipient table.' },
-                      { name: 'Crew Work Hours Summary', trigger: 'Sent automatically when crew checks out of a completed shift.' }
-                    ].map((email) => (
-                      <div key={email.name} className="bg-purple-500/10 border border-purple-500/15 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
-                        <h4 className="text-purple-200">{email.name}</h4>
-                        <p className="mt-1 leading-normal">{email.trigger}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Fan Flows */}
-              <div className="bg-black/30 border border-pink-500/10 p-4 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-pink-400 uppercase mb-3">
-                    <span></span> Fan Engagement
-                  </div>
-                  <div className="space-y-3">
-                    {[
-                      { name: 'Welcome — Fan', trigger: 'Sent to fan when they sign up for interactive website features.' },
-                      { name: 'Raffle Winner Alert', trigger: 'Sent to raffle winner chosen from live show audience.' },
-                      { name: 'Raffle Entry Confirmed', trigger: 'Sent to fan when they join live stream drawing.' },
-                      { name: 'Raffle consolation Alert', trigger: 'Sent to non-winners saying thank you for trying.' },
-                      { name: 'Fan Upload Approved', trigger: 'Sent when admin approves fan-submitted live gallery photo.' },
-                      { name: 'Fan Upload Rejected', trigger: 'Sent when admin rejects image due to policy guidelines.' },
-                      { name: 'Fan Invitation', trigger: 'Sent when admin sends invite via Bulk Invites system.' }
-                    ].map((email) => (
-                      <div key={email.name} className="bg-pink-500/5 border border-pink-500/10 rounded-lg p-2.5 hover:border-pink-500/30 transition-colors">
-                        <h4 className="text-pink-200">{email.name}</h4>
-                        <p className="mt-1 leading-normal">{email.trigger}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Cruise Flows */}
-              <div className="bg-black/30 border border-purple-500/10 p-4 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-[#c27aff] uppercase mb-3">
-                    <span></span> Cruise System
-                  </div>
-                  <div className="space-y-3">
-                    {[
-                      { name: 'Cruise Signup Confirmed', trigger: 'Sent to fan when signing up to cruise newsletter waitlist.' },
-                      { name: 'Cruise Community Welcome', trigger: 'Sent when cruise admin approves user reservation.' },
-                      { name: 'Cruise Cancellation', trigger: 'Sent when reservation is cancelled by user/admin.' },
-                      { name: 'Cruise Community Blast', trigger: 'Sent when cruise admin broadcasts to cruise page chat group.' }
-                    ].map((email) => (
-                      <div key={email.name} className="bg-cyan-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
-                        <h4>{email.name}</h4>
-                        <p className="mt-1 leading-normal">{email.trigger}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Newsletter & Other */}
-              <div className="bg-black/30 border border-purple-500/10 p-4 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-[var(--color-accent)] uppercase mb-3">
-                    <span></span> Newsletter & Account
-                  </div>
-                  <div className="space-y-3">
-                    {[
-                      { name: 'Newsletter Blast', trigger: 'Sent when admin broadcasts a new update block via Newsletter panel.' },
-                      { name: 'Flash Merch — Table Pickup', trigger: 'Sent to buyer notifying them to collect merch at table.' },
-                      { name: 'Flash Merch — Shipping', trigger: 'Sent when merch has been shipped to customer address.' },
-                      { name: 'New Account Alert — Admin', trigger: 'Sent to super-admin when new admin logs in first time.' },
-                      { name: 'Welcome — Planner', trigger: 'Sent to corporate planner on registration.' },
-                      { name: 'Welcome — Admin', trigger: 'Sent when new system admin account created.' }
-                    ].map((email) => (
-                      <div key={email.name} className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-colors">
-                        <h4 className="text-purple-200">{email.name}</h4>
-                        <p className="mt-1 leading-normal">{email.trigger}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </>)}
-      </div>
-    </div>
-  );
 
   const renderRegistry = () => (
     <div className=" overflow-hidden">
@@ -11376,8 +11228,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div key={metric.label} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); } }} onClick={() => { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); }} className={`p-4 rounded-lg transition-colors ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
                 <p className="uppercase mb-2">{metric.label}</p>
                 <div className="flex items-end justify-between">
-                  <span className="text-3xl text-white">{metric.value}</span>
-                  <span className={` text-[0.9rem] uppercase px-2 py-0.5 rounded ${metric.color}`}>
+                  <span className="text-3xl text-white font-bold">{metric.value}</span>
+                  <span className={`text-[0.9rem] uppercase px-2 py-0.5 rounded font-bold ${metric.color}`}>
                     {metric.trend}
                   </span>
                 </div>
@@ -11410,7 +11262,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               case 'admincreation': component = renderAdminCreation(); break;
 
               case 'bulkinvites': component = renderBulkInvites(); break;
-              case 'emailflow': component = renderEmailFlow(); break;
             }
 
             return (
