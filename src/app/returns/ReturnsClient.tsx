@@ -11,7 +11,7 @@ interface ReturnsClientProps {
 export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
 
   return (
-    <section className="site-container pt-[100px] min-h-screen">
+    <main className="site-container pt-[100px] min-h-screen">
       <div className="w-full text-left">
         <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Return & Refund Policy"}
@@ -31,16 +31,6 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
             ))
           ) : (
             <>
-              {/* Section 1 */}
-              <div>
-                <h2 className="mb-3">1. Merchandise Table Purchases (Live Concerts)</h2>
-                <p>
-                  All merchandise purchases completed in person at our live concert venues and tour stops are <strong>final sale</strong>.
-                  We do not accept returns, refunds, or size exchanges once a transaction is completed at our physical merch tables.
-                  Please inspect all apparel, CDs, vinyl, and accessories for quality and correct sizing prior to completing your purchase.
-                  In the rare event of a clear manufacturing defect, please contact our crew at the table immediately, or email us at the contact address below within 7 days.
-                </p>
-              </div>
 
               {/* Section 2 */}
               <div>
@@ -107,6 +97,6 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
           )}
         </div>
       </div>
-    </section>
+    </main>
   );
 }

@@ -152,9 +152,9 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="min-h-screen pt-[100px] w-full px-0">
+    <main className="min-h-screen pt-[100px] w-full px-0">
       {/* ── HERO HEADER ── */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 relative z-10 site-container">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 relative z-10 site-container">
         <div className="text-left">
           <h1>
             {sanityContent?.heroHeading || (
@@ -165,7 +165,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
             {sanityContent?.heroSubheading || `${rooms.length} active crew streams · ${totalViewers.toLocaleString()} viewers watching live right now.`}
           </p>
         </div>
-      </div>
+      </header>
 
       {/* ══════════════════════════════════════════════════
             ADMIN OVERLAY
@@ -445,6 +445,6 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
  onClose={() => setShowSubscribeModal(false)}
         group="fans"
       />
-    </section>
+    </main>
   );
 }
