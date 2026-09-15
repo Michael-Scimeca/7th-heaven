@@ -848,8 +848,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
   return (
     <main className="min-h-screen relative overflow-clip pt-[100px]">
 
-      <section className="site-container relative z-10" id="book-event">
-        <form onSubmit={handleSubmit}>
+      <form id="book-event" className="site-container relative z-10" onSubmit={handleSubmit}>
           {isFromPlanner && (
             <div className="bg-purple-950/40 border border-purple-500/30 px-6 py-4 rounded-lg flex items-center gap-4">
               <div className="w-8 h-8 rounded-lg bg- purple-white/20 flex items-center justify-center flex-shrink-0">
@@ -1703,9 +1702,6 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             </div>
           </div>
         </form>
-
-
-      </section>
     </main>
   );
 }
