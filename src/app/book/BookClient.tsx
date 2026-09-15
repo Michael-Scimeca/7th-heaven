@@ -882,15 +882,16 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
 
           {/* Step 1: Event Schedule & Format */}
-          <header className="border-0 p-0 shadow-none relative">
+          <section aria-label="Event Schedule and Format" className="border-0 p-0 shadow-none relative">
 
-            <h1 className="mb-4">
-              Event Schedule & Format
-            </h1>
-            <p className="mt-3 mb-6 max-w-2xl">
-              Select dates on the calendar to reserve 7th Heaven. You can select <strong>multiple dates</strong> for multi-day runs, and configure unique times, formats, and venue details for each date below.
-            </p>
-          </header>
+            <header className="mb-4">
+              <h1 className="mb-4">
+                Event Schedule & Format
+              </h1>
+              <p className="mt-3 mb-6 max-w-2xl">
+                Select dates on the calendar to reserve 7th Heaven. You can select <strong>multiple dates</strong> for multi-day runs, and configure unique times, formats, and venue details for each date below.
+              </p>
+            </header>
             <div className="mb-6">
               <CalendarPicker
                 label="Primary Event Schedule"
@@ -942,6 +943,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 {selectedType === "custom" && "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
               </div>
             )}
+          </section>
 
           {/* Your Scheduled Shows (Full Width Grid) */}
           <div className="bg-[var(--color-section-bg)] relative">
