@@ -416,12 +416,6 @@ export default function RockNRollKidsClient({
 
   return (
     <main className="min-h-screen w-full text-white pt-[100px] pb-16 overflow-x-hidden relative">
-      {/* Ambient Gradient Glow Orbs for Mobile, Tablet & Desktop */}
-      <div className="absolute top-0 inset-x-0 h-[600px] sm:h-[800px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-600/20 via-purple-900/10 to-transparent pointer-events-none z-0" />
-      <div className="absolute top-[400px] -left-32 w-80 h-80 sm:w-96 sm:h-96 bg-purple-600/15 rounded-full blur-3xl pointer-events-none z-0" />
-      <div className="absolute top-[800px] -right-32 w-80 h-80 sm:w-96 sm:h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none z-0" />
-
-      {/* ── NEON ARCADE SYNTHWAVE MATRIX (PERMANENT LAYOUT) ── */}
       <div className="relative z-10">
         {/* Hero Header */}
         <header className="relative site-container text-center space-y-6">
