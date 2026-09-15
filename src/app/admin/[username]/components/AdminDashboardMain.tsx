@@ -11412,6 +11412,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 case 'admincreation': component = renderAdminCreation(); break;
 
                 case 'bulkinvites': component = renderBulkInvites(); break;
+                case 'emailflow': component = renderEmailFlow(); break;
               }
 
               return (
