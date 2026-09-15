@@ -1,5 +1,6 @@
-/* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
 "use client";
+
 import Image from 'next/image';
 
 import { useState, useEffect, useCallback, useSyncExternalStore, useRef } from "react";

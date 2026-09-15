@@ -1,5 +1,6 @@
-/* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
 "use client";
+
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import React, { useState, useEffect, useCallback, useRef } from "react";

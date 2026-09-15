@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";

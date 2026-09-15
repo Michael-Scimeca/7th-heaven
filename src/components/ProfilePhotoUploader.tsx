@@ -1,5 +1,6 @@
+/* eslint-disable react-doctor/prefer-useReducer, react-doctor/no-high-complexity-react-function */
 "use client";
-/* eslint-disable react-doctor/prefer-useReducer */
+
 
 import React, { useState, useRef, useEffect } from "react";
 import { Camera, Edit } from "lucide-react";

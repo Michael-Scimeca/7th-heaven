@@ -1730,145 +1730,9 @@ button,
    TYPOGRAPHY UTILITIES
    ═══════════════════════════════════════════════════════ */
 
-/* ── Display / Hero Headings ── */
-@utility heading-hero {
-  font-family: var(--font-family-display, 'Switzer', sans-serif);
-  font-size: clamp(3.5rem, 8vw, 7rem);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.05em;
-  line-height: 0.9;
-}
-
-@utility heading-section {
-  font-family: var(--font-family-heading, 'Switzer', sans-serif);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-
-@utility heading-card {
-  font-family: var(--font-family-heading, 'Switzer', sans-serif);
-  font-size: 1.5rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
-}
-
-/* ── Body Text ── theme-aware, works in light and dark mode */
-@utility text-body {
-  font-family: 'Switzer', sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: var(--leading-body, 1.65);
-  color: var(--color-text-muted);
-}
-
-/* ── Editorial body — relaxed for long-form reading ── */
-@utility text-editorial {
-  font-family: 'Switzer', sans-serif;
-  font-size: 1.0625rem;
-  /* 17px — slightly larger for reading comfort */
-  font-weight: 400;
-  line-height: var(--, 1.75);
-  color: var(--color-text-muted);
-  max-width: 68ch;
-  /* optimal reading line length */
-}
-
-/* ── Eyebrow / Section Label ── */
-@utility text-eyebrow {
-  font-family: 'Switzer', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-eyebrow, 0.15em);
-  color: var(--color-accent);
-  line-height: 1;
-}
-
-/* ── UI Label — for badges, table headers, nav items ── */
-@utility text-label {
-  font-family: 'Switzer', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label, 0.08em);
-  line-height: var(--leading-tight, 1.25);
-}
-
-/* ── Caption / Metadata ── */
-@utility text-caption {
-  font-family: 'Switzer', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 400;
-  line-height: var(--leading-body, 1.65);
-  color: var(--color-text-muted);
-}
-
-/* ── Smallest text tier ── */
-@utility text-2xs {
-  font-size: 0.72rem;
-  line-height: 1.1rem;
-}
-
-/* ═══════════════════════════════════════════════════════
-   SPACING UTILITIES — 8px grid helpers
-   ═══════════════════════════════════════════════════════ */
-
-/* Section vertical padding */
-@utility section-gap-sm {
-  padding-top: var(--space-section-sm, 64px);
-  padding-bottom: var(--space-section-sm, 64px);
-}
-
-@utility section-gap-md {
-  padding-top: var(--space-section-md, 96px);
-  padding-bottom: var(--space-section-md, 96px);
-}
-
-@utility section-gap-lg {
-  padding-top: var(--space-section-lg, 128px);
-  padding-bottom: var(--space-section-lg, 128px);
-}
-
-/* Card padding */
-@utility card-padding-sm {
-  padding: var(--space-card-sm, 16px);
-}
-
-@utility card-padding-md {
-  padding: var(--space-card-md, 24px);
-}
-
-@utility card-padding-lg {
-  padding: var(--space-card-lg, 32px);
-}
-
-/* Content gap — for flex/grid children */
-@utility content-gap-sm {
-  gap: var(--space-2, 16px);
-}
-
-@utility content-gap-md {
-  gap: var(--space-3, 24px);
-}
-
-@utility content-gap-lg {
-  gap: var(--space-4, 32px);
-}
-
 /* ═══════════════════════════════════════════════════════
    COMPONENT UTILITIES
    ═══════════════════════════════════════════════════════ */
-
-/* ── Gradient text → solid accent (removes AI-tell) ── */
-@utility gradient-text {
-  color: var(--color-accent);
-}
 
 /* ── Primary Button ── */
 @utility btn-primary {
@@ -1885,13 +1749,6 @@ button,
   transition: all 300ms var(--ease-out-expo);
   white-space: nowrap;
   text-transform: uppercase;
-}
-
-@utility btn-primary-hover {
-  &:hover {
-    transform: translateY(-2px);
-    background: var(--color-accent-hover);
-  }
 }
 
 /* ── Outline Button ── */
@@ -1911,18 +1768,6 @@ button,
   white-space: nowrap;
 }
 
-@utility btn-outline-hover {
-  &:hover {
-    border-color: var(--color-accent);
-    background: var(--color-accent-soft);
-    transform: translateY(-2px);
-  }
-}
-
-/* ── Accent fill background ── */
-@utility accent-gradient-bg {
-  background: var(--color-accent);
-}
 
 /* ── Glass surface ── */
 @utility glass {

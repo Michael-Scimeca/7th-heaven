@@ -1,8 +1,6 @@
+/* eslint-disable react-doctor/no-giant-component, react-doctor/jsx-max-depth, react-doctor/js-combine-iterations, react-doctor/duplicate-jsx-subtree, react-doctor/no-high-complexity-react-function */
 "use client";
-/* react-doctor-disable react-doctor/duplicate-jsx-subtree */
-/* react-doctor-disable */
-/* eslint-disable react-doctor/no-high-complexity-react-function */
-/* eslint-disable react-doctor/no-giant-component, react-doctor/jsx-max-depth, react-doctor/js-combine-iterations, react-doctor/duplicate-jsx-subtree */
+
 /* oxlint-disable react-doctor/no-giant-component, react-doctor/jsx-max-depth, react-doctor/js-combine-iterations, react-doctor/duplicate-jsx-subtree */
 /* oxlint-disable react-doctor/nextjs-no-client-side-redirect */
 /* eslint-disable react-doctor/nextjs-no-client-side-redirect */
@@ -55,6 +53,86 @@ import { RoleEmailDirectory } from "@/components/admin/RoleEmailDirectory";
 import ProximitySubscriberAdminPanel from "@/components/admin/ProximitySubscriberAdminPanel";
 import { cruiseCommunityBlast, crewSmsDispatchedAlert } from "@/lib/email-templates";
 import CruiseChat from "@/components/CruiseChat";
+
+function OpenShiftsCellHeader() {
+  return (
+    <div className="flex items-center gap-2 pl-1">
+      <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] shrink-0">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
+      </div>
+      <div>
+        <span className="block text-white text-[11px]">OpenShifts</span>
+        <span className="text-[10px] uppercase text-purple-300">Positions</span>
+      </div>
+    </div>
+  );
+}
+
+function CrewShiftTooltip({
+
+  displayName,
+  role,
+  email,
+  phone,
+}: {
+  displayName: string;
+  role?: string;
+  email?: string;
+  phone?: string;
+}) {
+  return (
+    <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg text-left border border-slate-700/50 w-52">
+      <div className="text-slate-200">{displayName}</div>
+      <div className="text-purple-300 uppercase mb-2">
+        Role: {role || 'Crew Member'}
+      </div>
+      <div className="text-slate-400 space-y-1 border-t border-slate-700/50 pt-1.5">
+        <div className="flex items-center gap-1.5">
+          <span className="truncate">{email || 'N/A'}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span>{phone || 'N/A'}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ShiftCardHoverActions({
+
+  onEdit,
+  onDelete,
+}: {
+  onEdit: (e: React.MouseEvent) => void;
+  onDelete: (e: React.MouseEvent) => void;
+}) {
+  return (
+    <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+      <button
+        type="button"
+        aria-label="Edit shift"
+        onClick={onEdit}
+        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:bg-black/80 text-white/70 hover:text-white transition-colors cursor-pointer border-none backdrop-blur-sm"
+        title="Edit shift">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        aria-label="Delete shift"
+        onClick={onDelete}
+        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:bg-red-600 text-white/70 hover:text-white transition-colors cursor-pointer border-none backdrop-blur-sm"
+        title="Delete shift">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
+      </button>
+    </div>
+  );
+}
 
 interface ParsedCruiseNotes {
   cabin?: string;
@@ -8402,36 +8480,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           )}
 
           {/* Action buttons — visible on hover */}
-          <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button
-              type="button"
-              aria-label="Edit shift"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleEditShiftClick(shift);
-              }}
-              className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:bg-black/80 text-white/70 hover:text-white transition-colors cursor-pointer border-none backdrop-blur-sm"
-              title="Edit shift">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              aria-label="Delete shift"
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteScheduleItem(shift.id);
-              }}
-              className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:bg-red-600 text-white/70 hover:text-white transition-colors cursor-pointer border-none backdrop-blur-sm"
-              title="Delete shift">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="3 6 5 6 21 6" />
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-              </svg>
-            </button>
-          </div>
+          <ShiftCardHoverActions
+            onEdit={(e) => {
+              e.stopPropagation();
+              handleEditShiftClick(shift);
+            }}
+            onDelete={(e) => {
+              e.stopPropagation();
+              deleteScheduleItem(shift.id);
+            }}
+          />
+
 
           <div
             role="button"
@@ -8589,23 +8648,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 const member = crewMembers.find(c => c.id === shift.crewId);
                 const displayName = member?.name || shift.crewName || shift.crewId || '?';
                 return (
-                  <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg text-left border border-slate-700/50 w-52 ">
-                    <div className="text-slate-200 ">{displayName}</div>
-                    <div className="text-purple-300 uppercase mb-2">
-                      Role: {member?.role || shift.role || 'Crew Member'}
-                    </div>
-                    <div className="text-slate-400 space-y-1 border-t border-slate-700/50 pt-1.5">
-                      <div className="flex items-center gap-1.5">
-                        <span></span>
-                        <span className="truncate">{member?.email || 'N/A'}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span></span>
-                        <span>{member?.phone || 'N/A'}</span>
-                      </div>
-                    </div>
-                  </div>
+                  <CrewShiftTooltip
+                    displayName={displayName}
+                    role={member?.role || shift.role}
+                    email={member?.email}
+                    phone={member?.phone}
+                  />
                 );
+
               })()}
             </div>
           )}
@@ -8704,15 +8754,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/55 backdrop-blur-xl border-b border-white/10 ">
               <div className="flex w-full border-r border-[var(--border-color)] text-[10px] r">
                 <div className="p-1.5 w-60 shrink-0 border-r border-[var(--border-color)] border-b border-[var(--border-color)] flex items-center bg-[var(--color-bg-card)]">
-                  <div className="flex items-center gap-2 pl-1">
-                    <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] shrink-0">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
-                    </div>
-                    <div>
-                      <span className="block text-white text-[11px]">OpenShifts</span>
-                      <span className="text-[10px] uppercase text-purple-300">Positions</span>
-                    </div>
-                  </div>
+                  <OpenShiftsCellHeader />
+
                 </div>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);

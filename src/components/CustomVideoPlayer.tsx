@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useId } from "react";

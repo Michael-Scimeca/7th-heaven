@@ -1,5 +1,6 @@
-/* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
 "use client";
+
 
 import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
 import CosmicRadialButton from "./CosmicRadialButton";

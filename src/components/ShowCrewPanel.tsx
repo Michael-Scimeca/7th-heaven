@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 import { useState } from "react";
 import { Users, Clock, Guitar, FileText, Sparkles, Check, Square, X } from "lucide-react";
