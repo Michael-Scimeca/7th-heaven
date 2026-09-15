@@ -882,7 +882,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
 
           {/* Step 1: Event Schedule & Format */}
-          <div className=" border-0 p-0 shadow-none relative">
+          <header className="border-0 p-0 shadow-none relative">
 
             <h1 className="mb-4">
               Event Schedule & Format
@@ -890,6 +890,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             <p className="mt-3 mb-6 max-w-2xl">
               Select dates on the calendar to reserve 7th Heaven. You can select <strong>multiple dates</strong> for multi-day runs, and configure unique times, formats, and venue details for each date below.
             </p>
+          </header>
             <div className="mb-6">
               <CalendarPicker
                 label="Primary Event Schedule"
@@ -941,7 +942,6 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 {selectedType === "custom" && "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
               </div>
             )}
-          </div>
 
           {/* Your Scheduled Shows (Full Width Grid) */}
           <div className="bg-[var(--color-section-bg)] relative">
@@ -1281,7 +1281,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           </div>
 
           {/* Step 2: Contact Information */}
-          <div className=" border-0 p-0 shadow-none relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both]">
+          <section aria-label="Contact Information" className="border-0 p-0 shadow-none relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both]">
             <h2 className="uppercase text-purple-400 mb-6 flex items-center gap-3">
               {sanityContent?.sections?.find((s: any) => s.sectionId === "contact")?.title || "Contact Information"}
             </h2>
@@ -1291,10 +1291,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               <InputField label={sanityContent?.sections?.find((s: any) => s.sectionId === "contact_email")?.title || "Email"} name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="you@email.com" />
               <InputField label={sanityContent?.sections?.find((s: any) => s.sectionId === "contact_phone")?.title || "Phone"} name="phone" type="tel" value={formData.phone} onChange={handleChange} required placeholder="(555) 123-4567" />
             </div>
-          </div>
+          </section>
 
           {/* Step 3: Venue Details & Event Schedule */}
-          <div className=" border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both] space-y-6">
+          <section aria-label="Venue and Event Logistics" className="border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both] space-y-6">
             <h2 className="uppercase mb-6 flex items-center gap-3">
               <MapPin className="w-5 h-5 text-[#c27aff]" /> Venue & Event Logistics
             </h2>
@@ -1494,7 +1494,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 )}
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Steps 4-6 and Sidebar 2-Column Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
@@ -1605,7 +1605,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
             {/* Right Column: Sticky Summary Sidebar */}
             <div>
-              <div className="sticky top-32">
+              <aside aria-label="Booking Summary" className="sticky top-32">
                 <div className=" border-0 p-0 shadow-none">
                   <h3 className="uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
@@ -1697,7 +1697,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="underline hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="underline hover:text-white transition-colors">Terms</Link>.
                   </p>
                 </div>
-              </div>
+              </aside>
             </div>
           </div>
         </form>
