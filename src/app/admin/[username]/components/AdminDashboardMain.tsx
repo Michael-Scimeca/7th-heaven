@@ -3151,7 +3151,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     );
   };
   const renderAnnouncements = () => (
-    <div className="">
+    <div className="space-y-6">
 
 
       {/*  Emergency Show Broadcast & Fan Alert Dispatcher */}
@@ -9079,20 +9079,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {member.email && <div className="truncate" title={member.email}> {member.email}</div>}
                             </div>
 
-                            <div className="wiw-tooltip bg-[var(--card-bg)] p-3 rounded-lg text-left border border-[var(--border-color)] w-52 ">
-                              <div className=" ">{member.name}</div>
+                            <div className="wiw-tooltip bg-[var(--card-bg)] p-3 rounded-lg text-left border border-[var(--border-color)] w-52">
+                              <div className="font-semibold text-white">{member.name}</div>
                               <div className="text-[var(--color-accent)] text-[12px] uppercase mb-2">
                                 Role: {member.role || 'Crew Member'}
                               </div>
                               <div className="text-[12px] space-y-1 border-t border-[var(--border-color)] pt-1.5">
-                                <div className="flex items-center gap-1.5">
-                                  <span></span>
-                                  <span className="truncate">{member.email || 'N/A'}</span>
-                                </div>
-                                <div className="flex items-center gap-1.5">
-                                  <span></span>
-                                  <span>{member.phone || 'N/A'}</span>
-                                </div>
+                                <p className="truncate">Email: {member.email || 'N/A'}</p>
+                                <p>Phone: {member.phone || 'N/A'}</p>
                               </div>
                               {hoursStatus.status !== 'ok' && (
                                 <div className="mt-2.5 pt-2 border-t border-[var(--border-color)] text-[12px]">

@@ -239,7 +239,7 @@ export default function ProximityPanel() {
           ) : nearbyShows.length === 0 ? (
             <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
               <p>No shows in your area yet.</p>
-              <p className=" ">We&apos;ll alert you the moment one is booked near you!</p>
+              <p>We&apos;ll alert you the moment one is booked near you!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">

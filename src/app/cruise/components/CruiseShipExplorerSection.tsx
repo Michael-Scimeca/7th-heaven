@@ -45,7 +45,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
         </div>
 
         {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
-        <div className="">
+        <div>
           <div className="mb-6 text-left">
             <h3 className="uppercase text-white">
               Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
