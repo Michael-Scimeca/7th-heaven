@@ -9,7 +9,6 @@ import { VENUE_LINKS } from "@/lib/venue-links";
 
 const TourList = dynamic(() => import("@/components/TourList"));
 const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"));
-const ProximityNotify = dynamic(() => import("@/components/ProximityNotify"));
 
 interface Show {
   day: string;
@@ -172,12 +171,8 @@ export default function HomeDataLoader() {
       <TourList initialShows={shows} />
 
 
-      {/* ====== BAND BIO PARALLAX SLIDER (UNDER TOUR DATES, ABOVE NOTIFICATIONS) ====== */}
+      {/* ====== BAND BIO PARALLAX SLIDER (UNDER TOUR DATES) ====== */}
       <BioParallaxSlider />
-      {/* ====== PROXIMITY NOTIFY ====== */}
-
-      <ProximityNotify nextShow={nextShow} />
-
     </>
   );
 }

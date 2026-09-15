@@ -70,7 +70,10 @@ export async function POST() {
 
     // 2. Fetch and scrape legacy website
     console.log("Fetching legacy tour dates...");
-    const scrapeRes = await fetch("https://7thheavenband.com/tour.html");
+    let scrapeRes = await fetch("https://www.7thheavenband.com/2026.html");
+    if (!scrapeRes.ok) {
+      scrapeRes = await fetch("https://7thheavenband.com/tour.html");
+    }
     if (!scrapeRes.ok) {
       throw new Error(`Failed to fetch legacy tour dates page: ${scrapeRes.status}`);
     }

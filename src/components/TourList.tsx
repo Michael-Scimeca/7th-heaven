@@ -10,9 +10,10 @@ import { Plus, X, MessageSquare, Edit, Mic, MapPin, CalendarDays, Bell, Mail, Pa
 import CarIcon from "./CarIcon";
 import LocationPinIcon from "./LocationPinIcon";
 import { SanityTourDate } from "@/lib/sanity";
+import Script from "next/script";
 import dynamic from "next/dynamic";
 const TourMap = dynamic(() => import("./TourMap"), { ssr: false });
-import { isShowOver, typeConfig, getShowType, getShowDateTime, ensureUpcomingTourDates } from "@/lib/tour-helpers";
+import { isShowOver, typeConfig, getShowType, getShowDateTime, ensureUpcomingTourDates, generateTourEventSchema } from "@/lib/tour-helpers";
 import CountdownTimer from "./CountdownTimer";
 import { useMember } from "@/context/MemberContext";
 const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDropdown"), { ssr: false });
@@ -244,6 +245,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   // Notification popup state
   const [notifyPopupShow, setNotifyPopupShow] = useState<any>(null);
+  const [notifyEmail, setNotifyEmail] = useState("");
 
   // ── Tour List Font & Layout Customizer states ──
   const [tourFontSize, setTourFontSize] = useState("15px");
@@ -531,13 +533,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   }, [loadSubscriptions]);
 
   const handleToggleNotification = (show: any) => {
-    // Not logged in → open sign-up modal
-    if (!isLoggedIn || !member?.email) {
-      openModal?.('signup');
-      return;
-    }
-
-    const showId = show._id;
+    const showId = show._id || show.id || `${show.venue}-${show.date}`;
     if (!showId) return;
 
     // Already subscribed → unsubscribe immediately
@@ -547,12 +543,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     }
 
     // Show the notification preferences popup
+    setNotifyEmail(member?.email || "");
     setNotifyPopupShow(show);
     setNotifyPrefs({ proximity: true, thisShow: true, newsletter: false });
   };
 
   const handleUnsubscribe = async (showId: string) => {
-    const email = member?.email;
+    const email = member?.email || notifyEmail;
     if (!email) return;
     setSubscribingId(showId);
     try {
@@ -568,8 +565,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   };
 
   const handleNotifyConfirm = async () => {
-    if (!notifyPopupShow || !member?.email) return;
-    const showId = notifyPopupShow._id;
+    const emailToUse = (member?.email || notifyEmail).trim();
+    if (!notifyPopupShow || !emailToUse) return;
+    const showId = notifyPopupShow._id || notifyPopupShow.id || `${notifyPopupShow.venue}-${notifyPopupShow.date}`;
     setSubscribingId(showId);
     try {
       const res = await fetch("/api/shows/notify-me", {
@@ -577,7 +575,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           showId,
-          email: member.email.trim(),
+          email: emailToUse,
           venueName: notifyPopupShow.venue,
           showDate: notifyPopupShow.date,
           city: notifyPopupShow.city,
@@ -864,10 +862,19 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   const daysLabel = getDaysUntil();
 
+  const eventSchema = generateTourEventSchema(displayShows);
+
   const gridClass = "grid-cols-1 lg:grid-cols-[60px_165px_2.5fr_1.4fr_1fr_130px_minmax(120px,1fr)]";
 
   return (
     <>
+      {eventSchema && (
+        <Script
+          id="tour-event-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
+        />
+      )}
       {/* Table */}
       <section
         className="py-0 relative"
@@ -883,13 +890,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           {!hideMap && (
             <div
-              className="mt-0 mb-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden isolate"
+              className="-mt-[100px] mb-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden -z-10"
               style={{
                 transform: 'translateZ(0)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
               }}>
-              <LazySection fallbackHeight="350px">
+              <LazySection fallbackHeight="400px">
                 <TourMap shows={hasActiveFilters ? filtered : displayShows} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
               </LazySection>
             </div>
@@ -899,9 +906,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           {upNext && (
             <div className="my-6 relative z-10">
               <div className="relative">
-                <div className="relative z-10 flex flex-col items-start gap-4">
+                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 w-full">
                   {/* Left Column: Info */}
-                  <div className="relative flex flex-col justify-between gap-3 w-full">
+                  <div className="relative flex flex-col justify-between gap-3 w-full md:w-auto flex-1">
                     {/* UP NEXT label */}
                     <div className="flex items-center gap-2">
                       <SectionBadge className="gap-2 border-purple-500/40 text-purple-300">
@@ -916,7 +923,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     </h2>
 
                     {/* Date + Location + Time */}
-                    <div className="flex items-center gap-2 text-white/90 flex-wrap">
+                    <div className="flex items-center gap-2 text-white/90 flex-wrap font-bold">
                       <span>
                         {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
                       </span>
@@ -952,17 +959,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       </p>
                     )}
 
-                    {/* CountdownTimer moved to first column */}
-
-                    <CountdownTimer
-                      targetDate={upNext.startDate || upNext.date}
-                      targetTime={upNext.playTime || upNext.time}
-                      className="justify-start gap-4 md:gap-5"
-                    />
-
-
-                    {/* Action buttons (Directions, Website, Add to Calendar) moved to first column */}
-                    <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full ">
+                    {/* Action buttons (Directions, Website, Add to Calendar) */}
+                    <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full">
                       {upNext.mapUrl && (
                         <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] !underline decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 border-none cursor-pointer" id="upnext-map">
                           <span>Directions</span>
@@ -992,6 +990,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         )}
                       </div>
                     </div>
+                  </div>
+
+                  {/* Right Column: Countdown Timer */}
+                  <div className="relative shrink-0 flex items-center justify-start md:justify-end">
+                    <CountdownTimer
+                      targetDate={upNext.startDate || upNext.date}
+                      targetTime={upNext.playTime || upNext.time}
+                      className="justify-start md:justify-end gap-4 md:gap-5"
+                    />
                   </div>
                 </div>
               </div>
@@ -1634,9 +1641,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       }
 
       {
-        notifyPopupShow && (
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm cursor-default" onClick={() => setNotifyPopupShow(null)}>
-            <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease] text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
+        notifyPopupShow && typeof window !== "undefined" && createPortal(
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-default" onClick={() => setNotifyPopupShow(null)}>
+            <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4  animate-[fadeIn_0.2s_ease] text-left cursor-auto relative" onClick={(e) => e.stopPropagation()}>
               {/* Accent bar */}
               <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
 
@@ -1683,7 +1690,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     </span>
                     <div className="text-left">
                       <p className="flex items-center gap-1.5"><Mic className="w-3.5 h-3.5" /> This specific show</p>
-                      <p>Reminders & updates for {notifyPopupShow.venue}</p>
+                      <p className="mt-0">Reminders & updates for {notifyPopupShow.venue}</p>
                     </div>
                   </button>
 
@@ -1700,8 +1707,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         }`} />
                     </span>
                     <div className="text-left">
-                      <p className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Shows near me</p>
-                      <p>Get emailed when we book near your area</p>
+                      <p className="flex items-center gap-1.5 "><MapPin className="w-3.5 h-3.5" /> Shows near me</p>
+                      <p className="mt-0">Get emailed when we book near your area</p>
                     </div>
                   </button>
 
@@ -1719,33 +1726,47 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     </span>
                     <div className="text-left">
                       <p className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Newsletter & exclusives</p>
-                      <p>News, drops & merch updates</p>
+                      <p className="mt-0">News, drops & merch updates</p>
                     </div>
                   </button>
                 </div>
 
                 {/* Sending to email */}
-                <p className="mt-3 text-center">
-                  Notifications will be sent to <span className="text-white/40 font-semibold">{member?.email}</span>
-                </p>
+                {member?.email ? (
+                  <p className="mt-3 text-center text-xs text-white/60">
+                    Notifications will be sent to <span className="text-white font-semibold">{member.email}</span>
+                  </p>
+                ) : (
+                  <div className="mt-3">
+                    <label className="block text-xs uppercase text-white/70 mb-1 font-bold">Your Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="fan@example.com"
+                      value={notifyEmail}
+                      onChange={(e) => setNotifyEmail(e.target.value)}
+                      className="w-full px-3 py-2 bg-white/5 border border-white/15 rounded-lg text-white text-sm focus:outline-none focus:border-[var(--color-accent)]"
+                    />
+                  </div>
+                )}
 
                 {/* Actions */}
                 <div className="flex gap-2 mt-4">
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white uppercase rounded-lg transition-colors cursor-pointer">
+                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white uppercase rounded-lg transition-colors cursor-pointer font-bold">
                     Cancel
                   </button>
                   <button
                     onClick={handleNotifyConfirm}
-                    disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
-                    className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5">
+                    disabled={(!member?.email && !notifyEmail.trim()) || (!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter)}
+                    className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5 font-bold">
                     {subscribingId ? 'Saving...' : <><Bell className="w-3.5 h-3.5" /> Enable Alerts</>}
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )
       }
       {/* ── Font Customizer Modal/Panel ── */}

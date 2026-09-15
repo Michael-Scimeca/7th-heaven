@@ -61,8 +61,19 @@ export async function generateMetadata(): Promise<Metadata> {
     ? getMediaUrl(settings.seo.ogImage, "/images/logos/7thheavenlogo.jpg")
     : "/images/logos/7thheavenlogo.jpg";
 
+  const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
+  let metadataBase: URL;
+  try {
+    metadataBase = new URL(rawSiteUrl);
+  } catch {
+    metadataBase = new URL("https://7thheavenband.com");
+  }
+
   return {
-    metadataBase: new URL("https://7thheavenband.com"),
+    metadataBase,
+    alternates: {
+      canonical: "./",
+    },
     manifest: "/manifest.json",
     title,
     description,
@@ -178,6 +189,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://maps.googleapis.com" />
         <link
  rel="stylesheet"
  href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"

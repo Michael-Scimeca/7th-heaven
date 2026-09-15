@@ -34,9 +34,9 @@ export default async function Home() {
 
   return (
     <main id="home-page">
-      {/* ====== HERO (65vh Viewport Height) ====== */}
+      {/* ====== HERO (45vh Viewport Height on Mobile, 65vh on Desktop) ====== */}
       <section
-        className="relative w-full h-[65dvh] max-h-[65dvh] p-0 m-0 overflow-hidden morph-pick"
+        className="relative w-full h-[45dvh] max-h-[45dvh] md:h-[65dvh] md:max-h-[65dvh] p-0 m-0 overflow-hidden morph-pick"
         data-pick-label="Play Music"
         id="hero"
         style={{
@@ -45,12 +45,12 @@ export default async function Home() {
           width: "calc(100% + 2 * var(--page-padding-x))",
         }}>
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
-        <div id="hero-card" className="relative w-full h-full max-h-[65dvh] overflow-hidden flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
+        <div id="hero-card" className="relative w-full h-full max-h-[45dvh] md:max-h-[65dvh] overflow-hidden flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
           <HeroVideoPlayer sanityContent={sanityContent} />
         </div>
       </section>
 
-      {/* Announcement banner + Tour list + Band Bio + ProximityNotify — loaded client-side after paint */}
+      {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint */}
       <HomeDataLoader />
 
       {/* ====== FEATURED VIDEO SHOWCASE ====== */}

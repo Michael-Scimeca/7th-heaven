@@ -23,7 +23,7 @@ suppressBlobTextureErrors();
 
 function ShipModel({
   scale = 1.0,
-  offsetY = 1.05,
+  offsetY = 0.0,
   shipRotYRef,
   shipScaleFactorRef,
 }: {
@@ -169,7 +169,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   scrollEndMul: 0.50,
   speedMultiplier: 1.0,
   shipScale: 1.5,
-  shipOffsetY: 0.50,
+  shipOffsetY: 0.0,
   anchorOffsetX: 0,
   anchorOffsetY: 0,
   minShipDist: 0,
@@ -180,7 +180,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   nodeMinScale: 1.0,
   nodeAction: 'none',
   nodePopDist: 60,
-  shipAdvancePx: 80,
+  shipAdvancePx: 0,
   lineFillLeadPx: 0,
 };
 
@@ -384,15 +384,19 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
   // Load saved tuning from localStorage on mount (position boat cleanly on the path line)
   useEffect(() => {
     try {
-      const savedStr = localStorage.getItem('7h_cruise_tuning');
+      const savedStr = localStorage.getItem('7h_cruise_tuning_v1') || localStorage.getItem('7h_cruise_tuning');
       if (savedStr) {
-        const saved = JSON.parse(savedStr);
-        saved.shipScale = 1.5;
-        saved.nodeMinScale = 1.0;
-        saved.nodeAction = 'none';
-        saved.anchorOffsetX = 0;
         const parsed = JSON.parse(savedStr);
-        setTuning(prev => ({ ...prev, ...parsed }));
+        setTuning(prev => ({
+          ...prev,
+          ...parsed,
+          shipScale: 1.5,
+          shipOffsetY: 0.0,
+          shipAdvancePx: 0,
+          nodeMinScale: 1.0,
+          nodeAction: 'none',
+          anchorOffsetX: 0,
+        }));
       }
     } catch { }
   }, []);
@@ -424,7 +428,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
   // Canvas height: scaled for mobile vs desktop so cards have clean vertical spacing without excess trailing gap at bottom
   const stepH = isMobile ? 580 : 480;
   const lastNodeY = (itinerary.length - 1) * stepH + 90;
-  const totalH = lastNodeY + (isMobile ? 240 : 450);
+  const totalH = lastNodeY + (isMobile ? 320 : 520);
 
   /* ── Node positions dynamically computed based on layoutMode ── */
   const nodes = itinerary.map((_, i) => {
@@ -538,14 +542,9 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
           return cachedPathPoints[idx] || { x: 0, y: 0 };
         };
 
-        // Calculate canvas top offset relative to document (cached to eliminate forced reflows during scroll)
-        if (cachedCanvasTop < 0) {
-          const b = canvas.getBoundingClientRect();
-          cachedCanvasTop = b.top + window.scrollY;
-          cachedViewH = window.innerHeight;
-        }
-        const viewH = cachedViewH > 0 ? cachedViewH : window.innerHeight;
-        const rectTop = cachedCanvasTop - window.scrollY;
+        // Live canvas relative position matching actual viewport rendering
+        const rectTop = canvas.getBoundingClientRect().top;
+        const viewH = window.innerHeight;
 
         // Lock boat 1:1 with viewport scroll position matching first node to last node
         const startY = nodes[0]?.y ?? 50;
@@ -646,7 +645,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
           shipContainerRef.current.style.left = `${xPct}%`;
           shipContainerRef.current.style.top = `${yPct}%`;
-          shipContainerRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
+          shipContainerRef.current.style.transform = `translate(-50%, calc(-50% - 50px)) rotate(${angle}rad)`;
           shipContainerRef.current.style.opacity = opacityVal.toFixed(3);
         }
       }
@@ -901,10 +900,10 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
               <div className="flex justify-between items-center text-white/90 font-bold">
                 <span>⚓ Hull Y Path Offset</span>
-                <span className=" ">{(tuning.shipOffsetY ?? 0.9).toFixed(1)}</span>
+                <span className=" ">{(tuning.shipOffsetY ?? 0.0).toFixed(1)}</span>
               </div>
               <input type="range" min="0.0" max="3.0" step="0.1"
-                value={tuning.shipOffsetY ?? 0.9}
+                value={tuning.shipOffsetY ?? 0.0}
                 onChange={e => setTuning({ ...tuning, shipOffsetY: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
@@ -1078,13 +1077,14 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
       )}
 
       {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
-      <div ref={canvasRef} className="snake-itinerary-canvas" style={{ height: totalH, width: '100%', maxWidth: '100%' }}>
+      <div ref={canvasRef} className="snake-itinerary-canvas site-container" style={{ position: 'relative', height: totalH, width: '100%', maxWidth: '100%' }}>
         {/* SVG — path + nodes */}
         <svg
           className="snake-itinerary-svg"
           viewBox={`0 0 ${SVG_W} ${totalH}`}
           preserveAspectRatio="none"
           aria-hidden="true"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
         >
           {/* FULL ROUTE GUIDE TRACK — Translucent route track line */}
           <path
@@ -1150,7 +1150,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
           const cardContent = (
             <div className="group">
               {dayImage && (
-                <div className="relative aspect-[21/9] w-full rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-colors duration-500">
+                <div className="relative aspect-[21/9] w-full rounded-t-[28px] overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-colors duration-500">
                   <Image width={200} height={200} unoptimized
                     src={dayImage}
                     alt={day.theme}
@@ -1159,10 +1159,17 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                 </div>
               )}
-              {/* Card content header & events list with responsive inner padding (less padding on mobile) */}
-              <div className="px-4 sm:px-6 md:px-8 pb-4 md:pb-6 pt-2">
-                <h3 className="snake-itinerary-cardTitle">{day.theme}</h3>
-                <ul className="snake-itinerary-eventsList">
+              {/* Card content header & events list with responsive inner padding */}
+              <div className="p-5 md:p-6 bg-black/60 backdrop-blur-xl border border-white/10 rounded-b-2xl rounded-r-2xl shadow-2xl">
+                <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-white/10">
+                  <h3 className="text-xl md:text-2xl font-black uppercase text-white tracking-wide">{day.theme}</h3>
+                  {day.location && (
+                    <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full shrink-0">
+                      {day.location}
+                    </span>
+                  )}
+                </div>
+                <div className="space-y-4">
                   {day.events.map(ev => {
                     const isGuitar = ev.title.includes('🎸') || (ev as any).cat === 'band' || ev.title.toLowerCase().includes('concert') || ev.title.toLowerCase().includes('live') || ev.title.toLowerCase().includes('unplugged') || ev.title.toLowerCase().includes('jam') || ev.title.toLowerCase().includes('set');
                     const isShip = ev.title.includes('🚢') || ev.title.toLowerCase().includes('check-in') || ev.title.toLowerCase().includes('boarding') || ev.title.toLowerCase().includes('sail');
@@ -1170,22 +1177,30 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                     const cleanTitle = ev.title.replace(/^[🎸🚢🏝️🌊⚓📍🎤🍹🥂⭐]\s*/u, '');
 
                     return (
-                      <li key={ev.id} className="snake-itinerary-eventItem">
-                        <span className="snake-itinerary-eventTime" >{ev.time}</span>
-                        <div>
-                          <div className="snake-itinerary-eventTitle flex items-center gap-2">
-                            {isGuitar && <Guitar className="w-4 h-4 text-purple-400 shrink-0 inline-block" />}
-                            {!isGuitar && isShip && <Ship className="w-4 h-4 shrink-0 inline-block" />}
-                            {!isGuitar && !isShip && isIsland && <Palmtree className="w-4 h-4 text-emerald-400 shrink-0 inline-block" />}
-                            {!isGuitar && !isShip && !isIsland && <Compass className="w-4 h-4 text-purple-300 shrink-0 inline-block" />}
-                            <span>{cleanTitle}</span>
+                      <div key={ev.id} className="relative pl-3.5 border-l-2 border-purple-500/40 hover:border-cyan-400 transition-colors py-0.5">
+                        {ev.time && (
+                          <div className="inline-flex items-center px-2 py-0.5 mb-1 text-[11px] font-mono font-bold tracking-wider uppercase text-cyan-300 bg-cyan-950/80 border border-cyan-500/30 rounded">
+                            {ev.time}
                           </div>
-                          {ev.subtitle && <div className="snake-itinerary-eventSubtitle">{ev.subtitle}</div>}
+                        )}
+                        <div className="flex items-start gap-2 text-sm md:text-base font-bold text-white leading-snug">
+                          <span className="mt-0.5 shrink-0">
+                            {isGuitar && <Guitar className="w-4 h-4 text-purple-400" />}
+                            {!isGuitar && isShip && <Ship className="w-4 h-4 text-cyan-400" />}
+                            {!isGuitar && !isShip && isIsland && <Palmtree className="w-4 h-4 text-emerald-400" />}
+                            {!isGuitar && !isShip && !isIsland && <Compass className="w-4 h-4 text-purple-300" />}
+                          </span>
+                          <span>{cleanTitle}</span>
                         </div>
-                      </li>
+                        {ev.subtitle && (
+                          <div className="mt-0.5 pl-6 text-xs font-medium text-white/60 tracking-wide">
+                            {ev.subtitle}
+                          </div>
+                        )}
+                      </div>
                     );
                   })}
-                </ul>
+                </div>
               </div>
             </div>
           );

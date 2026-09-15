@@ -3,7 +3,8 @@
 /* eslint-disable react-doctor/effect-needs-cleanup */
 "use client";
 
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 
 // setOptions() may only be called once, before the first importLibrary() call.
@@ -128,6 +129,41 @@ interface TourMapProps {
   onPinClick?: (venue: string, date: string) => void;
 }
 
+export interface DeviceZoomSettings {
+  initial: number;
+  active: number;
+}
+
+export interface MapZoomConfig {
+  mobile: DeviceZoomSettings;
+  tablet: DeviceZoomSettings;
+  desktop: DeviceZoomSettings;
+}
+
+export const DEFAULT_ZOOM_CONFIG: MapZoomConfig = {
+  mobile: { initial: 10, active: 10 },
+  tablet: { initial: 8, active: 9 },
+  desktop: { initial: 9, active: 10 },
+};
+
+export const ZOOM_CONFIG_STORAGE_KEY = "7h_map_zoom_config_v1";
+
+function getInitialZoomConfig(): MapZoomConfig {
+  if (typeof window === "undefined") return DEFAULT_ZOOM_CONFIG;
+  try {
+    const saved = localStorage.getItem(ZOOM_CONFIG_STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed?.mobile?.initial && parsed?.tablet?.initial && parsed?.desktop?.initial) {
+        return parsed;
+      }
+    }
+  } catch {
+    // fallback to default config
+  }
+  return DEFAULT_ZOOM_CONFIG;
+}
+
 export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick }: TourMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
@@ -143,6 +179,39 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   // ── Date Range Zoom & Filter state ──
   const [dateRange, setDateRange] = useState<[number, number] | null>(null);
   const [isDateUiOpen, setIsDateUiOpen] = useState(false);
+
+  // ── Zoom Settings & Persistence State ──
+  const [zoomConfig, setZoomConfig] = useState<MapZoomConfig>(getInitialZoomConfig);
+  const [isZoomUiOpen, setIsZoomUiOpen] = useState(false);
+  const [zoomSaveSuccess, setZoomSaveSuccess] = useState(false);
+  const emptySubscribe = useCallback(() => () => {}, []);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+
+  const zoomConfigRef = useRef(zoomConfig);
+  useEffect(() => {
+    zoomConfigRef.current = zoomConfig;
+  }, [zoomConfig]);
+
+  const handleSaveZoomConfig = useCallback((newConfig: MapZoomConfig, liveZoomVal?: number) => {
+    setZoomConfig(newConfig);
+    try {
+      localStorage.setItem(ZOOM_CONFIG_STORAGE_KEY, JSON.stringify(newConfig));
+      setZoomSaveSuccess(true);
+      setTimeout(() => setZoomSaveSuccess(false), 2000);
+    } catch {
+      // ignore
+    }
+
+    if (mapInstanceRef.current && typeof window !== "undefined") {
+      const w = window.innerWidth;
+      const dev = w < 768 ? "mobile" : w < 1024 ? "tablet" : "desktop";
+      mapInstanceRef.current.setZoom(liveZoomVal ?? newConfig[dev].initial);
+    }
+  }, []);
+
+  const handleResetZoomConfig = useCallback(() => {
+    handleSaveZoomConfig(DEFAULT_ZOOM_CONFIG);
+  }, [handleSaveZoomConfig]);
 
   const { minShowTime, maxShowTime } = useMemo(() => {
     if (!shows || shows.length === 0) {
@@ -173,7 +242,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   const isDateFiltered = dateRange !== null && (dateRange[0] > minShowTime || dateRange[1] < maxShowTime);
 
   // ── Directional Map Gradient Customizer states ──
-  const [mapGradTop, setMapGradTop] = useState(false);
+  const [mapGradTop, setMapGradTop] = useState(true);
   const [mapGradBottom, setMapGradBottom] = useState(true);
   const [mapGradLeft, setMapGradLeft] = useState(false);
   const [mapGradRight, setMapGradRight] = useState(false);
@@ -358,12 +427,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     rafId = requestAnimationFrame(() => {
       if (!container || mapInstanceRef.current) return;
 
-      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+      const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
+      const deviceKey = screenW < 768 ? "mobile" : screenW < 1024 ? "tablet" : "desktop";
+      const initialZoom = zoomConfigRef.current[deviceKey]?.initial ?? DEFAULT_ZOOM_CONFIG[deviceKey].initial;
 
       // Center on Chicagoland — most shows are in the IL suburbs
       const mapInstance = new google.maps.Map(container, {
         center: { lat: 42.0, lng: -88.0 },
-        zoom: 9,
+        zoom: initialZoom,
         // IMPORTANT: no mapId here — a Map ID switches the map to Google's cloud-based
         // styling and silently ignores the `styles` JSON array below.
         styles: SNAZZY_MAPS_227862_STYLE,
@@ -375,8 +446,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         keyboardShortcuts: false,
       });
 
+      const fallbackTimer = setTimeout(() => {
+        setIsLoaded(true);
+      }, 2000);
+
       tilesListener = google.maps.event.addListenerOnce(mapInstance, "tilesloaded", () => {
         setIsLoaded(true);
+        clearTimeout(fallbackTimer);
         if (typeof window !== "undefined") {
           (window as any).__7hMapLoaded = true;
           window.dispatchEvent(new CustomEvent("7h-map-ready"));
@@ -650,7 +726,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       const pinHtml = `<div class="custom-venue-marker-inner ${isBouncing ? "is-bouncing-marker" : ""}">
         <div class="${isBouncing ? "next-show-bounce" : ""} relative flex flex-col items-center">
-          <svg class="${isBouncing ? "map-pin-jump" : ""}" width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)) drop-shadow(0 0 12px ${cfg.color});">
+          <svg class="${isBouncing ? "map-pin-jump" : ""}" width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: ${isBouncing ? `drop-shadow(0 4px 10px rgba(0,0,0,0.8)) drop-shadow(0 0 16px ${cfg.color})` : 'drop-shadow(0 3px 6px rgba(0,0,0,0.7))'};">
             <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="${cfg.color}" style="fill: ${cfg.color} !important;" stroke="#ffffff" stroke-width="5"/>
             <text x="50" y="48" dy="0.35em" fill="#ffffff" style="fill: #ffffff !important;" font-size="44" font-weight="900" text-anchor="middle" font-family="system-ui, sans-serif">${showLetter}</text>
           </svg>
@@ -765,16 +841,20 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       markersRef.current.push({ overlay, infoWindow, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
     });
 
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
+    const isMobile = screenW < 768;
+    const isTablet = screenW >= 768 && screenW < 1024;
+    const deviceKey = isMobile ? "mobile" : isTablet ? "tablet" : "desktop";
+    const activeZoom = zoomConfig[deviceKey]?.active ?? DEFAULT_ZOOM_CONFIG[deviceKey].active;
 
     // Center directly on the current show location as the main center point of the map
     if (activeVenue && typeof activeVenue.lat === "number" && typeof activeVenue.lng === "number") {
       map.setCenter({ lat: activeVenue.lat, lng: activeVenue.lng });
-      map.setZoom(isMobile ? 10.5 : 11);
+      map.setZoom(activeZoom);
     } else if (filteredVenues.length > 0) {
       const bounds = new google.maps.LatLngBounds();
       filteredVenues.forEach(v => bounds.extend({ lat: v.lat, lng: v.lng }));
-      map.fitBounds(bounds, isMobile ? { top: 40, right: 20, bottom: 40, left: 20 } : { top: 80, right: 60, bottom: 80, left: 60 });
+      map.fitBounds(bounds, isMobile ? { top: 40, right: 20, bottom: 40, left: 20 } : isTablet ? { top: 60, right: 40, bottom: 60, left: 40 } : { top: 80, right: 60, bottom: 80, left: 60 });
     }
 
     return () => {
@@ -784,7 +864,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       }
       markersRef.current = [];
     };
-  }, [googleReady, map, shows, nextShowVenue, nextShowCity, selectedTypes, activeStart, activeEnd, isDateFiltered]);
+  }, [googleReady, map, shows, nextShowVenue, nextShowCity, selectedTypes, activeStart, activeEnd, isDateFiltered, zoomConfig]);
 
   // Near Me handler
   const handleNearMe = useCallback(() => {
@@ -838,46 +918,61 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative w-full aspect-[3/1] overflow-hidden pb-px bg-[#160533]" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '350px', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 88%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 0%, black 88%, transparent 100%)' }}>
+    <div className="relative w-full h-[50vh] sm:h-auto sm:aspect-[3/1] overflow-hidden pb-px bg-[#160533]" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '500px', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)' }}>
       <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862 bg-[#160533]" />
 
-      {/* ── Directional Dark Edge Gradient Overlays ── */}
-      {mapGradTop && (
-        <div
- className="absolute top-0 left-0 right-0 z-[2] pointer-events-none"
- style={{
- height: `${mapGradSize}%`,
- background: `linear-gradient(to bottom, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
- }}
- />
-      )}
-      {mapGradBottom && (
-        <div
- className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none"
- style={{
- height: `${mapGradSize}%`,
- background: `linear-gradient(to top, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
- }}
- />
-      )}
-      {mapGradLeft && (
-        <div
- className="absolute top-0 bottom-0 left-0 z-[2] pointer-events-none"
- style={{
- width: `${mapGradSize}%`,
- background: `linear-gradient(to right, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
- }}
- />
-      )}
-      {mapGradRight && (
-        <div
- className="absolute top-0 bottom-0 right-0 z-[2] pointer-events-none"
- style={{
- width: `${mapGradSize}%`,
- background: `linear-gradient(to left, ${mapGradColor} 0%, ${hexToRgba(mapGradColor, mapGradOpacity * 0.75)} ${mapGradMidstop}%, transparent 100%)`,
- }}
- />
-      )}
+      {/* Bottom Gradient Mask Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-28 sm:h-36 z-[5] pointer-events-none bg-gradient-to-t from-[#090314] via-[#090314]/80 to-transparent" />
+
+      {/* ── Google Maps Preloader Intro Animation Overlay ── */}
+      <div
+        className={`absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#160533] backdrop-blur-xl transition-all duration-700 ease-out pointer-events-none ${
+          isLoaded ? "opacity-0 scale-105" : "opacity-100 scale-100"
+        }`}
+      >
+        {/* Radial Purple Glow Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/30 via-transparent to-[#160533] pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col items-center gap-5 select-none">
+          {/* Google Pin & Pulsing Radar Ring */}
+          <div className="relative flex items-center justify-center w-20 h-20">
+            {/* Outer expanding ping ring */}
+            <div className="absolute inset-0 rounded-full border-2 border-purple-500/50 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]" />
+            <div className="absolute -inset-2.5 rounded-full border border-purple-400/25 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]" />
+
+            {/* Google 4-Color Glowing Orbiting Dots */}
+            <div className="absolute inset-0 animate-spin" style={{ animationDuration: '3.5s' }}>
+              <span className="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-[#4285F4] shadow-[0_0_10px_#4285F4]" />
+              <span className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-[#EA4335] shadow-[0_0_10px_#EA4335]" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-[#FBBC05] shadow-[0_0_10px_#FBBC05]" />
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-[#34A853] shadow-[0_0_10px_#34A853]" />
+            </div>
+
+            {/* Center Bouncing Google Maps Pin Icon */}
+            <div className="relative z-10 flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-900 border border-purple-400/50 shadow-[0_0_30px_rgba(168,85,247,0.6)] animate-bounce">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Intro Text */}
+          <div className="flex flex-col items-center gap-1.5 text-center px-4">
+            <span className="font-mono text-xs uppercase tracking-widest text-purple-300 font-bold animate-pulse">
+              Initializing Google Maps
+            </span>
+            <span className="text-[11px] text-white/50 uppercase tracking-wider font-semibold">
+              7th Heaven Live Tour Locations
+            </span>
+          </div>
+
+          {/* Animated 4-Color Google Shimmer Progress Bar */}
+          <div className="w-48 h-1 rounded-full bg-white/10 overflow-hidden relative">
+            <div className="absolute inset-y-0 w-2/3 bg-gradient-to-r from-[#4285F4] via-[#EA4335] via-[#FBBC05] to-[#34A853] rounded-full animate-pulse" />
+          </div>
+        </div>
+      </div>
 
 
       {/* ── Map Overlay Controls aligned precisely to .site-container ── */}
@@ -889,7 +984,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <div className="group bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-colors duration-300">
               {/* Header - always visible, click to toggle */}
               <button aria-label="Show Types"
- onClick={() => setLegendOpen(o => !o)}
+                onClick={() => setLegendOpen(o => !o)}
                 className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-4 py-0 sm:py-2.5 w-full cursor-pointer bg-[#00000029] text-white/80 hover:text-[var(--color-accent)] transition-colors">
                 <span className="sm:text-[16px] uppercase transition-colors">Show Types</span>
                 <svg className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
@@ -907,8 +1002,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                       const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
                       return (
                         <button aria-label="Next"
- key={key}
- onClick={() => {
+                          key={key}
+                          onClick={() => {
                             setSelectedTypes(prev => {
                               const next = new Set(prev);
                               if (next.has(key)) { next.delete(key); } else { next.add(key); }
@@ -942,8 +1037,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <div className="relative">
               {!isDateUiOpen ? (
                 <button
- type="button"
- onClick={() => setIsDateUiOpen(true)}
+                  type="button"
+                  onClick={() => setIsDateUiOpen(true)}
                   className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border rounded-lg sm:text-[15px]    uppercase text-white/90 transition-all cursor-pointer    ${isDateFiltered ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
                     : " border-white/10 hover:border-purple-400/50 hover:text-purple-300"
                     }`}
@@ -968,8 +1063,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                       </div>
                     </div>
                     <button
- type="button"
- onClick={() => setIsDateUiOpen(false)}
+                      type="button"
+                      onClick={() => setIsDateUiOpen(false)}
                       className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white hover:text-white transition-colors">
                       ✕
                     </button>
@@ -983,12 +1078,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         <span className="text-purple-300">{formatDateShort(activeStart)}</span>
                       </div>
                       <input
- type="range"
- min={minShowTime}
- max={maxShowTime}
- step={86400000}
- value={activeStart}
- onChange={(e) => {
+                        type="range"
+                        min={minShowTime}
+                        max={maxShowTime}
+                        step={86400000}
+                        value={activeStart}
+                        onChange={(e) => {
                           const val = parseFloat(e.target.value);
                           setDateRange([val, Math.max(val + 86400000, activeEnd)]);
                         }}
@@ -1002,12 +1097,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         <span className="text-purple-300">{formatDateShort(activeEnd)}</span>
                       </div>
                       <input
- type="range"
- min={minShowTime}
- max={maxShowTime}
- step={86400000}
- value={activeEnd}
- onChange={(e) => {
+                        type="range"
+                        min={minShowTime}
+                        max={maxShowTime}
+                        step={86400000}
+                        value={activeEnd}
+                        onChange={(e) => {
                           const val = parseFloat(e.target.value);
                           setDateRange([activeStart, Math.max(val, activeStart + 86400000)]);
                         }}
@@ -1021,8 +1116,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <span className="text-[12px] text-white/50 uppercase block">Quick Presets</span>
                     <div className="grid grid-cols-3 gap-1.5">
                       <button
- type="button"
- onClick={() => {
+                        type="button"
+                        onClick={() => {
                           const now = Date.now();
                           const target = now + 30 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
@@ -1031,8 +1126,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         Next 30 Days
                       </button>
                       <button
- type="button"
- onClick={() => {
+                        type="button"
+                        onClick={() => {
                           const now = Date.now();
                           const target = now + 90 * 24 * 60 * 60 * 1000;
                           setDateRange([now, Math.min(target, maxShowTime)]);
@@ -1041,8 +1136,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         Next 90 Days
                       </button>
                       <button
- type="button"
- onClick={() => setDateRange([minShowTime, maxShowTime])}
+                        type="button"
+                        onClick={() => setDateRange([minShowTime, maxShowTime])}
                         className="px-2 py-1 text-[12px] uppercase rounded-lg border border-white/10 bg-[#00000029] hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer">
                         All Dates
                       </button>
@@ -1052,15 +1147,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   {/* Remove / Reset Filter Button */}
                   {isDateFiltered ? (
                     <button
- type="button"
- onClick={() => setDateRange(null)}
+                      type="button"
+                      onClick={() => setDateRange(null)}
                       className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-[10px] uppercase transition-colors rounded-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 ">
                       <span>✕ Remove Date Filter</span>
                     </button>
                   ) : (
                     <button
- type="button"
- onClick={() => setIsDateUiOpen(false)}
+                      type="button"
+                      onClick={() => setIsDateUiOpen(false)}
                       className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 text-[10px] uppercase rounded-lg transition-colors cursor-pointer text-center">
                       Close Controls
                     </button>
@@ -1068,25 +1163,35 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 </div>
               )}
             </div>
+
+            {/* Zoom Settings Control (Bottom-Left) */}
+            <button
+              type="button"
+              onClick={() => setIsZoomUiOpen(true)}
+              className="flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-purple-400/50 hover:text-purple-300 rounded-lg sm:text-[15px] uppercase text-white/90 transition-all cursor-pointer"
+              title="Configure & Save Map Zoom Levels per Device"
+            >
+              <span>⚙️ Zoom Settings</span>
+            </button>
           </div>
 
           {/* Right Map Controls: Custom Big Zoom Controls (+ / -) */}
           <div className="pointer-events-auto flex flex-col gap-2 shrink-0">
             <button onClick={handleZoomIn}
- type="button"
- aria-label="Zoom In"
- title="Zoom In"
- className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
+              type="button"
+              aria-label="Zoom In"
+              title="Zoom In"
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </button>
             <button onClick={handleZoomOut}
- type="button"
- aria-label="Zoom Out"
- title="Zoom Out"
- className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
+              type="button"
+              aria-label="Zoom Out"
+              title="Zoom Out"
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
@@ -1107,6 +1212,157 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           )}
         </div>
       )}
+
+      {/* ── Zoom Settings Modal Overlay ── */}
+      {mounted && isZoomUiOpen && createPortal(
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fadeIn">
+          <div className="bg-[#0f0728] border border-purple-500/30 rounded-2xl p-5 sm:p-6 w-full max-w-xl shadow-[0_0_50px_rgba(147,51,234,0.3)] text-white max-h-[90vh] overflow-y-auto">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+              <div>
+                <h3 className="text-lg font-bold uppercase tracking-wider text-purple-200 flex items-center gap-2">
+                  <span>⚙️</span> Map Zoom Control Settings
+                </h3>
+                <p className="text-xs text-white/60 mt-0.5">
+                  Customize initial and active venue zoom levels per device & save your preferences.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsZoomUiOpen(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Settings Grid for Mobile, Tablet, Desktop */}
+            <div className="space-y-4">
+              {(["mobile", "tablet", "desktop"] as const).map((device) => {
+                const isCurrentDevice = typeof window !== "undefined" && (
+                  (device === "mobile" && window.innerWidth < 768) ||
+                  (device === "tablet" && window.innerWidth >= 768 && window.innerWidth < 1024) ||
+                  (device === "desktop" && window.innerWidth >= 1024)
+                );
+
+                const icon = device === "mobile" ? "📱" : device === "tablet" ? "📱" : "💻";
+                const label = device === "mobile" ? "Mobile (<768px)" : device === "tablet" ? "Tablet (768px–1023px)" : "Desktop (≥1024px)";
+                const cfg = zoomConfig[device];
+
+                return (
+                  <div
+                    key={device}
+                    className={`p-4 rounded-xl border transition-all ${
+                      isCurrentDevice
+                        ? "bg-purple-950/40 border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.25)]"
+                        : "bg-white/5 border-white/10"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2 font-bold text-sm text-purple-300">
+                        <span>{icon}</span>
+                        <span className="uppercase">{label}</span>
+                      </div>
+                      {isCurrentDevice && (
+                        <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-purple-600 text-white">
+                          Active Screen
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                      {/* Initial Zoom Slider */}
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between text-white/80">
+                          <span>Initial Map Zoom:</span>
+                          <span className="font-mono font-bold text-purple-300">{cfg.initial}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="range"
+                            min={4}
+                            max={18}
+                            step={0.5}
+                            value={cfg.initial}
+                            onChange={(e) => {
+                              const val = parseFloat(e.target.value);
+                              handleSaveZoomConfig(
+                                {
+                                  ...zoomConfig,
+                                  [device]: { ...cfg, initial: val },
+                                },
+                                val
+                              );
+                            }}
+                            className="w-full accent-purple-500 cursor-pointer"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Active Venue Zoom Slider */}
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between text-white/80">
+                          <span>Venue Focus Zoom:</span>
+                          <span className="font-mono font-bold text-purple-300">{cfg.active}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="range"
+                            min={4}
+                            max={18}
+                            step={0.5}
+                            value={cfg.active}
+                            onChange={(e) => {
+                              const val = parseFloat(e.target.value);
+                              handleSaveZoomConfig(
+                                {
+                                  ...zoomConfig,
+                                  [device]: { ...cfg, active: val },
+                                },
+                                val
+                              );
+                            }}
+                            className="w-full accent-purple-500 cursor-pointer"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Action Footer */}
+            <div className="flex items-center justify-between gap-3 pt-5 mt-5 border-t border-white/10">
+              <button
+                type="button"
+                onClick={handleResetZoomConfig}
+                className="px-4 py-2 text-xs uppercase font-medium text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-lg transition-colors cursor-pointer"
+              >
+                Reset Defaults
+              </button>
+
+              <div className="flex items-center gap-2">
+                {zoomSaveSuccess && (
+                  <span className="text-xs text-green-400 font-semibold flex items-center gap-1">
+                    ✓ Saved!
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsZoomUiOpen(false)}
+                  className="px-5 py-2 text-xs uppercase font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-lg transition-colors shadow-lg cursor-pointer"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
 
 
     </div>

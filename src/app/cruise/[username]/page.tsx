@@ -792,7 +792,7 @@ export default function CruiseDashboard() {
           {/* Right Sidebar Column (1 Col) */}
           <div className="lg:col-span-1">
             <div className="flex flex-col gap-6">
-              <CruiseChat memberOverride={effectiveMember} className="h-[calc(100vh-290px)]" />
+              <CruiseChat memberOverride={effectiveMember} className="h-[750px] min-h-[600px]" />
               <PassengersWidget />
             </div>
           </div>

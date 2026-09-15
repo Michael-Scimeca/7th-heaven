@@ -155,3 +155,59 @@ export function ensureUpcomingTourDates<T extends { date: string; startDate?: st
     };
   });
 }
+
+export function generateTourEventSchema(shows: any[]) {
+  if (!Array.isArray(shows) || shows.length === 0) return null;
+
+  const publicShows = shows.filter(s => !s.isPrivate && s.venue && s.venue !== "Private Event" && !isShowOver(s));
+  if (publicShows.length === 0) return null;
+
+  const eventItems = publicShows.slice(0, 30).map(s => {
+    const dt = getShowDateTime(s.startDate, s.date, s.time);
+    const startDateIso = !isNaN(dt.getTime()) && dt.getTime() > 0
+      ? dt.toISOString()
+      : (s.startDate || s.date);
+
+    const venueName = s.venue || "Live Venue";
+    const city = s.city || "";
+    const state = s.state || "IL";
+
+    const eventUrl = s.websiteUrl || s.ticketLink || s.mapUrl || "https://7thheavenband.com/#tour";
+
+    return {
+      "@type": "MusicEvent",
+      "name": `7th Heaven Live at ${venueName}`,
+      "startDate": startDateIso,
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": {
+        "@type": "Place",
+        "name": venueName,
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": city,
+          "addressRegion": state,
+          "addressCountry": "US"
+        }
+      },
+      "image": ["https://7thheavenband.com/og-image.jpg"],
+      "description": `7th Heaven performing live at ${venueName}${city ? ` in ${city}, ${state}` : ""}.${s.info ? ` ${s.info}` : ""}`,
+      "performer": {
+        "@type": "MusicGroup",
+        "name": "7th Heaven",
+        "url": "https://7thheavenband.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": eventUrl,
+        "availability": s.isSoldOut ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
+      }
+    };
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": eventItems
+  };
+}
+

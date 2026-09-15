@@ -330,7 +330,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
   // ── ULTIMATE SLIDER CONFIGURATION ENGINE STATE ──
   // 1. Layout & Grid Settings
   const [cardsVisible, setCardsVisible] = useState<number>(3);
-  const [aspectRatio, setAspectRatio] = useState<string>("aspect-[16/10]");
+  const [aspectRatio, setAspectRatio] = useState<string>("h-[300px] sm:h-[400px] md:h-[500px]");
   const [cardGap, setCardGap] = useState<string>("gap-6");
   const [borderRadius, setBorderRadius] = useState<string>("rounded-lg");
   const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
@@ -595,7 +595,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
     // General defaults
     setCardsVisible(3);
-    setAspectRatio("aspect-[4/5]");
+    setAspectRatio("h-[300px] sm:h-[400px] md:h-[500px]");
     setCardGap("gap-6");
     setBorderRadius(" rounded-lg ");
     setBorderStyle("border border-white/10");
@@ -694,24 +694,24 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
  }}>
               {/* Video Card Container — Whole Card Clickable */}
               <div
- style={{
- WebkitMaskImage: "-webkit-radial-gradient(white, black)",
- isolation: "isolate",
- }}
- onClick={() => {
+                style={{
+                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+                  isolation: "isolate",
+                }}
+                onClick={() => {
                   if (playingVideoId !== video.id) {
                     setPlayingVideoId(video.id);
                   }
                 }}
-                className={`relative w-full ${aspectRatio} ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
+                className={`relative w-full h-[300px] sm:h-[400px] md:h-[500px] ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
                   : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
                   }`}>
                 {playingVideoId === video.id ? (
                   <div className="relative w-full h-full bg-black z-30">
                     <InlineYTPlayer
- videoId={video.id}
- title={video.title}
- onClose={() => setPlayingVideoId(null)}
+                      videoId={video.id}
+                      title={video.title}
+                      onClose={() => setPlayingVideoId(null)}
                     />
                   </div>
                 ) : (
@@ -721,26 +721,26 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
                     {/* YouTube On-Demand Autoplay Preview Frame */}
                     <ShowcaseMedia
- videoId={video.id}
- videoTitle={video.title}
- start={start}
- end={end}
- previewZoomPercent={previewZoomPercent}
- />
+                      videoId={video.id}
+                      videoTitle={video.title}
+                      start={start}
+                      end={end}
+                      previewZoomPercent={previewZoomPercent}
+                    />
 
                     {/* Interactive Play Button Overlay */}
                     {playButtonVisibility !== "hidden" && (
                       <div
- className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
- ? "opacity-100"
- : "opacity-90 sm:opacity-0 group-hover:opacity-100"
- }`}>
+                        className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
+                          ? "opacity-100"
+                          : "opacity-90 sm:opacity-0 group-hover:opacity-100"
+                          }`}>
                         <CosmicRadialButton
- icon={false}
- className={`${playButtonSize} !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto `}
- aria-label={`Play full video for ${video.title}`}
- title="Play Full Video">
-                          <Play className="w-6 h-6 fill-white ml-0.5" />
+                          icon={false}
+                          className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto"
+                          aria-label={`Play full video for ${video.title}`}
+                          title="Play Full Video">
+                          <Play className="w-6 h-6 sm:w-8 sm:h-8 md:w-9 md:h-9 fill-white ml-1" />
                         </CosmicRadialButton>
                       </div>
                     )}
@@ -749,20 +749,20 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10" />
 
                     {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
-                    <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 flex flex-col items-center justify-end text-center pointer-events-none">
+                    <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 md:p-8 flex flex-col items-center justify-end text-center pointer-events-none">
                       {showBadges && (
                         <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
                           {video.badges.map((badge, bIdx) => (
                             <SectionBadge
- key={badge + bIdx}
- label={badge}
- className="mb-1"
- />
+                              key={badge + bIdx}
+                              label={badge}
+                              className="mb-1"
+                            />
                           ))}
                         </div>
                       )}
 
-                      <h3 className="font-black uppercase text-white line-clamp-2 group-hover:text-purple-300 transition-colors">
+                      <h3 className="font-black uppercase text-white line-clamp-2 text-base sm:text-lg md:text-xl group-hover:text-purple-300 transition-colors">
                         {video.title}
                       </h3>
                     </div>

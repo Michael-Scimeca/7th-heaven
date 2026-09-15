@@ -1,14 +1,19 @@
 import { NextResponse } from "next/server";
-import { sanityFetch } from "@/sanity/live";
-import { queries, SanityTourDate } from "@/lib/sanity";
+import { sanityClient, sanityWriteClient, queries, SanityTourDate } from "@/lib/sanity";
 import { ensureUpcomingTourDates } from "@/lib/tour-helpers";
 import { VENUE_LINKS } from "@/lib/venue-links";
 
 export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const { data: showsData } = await sanityFetch({ query: queries.allTourDates });
+    const clientToUse = process.env.SANITY_API_TOKEN ? sanityWriteClient : sanityClient;
+    const showsData = await clientToUse.fetch<SanityTourDate[]>(
+      queries.allTourDates,
+      {},
+      { cache: "no-store", next: { revalidate: 0 } }
+    );
     const shows = (showsData as SanityTourDate[]).map(s => {
       const fallbackMap = (VENUE_LINKS[s.venue]?.mapUrl) || (s.venue && s.city && !s.isPrivate ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${s.venue} ${s.city} ${s.state || ''}`)}` : '');
       const mapLink = s.directionsLink || s.mapUrl || fallbackMap;

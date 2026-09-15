@@ -3,6 +3,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { useHeroParallax } from "@/lib/useHeroParallax";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 const emptySubscribe = () => () => { };
@@ -130,11 +131,13 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
     return () => window.removeEventListener("cursor:song-playing", handleSongPlaying);
   }, []);
 
-  // ── Bottom-Up Gradient Customizer states ──────────────────────────────────
-  const [gradHeight, setGradHeight] = useState(46); // %
-  const [gradOpacity, setGradOpacity] = useState(0.95); // 0..1
-  const [gradMidstop, setGradMidstop] = useState(37); // %
+  // ── Bottom-Up & Video Mask Customizer states ───────────────────────────────
+  const [videoMaskStart, setVideoMaskStart] = useState(87); // % depth where video mask fade begins
+  const [gradHeight, setGradHeight] = useState(40); // %
+  const [gradOpacity, setGradOpacity] = useState(0.85); // 0..1
+  const [gradMidstop, setGradMidstop] = useState(25); // %
   const [gradColor, setGradColor] = useState("#000000");
+  const [videoScreenY, setVideoScreenY] = useState(20); // % objectPosition Y (lower % shifts people DOWN)
   const [isGradUiOpen, setIsGradUiOpen] = useState(false);
   const [gradCopied, setGradCopied] = useState(false);
 
@@ -153,18 +156,26 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
     if (savedOpacity) setTintOpacity(parseFloat(savedOpacity));
     if (savedBlend) setMixBlendMode(savedBlend as any);
 
-    // Load gradient settings
+    // Load gradient & video position settings
+    const savedMaskStart = localStorage.getItem("7h_hero_video_mask_start");
     const savedGradH = localStorage.getItem("7h_hero_grad_height");
     const savedGradO = localStorage.getItem("7h_hero_grad_opacity");
     const savedGradM = localStorage.getItem("7h_hero_grad_midstop");
     const savedGradC = localStorage.getItem("7h_hero_grad_color");
+    const savedScreenY = localStorage.getItem("7h_hero_video_screen_y");
 
+    if (savedMaskStart) setVideoMaskStart(parseFloat(savedMaskStart));
     if (savedGradH) setGradHeight(parseFloat(savedGradH));
     if (savedGradO) setGradOpacity(parseFloat(savedGradO));
     if (savedGradM) setGradMidstop(parseFloat(savedGradM));
     if (savedGradC) setGradColor(savedGradC);
+    if (savedScreenY) setVideoScreenY(parseFloat(savedScreenY));
   }, []);
 
+  const updateVideoMaskStart = (val: number) => {
+    setVideoMaskStart(val);
+    localStorage.setItem("7h_hero_video_mask_start", val.toString());
+  };
   const updateGradHeight = (h: number) => {
     setGradHeight(h);
     localStorage.setItem("7h_hero_grad_height", h.toString());
@@ -180,6 +191,10 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   const updateGradColor = (c: string) => {
     setGradColor(c);
     localStorage.setItem("7h_hero_grad_color", c);
+  };
+  const updateVideoScreenY = (y: number) => {
+    setVideoScreenY(y);
+    localStorage.setItem("7h_hero_video_screen_y", y.toString());
   };
 
   const copyGradCSS = () => {
@@ -400,15 +415,15 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
   const handleLoadedMetadata = useCallback(() => {
     const video = videoRef.current;
-    if (video && video.currentTime < 7) {
-      try { video.currentTime = 7; } catch (_) { }
+    if (video && video.currentTime < 15) {
+      try { video.currentTime = 15; } catch (_) { }
     }
   }, []);
 
   const handleCanPlay = useCallback(() => {
     const video = videoRef.current;
-    if (video && video.currentTime < 7) {
-      try { video.currentTime = 7; } catch (_) { }
+    if (video && video.currentTime < 15) {
+      try { video.currentTime = 15; } catch (_) { }
     }
     captureFrame();
   }, [captureFrame]);
@@ -416,7 +431,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   const handleTimeUpdate = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
-    const START_TIME = 7;
+    const START_TIME = 15;
     const MAX_DURATION = 8; // Exactly 8 seconds long loop
     if (video.currentTime >= START_TIME + MAX_DURATION || video.currentTime < START_TIME) {
       try {
@@ -428,8 +443,8 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   const handleHeroClick = useCallback(() => {
     const video = videoRef.current;
     if (video) {
-      if (video.currentTime < 7) {
-        video.currentTime = 7;
+      if (video.currentTime < 15) {
+        video.currentTime = 15;
       }
       video.muted = true;
       video.play().catch(() => { });
@@ -441,7 +456,14 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
   return (
     <VideoSnapshotContext.Provider value={ctxValue}>
-      {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
+      <div
+        className="relative w-full h-full flex flex-col justify-between overflow-hidden"
+        style={{
+          WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
+          maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
+        }}
+      >
+        {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
  {!isDesktop ? (
  <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
           <Image
@@ -455,29 +477,30 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
  className="object-cover z-0 brightness-[0.65]"
  />
           <video
- src="/movie/hero-mobile.mp4"
- autoPlay
- muted
- loop
- playsInline
- preload="none"
- className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] opacity-90 transition-opacity duration-500"
- style={{
- WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
- }}
- />
+            src="/movie/hero-mobile.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] opacity-90 transition-opacity duration-500"
+            style={{
+              objectPosition: `center ${videoScreenY}%`,
+              WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
+              maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
+            }}
+          />
         </div>
       ) : isYouTube && YTComp ? (
         <YTComp videoId={ytId} />
       ) : (
         <video
- key={videoSrc}
- ref={videoRef}
- onCanPlay={handleCanPlay}
- onLoadedMetadata={handleLoadedMetadata}
- onTimeUpdate={handleTimeUpdate}
- onPlaying={() => setVideoReady(true)}
+          key={videoSrc}
+          ref={videoRef}
+          onCanPlay={handleCanPlay}
+          onLoadedMetadata={handleLoadedMetadata}
+          onTimeUpdate={handleTimeUpdate}
+          onPlaying={() => setVideoReady(true)}
           preload="metadata"
           autoPlay
           muted
@@ -486,8 +509,9 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
           className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
             }`}
           style={{
-            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-            maskImage: "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+            objectPosition: `center ${videoScreenY}%`,
+            WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
+            maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
           }}>
           <source src={videoSrc} type="video/mp4" />
           <track kind="captions" />
@@ -521,13 +545,23 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
       {/* ── Bottom-Up Black Gradient Overlay ── */}
       <div
- className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-all duration-700"
- style={{
- height: `${gradHeight}%`,
- background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.5 : gradOpacity) * 0.75)} ${gradMidstop}%, transparent 100%)`,
- opacity: isMusicPlaying ? 0.7 : 1,
- }}
- />
+        className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-all duration-700"
+        style={{
+          height: `${gradHeight}%`,
+          background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.5 : gradOpacity) * 0.75)} ${gradMidstop}%, transparent 100%)`,
+          opacity: isMusicPlaying ? 0.7 : 1,
+        }}
+      />
+
+      {/* ── Soft Bottom Dissolve Overlay ── */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-32 md:h-44 z-[3] pointer-events-none transition-all duration-700"
+        style={{
+          background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.6 : gradOpacity) * 0.85)} 40%, transparent 100%)`,
+        }}
+      />
+
+
 
 
       {/* ── Tint Customizer Floating Panel (Dev/Tester Only) ── */}
@@ -685,11 +719,11 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
           {children}
         </div>
 
-        {/* Vinyl MP3 Album Player */}
         <div className="flex justify-end hidden md:flex">
           {VinylComp && <VinylComp onAlbumChange={handleAlbumChange} />}
         </div>
       </div>
+    </div>
     </VideoSnapshotContext.Provider>
   );
 }

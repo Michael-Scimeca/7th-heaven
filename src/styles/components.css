@@ -265,8 +265,8 @@
   overflow-y: visible;
   position: relative;
   width: 100%;
-  -webkit-mask-image: linear-gradient(transparent 0px, black 30px, black calc(100% - 140px), transparent 100%);
-  mask-image: linear-gradient(transparent 0px, black 30px, black calc(100% - 140px), transparent 100%);
+  -webkit-mask-image: linear-gradient(transparent 0px, black 30px, black calc(100% - 20px), transparent 100%);
+  mask-image: linear-gradient(transparent 0px, black 30px, black calc(100% - 20px), transparent 100%);
   background-image: linear-gradient(transparent 0%, rgb(6, 11, 24) 90px, rgb(10, 20, 44) 50%, rgb(6, 11, 24) calc(100% - 160px), transparent 100%);
 }
 
