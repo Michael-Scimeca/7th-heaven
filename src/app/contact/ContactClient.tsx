@@ -115,10 +115,10 @@ export default function ContactClient({
   }, [member?.role]);
 
   return (
-    <section id="contact-page" className="site-container relative flex flex-col pt-[100px] min-h-[calc(100vh-100px)] pb-0 overflow-hidden">
+    <main id="contact-page" className="site-container relative flex flex-col pt-[100px] min-h-[calc(100vh-100px)] pb-0 overflow-hidden">
 
       {/* Hero Header */}
-      <div className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] relative z-10">
+      <header className="text-start max-w-5xl mb-[clamp(1rem,2.5vh,2.5rem)] relative z-10">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1>{title}</h1>
@@ -126,18 +126,18 @@ export default function ContactClient({
           </div>
           {isAdmin && (
             <AddCmsButton
- label="EDIT IN SANITY"
- onClick={() => window.open("/studio/structure/pageContent;contactUs", "_blank")}
+              label="EDIT IN SANITY"
+              onClick={() => window.open("/studio/structure/pageContent;contactUs", "_blank")}
               className="self-start sm:self-auto shrink-0"
             />
           )}
         </div>
-      </div>
+      </header>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10 flex-1">
 
         {/* Left Column: Contact Cards (Full Width on Mobile, Smaller on Tablet md:col-span-5) */}
-        <div className="w-full max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left">
+        <section aria-label="Contact Directory" className="w-full max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left">
 
           {/* Contact Cards List (1 Column Stacked) */}
           <div className="space-y-[clamp(0.4rem,1.2vh,1rem)] w-full">
@@ -147,16 +147,20 @@ export default function ContactClient({
 
               return (
                 <div
- key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
- onMouseEnter={() => setActivePhotoId(photoForThisCard)}
+                  key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Select ${contact.category || 'contact'} department`}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActivePhotoId(photoForThisCard); } }}
+                  onMouseEnter={() => setActivePhotoId(photoForThisCard)}
                   onClick={() => setActivePhotoId(photoForThisCard)}
-                  className="pb-[clamp(0.4rem,1.2vh,1rem)] border-b border-white/10">
+                  className="pb-[clamp(0.4rem,1.2vh,1rem)] border-b border-white/10 cursor-pointer">
                   {/* Category Pill */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
                     <SectionBadge
- label={contact.category || "General Contact"}
- isActive={isCardActive}
- />
+                      label={contact.category || "General Contact"}
+                      isActive={isCardActive}
+                    />
                   </div>
 
                   {/* Name & Title / Note */}
@@ -171,8 +175,8 @@ export default function ContactClient({
                     {/* Email */}
                     {contact.email && (
                       <a
- href={`mailto:${contact.email}`}
- className="inline-flex items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] fo text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
+                        href={`mailto:${contact.email}`}
+                        className="inline-flex items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] fo text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
                         <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
                           {contact.email}
                         </span>
@@ -182,8 +186,8 @@ export default function ContactClient({
                     {/* Phone Number Directly Below Email */}
                     {contact.phone && (
                       <a
- href={`tel:${contact.phone.replace(/-/g, "")}`}
- className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !text-white hover:text-[var(--color-accent)] transition-colors duration-150 group/link w-fit whitespace-nowrap">
+                        href={`tel:${contact.phone.replace(/-/g, "")}`}
+                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !text-white hover:text-[var(--color-accent)] transition-colors duration-150 group/link w-fit whitespace-nowrap">
                         <span className="whitespace-nowrap">{contact.phone}</span>
                       </a>
                     )}
@@ -192,34 +196,34 @@ export default function ContactClient({
               );
             })}
           </div>
-        </div>
+        </section>
 
         {/* Right Column: Preloaded Contact Photos Stage Attached to Container */}
         <div
- className="hidden md:flex md:col-span-7 lg:col-span-8 relative min-h-[450px] items-end justify-end pointer-events-none self-stretch"
- style={{
- WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
- maskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
- }}>
+          className="hidden md:flex md:col-span-7 lg:col-span-8 relative min-h-[450px] items-end justify-end pointer-events-none self-stretch"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
+          }}>
           {ALL_PHOTOS.map((photo) => {
             const isActive = activePhotoId === photo.id;
             return (
               <div
- key={photo.id}
- className={`absolute inset-0 transition-opacity duration-300 ease-out flex items-end justify-end ${isActive ? "opacity-100 z-10 pointer-events-auto" : "opacity-0 z-0 pointer-events-none"
- }`}>
+                key={photo.id}
+                className={`absolute inset-0 transition-opacity duration-300 ease-out flex items-end justify-end ${isActive ? "opacity-100 z-10 pointer-events-auto" : "opacity-0 z-0 pointer-events-none"
+                  }`}>
                 <picture className="w-full h-full flex items-end justify-end pointer-events-none">
                   <source media="(max-width: 768px)" srcSet={photo.mobile} />
                   <source media="(min-width: 769px)" srcSet={photo.desktop} />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
- src={photo.desktop}
- alt={photo.alt}
- loading="eager"
- fetchPriority={isActive ? "high" : "low"}
- decoding="sync"
- className={`max-w-full max-h-full object-contain object-bottom pointer-events-none origin-bottom-right ${photo.scaleClass}`}
- />
+                    src={photo.desktop}
+                    alt={photo.alt}
+                    loading="eager"
+                    fetchPriority={isActive ? "high" : "low"}
+                    decoding="sync"
+                    className={`max-w-full max-h-full object-contain object-bottom pointer-events-none origin-bottom-right ${photo.scaleClass}`}
+                  />
                 </picture>
               </div>
             );
@@ -227,6 +231,6 @@ export default function ContactClient({
         </div>
 
       </div>
-    </section>
+    </main>
   );
 }
