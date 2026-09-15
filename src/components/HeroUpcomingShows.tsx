@@ -85,7 +85,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
 
   if (!upcomingShows || upcomingShows.length === 0) {
     return (
-      <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] h-full">
+      <div className="backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] h-full">
         <div className="flex items-center justify-between mb-1.5 px-0.5">
           <div className="flex items-center gap-1">
             <span className="w-1 h-1 rounded-lg bg-[var(--color-accent)] animate-pulse" />
@@ -220,7 +220,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             )}
             <div className="relative calendar-dropdown-container">
               <button aria-label="Next"
- onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
+                onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
                 className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase text-white/70"
                 id="hero-upnext-calendar-btn">
                 <Calendar className="w-3 h-3" /> Calendar
