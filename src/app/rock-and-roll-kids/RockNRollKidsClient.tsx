@@ -415,10 +415,9 @@ export default function RockNRollKidsClient({
   const videosList = musicSinglesList.filter((v: any) => v.id !== selectedVideo);
 
   return (
-    <main className="min-h-screen w-full text-white pt-[100px] pb-16 overflow-x-hidden relative">
-      <div className="relative z-10">
-        {/* Hero Header */}
-        <header className="relative site-container text-center space-y-6">
+    <main className="site-container min-h-screen w-full text-white pt-[100px] pb-16 space-y-16 overflow-x-hidden">
+      {/* Hero Header */}
+      <header className="text-center space-y-6">
           <h1 className="mb-3">
             {sanityContent?.heroHeading || ABOUT_DATA.headline}
           </h1>
@@ -434,15 +433,12 @@ export default function RockNRollKidsClient({
               alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
               width={1400}
               height={550}
-              priority
-              sizes="(max-width: 1280px) 100vw, 1400px"
               className="w-full h-auto object-contain rounded-xl"
             />
           </div>
         </header>
 
-        <div className="site-container space-y-16 pt-8">
-          {/* Story & Concept Section */}
+        {/* Story & Concept Section */}
           <section aria-labelledby="rrk-story-heading" className="text-left w-full space-y-3">
             <h2 id="rrk-story-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide mb-3 text-left">
               {aboutSection?.title || "Story & Concept"}
@@ -685,9 +681,6 @@ export default function RockNRollKidsClient({
               ))}
             </div>
           </section>
-
-        </div>
-      </div>
     </main>
   );
 }
