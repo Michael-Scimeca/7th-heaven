@@ -16,13 +16,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PastShowsPage() {
   const sanityContent = await fetchPageContent("past-shows");
   return (
-    <section className="site-container min-h-screen pt-[100px]">
+    <main className="site-container min-h-screen pt-[100px]">
       <PastShowsClient
- years={pastShowsData.years}
- totalShowsCount={pastShowsData.totalShows}
- sanityContent={sanityContent}
- />
-    </section>
+        years={pastShowsData.years}
+        totalShowsCount={pastShowsData.totalShows}
+        sanityContent={sanityContent}
+      />
+    </main>
   );
 }
-

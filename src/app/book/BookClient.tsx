@@ -846,7 +846,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
   }
 
   return (
-    <div className="min-h-screen relative overflow-clip pt-[100px]">
+    <main className="min-h-screen relative overflow-clip pt-[100px]">
 
       <section className="site-container relative z-10" id="book-event">
         <form onSubmit={handleSubmit}>
@@ -1704,7 +1704,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
 
       </section>
-    </div>
+    </main>
   );
 }
 

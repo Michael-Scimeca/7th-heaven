@@ -318,7 +318,7 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
   };
 
   return (
-    <div className="min-h-screen text-white pt-[100px]">
+    <main className="min-h-screen text-white pt-[100px]">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
  heroForegroundRef={heroForegroundRef}
@@ -384,7 +384,7 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
           </LazyMount>
         </>
       )}
-    </div>
+    </main>
   );
 }
 

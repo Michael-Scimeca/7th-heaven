@@ -263,10 +263,10 @@ function MerchDashboard() {
   const claimedPickups = pickupQueue.filter(o => o.claimed);
 
   return (
-    <div className="site-container min-h-screen pt-[123px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <main className="site-container min-h-screen pt-[123px]" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Header — sits below global nav */}
-      <div className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">
+      <header className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <p className="text-pink-500 uppercase tracking-[0.3em]">7th Heaven</p>
@@ -281,7 +281,7 @@ function MerchDashboard() {
             <span className="text-white/30">{isDemo ? 'DEMO MODE' : member?.name}</span>
           </div>
         </div>
-      </div>
+      </header>
 
       <div className="max-w-4xl mx-auto px-4 py-24 text-center flex flex-col items-center justify-center min-h-[55vh]">
         <div className="w-16 h-16 rounded-lg bg-purple-600/10 border border-white/10 flex items-center justify-center text-2xl text-purple-400 mb-4 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
@@ -294,7 +294,7 @@ function MerchDashboard() {
           The 7th Heaven Merch Table portal is currently under maintenance and will be live soon.
         </p>
       </div>
-    </div>
+    </main>
   );
 }
 
