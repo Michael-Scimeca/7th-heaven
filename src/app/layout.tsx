@@ -163,7 +163,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         {/* Switzer (Fontshare, free variable font) — now the site's primary
          * typeface for both body copy and headings. Loaded as a linked
