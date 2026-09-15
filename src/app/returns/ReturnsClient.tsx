@@ -11,16 +11,17 @@ interface ReturnsClientProps {
 export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
 
   return (
-    <main className="site-container pt-[100px] min-h-screen">
-      <div className="w-full text-left">
+    <main className="site-container pt-[100px] min-h-screen text-left">
+      <header className="mb-12 text-left">
         <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Return & Refund Policy"}
         </h1>
-        <p className="mb-12">
+        <p>
           {sanityContent?.lastUpdated || sanityContent?.subtitle || "Last Updated: April 12, 2026"}
         </p>
+      </header>
 
-        <div className="prose-legal flex flex-col gap-10 text-base">
+      <div className="prose-legal flex flex-col gap-10 text-base">
           {sanityContent?.sections && Array.isArray(sanityContent.sections) && sanityContent.sections.length > 0 ? (
             sanityContent.sections.map((sec: any, idx: number) => (
               <div key={sec.sectionId || sec.title || `returns-sec-${idx}`}>
@@ -89,14 +90,13 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 </p>
                 <div>
                   <p>7th Heaven Support</p>
-                  <p className=" ">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
+                  <p>Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
                   <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com</a></p>
                 </div>
               </div>
             </>
           )}
         </div>
-      </div>
     </main>
   );
 }

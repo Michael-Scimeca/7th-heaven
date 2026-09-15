@@ -11,15 +11,15 @@ interface TermsClientProps {
 export default function TermsClient({ sanityContent }: TermsClientProps) {
 
   return (
-    <section className="site-container pt-[100px] min-h-screen text-left">
-      <div className="mb-12 text-left">
-        <h1 className=" mb-2">
+    <main className="site-container pt-[100px] min-h-screen text-left">
+      <header className="mb-12 text-left">
+        <h1 className="mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Terms of Service"}
         </h1>
         <p>
           {sanityContent?.lastUpdated || sanityContent?.subtitle || "Last Updated: April 12, 2026"}
         </p>
-      </div>
+      </header>
 
       <div className="prose-legal flex flex-col gap-10 text-base">
         {sanityContent?.sections && Array.isArray(sanityContent.sections) && sanityContent.sections.length > 0 ? (
@@ -172,13 +172,13 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <h2 className="mb-3">13. Contact</h2>
               <p className="mb-2">For questions about these Terms of Service:</p>
               <div>
-                <p className=" ">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
+                <p>Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
                 <p className="mt-0 pt-0">Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com</a></p>
               </div>
             </div>
           </>
         )}
       </div>
-    </section>
+    </main>
   );
 }
