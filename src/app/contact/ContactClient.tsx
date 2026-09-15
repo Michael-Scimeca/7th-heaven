@@ -148,10 +148,6 @@ export default function ContactClient({
               return (
                 <div
                   key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Select ${contact.category || 'contact'} department`}
-                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActivePhotoId(photoForThisCard); } }}
                   onMouseEnter={() => setActivePhotoId(photoForThisCard)}
                   onClick={() => setActivePhotoId(photoForThisCard)}
                   className="pb-[clamp(0.4rem,1.2vh,1rem)] border-b border-white/10 cursor-pointer">
@@ -176,7 +172,7 @@ export default function ContactClient({
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-flex items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] fo text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
+                        className="inline-flex items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
                         <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
                           {contact.email}
                         </span>
@@ -199,7 +195,8 @@ export default function ContactClient({
         </section>
 
         {/* Right Column: Preloaded Contact Photos Stage Attached to Container */}
-        <div
+        <aside
+          aria-label="Contact Representative Media Stage"
           className="hidden md:flex md:col-span-7 lg:col-span-8 relative min-h-[450px] items-end justify-end pointer-events-none self-stretch"
           style={{
             WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
@@ -228,7 +225,7 @@ export default function ContactClient({
               </div>
             );
           })}
-        </div>
+        </aside>
 
       </div>
     </main>
