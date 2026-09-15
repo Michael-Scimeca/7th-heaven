@@ -112,7 +112,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     }
     setLiveFeedStatuses(statuses);
   }, []);
-  const [messages, setMessages] = useState<ChatMsg[]>([]);
+  const [messages, setMessages] = useState<ChatMsg[]>(() => [
+    { id: 'seed-1', account: FAN_ACCOUNTS[0], text: 'LETS GOOOO 7TH HEAVEN! 🔥🔥', timestamp: Date.now() - 120000 },
+    { id: 'seed-2', account: FAN_ACCOUNTS[1], text: 'streaming this to my whole family rn lmao', timestamp: Date.now() - 90000 },
+    { id: 'seed-3', account: CREW_ACCOUNTS[0], text: '🔴 Soundcheck done — we are LOCKED IN tonight 🔥', timestamp: Date.now() - 60000 },
+    { id: 'seed-4', account: FAN_ACCOUNTS[3], text: 'those guitar riffs hit different live!!', timestamp: Date.now() - 30000 },
+    { id: 'seed-5', account: FAN_ACCOUNTS[5], text: 'THIS IS MY FAVORITE SONG ❤️‍🔥', timestamp: Date.now() - 15000 },
+  ]);
   const [userMessage, setUserMessage] = useState('');
   const [hype, setHype] = useState(20);
   const [hypeBurst, setHypeBurst] = useState(false);
