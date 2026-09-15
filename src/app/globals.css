@@ -648,29 +648,36 @@ header,
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
-  padding: 5px 0 20px 0;
+  padding: 10px 0 16px 0;
+  transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Sticky Tour Sort Bar — 100vw full-width glass backdrop-filter blur when stuck below header */
 #tour-sort-bar.is-stuck {
   position: sticky !important;
   z-index: 90 !important;
-  padding: 12px 0 20px 0 !important;
+  padding: 10px 0 16px 0 !important;
+}
+
+#tour-sort-bar::before {
+  content: '';
+  position: absolute;
+  z-index: -1 !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 85%), transparent var(--header-mask-fade-end, 100%));
+  mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 85%), transparent var(--header-mask-fade-end, 100%));
+  height: calc(100% + 20px);
+  left: -56px;
+  width: calc(100vw - -23px);
+  top: -10px;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
 }
 
 #tour-sort-bar.is-stuck::before {
-  content: '';
-  position: absolute;
-  z-index: 100 !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 85%), transparent var(--header-mask-fade-end, 100%));
-  mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 85%), transparent var(--header-mask-fade-end, 100%));
-  height: calc(100% + 60px);
-  left: -56px;
-  width: calc(100vw - -23px);
-  z-index: -1 !important;
-  top: -32px;
+  opacity: 1;
 }
 
 /* =============================================

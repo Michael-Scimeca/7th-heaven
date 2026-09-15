@@ -1003,12 +1003,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
           <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none", top: `${mobileHeaderOffset}px` }} className="relative sticky z-[90] flex flex-col gap-3.5 w-full border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
             <div
- className="sort-bar-bg absolute -top-10 -bottom-10 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
- style={{
- maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
- WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
- }}
- />
+              className="sort-bar-bg absolute -top-3 -bottom-3 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px] bg-[#0c0721]/80 shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
+              style={{
+                maskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)',
+              }}
+            />
 
             {/* Search Bar ON TOP (Sticks cleanly above table header on scroll for desktop & mobile) */}
             <div className="input-glow-border rounded-lg w-full max-w-[300px] shrink-0">
