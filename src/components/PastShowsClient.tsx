@@ -144,49 +144,48 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
       </section>
 
       {/* ── FILTER & SEARCH CONTROLS ── */}
-      <nav aria-label="Archive Search and Year Filters" className=" p-0 border-0 mb-8">
-        <div className="flex flex-col lg:flex-row items-start gap-4">
-          {/* Search Input Bar */}
-          <div className="w-full lg:w-72 shrink-0">
-            <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder={sanityContent?.searchPlaceholder || "Search venue, city, year..."}
-              containerClassName="w-full"
-            />
-          </div>
-
-          {/* Years Pill List Next to Search Input */}
-          <div className="flex items-center gap-2 flex-wrap max-w-[900px]">
-            <span className="uppercase shrink-0 mr-1 font-bold">
-              {sanityContent?.jumpToYearLabel || "Jump to Year:"}
-            </span>
-            <button
-              onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer font-bold ${selectedYear === "All"
-                ? "bg-[var(--color-accent)] text-white "
-                : " bg-[#00000029] text-white/70 hover:text-white border-0"
-                }`}>
-              {sanityContent?.allYearsLabel || "All Years"}
-            </button>
-            {years.map((y) => (
-              <button aria-label="Previous"
-                key={y.year}
-                onClick={() => {
-                  setSelectedYear(y.year);
-                  setOpenYears((prev) => ({ ...prev, [y.year]: true }));
-                }}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${selectedYear === y.year ? "bg-[var(--color-accent)] text-white    "
-                  : " bg-[#00000029] text-white/70 hover:text-white border-0"
-                  }`}>
-                {y.year}
-              </button>
-            ))}
-          </div>
+      <nav aria-label="Archive Search and Year Filters" className="p-0 border-0 mb-8 flex flex-col gap-4">
+        {/* Search Input Bar */}
+        <div className="w-full max-w-md">
+          <SearchInput
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder={sanityContent?.searchPlaceholder || "Search venue, city, year..."}
+            containerClassName="w-full"
+          />
         </div>
 
-        <div className="font-semibold mt-3">
-          Showing <span>{displayedCount}</span> of {totalShowsCount} shows
+        {/* Years Pill List Stacked Below Search */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="uppercase shrink-0 mr-1 font-bold text-white/80">
+            {sanityContent?.jumpToYearLabel || "Jump to Year:"}
+          </span>
+          <button
+            onClick={() => setSelectedYear("ALL")}
+            className={`px-3 py-1.5 rounded-lg uppercase transition-colors cursor-pointer font-bold ${selectedYear === "ALL" || selectedYear === "All"
+              ? "bg-[var(--color-accent)] text-white"
+              : "bg-[#00000029] text-white/70 hover:text-white border-0"
+              }`}>
+            {sanityContent?.allYearsLabel || "All Years"}
+          </button>
+          {years.map((y) => (
+            <button
+              key={y.year}
+              onClick={() => {
+                setSelectedYear(y.year);
+                setOpenYears((prev) => ({ ...prev, [y.year]: true }));
+              }}
+              className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${selectedYear === y.year
+                ? "bg-[var(--color-accent)] text-white"
+                : "bg-[#00000029] text-white/70 hover:text-white border-0"
+                }`}>
+              {y.year}
+            </button>
+          ))}
+        </div>
+
+        <div className="font-semibold text-white/60 text-sm">
+          Showing <span className="text-white font-bold">{displayedCount}</span> of {totalShowsCount} shows
         </div>
       </nav>
 
