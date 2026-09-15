@@ -152,9 +152,9 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <main className="min-h-screen pt-[100px] w-full px-0">
+    <main className="site-container min-h-screen pt-[100px] w-full">
       {/* ── HERO HEADER ── */}
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 relative z-10 site-container">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 relative z-10">
         <div className="text-left">
           <h1>
             {sanityContent?.heroHeading || (
@@ -363,23 +363,23 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
       {/* ══════════════════════════════════════════════════
             STREAM CARDS GRID WITH MATCHING PAGE PADDING
         ══════════════════════════════════════════════════ */}
-      <div className="site-container grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+      <section aria-label="Active Live Streams" className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
         {rooms.map((room, i) => (
-          <div
- key={room.name}
- className="group rounded-lg overflow-hidden"
- style={{ "--room-color": room.color } as React.CSSProperties}>
+          <article
+            key={room.name}
+            className="group rounded-lg overflow-hidden"
+            style={{ "--room-color": room.color } as React.CSSProperties}>
             <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
               {/* Thumbnail with video concert image */}
               <div className="aspect-video bg-black/60 relative overflow-hidden">
                 <Image
- src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
- alt={room.title}
- fill
- priority={i < 2}
- sizes="(max-width: 768px) 100vw, 50vw"
- className="object-cover"
- />
+                  src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                  alt={room.title}
+                  fill
+                  priority={i < 2}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
                 {/* LIVE badge */}
@@ -414,20 +414,20 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
             <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-[45px] text-white">
               {/* Avatar badge */}
               <div
- className="absolute -top-5 right-6 w-11 h-11 rounded-full flex items-center justify-center text-white ring-4 ring-white/20 pointer-events-none select-none z-10"
- style={{ background: room.gradient }}>
+                className="absolute -top-5 right-6 w-11 h-11 rounded-full flex items-center justify-center text-white ring-4 ring-white/20 pointer-events-none select-none z-10"
+                style={{ background: room.gradient }}>
                 {room.member}
               </div>
 
               <div className="min-w-0 flex-1 pr-2">
-                <h3 className="text-white mb-1 truncate text-base md:text-lg">{room.title}</h3>
+                <h2 className="text-white mb-1 truncate text-base md:text-lg font-bold">{room.title}</h2>
                 <p className="font-medium text-xs md:text-sm text-white/60">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
               </div>
 
               <button
- type="button"
- aria-label="Copy stream link"
- onClick={(e) => handleCopyLink(e, room.name.replace(/^live_/, ""))}
+                type="button"
+                aria-label="Copy stream link"
+                onClick={(e) => handleCopyLink(e, room.name.replace(/^live_/, ""))}
                 className={`ml-2 md:ml-4 shrink-0 px-3 md:px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all border cursor-pointer whitespace-nowrap z-20 ${copiedSlug === room.name.replace(/^live_/, "")
                   ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]"
                   : "bg-white/10 hover:bg-white/20 border-white/10 text-white active:scale-95"
@@ -435,9 +435,9 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                 {copiedSlug === room.name.replace(/^live_/, "") ? "✓ Copied!" : "Copy Link"}
               </button>
             </div>
-          </div>
+          </article>
         ))}
-      </div>
+      </section>
 
       {/* Live Stream Push Alert & Fan Signup Modal */}
       <PushSubscribeModal
