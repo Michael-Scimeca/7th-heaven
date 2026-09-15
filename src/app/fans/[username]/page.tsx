@@ -397,7 +397,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
   if (!isLoggedIn && !devBypass && !isDemoMode) {
     return (
-      <section className="site-container py-48 min-h-screen flex items-center justify-center">
+      <main className="site-container py-48 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className=" mb-4">Fan <span className="gradient-text">Account</span></h1>
           <p className="mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
@@ -405,25 +405,25 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             Login to Access
           </button>
         </div>
-      </section>
+      </main>
     );
   }
 
   return (
-    <section className="site-container pt-[100px] min-h-screen ]">
+    <main className="site-container pt-[100px] min-h-screen">
       <div>
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (
-          <div className="mb-8 flex items-start gap-3 px-5 py-3 bg-purple-600/10 border border-purple-500/30">
+          <aside className="mb-8 flex items-start gap-3 px-5 py-3 bg-purple-600/10 border border-purple-500/30">
             <span className="text-purple-300 uppercase shrink-0">⚠ DEMO MODE</span>
             <p className="text-purple-200/60">This is a preview of the Fan Dashboard with simulated data. Fans will need to create a free account to access their personal dashboard at <code className="text-purple-200/80">/fans/username</code>.</p>
-          </div>
+          </aside>
         )}
         {/* ── END DEMO BANNER ─────────────────────────────────────────────── */}
 
 
         {/* Account Identity Header */}
-        <div className="mb-10 border-b border-[var(--border-color)] pb-5">
+        <header className="mb-10 border-b border-[var(--border-color)] pb-5">
           <MemberHeaderBadge
             name={effectiveMember?.name || member?.name || 'Fan Guest'}
             email={effectiveMember?.email || member?.email || ''}
@@ -432,7 +432,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
             subtitle="Access your fan profile, exclusive content, merch, show history, and cruise updates all in one place."
           />
-        </div>
+        </header>
 
         {/* Cruise Hub Toggle */}
         {isCruiser && (
@@ -575,7 +575,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         ) : (
           <>
             {/* Backstage Feed — always visible */}
-            <div className="mb-10">
+            <section id="backstage-feed" className="mb-10">
               {isLive && liveFeeds.length > 0 ? (
                 <div className="space-y-3">
                   {liveFeeds.map((feed) => (
@@ -614,11 +614,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   </div>
                 </Link>
               )}
-            </div>
+            </section>
 
             {/* Rewards & Raffle Wins */}
             {inboxMessages.some(m => m.color === 'yellow' || m.title?.includes('Win')) && (
-              <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <section id="raffle-rewards" className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {(() => {
                   const claimedPinsSet = new Set(claimedPins);
                   return Array.from(inboxMessages, (win, i) => ({ win, i })).flatMap(({ win, i }) => {
@@ -687,7 +687,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     )];
                   });
                 })()}
-              </div>
+              </section>
             )}
 
             {/* Next Show Countdown */}
@@ -695,7 +695,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               const isHappeningNow = nextShow && countdown.status === 'live';
               const isEnded = nextShow && countdown.status === 'ended';
               return (
-                <div className="relative text-white mb-10">
+                <section id="next-show-countdown" className="relative text-white mb-10">
                   <div className="relative z-10">
 
                     {nextShow ? (() => {
@@ -747,12 +747,12 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       </div>
                     )}
                   </div>
-                </div>
+                </section>
               );
             })()}
 
             {/* Upcoming Shows */}
-            <div className="mb-10 text-white max-w-6xl">
+            <section id="upcoming-shows" className="mb-10 text-white max-w-6xl">
               <div className="flex items-center justify-between mb-6">
                 <Link href="/#tour" className="text-lg sm:text-xl md:text-2xl text-white/50 hover:text-[var(--color-accent)] uppercase font-extrabold transition-colors">All Dates</Link>
               </div>
@@ -868,10 +868,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   <p className=" ">Follow us for announcements on new dates!</p>
                 </div>
               )}
-            </div>
+            </section>
 
             {/* Proximity Alerts & Show Alerts — 50/50 Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+            <section id="show-alerts" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
               <div>
                 <ProximityPanel />
               </div>
@@ -914,7 +914,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   </div>
                 )}
               </div>
-            </div>
+            </section>
 
             {!isCruiser && isCruiseBannerActive && (
               <Link href="/cruise" className="block mb-10 group">
@@ -941,7 +941,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
             {/* Live Alert SMS Opt-In */}
             {liveAlertsEnabled && (
-              <div className="mb-8 relative text-white">
+              <section id="live-alert-optin" className="mb-8 relative text-white">
                 <div className="relative z-10">
 
                   <h3 className="text-white mb-1">Never Miss a Live Feed</h3>
@@ -983,7 +983,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   )}
                   <p className="mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
                 </div>
-              </div>
+              </section>
             )}
 
 
@@ -993,7 +993,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="lg:col-span-2 space-y-0">
 
                 {/* Tour Memories Gallery & Upload */}
-                <div className="space-y-6 pt-4 border-t border-white/10">
+                <section id="tour-memories" className="space-y-6 pt-4 border-t border-white/10">
                   <div className="flex items-start justify-between mb-2">
                   </div>
 
@@ -1058,7 +1058,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   )}
 
                   <FanUploadForm />
-                </div>
+                </section>
 
               </div>
 
@@ -1067,7 +1067,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
 
                 {/* VIP Inbox */}
-                <div className="pt-4 text-white flex flex-col justify-between">
+                <aside id="vip-inbox" className="pt-4 text-white flex flex-col justify-between">
                   <div className="border-b border-white/10 pb-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 uppercase text-purple-400">
@@ -1107,7 +1107,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       </div>
                     )}
                   </div>
-                </div>
+                </aside>
 
 
               </div>
@@ -1116,7 +1116,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
             {/* 🛍️ Merch Quick Shop */}
             {merch.length > 0 && (
-              <div className="mt-8 text-white">
+              <section id="merch-quick-shop" className="mt-8 text-white">
                 <div className="flex items-center justify-between mb-5">
                   <span className="flex items-center gap-2 uppercase text-fuchsia-400">🛍️ Quick Shop</span>
                   <Link href="/merch" className="text-white/40 text-[var(--color-accent)] uppercase transition-colors">Full Store</Link>
@@ -1139,7 +1139,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     </div>
                   ))}
                 </div>
-              </div>
+              </section>
             )}
 
 
@@ -1147,6 +1147,6 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         )}
 
       </div>
-    </section>
+    </main>
   );
 }
