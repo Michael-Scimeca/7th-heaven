@@ -168,37 +168,38 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
   }, [combinedFAQs, activeTab, searchQuery]);
 
   return (
-    <section className="site-container min-h-screen pt-[100px] relative overflow-hidden">
+    <main className="site-container min-h-screen pt-[100px] relative overflow-hidden">
       {/* Page Header */}
-      <div className="text-center mb-6 md:mb-12">
+      <header className="text-center mb-6 md:mb-12">
         <h1 className="mb-4">
           {sanityContent?.heroHeading || sanityContent?.title || "FREQUENTLY ASKED QUESTIONS"}
         </h1>
         <p className="max-w-xl mx-auto font-medium">
           {sanityContent?.heroSubheading || sanityContent?.subtitle || "Everything you need to know about 7th Heaven shows, booking, merchandise, fan perks, and the annual Caribbean Cruise."}
         </p>
-      </div>
+      </header>
 
       {/* Search Bar */}
       <div className="mb-5 md:mb-10 max-w-[500px] mx-auto flex justify-center">
         <SearchInput
- value={searchQuery}
- onChange={setSearchQuery}
- placeholder={sanityContent?.searchPlaceholder || "Search questions, keywords, or topics..."}
- containerClassName="w-full"
- />
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder={sanityContent?.searchPlaceholder || "Search questions, keywords, or topics..."}
+          containerClassName="w-full"
+        />
       </div>
 
       {/* Category Navigation Tabs */}
-      <div className="flex flex-wrap justify-center gap-2 mb-4 md:mb-10">
+      <nav aria-label="FAQ Categories" className="flex flex-wrap justify-center gap-2 mb-4 md:mb-10">
         {CATEGORIES.map(cat => {
           const Icon = cat.icon;
           const isActive = activeTab === cat.id;
           return (
             <button
- key={cat.id}
- onClick={() => setActiveTab(cat.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition duration-200 border ${isActive ? "bg-purple-600 border-purple-600 text-white "
+              key={cat.id}
+              type="button"
+              onClick={() => setActiveTab(cat.id)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white "
                 : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 "
                 }`}>
               <span className={isActive ? "text-white" : cat.color}>
@@ -208,17 +209,17 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             </button>
           );
         })}
-      </div>
+      </nav>
 
       {/* FAQ Accordion List */}
-      <div>
+      <section aria-label="Frequently Asked Questions Accordion">
         {filteredFAQs.length > 0 ? (
           filteredFAQs.map((faq) => {
             const isExpanded = !!expandedItems[faq.id];
             return (
               <div
- key={faq.id}
- className=" overflow-hidden transition-colors duration-300 border-b border-white/10"
+                key={faq.id}
+                className="overflow-hidden transition-colors duration-300 border-b border-white/10"
  style={{
  borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
  }}>
@@ -258,10 +259,10 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             </p>
           </div>
         )}
-      </div>
+      </section>
 
       {/* Live Support Banner */}
-      <div className=" 6 bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      <aside className="bg-[#00000029] backdrop-blur-xl border border-white/10 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
         <div>
           <h4 className="text-white mb-1">{sanityContent?.supportTitle || "Still need help?"}</h4>
           <p className="font-medium">
@@ -273,7 +274,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             {sanityContent?.supportCtaText || "Contact Us"}
           </FoolishShrimpButton>
         </TransitionLink>
-      </div>
-    </section>
+      </aside>
+    </main>
   );
 }
