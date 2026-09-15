@@ -3195,10 +3195,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </div>
         {renderInfoBanner('emaildirectory', 'Role-Based Email Lists & Subscriber Directory', 'Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins. Copy bulk BCC lists or export CSV files.')}
-        <div style={{ display: isSectionOpen('emaildirectory') ? undefined : 'none' }}>
-          {isSectionOpen('emaildirectory') && (<>
+        <div >
+          {isSectionOpen('emaildirectory') && (
             <RoleEmailDirectory dynamicUsers={users} />
-          </>)}
+          )}
         </div>
       </div>
 
