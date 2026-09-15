@@ -198,19 +198,19 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
 
   return (
-    <div className="py-6 pl-0 border-none space-y-6 text-white ">
+    <div className="py-6 pl-0 border-none text-white ">
 
       {/* Header Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
         {/* Role Tabs */}
         <div className="flex items-center gap-1.5 flex-wrap">
           {(["all", "crew", "fan", "cruise", "planner", "admin"] as const).map(tab => {
             const labelText = tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS";
             return (
               <SectionBadge
- key={tab}
- isActive={activeTab === tab}
- onClick={() => setActiveTab(tab)}
+                key={tab}
+                isActive={activeTab === tab}
+                onClick={() => setActiveTab(tab)}
                 label={`${counts[tab]} ${labelText}`}
                 className="cursor-pointer"
               />
@@ -221,18 +221,18 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
         {/* Action Buttons */}
         <div className="flex items-center gap-2">
           <CosmicRadialButton
- type="button"
- onClick={handleCopyEmails}
- icon={false}
- className="px-3.5 py-2 uppercase cursor-pointer whitespace-nowrap"
- title="Copy all email addresses for BCC email dispatch">
+            type="button"
+            onClick={handleCopyEmails}
+            icon={false}
+            className="px-3.5 py-2 uppercase cursor-pointer whitespace-nowrap"
+            title="Copy all email addresses for BCC email dispatch">
             {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
           </CosmicRadialButton>
 
           <button
- type="button"
- onClick={handleExportCSV}
- className="px-3.5 py-2 bg-[#00000029] hover:bg-white/10 border-none text-white uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap">
+            type="button"
+            onClick={handleExportCSV}
+            className="px-3.5 py-2 bg-[#00000029] hover:bg-white/10 border-none text-white uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap">
             <span></span> Export CSV
           </button>
         </div>
@@ -240,12 +240,12 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
       {/* Global Search Bar (Max 300px) */}
       <SearchInput
- value={search}
- onChange={setSearch}
- placeholder="Search email directory by name or email..."
- containerClassName="max-w-[300px]"
- ariaLabel="Search email directory"
- />
+        value={search}
+        onChange={setSearch}
+        placeholder="Search name or email"
+        containerClassName="max-w-[300px]"
+        ariaLabel="Search email directory"
+      />
 
       {/* Email List Container (Divs) */}
       <div className="border-none overflow-hidden relative">
@@ -274,16 +274,16 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                         const avatarSrc = resolveMemberAvatar(user.name, user.avatar);
                         return avatarSrc ? (
                           <img
- src={avatarSrc}
- alt={user.name}
- className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/10 shadow-x"
- onError={(e) => {
+                            src={avatarSrc}
+                            alt={user.name}
+                            className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/10 shadow-x"
+                            onError={(e) => {
                               (e.currentTarget as HTMLElement).style.display = 'none';
                             }}
                           />
                         ) : (
                           <div
- className={` w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 border border-white/20`}>
+                            className={` w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 border border-white/20`}>
                             {getInitials(user.name)}
                           </div>
                         );
@@ -301,8 +301,8 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     </div>
                     <div className="text-right">
                       <a
- href={`mailto:${user.email}`}
- className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white rounded-lg transition-colors inline-flex items-center gap-1">
+                        href={`mailto:${user.email}`}
+                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 !text-white rounded-lg transition-colors inline-flex items-center gap-1">
                         Email
                       </a>
                     </div>

@@ -3395,289 +3395,289 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('analytics', 'Google Analytics', 'Monitor active sitewide users, session metrics, pageviews, acquisition channels, and visitor geo-traffic with Google Analytics integration.')}
       <div style={{ display: isSectionOpen('analytics') ? undefined : 'none' }}>
         {isSectionOpen('analytics') && (<>
-          <div className="space-y-6 ">
 
-            {/* 1. Executive Top Metrics Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              <div className="bg-[var(--card-bg)]">
-                <span className="text-[0.55rem] uppercase block mb-1">Active Users</span>
-                <span className="text-2xl text-[#c27aff] block">{gaData.activeUsers}</span>
-                <span className="text-[0.55rem] text-[#c27aff] uppercase mt-1 block"> Live Right Now</span>
-              </div>
 
-              <div className="bg-[var(--card-bg)]">
-                <span className="text-[0.55rem] uppercase block mb-1">Total Sessions</span>
-                <span className="text-2xl block">{gaData.sessions.toLocaleString()}</span>
-                <span className="text-[0.55rem] uppercase mt-1 block">Last 30 Days</span>
-              </div>
-
-              <div className="bg-[var(--card-bg)]">
-                <span className="text-[0.55rem] uppercase block mb-1">Page Views</span>
-                <span className="text-2xl block">{gaData.pageViews.toLocaleString()}</span>
-                <span className="text-[0.55rem] uppercase mt-1 block">Sitewide Traffic</span>
-              </div>
-
-              <div className="bg-[var(--card-bg)]">
-                <span className="text-[0.55rem] uppercase block mb-1">Conversion Rate</span>
-                <span className="text-2xl text-[var(--color-accent)] block">{gaData.conversionRate}</span>
-                <span className="text-[0.55rem] text-[var(--color-accent)] uppercase mt-1 block">Traffic → Purchases</span>
-              </div>
-
-              <div className="bg-[var(--card-bg)]">
-                <span className="text-[0.55rem] uppercase block mb-1">Rev / Session</span>
-                <span className="text-2xl text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
-                <span className="text-[0.55rem] text-[var(--color-accent)] uppercase mt-1 block">Avg Fan Value</span>
-              </div>
-
-              <div className="bg-[var(--card-bg)]">
-                <span className="text-[0.55rem] uppercase block mb-1">Bounce Rate</span>
-                <span className="text-2xl text-purple-300 block">{gaData.bounceRate}</span>
-                <span className="text-[0.55rem] text-purple-300 uppercase mt-1 block">High Engagement</span>
-              </div>
-            </div>
-
-            {/* 2. Traffic Acquisition Channels & Device Ratio */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-              {/* Acquisition Channels */}
-              <div className="bg-[var(--card-bg)] pt-5 pb-5">
-                <h4 className="uppercase mb-4 flex items-center justify-between">
-                  <span> Traffic Acquisition Channels</span>
-                  <span>GA4 Attribution</span>
-                </h4>
-
-                <div className="space-y-3.5">
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <span> Organic Search (Google/Bing)</span>
-                      <span>42.5% (3,580)</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                      <div className="bg-blue-500 h-full rounded-full" style={{ width: '42.5%' }} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <span> Direct (Typed URL & Bookmarks)</span>
-                      <span>28.1% (2,368)</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                      <div className="bg-purple-500 h-full rounded-full" style={{ width: '28.1%' }} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <span> Social Media (Instagram / Facebook / TikTok)</span>
-                      <span>19.4% (1,635)</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                      <div className="bg-rose-500 h-full rounded-full" style={{ width: '19.4%' }} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <span> SMS Alerts & Email Broadcasts</span>
-                      <span>7.2% (607)</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                      <div className="bg-purple-600 h-full rounded-full" style={{ width: '7.2%' }} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <span> Referrals (Venue Sites & Press)</span>
-                      <span>2.8% (240)</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                      <div className="bg-emerald-500 h-full rounded-full" style={{ width: '2.8%' }} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Device & Browser Hardware */}
-              <div className="bg-[var(--card-bg)] pt-5 pb-5 flex flex-col justify-between">
-                <div>
-                  <h4 className="uppercase mb-4 flex items-center justify-between">
-                    <span> User Devices & Browsers</span>
-                    <span>Device Category</span>
-                  </h4>
-
-                  <div className="grid grid-cols-3 gap-2 text-center mb-5">
-                    <div>
-                      <span className="text-lg block"></span>
-                      <span className="block mt-1">68%</span>
-                      <span className="text-[12px] uppercase block">Mobile</span>
-                    </div>
-
-                    <div>
-                      <span className="text-lg block"></span>
-                      <span className="block mt-1">27%</span>
-                      <span className="text-[12px] uppercase block">Desktop</span>
-                    </div>
-
-                    <div>
-                      <span className="text-lg block"></span>
-                      <span className="block mt-1">5%</span>
-                      <span className="text-[12px] uppercase block">Tablet</span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between font-semibold">
-                      <span> Mobile Safari (iPhone)</span>
-                      <span>52.4%</span>
-                    </div>
-                    <div className="flex items-center justify-between font-semibold">
-                      <span> Chrome Mobile (Android)</span>
-                      <span>28.1%</span>
-                    </div>
-                    <div className="flex items-center justify-between font-semibold">
-                      <span> Chrome Desktop</span>
-                      <span>13.8%</span>
-                    </div>
-                    <div className="flex items-center justify-between font-semibold">
-                      <span> Safari Desktop (Mac)</span>
-                      <span>5.7%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 3. Top Performing Sitewide Pages Table */}
+          {/* 1. Executive Top Metrics Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             <div className="bg-[var(--card-bg)]">
-              <h4 className="uppercase mb-4 flex items-center justify-between">
-                <span> Top Performing Site Pages (Screen Views)</span>
-                <span>GA4 Event Metrics</span>
-              </h4>
-
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="uppercase border-b border-[var(--border-color)]">
-                      <th className="pt-3 pb-3">Page Path</th>
-                      <th className="p-3">Views</th>
-                      <th className="p-3">Users</th>
-                      <th className="p-3">Avg Time</th>
-                      <th className="p-3">Bounce</th>
-                      <th className="pt-3 pb-3 text-right">Key Event</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[var(--border-color)] font-semibold">
-                    <tr>
-                      <td className="pt-3 pb-3 text-[var(--color-accent)]">/shows (Tour Schedule)</td>
-                      <td className="p-3">3,840</td>
-                      <td className="p-3">2,910</td>
-                      <td className="p-3">1m 42s</td>
-                      <td className="p-3 text-[var(--color-accent)]">24%</td>
-                      <td className="pt-3 pb-3 text-right text-[#c27aff]">842 Ticket Clicks</td>
-                    </tr>
-
-                    <tr>
-                      <td className="pt-3 pb-3 text-[var(--color-accent)]">/cruise (7th Heaven Cruise)</td>
-                      <td className="p-3">2,120</td>
-                      <td className="p-3">1,640</td>
-                      <td className="p-3">2m 15s</td>
-                      <td className="p-3 text-[var(--color-accent)]">19%</td>
-                      <td className="pt-3 pb-3 text-right text-[#c27aff]">148 Pre-Bookings</td>
-                    </tr>
-
-                    <tr>
-                      <td className="pt-3 pb-3 text-[var(--color-accent)]">/ (Homepage)</td>
-                      <td className="p-3">1,650</td>
-                      <td className="p-3">1,410</td>
-                      <td className="p-3">1m 05s</td>
-                      <td className="p-3 text-purple-300">38%</td>
-                      <td className="pt-3 pb-3 text-right text-[#c27aff]">410 Banner Clicks</td>
-                    </tr>
-
-                    <tr>
-                      <td className="pt-3 pb-3 text-[var(--color-accent)]">/merch (Shopify Store)</td>
-                      <td className="p-3">640</td>
-                      <td className="p-3">510</td>
-                      <td className="p-3">3m 10s</td>
-                      <td className="p-3 text-[var(--color-accent)]">15%</td>
-                      <td className="pt-3 pb-3 text-right text-[var(--color-accent)]">94 Orders Placed</td>
-                    </tr>
-
-                    <tr>
-                      <td className="pt-3 pb-3 text-[var(--color-accent)]">/bio & media (Band Roster)</td>
-                      <td className="p-3">180</td>
-                      <td className="p-3">145</td>
-                      <td className="p-3">0m 52s</td>
-                      <td className="p-3 text-purple-300">45%</td>
-                      <td className="pt-3 pb-3 text-right text-[#c27aff]">120 Video Plays</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <span className="text-[0.55rem] uppercase block mb-1">Active Users</span>
+              <span className="text-2xl text-[#c27aff] block">{gaData.activeUsers}</span>
+              <span className="text-[0.55rem] text-[#c27aff] uppercase mt-1 block"> Live Right Now</span>
             </div>
 
-            {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
+            <div className="bg-[var(--card-bg)]">
+              <span className="text-[0.55rem] uppercase block mb-1">Total Sessions</span>
+              <span className="text-2xl block">{gaData.sessions.toLocaleString()}</span>
+              <span className="text-[0.55rem] uppercase mt-1 block">Last 30 Days</span>
+            </div>
+
+            <div className="bg-[var(--card-bg)]">
+              <span className="text-[0.55rem] uppercase block mb-1">Page Views</span>
+              <span className="text-2xl block">{gaData.pageViews.toLocaleString()}</span>
+              <span className="text-[0.55rem] uppercase mt-1 block">Sitewide Traffic</span>
+            </div>
+
+            <div className="bg-[var(--card-bg)]">
+              <span className="text-[0.55rem] uppercase block mb-1">Conversion Rate</span>
+              <span className="text-2xl text-[var(--color-accent)] block">{gaData.conversionRate}</span>
+              <span className="text-[0.55rem] text-[var(--color-accent)] uppercase mt-1 block">Traffic → Purchases</span>
+            </div>
+
+            <div className="bg-[var(--card-bg)]">
+              <span className="text-[0.55rem] uppercase block mb-1">Rev / Session</span>
+              <span className="text-2xl text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
+              <span className="text-[0.55rem] text-[var(--color-accent)] uppercase mt-1 block">Avg Fan Value</span>
+            </div>
+
+            <div className="bg-[var(--card-bg)]">
+              <span className="text-[0.55rem] uppercase block mb-1">Bounce Rate</span>
+              <span className="text-2xl text-purple-300 block">{gaData.bounceRate}</span>
+              <span className="text-[0.55rem] text-purple-300 uppercase mt-1 block">High Engagement</span>
+            </div>
+          </div>
+
+          {/* 2. Traffic Acquisition Channels & Device Ratio */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            {/* Acquisition Channels */}
             <div className="bg-[var(--card-bg)] pt-5 pb-5">
               <h4 className="uppercase mb-4 flex items-center justify-between">
-                <span> Visitor Geo Demographics & Fan Density</span>
-                <span>Top Cities</span>
+                <span> Traffic Acquisition Channels</span>
+                <span>GA4 Attribution</span>
               </h4>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                <div className="space-y-3">
-                  {gaData.locations && gaData.locations.map((loc: any) => (
-                    <div key={loc.id || loc.city || loc.name || 'loc'} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
-                      <div className="flex items-center justify-between mb-1">
-                        <span> {loc.city}</span>
-                        <span>{loc.percentage}% of total fans</span>
-                      </div>
-                      <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                        <div className="bg-purple-600 h-full rounded-full" style={{ width: `${loc.percentage}%` }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Map Preview Box */}
-                <div className="bg-black/30 border border-[var(--border-color)] p-4 text-center space-y-2">
-                  <div className="w-full h-48 bg-black/40 rounded-lg border border-[var(--border-color)] flex items-center justify-center relative overflow-hidden">
-                    <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
-                  </div>
-                  <p className="uppercase r">
-                    Real-time geographic fan heatmaps for tour routing optimization.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 5. GA4 Tracking Connection & Shopify Notice */}
-            <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4">
-              <div className="flex items-start gap-3">
-                <span className="text-xl mt-1 sm:mt-0"></span>
+              <div className="space-y-3.5">
                 <div>
-                  <p>Google Analytics GA4 Active</p>
-                  <p className="uppercase">
-                    Tracking Live Tag: <span className="text-emerald-400">G-HS8X0ZD66V</span>
-                  </p>
+                  <div className="flex items-center justify-between mb-1">
+                    <span> Organic Search (Google/Bing)</span>
+                    <span>42.5% (3,580)</span>
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-blue-500 h-full rounded-full" style={{ width: '42.5%' }} />
+                  </div>
                 </div>
-              </div>
 
-              <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3 w-full sm:w-auto">
-                <div className="flex items-start gap-2">
-                  <span className="text-purple-300"></span>
-                  <div>
-                    <p className="text-purple-300 uppercase">Shopify E-Commerce Link</p>
-                    <p className="font-semibold leading-snug mt-1 max-w-[320px]">
-                      To sync checkout conversion values to GA4: Open Shopify Admin → Online Store → Preferences. Paste Tag: <strong>G-HS8X0ZD66V</strong>.
-                    </p>
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span> Direct (Typed URL & Bookmarks)</span>
+                    <span>28.1% (2,368)</span>
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-purple-500 h-full rounded-full" style={{ width: '28.1%' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span> Social Media (Instagram / Facebook / TikTok)</span>
+                    <span>19.4% (1,635)</span>
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-rose-500 h-full rounded-full" style={{ width: '19.4%' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span> SMS Alerts & Email Broadcasts</span>
+                    <span>7.2% (607)</span>
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-purple-600 h-full rounded-full" style={{ width: '7.2%' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span> Referrals (Venue Sites & Press)</span>
+                    <span>2.8% (240)</span>
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                    <div className="bg-emerald-500 h-full rounded-full" style={{ width: '2.8%' }} />
                   </div>
                 </div>
               </div>
             </div>
 
+            {/* Device & Browser Hardware */}
+            <div className="bg-[var(--card-bg)] pt-5 pb-5 flex flex-col justify-between">
+              <div>
+                <h4 className="uppercase mb-4 flex items-center justify-between">
+                  <span> User Devices & Browsers</span>
+                  <span>Device Category</span>
+                </h4>
+
+                <div className="grid grid-cols-3 gap-2 text-center mb-5">
+                  <div>
+                    <span className="text-lg block"></span>
+                    <span className="block mt-1">68%</span>
+                    <span className="text-[12px] uppercase block">Mobile</span>
+                  </div>
+
+                  <div>
+                    <span className="text-lg block"></span>
+                    <span className="block mt-1">27%</span>
+                    <span className="text-[12px] uppercase block">Desktop</span>
+                  </div>
+
+                  <div>
+                    <span className="text-lg block"></span>
+                    <span className="block mt-1">5%</span>
+                    <span className="text-[12px] uppercase block">Tablet</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between font-semibold">
+                    <span> Mobile Safari (iPhone)</span>
+                    <span>52.4%</span>
+                  </div>
+                  <div className="flex items-center justify-between font-semibold">
+                    <span> Chrome Mobile (Android)</span>
+                    <span>28.1%</span>
+                  </div>
+                  <div className="flex items-center justify-between font-semibold">
+                    <span> Chrome Desktop</span>
+                    <span>13.8%</span>
+                  </div>
+                  <div className="flex items-center justify-between font-semibold">
+                    <span> Safari Desktop (Mac)</span>
+                    <span>5.7%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* 3. Top Performing Sitewide Pages Table */}
+          <div className="bg-[var(--card-bg)]">
+            <h4 className="uppercase mb-4 flex items-center justify-between">
+              <span> Top Performing Site Pages (Screen Views)</span>
+              <span>GA4 Event Metrics</span>
+            </h4>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="uppercase border-b border-[var(--border-color)]">
+                    <th className="pt-3 pb-3">Page Path</th>
+                    <th className="p-3">Views</th>
+                    <th className="p-3">Users</th>
+                    <th className="p-3">Avg Time</th>
+                    <th className="p-3">Bounce</th>
+                    <th className="pt-3 pb-3 text-right">Key Event</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[var(--border-color)] font-semibold">
+                  <tr>
+                    <td className="pt-3 pb-3 text-[var(--color-accent)]">/shows (Tour Schedule)</td>
+                    <td className="p-3">3,840</td>
+                    <td className="p-3">2,910</td>
+                    <td className="p-3">1m 42s</td>
+                    <td className="p-3 text-[var(--color-accent)]">24%</td>
+                    <td className="pt-3 pb-3 text-right text-[#c27aff]">842 Ticket Clicks</td>
+                  </tr>
+
+                  <tr>
+                    <td className="pt-3 pb-3 text-[var(--color-accent)]">/cruise (7th Heaven Cruise)</td>
+                    <td className="p-3">2,120</td>
+                    <td className="p-3">1,640</td>
+                    <td className="p-3">2m 15s</td>
+                    <td className="p-3 text-[var(--color-accent)]">19%</td>
+                    <td className="pt-3 pb-3 text-right text-[#c27aff]">148 Pre-Bookings</td>
+                  </tr>
+
+                  <tr>
+                    <td className="pt-3 pb-3 text-[var(--color-accent)]">/ (Homepage)</td>
+                    <td className="p-3">1,650</td>
+                    <td className="p-3">1,410</td>
+                    <td className="p-3">1m 05s</td>
+                    <td className="p-3 text-purple-300">38%</td>
+                    <td className="pt-3 pb-3 text-right text-[#c27aff]">410 Banner Clicks</td>
+                  </tr>
+
+                  <tr>
+                    <td className="pt-3 pb-3 text-[var(--color-accent)]">/merch (Shopify Store)</td>
+                    <td className="p-3">640</td>
+                    <td className="p-3">510</td>
+                    <td className="p-3">3m 10s</td>
+                    <td className="p-3 text-[var(--color-accent)]">15%</td>
+                    <td className="pt-3 pb-3 text-right text-[var(--color-accent)]">94 Orders Placed</td>
+                  </tr>
+
+                  <tr>
+                    <td className="pt-3 pb-3 text-[var(--color-accent)]">/bio & media (Band Roster)</td>
+                    <td className="p-3">180</td>
+                    <td className="p-3">145</td>
+                    <td className="p-3">0m 52s</td>
+                    <td className="p-3 text-purple-300">45%</td>
+                    <td className="pt-3 pb-3 text-right text-[#c27aff]">120 Video Plays</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
+          <div className="bg-[var(--card-bg)] pt-5 pb-5">
+            <h4 className="uppercase mb-4 flex items-center justify-between">
+              <span> Visitor Geo Demographics & Fan Density</span>
+              <span>Top Cities</span>
+            </h4>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+              <div className="space-y-3">
+                {gaData.locations && gaData.locations.map((loc: any) => (
+                  <div key={loc.id || loc.city || loc.name || 'loc'} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
+                    <div className="flex items-center justify-between mb-1">
+                      <span> {loc.city}</span>
+                      <span>{loc.percentage}% of total fans</span>
+                    </div>
+                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                      <div className="bg-purple-600 h-full rounded-full" style={{ width: `${loc.percentage}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Map Preview Box */}
+              <div className="bg-black/30 border border-[var(--border-color)] p-4 text-center space-y-2">
+                <div className="w-full h-48 bg-black/40 rounded-lg border border-[var(--border-color)] flex items-center justify-center relative overflow-hidden">
+                  <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
+                </div>
+                <p className="uppercase r">
+                  Real-time geographic fan heatmaps for tour routing optimization.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 5. GA4 Tracking Connection & Shopify Notice */}
+          <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 flex items-start sm:items-center justify-between flex-col sm:flex-row gap-4">
+            <div className="flex items-start gap-3">
+              <span className="text-xl mt-1 sm:mt-0"></span>
+              <div>
+                <p>Google Analytics GA4 Active</p>
+                <p className="uppercase">
+                  Tracking Live Tag: <span className="text-emerald-400">G-HS8X0ZD66V</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3 w-full sm:w-auto">
+              <div className="flex items-start gap-2">
+                <span className="text-purple-300"></span>
+                <div>
+                  <p className="text-purple-300 uppercase">Shopify E-Commerce Link</p>
+                  <p className="font-semibold leading-snug mt-1 max-w-[320px]">
+                    To sync checkout conversion values to GA4: Open Shopify Admin → Online Store → Preferences. Paste Tag: <strong>G-HS8X0ZD66V</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
         </>)}
       </div>
     </div>
@@ -6997,7 +6997,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {isSectionOpen('registry') && (<>
           <div className="w-full text-left">
             {/* Fixed Header Row */}
-            <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 py-3 px-4 uppercase border-b border-black/10 dark:border-white/10 select-none">
+            <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 py-3 px-4 uppercase border-b border-black/10 dark:border-white/10 select-none font-bold">
               <div>User</div>
               <div>Role</div>
               <div>Status</div>
@@ -7047,7 +7047,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
                           </div>
                           <div>
-                            <span className={`py-0.5 rounded text-[0.9rem] uppercase ${user.role === 'crew' || user.role === 'admin' ? ' text-[var(--color-accent)] ' : ' text-white '}`}>
+                            <span className={`py-0.5 rounded text-[0.9rem] uppercase font-bold ${user.role === 'crew' || user.role === 'admin' ? '  ' : ' text-white '}`}>
                               {user.role}
                             </span>
                           </div>
@@ -7057,7 +7057,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]'
                                   : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
                                 }`} />
-                              <span className="text-[0.9rem] uppercase text-white/50">{user.status}</span>
+                              <span className="text-[0.9rem] uppercase font-bold text-white/50">{user.status}</span>
                             </div>
                           </div>
                           <div className="text-right">
