@@ -226,10 +226,10 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
                 <Calendar className="w-3 h-3" /> Calendar
               </button>
               {activeCalDropdownId === 'upnext' && (
-                <div className="absolute left-0 bottom-full mb-1 border border-white/10 rounded py-1 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[110px] backdrop-blur-md">
-                  <a href={getGoogleCalendarUrl(nextShow)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google</a>
-                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
-                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-2.5 py-1 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
+                <div className="absolute right-0 bottom-full mb-1 border border-purple-400/30 rounded-xl py-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.95)] z-50 min-w-[160px] bg-[#0c0721]/95 backdrop-blur-md whitespace-nowrap">
+                  <a href={getGoogleCalendarUrl(nextShow)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-3 py-1.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Cal</a>
+                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-3 py-1.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">iCal / Apple</a>
+                  <a href={getICSFileUrl(nextShow)} download={`${nextShow.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-3 py-1.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
                 </div>
               )}
             </div>

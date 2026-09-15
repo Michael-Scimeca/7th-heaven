@@ -114,6 +114,12 @@ export function Footer() {
 
   if (pathname?.startsWith("/studio")) return null;
 
+  const isCrewOrAdmin =
+    pathname?.startsWith("/admin") ||
+    pathname?.startsWith("/crew") ||
+    member?.role === "crew" ||
+    member?.role === "admin";
+
   return (
 
     <footer
@@ -124,9 +130,11 @@ export function Footer() {
 
       <div className="relative z-10 site-container">
         {/* Proximity Distance & Free Push Alerts Section */}
-        <div id="push-alerts-footer" className="py-6">
-          <FooterProximityAlerts />
-        </div>
+        {!isCrewOrAdmin && (
+          <div id="push-alerts-footer" className="py-6">
+            <FooterProximityAlerts />
+          </div>
+        )}
 
         {/* Endorsements */}
         <div className="py-8 text-left">

@@ -965,13 +965,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           Add to Calendar
                         </button>
                         {activeCalDropdownId === 'upnext' && (
-                          <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 z-50 min-w-[170px]">
-                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full">Google Calendar</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full">Apple / iCal</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full">Outlook</a>
+                          <div className="absolute right-0 md:left-0 bottom-full mb-2 bg-[#0c0721]/95 border border-purple-400/30 py-2 z-50 min-w-[170px] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-[45px] whitespace-nowrap">
+                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Calendar</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Apple / iCal</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
                             <button
- onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
-                              className="flex items-center gap-2.5 px-4 py-2.5 uppercase transition-colors text-left w-full border-t border-[var(--border-color)] pt-2.5 cursor-pointer">SMS / Text Alerts</button>
+                              onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
+                              className="flex items-center gap-2.5 px-4 py-2.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2.5 text-xs font-semibold cursor-pointer"><MessageSquare className="w-3.5 h-3.5 text-purple-400 shrink-0" /> SMS / Text Alerts</button>
                           </div>
                         )}
                       </div>
@@ -1184,19 +1184,18 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               <CalendarDays className="w-5.5 h-5.5" />
                             </button>
                             {activeCalDropdownId === rowId && (
-                              <div className="absolute right-0 mt-2 bg-white border border-black/15 py-1.5 z-50 min-w-[150px] text-black">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full ">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full ">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full ">Outlook</a>
+                              <div className="absolute right-0 mt-2 bg-[#0c0721]/95 border border-purple-400/30 py-1.5 z-50 min-w-[165px] text-white rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-[45px] whitespace-nowrap">
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
                                 <button
- onClick={() => {
+                                  onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 uppercase text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 pt-2 cursor-pointer ">
-                                  <MessageSquare className="w-3.5 h-3.5 text-purple-600" /> SMS / Text Alerts
+                                  className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs font-semibold cursor-pointer">
+                                  <MessageSquare className="w-3.5 h-3.5 text-purple-400 shrink-0" /> SMS / Text Alerts
                                 </button>
-
                               </div>
                             )}
                           </div>
@@ -1364,17 +1363,17 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
-                              <div className="absolute left-0 mt-2 border border-white/10 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-[45px] ">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
+                              <div className="absolute right-0 mt-2 border border-purple-400/30 rounded-xl py-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.95)] z-50 min-w-[165px] bg-[#0c0721]/95 backdrop-blur-[45px] whitespace-nowrap">
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
                                 <button
- onClick={() => {
+                                  onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 cursor-pointer ">
-                                  <MessageSquare className="w-3.5 h-3.5 text-purple-400" /> SMS / Text Alerts
+                                  className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs font-semibold cursor-pointer">
+                                  <MessageSquare className="w-3.5 h-3.5 text-purple-400 shrink-0" /> SMS / Text Alerts
                                 </button>
                               </div>
                             )}
