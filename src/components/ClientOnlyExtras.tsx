@@ -6,7 +6,6 @@ export default function ClientOnlyExtras() {
   const [DevGuide, setDevGuide] = useState<ComponentType | null>(null);
   const [Vitals, setVitals] = useState<ComponentType | null>(null);
   const [StickyNotes, setStickyNotes] = useState<ComponentType | null>(null);
-  const [CruiseMaskEditor, setCruiseMaskEditor] = useState<ComponentType | null>(null);
   const [MemberDash, setMemberDash] = useState<ComponentType | null>(null);
 
   useEffect(() => {
@@ -39,9 +38,6 @@ export default function ClientOnlyExtras() {
         import("@/components/StickyNotesOverlay").then((m) => setStickyNotes(() => m.default)).catch(() => {});
       });
 
-      if (window.location.pathname.includes("/cruise")) {
-        import("@/components/CruiseHeroMaskEditor").then((m) => setCruiseMaskEditor(() => m.default)).catch(() => {});
-      }
       if (window.location.pathname.includes("/member") || window.location.pathname.includes("/dashboard")) {
         import("@/components/MemberDashboard").then((m) => setMemberDash(() => m.default)).catch(() => {});
       }
@@ -64,7 +60,6 @@ export default function ClientOnlyExtras() {
       {DevGuide && <DevGuide />}
       {Vitals && <Vitals />}
       {StickyNotes && <StickyNotes />}
-      {CruiseMaskEditor && <CruiseMaskEditor />}
       {MemberDash && <MemberDash />}
     </>
   );
