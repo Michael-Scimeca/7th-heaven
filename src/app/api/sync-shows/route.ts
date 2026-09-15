@@ -164,40 +164,65 @@ export async function POST() {
       });
     }
 
-    // 4. Update Sanity CMS via a unified transaction
+    // 4. Update Sanity CMS via a unified transaction (patch existing, create missing)
     console.log("Updating Sanity CMS...");
     const writeClient = getSanityWriteClient();
     const tx = writeClient.transaction();
 
-    // Delete existing docs
-    existingSanityIds.forEach((id) => tx.delete(id));
+    let sanityUpdatedCount = 0;
+    let sanityCreatedCount = 0;
 
-    // Create new docs
     resolvedShows.forEach((show) => {
       const isFestival =
         show.info.toLowerCase().includes("festival") ||
         show.info.toLowerCase().includes("fest");
 
-      tx.create({
-        _type: "tourDate",
-        venue: show.venue_name,
-        city: show.city,
-        state: show.state,
-        date: show.date,
-        time: show.time,
-        day: show.day,
-        notes: show.info,
-        ticketLink: show.ticketLink,
-        directionsLink: show.directionsLink,
-        isSoldOut: false,
-        isFestival,
-        lat: show.lat,
-        lng: show.lng,
+      const existingDoc = existingTours.find((t: any) => {
+        if (t.date !== show.date) return false;
+        const v1 = (t.venue || "").toLowerCase().trim();
+        const v2 = (show.venue_name || "").toLowerCase().trim();
+        return v1 === v2 || v1.includes(v2) || v2.includes(v1);
       });
+
+      if (existingDoc) {
+        tx.patch(existingDoc._id, (p) =>
+          p.set({
+            time: show.time || "",
+            day: show.day || "",
+            notes: show.info || "",
+            city: show.city || "",
+            state: show.state || "IL",
+            ticketLink: show.ticketLink || "",
+            directionsLink: show.directionsLink || "",
+            isFestival,
+            lat: show.lat,
+            lng: show.lng,
+          })
+        );
+        sanityUpdatedCount++;
+      } else {
+        tx.create({
+          _type: "tourDate",
+          venue: show.venue_name,
+          city: show.city,
+          state: show.state,
+          date: show.date,
+          time: show.time,
+          day: show.day,
+          notes: show.info,
+          ticketLink: show.ticketLink,
+          directionsLink: show.directionsLink,
+          isSoldOut: false,
+          isFestival,
+          lat: show.lat,
+          lng: show.lng,
+        });
+        sanityCreatedCount++;
+      }
     });
 
     await tx.commit();
-    console.log(`Sanity updated: deleted ${existingSanityIds.length} and created ${resolvedShows.length} docs.`);
+    console.log(`Sanity updated: patched ${sanityUpdatedCount} and created ${sanityCreatedCount} docs.`);
 
     // 5. Update Supabase database in a single bulk upsert
     console.log("Updating Supabase database...");
