@@ -407,8 +407,8 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
   };
 
   return (
-    <main className="min-h-screen text-white pt-[100px] relative overflow-hidden">
-      <div className="site-container relative z-10">
+    <main className="min-h-screen text-white pt-[100px] relative overflow-hidden ">
+      <div className="site-container relative z-10 pb-section-fluid">
         {/* ── CENTERED PAGE TITLE ── */}
         <header className="text-center mb-6">
           <h1>
@@ -468,7 +468,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         </nav>
 
         {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
-        <section aria-label="Media Gallery" key={activeFilter} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch pb-6">
+        <section aria-label="Media Gallery" key={activeFilter} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch pb-6">
           {visibleVideos.map((video, index) => {
             const isHovered = hoveredVideoId === video.id;
             const isMiddleCol = index % 3 === 1;

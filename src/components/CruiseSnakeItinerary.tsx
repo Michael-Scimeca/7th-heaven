@@ -723,7 +723,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
   return (
     <section
-      className="snake-itinerary-root site-container"
+      className="snake-itinerary-root"
       ref={sectionRef}
     >
 

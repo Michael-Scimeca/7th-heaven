@@ -1375,24 +1375,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           {/* ── VIDEO PLAYER ── */}
           <div className="w-full lg:flex-1 relative aspect-video lg:aspect-auto shrink-0 max-h-[40vh] lg:max-h-none">
             {/* Canvas-based fake live camera feed — updates with cam switcher */}
-            <div className="absolute inset-0">
-              {crewIsLive ? (
+            <div className="absolute inset-0 overflow-hidden">
+              <CameraFeed crewColor={activeFeedCrew.color} />
+              {crewIsLive && (
                 <LiveKitStream
- room={`live_${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
- username="fan"
- isPublisher={false}
- />
-              ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <div className="w-16 h-16 rounded-full bg-[#00000029] border border-white/10 flex items-center justify-center mb-4">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
-                      <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-                      <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
-                    </svg>
-                  </div>
-                  <h3 className="text-white/80 uppercase mb-1">Stream Offline</h3>
-                  <p>Waiting for {activeFeedCrew.name} to go live...</p>
-                </div>
+                  room={`live_${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
+                  username="fan"
+                  isPublisher={false}
+                />
               )}
 
               {/* Floating emojis */}
