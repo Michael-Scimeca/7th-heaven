@@ -4,7 +4,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
-import TransitionLink from "@/components/TransitionLink";
 import SectionBadge from "@/components/SectionBadge";
 import { getMediaUrl } from "@/lib/sanity";
 
@@ -257,7 +256,7 @@ const mainCharacters = [
     image: "/images/comics/Frank.png",
     desc: "Baseball cap backwards, driving deep basslines that keep the groove locked down in every battle.",
     icon: BassGuitarIcon,
-    color: "   border-purple-500/30 bg-cyan-500/10",
+    color: "border-purple-500/30 bg-cyan-500/10",
   },
   {
     role: "Drums & Percussion",
@@ -416,7 +415,7 @@ export default function RockNRollKidsClient({
   const videosList = musicSinglesList.filter((v: any) => v.id !== selectedVideo);
 
   return (
-    <div className="min-h-screen w-full text-white pt-[100px] pb-16 overflow-x-hidden relative">
+    <main className="min-h-screen w-full text-white pt-[100px] pb-16 overflow-x-hidden relative">
       {/* Ambient Gradient Glow Orbs for Mobile, Tablet & Desktop */}
       <div className="absolute top-0 inset-x-0 h-[600px] sm:h-[800px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-600/20 via-purple-900/10 to-transparent pointer-events-none z-0" />
       <div className="absolute top-[400px] -left-32 w-80 h-80 sm:w-96 sm:h-96 bg-purple-600/15 rounded-full blur-3xl pointer-events-none z-0" />
@@ -425,18 +424,17 @@ export default function RockNRollKidsClient({
       {/* ── NEON ARCADE SYNTHWAVE MATRIX (PERMANENT LAYOUT) ── */}
       <div className="relative z-10">
         {/* Hero Header */}
-        <section className="relative site-container text-center space-y-6">
+        <header className="relative site-container text-center space-y-6">
           <h1 className="mb-3">
             {sanityContent?.heroHeading || ABOUT_DATA.headline}
           </h1>
-          <p className=" max-w-2xl mx-auto">
+          <p className="max-w-2xl mx-auto text-white/80">
             {sanityContent?.heroSubheading ||
               "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."}
           </p>
 
-          {/* Full Cast Lineup Image Banner (allc.png) */}
-          <div
-            className="relative w-full rounded-lg overflow-hidden mt-4">
+          {/* Full Cast Lineup Image Banner */}
+          <div className="relative w-full rounded-lg overflow-hidden mt-4">
             <Image
               src={getMediaUrl(sanityContent?.heroBannerImage, "/images/comics/allc.png")}
               alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
@@ -447,56 +445,65 @@ export default function RockNRollKidsClient({
               className="w-full h-auto object-contain rounded-xl"
             />
           </div>
-          <div className="mt-8 mb-8 text-left w-full space-y-3">
-            <h2 className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide mb-3 text-left">
+        </header>
+
+        <div className="site-container space-y-16 pt-8">
+          {/* Story & Concept Section */}
+          <section aria-labelledby="rrk-story-heading" className="text-left w-full space-y-3">
+            <h2 id="rrk-story-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide mb-3 text-left">
               {aboutSection?.title || "Story & Concept"}
             </h2>
             <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed max-w-4xl">
-              <p className=" ">
+              <p>
                 {aboutSection?.subtitle || ABOUT_DATA.paragraph1}
               </p>
+              <p>
+                {aboutSection?.body || ABOUT_DATA.paragraph2}
+              </p>
             </div>
-          </div>
-          {/* Character Roster Info Cards Grid under the image */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left pt-4 mb-12">
-            {charactersList.map((char: any) => (
-              <div
-                key={char.name}
-                className="flex flex-col justify-between group">
-                <div>
-                  {char.image && (
-                    <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-start">
-                      <Image
-                        src={char.image}
-                        alt={char.name}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-contain object-left"
-                      />
-                    </div>
-                  )}
-                  <SectionBadge className="mb-2 gap-1.5">
-                    {char.icon ? <char.icon className="w-3.5 h-3.5" /> : null}
-                    {char.role}
-                  </SectionBadge>
-                  <h4 className="text-white mb-1">{char.name}</h4>
-                  <p>{char.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+          </section>
 
-        <div className="site-container space-y-16">
+          {/* Character Roster Info Cards Grid */}
+          <section aria-labelledby="rrk-cast-heading" className="pt-4">
+            <h2 id="rrk-cast-heading" className="sr-only">Character Cast Lineup</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+              {charactersList.map((char: any) => (
+                <article
+                  key={char.name}
+                  className="flex flex-col justify-between group">
+                  <div>
+                    {char.image && (
+                      <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-start">
+                        <Image
+                          src={char.image}
+                          alt={char.name}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          className="object-contain object-left"
+                        />
+                      </div>
+                    )}
+                    <SectionBadge className="mb-2 gap-1.5">
+                      {char.icon ? <char.icon className="w-3.5 h-3.5" /> : null}
+                      {char.role}
+                    </SectionBadge>
+                    <h3 className="text-white mb-1 font-bold">{char.name}</h3>
+                    <p className="text-white/70 text-sm">{char.desc}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
           {/* ── UNIFIED VIDEO MATRIX SHOWCASE ── */}
-          <section className="space-y-6">
+          <section aria-labelledby="rrk-videos-heading" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
               <div className="lg:col-span-5 space-y-6">
                 <div className="space-y-3">
-                  <h3 className="text-white text-xl sm:text-2xl font-bold uppercase tracking-wide mb-1">
+                  <h2 id="rrk-videos-heading" className="text-white text-xl sm:text-2xl font-bold uppercase tracking-wide mb-1">
                     Featured Animated Singles
-                  </h3>
+                  </h2>
                   <p className="text-white/70 text-sm">
                     Select a song below to switch the animated music video player.
                   </p>
@@ -543,14 +550,14 @@ export default function RockNRollKidsClient({
                         }`}>
                       <div className="w-full">
                         <div className="flex items-center justify-between gap-2 mb-1">
-                          <span className="text-purple-300 text-[11px] uppercase">
+                          <span className="text-purple-300 text-[11px] uppercase font-semibold">
                             {v.tag}
                           </span>
                           <span className="text-xs text-white/50">▶ Play</span>
                         </div>
-                        <h4 className="text-white text-sm truncate">
+                        <h3 className="text-white text-sm truncate font-bold">
                           {v.title}
-                        </h4>
+                        </h3>
                         <p className="text-white/60 text-xs line-clamp-1">
                           {v.subtitle}
                         </p>
@@ -563,13 +570,13 @@ export default function RockNRollKidsClient({
           </section>
 
           {/* ── COMIC BOOKS & EPISODES CATALOG (12 ITEMS GRID) ── */}
-          <section className="space-y-6 pt-6">
+          <section aria-labelledby="rrk-comics-heading" className="space-y-6 pt-6">
             <div className="border-b border-white/10 pb-4">
               <div>
-                <h2 className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
+                <h2 id="rrk-comics-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
                   {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
                 </h2>
-                <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl .5">
+                <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
                   {comicsSection?.subtitle || "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
                 </p>
               </div>
@@ -578,7 +585,7 @@ export default function RockNRollKidsClient({
             {/* 12-Item Book Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {productsList.map((prod: any) => (
-                <div
+                <article
                   key={prod.id}
                   className="bg-[#0b0718]/90 border border-white/10 rounded-xl overflow-hidden flex flex-col justify-between p-4 transition-all group">
                   <div>
@@ -611,19 +618,19 @@ export default function RockNRollKidsClient({
                       <span>Amazon Link</span>
                     </FoolishShrimpButton>
                   </a>
-                </div>
+                </article>
               ))}
             </div>
           </section>
 
           {/* ── SERIES FOUNDERS & CREATORS ── */}
-          <section className="space-y-6 pt-6">
+          <section aria-labelledby="rrk-founders-heading" className="space-y-6 pt-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
               <div>
-                <h2 className=" text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
+                <h2 id="rrk-founders-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
                   {foundersSection?.title || "Series Founders & Contact"}
                 </h2>
-                <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl .5">
+                <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
                   {foundersSection?.subtitle || foundersSection?.body || "Meet the series creators and art team behind 7th Heaven & The Rock 'n' Roll Kids."}
                 </p>
               </div>
@@ -631,7 +638,7 @@ export default function RockNRollKidsClient({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
               {foundersList.map((founder: any) => (
-                <div key={founder.name} className="flex flex-col space-y-4 group">
+                <article key={founder.name} className="flex flex-col space-y-4 group">
                   <div className="relative w-full aspect-[4/3] sm:aspect-[1.2/1] max-h-[460px] rounded-2xl overflow-hidden transition-all flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)]">
                     {/* Mobile Image */}
                     <Image
@@ -653,7 +660,7 @@ export default function RockNRollKidsClient({
                     <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 pointer-events-none z-10" />
                   </div>
                   <div className="flex flex-col items-center text-center mt-2 space-y-2.5 w-full">
-                    <h3 className=" text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">
                       {founder.name}
                     </h3>
                     <div>
@@ -668,7 +675,7 @@ export default function RockNRollKidsClient({
                     {founder.phone ? (
                       <a
                         href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                        className="!text-white font-bold text-sm sm:text-base hover:underline block mb-0 ">
+                        className="!text-white font-bold text-sm sm:text-base hover:underline block mb-0">
                         {founder.phone}
                       </a>
                     ) : null}
@@ -680,14 +687,13 @@ export default function RockNRollKidsClient({
                       </a>
                     ) : null}
                   </div>
-                </div>
+                </article>
               ))}
             </div>
           </section>
 
-
         </div>
       </div>
-    </div>
+    </main>
   );
 }
