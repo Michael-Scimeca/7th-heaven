@@ -1600,7 +1600,7 @@ export default function VisualSitemapClient() {
           : ARCHITECTURE_EDGES;
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-20 pb-12">
+    <div className="min-h-screen bg-[#050505] text-white pt-20 pb-12" id="sitemap-page">
 
 
 

@@ -97,7 +97,7 @@ export default function NotificationsPage() {
   };
 
   return (
-    <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden">
+    <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden" id="notifications-page">
       {/* Page Header */}
       <div className="text-center mb-12 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-4 text-purple-700 uppercase r">

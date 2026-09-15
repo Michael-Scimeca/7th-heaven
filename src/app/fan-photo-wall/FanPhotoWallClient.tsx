@@ -256,7 +256,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
   const approvedPhotos = isModerator ? photos.filter((p) => p.approved) : photos;
 
   return (
-    <div className="min-h-screen pt-[100px]">
+    <div className="min-h-screen pt-[100px]" id="fan-photo-wall-page">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
       <section className="site-container relative pb-8 overflow-hidden flex flex-col justify-center" id="fan-wall">
         <div className="relative z-10">
@@ -522,7 +522,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                           {isVideo ? "Video" : "Photo"}
                         </span>
                         {photo.date && (
-                          <span className="text-white/70 text-[10px] font-medium">{photo.date}</span>
+                          <span className="text-white/70 text-[10px] font-bold">{photo.date}</span>
                         )}
                       </div>
                     </div>

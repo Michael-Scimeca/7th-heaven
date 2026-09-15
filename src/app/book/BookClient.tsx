@@ -846,7 +846,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
   }
 
   return (
-    <main className="min-h-screen relative overflow-clip pt-[100px]">
+    <main className="min-h-screen relative overflow-clip pt-[100px]" id="book-page">
 
       <form id="book-event" className="site-container relative z-10" onSubmit={handleSubmit}>
         {isFromPlanner && (

@@ -318,7 +318,7 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
   };
 
   return (
-    <main className="min-h-screen text-white pt-[100px]">
+    <main className="min-h-screen text-white pt-[100px]" id="cruise-page">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
         heroForegroundRef={heroForegroundRef}

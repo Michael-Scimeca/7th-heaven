@@ -168,7 +168,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
   }, [combinedFAQs, activeTab, searchQuery]);
 
   return (
-    <main className="site-container min-h-screen pt-[100px] relative overflow-hidden">
+    <main className="site-container min-h-screen pt-[100px] relative overflow-hidden" id="faq-page">
       {/* Page Header */}
       <header className="text-center mb-6 md:mb-12">
         <h1 className="mb-4">
