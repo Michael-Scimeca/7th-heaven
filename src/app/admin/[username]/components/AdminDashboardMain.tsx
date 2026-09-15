@@ -6535,7 +6535,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Email Subject Line (Conditional) */}
                     {sendBandEmailAlert && (
-                      <div className="flex flex-col gap-1 animate-[fadeIn_0.2s_ease-out]">
+                      <section className="flex flex-col gap-1 animate-[fadeIn_0.2s_ease-out]">
                         <label htmlFor="admin-band-email-subject" className="text-[0.9rem] uppercase text-white/50 block">EMAIL SUBJECT LINE</label>
                         <div className="input-glow-border rounded-lg w-full">
                           <input
@@ -6547,7 +6547,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 transition-colors"
                           />
                         </div>
-                      </div>
+                      </section>
                     )}
 
                     {/* Message Form */}
@@ -11264,10 +11264,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   return (
     <div id="admin-dashboard-root" className="site-container min-h-screen pt-[100px] selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
 
-      <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
 
       {/* === EXECUTIVE ADMIN HERO HEADER === */}
-      <div className="mb-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
+      <section className="mb-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
         {/* Admin Identity & Badges */}
         <div className="flex gap-5">
           <input
@@ -11364,14 +11363,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             Exit to Site
           </Link>
         </div>
-      </div>
+      </section>
 
       {/*  */}
       {/*   BAND & SITE TAB   */}
       {/*  */}
       {adminTab === 'band' && (
         <>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             {METRICS.map((metric) => (
               <div key={metric.label} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); } }} onClick={() => { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); }} className={`p-4 rounded-lg transition-colors ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
                 <p className="uppercase mb-2">{metric.label}</p>
@@ -11383,48 +11382,45 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="flex flex-col gap-4 w-full mt-4">
+          </section>
 
 
-            {sectionOrder.map((key, index) => {
-              let component = null;
-              switch (key) {
-                case 'announcements': component = renderAnnouncements(); break;
-                case 'calendar': component = renderCrewSchedule(); break;
-                case 'analytics': component = renderAnalytics(); break;
-                case 'shopify': component = renderShopify(); break;
+          {sectionOrder.map((key, index) => {
+            let component = null;
+            switch (key) {
+              case 'announcements': component = renderAnnouncements(); break;
+              case 'calendar': component = renderCrewSchedule(); break;
+              case 'analytics': component = renderAnalytics(); break;
+              case 'shopify': component = renderShopify(); break;
 
-                case 'bookings': component = renderBookings(); break;
-                case 'planners': component = renderPlanners(); break;
+              case 'bookings': component = renderBookings(); break;
+              case 'planners': component = renderPlanners(); break;
 
-                case 'photomod': component = renderPhotoMod(); break;
-                case 'cruisesignups': component = renderCruiseSignups(); break;
+              case 'photomod': component = renderPhotoMod(); break;
+              case 'cruisesignups': component = renderCruiseSignups(); break;
 
-                case 'livealerts': component = renderLiveAlerts(); break;
-                case 'smsblast': component = renderSmsBlast(); break;
-                case 'crewsms': component = renderCrewSms(); break;
-                case 'bandsms': component = renderBandSms(); break;
-                case 'newsletter': component = renderNewsletter(); break;
-                case 'registry': component = renderRegistry(); break;
-                case 'crewcreation': component = renderCrewCreation(); break;
-                case 'admincreation': component = renderAdminCreation(); break;
+              case 'livealerts': component = renderLiveAlerts(); break;
+              case 'smsblast': component = renderSmsBlast(); break;
+              case 'crewsms': component = renderCrewSms(); break;
+              case 'bandsms': component = renderBandSms(); break;
+              case 'newsletter': component = renderNewsletter(); break;
+              case 'registry': component = renderRegistry(); break;
+              case 'crewcreation': component = renderCrewCreation(); break;
+              case 'admincreation': component = renderAdminCreation(); break;
 
-                case 'bulkinvites': component = renderBulkInvites(); break;
-                case 'emailflow': component = renderEmailFlow(); break;
-              }
+              case 'bulkinvites': component = renderBulkInvites(); break;
+              case 'emailflow': component = renderEmailFlow(); break;
+            }
 
-              return (
-                <section key={key} id={"admin-sec-" + key}>
-                  {component}
-                </section>
-              );
-            })}
+            return (
+              <section key={key} id={"admin-sec-" + key}>
+                {component}
+              </section>
+            );
+          })}
 
-          </div>
 
-          <div className="flex flex-col gap-4 w-full mt-4">
+          <section className="flex flex-col gap-4 w-full mt-4">
             <div className=" overflow-hidden h-full flex flex-col">
               <div className="admin-section-header py-6 pr-6 pl-0 flex items-center justify-between shrink-0">
                 <h3 className="flex items-center gap-2 text-white">
@@ -11530,7 +11526,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 ))}
               </div>
             </div>
-          </div>
+          </section>
 
         </>
       )}
