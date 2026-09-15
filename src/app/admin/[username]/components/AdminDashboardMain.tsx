@@ -3151,7 +3151,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     );
   };
   const renderAnnouncements = () => (
-    <div className="space-y-6">
+    <div className="">
+
 
       {/*  Emergency Show Broadcast & Fan Alert Dispatcher */}
       <div id="admin-sec-emergencybroadcast" className="overflow-visible">
@@ -11420,7 +11421,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               }
 
               return (
-                <section key={key} id={"admin-sec-" + key} className="transition-colors duration-300">
+                <section key={key} id={"admin-sec-" + key}>
                   {component}
                 </section>
               );

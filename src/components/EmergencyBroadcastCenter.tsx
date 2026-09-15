@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
@@ -138,11 +139,10 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
   };
 
   return (
-    <div className="py-5 pl-0 border-none space-y-4 ">
-
+    <div className="py-5 pl-0 border-none space-y-4">
       {/* Top Banner & Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <div className="p-3.5 bg-white/[0.04] border border-white/10 rounded-lg flex items-center justify-between border-white/10 transition-all">
+        <div className="p-3.5 bg-white/[0.04] border border-white/10 rounded-lg flex items-center justify-between transition-all">
           <div>
             <span className="uppercase text-rose-400 block">Target Audience</span>
             <span>{recipientCount.toLocaleString()} Subscribers</span>
@@ -150,7 +150,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-rose-400"><path d="m3 11 18-5v12L3 14v-3z" /><path d="M11.6 16.8 a3 3 0 1 1-5.8-1.6" /></svg>
         </div>
 
-        <div className="p-3.5 bg-white/[0.04] border border-white/10 rounded-lg flex items-center justify-between border-white/10 transition-all">
+        <div className="p-3.5 bg-white/[0.04] border border-white/10 rounded-lg flex items-center justify-between transition-all">
           <div>
             <span className="uppercase text-purple-300 block">SMS Length & Segments</span>
             <span>{smsLength} Chars ({smsSegments} Segments)</span>
@@ -158,7 +158,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-300"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg>
         </div>
 
-        <div className="p-3.5 bg-white/[0.04] border border-white/10 rounded-lg flex items-center justify-between border-white/10 transition-all">
+        <div className="p-3.5 bg-white/[0.04] border border-white/10 rounded-lg flex items-center justify-between transition-all">
           <div>
             <span className="uppercase text-[var(--color-accent)] block">Twilio SMS Rate</span>
             <span>${estimatedSmsCost.toFixed(2)} (${smsRatePerSegment}/msg)</span>
@@ -166,7 +166,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-accent)]"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></svg>
         </div>
 
-        <div className="p-3.5 bg-white/[0.04] border border-white/10 rounded-lg flex items-center justify-between border-white/10 transition-all">
+        <div className="p-3.5 bg-white/[0.04] border border-white/10 rounded-lg flex items-center justify-between transition-all">
           <div>
             <span className="uppercase text-[var(--color-accent)] block">Total Est. Campaign Cost</span>
             <span className="text-[var(--color-accent)]">${totalEstimatedCost.toFixed(2)}</span>
@@ -184,9 +184,9 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
-            className={`px-3.5 py-2.5 rounded-lg    text-left transition-all cursor-pointer border ${alertType === "cancellation"
+            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "cancellation"
               ? "bg-rose-600 text-white border-rose-400/50 shadow-rose-900/30"
-              : "bg-white/[0.03] border-white/10 hover:bg-white/10   border-white/10   "
+              : "bg-white/[0.03] border-white/10 hover:bg-white/10"
               }`}>
             <span className="flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></svg>
@@ -197,9 +197,9 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button
             type="button"
             onClick={() => handleApplyPreset("time_change")}
-            className={`px-3.5 py-2.5 rounded-lg    text-left transition-all cursor-pointer border ${alertType === "time_change"
+            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "time_change"
               ? "bg-purple-700 text-white border-purple-400/50 shadow-purple-900/30"
-              : "bg-white/[0.03] border-white/10 hover:bg-white/10   border-white/10   "
+              : "bg-white/[0.03] border-white/10 hover:bg-white/10"
               }`}>
             <span className="flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
@@ -210,9 +210,9 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
-            className={`px-3.5 py-2.5 rounded-lg    text-left transition-all cursor-pointer border ${alertType === "venue_change"
+            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "venue_change"
               ? "bg-[var(--color-accent)] text-white border-purple-400/50 shadow-purple-900/30"
-              : "bg-white/[0.03] border-white/10 hover:bg-white/10   border-white/10   "
+              : "bg-white/[0.03] border-white/10 hover:bg-white/10"
               }`}>
             <span className="flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
@@ -223,9 +223,9 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button
             type="button"
             onClick={() => handleApplyPreset("announcement")}
-            className={`px-3.5 py-2.5 rounded-lg    text-left transition-all cursor-pointer border ${alertType === "announcement"
+            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "announcement"
               ? "bg-cyan-600 text-white border-purple-400/50 shadow-cyan-900/30"
-              : "bg-white/[0.03] border-white/10 hover:bg-white/10   border-white/10   "
+              : "bg-white/[0.03] border-white/10 hover:bg-white/10"
               }`}>
             <span className="flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
@@ -274,7 +274,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           4. Delivery Channels & Cost Estimator
         </span>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none ">
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none">
             <div className="flex items-center gap-2">
               <SquishyToggle id="send-sms" label="Send via Twilio SMS" checked={sendSms} onChange={setSendSms} />
               <div>
@@ -287,7 +287,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             </div>
           </label>
 
-          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none ">
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none">
             <div className="flex items-center gap-2">
               <SquishyToggle id="send-email" label="Send via email broadcast" checked={sendEmail} onChange={setSendEmail} />
               <div>
@@ -300,7 +300,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             </div>
           </label>
 
-          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none ">
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none">
             <div className="flex items-center gap-2">
               <SquishyToggle id="send-push" label="Send via ntfy push notification" checked={sendPush} onChange={setSendPush} />
               <div>
@@ -313,7 +313,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             </div>
           </label>
 
-          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none ">
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none">
             <div className="flex items-center gap-2">
               <SquishyToggle id="send-dashboard-banner" label="Send fan wall banner" checked={sendDashboardBanner} onChange={setSendDashboardBanner} />
               <div>
@@ -336,31 +336,33 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             <label htmlFor="emg-msg-title" className="uppercase block mb-1">
               Message Title / Header
             </label>
-            <input id="emg-msg-title"
+            <input
+              id="emg-msg-title"
               type="text"
               value={customTitle !== "" ? customTitle : activeTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="e.g. SHOW CANCELLED: Broken Oar"
-              className="w-full border border-[var(--border-color)] rounded-lg px-3 py-2 !text-xs placeholder: outline-none focus:border-purple-500"
+              className="w-full border border-[var(--border-color)] rounded-lg px-3 py-2 !text-xs outline-none focus:border-purple-500"
             />
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label htmlFor="emg-msg-body" className="uppercase r">
+              <label htmlFor="emg-msg-body" className="uppercase block">
                 SMS & Alert Body Text
               </label>
               <span className="text-purple-300">
                 {smsLength} / 160 chars ({smsSegments} segment{smsSegments > 1 ? "s" : ""})
               </span>
             </div>
-            <textarea aria-label="Text input"
+            <textarea
+              aria-label="Text input"
               id="emg-msg-body"
               rows={3}
               value={customBody !== "" ? customBody : activeBody}
               onChange={(e) => setCustomBody(e.target.value)}
               placeholder="Write your emergency broadcast message text..."
-              className="w-full border border-[var(--border-color)] rounded-lg p-2.5 !text-xs font-semibold placeholder: outline-none focus:border-purple-500 resize-none"
+              className="w-full border border-[var(--border-color)] rounded-lg p-2.5 !text-xs font-semibold outline-none focus:border-purple-500 resize-none"
             />
           </div>
         </div>
@@ -419,7 +421,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
         <div className={`p-3 rounded-lg border flex items-center justify-between animate-[fadeIn_0.2s_ease-out] ${dispatchResult.success ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300" : "bg-rose-500/15 border-rose-500/30 text-rose-300"
           }`}>
           <div>
-            <span className="block uppercase ">
+            <span className="block uppercase">
               {dispatchResult.success ? "Broadcast Dispatched Successfully!" : "Dispatch Failed"}
             </span>
             <p className="font-normal opacity-90">{dispatchResult.message || dispatchResult.error}</p>
@@ -427,7 +429,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button
             type="button"
             onClick={() => setDispatchResult(null)}
-            className="text-white/40 hover:text-white cursor-pointer border-none ">
+            className="text-white/40 hover:text-white cursor-pointer border-none">
             ✕
           </button>
         </div>
