@@ -418,269 +418,269 @@ export default function RockNRollKidsClient({
     <main className="site-container min-h-screen w-full text-white pt-[100px] pb-16 space-y-16 overflow-x-hidden">
       {/* Hero Header */}
       <header className="text-center space-y-6">
-          <h1 className="mb-3">
-            {sanityContent?.heroHeading || ABOUT_DATA.headline}
-          </h1>
-          <p className="max-w-2xl mx-auto text-white/80">
-            {sanityContent?.heroSubheading ||
-              "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."}
+        <h1 className="mb-3">
+          {sanityContent?.heroHeading || ABOUT_DATA.headline}
+        </h1>
+        <p className="max-w-2xl mx-auto text-white/80">
+          {sanityContent?.heroSubheading ||
+            "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."}
+        </p>
+
+        {/* Full Cast Lineup Image Banner */}
+        <div className="relative w-full rounded-lg overflow-hidden mt-4">
+          <Image
+            src={getMediaUrl(sanityContent?.heroBannerImage, "/images/comics/allc.png")}
+            alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
+            width={1400}
+            height={550}
+            className="w-full h-auto object-contain rounded-xl"
+          />
+        </div>
+      </header>
+
+      {/* Story & Concept Section */}
+      <section aria-labelledby="rrk-story-heading" className="text-left w-full space-y-3">
+        <h2 id="rrk-story-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide mb-3 text-left">
+          {aboutSection?.title || "Story & Concept"}
+        </h2>
+        <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed max-w-4xl">
+          <p>
+            {aboutSection?.subtitle || ABOUT_DATA.paragraph1}
           </p>
+          <p>
+            {aboutSection?.body || ABOUT_DATA.paragraph2}
+          </p>
+        </div>
+      </section>
 
-          {/* Full Cast Lineup Image Banner */}
-          <div className="relative w-full rounded-lg overflow-hidden mt-4">
-            <Image
-              src={getMediaUrl(sanityContent?.heroBannerImage, "/images/comics/allc.png")}
-              alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
-              width={1400}
-              height={550}
-              className="w-full h-auto object-contain rounded-xl"
-            />
-          </div>
-        </header>
+      {/* Character Roster Info Cards Grid */}
+      <section aria-labelledby="rrk-cast-heading">
+        <h2 id="rrk-cast-heading" className="sr-only">Character Cast Lineup</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+          {charactersList.map((char: any) => (
+            <article
+              key={char.name}
+              className="flex flex-col justify-between group">
+              <div>
+                {char.image && (
+                  <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-start">
+                    <Image
+                      src={char.image}
+                      alt={char.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-contain object-left"
+                    />
+                  </div>
+                )}
+                <SectionBadge className="mb-2 gap-1.5">
+                  {char.icon ? <char.icon className="w-3.5 h-3.5" /> : null}
+                  {char.role}
+                </SectionBadge>
+                <h3 className="text-white mb-1 font-bold">{char.name}</h3>
+                <p className="text-white/70 text-sm">{char.desc}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
-        {/* Story & Concept Section */}
-          <section aria-labelledby="rrk-story-heading" className="text-left w-full space-y-3">
-            <h2 id="rrk-story-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide mb-3 text-left">
-              {aboutSection?.title || "Story & Concept"}
-            </h2>
-            <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed max-w-4xl">
-              <p>
-                {aboutSection?.subtitle || ABOUT_DATA.paragraph1}
-              </p>
-              <p>
-                {aboutSection?.body || ABOUT_DATA.paragraph2}
+      {/* ── UNIFIED VIDEO MATRIX SHOWCASE ── */}
+      <section aria-labelledby="rrk-videos-heading" className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="space-y-3">
+              <h2 id="rrk-videos-heading" className="text-white text-xl sm:text-2xl font-bold uppercase tracking-wide mb-1">
+                Featured Animated Singles
+              </h2>
+              <p className="text-white/70 text-sm">
+                Select a song below to switch the animated music video player.
               </p>
             </div>
-          </section>
 
-          {/* Character Roster Info Cards Grid */}
-          <section aria-labelledby="rrk-cast-heading" className="pt-4">
-            <h2 id="rrk-cast-heading" className="sr-only">Character Cast Lineup</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
-              {charactersList.map((char: any) => (
-                <article
-                  key={char.name}
-                  className="flex flex-col justify-between group">
-                  <div>
-                    {char.image && (
-                      <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-start">
-                        <Image
-                          src={char.image}
-                          alt={char.name}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          className="object-contain object-left"
-                        />
-                      </div>
-                    )}
-                    <SectionBadge className="mb-2 gap-1.5">
-                      {char.icon ? <char.icon className="w-3.5 h-3.5" /> : null}
-                      {char.role}
-                    </SectionBadge>
-                    <h3 className="text-white mb-1 font-bold">{char.name}</h3>
-                    <p className="text-white/70 text-sm">{char.desc}</p>
+            {/* Animated Singles Quick Select Buttons */}
+            <div className="pt-3 border-t border-white/10 space-y-3">
+              <div className="flex flex-wrap gap-2.5">
+                {musicSinglesList.map((single: any) => (
+                  <FoolishShrimpButton
+                    key={single.id}
+                    onClick={() => setSelectedVideo(single.id)}
+                    className={`px-4 py-2 transition-all ${selectedVideo === single.id
+                      ? "scale-105 opacity-100"
+                      : "opacity-80 hover:opacity-100"
+                      }`}>
+                    {single.title}
+                  </FoolishShrimpButton>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: Video Matrix Player & Video Grid Selector */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="aspect-video w-full rounded-lg overflow-hidden">
+              <iframe
+                src={`https://www.youtube.com/embed/${selectedVideo}`}
+                title="Rock and Roll Kids Player"
+                className="w-full h-full"
+                allowFullScreen
+                sandbox="allow-scripts allow-same-origin allow-presentation"
+              />
+            </div>
+
+            <div className="grid grid-rows-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+              {videosList.map((v: any) => (
+                <FoolishShrimpButton
+                  key={v.id}
+                  onClick={() => setSelectedVideo(v.id)}
+                  className={`!h-auto !py-3 !px-4 !justify-start text-left transition-all ${selectedVideo === v.id
+                    ? "scale-[1.02] opacity-100"
+                    : "opacity-80 hover:opacity-100"
+                    }`}>
+                  <div className="w-full">
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <span className="text-purple-300 text-[11px] uppercase font-semibold">
+                        {v.tag}
+                      </span>
+                      <span className="text-xs text-white/50">▶ Play</span>
+                    </div>
+                    <h3 className="text-white text-sm truncate font-bold">
+                      {v.title}
+                    </h3>
+                    <p className="text-white/60 text-xs line-clamp-1">
+                      {v.subtitle}
+                    </p>
                   </div>
-                </article>
+                </FoolishShrimpButton>
               ))}
             </div>
-          </section>
+          </div>
+        </div>
+      </section>
 
-          {/* ── UNIFIED VIDEO MATRIX SHOWCASE ── */}
-          <section aria-labelledby="rrk-videos-heading" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
-              <div className="lg:col-span-5 space-y-6">
-                <div className="space-y-3">
-                  <h2 id="rrk-videos-heading" className="text-white text-xl sm:text-2xl font-bold uppercase tracking-wide mb-1">
-                    Featured Animated Singles
-                  </h2>
-                  <p className="text-white/70 text-sm">
-                    Select a song below to switch the animated music video player.
-                  </p>
-                </div>
+      {/* ── COMIC BOOKS & EPISODES CATALOG (12 ITEMS GRID) ── */}
+      <section aria-labelledby="rrk-comics-heading" className="space-y-6 pt-6">
+        <div className="border-b border-white/10 pb-4">
+          <div>
+            <h2 id="rrk-comics-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
+              {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
+            </h2>
+            <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
+              {comicsSection?.subtitle || "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
+            </p>
+          </div>
+        </div>
 
-                {/* Animated Singles Quick Select Buttons */}
-                <div className="pt-3 border-t border-white/10 space-y-3">
-                  <div className="flex flex-wrap gap-2.5">
-                    {musicSinglesList.map((single: any) => (
-                      <FoolishShrimpButton
-                        key={single.id}
-                        onClick={() => setSelectedVideo(single.id)}
-                        className={`px-4 py-2 transition-all ${selectedVideo === single.id
-                          ? "scale-105 opacity-100"
-                          : "opacity-80 hover:opacity-100"
-                          }`}>
-                        {single.title}
-                      </FoolishShrimpButton>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT COLUMN: Video Matrix Player & Video Grid Selector */}
-              <div className="lg:col-span-7 space-y-4">
-                <div className="aspect-video w-full rounded-lg overflow-hidden">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${selectedVideo}`}
-                    title="Rock and Roll Kids Player"
-                    className="w-full h-full"
-                    allowFullScreen
-                    sandbox="allow-scripts allow-same-origin allow-presentation"
+        {/* 12-Item Book Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {productsList.map((prod: any) => (
+            <article
+              key={prod.id}
+              className="bg-[#0b0718]/90 border border-white/10 rounded-xl overflow-hidden flex flex-col justify-between p-4 transition-all group">
+              <div>
+                <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden mb-3 bg-black/40">
+                  <Image
+                    src={prod.coverImg}
+                    alt={prod.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover"
                   />
                 </div>
+                <span className="text-[11px] text-purple-400 font-bold uppercase tracking-wider block mb-1">
+                  {prod.badge}
+                </span>
+                <h3 className="text-white text-base font-bold mb-1.5 line-clamp-1">
+                  {prod.title}
+                </h3>
+                <p className="text-white/70 text-xs leading-relaxed mb-4 line-clamp-2">
+                  {prod.desc}
+                </p>
+              </div>
 
-                <div className="grid grid-rows-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
-                  {videosList.map((v: any) => (
-                    <FoolishShrimpButton
-                      key={v.id}
-                      onClick={() => setSelectedVideo(v.id)}
-                      className={`!h-auto !py-3 !px-4 !justify-start text-left transition-all ${selectedVideo === v.id
-                        ? "scale-[1.02] opacity-100"
-                        : "opacity-80 hover:opacity-100"
-                        }`}>
-                      <div className="w-full">
-                        <div className="flex items-center justify-between gap-2 mb-1">
-                          <span className="text-purple-300 text-[11px] uppercase font-semibold">
-                            {v.tag}
-                          </span>
-                          <span className="text-xs text-white/50">▶ Play</span>
-                        </div>
-                        <h3 className="text-white text-sm truncate font-bold">
-                          {v.title}
-                        </h3>
-                        <p className="text-white/60 text-xs line-clamp-1">
-                          {v.subtitle}
-                        </p>
-                      </div>
-                    </FoolishShrimpButton>
-                  ))}
+              <a
+                href={prod.amazonUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full block">
+                <FoolishShrimpButton className="w-full !py-2 !px-3 text-center justify-center font-bold text-xs">
+                  <span>Amazon Link</span>
+                </FoolishShrimpButton>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SERIES FOUNDERS & CREATORS ── */}
+      <section aria-labelledby="rrk-founders-heading" className="space-y-6 pt-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+          <div>
+            <h2 id="rrk-founders-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
+              {foundersSection?.title || "Series Founders & Contact"}
+            </h2>
+            <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
+              {foundersSection?.subtitle || foundersSection?.body || "Meet the series creators and art team behind 7th Heaven & The Rock 'n' Roll Kids."}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+          {foundersList.map((founder: any) => (
+            <article key={founder.name} className="flex flex-col space-y-4 group">
+              <div className="relative w-full aspect-[4/3] sm:aspect-[1.2/1] max-h-[460px] rounded-2xl overflow-hidden transition-all flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)]">
+                {/* Mobile Image */}
+                <Image
+                  src={founder.mobileImg}
+                  alt={`${founder.name} Mobile`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 0px"
+                  className="object-contain object-bottom sm:hidden"
+                />
+                {/* Desktop Image */}
+                <Image
+                  src={founder.desktopImg}
+                  alt={`${founder.name} Desktop`}
+                  fill
+                  sizes="(min-width: 641px) 50vw, 100vw"
+                  className="object-contain object-bottom hidden sm:block"
+                />
+                {/* Bottom Gradient Mask Overlay */}
+                <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 pointer-events-none z-10" />
+              </div>
+              <div className="flex flex-col items-center text-center mt-2 space-y-2.5 w-full">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">
+                  {founder.name}
+                </h3>
+                <div>
+                  <SectionBadge
+                    label={founder.role}
+                    isActive
+                  />
                 </div>
-              </div>
-            </div>
-          </section>
-
-          {/* ── COMIC BOOKS & EPISODES CATALOG (12 ITEMS GRID) ── */}
-          <section aria-labelledby="rrk-comics-heading" className="space-y-6 pt-6">
-            <div className="border-b border-white/10 pb-4">
-              <div>
-                <h2 id="rrk-comics-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
-                  {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
-                </h2>
-                <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
-                  {comicsSection?.subtitle || "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
+                <p className="text-white/80 text-sm leading-relaxed max-w-md mx-auto mb-1">
+                  {founder.desc}
                 </p>
-              </div>
-            </div>
-
-            {/* 12-Item Book Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {productsList.map((prod: any) => (
-                <article
-                  key={prod.id}
-                  className="bg-[#0b0718]/90 border border-white/10 rounded-xl overflow-hidden flex flex-col justify-between p-4 transition-all group">
-                  <div>
-                    <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden mb-3 bg-black/40">
-                      <Image
-                        src={prod.coverImg}
-                        alt={prod.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-cover"
-                      />
-                    </div>
-                    <span className="text-[11px] text-purple-400 font-bold uppercase tracking-wider block mb-1">
-                      {prod.badge}
-                    </span>
-                    <h3 className="text-white text-base font-bold mb-1.5 line-clamp-1">
-                      {prod.title}
-                    </h3>
-                    <p className="text-white/70 text-xs leading-relaxed mb-4 line-clamp-2">
-                      {prod.desc}
-                    </p>
-                  </div>
-
+                {founder.phone ? (
                   <a
-                    href={prod.amazonUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full block">
-                    <FoolishShrimpButton className="w-full !py-2 !px-3 text-center justify-center font-bold text-xs">
-                      <span>Amazon Link</span>
-                    </FoolishShrimpButton>
+                    href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
+                    className="!text-white font-bold text-sm sm:text-base hover:underline block mb-0">
+                    {founder.phone}
                   </a>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          {/* ── SERIES FOUNDERS & CREATORS ── */}
-          <section aria-labelledby="rrk-founders-heading" className="space-y-6 pt-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
-              <div>
-                <h2 id="rrk-founders-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
-                  {foundersSection?.title || "Series Founders & Contact"}
-                </h2>
-                <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
-                  {foundersSection?.subtitle || foundersSection?.body || "Meet the series creators and art team behind 7th Heaven & The Rock 'n' Roll Kids."}
-                </p>
+                ) : null}
+                {founder.email ? (
+                  <a
+                    href={`mailto:${founder.email}`}
+                    className="text-purple-400 font-bold text-sm sm:text-base hover:underline block">
+                    {founder.email}
+                  </a>
+                ) : null}
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-              {foundersList.map((founder: any) => (
-                <article key={founder.name} className="flex flex-col space-y-4 group">
-                  <div className="relative w-full aspect-[4/3] sm:aspect-[1.2/1] max-h-[460px] rounded-2xl overflow-hidden transition-all flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)]">
-                    {/* Mobile Image */}
-                    <Image
-                      src={founder.mobileImg}
-                      alt={`${founder.name} Mobile`}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 0px"
-                      className="object-contain object-bottom sm:hidden"
-                    />
-                    {/* Desktop Image */}
-                    <Image
-                      src={founder.desktopImg}
-                      alt={`${founder.name} Desktop`}
-                      fill
-                      sizes="(min-width: 641px) 50vw, 100vw"
-                      className="object-contain object-bottom hidden sm:block"
-                    />
-                    {/* Bottom Gradient Mask Overlay */}
-                    <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 pointer-events-none z-10" />
-                  </div>
-                  <div className="flex flex-col items-center text-center mt-2 space-y-2.5 w-full">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">
-                      {founder.name}
-                    </h3>
-                    <div>
-                      <SectionBadge
-                        label={founder.role}
-                        isActive
-                      />
-                    </div>
-                    <p className="text-white/80 text-sm leading-relaxed max-w-md mx-auto mb-1">
-                      {founder.desc}
-                    </p>
-                    {founder.phone ? (
-                      <a
-                        href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                        className="!text-white font-bold text-sm sm:text-base hover:underline block mb-0">
-                        {founder.phone}
-                      </a>
-                    ) : null}
-                    {founder.email ? (
-                      <a
-                        href={`mailto:${founder.email}`}
-                        className="text-purple-400 font-bold text-sm sm:text-base hover:underline block">
-                        {founder.email}
-                      </a>
-                    ) : null}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
+            </article>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }

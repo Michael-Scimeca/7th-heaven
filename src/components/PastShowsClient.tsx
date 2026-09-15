@@ -126,20 +126,20 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
       {/* ── STATS BAR ── */}
       <section aria-label="Archive Statistics" className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">{totalShowsCount}+</span>
-          <span className="uppercase ">Concerts Cataloged</span>
+          <span className="text-3xl sm:text-4xl text-[var(--color-accent)] font-bold">{totalShowsCount}+</span>
+          <span className="uppercase font-bold">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">40+</span>
-          <span className="uppercase ">Years of Live Rock</span>
+          <span className="text-3xl sm:text-4xl text-[var(--color-accent)] font-bold">40+</span>
+          <span className="uppercase font-bold">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">500+</span>
-          <span className="uppercase ">Unique Venues</span>
+          <span className="text-3xl sm:text-4xl text-[var(--color-accent)] font-bold">500+</span>
+          <span className="uppercase font-bold">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl text-[var(--color-accent)]">5+</span>
-          <span className="uppercase ">Countries Played</span>
+          <span className="text-3xl sm:text-4xl text-[var(--color-accent)] font-bold">5+</span>
+          <span className="uppercase font-bold">Countries Played</span>
         </div>
       </section>
 
@@ -158,12 +158,12 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
 
           {/* Years Pill List Next to Search Input */}
           <div className="flex items-center gap-2 flex-wrap max-w-[900px]">
-            <span className="uppercase shrink-0 mr-1">
+            <span className="uppercase shrink-0 mr-1 font-bold">
               {sanityContent?.jumpToYearLabel || "Jump to Year:"}
             </span>
             <button
               onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer ${selectedYear === "All"
+              className={`px-3 py-1.5 rounded-lg    uppercase transition-colors cursor-pointer font-bold ${selectedYear === "All"
                 ? "bg-[var(--color-accent)] text-white "
                 : " bg-[#00000029] text-white/70 hover:text-white border-0"
                 }`}>
@@ -222,10 +222,10 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                   className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left transition-colors"
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}>
                   <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white rounded-lg">
+                    <span className="px-3 py-1 bg-[var(--color-accent)] text-white rounded-lg font-bold">
                       {yGroup.year}
                     </span>
-                    <span>
+                    <span className='font-bold'>
                       {yGroup.shows.length} {yGroup.shows.length === 1 ? "Show" : "Shows"}
                     </span>
                   </div>

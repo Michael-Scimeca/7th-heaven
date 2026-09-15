@@ -152,7 +152,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <main className="site-container min-h-screen pt-[100px] w-full">
+    <main className="site-container pt-[100px] w-full">
       {/* ── HERO HEADER ── */}
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl mb-10 relative z-10">
         <div className="text-left">
@@ -215,13 +215,13 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                       {/* Mini feed */}
                       <div className="aspect-video relative">
                         <Image
- src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
- alt={room.title}
- fill
- priority
- sizes="(max-width: 768px) 100vw, 400px"
- className="object-cover"
- />
+                          src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                          alt={room.title}
+                          fill
+                          priority
+                          sizes="(max-width: 768px) 100vw, 400px"
+                          className="object-cover"
+                        />
                         <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 rounded-lg" style={{ background: "#dc2626" }}>
                           <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
                           LIVE
@@ -236,12 +236,12 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                         <p style={{ color: "rgba(255,255,255,0.3)" }}>{getElapsed(room.creationTime)}</p>
                         <div className="flex gap-1.5 mt-3">
                           <Link href={`/live/${room.name.replace(/^live_/, "")}`}
- className="flex-1 text-center py-1.5 rounded-lg transition-colors"
- style={{ background: `rgba(${parseInt(room.color.slice(1, 3), 16)},${parseInt(room.color.slice(3, 5), 16)},${parseInt(room.color.slice(5, 7), 16)},0.15)`, color: room.color, border: `1px solid ${room.color}40` }}>
+                            className="flex-1 text-center py-1.5 rounded-lg transition-colors"
+                            style={{ background: `rgba(${parseInt(room.color.slice(1, 3), 16)},${parseInt(room.color.slice(3, 5), 16)},${parseInt(room.color.slice(5, 7), 16)},0.15)`, color: room.color, border: `1px solid ${room.color}40` }}>
                             👁 Watch
                           </Link>
                           <button aria-label="Previous"
- onClick={() => { setRooms(prev => prev.filter(r => r.name !== room.name)); addLog("🛑 Ended stream", room.title); }}
+                            onClick={() => { setRooms(prev => prev.filter(r => r.name !== room.name)); addLog("🛑 Ended stream", room.title); }}
                             className="py-1.5 px-3 rounded-lg transition-colors"
                             style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
                             🛑 End
@@ -262,11 +262,11 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                     const isWarned = warnedUsers.has(fan.id);
                     return (
                       <div key={fan.id} className="flex items-center justify-between gap-3 p-4"
- style={{
- background: isBanned ? "rgba(239,68,68,0.06)" : "rgba(255,255,255,0.03)",
- border: isBanned ? "1px solid rgba(239,68,68,0.2)" : "1px solid rgba(255,255,255,0.07)",
- opacity: isBanned ? 0.65 : 1,
- }}>
+                        style={{
+                          background: isBanned ? "rgba(239,68,68,0.06)" : "rgba(255,255,255,0.03)",
+                          border: isBanned ? "1px solid rgba(239,68,68,0.2)" : "1px solid rgba(255,255,255,0.07)",
+                          opacity: isBanned ? 0.65 : 1,
+                        }}>
                         <div className="flex items-center gap-3 min-w-0">
                           <div className="w-11 h-11 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: fan.color }}>
                             {fan.avatar}
@@ -363,7 +363,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
       {/* ══════════════════════════════════════════════════
             STREAM CARDS GRID WITH MATCHING PAGE PADDING
         ══════════════════════════════════════════════════ */}
-      <section aria-label="Active Live Streams" className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+      <section aria-label="Active Live Streams" className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4 w-full">
         {rooms.map((room, i) => (
           <article
             key={room.name}
@@ -441,8 +441,8 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
 
       {/* Live Stream Push Alert & Fan Signup Modal */}
       <PushSubscribeModal
- isOpen={showSubscribeModal}
- onClose={() => setShowSubscribeModal(false)}
+        isOpen={showSubscribeModal}
+        onClose={() => setShowSubscribeModal(false)}
         group="fans"
       />
     </main>

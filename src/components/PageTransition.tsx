@@ -482,7 +482,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       position: fixed;
       inset: 0;
       width: 100vw;
-      height: 100vh;
       z-index: 1;
       pointer-events: none;
       overflow: hidden;
@@ -493,7 +492,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     snapshotInner.className = "exoape-snapshot-inner";
     snapshotInner.style.cssText = `
       width: 100%;
-      min-height: 100vh;
       transform-origin: ${s.exitOrigin || "center center"};
     `;
 
@@ -819,7 +817,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         style={{
           position: "relative",
           width: "100%",
-          minHeight: "100vh",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
         }}>
@@ -828,7 +825,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           className="exoape-page-inner transform-gpu"
           style={{
             width: "100%",
-            minHeight: "100vh",
             transformOrigin: "center center",
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
