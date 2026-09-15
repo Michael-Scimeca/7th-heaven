@@ -3,7 +3,8 @@
 /* eslint-disable react-doctor/prefer-useReducer */
 import Image from 'next/image';
 
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Music, Ticket, Trophy, Eye, Ban, VolumeX, MessageSquare, Users, ClipboardList,
   ScrollText, Smile, ShoppingBag, Package, Mail, Guitar, Piano, Drum, Mic, Heart,
@@ -62,7 +63,10 @@ const CONTENT_RULES: { pattern: RegExp; reason: string }[] = [
   { pattern: /(https?:\/\/(?!7thheavenband\.com))/i, reason: '🔗 External links aren\'t allowed in this chat.' },
 ];
 
+const emptySubscribe = () => () => {};
+
 export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { memberId?: string; adminMode?: boolean }) {
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const router = useRouter();
   const auth = useAuth();
   const crew = CREW_CONFIG[memberId] ?? CREW_CONFIG.mike;
@@ -1205,7 +1209,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   /* ── Hype color ── */
   const hypeColor = hype > 80 ? '#ef4444' : hype > 50 ? '#f97316' : hype > 25 ? '#eab308' : '#a855f7';
 
-  return (
+  const content = (
     <>
       <style>{`
         footer, .page-nav { display: none !important; }
@@ -1241,8 +1245,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
 
       {/* ── Main layout ── */}
-      <section
- className="fixed bottom-0 left-0 right-0 top-[95px] z-40 flex flex-col overflow-hidden text-white">
+      <section className="fixed inset-0 top-[95px] z-[99999] flex flex-col overflow-hidden text-white bg-[#050508]">
 
         {/* ── TOP BAR ── */}
         <div
@@ -3109,13 +3112,16 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
         {/* ── Push Subscribe Modal (collects Name & Email + sets up live alerts) ── */}
         <PushSubscribeModal
- isOpen={showSubscribeModal}
- onClose={() => setShowSubscribeModal(false)}
+          isOpen={showSubscribeModal}
+          onClose={() => setShowSubscribeModal(false)}
           group="fans"
           onSuccess={() => setNotifySuccess(true)}
         />
       </section>
     </>
   );
+
+  if (!mounted || typeof window === 'undefined') return null;
+  return createPortal(content, document.body);
 }
 
