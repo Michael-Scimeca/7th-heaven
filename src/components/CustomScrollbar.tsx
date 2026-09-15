@@ -236,14 +236,7 @@ export default function CustomScrollbar({
         {children}
       </div>
 
-      {/* Suppress native webkit scrollbar */}
-      <style>{`
-        [data-lenis-prevent]::-webkit-scrollbar {
-          display: none !important;
-          width: 0 !important;
-          height: 0 !important;
-        }
-      `}</style>
+
 
       {/* Vertical Track — rendered if showVertical AND content has vertical scroll space */}
       {showVertical && hasScrollableY && (

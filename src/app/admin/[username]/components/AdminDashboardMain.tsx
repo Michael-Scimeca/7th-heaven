@@ -11766,49 +11766,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {selectedQrProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-          <style dangerouslySetInnerHTML={{
-            __html: `
- @media print {
- html, body, main, #__next, div:not(.print-tag-container):not(.print-tag-card):not(.print-tag-card *) {
- background: white !important;
- color: black !important;
- visibility: hidden !important;
- height: auto !important;
- }
- .no-print {
- display: none !important;
- }
- .print-tag-container {
- visibility: visible !important;
- display: flex !important;
- align-items: center !important;
- justify-content: center !important;
- position: fixed !important;
- left: 0 !important;
- top: 0 !important;
- width: 100% !important;
- height: 100% !important;
- background: white !important;
- padding: 0 !important;
- margin: 0 !important;
- }
- .print-tag-card {
- visibility: visible !important;
- border: 2px dashed #000000 !important;
- background: white !important;
- color: black !important;
- width: 4in !important;
- height: 6in !important;
- display: flex !important;
- flex-direction: column !important;
- align-items: center !important;
- justify-content: space-between !important;
- padding: 2rem !important;
- box-sizing: border-box !important;
- page-break-inside: avoid !important;
- }
- }
- `}} />
 
           <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-[scaleIn_0.2s_ease-out]">
             <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">

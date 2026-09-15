@@ -739,19 +739,9 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
       {showSettings && mounted && createPortal(
         <div
           data-settings-panel
-          className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 /40 border-2 border-purple-400/50 rounded-lg shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
-          style={{ zIndex: 999999, pointerEvents: 'auto' }}
+          className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 /40 border-2 border-purple-400/50 rounded-lg shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100 z-[999999] pointer-events-auto"
         >
-          <style>{`
-              [data-settings-panel], [data-settings-panel] * {
-                cursor: default !important;
-              }
-              [data-settings-panel] input[type="range"],
-              [data-settings-panel] button,
-              [data-settings-panel] a {
-                cursor: pointer !important;
-              }
-            `}</style>
+
 
           <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 /60 pt-1 z-10">
             <div className="flex items-center gap-2">

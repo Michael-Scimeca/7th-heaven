@@ -39,19 +39,6 @@ export default function HeroParallaxCustomizer({
 
   return (
     <div className={`absolute ${positionClassName} z-40 flex flex-col items-end`}>
-      {/* Self-contained so this panel works on any page, even ones that don't
-       * already define this keyframe (HeroVideoPlayer defines its own copy
-       * too — harmless to have both, the browser just dedupes identical rules). */}
-      <style
- dangerouslySetInnerHTML={{
- __html: `
- @keyframes scaleIn {
- from { transform: scale(0.95); opacity: 0; }
- to { transform: scale(1); opacity: 1; }
- }
- `,
- }}
- />
       {!isPxUiOpen ? (
         <button
  aria-label="Open Parallax Customizer"

@@ -361,12 +361,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
           </>
         )}
 
-        <style jsx>{`
-          @keyframes eqBarShort {
-            0% { transform: scaleY(0.2); }
-            100% { transform: scaleY(1); }
-          }
-        `}</style>
+
       </div>
     );
   }
@@ -596,12 +591,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes eqBarShort {
-          0% { transform: scaleY(0.2); }
-          100% { transform: scaleY(1); }
-        }
-      `}</style>
+
     </section>
   );
 }

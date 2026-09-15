@@ -141,24 +141,7 @@ export default function AdminMap({ locations, isVisible = true }: { locations: a
           })}
         </MapContainer>
 
-        <style jsx global>{`
-          .leaflet-container {
-            background-color: #f8fafc !important;
-            font-family: inherit;
-            height: 100% !important;
-            width: 100% !important;
-          }
-          .leaflet-tooltip.custom-tooltip {
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            border-radius: 8px;
-            padding: 6px 10px;
-          }
-          .leaflet-tooltip-top.custom-tooltip:before {
-            border-top-color: #ffffff;
-          }
-        `}</style>
+
       </div>
     </MapErrorBoundary>
   );

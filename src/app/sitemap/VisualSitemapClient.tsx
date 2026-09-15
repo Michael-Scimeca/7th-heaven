@@ -1602,16 +1602,7 @@ export default function VisualSitemapClient() {
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-20 pb-12">
 
-      {/* Global CSS override to force fill: none on all SVG edge paths */}
-      <style jsx global>{`
-        .react-flow__edge-path,
-        .react-flow__edge path,
-        .react-flow svg path {
-          fill: none !important;
-          stroke: #52525b !important;
-          stroke-width: 1.5px !important;
-        }
-      `}</style>
+
 
       {/* Header bar with View Selector Tabs */}
       <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4 rounded-lg backdrop-blur-xl">

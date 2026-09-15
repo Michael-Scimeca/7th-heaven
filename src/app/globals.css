@@ -5294,3 +5294,346 @@ a[href^="mailto:"] {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
+
+/* ==========================================================================
+   CONSOLIDATED COMPONENT STYLES & ANIMATIONS (Moved from TSX files)
+   ========================================================================== */
+
+/* --- Inline Preloader Critical Fallback --- */
+html.is-preloading, html.is-preloading body {
+  overflow: hidden !important;
+  background-color: #030006 !important;
+}
+html.is-preloading .preloader {
+  display: grid !important;
+  z-index: 100005 !important;
+  pointer-events: none !important;
+}
+
+/* --- Lenis Scrollbar Suppression --- */
+
+[data-lenis-prevent]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* --- Hoy Logo Ticker --- */
+.hoy-ticker-track {
+  animation: hoy-ticker-scroll var(--ticker-speed, 40s) linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+}
+.hoy-ticker-track.hoy-ticker-reverse {
+  animation-direction: reverse;
+}
+.hoy-ticker-logo {
+  filter: brightness(0) invert(1);
+}
+.hoy-ticker {
+  isolation: isolate;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
+}
+@keyframes hoy-ticker-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+    -webkit-transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* --- Logo SVG --- */
+.logo-svg path,
+.logo-svg polygon {
+  fill: currentColor !important;
+  transition: fill 250ms ease-in-out, color 250ms ease-in-out;
+}
+
+/* --- Scale In Animation --- */
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* --- Settings Panel Cursor Controls --- */
+[data-settings-panel], [data-settings-panel] * {
+  cursor: default !important;
+}
+[data-settings-panel] input[type="range"],
+[data-settings-panel] button,
+[data-settings-panel] a {
+  cursor: pointer !important;
+}
+
+/* --- Fake Live Stream --- */
+body.fake-livestream-active footer,
+body.fake-livestream-active .page-nav {
+  display: none !important;
+}
+body.fake-livestream-active {
+  overflow: hidden !important;
+}
+
+@keyframes slideInMsg {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hypePulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,10,61,0.4); }
+  50% { box-shadow: 0 0 20px rgba(239,68,68,0.6); }
+}
+.msg-new { animation: slideInMsg 0.25s ease forwards; }
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+.hype-bar { animation: hypePulse 2s ease-in-out infinite; }
+@keyframes lowerThirdIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.lower-third { animation: lowerThirdIn 0.35s ease forwards; }
+
+/* --- Equalizer Bar Animation --- */
+@keyframes eqBarShort {
+  0% { transform: scaleY(0.2); }
+  100% { transform: scaleY(1); }
+}
+
+/* --- Leaflet & Admin Map --- */
+.leaflet-container {
+  background-color: #f8fafc !important;
+  font-family: inherit;
+  height: 100% !important;
+  width: 100% !important;
+}
+.leaflet-tooltip.custom-tooltip {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+.leaflet-tooltip-top.custom-tooltip:before {
+  border-top-color: #ffffff;
+}
+
+/* --- Slide-In Feed Animation --- */
+@keyframes slideInFeed {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --- Crew Dashboard Custom Scrollbar & Right Slide --- */
+.custom-scrollbar::-webkit-scrollbar { width: 5px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* --- Tour Map Venue Markers & Tooltips --- */
+.custom-venue-marker {
+  background: transparent !important;
+  border: none !important;
+  overflow: visible !important;
+}
+.custom-venue-marker::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 54px;
+  background: transparent;
+  pointer-events: auto;
+  z-index: 1;
+}
+.custom-venue-marker:hover {
+  z-index: 99999 !important;
+}
+.gm-style-iw-c {
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  max-width: 280px !important;
+}
+.gm-style-iw-d {
+  overflow: auto !important;
+  padding: 0 !important;
+}
+.gm-style-iw-tc::after {
+  background: #080812 !important;
+}
+.gm-ui-hover-effect {
+  top: 4px !important;
+  right: 4px !important;
+  filter: invert(1);
+  opacity: 0.7;
+}
+.gm-style .gm-style-iw-t::after {
+  background: linear-gradient(45deg, #080812 50%, transparent 51%, transparent 100%) !important;
+}
+.gm-style-cc { opacity: 0.6; }
+
+.custom-tooltip-card {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: none !important;
+  pointer-events: none;
+  z-index: 99999;
+}
+.custom-venue-marker:hover .custom-tooltip-card {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-12px);
+  pointer-events: auto;
+}
+.custom-tooltip-card::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -40px;
+  right: -40px;
+  height: 25px;
+  background: transparent;
+  pointer-events: auto;
+}
+.marker-label {
+  position: absolute;
+  top: 102%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(8, 8, 18, 0.85);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 10px;
+  font-weight: 700; 
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  opacity: 1;
+  visibility: visible;
+  transition: none !important;
+}
+@media (max-width: 1024px) {
+  .marker-label {
+    font-size: 8.5px !important;
+    padding: 2px 5px !important;
+    letter-spacing: 0.2px !important;
+  }
+}
+.custom-venue-marker:hover .marker-label,
+.next-show-bounce .marker-label,
+.active-show-label {
+  opacity: 1 !important;
+  visibility: visible !important;
+  background: rgba(8, 8, 18, 0.95) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8) !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999 !important;
+}
+@media (max-width: 767px) {
+  .marker-label {
+    font-size: 8px !important;
+    padding: 1.5px 4px !important;
+    letter-spacing: 0.2px !important;
+  }
+}
+.next-show-bounce {
+  position: relative;
+  display: inline-block;
+  opacity: 1 !important;
+  animation: markerBounce 0.75s ease-in-out infinite alternate !important;
+  filter: drop-shadow(0 0 16px var(--ring-color, #a855f7)) drop-shadow(0 4px 12px rgba(168, 85, 247, 0.6)) !important;
+  z-index: 9999 !important;
+}
+.next-show-bounce > svg {
+  animation: none !important;
+  opacity: 1 !important;
+}
+@keyframes markerBounce {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-22px); }
+}
+
+/* --- Visual Sitemap Edge Paths --- */
+.react-flow__edge-path,
+.react-flow__edge path,
+.react-flow svg path {
+  fill: none !important;
+  stroke: #52525b !important;
+  stroke-width: 1.5px !important;
+}
+
+/* --- Print Media Overrides --- */
+@media print {
+  html, body, main, #__next, div:not(.print-tag-container):not(.print-tag-card):not(.print-tag-card *) {
+    background: white !important;
+    color: black !important;
+    visibility: hidden !important;
+    height: auto !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-tag-container {
+    visibility: visible !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .print-tag-card {
+    visibility: visible !important;
+    border: 2px dashed #000000 !important;
+    background: white !important;
+    color: black !important;
+    width: 4in !important;
+    height: 6in !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 2rem !important;
+    box-sizing: border-box !important;
+    page-break-inside: avoid !important;
+  }
+}

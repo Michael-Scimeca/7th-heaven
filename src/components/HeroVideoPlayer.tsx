@@ -441,15 +441,6 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
   return (
     <VideoSnapshotContext.Provider value={ctxValue}>
-      {/* CSS Animations style tag */}
-      <style dangerouslySetInnerHTML={{
- __html: `
- @keyframes scaleIn {
- from { transform: scale(0.95); opacity: 0; }
- to { transform: scale(1); opacity: 1; }
- }
- `}} />
-
       {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
  {!isDesktop ? (
  <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">

@@ -148,39 +148,7 @@ export default function LogoTicker({
           )}
         </div>
 
-        <style>{`
-          .hoy-ticker-track {
-            animation: hoy-ticker-scroll var(--ticker-speed, 40s) linear infinite;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
-            -webkit-transform: translate3d(0, 0, 0);
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            -webkit-perspective: 1000px;
-            perspective: 1000px;
-          }
-          .hoy-ticker-track.hoy-ticker-reverse {
-            animation-direction: reverse;
-          }
-          .hoy-ticker-logo {
-            filter: brightness(0) invert(1);
-          }
-          .hoy-ticker {
-            isolation: isolate;
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
-            mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
-          }
-          @keyframes hoy-ticker-scroll {
-            from {
-              transform: translate3d(0, 0, 0);
-              -webkit-transform: translate3d(0, 0, 0);
-            }
-            to {
-              transform: translate3d(-50%, 0, 0);
-              -webkit-transform: translate3d(-50%, 0, 0);
-            }
-          }
-        `}</style>
+
       </div>
     </div>
   );

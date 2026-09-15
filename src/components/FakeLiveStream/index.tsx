@@ -1209,31 +1209,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   /* ── Hype color ── */
   const hypeColor = hype > 80 ? '#ef4444' : hype > 50 ? '#f97316' : hype > 25 ? '#eab308' : '#a855f7';
 
+  useEffect(() => {
+
+    document.body.classList.add('fake-livestream-active');
+    return () => {
+      document.body.classList.remove('fake-livestream-active');
+    };
+  }, []);
+
   const content = (
     <>
-      <style>{`
-        footer, .page-nav { display: none !important; }
-        body { overflow: hidden !important; }
 
-        @keyframes slideInMsg {
-          from { opacity: 0; transform: translateY(6px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes hypePulse {
-          0%, 100% { box-shadow: 0 0 8px rgba(255,10,61,0.4); }
-          50% { box-shadow: 0 0 20px rgba(239,68,68,0.6); }
-        }
-        .msg-new { animation: slideInMsg 0.25s ease forwards; }
-        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-        .hype-bar { animation: hypePulse 2s ease-in-out infinite; }
-        @keyframes lowerThirdIn {
-          from { opacity: 0; transform: translateY(14px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .lower-third { animation: lowerThirdIn 0.35s ease forwards; }
-      `}</style>
 
       {/* ── Going Live overlay ── */}
       {showOverlay && (
