@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -126,7 +127,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
   const daysLabel = getDaysUntilLabel();
 
   return (
-    <div className="/85 backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] w-full">
+    <div className="bg-black/85 backdrop-blur-xl border border-white/10 rounded-lg p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-2 px-0.5">
         <div className="flex items-center gap-1">
@@ -150,7 +151,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             {/* UP NEXT Badge */}
             <div className="flex items-center gap-1 text-[var(--font-size-5xs)] uppercase tracking-[0.15em]">
               <span className={`w-0.5 h-0.5 rounded-lg ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
-              <span className={daysLabel === "Happening Now" ? "text-red-500 " : " text-[var(--color-accent)]"}>
+              <span className={daysLabel === "Happening Now" ? "text-red-500" : "text-[var(--color-accent)]"}>
                 {daysLabel === "Happening Now" ? "Live" : "Up Next"}
               </span>
               {daysLabel && daysLabel !== "Happening Now" && (
@@ -167,7 +168,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
 
           {/* Middle block: Venue & details (clickable link to tour page) */}
           <Link href="/tour" className="block hover:opacity-85 transition-opacity group/venue">
-            <h2 className="text-white mb-1 uppercase truncate group-hover/venue: transition-colors">
+            <h2 className="text-white mb-1 uppercase truncate group-hover/venue:text-purple-300 transition-colors">
               {nextShow.venue}
             </h2>
             <div className="flex flex-wrap items-center gap-1 text-white/50 font-medium">
