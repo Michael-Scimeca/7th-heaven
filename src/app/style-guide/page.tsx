@@ -32,17 +32,16 @@ const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDr
   loading: () => <div className="p-3 text-center text-white/40 bg-[#00000029] rounded-lg border border-white/10">Loading Pill Dropdown...</div>
 });
 
-const NeatButton = dynamic(() => import("@/components/NeatButton"), {
-  ssr: false,
-  loading: () => <div className="px-6 py-4 rounded-lg bg-[#0d0a12] text-white/50 text-sm border border-purple-500/20 animate-pulse">Loading Neat Canvas Button...</div>
-});
+
 
 import RoleBadge from "@/components/RoleBadge";
 import CustomScrollbar from "@/components/CustomScrollbar";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import CosmicTrackCard from "@/components/CosmicTrackCard";
 import FoolishShrimpButton, { FoolishShrimpAlwaysButton } from "@/components/FoolishShrimpButton";
 import PillBadgeButton from "@/components/PillBadgeButton";
 import GlassPlayButton from "@/components/GlassPlayButton";
+import GlowOrbButton from "@/components/GlowOrbButton";
 import AddCmsButton from "@/components/AddCmsButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
@@ -157,15 +156,6 @@ const sections = [
   { id: "crew-scheduling", label: "13. Crew Scheduling & Groups", icon: Calendar },
 ];
 
-const COSMIC_BASE_CENTERS = [
-  { x: 18, y: 71 },
-  { x: 36, y: 76 },
-  { x: 7, y: 98 },
-  { x: 72, y: 23 },
-  { x: 91, y: 74 },
-  { x: 67, y: 38 },
-];
-
 /* ── Hold to Activate Button Demo Component ── */
 function HoldToActivateButtonDemo() {
   const [holding, setHolding] = useState(false);
@@ -262,284 +252,6 @@ function HoldToActivateButtonDemo() {
   );
 }
 
-/* ── Cosmic Multi-Radial Morphing Button Component ── */
-function CosmicRadialButtonDemo() {
-  const [isAutoDrifting, setIsAutoDrifting] = useState(true);
-  const [transitionDuration, setTransitionDuration] = useState<number>(1.5);
-  const [easingCurve, setEasingCurve] = useState<string>("cubic-bezier(0.4, 0, 0.2, 1)");
-  const [driftIntervalSec, setDriftIntervalSec] = useState<number>(2.0);
-  const [renderEngine, setRenderEngine] = useState<"property" | "raf">("property");
-  const [copiedCode, setCopiedCode] = useState(false);
-
-  // Target offsets (in %)
-  const [targetOffsets, setTargetOffsets] = useState([
-    { dx: 0, dy: 0 },
-    { dx: 0, dy: 0 },
-    { dx: 0, dy: 0 },
-    { dx: 0, dy: 0 },
-    { dx: 0, dy: 0 },
-    { dx: 0, dy: 0 },
-  ]);
-
-  // Current interpolated positions for 60fps RAF mode
-  const [rafCenters, setRafCenters] = useState(() =>
-    COSMIC_BASE_CENTERS.map((b) => ({ x: b.x, y: b.y }))
-  );
-
-  const randomizePositions = useCallback(() => {
-    setTargetOffsets([
-      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
-      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
-      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
-      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
-      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
-      { dx: (Math.random() * 60) - 30, dy: (Math.random() * 60) - 30 },
-    ]);
-  }, []);
-
-  // Auto drift interval trigger
-  useEffect(() => {
-    if (!isAutoDrifting) return;
-    const interval = setInterval(() => {
-      randomizePositions();
-    }, driftIntervalSec * 1000);
-    return () => clearInterval(interval);
-  }, [isAutoDrifting, driftIntervalSec, randomizePositions]);
-
-  // 60fps RAF Lerp Loop for continuous fluid motion mode
-  useEffect(() => {
-    if (renderEngine !== "raf") return;
-    let animId: number;
-
-    const animate = () => {
-      setRafCenters((prev) =>
-        prev.map((curr, i) => {
-          const base = COSMIC_BASE_CENTERS[i];
-          const tx = Math.max(0, Math.min(100, base.x + (targetOffsets[i]?.dx || 0)));
-          const ty = Math.max(0, Math.min(100, base.y + (targetOffsets[i]?.dy || 0)));
-          const lerpRate = 0.04;
-          return {
-            x: curr.x + (tx - curr.x) * lerpRate,
-            y: curr.y + (ty - curr.y) * lerpRate,
-          };
-        })
-      );
-      animId = requestAnimationFrame(animate);
-    };
-
-    animId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animId);
-  }, [renderEngine, targetOffsets]);
-
-  // Target center coordinates (for CSS @property engine)
-  const targetCenters = COSMIC_BASE_CENTERS.map((b, i) => ({
-    x: Math.max(0, Math.min(100, Math.round(b.x + (targetOffsets[i]?.dx || 0)))),
-    y: Math.max(0, Math.min(100, Math.round(b.y + (targetOffsets[i]?.dy || 0)))),
-  }));
-
-  const activeCenters = renderEngine === "raf"
-    ? rafCenters.map((c) => ({ x: Math.round(c.x), y: Math.round(c.y) }))
-    : targetCenters;
-
-  // Custom CSS variables for CSS @property engine (smooth CSS transition)
-  const propertyStyle = {
-    "--cosmic-duration": `${transitionDuration.toFixed(1)}s`,
-    "--cosmic-easing": easingCurve,
-    "--r1-x": `${targetCenters[0].x}%`,
-    "--r1-y": `${targetCenters[0].y}%`,
-    "--r2-x": `${targetCenters[1].x}%`,
-    "--r2-y": `${targetCenters[1].y}%`,
-    "--r3-x": `${targetCenters[2].x}%`,
-    "--r3-y": `${targetCenters[2].y}%`,
-    "--r4-x": `${targetCenters[3].x}%`,
-    "--r4-y": `${targetCenters[3].y}%`,
-    "--r5-x": `${targetCenters[4].x}%`,
-    "--r5-y": `${targetCenters[4].y}%`,
-    "--r6-x": `${targetCenters[5].x}%`,
-    "--r6-y": `${targetCenters[5].y}%`,
-  } as React.CSSProperties;
-
-  // RAF inline gradient string
-  const rafBgImage = `radial-gradient(18% 28% at ${rafCenters[0].x.toFixed(1)}% ${rafCenters[0].y.toFixed(1)}%, #6200FFDB 6%, #073AFF00 100%),radial-gradient(70% 53% at ${rafCenters[1].x.toFixed(1)}% ${rafCenters[1].y.toFixed(1)}%, #7217DDFF 0%, #073AFF00 100%),radial-gradient(31% 43% at ${rafCenters[2].x.toFixed(1)}% ${rafCenters[2].y.toFixed(1)}%, #000000B5 24%, #073AFF00 100%),radial-gradient(21% 37% at ${rafCenters[3].x.toFixed(1)}% ${rafCenters[3].y.toFixed(1)}%, #54007D9C 11%, #3B55B600 100%),radial-gradient(35% 56% at ${rafCenters[4].x.toFixed(1)}% ${rafCenters[4].y.toFixed(1)}%, #8A4FFFF5 9%, #073AFF00 100%),radial-gradient(74% 86% at ${rafCenters[5].x.toFixed(1)}% ${rafCenters[5].y.toFixed(1)}%, #920092F5 24%, #073AFF00 100%),linear-gradient(125deg, #190773FF 1%, #0F0439FF 100%)`;
-
-  const generatedCSSCode = `@property --r1-x { syntax: '<percentage>'; inherits: false; initial-value: 18%; }
-@property --r1-y { syntax: '<percentage>'; inherits: false; initial-value: 71%; }
-
-.btn-cosmic-morph {
-  --r1-x: ${targetCenters[0].x}%; --r1-y: ${targetCenters[0].y}%;
-  --r2-x: ${targetCenters[1].x}%; --r2-y: ${targetCenters[1].y}%;
-  --r3-x: ${targetCenters[2].x}%; --r3-y: ${targetCenters[2].y}%;
-  --r4-x: ${targetCenters[3].x}%; --r4-y: ${targetCenters[3].y}%;
-  --r5-x: ${targetCenters[4].x}%; --r5-y: ${targetCenters[4].y}%;
-  --r6-x: ${targetCenters[5].x}%; --r6-y: ${targetCenters[5].y}%;
-  background-image: radial-gradient(18% 28% at var(--r1-x) var(--r1-y), #6200FFDB 6%, #073AFF00 100%), ...;
-  transition: --r1-x ${transitionDuration.toFixed(1)}s ${easingCurve}, --r1-y ${transitionDuration.toFixed(1)}s ${easingCurve}, ...;
-}`;
-
-  return (
-    <div className="space-y-4">
-      {/* Interactive Controls & Tuning Panel */}
-      <div className="p-4 rounded-lg bg-[#00000029] border border-white/10 space-y-4">
-        {/* Render Engine Selector */}
-        <div className="flex items-center justify-between gap-4 p-2.5 rounded-lg bg-black/40 border border-white/10 flex-wrap">
-          <div className="flex items-center gap-2">
-            <span className="text-white uppercase r">Smooth Motion Engine</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setRenderEngine("property")}
-              className={`px-3 py-1 rounded-lg    transition-all cursor-pointer border ${renderEngine === "property"
-                ? "bg-purple-600 text-white border-purple-400 shadow-purple-500/30"
-                : " bg-[#00000029] text-white border-white/10 hover:bg-white/10"
-                }`}>
-              ⚡ CSS @property Engine (Smooth CSS Transition)
-            </button>
-            <button
-              type="button"
-              onClick={() => setRenderEngine("raf")}
-              className={`px-3 py-1 rounded-lg    transition-all cursor-pointer border ${renderEngine === "raf"
-                ? "bg-indigo-600 text-white border-indigo-400 shadow-indigo-500/30"
-                : " bg-[#00000029] text-white border-white/10 hover:bg-white/10"
-                }`}>
-              🌊 60fps RAF Lerp Loop (Fluid Physics)
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-          {/* Transition Duration Slider */}
-          <div className="space-y-1">
-            <div className="flex justify-between font-semibold">
-              <span className="text-white/80">Transition Duration</span>
-              <span className="text-purple-300">{transitionDuration.toFixed(1)}s</span>
-            </div>
-            <input
-              type="range"
-              min="0.2"
-              max="4.0"
-              step="0.1"
-              value={transitionDuration}
-              onChange={(e) => setTransitionDuration(Number(e.target.value))}
-              disabled={renderEngine === "raf"}
-              className="w-full accent-purple-500 cursor-pointer disabled:opacity-30"
-            />
-          </div>
-
-          {/* Auto Drift Interval Speed Slider */}
-          <div className="space-y-1">
-            <div className="flex justify-between font-semibold">
-              <span className="text-white/80">Auto Drift Interval</span>
-              <span className="text-purple-300">{driftIntervalSec.toFixed(1)}s</span>
-            </div>
-            <input
-              type="range"
-              min="0.8"
-              max="5.0"
-              step="0.2"
-              value={driftIntervalSec}
-              onChange={(e) => setDriftIntervalSec(Number(e.target.value))}
-              className="w-full accent-purple-500 cursor-pointer"
-            />
-          </div>
-
-          {/* Easing Function Curve Buttons */}
-          <div className="space-y-1">
-            <span className="font-semibold block text-white/80">Transition Easing Curve</span>
-            <select
-              value={easingCurve}
-              onChange={(e) => setEasingCurve(e.target.value)}
-              disabled={renderEngine === "raf"}
-              className="w-full px-3 py-1.5 rounded-lg bg-black/60 border border-white/10 text-white focus:outline-none cursor-pointer disabled:opacity-30">
-              <option value="cubic-bezier(0.4, 0, 0.2, 1)">Fluid Smooth (cubic-bezier(0.4, 0, 0.2, 1))</option>
-              <option value="cubic-bezier(0.16, 1, 0.3, 1)">Expo Out (cubic-bezier(0.16, 1, 0.3, 1))</option>
-              <option value="cubic-bezier(0.34, 1.56, 0.64, 1)">Elastic Spring (cubic-bezier(0.34, 1.56, 0.64, 1))</option>
-              <option value="ease-in-out">ease-in-out</option>
-              <option value="ease-out">ease-out</option>
-              <option value="linear">linear</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/10 flex-wrap">
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={randomizePositions}
-              className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg cursor-pointer transition-all active:scale-95 flex items-center gap-1.5">
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span>Randomize Positions (±30%)</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsAutoDrifting(!isAutoDrifting)}
-              className={`px-3.5 py-1.5    rounded-lg transition-all cursor-pointer border ${isAutoDrifting ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-500/20"
-                : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20"
-                }`}>
-              {isAutoDrifting ? "🟢 Auto Drift: ON" : "⚪ Auto Drift: OFF"}
-            </button>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              navigator.clipboard?.writeText(generatedCSSCode);
-              setCopiedCode(true);
-              setTimeout(() => setCopiedCode(false), 2000);
-            }}
-            className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-lg border border-white/10 cursor-pointer transition-all flex items-center gap-1.5">
-            {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copiedCode ? "Copied CSS!" : "Copy Generated CSS"}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Showcase Stage */}
-      <div className="flex flex-wrap items-center justify-between gap-6 p-8 rounded-2xl bg-[#07050e] border border-white/10 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-fuchsia-900/10 pointer-events-none" />
-
-        {/* Reusable CosmicRadialButton Component Instance with Default Icon */}
-        <CosmicRadialButton
-          engine={renderEngine}
-          duration={transitionDuration}
-          easing={easingCurve}
-          autoDrift={isAutoDrifting}
-          driftInterval={driftIntervalSec}>
-          Cosmic Morphing Radial CTA
-        </CosmicRadialButton>
-
-        {/* Custom Icon Component Example (<Zap />) */}
-        <CosmicRadialButton
-          engine={renderEngine}
-          duration={transitionDuration}
-          easing={easingCurve}
-          autoDrift={isAutoDrifting}
-          driftInterval={driftIntervalSec}
-          icon={<Zap className="w-4 h-4 text-amber-300 animate-bounce" />}>
-          Upgrade to Pro
-        </CosmicRadialButton>
-
-        {/* Pure CSS Keyframes @property Drift Button */}
-        <CosmicRadialButton engine="keyframes">
-          CSS @property Keyframes Drift
-        </CosmicRadialButton>
-      </div>
-
-      {/* Real-time Radial Center Points Readout Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-3 bg-black/50 rounded-lg border border-white/10 text-[11px]">
-        {activeCenters.map((c, i) => (
-          // eslint-disable-next-line react-doctor/no-array-index-as-key
-          <div key={`radial_readout_${c.x}_${c.y}_${i}`} className="p-2 rounded-lg bg-[#00000029] border border-white/10 text-center">
-            <span className="text-purple-400 block text-[10px]">Radial {i + 1}</span>
-            <span className="text-white/90 font-semibold">{c.x}% {c.y}%</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ── GSAP Sparkle Generate Button Demo Component with Live Active Checkbox & Controls ── */
 function SparkleGenerateButtonDemo() {
   const [isActive, setIsActive] = useState(false);
@@ -626,6 +338,58 @@ function SparkleGenerateButtonDemo() {
       <p className="text-[13px] text-white/40">
         Check <strong className="text-purple-300">Active State</strong> above to lock the button into its continuous glowing hover state with Physics2D dust particles and animated stroke trace, allowing you to easily preview and edit it without holding the cursor over it.
       </p>
+    </div>
+  );
+}
+
+/* ── CosmicTrackCard Track Selector Grid Demo ── */
+function CosmicTrackCardDemo() {
+  const [selectedTrack, setSelectedTrack] = useState("t1");
+
+  const demoTracks = [
+    {
+      id: "t1",
+      tag: "FEATURED SINGLE",
+      title: "EXPLORE 7TH HEAVEN",
+      subtitle: "Season 1 Featured Track",
+    },
+    {
+      id: "t2",
+      tag: "INSPIRATIONAL ANTHEM",
+      title: "WHAT YOU GIVE",
+      subtitle: "Social Consciousness Single",
+    },
+    {
+      id: "t3",
+      tag: "CONCERT ANTHEM",
+      title: "TIME OF OUR LIVES",
+      subtitle: "Animated Concert Finale",
+    },
+  ];
+
+  return (
+    <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
+      <div className="flex items-center justify-between gap-2 flex-wrap border-b border-white/10 pb-3">
+        <h3 className="text-violet-400 uppercase text-sm sm:text-base font-bold">
+          Cosmic Track Card (Media Grid Selector Component)
+        </h3>
+        <span className="px-2 py-0.5 rounded text-[11px] bg-purple-500/20 text-purple-300 border border-purple-500/50 font-mono">
+          &lt;CosmicTrackCard /&gt;
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {demoTracks.map((track) => (
+          <CosmicTrackCard
+            key={track.id}
+            onClick={() => setSelectedTrack(track.id)}
+            isActive={selectedTrack === track.id}
+            tag={track.tag}
+            title={track.title}
+            subtitle={track.subtitle}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -805,6 +569,9 @@ function ButtonMasterGalleryAndStudio() {
       {/* Dedicated Interactive Video Play Button Studio */}
       <GlassPlayButtonDemo />
 
+      {/* Dedicated CosmicTrackCard Media Grid Demo */}
+      <CosmicTrackCardDemo />
+
       {/* Interactive Control Studio Header & Inputs */}
       <div className="p-6 rounded-xl bg-gradient-to-br from-purple-950/50 via-black/90 to-slate-950 border border-purple-500/30 shadow-[0_0_30px_rgba(168,85,247,0.2)] space-y-6">
         <div className="flex items-center justify-between gap-4 flex-wrap border-b border-purple-500/20 pb-4">
@@ -971,33 +738,7 @@ function ButtonMasterGalleryAndStudio() {
           </div>
         </div>
 
-        {/* 2. CosmicRadialButton Component */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <div>
-              <h4 className="text-sm font-bold text-purple-400 uppercase tracking-wider">
-                CosmicRadialButton Component
-              </h4>
-              <p className="text-[11px] text-white/50">Multi-radial layer background glow component</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => handleCopyCode(`<CosmicRadialButton icon={${iconName !== "none" ? "<Sparkles />" : "null"}} disabled={${isDisabled}}>${buttonLabel || "Cosmic Action"}</CosmicRadialButton>`, "cosmic")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
-            >
-              {copiedTag === "cosmic" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-              {copiedTag === "cosmic" ? "Copied" : "Copy Code"}
-            </button>
-          </div>
-          <div className="flex flex-wrap items-center gap-4 py-2">
-            <CosmicRadialButton
-              disabled={isDisabled}
-              icon={currentIconNode}
-            >
-              {isLoadingState ? "Loading..." : (buttonLabel || "Cosmic Action")}
-            </CosmicRadialButton>
-          </div>
-        </div>
+
 
         {/* 3. SparkleGenerateButton */}
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
@@ -1111,30 +852,10 @@ function ButtonMasterGalleryAndStudio() {
           </div>
         </div>
 
-        {/* 5. NeatButton (WebGL Fluid Canvas) */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <div>
-              <h4 className="text-sm font-bold text-cyan-400 uppercase tracking-wider">
-                NeatButton (WebGL Fluid Canvas)
-              </h4>
-              <p className="text-[11px] text-white/50">Animated mesh gradient WebGL canvas button</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => handleCopyCode(`<NeatButton>${buttonLabel || "ENTER THE EXPERIENCE"}</NeatButton>`, "neat")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
-            >
-              {copiedTag === "neat" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-              {copiedTag === "neat" ? "Copied" : "Copy Code"}
-            </button>
-          </div>
-          <div className="flex flex-wrap items-center gap-4 py-2">
-            <NeatButton disabled={isDisabled}>
-              {buttonLabel || "ENTER THE EXPERIENCE"}
-            </NeatButton>
-          </div>
-        </div>
+        {/* 4d. GlowOrbButton (Cursor-Tracking Glow) */}
+
+
+
 
         {/* 6. SquishyToggle Physics Switch */}
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
@@ -1393,7 +1114,7 @@ function ButtonMasterGalleryAndStudio() {
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<FoolishShrimpButton onClick={() => {}} className="!h-auto !py-3 !px-4 !justify-start text-left btn-transition opacity-80 hover:opacity-100">\n  <div className="w-full">\n    <div className="flex items-center justify-between gap-2 mb-1">\n      <span className="text-purple-300 text-[11px] uppercase font-semibold">FEATURED SINGLE</span>\n      <span className="text-xs text-white/50">▶ Play</span>\n    </div>\n    <h3 className="text-white text-sm truncate font-bold">WHO ARE YOU</h3>\n    <p className="text-white/60 text-xs line-clamp-1">Season 1 Featured Track</p>\n  </div>\n</FoolishShrimpButton>`, "trackcard")}
+              onClick={() => handleCopyCode(`<CosmicTrackCard\n  tag="FEATURED SINGLE"\n  title="WHO ARE YOU"\n  subtitle="Season 1 Featured Track"\n  isActive={true}\n  onClick={() => {}}\n/>`, "trackcard")}
               className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
             >
               {copiedTag === "trackcard" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -1406,30 +1127,14 @@ function ButtonMasterGalleryAndStudio() {
               { tag: "INSPIRATIONAL ANTHEM", title: "WHAT YOU GIVE", subtitle: "Social Consciousness Single", active: false },
               { tag: "CONCERT ANTHEM", title: "TIME OF OUR LIVES", subtitle: "Animated Concert Finale", active: false },
             ].map((item) => (
-              <FoolishShrimpButton
+              <CosmicTrackCard
                 key={item.tag}
                 disabled={isDisabled}
                 isActive={isActiveState || item.active}
-                className={`!h-auto !py-3 !px-4 !justify-start text-left btn-transition ${isActiveState || item.active
-                  ? "scale-[1.02] opacity-100 ring-2 ring-purple-400/50"
-                  : "opacity-80 hover:opacity-100"
-                  } ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
-              >
-                <div className="w-full">
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="text-purple-300 text-[11px] uppercase font-semibold">
-                      {item.tag}
-                    </span>
-                    <span className="text-xs text-white/50">▶ Play</span>
-                  </div>
-                  <h3 className="text-white text-sm truncate font-bold">
-                    {buttonLabel && item.active ? buttonLabel : item.title}
-                  </h3>
-                  <p className="text-white/60 text-xs line-clamp-1">
-                    {item.subtitle}
-                  </p>
-                </div>
-              </FoolishShrimpButton>
+                tag={item.tag}
+                title={buttonLabel && item.active ? buttonLabel : item.title}
+                subtitle={item.subtitle}
+              />
             ))}
           </div>
         </div>

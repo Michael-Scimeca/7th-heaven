@@ -3,22 +3,20 @@
 import React, { useRef, useEffect, type ButtonHTMLAttributes } from "react";
 import gsap from "gsap";
 
-export interface SparkleGenerateButtonProps
+export interface GlowOrbButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
   children?: React.ReactNode;
-  /** Number of dust particles in the loop. Defaults to 10. */
-  dotCount?: number;
-  /** Lock the button into its active (hover) visual state */
-  active?: boolean;
-  isActive?: boolean;
-  icon?: React.ReactNode | boolean;
-  className?: string;
+  /** Pill background color behind the label */
   background?: string;
+  /** Label text color */
   color?: string;
+  /** Left/right stops of the rotating shine ring visible around the edge */
   shineLeft?: string;
   shineRight?: string;
+  /** Hex colors the cursor-tracking glow blends between, left to right */
   glowStart?: string;
   glowEnd?: string;
+  className?: string;
 }
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -46,28 +44,26 @@ function mixHex(hexA: string, hexB: string, t: number): string {
 }
 
 /**
- * SparkleGenerateButton adopting the GlowOrbButton cursor-tracking glow design.
+ * GlowOrbButton — cursor-tracking luminous glow button.
+ * Adapted from Aaron Iker's "Glow Button" (https://codepen.io/aaroniker/pen/XWYpyNM):
+ * a rotating shine ring behind a dark pill, plus a soft radial glow that follows
+ * the pointer and blends between --glow-start and --glow-end as it travels
+ * across the button. Reimplemented with gsap (already a project dependency)
+ * driving CSS custom properties, and a small local hex mixer in place of chroma-js.
  */
-export const SparkleGenerateButton = React.forwardRef<
-  HTMLButtonElement,
-  SparkleGenerateButtonProps
->(
+export const GlowOrbButton = React.forwardRef<HTMLButtonElement, GlowOrbButtonProps>(
   (
     {
-      children = "Generate Site",
-      dotCount,
-      active = false,
-      isActive = false,
-      icon,
-      className = "",
-      type = "button",
+      children = "Button",
       background,
       color,
       shineLeft,
       shineRight,
       glowStart,
       glowEnd,
+      className = "",
       style,
+      type = "button",
       ...buttonProps
     },
     forwardedRef
@@ -75,8 +71,6 @@ export const SparkleGenerateButton = React.forwardRef<
     const internalRef = useRef<HTMLButtonElement>(null);
     const buttonRef =
       (forwardedRef as React.RefObject<HTMLButtonElement | null>) || internalRef;
-
-    const forced = active || isActive;
 
     useEffect(() => {
       const button = (buttonRef as React.RefObject<HTMLButtonElement | null>).current;
@@ -122,20 +116,17 @@ export const SparkleGenerateButton = React.forwardRef<
       <button
         ref={buttonRef}
         type={type}
-        className={`gob-button sgb-generate-button ${forced ? "sgb-is-forced" : ""} ${className}`}
+        className={`gob-button ${className}`}
         style={{ ...(cssVars as React.CSSProperties), ...style }}
         {...buttonProps}
       >
         <div className="gob-gradient" aria-hidden="true" />
-        <span>
-          {typeof icon === "object" && icon !== null ? icon : null}
-          {children}
-        </span>
+        <span>{children}</span>
       </button>
     );
   }
 );
 
-SparkleGenerateButton.displayName = "SparkleGenerateButton";
+GlowOrbButton.displayName = "GlowOrbButton";
 
-export default SparkleGenerateButton;
+export default GlowOrbButton;

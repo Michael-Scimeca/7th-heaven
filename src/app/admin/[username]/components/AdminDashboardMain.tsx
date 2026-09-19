@@ -7701,19 +7701,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                         {/* Checked off */}
                         <div className="flex justify-center">
-                          <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' : 'bg-black/30 border-white/10 text-white/20 hover:border-white/30'}`}>
+                          <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-100 active:scale-90 cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]' : 'bg-black/30 border-white/10 text-white/20 hover:border-white/30'}`}>
                             {s.checkedOff && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                           </button>
                         </div>
                         {/* Deposit paid */}
                         <div className="flex justify-center">
-                          <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' : 'bg-black/30 border-white/10 text-white/20 hover:border-white/30'}`}>
+                          <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-100 active:scale-90 cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]' : 'bg-black/30 border-white/10 text-white/20 hover:border-white/30'}`}>
                             {s.depositPaid && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                           </button>
                         </div>
                         {/* Full paid */}
                         <div className="flex justify-center">
-                          <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/30 border-white/10 text-white/20 hover:border-white/30'}`}>
+                          <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-100 active:scale-90 cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.3)]' : 'bg-black/30 border-white/10 text-white/20 hover:border-white/30'}`}>
                             {s.fullPaid && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                           </button>
                         </div>

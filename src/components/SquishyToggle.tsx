@@ -91,10 +91,10 @@ export function SquishyToggle({
  />
 
       {/* Base inactive track layer */}
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-opacity duration-300" />
+      <div className="pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-opacity duration-150" />
 
       {/* Active linear-gradient track layer (fades smoothly in & out on check) */}
-      <div className={`pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] border border-[#8c0eaf] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-300 ${checked ?'opacity-100' : 'opacity-0'}`} />
+      <div className={`pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] border border-[#8c0eaf] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-150 ${checked ? 'opacity-100' : 'opacity-0'}`} />
 
       {/* thumb */}
       <div

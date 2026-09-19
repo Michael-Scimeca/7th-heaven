@@ -890,7 +890,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           {!hideMap && (
             <div
-              className="-mt-[100px] mb-6 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden -z-10"
+              className="-mt-[100px] mb-6 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden "
               style={{
                 transform: 'translateZ(0)',
                 backfaceVisibility: 'hidden',
@@ -1237,7 +1237,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           target="_blank"
                           rel="noopener noreferrer"
                           title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
-                          className="a-btn inline-flex items-center justify-center whitespace-nowrap uppercase  font-bold decoration-[var(--color-accent)]/50  hover:opacity-80 transition-all cursor-pointer font-bold "
+                          className="a-btn inline-flex items-center justify-center whitespace-nowrap uppercase  font-bold  hover:opacity-80 transition-all cursor-pointer font-bold "
                           style={{ fontSize: websiteBtnFontSize }}>
                           Website
                         </a>
@@ -1432,7 +1432,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             <div className="flex justify-center pt-8 pb-0 relative z-20">
               <CosmicRadialButton
                 onClick={() => setDisplayLimit(null)}
-                className="!px-8 !py-3.5 !text-xs sm:!text-sm !font-extrabold">
+                className="!text-xs sm:!text-sm !font-extrabold">
                 Load The Rest ({filtered.length - displayLimit} More Shows)
               </CosmicRadialButton>
             </div>

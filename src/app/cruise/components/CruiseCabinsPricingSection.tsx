@@ -231,9 +231,9 @@ function CruiseCabinsPricingSectionComponent({
         </div>
 
         {/* Guidelines Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 min-[1301px]:grid-cols-4 gap-6 text-left border-b border-white/10 py-section-fluid">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 text-left border-b border-white/10 py-section-fluid">
           {/* Column 1: Ship Resources */}
-          <div className="relative text-left rounded-2xl flex flex-col justify-between ">
+          <div className="relative text-left rounded-2xl flex flex-col justify-between md:col-span-4 lg:col-span-3 min-[1600px]:col-span-3">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <Ship className="w-6 h-6 text-purple-400 shrink-0" />
@@ -351,7 +351,7 @@ function CruiseCabinsPricingSectionComponent({
           </div>
 
           {/* Column 2: Booking Policy */}
-          <div className="relative text-left rounded-2xl pr-4 sm:pr-6">
+          <div className="relative text-left rounded-2xl pr-4 sm:pr-6 md:col-span-8 lg:col-span-5 min-[1600px]:col-span-3">
             <div className="flex items-center gap-3 mb-6">
               <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
               <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.bookingPolicyTitle || "Booking Policy"}</h3>
@@ -386,8 +386,8 @@ function CruiseCabinsPricingSectionComponent({
             </div>
           </div>
 
-          {/* Column 3: Passport */}
-          <div className="relative text-left rounded-2xl ">
+          {/* Column 3: Passport Guidelines (3rd column until 1600px, then stacked / 4-col at 1600px+) */}
+          <div className="relative text-left rounded-2xl md:col-span-6 lg:col-span-4 min-[1600px]:col-span-3">
             <div className="flex items-center gap-3 mb-6">
               <Compass className="w-6 h-6 text-purple-400 shrink-0" />
               <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.passportTitle || "Passport Guidelines"}</h3>
@@ -399,8 +399,8 @@ function CruiseCabinsPricingSectionComponent({
             </div>
           </div>
 
-          {/* Column 4: Cancellation */}
-          <div className="relative text-left">
+          {/* Column 4: Cancellation Policy */}
+          <div className="relative text-left md:col-span-6 lg:col-span-12 min-[1600px]:col-span-3">
             <div className="flex items-center gap-3 mb-6">
               <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
               <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.cancellationTitle || "Cancellation Policy"}</h3>

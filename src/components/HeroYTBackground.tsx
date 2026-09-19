@@ -37,8 +37,6 @@ export default function HeroYTBackground({
           rel: 0,
           showinfo: 0,
           playsinline: 1,
-          loop: 1,
-          playlist: videoId,
           mute: 1,
           start,
           end,

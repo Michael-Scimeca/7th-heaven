@@ -2,23 +2,15 @@
 
 import React, { useRef, useEffect, type ButtonHTMLAttributes } from "react";
 import gsap from "gsap";
+import { Play } from "lucide-react";
 
-export interface SparkleGenerateButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
-  children?: React.ReactNode;
-  /** Number of dust particles in the loop. Defaults to 10. */
-  dotCount?: number;
-  /** Lock the button into its active (hover) visual state */
-  active?: boolean;
+export interface CosmicTrackCardProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "title"> {
+  tag?: string;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
   isActive?: boolean;
-  icon?: React.ReactNode | boolean;
   className?: string;
-  background?: string;
-  color?: string;
-  shineLeft?: string;
-  shineRight?: string;
-  glowStart?: string;
-  glowEnd?: string;
 }
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -46,27 +38,21 @@ function mixHex(hexA: string, hexB: string, t: number): string {
 }
 
 /**
- * SparkleGenerateButton adopting the GlowOrbButton cursor-tracking glow design.
+ * CosmicTrackCard — Rectangular media track card featuring GSAP cursor-tracking glow,
+ * rotating gradient shine border, and clean header tag & play action.
  */
-export const SparkleGenerateButton = React.forwardRef<
+export const CosmicTrackCard = React.forwardRef<
   HTMLButtonElement,
-  SparkleGenerateButtonProps
+  CosmicTrackCardProps
 >(
   (
     {
-      children = "Generate Site",
-      dotCount,
-      active = false,
+      tag,
+      title,
+      subtitle,
       isActive = false,
-      icon,
       className = "",
       type = "button",
-      background,
-      color,
-      shineLeft,
-      shineRight,
-      glowStart,
-      glowEnd,
       style,
       ...buttonProps
     },
@@ -75,8 +61,6 @@ export const SparkleGenerateButton = React.forwardRef<
     const internalRef = useRef<HTMLButtonElement>(null);
     const buttonRef =
       (forwardedRef as React.RefObject<HTMLButtonElement | null>) || internalRef;
-
-    const forced = active || isActive;
 
     useEffect(() => {
       const button = (buttonRef as React.RefObject<HTMLButtonElement | null>).current;
@@ -110,32 +94,40 @@ export const SparkleGenerateButton = React.forwardRef<
       return () => button.removeEventListener("pointermove", handlePointerMove);
     }, [buttonRef]);
 
-    const cssVars: Record<string, string> = {};
-    if (background) cssVars["--button-background"] = background;
-    if (color) cssVars["--button-color"] = color;
-    if (shineLeft) cssVars["--button-shine-left"] = shineLeft;
-    if (shineRight) cssVars["--button-shine-right"] = shineRight;
-    if (glowStart) cssVars["--button-glow-start"] = glowStart;
-    if (glowEnd) cssVars["--button-glow-end"] = glowEnd;
-
     return (
       <button
         ref={buttonRef}
         type={type}
-        className={`gob-button sgb-generate-button ${forced ? "sgb-is-forced" : ""} ${className}`}
-        style={{ ...(cssVars as React.CSSProperties), ...style }}
+        className={`gob-button sgb-generate-button !rounded-2xl ${isActive ? "sgb-is-forced" : ""} ${className}`}
+        style={style}
         {...buttonProps}
       >
         <div className="gob-gradient" aria-hidden="true" />
-        <span>
-          {typeof icon === "object" && icon !== null ? icon : null}
-          {children}
+        <span className="!p-4 sm:!p-5 !min-w-0 !w-full !block text-left">
+          <div className="flex items-center justify-between gap-2 mb-2">
+            {tag ? (
+              <span className="text-[11px] font-bold uppercase tracking-wider text-purple-300/90 truncate">
+                {tag}
+              </span>
+            ) : <span />}
+            <span className="text-xs font-semibold text-white/80 flex items-center gap-1.5 shrink-0 ml-auto">
+              <Play className="w-3 h-3 fill-current text-white/90" /> Play
+            </span>
+          </div>
+          <h4 className="text-white text-base sm:text-lg font-bold uppercase tracking-wide truncate leading-snug">
+            {title}
+          </h4>
+          {subtitle && (
+            <p className="text-white/65 text-xs sm:text-sm truncate mt-1 font-normal">
+              {subtitle}
+            </p>
+          )}
         </span>
       </button>
     );
   }
 );
 
-SparkleGenerateButton.displayName = "SparkleGenerateButton";
+CosmicTrackCard.displayName = "CosmicTrackCard";
 
-export default SparkleGenerateButton;
+export default CosmicTrackCard;

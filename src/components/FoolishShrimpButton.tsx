@@ -1,22 +1,44 @@
 "use client";
 
 import React from "react";
-import SparkleGenerateButton, { SparkleGenerateButtonProps } from "./SparkleGenerateButton";
 
-export interface FoolishShrimpButtonProps extends SparkleGenerateButtonProps {
+export interface FoolishShrimpButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
   className?: string;
   icon?: React.ReactNode;
   isActive?: boolean;
+  active?: boolean;
 }
 
 export const FoolishShrimpButton = React.forwardRef<
   HTMLButtonElement,
-  FoolishShrimpButtonProps>(({ children = "Credits", className = "", icon, isActive, ...props }, ref) => {
+  FoolishShrimpButtonProps>(({ children = "Credits", className = "", icon, isActive, active, type = "button", ...props }, ref) => {
+  const forced = isActive || active;
+
   return (
-    <SparkleGenerateButton ref={ref} active={isActive} className={className} {...props}>
-      {children}
-    </SparkleGenerateButton>
+    <button
+      ref={ref}
+      type={type}
+      className={`uiverse-foolish-shrimp ${forced ? "is-active active" : ""} ${className}`}
+      {...props}
+    >
+      <div className="points_wrapper" aria-hidden="true">
+        <i className="point" />
+        <i className="point" />
+        <i className="point" />
+        <i className="point" />
+        <i className="point" />
+        <i className="point" />
+        <i className="point" />
+        <i className="point" />
+        <i className="point" />
+        <i className="point" />
+      </div>
+      <span className="inner">
+        {icon}
+        {children}
+      </span>
+    </button>
   );
 });
 
@@ -26,9 +48,9 @@ export const FoolishShrimpAlwaysButton = React.forwardRef<
   HTMLButtonElement,
   FoolishShrimpButtonProps>(({ children = "Credits", className = "", icon, ...props }, ref) => {
   return (
-    <SparkleGenerateButton ref={ref} active={true} className={className} {...props}>
+    <FoolishShrimpButton ref={ref} isActive={true} className={className} icon={icon} {...props}>
       {children}
-    </SparkleGenerateButton>
+    </FoolishShrimpButton>
   );
 });
 

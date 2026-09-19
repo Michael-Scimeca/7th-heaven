@@ -5,11 +5,15 @@
 /* eslint-disable react-doctor/prefer-useReducer */
 import Image from 'next/image';
 
-import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import { Sliders, Eye, EyeOff, Sparkles, X, RotateCcw, Paintbrush, Scissors, Save, ChevronLeft, ChevronRight, Ticket } from "lucide-react";
+import React, { useState, useRef, useEffect, useCallback, useMemo, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
+import { Sliders, Eye, EyeOff, Sparkles, X, RotateCcw, Paintbrush, Scissors, Save, ChevronLeft, ChevronRight, Ticket, Plus } from "lucide-react";
 import { SanityBandMember, urlFor } from "@/lib/sanity";
 import MemberFactSheetDrawer, { BandMemberFactSheet } from "@/components/MemberFactSheetDrawer";
 import { SectionBadge } from "@/components/SectionBadge";
+import PixelFireplaceCanvas from "@/components/PixelFireplaceCanvas";
+
+const emptySubscribe = () => () => { };
 
 // Explicit member sequence: Frankie (0), Nick (1), Adam (2 - Center), Richard (3), Mark (4)
 const FALLBACK_MEMBERS: (Partial<SanityBandMember> & {
@@ -430,16 +434,16 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   // Smooothy Physics & Tuned UI Configuration
   const physicsMode: "snap" | "free" = "free";
-  const [lerpSpeed, setLerpSpeed] = useState<number>(0.10);
+  const [lerpSpeed, setLerpSpeed] = useState<number>(0.22);
   const [dragSens, setDragSens] = useState<number>(2.2);
   const [dragThreshold, setDragThreshold] = useState<number>(4);
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
-  const [cardWidth, setCardWidth] = useState<number>(340);
-  const [imageHeight, setImageHeight] = useState<number>(450);
+  const [cardWidth, setCardWidth] = useState<number>(303);
+  const [imageHeight, setImageHeight] = useState<number>(404);
   const [imageScale, setImageScale] = useState<number>(1.42);
   const [imageOffsetY, setImageOffsetY] = useState<number>(-10);
-  const [gap, setGap] = useState<number>(0);
+  const [gap, setGap] = useState<number>(-30);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.00);
   const [maxSkew, setMaxSkew] = useState<number>(30);
   const [focalScale, setFocalScale] = useState<number>(1.36);
@@ -449,9 +453,64 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [activeYShift, setActiveYShift] = useState<number>(30);
   const [inactiveNameOpacity, setInactiveNameOpacity] = useState<number>(0);
 
+  // Fireplace WebGL Shader Canvas & BioParallax UI Controls State
+  const [isCanvasEnabled, setIsCanvasEnabled] = useState<boolean>(true);
+  const [flameSpeed, setFlameSpeed] = useState<number>(0.2);
+  const [flameHeight, setFlameHeight] = useState<number>(1.3);
+  const [sparkDensity, setSparkDensity] = useState<number>(2.3);
+  const [sparkScale, setSparkScale] = useState<number>(0.1);
+  const [paletteTheme, setPaletteTheme] = useState<number>(1);
+  const [canvasOpacity, setCanvasOpacity] = useState<number>(60);
+  const [glowOpacity, setGlowOpacity] = useState<number>(75);
+  const [useCustomColors, setUseCustomColors] = useState<boolean>(true);
+  const [colorBaseHex, setColorBaseHex] = useState<string>("#330000");
+  const [colorMidHex, setColorMidHex] = useState<string>("#CC1100");
+  const [colorCoreHex, setColorCoreHex] = useState<string>("#FFAA00");
+  const [colorSparkHex, setColorSparkHex] = useState<string>("#FFD700");
+  const [isCanvasCustomizerOpen, setIsCanvasCustomizerOpen] = useState<boolean>(false);
+  const [activeCustomizerTab, setActiveCustomizerTab] = useState<"canvas" | "stage">("canvas");
+  const [copiedConfigNotification, setCopiedConfigNotification] = useState<boolean>(false);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+
+  const getGlowGradient = useCallback(() => {
+    if (useCustomColors) {
+      return `radial-gradient(ellipse 85% 80% at 50% 50%, ${colorCoreHex}cc 0%, ${colorMidHex}88 45%, ${colorBaseHex}00 80%)`;
+    }
+    switch (paletteTheme) {
+      case 1:
+        return "radial-gradient(ellipse 85% 80% at 50% 50%, rgba(255, 122, 41, 0.85) 0%, rgba(217, 43, 0, 0.55) 45%, rgba(100, 10, 0, 0) 80%)";
+      case 2:
+        return "radial-gradient(ellipse 85% 80% at 50% 50%, rgba(0, 217, 255, 0.85) 0%, rgba(0, 90, 220, 0.55) 45%, rgba(0, 20, 70, 0) 80%)";
+      case 3:
+        return "radial-gradient(ellipse 85% 80% at 50% 50%, rgba(50, 255, 90, 0.85) 0%, rgba(10, 180, 50, 0.55) 45%, rgba(0, 50, 10, 0) 80%)";
+      case 4:
+        return "radial-gradient(ellipse 85% 80% at 50% 50%, rgba(240, 240, 255, 0.75) 0%, rgba(140, 150, 180, 0.45) 45%, rgba(20, 25, 40, 0) 80%)";
+      default:
+        // Theme 0: Deep Violet / Burnt Orange / Neon Glow
+        return "radial-gradient(ellipse 85% 80% at 50% 50%, rgba(168, 85, 247, 0.85) 0%, rgba(126, 34, 206, 0.55) 45%, rgba(21, 17, 80, 0) 80%)";
+    }
+  }, [useCustomColors, colorCoreHex, colorMidHex, colorBaseHex, paletteTheme]);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
+      const savedCanvas = localStorage.getItem("bioparallax_canvas_config_v1");
+      if (savedCanvas) {
+        const cfg = JSON.parse(savedCanvas);
+        if (cfg.isCanvasEnabled !== undefined) setIsCanvasEnabled(cfg.isCanvasEnabled);
+        if (cfg.flameSpeed !== undefined) setFlameSpeed(cfg.flameSpeed);
+        if (cfg.flameHeight !== undefined) setFlameHeight(cfg.flameHeight);
+        if (cfg.sparkDensity !== undefined) setSparkDensity(cfg.sparkDensity);
+        if (cfg.sparkScale !== undefined) setSparkScale(cfg.sparkScale);
+        if (cfg.paletteTheme !== undefined) setPaletteTheme(cfg.paletteTheme);
+        if (cfg.canvasOpacity !== undefined) setCanvasOpacity(cfg.canvasOpacity);
+        if (cfg.glowOpacity !== undefined) setGlowOpacity(cfg.glowOpacity);
+        if (cfg.useCustomColors !== undefined) setUseCustomColors(cfg.useCustomColors);
+        if (cfg.colorBaseHex !== undefined) setColorBaseHex(cfg.colorBaseHex);
+        if (cfg.colorMidHex !== undefined) setColorMidHex(cfg.colorMidHex);
+        if (cfg.colorCoreHex !== undefined) setColorCoreHex(cfg.colorCoreHex);
+        if (cfg.colorSparkHex !== undefined) setColorSparkHex(cfg.colorSparkHex);
+      }
       const saved = localStorage.getItem("smooothy_css_tuner_config_v2");
       if (saved) {
         const cfg = JSON.parse(saved);
@@ -464,9 +523,49 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
         if (cfg.inactiveNameOpacity !== undefined) setInactiveNameOpacity(cfg.inactiveNameOpacity);
       }
     } catch (e) {
-      console.error("Failed to load css tuner config:", e);
+      console.error("Failed to load tuner config:", e);
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(
+        "bioparallax_canvas_config_v1",
+        JSON.stringify({
+          isCanvasEnabled,
+          flameSpeed,
+          flameHeight,
+          sparkDensity,
+          sparkScale,
+          paletteTheme,
+          canvasOpacity,
+          glowOpacity,
+          useCustomColors,
+          colorBaseHex,
+          colorMidHex,
+          colorCoreHex,
+          colorSparkHex,
+        })
+      );
+    } catch (e) {
+      console.error("Failed to save canvas config:", e);
+    }
+  }, [
+    isCanvasEnabled,
+    flameSpeed,
+    flameHeight,
+    sparkDensity,
+    sparkScale,
+    paletteTheme,
+    canvasOpacity,
+    glowOpacity,
+    useCustomColors,
+    colorBaseHex,
+    colorMidHex,
+    colorCoreHex,
+    colorSparkHex,
+  ]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -479,6 +578,52 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       console.error("Failed to save css tuner config:", e);
     }
   }, [maskStart, maskEnd, paddingOffset, focalScale, imageOffsetY, activeYShift, inactiveNameOpacity]);
+
+  const handleResetCanvasDefaults = () => {
+    setIsCanvasEnabled(true);
+    setFlameSpeed(0.2);
+    setFlameHeight(1.3);
+    setSparkDensity(2.3);
+    setSparkScale(0.1);
+    setPaletteTheme(1);
+    setCanvasOpacity(60);
+    setGlowOpacity(75);
+    setUseCustomColors(true);
+    setColorBaseHex("#330000");
+    setColorMidHex("#CC1100");
+    setColorCoreHex("#FFAA00");
+    setColorSparkHex("#FFD700");
+    setCardWidth(303);
+    setImageHeight(404);
+    setImageScale(1.42);
+    setImageOffsetY(-10);
+    setGap(-30);
+    setActiveYShift(30);
+    setTextBackdropOpacity(0);
+  };
+
+  const handleCopyConfig = () => {
+    const config = {
+      canvas: {
+        isCanvasEnabled,
+        flameSpeed,
+        flameHeight,
+        sparkDensity,
+        sparkScale,
+        paletteTheme,
+        canvasOpacity,
+        useCustomColors,
+        colorBaseHex,
+        colorMidHex,
+        colorCoreHex,
+        colorSparkHex,
+      },
+      stage: { cardWidth, imageHeight, imageScale, imageOffsetY, gap, activeYShift, textBackdropOpacity },
+    };
+    navigator.clipboard.writeText(JSON.stringify(config, null, 2));
+    setCopiedConfigNotification(true);
+    setTimeout(() => setCopiedConfigNotification(false), 2000);
+  };
 
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -654,8 +799,13 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   const currentXRef = useRef<number>(adamCenterIdx * itemTotalWidth);
   const targetXRef = useRef<number>(adamCenterIdx * itemTotalWidth);
+  const activeIndexRef = useRef<number>(adamCenterIdx);
   const velocityRef = useRef<number>(0);
   const animFrameRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   const lerpSpeedRef = useRef<number>(lerpSpeed);
   useEffect(() => { lerpSpeedRef.current = lerpSpeed; }, [lerpSpeed]);
@@ -759,16 +909,21 @@ lerpSpeed: ${lerpSpeed}`;
   }, [adamCenterIdx, itemTotalWidth]);
 
   // 60fps Smooothy Lerp physics loop
+  const updatePhysicsRef = useRef<() => void>(() => { });
+
   useEffect(() => {
+    let frameId: number;
+    let isCancelled = false;
     let lastX = currentXRef.current;
 
-    const updatePhysics = () => {
+    const loop = () => {
+      if (isCancelled) return;
       // Lerp current position to target position using Smooothy inertia factor
       const diff = targetXRef.current - currentXRef.current;
-      if (Math.abs(diff) < 0.1) {
+      if (Math.abs(diff) < 0.2) {
         currentXRef.current = targetXRef.current;
       } else {
-        currentXRef.current += diff * lerpSpeedRef.current;
+        currentXRef.current += diff * Math.max(0.18, lerpSpeedRef.current);
       }
 
       // Velocity calculation
@@ -785,14 +940,17 @@ lerpSpeed: ${lerpSpeed}`;
         const translateX = centerPadding - currentXRef.current;
         trackRef.current.style.transform = `translate3d(${translateX}px, 0, 0)`;
 
-        // Apply dynamic scale, opacity, border, and parallax transforms to all cards
+        // Loop through all member cards to calculate Smooothy lerp position, focal scaling, opacity & dynamic zIndex
         const cardEls = trackRef.current.children;
         for (let i = 0; i < cardEls.length; i++) {
           const card = cardEls[i] as HTMLElement;
+          if (!card) continue;
+
           const imgEl = (card.querySelector(".smooothy-img-wrapper") || card.querySelector(".smooothy-img")) as HTMLElement | null;
 
-          // Distance in slide units from center focal point
-          const distFromCenter = Math.abs((currentXRef.current - i * itemTotalWidth) / itemTotalWidth);
+          // Position of this card relative to current center position in units of itemTotalWidth
+          const cardCenterX = i * itemTotalWidth;
+          const distFromCenter = Math.abs(cardCenterX - currentXRef.current) / itemTotalWidth;
 
           // Continuous smooth scale & opacity: 3 visible members max (Center + 1 Left + 1 Right)
           const focalVal = Math.max(0, 1 - Math.min(distFromCenter, 1.4) / 1.4);
@@ -801,63 +959,69 @@ lerpSpeed: ${lerpSpeed}`;
           // Keep all 5 member cards visible with smooth focal center weighting
           const cardOpacity = Math.max(0.70, 1 - distFromCenter * 0.12);
 
-          // Smooothy speed-based dynamic skew & active Y lift
-          const skewX = Math.max(-maxSkewRef.current, Math.min(maxSkewRef.current, vel * 0.35));
+          // Active Y lift
           const activeY = activeYShiftRef.current * focalVal;
 
           card.style.transformOrigin = "bottom center";
-          card.style.transform = `translate3d(0, ${activeY}px, 0) scale(${scale}) skewX(${skewX}deg)`;
-          card.style.opacity = String(cardOpacity);
+          card.style.transform = `translate3d(0, ${activeY}px, 0) scale(${scale})`;
+          card.style.opacity = "1";
+          card.style.zIndex = distFromCenter < 0.75 ? "40" : distFromCenter < 1.5 ? "30" : "20";
 
-          // Dynamic z-index depth layering elevates as card glides into focal center
-          if (distFromCenter < 0.75) {
-            card.classList.add("z-40");
-            card.classList.remove("z-20", "z-30");
-          } else if (distFromCenter < 1.5) {
-            card.classList.add("z-30");
-            card.classList.remove("z-20", "z-40");
-          } else {
-            card.classList.add("z-20");
-            card.classList.remove("z-30", "z-40");
-          }
-
-          // Parallax cutout translate + speed scale effect inside member card
+          // Parallax cutout translate effect inside member card
           if (imgEl) {
             const cardOffset = i * itemTotalWidth - currentXRef.current;
             const parallaxX = cardOffset * parallaxDepthRef.current;
-            const baseScale = imageScale;
-            const speedScale = baseScale + Math.min(Math.abs(vel) * 0.005, 0.06);
-            const transformStr = `translate3d(${parallaxX}px, ${imageOffsetY}px, 0) scale(${speedScale})`;
+            const transformStr = `translate3d(${parallaxX}px, ${imageOffsetY}px, 0) scale(${imageScale})`;
 
             imgEl.style.transformOrigin = "bottom center";
             imgEl.style.transform = transformStr;
             imgEl.style.opacity = "1";
-
-            // Filter drop-shadow disabled
             imgEl.style.filter = "none";
           }
         }
       }
 
-      // Compute active centered slide index (only trigger setState if index changed)
+      // Compute active centered slide index (non-blocking transition to prevent frame freeze)
       const rawIdx = Math.round(currentXRef.current / itemTotalWidth);
       const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, rawIdx));
-      setActiveIndex((prev) => (prev !== safeIdx ? safeIdx : prev));
+      if (activeIndexRef.current !== safeIdx) {
+        activeIndexRef.current = safeIdx;
+        React.startTransition(() => {
+          setActiveIndex(safeIdx);
+        });
+      }
 
-      animFrameRef.current = requestAnimationFrame(updatePhysics);
+      // Continue loop if still moving, else pause RAF loop cleanly
+      if (Math.abs(targetXRef.current - currentXRef.current) > 0.2 || Math.abs(velocityRef.current) > 0.2) {
+        frameId = requestAnimationFrame(loop);
+        animFrameRef.current = frameId;
+      } else {
+        frameId = 0;
+        animFrameRef.current = 0;
+      }
     };
 
-    animFrameRef.current = requestAnimationFrame(updatePhysics);
+    updatePhysicsRef.current = loop;
+    frameId = requestAnimationFrame(loop);
+    animFrameRef.current = frameId;
 
     return () => {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      isCancelled = true;
+      cancelAnimationFrame(frameId);
     };
-  }, [itemTotalWidth, displayMembers.length, cardWidth, imageScale, imageOffsetY, isTabletView, activeIndex]);
+  }, [itemTotalWidth, displayMembers.length, cardWidth, imageScale, imageOffsetY, isTabletView]);
+
+  const requestPhysicsUpdate = () => {
+    if (!animFrameRef.current && updatePhysicsRef.current) {
+      animFrameRef.current = requestAnimationFrame(updatePhysicsRef.current);
+    }
+  };
 
   // Go to slide
   const goToSlide = (idx: number) => {
     const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, idx));
     targetXRef.current = safeIdx * itemTotalWidth;
+    requestPhysicsUpdate();
   };
 
   // Global Keyboard Arrow Navigation (Left / Right Arrow, A / D keys)
@@ -870,10 +1034,12 @@ lerpSpeed: ${lerpSpeed}`;
         e.preventDefault();
         const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, activeIndex - 1));
         targetXRef.current = safeIdx * itemTotalWidth;
+        requestPhysicsUpdate();
       } else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
         e.preventDefault();
         const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, activeIndex + 1));
         targetXRef.current = safeIdx * itemTotalWidth;
+        requestPhysicsUpdate();
       }
     };
 
@@ -890,6 +1056,7 @@ lerpSpeed: ${lerpSpeed}`;
     lastClientXRef.current = e.clientX;
     velocityRef.current = 0;
     hasTriggeredRef.current = false;
+    requestPhysicsUpdate();
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -909,11 +1076,13 @@ lerpSpeed: ${lerpSpeed}`;
     // Physical responsive visual dragging with smooth multiplier
     const newX = Math.max(0, Math.min(maxTarget, dragStartTargetRef.current + totalDelta * dragSensRef.current));
     targetXRef.current = newX;
+    requestPhysicsUpdate();
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
     if (!isDraggingRef.current) return;
     isDraggingRef.current = false;
+    requestPhysicsUpdate();
 
     const totalDelta = dragStartXRef.current - e.clientX;
     const thresh = dragThresholdRef.current;
@@ -949,9 +1118,547 @@ lerpSpeed: ${lerpSpeed}`;
 
   return (
     <div
- id="band"
- ref={sectionRef}
- className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none relative ">
+      id="band"
+      ref={sectionRef}
+      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none relative "
+    >
+      {/* Floating Canvas UI Settings Button */}
+      <button
+        type="button"
+        onClick={() => setIsCanvasCustomizerOpen((prev) => !prev)}
+        aria-label="Open Canvas & BioParallax UI Settings"
+        title="Canvas & BioParallax UI Settings"
+        className="absolute top-4 right-4 z-40 flex items-center gap-2 bg-black/80 hover:bg-black/95 backdrop-blur-xl border border-white/20 text-white text-xs font-semibold px-3.5 py-2 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer group"
+      >
+        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-amber-400 group-hover:rotate-12 transition-transform"
+        >
+          <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z" />
+        </svg>
+        <span>Canvas UI Settings</span>
+      </button>
+
+      {/* Live Canvas & Stage UI Customizer Drawer Panel */}
+      {isCanvasCustomizerOpen && mounted && typeof document !== "undefined" && createPortal(
+        <>
+
+          <div className="fixed inset-y-0 right-0 z-[9999] w-[360px] max-w-[92vw] h-screen max-h-screen bg-black/95 backdrop-blur-2xl border-l border-white/15 p-5 text-white shadow-[0_0_50px_rgba(0,0,0,0.8)] flex flex-col justify-between overflow-y-auto">
+            <div>
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                <div>
+                  <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                    <span>🔥</span> Canvas & Stage Control
+                  </h4>
+                  <p className="text-[11px] text-white/50">Tune WebGL Fireplace & Bio Parallax Slider</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsCanvasCustomizerOpen(false)}
+                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
+                  aria-label="Close UI Controls"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Tabs */}
+              <div className="flex gap-2 mb-4 p-1 bg-white/5 rounded-lg border border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setActiveCustomizerTab("canvas")}
+                  className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${activeCustomizerTab === "canvas"
+                    ? "bg-amber-500 text-black shadow-md"
+                    : "text-white/70 hover:text-white hover:bg-white/5"
+                    }`}
+                >
+                  🔥 Shader Canvas
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCustomizerTab("stage")}
+                  className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${activeCustomizerTab === "stage"
+                    ? "bg-amber-500 text-black shadow-md"
+                    : "text-white/70 hover:text-white hover:bg-white/5"
+                    }`}
+                >
+                  📐 Bio Stage
+                </button>
+              </div>
+
+              {activeCustomizerTab === "canvas" && (
+                <div className="space-y-4 text-xs">
+                  {/* Enable Shader Canvas Toggle */}
+                  <div className="flex items-center justify-between p-2.5 bg-white/5 rounded-lg border border-white/10">
+                    <span className="font-medium text-white/90">Enable Fireplace Shader</span>
+                    <button
+                      type="button"
+                      onClick={() => setIsCanvasEnabled((prev) => !prev)}
+                      className={`px-3 py-1 rounded-full font-bold text-[11px] transition-colors cursor-pointer ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20 text-white/70"
+                        }`}
+                    >
+                      {isCanvasEnabled ? "ON" : "OFF"}
+                    </button>
+                  </div>
+
+                  {/* Palette Theme Presets */}
+                  <div>
+                    <span className="block text-white/70 font-medium mb-1.5">Fireplace Palette Preset</span>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {[
+                        { id: 0, label: "💜 Deep Violet" },
+                        { id: 1, label: "🔥 Classic Red" },
+                        { id: 2, label: "🩵 Cyber Cyan" },
+                        { id: 3, label: "💚 Toxic Lime" },
+                        { id: 4, label: "🤍 Silver White" },
+                      ].map((theme) => (
+                        <button
+                          key={theme.id}
+                          type="button"
+                          onClick={() => {
+                            setPaletteTheme(theme.id);
+                            setUseCustomColors(false);
+                          }}
+                          className={`p-2 rounded-lg text-left text-[11px] font-semibold border transition-all cursor-pointer ${!useCustomColors && paletteTheme === theme.id
+                            ? "bg-amber-500 text-black border-amber-400 font-bold shadow-sm"
+                            : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10"
+                            }`}
+                        >
+                          {theme.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Custom Color Swatches & Toggle */}
+                  <div className="p-3 bg-white/5 rounded-xl border border-white/10 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-white/90 font-semibold text-xs flex items-center gap-1.5">
+                        <span>🎨</span> Custom Palette Swatches
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setUseCustomColors((prev) => !prev)}
+                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold transition-colors cursor-pointer ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20 text-white/70"
+                          }`}
+                      >
+                        {useCustomColors ? "CUSTOM" : "PRESET"}
+                      </button>
+                    </div>
+
+                    {/* Preset Swatch Shortcuts */}
+                    <div className="pt-2 border-t border-white/10">
+                      <span className="block text-[10px] font-semibold text-white/50 uppercase mb-1.5">Quick Swatch Presets</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {[
+                          { label: "💜 Violet", base: "#151150", mid: "#611EBD", core: "#FF7A29", spark: "#FF6124" },
+                          { label: "🔥 Magma", base: "#330000", mid: "#CC1100", core: "#FFAA00", spark: "#FFD700" },
+                          { label: "🩵 Cyber", base: "#001533", mid: "#0088CC", core: "#00FFFF", spark: "#80FFFF" },
+                          { label: "💖 Pink", base: "#220015", mid: "#CC0066", core: "#FF3399", spark: "#FF99DD" },
+                          { label: "💚 Lime", base: "#002200", mid: "#00AA33", core: "#88FF00", spark: "#D4FF80" },
+                        ].map((s) => (
+                          <button
+                            key={s.label}
+                            type="button"
+                            onClick={() => {
+                              setUseCustomColors(true);
+                              setColorBaseHex(s.base);
+                              setColorMidHex(s.mid);
+                              setColorCoreHex(s.core);
+                              setColorSparkHex(s.spark);
+                            }}
+                            className="px-2 py-1 bg-white/10 hover:bg-white/20 border border-white/15 rounded text-[10px] font-semibold text-white transition-all cursor-pointer"
+                          >
+                            {s.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2.5 pt-1">
+                      <div>
+                        <div className="flex justify-between text-[10px] text-white/60 mb-1">
+                          <span>Base Sky</span>
+                          <span className="font-mono text-amber-300">{colorBaseHex}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="color"
+                            value={colorBaseHex}
+                            onChange={(e) => {
+                              setColorBaseHex(e.target.value);
+                              setUseCustomColors(true);
+                            }}
+                            className="w-8 h-8 rounded border border-white/20 bg-transparent cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={colorBaseHex}
+                            onChange={(e) => {
+                              setColorBaseHex(e.target.value);
+                              setUseCustomColors(true);
+                            }}
+                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-amber-400"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between text-[10px] text-white/60 mb-1">
+                          <span>Mid Flame</span>
+                          <span className="font-mono text-amber-300">{colorMidHex}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="color"
+                            value={colorMidHex}
+                            onChange={(e) => {
+                              setColorMidHex(e.target.value);
+                              setUseCustomColors(true);
+                            }}
+                            className="w-8 h-8 rounded border border-white/20 bg-transparent cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={colorMidHex}
+                            onChange={(e) => {
+                              setColorMidHex(e.target.value);
+                              setUseCustomColors(true);
+                            }}
+                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-amber-400"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between text-[10px] text-white/60 mb-1">
+                          <span>Core Fire</span>
+                          <span className="font-mono text-amber-300">{colorCoreHex}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="color"
+                            value={colorCoreHex}
+                            onChange={(e) => {
+                              setColorCoreHex(e.target.value);
+                              setUseCustomColors(true);
+                            }}
+                            className="w-8 h-8 rounded border border-white/20 bg-transparent cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={colorCoreHex}
+                            onChange={(e) => {
+                              setColorCoreHex(e.target.value);
+                              setUseCustomColors(true);
+                            }}
+                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-amber-400"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between text-[10px] text-white/60 mb-1">
+                          <span>Spark Embers</span>
+                          <span className="font-mono text-amber-300">{colorSparkHex}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="color"
+                            value={colorSparkHex}
+                            onChange={(e) => {
+                              setColorSparkHex(e.target.value);
+                              setUseCustomColors(true);
+                            }}
+                            className="w-8 h-8 rounded border border-white/20 bg-transparent cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={colorSparkHex}
+                            onChange={(e) => {
+                              setColorSparkHex(e.target.value);
+                              setUseCustomColors(true);
+                            }}
+                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-amber-400"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Flame Animation Speed */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Flame Speed</span>
+                      <span className="font-mono text-amber-400">{flameSpeed.toFixed(1)}x</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.1"
+                      max="2.5"
+                      step="0.1"
+                      value={flameSpeed}
+                      onChange={(e) => setFlameSpeed(parseFloat(e.target.value))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Flame Speed"
+                    />
+                  </div>
+
+                  {/* Flame Scale / Height */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Flame Height Scale</span>
+                      <span className="font-mono text-amber-400">{flameHeight.toFixed(1)}x</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.2"
+                      max="3.0"
+                      step="0.1"
+                      value={flameHeight}
+                      onChange={(e) => setFlameHeight(parseFloat(e.target.value))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Flame Height Scale"
+                    />
+                  </div>
+
+                  {/* Ember / Spark Density */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Ember Density</span>
+                      <span className="font-mono text-amber-400">{sparkDensity.toFixed(1)}x</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.0"
+                      max="3.0"
+                      step="0.1"
+                      value={sparkDensity}
+                      onChange={(e) => setSparkDensity(parseFloat(e.target.value))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Ember Density"
+                    />
+                  </div>
+
+                  {/* Spark Particle Size */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Spark Size</span>
+                      <span className="font-mono text-amber-400">{sparkScale.toFixed(2)}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.02"
+                      max="0.20"
+                      step="0.01"
+                      value={sparkScale}
+                      onChange={(e) => setSparkScale(parseFloat(e.target.value))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Spark Size"
+                    />
+                  </div>
+
+                  {/* Canvas Opacity */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Canvas Opacity</span>
+                      <span className="font-mono text-amber-400">{canvasOpacity}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={canvasOpacity}
+                      onChange={(e) => setCanvasOpacity(parseInt(e.target.value, 10))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Canvas Opacity"
+                    />
+                  </div>
+
+                  {/* Backdrop Glow Opacity */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Image Glow Opacity</span>
+                      <span className="font-mono text-amber-400">{glowOpacity}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={glowOpacity}
+                      onChange={(e) => setGlowOpacity(parseInt(e.target.value, 10))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Image Glow Opacity"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {activeCustomizerTab === "stage" && (
+                <div className="space-y-4 text-xs">
+                  {/* Card Width */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Card Width</span>
+                      <span className="font-mono text-amber-400">{cardWidth}px</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="240"
+                      max="480"
+                      step="10"
+                      value={cardWidth}
+                      onChange={(e) => setCardWidth(parseInt(e.target.value, 10))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Card Width"
+                    />
+                  </div>
+
+                  {/* Image Height */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Cutout Height</span>
+                      <span className="font-mono text-amber-400">{imageHeight}px</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="300"
+                      max="600"
+                      step="10"
+                      value={imageHeight}
+                      onChange={(e) => setImageHeight(parseInt(e.target.value, 10))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Cutout Height"
+                    />
+                  </div>
+
+                  {/* Image Scale */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Member Image Scale</span>
+                      <span className="font-mono text-amber-400">{imageScale.toFixed(2)}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="1.0"
+                      max="2.2"
+                      step="0.02"
+                      value={imageScale}
+                      onChange={(e) => setImageScale(parseFloat(e.target.value))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Member Image Scale"
+                    />
+                  </div>
+
+                  {/* Image Y Offset */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Image Y Offset</span>
+                      <span className="font-mono text-amber-400">{imageOffsetY}px</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="-40"
+                      max="40"
+                      step="2"
+                      value={imageOffsetY}
+                      onChange={(e) => setImageOffsetY(parseInt(e.target.value, 10))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Image Y Offset"
+                    />
+                  </div>
+
+                  {/* Gap */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Card Spacing Gap</span>
+                      <span className="font-mono text-amber-400">{gap}px</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="40"
+                      step="2"
+                      value={gap}
+                      onChange={(e) => setGap(parseInt(e.target.value, 10))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Card Spacing Gap"
+                    />
+                  </div>
+
+                  {/* Active Y Shift */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Active Card Y-Elevation</span>
+                      <span className="font-mono text-amber-400">{activeYShift}px</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="-20"
+                      max="60"
+                      step="2"
+                      value={activeYShift}
+                      onChange={(e) => setActiveYShift(parseInt(e.target.value, 10))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Active Card Y-Elevation"
+                    />
+                  </div>
+
+                  {/* Text Backdrop Opacity */}
+                  <div>
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 font-medium">Text Backdrop Opacity</span>
+                      <span className="font-mono text-amber-400">{textBackdropOpacity}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={textBackdropOpacity}
+                      onChange={(e) => setTextBackdropOpacity(parseInt(e.target.value, 10))}
+                      className="w-full accent-amber-500 cursor-pointer"
+                      aria-label="Text Backdrop Opacity"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Footer Action Buttons */}
+            <div className="pt-4 border-t border-white/10 flex flex-col gap-2 mt-4">
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={handleResetCanvasDefaults}
+                  className="flex-1 py-2 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg text-xs transition-colors cursor-pointer"
+                >
+                  🔄 Reset Defaults
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCopyConfig}
+                  className="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-black font-semibold rounded-lg text-xs transition-colors cursor-pointer"
+                >
+                  {copiedConfigNotification ? "✓ Copied!" : "📋 Copy Config"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </>,
+        document.body
+      )}
 
 
       {/* 🎬 LEFT SPINE PAGINATION (Top image locked at top-[36px], gap & height scale down as screen height shrinks) */}
@@ -965,25 +1672,25 @@ lerpSpeed: ${lerpSpeed}`;
 
                 return (
                   <button
- key={idx}
- type="button"
- onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
+                    key={idx}
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
                     className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
                       }`}>
                     {/* Member Card Thumbnail */}
                     <div
- className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
- style={{
- height: `${spineVideoHeight}px`,
- width: `${Math.round(spineVideoHeight * 0.78)}px`,
- }}>
+                      className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
+                      style={{
+                        height: `${spineVideoHeight}px`,
+                        width: `${Math.round(spineVideoHeight * 0.78)}px`,
+                      }}>
                       <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
                     </div>
 
                     {/* Member Name & Role Display (Responsive text sizing) */}
                     <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0"
- : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
- }`}>
+                      : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                      }`}>
                       <p className=" drop-">
                         {m?.name || "Band Member"}
                       </p>
@@ -1010,9 +1717,9 @@ lerpSpeed: ${lerpSpeed}`;
 
                 return (
                   <button
- key={idx}
- type="button"
- onClick={(e) => {
+                    key={idx}
+                    type="button"
+                    onClick={(e) => {
                       e.stopPropagation();
                       goToSlide(idx);
                       setSelectedMemberForSheet(m as BandMemberFactSheet);
@@ -1022,8 +1729,8 @@ lerpSpeed: ${lerpSpeed}`;
                       }`}>
                     {/* Member Name & Role Display (Responsive text sizing) */}
                     <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0"
- : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
- }`}>
+                      : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                      }`}>
                       <p className=" drop-">
                         {m?.name || "Band Member"}
                       </p>
@@ -1034,11 +1741,11 @@ lerpSpeed: ${lerpSpeed}`;
 
                     {/* Member Card Thumbnail */}
                     <div
- className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
- style={{
- height: `${spineVideoHeight}px`,
- width: `${Math.round(spineVideoHeight * 0.78)}px`,
- }}>
+                      className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
+                      style={{
+                        height: `${spineVideoHeight}px`,
+                        width: `${Math.round(spineVideoHeight * 0.78)}px`,
+                      }}>
                       <Image src={imageSrc} alt={m?.name || "Band Member"} fill sizes="100px" className={`object-cover transition-all duration-300 ${isActive ? "brightness-110 scale-105" : "brightness-75 opacity-70 group-hover:opacity-100 group-hover:brightness-100"}`} />
                     </div>
                   </button>
@@ -1052,36 +1759,39 @@ lerpSpeed: ${lerpSpeed}`;
       {/* 100VW FULL-SCREEN STAGE CONTAINER */}
       <div className="w-full relative overflow-x-clip">
 
+
+
         {/* 5-CARD FULL-SCREEN CANVAS */}
         <div
- ref={containerRef}
- onPointerDown={handlePointerDown}
- onPointerMove={handlePointerMove}
- onPointerUp={handlePointerUp}
- onPointerCancel={handlePointerUp}
- style={{
- touchAction: "pan-y",
- paddingTop: `${scaledHeadroomPadding}px`,
- paddingBottom: "24px",
- }}
- className="w-full overflow-visible cursor-grab active:cursor-grabbing relative">
+          ref={containerRef}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          style={{
+            touchAction: "pan-y",
+            paddingTop: `${scaledHeadroomPadding}px`,
+            paddingBottom: "24px",
+          }}
+          className="w-full overflow-visible cursor-grab active:cursor-grabbing relative">
           {/* TRACK ELEMENT (GPU accelerated with Smooothy parallax & speed lerp) */}
           <div
- ref={trackRef}
- className="flex items-end pt-0 pb-0"
- style={{ width: `${displayMembers.length * itemTotalWidth}px` }}>
+            ref={trackRef}
+            className="flex items-end pt-0 pb-0"
+            style={{ width: `${displayMembers.length * itemTotalWidth}px` }}>
             {displayMembers.map((m, i) => {
               const imageSrc = getMemberImage(m, isMobileView);
               const desktopSrc = getMemberDesktopImage(m);
               const mobileSrc = getMemberMobileImage(m);
+              const isActive = activeIndex === i;
 
               return (
                 <div
- role="button"
- tabIndex={0}
- aria-label={`View details for ${m?.name || "Band Member"}`}
- key={i}
- onClick={(e) => {
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View details for ${m?.name || "Band Member"}`}
+                  key={i}
+                  onClick={(e) => {
                     if (hasTriggeredRef.current) {
                       e.preventDefault();
                       return;
@@ -1110,30 +1820,111 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {/* Dynamic Sized Member Photo Cutout Container */}
                       <div
- className="smooothy-img-container relative flex items-end justify-center overflow-visible transition-colors duration-150 origin-bottom w-full"
- style={{
- height: `${imageHeight}px`,
- transform: `translateY(${imageOffsetY}px)`,
- }}>
-                        <picture className="w-full h-full flex items-end justify-center">
+                        className="smooothy-img-container relative flex items-end justify-center overflow-visible transition-colors duration-150 origin-bottom w-full"
+                        style={{
+                          height: `${imageHeight}px`,
+                          transform: `translateY(${imageOffsetY}px)`,
+                        }}>
+                        {/* WebGL Pixel Fireplace Shader Canvas behind Active Band Member */}
+                        {isCanvasEnabled && Math.abs(activeIndex - i) <= 1 && (
+                          <div
+                            className="absolute inset-x-[-20%] bottom-[60px] md:bottom-[80px] top-[-10%] pointer-events-none z-[-1] overflow-hidden rounded-3xl transition-opacity duration-700 ease-out"
+                            style={{ opacity: isActive ? canvasOpacity / 100 : 0 }}
+                          >
+                            <PixelFireplaceCanvas
+                              className="block pointer-events-none w-full h-full object-cover"
+                              flameSpeed={flameSpeed}
+                              flameHeight={flameHeight}
+                              sparkDensity={sparkDensity}
+                              sparkScale={sparkScale}
+                              paletteTheme={paletteTheme}
+                              useCustomColors={useCustomColors}
+                              colorBaseHex={colorBaseHex}
+                              colorMidHex={colorMidHex}
+                              colorCoreHex={colorCoreHex}
+                              colorSparkHex={colorSparkHex}
+                            />
+                          </div>
+                        )}
+                        {/* Radiant Gradient Glow behind Active Image Cutout */}
+                        <div
+                          className="absolute inset-x-[-15%] top-[-10%] bottom-[40px] pointer-events-none z-[0] rounded-full blur-2xl md:blur-3xl transition-opacity duration-300 ease-out origin-center mix-blend-screen"
+                          style={{
+                            background: getGlowGradient(),
+                            opacity: isActive ? glowOpacity / 100 : 0,
+                            transform: isActive ? "scale(1)" : "scale(0.75)",
+                          }}
+                        />
+                        <picture className="w-full h-full flex items-end justify-center relative z-10">
                           <source media="(max-width: 767px)" srcSet={mobileSrc} />
                           <source media="(min-width: 768px)" srcSet={desktopSrc} />
                           <Image
- src={imageSrc}
- alt={m?.name || "Member Photo"}
- width={1200}
- height={1600}
- quality={100}
- unoptimized
- loading="lazy"
- draggable={false}
- className="smooothy-img w-full h-full object-contain object-bottom pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
- style={{
- transform: `scale(${imageScale})`,
- opacity: 1,
- }}
- />
+                            src={imageSrc}
+                            alt={m?.name || "Member Photo"}
+                            width={1200}
+                            height={1600}
+                            quality={100}
+                            unoptimized
+                            loading="lazy"
+                            draggable={false}
+                            className="smooothy-img w-full h-full object-contain object-bottom pointer-events-none select-none origin-bottom relative z-0"
+                            style={{
+                              transform: `scale(${imageScale})`,
+                              opacity: 1,
+                            }}
+                          />
+                          {/* Glare Masked strictly to Non-Transparent Pixels of the Member Photo Cutout */}
+                          <div
+                            key={`glare-${i}-${isActive ? "active" : "inactive"}`}
+                            className={`glarer-mask absolute inset-0 pointer-events-none z-20 overflow-hidden glarer ${isActive ? "active-glare" : ""
+                              }`}
+                            style={{
+                              maskImage: `url(${imageSrc})`,
+                              WebkitMaskImage: `url(${imageSrc})`,
+                              WebkitMaskSize: "contain",
+                              maskSize: "contain",
+                              WebkitMaskPosition: "bottom center",
+                              maskPosition: "bottom center",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskRepeat: "no-repeat",
+                              transform: `scale(1.41) translate(0px, -10px)`,
+                              transformOrigin: "bottom center",
+                            }}
+                          />
                         </picture>
+
+                        {/* Orb Button Glass Stack — Toggle Bio Fact Sheet (Active Member Only) */}
+                        {isActive && (
+                          <div className="btn-wrapper absolute top-2 right-2 md:top-4 md:right-4 z-40 text-[7.5px] md:text-[8.5px] transition-opacity duration-300">
+                            <button
+                              type="button"
+                              aria-label={isFactSheetOpen ? `Close bio details for ${m?.name || "Band Member"}` : `View bio details for ${m?.name || "Band Member"}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (isFactSheetOpen) {
+                                  setIsFactSheetOpen(false);
+                                } else {
+                                  goToSlide(i);
+                                  setSelectedMemberForSheet(m as BandMemberFactSheet);
+                                  setIsFactSheetOpen(true);
+                                }
+                              }}
+                              className="orb-btn btn-violet"
+                            >
+                              {isFactSheetOpen ? (
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                              ) : (
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                  <line x1="12" y1="4" x2="12" y2="20"></line>
+                                  <line x1="4" y1="12" x2="20" y2="12"></line>
+                                </svg>
+                              )}
+                            </button>
+                          </div>
+                        )}
 
                         {/* Bottom Gradient Fade Overlay for Mobile & Tablet */}
                       </div>
@@ -1141,12 +1932,12 @@ lerpSpeed: ${lerpSpeed}`;
                       {/* Dynamic Member Info Overlay (z-30 - Pure White & Bright Purple Text with Live Control) */}
                       {textPos === "left" && (
                         <div
- id="names"
- className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] transition-opacity duration-300"
- style={{
- bottom: `1px`,
- opacity: activeIndex === i ? 1 : inactiveNameOpacity,
- ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
+                          id="names"
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] transition-opacity duration-300"
+                          style={{
+                            bottom: `1px`,
+                            opacity: activeIndex === i ? 1 : inactiveNameOpacity,
+                            ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
                           <h3 className="sm:bg-black/60 bg-black/40 text-white pb-1pt-1 pr-2 pl-2" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
@@ -1160,8 +1951,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-glass" && (
                         <div
- className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
- style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1173,8 +1964,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-accent" && (
                         <div
- className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
- style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1186,11 +1977,11 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center" && (
                         <div
- className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none w-full px-2 transition-opacity duration-300"
- style={{
- bottom: `${textBottomOffset}px`,
- opacity: activeIndex === i ? 1 : inactiveNameOpacity,
- ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
+                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none w-full px-2 transition-opacity duration-300"
+                          style={{
+                            bottom: `${textBottomOffset}px`,
+                            opacity: activeIndex === i ? 1 : inactiveNameOpacity,
+                            ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
@@ -1203,8 +1994,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
- className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-2.5 rounded-lg transition-opacity duration-300"
- style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-2.5 rounded-lg transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1216,11 +2007,11 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right" && (
                         <div
- className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] transition-opacity duration-300"
- style={{
- bottom: `${textBottomOffset}px`,
- opacity: activeIndex === i ? 1 : inactiveNameOpacity,
- ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] transition-opacity duration-300"
+                          style={{
+                            bottom: `${textBottomOffset}px`,
+                            opacity: activeIndex === i ? 1 : inactiveNameOpacity,
+                            ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
                           <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
@@ -1233,8 +2024,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-glass" && (
                         <div
- className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
- style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1246,8 +2037,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-accent" && (
                         <div
- className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
- style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
                           <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
@@ -1268,8 +2059,8 @@ lerpSpeed: ${lerpSpeed}`;
       </div>
 
       <MemberFactSheetDrawer
- isOpen={isFactSheetOpen}
- onClose={() => setIsFactSheetOpen(false)}
+        isOpen={isFactSheetOpen}
+        onClose={() => setIsFactSheetOpen(false)}
         member={selectedMemberForSheet}
         allMembers={displayMembers as BandMemberFactSheet[]}
         onSelectMember={(m) => {

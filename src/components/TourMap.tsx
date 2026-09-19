@@ -11,6 +11,7 @@ import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 let googleMapsOptionsSet = false;
 
 import { VENUE_COORDS, getVenueCoords, typeConfig, getShowType, getShowDateTime, isShowOver } from "@/lib/tour-helpers";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
 
 function formatDateLabel(timestamp: number) {
   if (!timestamp) return "";
@@ -918,7 +919,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative w-full h-[50vh] sm:h-auto sm:aspect-[3/1] overflow-hidden pb-px bg-[#160533]" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '500px', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)' }}>
+    <div className="relative w-full h-[50vh] sm:h-auto sm:aspect-[3/1] overflow-hidden pb-px bg-[#160533]" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '500px', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 90%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 0%, black 90%, transparent 100%)' }}>
       <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862 bg-[#160533]" />
 
       {/* Bottom Gradient Mask Fade */}
@@ -980,14 +981,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           {/* Left Map Controls: Show Types & Date Range Zoom */}
           <div className="pointer-events-auto flex items-center gap-3 flex-wrap max-w-[calc(100%-120px)] sm:max-w-none">
             {/* Legend / Show Types */}
-            <div className="group bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-colors duration-300">
+            <div className="group overflow-visible transition-colors duration-300">
               {/* Header - always visible, click to toggle */}
-              <button aria-label="Show Types"
+              <CosmicRadialButton
+                aria-label="Show Types"
                 onClick={() => setLegendOpen(o => !o)}
-                className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-4 py-0 sm:py-2.5 w-full cursor-pointer bg-[#00000029] text-white/80 hover:text-[var(--color-accent)] transition-colors">
-                <span className="sm:text-[16px] uppercase transition-colors">Show Types</span>
-                <svg className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-              </button>
+                className="!text-xs sm:!text-sm !font-bold flex items-center justify-between gap-2">
+                <span>SHOW TYPES</span>
+                <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </CosmicRadialButton>
               {/* Expandable content */}
               {legendOpen && (
                 <div className="px-3 pb-2.5">
@@ -1035,21 +1037,17 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             {/* Date Range Zoom Control (Bottom-Left) */}
             <div className="relative">
               {!isDateUiOpen ? (
-                <button
-                  type="button"
+                <CosmicRadialButton
                   onClick={() => setIsDateUiOpen(true)}
-                  className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border rounded-lg sm:text-[15px]    uppercase text-white/90 transition-all cursor-pointer    ${isDateFiltered ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
-                    : " border-white/10 hover:border-purple-400/50 hover:text-purple-300"
-                    }`}
-                  title="Zoom in on dates & filter show markers">
-
-                  <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "Date Range Zoom"}</span>
+                  title="Zoom in on dates & filter show markers"
+                  className="!text-xs sm:!text-sm !font-bold">
+                  <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "DATE RANGE ZOOM"}</span>
                   {isDateFiltered && (
-                    <span className="ml-1 text-[12px] sm:text-[10px] bg-purple-600 text-white px-1.5 sm:px-2 py-0.5 rounded-lg border border-purple-400/50">
+                    <span className="ml-1 text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
                       ({markerCount})
                     </span>
                   )}
-                </button>
+                </CosmicRadialButton>
               ) : (
                 <div className="absolute bottom-full mb-2 left-0 w-[340px] max-w-[90vw] bg-[rgba(8,8,18,0.96)]backdrop-blur-[18px] border border-purple-500/40 p-4.5 rounded-lg shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 select-none text-left text-white z-50">
                   {/* Header */}
@@ -1164,14 +1162,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             </div>
 
             {/* Zoom Settings Control (Bottom-Left) */}
-            <button
-              type="button"
+            <CosmicRadialButton
               onClick={() => setIsZoomUiOpen(true)}
-              className="flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-5 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-purple-400/50 hover:text-purple-300 rounded-lg sm:text-[15px] uppercase text-white/90 transition-all cursor-pointer"
               title="Configure & Save Map Zoom Levels per Device"
-            >
-              <span>⚙️ Zoom Settings</span>
-            </button>
+              className="!text-xs sm:!text-sm !font-bold">
+              <span>⚙️ ZOOM SETTINGS</span>
+            </CosmicRadialButton>
           </div>
 
           {/* Right Map Controls: Custom Big Zoom Controls (+ / -) */}

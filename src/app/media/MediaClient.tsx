@@ -11,7 +11,6 @@ import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
 import GlassPlayButton from "@/components/GlassPlayButton";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import AddCmsButton from "@/components/AddCmsButton";
 
 const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
@@ -444,33 +443,35 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
         {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
         <nav aria-label="Media Categories" className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-6 md:mb-12">
-          <FoolishShrimpButton
+          <CosmicRadialButton
             type="button"
             onClick={() => handleFilterChange("ALL")}
             isActive={activeFilter === "ALL"}
-            className="!w-auto px-5 py-2.5 uppercase text-xs">
+            className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+          >
             ALL
-          </FoolishShrimpButton>
+          </CosmicRadialButton>
 
           {categories.map((cat) => {
             if (!cat.category || !cat.category.trim() || cat.videos.length === 0) return null;
             const catUpper = cat.category.toUpperCase();
             const isActive = activeFilter.toUpperCase() === catUpper;
             return (
-              <FoolishShrimpButton
+              <CosmicRadialButton
                 key={cat.category}
                 type="button"
                 onClick={() => handleFilterChange(catUpper)}
                 isActive={isActive}
-                className="!w-auto px-5 py-2.5 uppercase text-xs">
+                className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+              >
                 {catUpper}
-              </FoolishShrimpButton>
+              </CosmicRadialButton>
             );
           })}
         </nav>
 
         {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
-        <section aria-label="Media Gallery" key={activeFilter} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch pb-6">
+        <section aria-label="Media Gallery" key={activeFilter} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch pb-6">
           {visibleVideos.map((video, index) => {
             const isHovered = hoveredVideoId === video.id;
             const isMiddleCol = index % 3 === 1;

@@ -3,7 +3,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import CosmicRadialButton from "@/components/CosmicRadialButton";
+import CosmicTrackCard from "@/components/CosmicTrackCard";
 import AddCmsButton from "@/components/AddCmsButton";
 import SectionBadge from "@/components/SectionBadge";
 import { getMediaUrl } from "@/lib/sanity";
@@ -509,15 +510,14 @@ export default function RockNRollKidsClient({
               />
               <div className="flex flex-wrap gap-2.5">
                 {musicSinglesList.map((single: any) => (
-                  <FoolishShrimpButton
+                  <CosmicRadialButton
                     key={single.id}
                     onClick={() => setSelectedVideo(single.id)}
-                    className={`px-4 py-2 btn-transition ${selectedVideo === single.id
-                      ? "scale-105 opacity-100"
-                      : "opacity-80 hover:opacity-100"
-                      }`}>
+                    isActive={selectedVideo === single.id}
+                    className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+                  >
                     {single.title}
-                  </FoolishShrimpButton>
+                  </CosmicRadialButton>
                 ))}
               </div>
             </div>
@@ -535,30 +535,16 @@ export default function RockNRollKidsClient({
               />
             </div>
 
-            <div className="grid grid-rows-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
               {videosList.map((v: any) => (
-                <FoolishShrimpButton
+                <CosmicTrackCard
                   key={v.id}
                   onClick={() => setSelectedVideo(v.id)}
-                  className={`!h-auto !py-3 !px-4 !justify-start text-left btn-transition ${selectedVideo === v.id
-                    ? "scale-[1.02] opacity-100"
-                    : "opacity-80 hover:opacity-100"
-                    }`}>
-                  <div className="w-full">
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="text-purple-300 text-[11px] uppercase font-semibold">
-                        {v.tag}
-                      </span>
-                      <span className="text-xs text-white/50">▶ Play</span>
-                    </div>
-                    <h3 className="text-white text-sm truncate font-bold">
-                      {v.title}
-                    </h3>
-                    <p className="text-white/60 text-xs line-clamp-1">
-                      {v.subtitle}
-                    </p>
-                  </div>
-                </FoolishShrimpButton>
+                  isActive={selectedVideo === v.id}
+                  tag={v.tag}
+                  title={v.title}
+                  subtitle={v.subtitle}
+                />
               ))}
             </div>
           </div>
@@ -610,9 +596,9 @@ export default function RockNRollKidsClient({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full block">
-                <FoolishShrimpButton className="w-full !py-2 !px-3 text-center justify-center font-bold text-xs">
+                <CosmicRadialButton className="w-full !text-center justify-center font-bold text-xs ">
                   <span>Amazon Link</span>
-                </FoolishShrimpButton>
+                </CosmicRadialButton>
               </a>
             </article>
           ))}
@@ -622,17 +608,17 @@ export default function RockNRollKidsClient({
       {/* ── SERIES FOUNDERS & CREATORS ── */}
       <section aria-labelledby="rrk-founders-heading" className="space-y-6 pt-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
-          <div>
-            <h2 id="rrk-founders-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
-              {foundersSection?.title || "Series Founders & Contact"}
-            </h2>
-            <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
-              {foundersSection?.subtitle || foundersSection?.body || "Meet the series creators and art team behind 7th Heaven & The Rock 'n' Roll Kids."}
-            </p>
-          </div>
+
+          <h2 id="rrk-founders-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
+            {foundersSection?.title || "Series Founders & Contact"}
+          </h2>
+          <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
+            {foundersSection?.subtitle || foundersSection?.body || "Meet the series creators and art team behind 7th Heaven & The Rock 'n' Roll Kids."}
+          </p>
+
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {foundersList.map((founder: any) => (
             <article key={founder.name} className="flex flex-col space-y-4 group">
               <div className="relative w-full aspect-[4/3] sm:aspect-[1.2/1] max-h-[460px] rounded-2xl overflow-hidden transition-all flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)]">
@@ -655,7 +641,7 @@ export default function RockNRollKidsClient({
                 {/* Bottom Gradient Mask Overlay */}
                 <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 pointer-events-none z-10" />
               </div>
-              <div className="flex flex-col items-center text-center mt-2 space-y-2.5 w-full">
+              <div className="flex flex-col items-center text-center space-y-2.5 w-full">
                 <h3 className="text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">
                   {founder.name}
                 </h3>

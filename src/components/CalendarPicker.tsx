@@ -353,7 +353,7 @@ export function CalendarPicker({
                     <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
                       <TypeIcon className="w-5 h-5 shrink-0" />
                     </div>
-                    <div className="min-w-0 flex-1 text-left gap-2 flex ">
+                    <div className="min-w-0 flex-1 text-left gap-2 flex items-center ">
                       <span className={`text-sm sm:text-base font-bold block truncate ${isSelected ? "text-purple-300" : "text-white"}`}>{displayLabel}</span>
                       <span className="text-xs sm:text-sm text-white/80 block line-clamp-1 sm:line-clamp-2 leading-tight">{displayDesc}</span>
                     </div>
