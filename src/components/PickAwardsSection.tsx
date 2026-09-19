@@ -132,7 +132,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
         <h2 className="text-black">
           Pick <span className="gradient-text">Awards</span>
         </h2>
-        <span className="uppercase tracking-[0.15em] text-black/40">Collect Picks · Enter Lotteries</span>
+        <span className="uppercase    text-black/40">Collect Picks · Enter Lotteries</span>
       </div>
 
       {loading ? (
@@ -146,8 +146,8 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-6">
             {pickTypes.map((pick) => (
               <button
- key={pick.id}
- onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
+                key={pick.id}
+                onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
                 className={`relative p-3 border text-center transition-colors ${pick.owned > 0 ? selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
                   : "border-black/10 bg-gray-50 hover:border-black/25 cursor-pointer"
                   : "border-black/10 bg-gray-100/50 opacity-40 grayscale cursor-default"
@@ -164,7 +164,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 <p className={` uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity}</p>
                 {pick.owned === 0 && (
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                    <span className="text-black/60 uppercase tracking-[0.15em] bg-gray-200/90 px-2 py-1 rounded">Locked</span>
+                    <span className="text-black/60 uppercase    bg-gray-200/90 px-2 py-1 rounded">Locked</span>
                   </div>
                 )}
               </button>
@@ -188,7 +188,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                   <button onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black cursor-pointer"><X className="w-4 h-4" /></button>
                 </div>
                 <div className="space-y-1.5">
-                  <p className="text-black/50 uppercase tracking-[0.15em]">History</p>
+                  <p className="text-black/50 uppercase   ">History</p>
                   {pick.picks.slice(0, 5).map((p: any) => (
                     <div key={p.id || p.created_at} className="flex items-center gap-2 text-black/70 bg-gray-50 px-3 py-1.5 rounded">
                       <span className="flex items-center gap-1.5"><Gift className="w-3.5 h-3.5 text-purple-600" /> {REASON_LABELS[p.awarded_reason] || "Awarded"}</span>
@@ -206,15 +206,15 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Collection Stats */}
           <div className="flex items-center gap-6 mb-6 p-3 bg-gray-50 border border-black/10 rounded-lg">
             <div>
-              <p className="uppercase tracking-[0.15em] text-black/40">Total Picks</p>
+              <p className="uppercase    text-black/40">Total Picks</p>
               <p>{totalOwned}</p>
             </div>
             <div>
-              <p className="uppercase tracking-[0.15em] text-black/40">Unique Types</p>
+              <p className="uppercase    text-black/40">Unique Types</p>
               <p className="text-black">{uniqueTypes}/{totalTypes}</p>
             </div>
             <div className="ml-auto text-right">
-              <p className="uppercase tracking-[0.15em] text-black/40">How to earn</p>
+              <p className="uppercase    text-black/40">How to earn</p>
               <p className="text-black/60">Attend shows · Merch purchases · Social shares · Referrals</p>
             </div>
           </div>
@@ -222,7 +222,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Visit Merch Table CTA */}
           <div className="mb-6 p-4 border border-black/10 bg-gray-50 rounded-lg flex items-center gap-3 border-dashed">
             <Dices className="w-6 h-6 text-purple-600 shrink-0" />
-            <p className="text-black/60 uppercase tracking-[0.15em]">
+            <p className="text-black/60 uppercase   ">
               Visit the merch table at any show to enter your picks into the lottery
             </p>
           </div>
@@ -230,16 +230,16 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Active Lotteries */}
           {lotteries.length > 0 && (
             <div>
-              <h3 className="text-black/70 uppercase tracking-[0.15em] mb-3 flex items-center gap-1.5"><Dices className="w-4 h-4 text-purple-600" /> Active Lotteries</h3>
+              <h3 className="text-black/70 uppercase    mb-3 flex items-center gap-1.5"><Dices className="w-4 h-4 text-purple-600" /> Active Lotteries</h3>
               <div className="space-y-3">
                 {lotteries.map((lottery: any) => (
                   <div
- key={lottery.id}
- className={`p-4 border rounded-lg transition-colors ${lottery.isEntered ? "border-emerald-500/30 bg-emerald-500/5"
- : lottery.isEligible
- ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
- : "border-black/10 bg-gray-50"
- }`}>
+                    key={lottery.id}
+                    className={`p-4 border rounded-lg transition-colors ${lottery.isEntered ? "border-emerald-500/30 bg-emerald-500/5"
+                      : lottery.isEligible
+                        ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
+                        : "border-black/10 bg-gray-50"
+                      }`}>
                     <div className="flex items-center justify-between mb-2">
                       <div>
                         <h4 className="text-black">{lottery.name}</h4>
@@ -247,16 +247,16 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       </div>
                       <div className="text-right">
                         {lottery.isEntered ? (
-                          <span className="text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-lg border border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
+                          <span className="text-emerald-600 uppercase    bg-emerald-500/10 px-3 py-1 rounded-lg border border-white/10 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
                         ) : lottery.isEligible ? (
                           <button
- onClick={() => handleEnterLottery(lottery.id)}
+                            onClick={() => handleEnterLottery(lottery.id)}
                             disabled={enteringLottery === lottery.id}
-                            className="px-4 py-2 bg-[var(--color-purple-glow)] border border-[var(--color-border-purple)] text-[var(--color-purple-light)] text-[var(--font-size-xs)] uppercase tracking-[0.15em] rounded-lg hover:bg-[var(--color-purple-glow)] transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_10px_var(--color-purple-glow)]">
+                            className="px-4 py-2 bg-[var(--color-purple-glow)] border border-[var(--color-border-purple)] text-[var(--color-purple-light)] text-[var(--font-size-xs)] uppercase    rounded-lg hover:bg-[var(--color-purple-glow)] transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_10px_var(--color-purple-glow)]">
                             {enteringLottery === lottery.id ? "Entering..." : "Enter Lottery"}
                           </button>
                         ) : (
-                          <span className="text-black/40 uppercase tracking-[0.15em]">Not eligible</span>
+                          <span className="text-black/40 uppercase   ">Not eligible</span>
                         )}
                       </div>
                     </div>
@@ -274,9 +274,9 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                         </div>
                         <div className="w-full h-1.5 bg-black/10 rounded-lg overflow-hidden">
                           <div
- className={`h-full rounded-lg transition-colors ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
- style={{ width: `${Math.min(100, lottery.progress)}%` }}
- />
+                            className={`h-full rounded-lg transition-colors ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
+                            style={{ width: `${Math.min(100, lottery.progress)}%` }}
+                          />
                         </div>
                       </div>
                     )}

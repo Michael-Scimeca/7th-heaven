@@ -209,7 +209,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
       <div className="relative z-10 w-full max-w-md">
 
         {/* TOP BAR / NAVIGATION */}
-        <div className="flex items-center justify-between mb-4 px-1">
+        <div className="flex items-center justify-between mb-6 px-1">
           <Link
             href="/crew"
             className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors">

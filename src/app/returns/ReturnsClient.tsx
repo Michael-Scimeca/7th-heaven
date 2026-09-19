@@ -10,7 +10,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
 
   return (
     <main className="site-container pt-[100px] min-h-screen text-left" id="returns-page">
-      <header className="mb-12 text-left">
+      <header className="mb-6 text-left">
         <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Return & Refund Policy"}
         </h1>
@@ -89,7 +89,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
             <section aria-labelledby="returns-sec-4-heading">
               <h2 id="returns-sec-4-heading" className="mb-3">4. Damaged or Defective Items</h2>
               <p>
-                If your online order arrives damaged, defective, or misprinted, please send a brief email to <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a> with your order number and photo evidence of the issue. We will arrange a replacement or issue a full refund at no additional cost.
+                If your online order arrives damaged, defective, or misprinted, please send a brief email to <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a> with your order number and photo evidence of the issue. We will arrange a replacement or issue a full refund at no additional cost.
               </p>
             </section>
 
@@ -101,8 +101,8 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
               </p>
               <div className="space-y-1">
                 <p className="font-semibold text-white">7th Heaven Support</p>
-                <p>Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
-                <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com</a></p>
+                <p>Email: <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a></p>
+                <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="a-btn">7thheavenband.com</a></p>
               </div>
             </section>
           </>

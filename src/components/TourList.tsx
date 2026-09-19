@@ -890,7 +890,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           {!hideMap && (
             <div
-              className="-mt-[100px] mb-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden -z-10"
+              className="-mt-[100px] mb-6 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden -z-10"
               style={{
                 transform: 'translateZ(0)',
                 backfaceVisibility: 'hidden',
@@ -1476,12 +1476,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 <form onSubmit={handleSaveShow} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="tour-form-venue" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Venue Name *</label>
+                      <label htmlFor="tour-form-venue" className="uppercase    text-white/30 block mb-1.5">Venue Name *</label>
                       <input id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
                         placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-date" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Event Date *</label>
+                      <label htmlFor="tour-form-date" className="uppercase    text-white/30 block mb-1.5">Event Date *</label>
                       <input id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
                         className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
@@ -1489,12 +1489,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="sm:col-span-2">
-                      <label htmlFor="tour-form-city" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">City *</label>
+                      <label htmlFor="tour-form-city" className="uppercase    text-white/30 block mb-1.5">City *</label>
                       <input id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
                         placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-state" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">State *</label>
+                      <label htmlFor="tour-form-state" className="uppercase    text-white/30 block mb-1.5">State *</label>
                       <input id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
                         placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
@@ -1502,22 +1502,22 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                   <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                     <div>
-                      <label htmlFor="tour-form-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Show Time</label>
+                      <label htmlFor="tour-form-time" className="uppercase    text-white/30 block mb-1.5">Show Time</label>
                       <input id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
                         placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-doors-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Doors Open</label>
+                      <label htmlFor="tour-form-doors-time" className="uppercase    text-white/30 block mb-1.5">Doors Open</label>
                       <input id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
                         placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-play-time" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Band Plays</label>
+                      <label htmlFor="tour-form-play-time" className="uppercase    text-white/30 block mb-1.5">Band Plays</label>
                       <input id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
                         placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-cover" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Cover / Admission</label>
+                      <label htmlFor="tour-form-cover" className="uppercase    text-white/30 block mb-1.5">Cover / Admission</label>
                       <input id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
                         placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
@@ -1525,12 +1525,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="tour-form-ticket-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Ticket Link (URL)</label>
+                      <label htmlFor="tour-form-ticket-link" className="uppercase    text-white/30 block mb-1.5">Ticket Link (URL)</label>
                       <input id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
                         placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-directions-link" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Directions / Google Maps (URL)</label>
+                      <label htmlFor="tour-form-directions-link" className="uppercase    text-white/30 block mb-1.5">Directions / Google Maps (URL)</label>
                       <input id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
                         placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
@@ -1538,19 +1538,19 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="tour-form-parking-url" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Directions Link (URL)</label>
+                      <label htmlFor="tour-form-parking-url" className="uppercase    text-white/30 block mb-1.5">Parking Directions Link (URL)</label>
                       <input id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
                         placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-parking-info" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Parking Info / Notes</label>
+                      <label htmlFor="tour-form-parking-info" className="uppercase    text-white/30 block mb-1.5">Parking Info / Notes</label>
                       <input id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
                         placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="tour-form-notes" className="uppercase tracking-[0.15em] text-white/30 block mb-1.5">Notes / Description</label>
+                    <label htmlFor="tour-form-notes" className="uppercase    text-white/30 block mb-1.5">Notes / Description</label>
                     <textarea aria-label="Text input" id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
                       placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
                   </div>
@@ -1648,7 +1648,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
               <div className="p-6">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
                     <div className="w-11 h-11 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[var(--color-accent)]" viewBox="0 0 20 20" fill="currentColor">
@@ -1666,13 +1666,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 </div>
 
                 {/* Show info */}
-                <div className="bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 mb-4">
+                <div className="bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 mb-6">
                   <p className="font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
                   <p className="mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
                 </div>
 
                 {/* What would you like? */}
-                <p className="uppercase tracking-[0.15em] mb-2">What would you like to be notified about?</p>
+                <p className="uppercase    mb-2">What would you like to be notified about?</p>
 
                 <div className="flex flex-col gap-2">
                   {/* This show */}
@@ -1803,7 +1803,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Font Size */}
-              <div className="mb-4">
+              <div className="mb-6">
                 <div className="flex justify-between items-center mb-1.5">
                   <label htmlFor="tour-font-size-slider" className="text-white/50 uppercase r">Font Size</label>
                   <span className="text-[var(--color-accent)]">{tourFontSize}</span>
@@ -1824,7 +1824,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Website Button Font Size */}
-              <div className="mb-4">
+              <div className="mb-6">
                 <div className="flex justify-between items-center mb-1.5">
                   <label htmlFor="tour-website-btn-size-slider" className="text-white/50 uppercase r">Website Button Size</label>
                   <span className="text-[var(--color-accent)]">{websiteBtnFontSize}</span>
@@ -1849,7 +1849,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Row Padding */}
-              <div className="mb-4">
+              <div className="mb-6">
                 <div className="flex justify-between items-center mb-1.5">
                   <label htmlFor="tour-row-padding-slider" className="text-white/50 uppercase r">Row Padding</label>
                   <span className="text-[var(--color-accent)]">{tourRowPadding}</span>
@@ -1870,7 +1870,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Row Spacing */}
-              <div className="mb-4">
+              <div className="mb-6">
                 <div className="flex justify-between items-center mb-1.5">
                   <label htmlFor="tour-row-spacing-slider" className="text-white/50 uppercase r">Row Spacing (Margin)</label>
                   <span className="text-[var(--color-accent)]">{tourRowGap}</span>

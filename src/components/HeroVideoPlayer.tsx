@@ -32,7 +32,7 @@ const ALBUM_VIDEOS: Record<string, string> = {
   "09-luminous": "/movie/luminous-clip.mp4",
 };
 
-const DEFAULT_VIDEO = "/movie/be-here-clip.mp4";
+const DEFAULT_VIDEO = "tNQnzl6i7EM";
 
 // Unique video URLs to prefetch in the background for instant album switching
 const PREFETCH_URLS = [...new Set(Object.values(ALBUM_VIDEOS))];
@@ -492,7 +492,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
             />
           </div>
         ) : isYouTube && YTComp ? (
-          <YTComp videoId={ytId} />
+          <YTComp videoId={ytId || "tNQnzl6i7EM"} start={28} end={36} />
         ) : (
           <video
             key={videoSrc}

@@ -110,7 +110,7 @@ async function main() {
     title: "Frequently Asked Questions",
     heroHeading: "FREQUENTLY ASKED QUESTIONS",
     heroSubheading: "Everything you need to know about 7th Heaven shows, booking, merchandise, fan perks, and the annual Caribbean Cruise.",
-    searchPlaceholder: "Search questions, keywords, or topics...",
+    searchPlaceholder: "Search questions",
     seo: {
       metaTitle: "FAQ — 7th Heaven | Frequently Asked Questions",
       metaDescription: "Frequently asked questions about 7th Heaven shows, venue bookings, merchandise shipping, fan perks, and Caribbean Cruise details.",

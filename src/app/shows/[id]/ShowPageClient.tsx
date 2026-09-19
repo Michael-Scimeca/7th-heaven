@@ -357,7 +357,7 @@ export default function ShowPageClient({
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
               {/* Status badge */}
-              <div className="flex flex-wrap items-center gap-2 mb-4">
+              <div className="flex flex-wrap items-center gap-2 mb-6">
                 {isPast ? (
                   <SectionBadge label="Past Show" />
                 ) : show.status === "live" ? (
@@ -457,7 +457,7 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/10 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-lg blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-white/10 rounded-lg text-[var(--font-size-2xs)]  uppercase mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-white/10 rounded-lg text-[var(--font-size-2xs)]  uppercase mb-6">
                     Missed this show?
                   </span>
                   <h3 className="text-white uppercase mb-2">Notify Me Next Time</h3>
@@ -502,7 +502,7 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/10 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-lg blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-lg text-[var(--font-size-2xs)] text-red-400 uppercase mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-lg text-[var(--font-size-2xs)] text-red-400 uppercase mb-6">
                     Live Performance
                   </span>
                   <h3 className="text-white uppercase mb-3">Live Show Clips</h3>
@@ -577,7 +577,7 @@ export default function ShowPageClient({
 
               {totalCount === 0 ? (
                 <div className="py-16 flex flex-col items-center">
-                  <span className="text-5xl mb-4 opacity-20">🎸</span>
+                  <span className="text-5xl mb-6 opacity-20">🎸</span>
                   <p>Nobody&apos;s RSVPed yet.</p>
                   <p className="mt-2">Be the first — hit &ldquo;I&apos;m Going&rdquo; above!</p>
                 </div>

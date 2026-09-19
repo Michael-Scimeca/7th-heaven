@@ -142,14 +142,14 @@ function AvailabilityCardForm({
 }: any) {
   return (
     <div className="flex-1 text-white">
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center gap-3 mb-6">
         <div>
           <h3 className="text-white">Your Availability & Blackouts</h3>
           <p className="uppercase mt-0.5">Let admins know when you are available or unavailable</p>
         </div>
       </div>
       <div>
-        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
+        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-6">
           <div>
             <label htmlFor="avail-date-input" className="uppercase text-white block mb-1.5">Date</label>
             <input
@@ -234,14 +234,14 @@ function TimeOffCardForm({
 }: any) {
   return (
     <div className="flex-1 text-white">
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center gap-3 mb-6">
         <div>
           <h3 className="text-white">Time-Off Requests</h3>
           <p className="uppercase mt-0.5">Submit time-off requests for administrator approval</p>
         </div>
       </div>
       <div>
-        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
+        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-6">
           <div>
             <label htmlFor="time-off-date-input" className="uppercase text-white block mb-1.5">Request Date</label>
             <input
@@ -2701,7 +2701,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           <button
             type="button"
             onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
-            className="w-full text-left border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white group pb-5 !rounded-none">
+            className="w-full text-left border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white group  !rounded-none">
             <div className="flex items-center gap-3 min-w-0">
               <div className="flex flex-col lg:flex-row lg:items-center gap-3 min-w-0">
                 <div>
@@ -2734,7 +2734,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           {!isBroadcastPanelCollapsed && (
             <div className="space-y-2.5 text-white">
               {/* Switch Feed and Fan page links moved from header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-white pt-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-white pt-6">
                 <div className="flex items-center gap-3 no-glow">
                   <span className="text-white uppercase ">Switch Dashboard Feed:</span>
                   <CustomDropdown
@@ -2770,7 +2770,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               {/* Callout Link - Only visible when stream is LIVE */}
               {isLive && (
                 <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-opacity duration-500 ease-out">
-                  <div className="mb-4 sm:mb-0 text-center sm:text-left">
+                  <div className="mb-6 sm:mb-0 text-center sm:text-left">
                     <p className="flex flex-col sm:flex-row items-center gap-1.5 uppercase mb-1.5">
                       <span className="w-1.5 h-1.5 rounded-lg bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
                       Fan Watch Link — Share with your audience
@@ -2819,7 +2819,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         </svg>
                       </div>
                       <h3 className="text-white/80 uppercase mb-1 text-sm sm:text-base">Camera Standby</h3>
-                      <p className="text-center max-w-[250px] text-xs sm:text-sm text-white/60 mb-4">
+                      <p className="text-center max-w-[250px] text-xs sm:text-sm text-white/60 mb-6">
                         Click <span className="text-white font-semibold">GO LIVE</span> below to start your camera and begin broadcasting.
                       </p>
                       <CosmicRadialButton
@@ -3060,7 +3060,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
               <div className="mt-6 text-white bg-[#00000029] border border-white/10 p-6">
-                <div className="mb-6 pb-4 border-b border-white/10 flex items-center justify-between">
+                <div className="mb-6  border-b border-white/10 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div>
                       <h3 className="text-white text-lg uppercase">Live Stream Performance & Chat Analytics</h3>
@@ -3126,7 +3126,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                 {/* FLASH MERCH DROP */}
                 <div className="flex-1 text-white">
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-3">
                     <div>
                       <h3 className="text-white">Flash Merch Drop</h3>
                       <p>Limited time, limited stock</p>
@@ -3202,7 +3202,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <button onClick={() => window.location.reload()} className="p-2 text-white/40 hover:text-white flex items-center gap-1 border border-white/10">↻ Refresh</button>
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-6">
                           <CustomDropdown
                             ariaLabel="Select product to add to Flash Drop"
                             value=""
@@ -3222,7 +3222,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           />
                         </div>
 
-                        <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
+                        <div className="space-y-3 mb-6 max-h-60 overflow-y-auto pr-1">
                           <p className="uppercase mb-2">Selected Products & Flash Sale Prices</p>
                           {selectedProducts.length === 0 ? (
                             <div className="text-center py-6 rounded-lg border border-white/10 text-white">
@@ -3260,7 +3260,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           )}
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="grid grid-cols-2 gap-4 mb-6">
                           <div>
                             <p className="uppercase mb-2">Total Products</p>
                             <button
@@ -3295,7 +3295,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-3 mb-4 no-glow">
+                        <div className="flex items-center gap-3 mb-6 no-glow">
                           <SquishyToggle
                             id="global-drop-toggle"
                             checked={globalDrop}
@@ -3332,7 +3332,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                 {/* LIVE RAFFLE (Rebuilt as requested) */}
                 <div className="flex-1 flex flex-col text-white">
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-4">
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
                     <div className="flex items-center gap-3">
                       <div>
                         <h3 className="text-white">Live Event Raffle</h3>
@@ -3527,7 +3527,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
               <div className="mt-6 text-white">
-                <div className="mb-4 flex items-center gap-3">
+                <div className="mb-6 flex items-center gap-3">
                   <div>
                     <h3 className="text-white">Chat Moderation & Policies</h3>
                     <p>
@@ -3740,7 +3740,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             return (
               <>
                 <div className="mt-6 text-white">
-                  <div className="w-full text-left mb-4 flex items-center justify-between select-none group">
+                  <div className="w-full text-left mb-6 flex items-center justify-between select-none group">
                     <button
                       type="button"
                       onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
@@ -4343,14 +4343,14 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <div className="max-w-md w-full bg-white border border-black/10 p-8 relative overflow-hidden">
                 {isSavingReplay && (
                   <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
-                    <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-lg animate-spin mb-4"></div>
+                    <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-lg animate-spin mb-6"></div>
                     <h3 className="text-emerald-400 uppercase">Processing & Saving...</h3>
                     <p className="text-black/40 mt-2">Compressing VOD to Gallery</p>
                   </div>
                 )}
 
                 <div className="text-center mb-8 relative z-10">
-                  <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center justify-center mx-auto mb-6">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><rect x="9" y="9" width="6" height="6" /></svg>
                   </div>
                   <h2 className="er uppercase mb-2text-black">End Broadcast?</h2>
@@ -4525,7 +4525,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
             <div className="bg-white border border-black/10 w-full max-w-md p-6 relative text-black flex flex-col">
               {/* Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4">
+              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6">
                 <div className="flex items-center gap-2.5">
                   <span className="text-xl">🏛️</span>
                   <div>
@@ -4637,7 +4637,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
             <div className="bg-white border border-black/10 w-full max-w-lg p-6 relative text-black flex flex-col max-h-[90vh]">
               {/* Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4 shrink-0">
+              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6 shrink-0">
                 <div className="flex items-center gap-2.5">
                   <span className="text-xl">🎸</span>
                   <div>
@@ -4848,7 +4848,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
             <div className="bg-white border border-black/10 w-full max-w-md p-6 relative text-black flex flex-col">
               {/* Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-4 shrink-0">
+              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6 shrink-0">
                 <div className="flex items-center gap-2.5">
                   <span className="text-xl">🔄</span>
                   <div>

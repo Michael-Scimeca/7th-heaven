@@ -100,11 +100,11 @@ export default function NotificationsPage() {
     <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden" id="notifications-page">
       {/* Page Header */}
       <div className="text-center mb-12 max-w-2xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-4 text-purple-700 uppercase r">
+        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-6 text-purple-700 uppercase r">
           <BellIcon />
           Free &middot; No Phone Number &middot; No Signup
         </div>
-        <h1 className="text-4xl sm:text-5xl uppercase mb-4">
+        <h1 className="text-4xl sm:text-5xl uppercase mb-6">
           Get Notified <span className="text-purple-600">Instantly</span>
         </h1>
         <p className="font-medium">

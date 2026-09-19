@@ -61,7 +61,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
             </div>
 
             {pin && (
-              <div className="bg-[var(--color-purple-glow)] border-2 border-[var(--color-border-purple)] p-4 mb-4 text-center">
+              <div className="bg-[var(--color-purple-glow)] border-2 border-[var(--color-border-purple)] p-4 mb-6 text-center">
                 <p className="uppercase mb-3">Your Verification PIN</p>
                 <div className="flex items-center justify-center gap-2 mb-3">
                   {pin.split('').map((digit: string, i: number) => (
@@ -104,7 +104,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
           </>
         ) : claimMethod === 'shipping' ? (
           <div className="text-center py-4">
-            <div className="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-6">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" /></svg>
             </div>
             <h3 className="text-black uppercase mb-2">Shipping Claim</h3>
@@ -121,7 +121,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
             <h3 className="uppercase mb-1">Merch Table Pickup</h3>
             <p className="text-black/40 mb-5 uppercase">Show this PIN or page to the crew</p>
             {pin && (
-              <div className="bg-purple-500/5 border border-purple-500/30 p-4 mb-4">
+              <div className="bg-purple-500/5 border border-purple-500/30 p-4 mb-6">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   {pin.split('').map((digit: string, i: number) => (
                     <div key={`raffle-pin-confirm-${i}-${digit}`} className="w-8 h-10 bg-gray-100 border border-purple-500/40 rounded flex items-center justify-center">

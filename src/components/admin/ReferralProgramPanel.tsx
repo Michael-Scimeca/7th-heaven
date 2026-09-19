@@ -207,7 +207,7 @@ export default function ReferralProgramPanel() {
         {/*  Milestone Rewards Editor  */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
-            <p className="uppercase tracking-[0.15em]">
+            <p className="uppercase   ">
               Milestone Rewards
             </p>
             <button
@@ -340,7 +340,7 @@ export default function ReferralProgramPanel() {
             return (
               <>
                 <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-                  <p className="uppercase tracking-[0.15em]">
+                  <p className="uppercase   ">
                     Top Referrers
                   </p>
                   <div className="flex items-center gap-3">

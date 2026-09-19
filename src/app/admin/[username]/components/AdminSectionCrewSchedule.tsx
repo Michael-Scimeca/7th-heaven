@@ -2367,7 +2367,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                         {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
                         {!(editingShift && editingShift.isCoverageRequested) && (
                           <div className="flex flex-col flex-1 min-h-0">
-                            <span className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block shrink-0">Select Crew Members Working That Day</span>
+                            <span className="text-[0.9rem] uppercase    text-white/40 mb-2 block shrink-0">Select Crew Members Working That Day</span>
 
                             {/* Search and Grouping Controls */}
                             <div className="shrink-0 pb-3 w-full admin-crew-search-wrapper">

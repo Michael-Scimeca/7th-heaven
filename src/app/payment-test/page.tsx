@@ -319,7 +319,7 @@ export default function PaymentTestShopPage() {
         {/* ── Credit System Setup & Architecture Discussion ── */}
         {showCreditGuide && (
           <div className="mb-8 bg-[#0a0f1d] border border-emerald-500/40 rounded-2xl p-6 relative overflow-hidden shadow-2xl">
-            <div className="flex items-center justify-between border-b border-emerald-500/20 pb-4 mb-4">
+            <div className="flex items-center justify-between border-b border-emerald-500/20 pb-4 mb-6">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">💳</span>
                 <div>
@@ -391,7 +391,7 @@ export default function PaymentTestShopPage() {
         {/* ── Store Features Breakdown ── */}
         {showLimitations && (
           <div className="mb-8 bg-[#0e0e18] border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
               <div>
                 <h3 className="text-white uppercase">
                   7th Heaven Direct Store Features &amp; Architecture
@@ -481,7 +481,7 @@ export default function PaymentTestShopPage() {
         {/* ── Roadmap: features buildable on North's actual API suite ── */}
         {showRoadmap && (
           <div className="mb-8 bg-[#0e0e18] border border-emerald-500/30 rounded-2xl p-6 relative overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
               <div>
                 <h3 className="text-white uppercase">
                   Roadmap: Closing the Gap With North&apos;s Real API Suite

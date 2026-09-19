@@ -68,7 +68,7 @@ export default function NorthCheckoutPage() {
     return (
       <div className="min-h-screen bg-[#06060b] text-white pt-32 pb-24 flex items-center justify-center">
         <div className="max-w-md text-center px-6">
-          <p className="mb-4">
+          <p className="mb-6">
             No active checkout found. Head back to the shop and add something to your cart first.
           </p>
           <Link

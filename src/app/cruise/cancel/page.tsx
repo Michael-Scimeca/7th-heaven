@@ -35,7 +35,7 @@ function CancelContent() {
   if (!token) {
     return (
       <div className="text-center">
-        <span className="text-4xl block mb-4">⚠️</span>
+        <span className="text-4xl block mb-6">⚠️</span>
         <h2 className="text-white mb-2">Invalid Link</h2>
         <p className="mb-6">This cancel link is missing a token. Please use the link from your confirmation email.</p>
         <Link href="/cruise" className="text-[var(--color-accent)] uppercase hover:text-white transition-colors">
@@ -49,7 +49,7 @@ function CancelContent() {
     <div className="text-center max-w-md mx-auto">
       {status === "success" ? (
         <>
-          <span className="text-4xl block mb-4">✅</span>
+          <span className="text-4xl block mb-6">✅</span>
           <h2 className="text-white mb-2">Signup Cancelled</h2>
           <p className="mb-2">
             {name ? `Hey ${name}, your` : "Your"} cruise interest signup has been removed.
@@ -61,7 +61,7 @@ function CancelContent() {
         </>
       ) : status === "error" ? (
         <>
-          <span className="text-4xl block mb-4">❌</span>
+          <span className="text-4xl block mb-6">❌</span>
           <h2 className="text-white mb-2">Couldn&apos;t Cancel</h2>
           <p className="mb-6">{errorMsg || "This link may have already been used or expired."}</p>
           <Link href="/cruise" className="text-[var(--color-accent)] uppercase hover:text-white transition-colors">
@@ -70,16 +70,16 @@ function CancelContent() {
         </>
       ) : (
         <>
-          <span className="text-4xl block mb-4">🚢</span>
+          <span className="text-4xl block mb-6">🚢</span>
           <h1 className="text-white text-2xl font-bold mb-2">Cancel Your Cruise Signup?</h1>
           <p className="mb-8">
             This will remove your interest signup from the 7th Heaven cruise. You can always sign up again later.
           </p>
           <div className="flex flex-col gap-3">
             <button
- onClick={handleCancel}
- disabled={status === "cancelling"}
- className="px-8 py-3 bg-rose-500 hover:bg-rose-400 text-white uppercase transition-colors disabled:opacity-70 cursor-pointer">
+              onClick={handleCancel}
+              disabled={status === "cancelling"}
+              className="px-8 py-3 bg-rose-500 hover:bg-rose-400 text-white uppercase transition-colors disabled:opacity-70 cursor-pointer">
               {status === "cancelling" ? "Cancelling..." : "Yes, Cancel My Signup"}
             </button>
             <Link href="/cruise" className="text-white/30 hover:text-white transition-colors">
@@ -96,7 +96,7 @@ export default function CruiseCancelPage() {
   return (
     <div className="min-h-screen pt-[72px] flex items-center justify-center">
       <Suspense fallback={
- <div className="text-center">
+        <div className="text-center">
           <span className="w-8 h-8 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block" />
         </div>
       }>

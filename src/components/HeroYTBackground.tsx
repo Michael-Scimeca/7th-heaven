@@ -1,85 +1,97 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { loadYouTubeAPI } from "@/lib/youtube-api";
 
 interface HeroYTBackgroundProps {
-  videoId: string;
+  videoId?: string;
+  start?: number;
+  end?: number;
 }
 
-export default function HeroYTBackground({ videoId }: HeroYTBackgroundProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+export default function HeroYTBackground({
+  videoId = "tNQnzl6i7EM",
+  start = 28,
+  end = 36,
+}: HeroYTBackgroundProps) {
   const playerRef = useRef<any>(null);
   const playerDivId = useRef(`hero-yt-bg-${Math.random().toString(36).substring(2, 9)}`);
-  const [origin, setOrigin] = useState("");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setOrigin(window.location.origin);
-    }
-  }, []);
+    let loopInterval: ReturnType<typeof setInterval> | null = null;
 
-  useEffect(() => {
-    let timerId: any = null;
+    loadYouTubeAPI(() => {
+      if (playerRef.current) {
+        try { playerRef.current.destroy(); } catch {}
+      }
 
-    timerId = setTimeout(() => {
-      loadYouTubeAPI(() => {
-        if (playerRef.current) {
-          try { playerRef.current.destroy(); } catch {}
-        }
-
-        const player = new window.YT.Player(playerDivId.current, {
-          videoId,
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            disablekb: 1,
-            fs: 0,
-            iv_load_policy: 3,
-            modestbranding: 1,
-            rel: 0,
-            showinfo: 0,
-            playsinline: 1,
-            loop: 1,
-            playlist: videoId,
-            mute: 1,
-            start: 15,
-            origin: typeof window !== "undefined" ? window.location.origin : "",
+      const player = new window.YT.Player(playerDivId.current, {
+        videoId,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          iv_load_policy: 3,
+          modestbranding: 1,
+          rel: 0,
+          showinfo: 0,
+          playsinline: 1,
+          loop: 1,
+          playlist: videoId,
+          mute: 1,
+          start,
+          end,
+          origin: typeof window !== "undefined" ? window.location.origin : "",
+        },
+        events: {
+          onReady: (e: any) => {
+            try {
+              e.target.mute();
+              e.target.seekTo(start, true);
+              e.target.playVideo();
+            } catch {}
           },
-          events: {
-            onReady: (e: any) => {
+          onStateChange: (e: any) => {
+            if (e.data === window.YT.PlayerState.ENDED || e.data === window.YT.PlayerState.PAUSED) {
               try {
-                e.target.mute();
-                e.target.seekTo(15, true);
+                e.target.seekTo(start, true);
                 e.target.playVideo();
               } catch {}
-            },
-            onStateChange: (e: any) => {
-              if (e.data === window.YT.PlayerState.ENDED || e.data === window.YT.PlayerState.PAUSED) {
-                try { e.target.playVideo(); } catch {}
-              }
-            },
+            }
           },
-        });
-        playerRef.current = player;
+        },
       });
-    }, 1500);
+      playerRef.current = player;
+
+      // Continuously monitor and replay the 8-second clip (from 28s to 36s)
+      loopInterval = setInterval(() => {
+        if (playerRef.current && typeof playerRef.current.getCurrentTime === "function") {
+          try {
+            const curr = playerRef.current.getCurrentTime();
+            if (curr >= end || curr < start) {
+              playerRef.current.seekTo(start, true);
+            }
+          } catch {}
+        }
+      }, 250);
+    });
 
     return () => {
-      if (timerId) clearTimeout(timerId);
+      if (loopInterval) clearInterval(loopInterval);
       if (playerRef.current) {
         try { playerRef.current.destroy(); } catch {}
         playerRef.current = null;
       }
     };
-  }, [videoId]);
+  }, [videoId, start, end]);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none bg-black">
       <div
- id={playerDivId.current}
- className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-[100vh] min-h-[56.25vw] pointer-events-none scale-105"
- />
+        id={playerDivId.current}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-[100vh] min-h-[56.25vw] pointer-events-none scale-105"
+      />
     </div>
   );
 }

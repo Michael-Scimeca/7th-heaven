@@ -874,7 +874,7 @@ export function Header() {
                   Play Reel / Our Story / Now Hiring! row, filled in with
                   this site's own links rather than copying its wording. */}
                 <div className="shrink-0 flex items-center justify-between gap-4 px-6 sm:px-10 py-5 border-t border-white/10">
-                  <div className="flex items-center gap-4 sm:gap-6 text-[11px] uppercase tracking-[0.15em] text-white">
+                  <div className="flex items-center gap-4 sm:gap-6 text-[11px] uppercase    text-white">
                     <a href="https://www.instagram.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Instagram</a>
                     <a href="https://www.facebook.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Facebook</a>
                     <a href="https://twitter.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Twitter</a>

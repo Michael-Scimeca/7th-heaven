@@ -96,7 +96,7 @@ export default function PushSubscribeModal({
 
         {!subscribed ? (
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-6">
 
               <div>
                 <h3 className="text-white">
@@ -113,7 +113,7 @@ export default function PushSubscribeModal({
             </p>
 
             {error && (
-              <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300 font-semibold">
+              <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300 font-semibold">
                 ⚠️ {error}
               </div>
             )}
@@ -200,7 +200,7 @@ export default function PushSubscribeModal({
           </div>
         ) : (
           <div className="py-6 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-4 ">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-6 ">
               <Check className="w-8 h-8" />
             </div>
             <h3 className="text-white mb-2">You&apos;re Subscribed! 🔔</h3>

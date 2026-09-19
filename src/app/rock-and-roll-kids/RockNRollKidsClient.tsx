@@ -600,7 +600,7 @@ export default function RockNRollKidsClient({
                 <h3 className="text-white text-base font-bold mb-1.5 line-clamp-1">
                   {prod.title}
                 </h3>
-                <p className="text-white/70 text-xs leading-relaxed mb-4 line-clamp-2">
+                <p className="text-white/70 text-xs leading-relaxed mb-6 line-clamp-2">
                   {prod.desc}
                 </p>
               </div>
@@ -671,14 +671,14 @@ export default function RockNRollKidsClient({
                 {founder.phone ? (
                   <a
                     href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                    className="!text-white font-bold text-sm sm:text-base hover:  block mb-0">
+                    className="!text-white font-bold text-sm sm:text-base  block mb-0">
                     {founder.phone}
                   </a>
                 ) : null}
                 {founder.email ? (
                   <a
                     href={`mailto:${founder.email}`}
-                    className="text-purple-400 font-bold text-sm sm:text-base hover:  block">
+                    className=" font-bold text-sm sm:text-base a-btn block">
                     {founder.email}
                   </a>
                 ) : null}

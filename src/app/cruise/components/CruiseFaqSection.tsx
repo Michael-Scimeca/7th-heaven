@@ -20,7 +20,7 @@ export default function CruiseFaqSection({ sanityContent }: CruiseFaqSectionProp
   const sectionSubtitle = sanityContent?.sections?.find((s: any) => s.sectionId === "faqs")?.subtitle || "Find answers to important passport requirements, dining configurations, payment plans, and booking rules.";
 
   return (
-    <LazyMount as="section" id="faqs" className="pb-10 md:pb-10 pt-10 md:pt-20 site-container" minHeight="600px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "600px" }}>
+    <LazyMount as="section" id="faqs" className=" py-section-fluid site-container" minHeight="600px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "600px" }}>
       <div className="text-left w-full mb-10">
         <h2 className="uppercase text-white">
           {sectionTitle}

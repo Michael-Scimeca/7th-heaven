@@ -106,7 +106,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
     <>
 
       {/* ── BREADCRUMB & HEADER SECTION ── */}
-      <header className="mb-4 md:mb-8">
+      <header className="">
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-0 md:pb-6">
           <div>
@@ -124,7 +124,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
       </header>
 
       {/* ── STATS BAR ── */}
-      <section aria-label="Archive Statistics" className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
+      <section aria-label="Archive Statistics" className="flex flex-wrap items-center justify-start gap-4  mb-6">
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl  font-bold">{totalShowsCount}+</span>
           <span className="uppercase font-bold">Concerts Cataloged</span>
@@ -144,9 +144,9 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
       </section>
 
       {/* ── FILTER & SEARCH CONTROLS ── */}
-      <nav aria-label="Archive Search and Year Filters" className="p-0 border-0 mb-8 flex flex-col gap-4">
+      <nav aria-label="Archive Search and Year Filters" className="p-0 border-0  flex flex-col">
         {/* Search Input Bar */}
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md mb-6">
           <SearchInput
             value={searchQuery}
             onChange={setSearchQuery}
@@ -184,7 +184,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
           ))}
         </div>
 
-        <div className="font-semibold text-white/60 text-sm">
+        <div className="font-semibold text-white/60 text-sm my-6">
           Showing <span className="text-white font-bold">{displayedCount}</span> of {totalShowsCount} shows
         </div>
       </nav>
@@ -192,7 +192,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-12 text-center my-8">
-          <Music className="w-11 h-11 text-purple-400mx-auto mb-4" />
+          <Music className="w-11 h-11 text-purple-400mx-auto mb-6" />
           <h3 className="mb-2">{sanityContent?.noShowsTitle || "No Past Shows Found"}</h3>
           <p className="max-w-md mx-auto mb-6">
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.

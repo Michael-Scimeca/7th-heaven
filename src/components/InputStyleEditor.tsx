@@ -685,7 +685,7 @@ a:hover {
                           </div>
                           <input
                             type="search"
-                            aria-label="Search questions, keywords, or topics"
+                            aria-label="Search"
                             placeholder="Search"
                             className="form-input w-full font-semibold"
                             style={{

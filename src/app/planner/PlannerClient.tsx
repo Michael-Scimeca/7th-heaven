@@ -304,7 +304,7 @@ export default function PlannerClient() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Notes */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-white">Event Notes</h3></div>
                   {notesSaved && <span className="text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/30">✓ Saved</span>}
                 </div>
@@ -320,11 +320,11 @@ export default function PlannerClient() {
 
               {/* Checklist — editable */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-white">Readiness</h3></div>
                   <span className={` ${pct === 100 ? 'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
                 </div>
-                <div className="w-full h-2 bg-[#00000029] rounded-lg overflow-hidden mb-4">
+                <div className="w-full h-2 bg-[#00000029] rounded-lg overflow-hidden mb-6">
                   <div className={`h-full rounded-lg transition-colors ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -377,7 +377,7 @@ export default function PlannerClient() {
 
               {/* Quick Actions */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg">
-                <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="text-white">Quick Actions</h3></div>
+                <div className="flex items-center gap-2 mb-6"><span className="text-base">⚡</span><h3 className="text-white">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
                     className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20  hover:bg-purple-600 hover:text-white rounded-lg">
@@ -402,7 +402,7 @@ export default function PlannerClient() {
             {/* Past Bookings */}
             {pastBookings.length > 0 && (
               <div className="mt-8">
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-6">
                   <span className="text-base">📜</span>
                   <h3 className="text-white">Past Events</h3>
                   <span className="text-white/50 bg-[#00000029] px-2 py-0.5 rounded">{pastBookings.length} events</span>

@@ -197,7 +197,7 @@ export default function ClaimPage() {
         {/* Loading */}
         {status === 'loading' && (
           <div className="text-center py-16">
-            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-yellow-500 rounded-lg animate-spin mx-auto mb-4" />
+            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-yellow-500 rounded-lg animate-spin mx-auto mb-6" />
             <p>Verifying...</p>
           </div>
         )}
@@ -205,7 +205,7 @@ export default function ClaimPage() {
         {/* NOT LOGGED IN */}
         {status === 'not_logged_in' && (
           <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center">
-            <span className="text-5xl block mb-4">🔐</span>
+            <span className="text-5xl block mb-6">🔐</span>
             <h2 className="text-white uppercase mb-2">Sign In Required</h2>
             <p className="mb-6">
               You must be signed in to your 7th Heaven account to verify your raffle win.
@@ -222,9 +222,9 @@ export default function ClaimPage() {
         {/* WRONG USER — logged in but not the winner */}
         {status === 'wrong_user' && (
           <div className="bg-[var(--color-bg-surface)] border border-red-500/30 p-8 text-center">
-            <span className="text-5xl block mb-4">🚫</span>
+            <span className="text-5xl block mb-6">🚫</span>
             <h2 className="text-white uppercase mb-2">Not Your Claim</h2>
-            <p className="mb-4">
+            <p className="mb-6">
               This PIN belongs to a different account. You must be signed in as the winning account to verify.
             </p>
             <p className="bg-black/40 px-3 py-2 rounded-lg inline-block">
@@ -248,7 +248,7 @@ export default function ClaimPage() {
               <p className="mb-8 ">Show this screen to the 7th Heaven crew at the merch table.</p>
 
               {/* Winner name */}
-              <div className="bg-purple-500/10 border border-purple-500/30 px-6 py-4 mb-4">
+              <div className="bg-purple-500/10 border border-purple-500/30 px-6 py-4 mb-6">
                 <p className="text-[var(--color-accent)]/60 uppercase mb-1 ">Account Name</p>
                 <p className="text-purple-300 ">{winnerName}</p>
               </div>
@@ -288,7 +288,7 @@ export default function ClaimPage() {
               </div>
 
               {/* Claim Confirm Button */}
-              <div className="mt-6 mb-4">
+              <div className="mt-6 mb-6">
                 {hasClaimed ? (
                   <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30  uppercase flex items-center justify-center gap-1.5 animate-pulse">
                     <span>✓ Claim Confirmed & Admin Notified</span>
@@ -318,7 +318,7 @@ export default function ClaimPage() {
         {/* INVALID — PIN not found */}
         {status === 'invalid' && (
           <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center">
-            <span className="text-5xl block mb-4">❌</span>
+            <span className="text-5xl block mb-6">❌</span>
             <h2 className="text-white uppercase mb-2">PIN Not Found</h2>
             <p className="mb-6">
               This PIN doesn't match an active raffle winner, or the raffle has ended.

@@ -214,7 +214,7 @@ export default function AdminGatewayPage() {
     return (
       <div className="fixed inset-0 h-screen w-screen text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 rounded-lg border-4 border-purple-500 border-t-transparent animate-spin mx-auto mb-4" />
+          <div className="w-12 h-12 rounded-lg border-4 border-purple-500 border-t-transparent animate-spin mx-auto mb-6" />
           <p className="uppercase">Redirecting to dashboard...</p>
         </div>
       </div>
@@ -252,7 +252,7 @@ export default function AdminGatewayPage() {
             style={MODAL_GLASS_STYLE}>
             <div className="p-8 sm:p-10">
               <div className="text-center mb-8">
-                <div className="w-14 h-14 mx-auto mb-4 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center  shadow-[0_0_24px_rgba(147,51,234,0.4)]">
+                <div className="w-14 h-14 mx-auto mb-6 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center  shadow-[0_0_24px_rgba(147,51,234,0.4)]">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                 </div>
                 <h1>
@@ -273,12 +273,12 @@ export default function AdminGatewayPage() {
                     </p>
                   </div>
                   <div className="flex flex-col gap-3">
-                    <Link href="/fans" className="text-[0.65rem]  hover:text-purple-300 uppercase tracking-[0.15em] transition-colors">
+                    <Link href="/fans" className="text-[0.65rem]  hover:text-purple-300 uppercase    transition-colors">
                       ← Back to Fan Dashboard
                     </Link>
                     <button
                       onClick={() => logout()}
-                      className="text-[0.65rem] text-rose-400 hover:text-rose-300 uppercase tracking-[0.15em] transition-colors cursor-pointer">
+                      className="text-[0.65rem] text-rose-400 hover:text-rose-300 uppercase    transition-colors cursor-pointer">
                       Sign Out & Switch Account
                     </button>
                   </div>
@@ -286,7 +286,7 @@ export default function AdminGatewayPage() {
               ) : (
                 <form onSubmit={handleAdminLogin} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
                   <div>
-                    <label htmlFor="root-admin-login-email" className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block">Email</label>
+                    <label htmlFor="root-admin-login-email" className="text-[0.65rem] uppercase    text-white/50 mb-1.5 block">Email</label>
                     <input id="root-admin-login-email"
                       type="email"
                       value={adminEmail}
@@ -299,7 +299,7 @@ export default function AdminGatewayPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="root-admin-login-password" className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block">Password</label>
+                    <label htmlFor="root-admin-login-password" className="text-[0.65rem] uppercase    text-white/50 mb-1.5 block">Password</label>
                     <input id="root-admin-login-password"
                       type="password"
                       value={adminPassword}
@@ -333,7 +333,7 @@ export default function AdminGatewayPage() {
                           router.replace("/admin/admin");
                         }
                       }}
-                      className="btn-action-purple w-full py-3 rounded-lg uppercase tracking-[0.15em] cursor-pointer flex items-center justify-center gap-2">
+                      className="btn-action-purple w-full py-3 rounded-lg uppercase    cursor-pointer flex items-center justify-center gap-2">
                       <span>⚡</span> Instant Dev Access (Bypass Login)
                     </button>
                   )}
@@ -357,7 +357,7 @@ export default function AdminGatewayPage() {
             </div>
 
             <div
-              className="rounded-lg px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
+              className="rounded-lg px-4 py-7 mb-6 transition-opacity duration-300 ease-out no-glow"
               style={{
                 background: "rgba(18, 10, 34, 0.85)",
                 backdropFilter: "blur(32px) saturate(180%)",
@@ -403,7 +403,7 @@ export default function AdminGatewayPage() {
               </div>
 
               {verifyError && (
-                <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-center">
+                <div className="mb-6 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-center">
                   <p className="text-red-400">{verifyError}</p>
                 </div>
               )}
@@ -421,7 +421,7 @@ export default function AdminGatewayPage() {
                   boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
                   transition: "all 0.25s ease",
                 }}
-                className="w-full py-3.5 uppercase cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed">
+                className="w-full py-3.5 uppercase cursor-pointer rounded-lg mb-6 disabled:cursor-not-allowed">
                 {verifyStatus === 'checking' ? 'Verifying...' : 'Access My Dashboard →'}
               </button>
 

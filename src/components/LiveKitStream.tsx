@@ -236,7 +236,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
       return (
         <div className="h-full flex items-center justify-center">
           <div className="text-center">
-            <div className="w-24 h-24 mx-auto mb-4 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center">
+            <div className="w-24 h-24 mx-auto mb-6 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center">
               <Mic className="w-8 h-8" />
             </div>
             <p>{remoteParticipants[0]?.name || 'Crew'} is Live</p>

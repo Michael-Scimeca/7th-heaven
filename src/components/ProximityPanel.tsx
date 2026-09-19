@@ -160,7 +160,7 @@ export default function ProximityPanel() {
     <div className="space-y-6 text-white">
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-6">
 
         </div>
         <h3 className="text-white mb-1">Shows Near You</h3>
@@ -169,51 +169,51 @@ export default function ProximityPanel() {
         </p>
 
         {/* Notification Toggle */}
-        <div className="flex items-center justify-between py-3 border-b border-white/10 mb-4">
+        <div className="flex items-center justify-between py-3 border-b border-white/10 mb-6">
           <div>
             <p>Enable Proximity Notifications</p>
             <p className="mt-0.5">SMS & email alerts for nearby shows</p>
           </div>
           <SquishyToggle
- id="proximity-notifications-toggle"
- label="Enable proximity notifications"
- checked={notificationsEnabled}
- onChange={setNotificationsEnabled}
- />
+            id="proximity-notifications-toggle"
+            label="Enable proximity notifications"
+            checked={notificationsEnabled}
+            onChange={setNotificationsEnabled}
+          />
         </div>
 
         {/* Zip + Radius */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="grid grid-cols-2 gap-3 mb-6">
           <div>
             <label htmlFor="proximity-zip-input" className="uppercase text-white mb-2 block">Your Zip Code</label>
             <GlowInput
- id="proximity-zip-input"
- aria-label="Your zip code"
- type="text"
- maxLength={5}
- placeholder="60601"
- value={zip}
- onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
+              id="proximity-zip-input"
+              aria-label="Your zip code"
+              type="text"
+              maxLength={5}
+              placeholder="60601"
+              value={zip}
+              onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
 
             />
           </div>
           <div>
             <label htmlFor="proximity-radius-select" className="uppercase text-white mb-2 block">Radius</label>
             <CustomDropdown
- id="proximity-radius-select"
- ariaLabel="Radius"
- value={radius}
- options={RADIUS_OPTIONS.map(r => ({ value: r, label: `${r} miles` }))}
+              id="proximity-radius-select"
+              ariaLabel="Radius"
+              value={radius}
+              options={RADIUS_OPTIONS.map(r => ({ value: r, label: `${r} miles` }))}
               onChange={val => setRadius(val)}
             />
           </div>
         </div>
 
         <CosmicRadialButton
- onClick={saveSettings}
- disabled={saving || !zip || zip.length < 5}
- icon={false}
- className="w-full py-3 uppercase text-white cursor-pointer">
+          onClick={saveSettings}
+          disabled={saving || !zip || zip.length < 5}
+          icon={false}
+          className="w-full py-3 uppercase text-white cursor-pointer">
           {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
         </CosmicRadialButton>
       </div>
@@ -221,13 +221,13 @@ export default function ProximityPanel() {
       {/* Nearby Shows */}
       {notificationsEnabled && (
         <div className="pt-2 text-white">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             <span className="uppercase text-[var(--color-accent)]">
               Shows Within {radius} Miles
             </span>
             <button
- onClick={fetchNearbyShows}
- className="uppercase text-white/40 hover:text-white transition-colors">
+              onClick={fetchNearbyShows}
+              className="uppercase text-white/40 hover:text-white transition-colors">
               Refresh
             </button>
           </div>
@@ -245,12 +245,12 @@ export default function ProximityPanel() {
             <div className="flex flex-col gap-3">
               {nearbyShows.map(show => (
                 <div
- key={show.id}
- className="p-4 bg-[#00000029] border border-white/10 hover:border-blue-500/40 transition-colors group">
+                  key={show.id}
+                  className="p-4 bg-[#00000029] border border-white/10 hover:border-blue-500/40 transition-colors group">
                   <div className="flex items-center justify-between">
                     <button
- type="button"
- onClick={() => loadAttendees(show)}
+                      type="button"
+                      onClick={() => loadAttendees(show)}
                       className="flex items-center gap-4 text-left cursor-pointer flex-1">
                       <div className="flex flex-col items-center justify-center w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-lg shrink-0">
                         <span className="text-blue-400 uppercase">
@@ -269,8 +269,8 @@ export default function ProximityPanel() {
                       </div>
                     </button>
                     <button
- type="button"
- onClick={e => { e.stopPropagation(); toggleGoing(show); }}
+                      type="button"
+                      onClick={e => { e.stopPropagation(); toggleGoing(show); }}
                       className={`px-4 py-2    uppercase rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ? "bg-blue-600 text-white border-blue-600"
                         : "bg-white/10 text-white border-white/10 hover:bg-blue-500 hover:text-black hover:border-blue-500"
                         }`}>
@@ -287,14 +287,14 @@ export default function ProximityPanel() {
                         </p>
                         <div className="flex items-center gap-2">
                           <a
- href={show.showPageUrl || `/shows/${show.id}`}
- className="uppercase text-blue-400 hover:text-white transition-colors">
+                            href={show.showPageUrl || `/shows/${show.id}`}
+                            className="uppercase text-blue-400 hover:text-white transition-colors">
                             View Show Page →
                           </a>
                           <span className="text-white/20">·</span>
                           <a
- href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
- className="uppercase text-white/40 hover:text-white transition-colors">
+                            href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
+                            className="uppercase text-white/40 hover:text-white transition-colors">
                             Share
                           </a>
                         </div>

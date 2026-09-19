@@ -135,7 +135,7 @@ export default function CompleteProfilePage() {
           <div className="p-8">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center mx-auto mb-4 text-2xl">
+              <div className="w-16 h-16 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-lg flex items-center justify-center mx-auto mb-6 text-2xl">
                 🎸
               </div>
               <h1 className="mb-2">
@@ -161,7 +161,7 @@ export default function CompleteProfilePage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               {/* Username */}
               <div>
-                <label htmlFor="complete-profile-username" className="uppercase tracking-[0.15em] text-white/40 mb-1 block">
+                <label htmlFor="complete-profile-username" className="uppercase    text-white/40 mb-1 block">
                   Choose Your Username
                 </label>
                 <div className="relative input-glow-border rounded-xl">
@@ -181,7 +181,7 @@ export default function CompleteProfilePage() {
 
               {/* Notification Preferences */}
               <div className="flex flex-col gap-2">
-                <span className="uppercase tracking-[0.15em] text-white/40 mb-1 block">
+                <span className="uppercase    text-white/40 mb-1 block">
                   Notification Preferences
                 </span>
 
@@ -205,7 +205,7 @@ export default function CompleteProfilePage() {
                 {/* Zip code */}
                 {wantNotifications && (
                   <div className="ml-1">
-                    <label htmlFor="complete-profile-zip" className="uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
+                    <label htmlFor="complete-profile-zip" className="uppercase    text-white/40 mb-1 block">Zip Code</label>
                     <div className="input-glow-border rounded-xl">
                       <input id="complete-profile-zip"
                         type="text"
@@ -250,7 +250,7 @@ export default function CompleteProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full py-3 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]">
+                className="w-full py-3 bg-[var(--color-accent)] text-white uppercase    hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]">
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
 

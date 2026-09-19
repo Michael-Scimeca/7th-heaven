@@ -335,7 +335,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       {showShopifyGuide && (
         <div className="max-w-4xl mx-auto px-4 mt-6">
           <div className="bg-[#0e0e18] border border-purple-500/30 p-6 relative overflow-hidden shadow-[0_0_30px_rgba(234,179,8,0.1)]">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl">🛍️</span>
                 <div>
@@ -758,7 +758,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <p className="mb-5">Pick Up at Band Table or Ship to Your Door</p>
 
               {/* Scannable QR Code Image */}
-              <div className="w-56 h-56 mx-auto bg-white p-3 shadow-[0_0_30px_rgba(6,182,212,0.5)] flex items-center justify-center mb-4">
+              <div className="w-56 h-56 mx-auto bg-white p-3 shadow-[0_0_30px_rgba(6,182,212,0.5)] flex items-center justify-center mb-6">
                 <Image width={200} height={200} unoptimized
                   src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('https://7thheavenband.com/qr/merch')}`}
                   alt="Scan to order 7th Heaven Merch"

@@ -173,7 +173,7 @@ function PassengersWidget() {
 
   return (
     <div className="p-2 relative overflow-hidden group">
-      <div className="flex justify-between items-end mb-4 relative z-10">
+      <div className="flex justify-between items-end mb-6 relative z-10">
         <div>
           <h2 className="uppercase text-white/50 mb-1 text-xs r">Community</h2>
           <div className="flex items-center gap-2">
@@ -184,7 +184,7 @@ function PassengersWidget() {
       </div>
 
       {/* Avatar Circle Row */}
-      <div className="flex items-center gap-2 flex-wrap mb-4 relative z-10">
+      <div className="flex items-center gap-2 flex-wrap mb-6 relative z-10">
         {topAvatars.map((p) => (
           <div
             key={`avatar-${p.id}`}
@@ -612,7 +612,7 @@ export default function CruiseDashboard() {
               </div>
             ) : regSuccess ? (
               <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
-                <span className="text-4xl block mb-4">📧</span>
+                <span className="text-4xl block mb-6">📧</span>
                 <h3 className="text-black uppercase mb-2">Check Your Email</h3>
                 <p className="text-black/60 mb-6">
                   We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
@@ -636,7 +636,7 @@ export default function CruiseDashboard() {
                 <div className="p-6 md:p-8">
                   {authTab === 'login' ? (
                     <form onSubmit={handleLoginSubmit} className="space-y-4">
-                      <p className="text-black/50 mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
+                      <p className="text-black/50 mb-6">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                       <div>
                         <label htmlFor="cruise-hub-login-email" className="block text-black/50 uppercase mb-1.5">Email Address</label>
                         <input id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-purple-500 outline-none transition-colors" />
@@ -654,7 +654,7 @@ export default function CruiseDashboard() {
                     </form>
                   ) : (
                     <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                      <p className="text-black/50 mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
+                      <p className="text-black/50 mb-6">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                       <div>
                         <label htmlFor="cruise-hub-reg-name" className="block text-black/50 uppercase mb-1.5">Full Legal Name *</label>
                         <input id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-purple-500 outline-none transition-colors" />
@@ -713,13 +713,13 @@ export default function CruiseDashboard() {
 
 
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
           {/* Main Content Column (Left 2 Cols) */}
           <div className="lg:col-span-2 flex flex-col gap-8 min-w-0 max-w-full">
             {/* 1. Cruise Information & Guidelines */}
             <div className="h-fit min-w-0 max-w-full overflow-hidden">
               <div className="relative z-10 min-w-0 max-w-full">
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 flex-wrap">
+                <div className="flex items-center gap-3 mb-6 border-b border-white/10 flex-wrap">
                   <div>
                     <h2 className="uppercase text-white">{guidelines.title}</h2>
                     <p className="text-purple-400 uppercase mt-0.5">{guidelines.subtitle}</p>
@@ -775,7 +775,7 @@ export default function CruiseDashboard() {
                   </div>
                 ) : (
                   <div
-                    className="space-y-4 text-white/80 md:text-base min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]: [&_a]: [&_a]:  [&_a]:underline-offset-4 [&_a]: [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]: [&_h2]:text-white [&_h2]: [&_h3]:text-white [&_h3]: [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
+                    className="space-y-4 text-white/80 md:text-base min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]: [&_a]: [&_a]:  [&_a]:underline-offset-4 [&_a]: [&_p]:text-white/80  [&_p]:max-w-full [&_h1]:text-white [&_h1]: [&_h2]:text-white [&_h2]: [&_h3]:text-white [&_h3]: [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
                     dangerouslySetInnerHTML={{ __html: sanitizedGuidelinesContent || sanitizeHtml(cleanWysiwygHtml(guidelines.content)) }}
                   />
                 )}

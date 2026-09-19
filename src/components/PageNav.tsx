@@ -152,8 +152,8 @@ export function PageNav() {
     <div className="fixed bottom-8 left-8 z-[999999] pointer-events-auto select-none" ref={menuRef}>
       {isOpen && (
         <div
- className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] backdrop-blur-[18px] rounded-lg animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto bg-[#0a00653b] backdrop-blur-[45px] border-l border-white/10"
- style={{ maxHeight: 'min(80vh, 600px)' }}>
+          className="absolute bottom-full mb-6 left-0 w-[320px] sm:w-[340px] backdrop-blur-[18px] rounded-lg animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto bg-[#0a00653b] backdrop-blur-[45px] border-l border-white/10"
+          style={{ maxHeight: 'min(80vh, 600px)' }}>
           {/* Header — fixed, translucent blur */}
           <div className="py-4 border-b border-white/10 bg-white/[0.04] backdrop-blur-[45px] shrink-0">
             <h3 className="text-white uppercase flex items-center gap-2">
@@ -165,23 +165,23 @@ export function PageNav() {
 
           {/* Scrollable list — grows to fill remaining height with visible custom scrollbar */}
           <div
- ref={listRef}
- className="p-3 flex flex-col gap-3 overflow-y-auto custom-scrollbar rounded-b-2xl text-white"
- style={{
- overscrollBehavior: 'contain',
- scrollbarWidth: 'thin',
- scrollbarColor: 'rgba(168, 85, 247, 0.6) rgba(255, 255, 255, 0.05)'
- }}>
+            ref={listRef}
+            className="p-3 flex flex-col gap-3 overflow-y-auto custom-scrollbar rounded-b-2xl text-white"
+            style={{
+              overscrollBehavior: 'contain',
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(168, 85, 247, 0.6) rgba(255, 255, 255, 0.05)'
+            }}>
             {CATEGORIES.map((category) => (
               <div key={category.name} className="flex flex-col gap-1">
-                <h4 className="uppercase tracking-[0.15em] text-purple-400 pl-2 mt-2 mb-1 border-b border-white/10 pb-1">{category.name}</h4>
+                <h4 className="uppercase    text-purple-400 pl-2 mt-2 mb-1 border-b border-white/10 pb-1">{category.name}</h4>
                 {category.pages.map((page) => {
                   const isActive = pathname === page.path;
                   return (
                     <Link
- key={page.path}
- href={page.path}
- onClick={() => {
+                      key={page.path}
+                      href={page.path}
+                      onClick={() => {
                         setIsOpen(false);
                         // Bypasses login for Restricted pages in dev mode
                         if (['/crew', '/admin', '/admin/MikeyS', '/admin/RichH', '/admin/emails', '/admin/legal', '/fans', '/planner'].includes(page.path)) {
@@ -202,8 +202,8 @@ export function PageNav() {
       )}
 
       <button
- type="button"
- onClick={(e) => {
+        type="button"
+        onClick={(e) => {
           e.stopPropagation();
           setIsOpen((prev) => !prev);
         }}

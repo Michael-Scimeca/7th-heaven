@@ -114,8 +114,8 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       {!isCollapsed && (
         <div className="relative p-6 pt-0 border-t border-white/[0.04] space-y-5 animate-[fadeIn_0.2s_ease-out]">
           {/* Show picker */}
-          <div className="mb-4 mt-4">
-            <label htmlFor="invite-challenge-show-select" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block">Select Show</label>
+          <div className="mb-6 mt-4">
+            <label htmlFor="invite-challenge-show-select" className="uppercase    text-white/40 mb-1.5 block">Select Show</label>
             <select id="invite-challenge-show-select"
               value={selectedShowId}
               onChange={(e) => setSelectedShowId(e.target.value)}
@@ -153,7 +153,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                     <>
                       {/* Threshold */}
                       <div>
-                        <label htmlFor="invite-challenge-threshold" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block">
+                        <label htmlFor="invite-challenge-threshold" className="uppercase    text-white/40 mb-1.5 block">
                           Invite Threshold
                         </label>
                         <div className="flex items-center gap-3">
@@ -171,7 +171,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                       {/* Reward name */}
                       <div>
-                        <label htmlFor="invite-challenge-reward-name" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block">
+                        <label htmlFor="invite-challenge-reward-name" className="uppercase    text-white/40 mb-1.5 block">
                           Reward Name
                         </label>
                         <input id="invite-challenge-reward-name"
@@ -185,7 +185,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                       {/* Reward description */}
                       <div>
-                        <label htmlFor="invite-challenge-claim-instructions" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block">
+                        <label htmlFor="invite-challenge-claim-instructions" className="uppercase    text-white/40 mb-1.5 block">
                           Claim Instructions
                         </label>
                         <textarea aria-label="Text input"

@@ -77,7 +77,7 @@ export default function CookieConsentBanner() {
 
         <div className="p-5 sm:p-6">
           {/* Header */}
-          <div className="flex items-start gap-3 mb-4">
+          <div className="flex items-start gap-3 mb-6">
             <div className="w-11 h-11 bg-[var(--color-accent)]/15 flex items-center justify-center shrink-0 mt-0.5">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -100,7 +100,7 @@ export default function CookieConsentBanner() {
 
           {/* Expandable custom preferences */}
           {expanded && (
-            <div className="mb-4 space-y-2 border border-white/10 p-4 bg-white/[0.02]">
+            <div className="mb-6 space-y-2 border border-white/10 p-4 bg-white/[0.02]">
               {/* Essential — always on */}
               <div className="flex items-center justify-between">
                 <div>

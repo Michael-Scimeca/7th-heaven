@@ -27,7 +27,7 @@ function isShowLiveNow(): { live: boolean; venue?: string } {
     const preShow = new Date(showDate.getTime() - 30 * 60 * 1000);
     const postShow = new Date(showDate.getTime() + 4 * 60 * 60 * 1000);
 
-    if (now>= preShow && now <= postShow) {
+    if (now >= preShow && now <= postShow) {
       return { live: true, venue: show.venue };
     }
   }
@@ -230,18 +230,18 @@ export default function CrewFeed() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
                     <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-red-500" />
                   </span>
-                  <span className="uppercase tracking-[0.15em] text-red-400">
+                  <span className="uppercase    text-red-400">
                     Live Now{liveStatus.venue ? ` — ${liveStatus.venue}` : ""}
                   </span>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-lg animate-pulse" />
-                  <span className="uppercase tracking-[0.15em] text-green-500">Crew Feed</span>
+                  <span className="uppercase    text-green-500">Crew Feed</span>
                 </div>
               )}
               <span className="text-white/20">·</span>
-              <span className="uppercase tracking-[0.15em] text-white/30">{posts.length} posts</span>
+              <span className="uppercase    text-white/30">{posts.length} posts</span>
             </div>
             <h2>
               {liveStatus.live ? (
@@ -271,49 +271,49 @@ export default function CrewFeed() {
 
               return (
                 <article
- key={post.id}
- className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""
- }`}
- id={`crew-feed-${post.id}`}
- style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
+                  key={post.id}
+                  className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""
+                    }`}
+                  id={`crew-feed-${post.id}`}
+                  style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
                   {/* Timeline dot */}
                   <div
- className="absolute left-[18px] top-3 w-3 h-3 rounded-lg border-2 z-10 transition-colors duration-300"
- style={{
- borderColor: config.color,
- background: isNew ? config.color : "var(--color-bg-primary)",
- }}
- />
+                    className="absolute left-[18px] top-3 w-3 h-3 rounded-lg border-2 z-10 transition-colors duration-300"
+                    style={{
+                      borderColor: config.color,
+                      background: isNew ? config.color : "var(--color-bg-primary)",
+                    }}
+                  />
 
                   {/* New post glow */}
                   {isNew && (
                     <div
- className="absolute -inset-2 opacity-20 pointer-events-none transition-opacity duration-3000"
- style={{ background: `radial-gradient(ellipse at left, ${config.color}40, transparent 70%)` }}
- />
+                      className="absolute -inset-2 opacity-20 pointer-events-none transition-opacity duration-3000"
+                      style={{ background: `radial-gradient(ellipse at left, ${config.color}40, transparent 70%)` }}
+                    />
                   )}
 
                   {/* Post Card */}
                   <div
- className={`border bg-white/[0.02] p-6 transition-colors duration-300 border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"
- }`}>
+                    className={`border bg-white/[0.02] p-6 transition-colors duration-300 border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"
+                      }`}>
                     {/* Header: Avatar + Name + Time */}
-                    <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-start justify-between mb-6">
                       <div className="flex items-center gap-3">
                         <div
- className="w-11 h-11 rounded-lg flex items-center justify-center border"
- style={{
- borderColor: config.color,
- color: config.color,
- background: `${config.color}15`,
- }}>
+                          className="w-11 h-11 rounded-lg flex items-center justify-center border"
+                          style={{
+                            borderColor: config.color,
+                            color: config.color,
+                            background: `${config.color}15`,
+                          }}>
                           {post.member_avatar}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <span className="text-base font-semibold text-white">{post.member_name}</span>
                             {post.post_type === "announcement" && (
-                              <span className="text-[var(--font-size-2xs)] uppercase tracking-[0.15em] px-2 py-0.5 bg-purple-600/20 text-purple-300 border border-purple-500/30">
+                              <span className="text-[var(--font-size-2xs)] uppercase    px-2 py-0.5 bg-purple-600/20 text-purple-300 border border-purple-500/30">
                                 Official
                               </span>
                             )}
@@ -325,23 +325,23 @@ export default function CrewFeed() {
                       <div className="flex flex-col items-end gap-1">
                         <span className="text-white/30">{timeAgo(post.created_at)}</span>
                         <span
- className="text-[var(--font-size-2xs)] uppercase tracking-[0.15em] px-2 py-0.5"
- style={{
- color: config.color,
- background: `${config.color}15`,
- border: `1px solid ${config.color}30`,
- }}>
+                          className="text-[var(--font-size-2xs)] uppercase    px-2 py-0.5"
+                          style={{
+                            color: config.color,
+                            background: `${config.color}15`,
+                            border: `1px solid ${config.color}30`,
+                          }}>
                           {config.icon} {config.label}
                         </span>
                       </div>
                     </div>
 
                     {/* Content */}
-                    <p className="mb-4">{post.content}</p>
+                    <p className="mb-6">{post.content}</p>
 
                     {/* Image attachment */}
                     {post.image_url && (
-                      <div className="mb-4 border border-white/10 overflow-hidden">
+                      <div className="mb-6 border border-white/10 overflow-hidden">
                         <Image width={200} height={200} unoptimized src={post.image_url} alt="7th Heaven Media" className="w-full h-auto" loading="lazy" />
                       </div>
                     )}

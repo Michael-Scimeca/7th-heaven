@@ -245,7 +245,7 @@ export default function BulkInvitePanel() {
 
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col gap-3">
-            <label htmlFor="bulk-invite-text-input" className="uppercase tracking-[0.15em] text-white/70">Copy-Paste Contact List</label>
+            <label htmlFor="bulk-invite-text-input" className="uppercase    text-white/70">Copy-Paste Contact List</label>
             <div className="input-glow-border rounded-lg w-full">
               <textarea aria-label="Text input"
                 id="bulk-invite-text-input"

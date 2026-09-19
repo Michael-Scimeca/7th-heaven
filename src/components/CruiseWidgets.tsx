@@ -43,7 +43,7 @@ export function EmbarkationCountdown() {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center gap-6 border-none pb-2 relative overflow-visible">
+    <div className="flex flex-wrap items-center gap-6 border-none  relative overflow-visible">
       <div className="flex items-center shrink-0 z-10">
         <div>
           <h2 className="text-white leading-normal py-0.5">Embarkation</h2>
@@ -530,7 +530,7 @@ export function BookingManager({ email }: { email?: string }) {
   return (
     <div className="text-white relative overflow-hidden flex flex-col justify-between">
       {/* Travel Readiness Checklist Badges */}
-      <div className="my-3">
+      <div className="">
         <span className="uppercase block mb-2">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
           <div className="flex items-center gap-1.5 text-emerald-300 py-1">
@@ -592,7 +592,7 @@ export function BookingManager({ email }: { email?: string }) {
       )}
 
       {/* Two Clickable Cruise Agent Email Buttons */}
-      <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
+      <div className="mt-4 border-t border-white/10 space-y-2">
         <span className="text-white/40 uppercase block mb-2">Get in Touch with Cruise Agents</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Button 1: Cruise Admin Agent */}
@@ -1027,7 +1027,7 @@ export function CaptainsLog() {
 
   return (
     <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative">
-      <h2 className="uppercase mb-4">Captain's Log</h2>
+      <h2 className="uppercase mb-6">Captain's Log</h2>
 
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
         <button

@@ -1035,7 +1035,7 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-purple-500/30 bg-purple-950/30 p-3">
       <div className="flex items-center justify-between border-b border-purple-500/20 pb-2">
-        <p className="text-[11px] uppercase tracking-[0.15em] text-purple-300">
+        <p className="text-[11px] uppercase    text-purple-300">
           Master Path & Sync
         </p>
         <span className="text-[9px] font-mono text-purple-400 bg-purple-900/60 px-1.5 py-0.5 rounded border border-purple-500/30">
@@ -1135,7 +1135,7 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
 function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-fuchsia-500/20 bg-fuchsia-950/20 p-3">
-      <p className="text-[11px] uppercase tracking-[0.15em] text-fuchsia-400 border-b border-fuchsia-500/20 pb-1.5">
+      <p className="text-[11px] uppercase    text-fuchsia-400 border-b border-fuchsia-500/20 pb-1.5">
         Old Page Exit Controls
       </p>
 
@@ -1259,7 +1259,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
 function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-purple-500/20 bg-cyan-950/20 p-3">
-      <p className="text-[11px] uppercase tracking-[0.15em] text-cyan-400 border-b border-purple-500/20 pb-1.5">
+      <p className="text-[11px] uppercase    text-cyan-400 border-b border-purple-500/20 pb-1.5">
         New Page Reveal Controls
       </p>
 

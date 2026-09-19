@@ -115,6 +115,16 @@ async function getOtherArticles(currentArticle: NewsPost, currentSlug: string): 
   );
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = await getArticle(slug);
+  if (!article) return { title: "News Article | 7th Heaven" };
+  return {
+    title: `${article.title} | 7th Heaven News`,
+    description: article.content.slice(0, 160),
+  };
+}
+
 export default async function NewsArticlePage({
   params,
 }: {
@@ -168,9 +178,9 @@ export default async function NewsArticlePage({
 
         {/* Body */}
         <div className="max-w-2xl space-y-5">
-          {article.content.split("\n").map((paragraph, i) =>
+          {article.content.split("\n").map((paragraph) =>
             paragraph.trim() ? (
-              <p key={i} className="text-white/80 leading-relaxed">
+              <p key={`para-${paragraph.slice(0, 24)}`} className="text-white/80 leading-relaxed">
                 {paragraph}
               </p>
             ) : null
@@ -242,7 +252,7 @@ export default async function NewsArticlePage({
                       <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors line-clamp-2 mb-2">
                         {other.title}
                       </h3>
-                      <p className="text-xs text-white/70 line-clamp-3 leading-relaxed mb-4">
+                      <p className="text-xs text-white/70 line-clamp-3 leading-relaxed mb-6">
                         {other.content}
                       </p>
                     </div>

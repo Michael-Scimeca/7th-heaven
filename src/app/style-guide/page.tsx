@@ -2944,7 +2944,7 @@ ${deskRules.join("\n")}
                   <div className="flex flex-col items-center">
                     <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Crew</p>
                     <h4 className="text-white uppercase mb-1">Crew PIN Verification</h4>
-                    <p className="mb-4">Enter your 6-digit PIN to verify crew access</p>
+                    <p className="mb-6">Enter your 6-digit PIN to verify crew access</p>
                     <div
                       className="rounded-lg px-4 py-6 w-full no-glow"
                       style={{
@@ -2955,7 +2955,7 @@ ${deskRules.join("\n")}
                         borderRadius: 24,
                         boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                       }}>
-                      <p className="uppercase text-center mb-4">Enter 6-Digit PIN</p>
+                      <p className="uppercase text-center mb-6">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
@@ -2984,7 +2984,7 @@ ${deskRules.join("\n")}
                   {/* ── Planner Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <h4 className="text-white uppercase mb-1">Planner Access PIN</h4>
-                    <p className="mb-4">Enter your 6-digit PIN to access your Planner Dashboard</p>
+                    <p className="mb-6">Enter your 6-digit PIN to access your Planner Dashboard</p>
                     <div
                       className="rounded-lg px-4 py-6 w-full no-glow"
                       style={{
@@ -3027,11 +3027,11 @@ ${deskRules.join("\n")}
                   {/* ── Cruise Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <div className="mb-2">
-                      <span className="text-[12px] uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-3 py-1">7th Heaven Caribbean Cruise</span>
+                      <span className="text-[12px] uppercase    text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-3 py-1">7th Heaven Caribbean Cruise</span>
                     </div>
                     <h4 className="text-white uppercase mb-1">Check Your Email</h4>
                     <p className="mb-1">We sent a 6-digit verification code to</p>
-                    <p className="text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-4">your email address</p>
+                    <p className="text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-6">your email address</p>
                     <div
                       className="rounded-lg px-4 py-6 w-full no-glow"
                       style={{
@@ -3075,7 +3075,7 @@ ${deskRules.join("\n")}
                   <div className="flex flex-col items-center">
                     <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
                     <h4 className="text-white uppercase mb-1">Admin 2FA Verification</h4>
-                    <p className="mb-4">Enter your 6-digit PIN after login</p>
+                    <p className="mb-6">Enter your 6-digit PIN after login</p>
                     <div
                       className="rounded-lg px-4 py-6 w-full no-glow"
                       style={{
@@ -3086,7 +3086,7 @@ ${deskRules.join("\n")}
                         borderRadius: 24,
                         boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                       }}>
-                      <p className="uppercase text-center mb-4">Enter 6-Digit PIN</p>
+                      <p className="uppercase text-center mb-6">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
@@ -3127,7 +3127,7 @@ ${deskRules.join("\n")}
                 <div className="flex flex-col items-center">
                   <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Auth</p>
                   <h4 className="text-white uppercase mb-1">Sign In Modal</h4>
-                  <p className="mb-4">Existing member login interface</p>
+                  <p className="mb-6">Existing member login interface</p>
                   <div
                     className="rounded-lg p-6 w-full no-glow relative"
                     style={{
@@ -3152,7 +3152,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Mode Tabs */}
-                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-4 select-none">
+                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-6 select-none">
                       <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
                       <button className="relative z-10 py-2 uppercase text-white text-center">Sign In</button>
                       <button className="relative z-10 py-2 uppercase text-white text-center">Sign Up</button>
@@ -3161,7 +3161,7 @@ ${deskRules.join("\n")}
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
+                        <span className="text-[10px] uppercase    text-white/70 block text-left">ACCOUNT TYPE:</span>
                       </div>
                       <div className="grid grid-cols-5 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
                         {(['fan', 'crew', 'planner', 'cruise', 'admin'] as const).map((r) => (
@@ -3179,15 +3179,15 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Form Fields */}
-                    <div className="space-y-3 mb-4">
+                    <div className="space-y-3 mb-6">
                       <div>
-                        <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">EMAIL</label>
+                        <label className="text-[10px] uppercase    text-white/80 mb-1 block">EMAIL</label>
                         <div className="input-glow-border rounded-lg w-full">
                           <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div>
-                        <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">PASSWORD</label>
+                        <label className="text-[10px] uppercase    text-white/80 mb-1 block">PASSWORD</label>
                         <div className="input-glow-border rounded-lg w-full">
                           <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                         </div>
@@ -3198,7 +3198,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Submit CTA */}
-                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 uppercase rounded-lg mb-4 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 uppercase rounded-lg mb-6 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
                       SIGN IN
                     </button>
 
@@ -3228,7 +3228,7 @@ ${deskRules.join("\n")}
                 <div className="flex flex-col items-center">
                   <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Auth</p>
                   <h4 className="text-white uppercase mb-1">Sign Up Modal</h4>
-                  <p className="mb-4">New fan registration interface</p>
+                  <p className="mb-6">New fan registration interface</p>
                   <div
                     className="rounded-lg p-6 w-full no-glow relative"
                     style={{
@@ -3253,7 +3253,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Mode Tabs */}
-                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-4 select-none">
+                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-6 select-none">
                       <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] translate-x-full" />
                       <button className="relative z-10 py-2 uppercase text-white text-center">Sign In</button>
                       <button className="relative z-10 py-2 uppercase text-white text-center">Sign Up</button>
@@ -3261,7 +3261,7 @@ ${deskRules.join("\n")}
 
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
-                      <span className="text-[10px] uppercase tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
+                      <span className="text-[10px] uppercase    text-white/70 block text-left">ACCOUNT TYPE:</span>
                       <div className="grid grid-cols-2 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
                         {(['fan', 'planner'] as const).map((r) => (
                           <button
@@ -3278,17 +3278,17 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Form Fields */}
-                    <div className="space-y-3 mb-4">
+                    <div className="space-y-3 mb-6">
                       {signUpRole === 'planner' ? (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">FULL NAME</label>
+                            <label className="text-[10px] uppercase    text-white/80 mb-1 block">FULL NAME</label>
                             <div className="input-glow-border rounded-lg w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
-                            <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">COMPANY / VENUE NAME</label>
+                            <label className="text-[10px] uppercase    text-white/80 mb-1 block">COMPANY / VENUE NAME</label>
                             <div className="input-glow-border rounded-lg w-full">
                               <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
@@ -3297,13 +3297,13 @@ ${deskRules.join("\n")}
                       ) : signUpRole === 'cruise' ? (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">FULL NAME</label>
+                            <label className="text-[10px] uppercase    text-white/80 mb-1 block">FULL NAME</label>
                             <div className="input-glow-border rounded-lg w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
-                            <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
+                            <label className="text-[10px] uppercase    text-white/80 mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
                             <div className="input-glow-border rounded-lg w-full">
                               <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
@@ -3313,13 +3313,13 @@ ${deskRules.join("\n")}
                         <>
                           <div className="grid grid-cols-2 gap-3">
                             <div>
-                              <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">FULL NAME</label>
+                              <label className="text-[10px] uppercase    text-white/80 mb-1 block">FULL NAME</label>
                               <div className="input-glow-border rounded-lg w-full">
                                 <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
                             <div>
-                              <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
+                              <label className="text-[10px] uppercase    text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
                               <div className="input-glow-border rounded-lg w-full">
                                 <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                               </div>
@@ -3339,7 +3339,7 @@ ${deskRules.join("\n")}
 
                           {previewAlerts && (
                             <div className="pt-1">
-                              <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">Zip Code & Radius</label>
+                              <label className="text-[10px] uppercase    text-white/80 mb-1 block">Zip Code & Radius</label>
                               <div className="flex items-center gap-2">
                                 <div className="input-glow-border rounded-lg flex-1">
                                   <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" placeholder="Zip code" />
@@ -3366,13 +3366,13 @@ ${deskRules.join("\n")}
 
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">EMAIL</label>
+                          <label className="text-[10px] uppercase    text-white/80 mb-1 block">EMAIL</label>
                           <div className="input-glow-border rounded-lg w-full">
                             <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                         <div>
-                          <label className="text-[10px] uppercase tracking-[0.15em] text-white/80 mb-1 block">PASSWORD</label>
+                          <label className="text-[10px] uppercase    text-white/80 mb-1 block">PASSWORD</label>
                           <div className="input-glow-border rounded-lg w-full">
                             <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                           </div>
@@ -4126,7 +4126,7 @@ ${deskRules.join("\n")}
                   <X className="w-3.5 h-3.5" />
                 </button>
 
-                <div className="w-14 h-14 rounded-lg bg- purple-white/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 rounded-lg bg- purple-white/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-6">
                   <Zap className="w-7 h-7 text-purple-400" />
                 </div>
                 <h3 className="text-white uppercase mb-1">Glassmorphism Shell</h3>
@@ -4169,7 +4169,7 @@ ${deskRules.join("\n")}
                   WebkitBackdropFilter: "blur(32px) saturate(180%)",
                   border: "1px solid var(--color-border-main)",
                 }}>
-                <div className="w-14 h-14 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-6">
                   <Trash2 className="w-7 h-7 text-red-400" />
                 </div>
                 <h3 className="text-white uppercase text-center mb-1">Delete Item?</h3>
@@ -4670,7 +4670,7 @@ ${deskRules.join("\n")}
             {/* Stateroom Categories Tab Column — borderless & unpadded */}
             <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 shadow-none">
               <div>
-                <h3 className="uppercase text-white mb-4">Stateroom Categories</h3>
+                <h3 className="uppercase text-white mb-6">Stateroom Categories</h3>
                 <div className="flex flex-col gap-2.5">
                   {[
                     { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
@@ -5007,14 +5007,14 @@ ${deskRules.join("\n")}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 text-left">
               {/* Column 1: Booking Policy */}
               <div className=" border-0 p-0 relative text-left">
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-6">
                   <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0" />
                   <h3 className="uppercase text-white">Booking Policy & Best Rate Guarantee</h3>
                 </div>
-                <p className="text-amber-400 uppercase mb-4">
+                <p className="text-amber-400 uppercase mb-6">
                   Book through us to participate & lock in best rates
                 </p>
-                <p className="mb-4">
+                <p className="mb-6">
                   To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white font-extrabold">must</strong> be placed under our official group booking.
                 </p>
                 <ul className="space-y-3 text-white/80 mb-6">
@@ -5054,11 +5054,11 @@ ${deskRules.join("\n")}
 
               {/* Column 2: Passport Requirements */}
               <div className=" border-0 p-0 relative text-left">
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-6">
                   <Compass className="w-6 h-6 text-purple-400shrink-0" />
                   <h3 className="uppercase text-white">Passport Requirements</h3>
                 </div>
-                <p className="text-purple-400uppercase mb-4">
+                <p className="text-purple-400uppercase mb-6">
                   Essential travel document guidelines
                 </p>
                 <div className="space-y-4 text-white/80">
@@ -5076,11 +5076,11 @@ ${deskRules.join("\n")}
 
               {/* Column 3: Cancellation Policy */}
               <div className=" border-0 p-0 relative text-left">
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-6">
                   <Calendar className="w-6 h-6 text-purple-400 shrink-0" />
                   <h3 className="uppercase text-white">Cancellation Policy</h3>
                 </div>
-                <p className="text-purple-400 uppercase mb-4">
+                <p className="text-purple-400 uppercase mb-6">
                   Refund terms before booking
                 </p>
                 <div className="space-y-4 text-white/80">
@@ -5121,7 +5121,7 @@ ${deskRules.join("\n")}
             {/* MODULE 1: OpenShifts Cell Controls & Select Crew Group Popover */}
             <div className="bg-white/[0.02] border border-white/10 rounded-lg p-6 space-y-6 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-6">
                   <div>
                     <h3 className="uppercase text-white">OpenShifts Cell & Group Popover</h3>
                     <p>Grid cell action buttons & frosted glass group selection popover</p>

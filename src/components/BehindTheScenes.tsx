@@ -51,18 +51,18 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
         {playingId === featured.id ? (
           <div className="absolute inset-0 z-[2]">
             <InlineYTPlayer
- videoId={featured.id}
- title={featured.title}
- onClose={() => setPlayingId(null)}
+              videoId={featured.id}
+              title={featured.title}
+              onClose={() => setPlayingId(null)}
             />
           </div>
         ) : (
           <>
             <Image width={200} height={200} unoptimized
- src={`https://img.youtube.com/vi/${featured.id}/maxresdefault.jpg`}
- alt={featured.title}
- className="absolute inset-0 w-full h-full object-cover"
- />
+              src={`https://img.youtube.com/vi/${featured.id}/maxresdefault.jpg`}
+              alt={featured.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
             {/* Gradient overlays */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-[1]" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent z-[1]" />
@@ -74,7 +74,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
           <div className="relative z-[3] w-full px-8 md:px-16 pb-16 pt-32">
             <div className="max-w-[700px]">
               {/* Label */}
-              <span className="inline-block uppercase text-white/50 mb-4">
+              <span className="inline-block uppercase text-white/50 mb-6">
                 Official YouTube
               </span>
 
@@ -91,8 +91,8 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
 
               {/* Play CTA */}
               <button
- onClick={() => setPlayingId(featured.id)}
-                className="group inline-flex items-center gap-3 bg-white text-black uppercase tracking-[0.15em] px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white transition-colors duration-300 cursor-pointer">
+                onClick={() => setPlayingId(featured.id)}
+                className="group inline-flex items-center gap-3 bg-white text-black uppercase    px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white transition-colors duration-300 cursor-pointer">
                 <svg width="14" height="16" viewBox="0 0 20 22" fill="none" className="transition-colors">
                   <path d="M19 11L1 21V1L19 11Z" fill="currentColor" strokeLinejoin="round" />
                 </svg>
@@ -104,7 +104,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
 
               {/* Director credit */}
               <div className=" 0 border-t border-white/10 pt-6">
-                <p className="tracking-[0.15em] uppercase mb-1">
+                <p className="   uppercase mb-1">
                   Directed by
                 </p>
                 <p>
@@ -119,7 +119,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
       {/* BTS Grid — additional clips */}
       {btsVideos.length > 1 && (
         <div className="px-8 md:px-16 py-16">
-          <p className="uppercase tracking-[0.15em] mb-6">
+          <p className="uppercase    mb-6">
             More Behind the Scenes
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -128,26 +128,26 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                 <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] border border-white/10">
                   {playingId === `bts-${video.id}` ? (
                     <InlineYTPlayer
- videoId={video.id}
- title={video.title}
- onClose={() => setPlayingId(null)}
+                      videoId={video.id}
+                      title={video.title}
+                      onClose={() => setPlayingId(null)}
                     />
                   ) : (
                     <button className="absolute inset-0 w-full h-full cursor-pointer"
- onClick={() => setPlayingId(`bts-${video.id}`)}
+                      onClick={() => setPlayingId(`bts-${video.id}`)}
                       aria-label={`Play ${video.title}`}>
                       <Image width={200} height={200} unoptimized
- src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
- alt={video.title}
- className="absolute inset-0 z-[1] w-full h-full object-cover grayscale group-hover:grayscale-0 transition-colors duration-500"
- loading="lazy"
- onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
+                        src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
+                        alt={video.title}
+                        className="absolute inset-0 z-[1] w-full h-full object-cover grayscale group-hover:grayscale-0 transition-colors duration-500"
+                        loading="lazy"
+                        onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
                       />
                       <div className="absolute inset-0 z-[2] bg-black/30 group-hover:bg-black/10 transition-colors duration-300" />
                       <div className="absolute top-4 right-4 z-[3]">
                         <CosmicRadialButton
- icon={false}
- className="w-11 h-11 !rounded-full !p-0 flex items-center justify-center border border-purple-300/40">
+                          icon={false}
+                          className="w-11 h-11 !rounded-full !p-0 flex items-center justify-center border border-purple-300/40">
                           <svg width="12" height="14" viewBox="0 0 20 22" fill="none">
                             <path d="M19 11L1 21V1L19 11Z" fill="white" strokeLinejoin="round" />
                           </svg>

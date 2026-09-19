@@ -127,7 +127,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 <h3 className="uppercase text-white mb-3">
                   {PORTS_DATA[activeSpotlightPort].name}
                 </h3>
-                <p className="mb-4">
+                <p className="mb-6">
                   {PORTS_DATA[activeSpotlightPort].desc}
                 </p>
 
@@ -212,7 +212,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
         {portLayoutMode === "carousel" && (
           <div className="relative animate-fadeIn text-left">
             {/* Scroll buttons */}
-            <div className="flex justify-end gap-2 mb-4">
+            <div className="flex justify-end gap-2 mb-6">
               <button
                 type="button"
                 onClick={() => {

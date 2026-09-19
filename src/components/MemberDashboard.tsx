@@ -218,7 +218,7 @@ export default function MemberDashboard() {
               </div>
 
               <div className="flex flex-col gap-4">
-                <button onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+                <button onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white uppercase    rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
                   Create Fan Account
                 </button>
 
@@ -228,10 +228,10 @@ export default function MemberDashboard() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)]  transition-colors cursor-pointer bg-white/[0.02]">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 uppercase    rounded hover:border-[var(--color-accent)]  transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10  flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10  flex items-center justify-center gap-2 uppercase    rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
                     Crew Portal
                   </button>
                 </div>
@@ -269,7 +269,7 @@ export default function MemberDashboard() {
                   const role = member?.role ?? 'fan';
                   const cfg = { fan: { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, crew: { label: 'CREW', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, admin: { label: 'ADMIN', cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' };
                   return (
-                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)] uppercase tracking-[0.15em] border rounded-lg ${cfg.cls}`}>
+                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)] uppercase    border rounded-lg ${cfg.cls}`}>
                       {cfg.label}
                     </span>
                   );
@@ -280,7 +280,7 @@ export default function MemberDashboard() {
           </div>
           <div className="flex items-center gap-2">
             {(member?.role === 'crew' || member?.role === 'admin') && (
-              <Link href="/crew" className="px-4 py-2 uppercase tracking-[0.15em]  hover:text-white bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
+              <Link href="/crew" className="px-4 py-2 uppercase     hover:text-white bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
                 Crew Dashboard
               </Link>
@@ -298,7 +298,7 @@ export default function MemberDashboard() {
             <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 22h20L12 2z" /></svg>
           </div>
 
-          <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
+          <div className="relative z-10 flex items-center justify-between mb-6 pb-4 border-b border-white/10">
             <div className="flex items-center gap-3">
               <Ticket className="w-6 h-6" />
               <h2>
@@ -381,7 +381,7 @@ export default function MemberDashboard() {
             <h2>
               My Photo <span className="gradient-text">Submissions</span>
             </h2>
-            <span className="uppercase tracking-[0.15em] text-white/25">Fan Wall Activity</span>
+            <span className="uppercase    text-white/25">Fan Wall Activity</span>
           </div>
 
           {myPhotos.length === 0 ? (
@@ -477,11 +477,11 @@ export default function MemberDashboard() {
 
         {/* My Purchases */}
         <div className="mt-6 p-6 bg-white/[0.02] border border-white/10">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             <h2>
               My <span className="gradient-text">Purchases</span>
             </h2>
-            <span className="uppercase tracking-[0.15em] text-white/25">Order History</span>
+            <span className="uppercase    text-white/25">Order History</span>
           </div>
 
           {(() => {
@@ -504,7 +504,7 @@ export default function MemberDashboard() {
                         <span className="text-white/30">{order.id}</span>
                         <span className="text-white/20">{order.date}</span>
                       </div>
-                      <span className={`uppercase tracking-[0.15em] ${order.statusColor}`}>
+                      <span className={`uppercase    ${order.statusColor}`}>
                         {order.status}
                       </span>
                     </div>

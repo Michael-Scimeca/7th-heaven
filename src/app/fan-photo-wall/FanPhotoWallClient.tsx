@@ -258,7 +258,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
   return (
     <div className="min-h-screen pt-[100px]" id="fan-photo-wall-page">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
-      <section className="site-container relative pb-8 overflow-hidden flex flex-col justify-center" id="fan-wall">
+      <section className="site-container relative pb-6 overflow-hidden flex flex-col justify-center" id="fan-wall">
         <div className="relative z-10">
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8">
@@ -347,7 +347,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
         {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
         {
           isModerator && pendingPhotos.length > 0 && (
-            <div className="mx-auto site-container mb-12">
+            <div className="mx-auto site-container mb-6">
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div>
                   <h3 className="text-white text-lg font-bold uppercase">
@@ -692,14 +692,14 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
             </div>
 
             {cmsError && (
-              <div className="mb-4 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm flex items-center gap-2">
+              <div className="mb-6 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
                 <span>{cmsError}</span>
               </div>
             )}
 
             {cmsSuccess && (
-              <div className="mb-4 p-3 rounded-lg bg-emerald-900/40 border border-emerald-500/50 text-emerald-200 text-sm flex items-center gap-2">
+              <div className="mb-6 p-3 rounded-lg bg-emerald-900/40 border border-emerald-500/50 text-emerald-200 text-sm flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Moment added successfully!</span>
               </div>

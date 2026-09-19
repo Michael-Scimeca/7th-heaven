@@ -86,10 +86,10 @@ export default function EmailMapPage() {
 
         {/* Header */}
         <div className="mb-16">
-          <span className="inline-block uppercase  border border-white/10 px-3 py-1 mb-4">
+          <span className="inline-block uppercase  border border-white/10 px-3 py-1 mb-6">
             System Architecture
           </span>
-          <h1 className="mb-4">
+          <h1 className="mb-6">
             Email <span className="gradient-text">Flow Map</span>
           </h1>
           <p className="max-w-2xl">
@@ -192,11 +192,11 @@ export default function EmailMapPage() {
         {/* Logic Cards */}
         <div className="grid md:grid-cols-2 gap-4 mt-20">
           <div className="p-6 bg-white/[0.02] border border-white/[0.06]">
-            <h3 className="uppercase mb-4 flex items-center gap-2">
+            <h3 className="uppercase mb-6 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-lg bg-blue-500" />
               The API Bridge
             </h3>
-            <p className="mb-4">
+            <p className="mb-6">
               To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code className="text-white">/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
             </p>
             <div className="bg-black/40 p-4 rounded text-blue-400">
@@ -204,11 +204,11 @@ export default function EmailMapPage() {
             </div>
           </div>
           <div className="p-6 bg-white/[0.02] border border-white/[0.06]">
-            <h3 className="uppercase mb-4 flex items-center gap-2">
+            <h3 className="uppercase mb-6 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-lg bg-cyan-500" />
               Token Security
             </h3>
-            <p className="mb-4">
+            <p className="mb-6">
               Cancellation and status links use crypographic tokens stored in Supabase. This allows fans to manage their RSVPs or bookings directly from their inbox without requiring a password login every time.
             </p>
             <div className="bg-black/40 p-4 rounded">

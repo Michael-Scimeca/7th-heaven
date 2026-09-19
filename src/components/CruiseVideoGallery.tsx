@@ -193,7 +193,7 @@ export default function CruiseVideoGallery() {
     : videos.filter(v => v.category === selectedCategory);
 
   return (
-    <section id="ship-videos" className="pt-10 md:pt-20 relative z-20 site-container" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
+    <section id="ship-videos" className="py-section-fluid relative z-20 site-container" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
         <div className="flex justify-center mb-3">
@@ -293,7 +293,7 @@ export default function CruiseVideoGallery() {
           <div
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-5xl rounded-lg p-4 md:p-6 overflow-hidden bg-[#0c071e]">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 gap-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6 gap-4">
               <div className="min-w-0 flex-1">
                 <span className="uppercase text-purple-400 block mb-1">
                   {activeVideo.category}

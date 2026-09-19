@@ -730,7 +730,7 @@ function LoginModalBodyContent(props: any) {
 
         {/* Prominent High-Contrast Sliding Toggle Tabs */}
         {modalMode !== "forgot" && (
-          <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
+          <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 mb-6 max-w-sm mx-auto shadow-inner select-none">
             <div
               className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] transition-transform duration-300 ease-out pointer-events-none"
               style={{
@@ -765,7 +765,7 @@ function LoginModalBodyContent(props: any) {
         {modalMode !== "forgot" && (
           <div className="my-3 space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
+              <span className="text-[10px] uppercase    text-white/70 block">ACCOUNT TYPE:</span>
             </div>
             <div className={`grid p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
               {[
@@ -799,7 +799,7 @@ function LoginModalBodyContent(props: any) {
 
         {/* Invite flow banner */}
         {isInviteFlow && (
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 mb-4 flex items-start gap-2">
+          <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 mb-6 flex items-start gap-2">
             <Mail className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <span className="text-white uppercase block">Invited Member Signup</span>
@@ -816,7 +816,7 @@ function LoginModalBodyContent(props: any) {
             </div>
 
             <div>
-              <label htmlFor="login-pin-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block text-center">
+              <label htmlFor="login-pin-input" className="uppercase    text-white/80 mb-2 block text-center">
                 Enter 6-Digit Verification PIN
               </label>
               <input
@@ -838,7 +838,7 @@ function LoginModalBodyContent(props: any) {
             <button type="button"
               onClick={handleVerifyPin}
               disabled={loading || pinCode.length !== 6}
-              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]">
+              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white uppercase    hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]">
               {loading ? "Verifying..." : "Verify & Complete Registration"}
             </button>
 
@@ -897,7 +897,7 @@ function LoginModalBodyContent(props: any) {
               <div className="flex flex-col gap-4 my-4">
                 {!forgotPinSent ? (
                   <div>
-                    <label htmlFor="forgot-email-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">Email Address</label>
+                    <label htmlFor="forgot-email-input" className="uppercase    text-white/80 mb-2 block">Email Address</label>
                     <div className="input-glow-border rounded-lg w-full">
                       <input
                         id="forgot-email-input"
@@ -916,7 +916,7 @@ function LoginModalBodyContent(props: any) {
                       A verification code has been sent to <strong>{email}</strong>
                     </div>
                     <div>
-                      <label htmlFor="forgot-pin-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">Verification PIN</label>
+                      <label htmlFor="forgot-pin-input" className="uppercase    text-white/80 mb-2 block">Verification PIN</label>
                       <div className="input-glow-border rounded-lg w-full">
                         <input
                           id="forgot-pin-input"
@@ -931,7 +931,7 @@ function LoginModalBodyContent(props: any) {
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="forgot-new-password-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">New Password</label>
+                      <label htmlFor="forgot-new-password-input" className="uppercase    text-white/80 mb-2 block">New Password</label>
                       <div className="input-glow-border rounded-lg w-full">
                         <input
                           id="forgot-new-password-input"
@@ -952,7 +952,7 @@ function LoginModalBodyContent(props: any) {
             {modalMode !== "forgot" && (
               <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 my-4' : 'flex flex-col gap-4 my-4'}>
                 <div>
-                  <label htmlFor="login-email-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">
+                  <label htmlFor="login-email-input" className="uppercase    text-white/80 mb-2 block">
                     Email {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
                   </label>
                   <div className="input-glow-border rounded-lg w-full">
@@ -971,7 +971,7 @@ function LoginModalBodyContent(props: any) {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="login-password-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">Password</label>
+                  <label htmlFor="login-password-input" className="uppercase    text-white/80 mb-2 block">Password</label>
                   <div className="input-glow-border rounded-lg w-full">
                     <input
                       id="login-password-input"
@@ -1320,7 +1320,7 @@ function SignUpExtraFields({
       {loginRole === 'planner' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="signup-full-name" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">
+            <label htmlFor="signup-full-name" className="uppercase    text-white/80 mb-2 block">
               Full Name
             </label>
             <div className="input-glow-border rounded-lg w-full">
@@ -1335,7 +1335,7 @@ function SignUpExtraFields({
             </div>
           </div>
           <div>
-            <label htmlFor="signup-company-name" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">
+            <label htmlFor="signup-company-name" className="uppercase    text-white/80 mb-2 block">
               Company / Venue Name
             </label>
             <div className="input-glow-border rounded-lg w-full">
@@ -1351,7 +1351,7 @@ function SignUpExtraFields({
       ) : loginRole === 'cruise' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="signup-full-name" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">
+            <label htmlFor="signup-full-name" className="uppercase    text-white/80 mb-2 block">
               Full Name
             </label>
             <div className="input-glow-border rounded-lg w-full">
@@ -1366,7 +1366,7 @@ function SignUpExtraFields({
             </div>
           </div>
           <div>
-            <label htmlFor="signup-cabin-no" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">
+            <label htmlFor="signup-cabin-no" className="uppercase    text-white/80 mb-2 block">
               Stateroom / Cabin # <span className="text-white/40 normal-case">(optional)</span>
             </label>
             <div className="input-glow-border rounded-lg w-full">
@@ -1384,7 +1384,7 @@ function SignUpExtraFields({
           {/* Name + Username — side by side */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="signup-full-name" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">
+              <label htmlFor="signup-full-name" className="uppercase    text-white/80 mb-2 block">
                 Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
               </label>
               <div className="input-glow-border rounded-lg w-full">
@@ -1400,7 +1400,7 @@ function SignUpExtraFields({
               </div>
             </div>
             <div>
-              <label htmlFor="signup-username-input" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">
+              <label htmlFor="signup-username-input" className="uppercase    text-white/80 mb-2 block">
                 Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
               </label>
               <div className="input-glow-border rounded-lg w-full">
@@ -1447,7 +1447,7 @@ function SignUpExtraFields({
             {/* Zip code & radius — only if opted in */}
             {wantNotifications && (
               <div className="pt-1">
-                <label htmlFor="signup-zip-code" className="uppercase tracking-[0.15em] text-white/80 mb-2 block">Zip Code & Radius</label>
+                <label htmlFor="signup-zip-code" className="uppercase    text-white/80 mb-2 block">Zip Code & Radius</label>
                 <div className="flex items-center gap-2">
                   <div className="input-glow-border rounded-lg flex-1">
                     <input

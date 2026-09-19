@@ -170,12 +170,12 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
             <div className="lg:col-span-7 border-0 pb-4 md:pb-6 relative overflow-hidden group transition-colors">
-              <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+              <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
                 <span className="text-[var(--color-accent)]">
                   {featured.date}
                 </span>
               </div>
-              <h3 className="mb-4 transition-colors">
+              <h3 className="mb-6 transition-colors">
                 <Link
                   href={`/news/${featured.slug || featured.id || toSlug(featured.title)}`}
                   className="hover:text-[var(--color-accent)] transition-colors"
@@ -230,7 +230,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
             className="bg-[var(--card-bg)] border-0 max-w-xl w-full p-8 relative shadow-2xl rounded-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-6">
               <span className="text-[var(--color-accent)] uppercase">
                 {selectedArticle.date}
               </span>
@@ -242,7 +242,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 ✕
               </button>
             </div>
-            <h3 className="mb-4">
+            <h3 className="mb-6">
               {selectedArticle.title}
             </h3>
             <p className="whitespace-pre-line">
@@ -282,7 +282,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
             </div>
 
             {modalError && (
-              <div className="mb-4 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm">
+              <div className="mb-6 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm">
                 {modalError}
               </div>
             )}

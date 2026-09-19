@@ -399,7 +399,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
     return (
       <main className="site-container py-48 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className=" mb-4">Fan <span className="gradient-text">Account</span></h1>
+          <h1 className=" mb-6">Fan <span className="gradient-text">Account</span></h1>
           <p className="mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
           <button onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white uppercase hover:brightness-110 shadow-[0_0_15px_rgba(255,10,61,0.3)]">
             Login to Access
@@ -423,7 +423,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
 
         {/* Account Identity Header */}
-        <header className="mb-10 border-b border-[var(--border-color)] pb-5">
+        <header className="mb-6 border-b border-[var(--border-color)] ">
           <MemberHeaderBadge
             name={effectiveMember?.name || member?.name || 'Fan Guest'}
             email={effectiveMember?.email || member?.email || ''}
@@ -459,7 +459,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {/* Cruise Header */}
             <header className="mb-8 border-b border-[var(--border-color)] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
               <div>
-                <div className="flex items-center gap-4 mb-4">
+                <div className="flex items-center gap-4 mb-6">
                   <div>
                     <h2 className="text-2xl font-bold uppercase">Cruise Hub</h2>
                     <p className="uppercase ">Passenger Area</p>
@@ -548,7 +548,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center relative z-10 mb-4">
+                    <div className="flex items-center relative z-10 mb-6">
                       <div className="flex -space-x-3">
                         {['JD', 'SL', 'MT', 'AB', 'RC', 'KW'].map((initials, i) => {
                           const colors = ['bg-rose-500/20 text-rose-300', 'bg- purple-white/20 text-purple-300', 'bg-cyan-500/20   ', 'bg-amber-500/20 text-amber-300', 'bg-emerald-500/20 text-emerald-300', 'bg-indigo-500/20 text-indigo-300'];
@@ -575,7 +575,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         ) : (
           <>
             {/* Backstage Feed — always visible */}
-            <section id="backstage-feed" className="mb-10">
+            <section id="backstage-feed" className="mb-6">
               {isLive && liveFeeds.length > 0 ? (
                 <div className="space-y-3">
                   {liveFeeds.map((feed) => (
@@ -640,11 +640,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <div className="flex items-start justify-between relative z-10">
                           <div>
                             {isClaimed ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-white/10 rounded-lg  uppercase mb-4">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-white/10 rounded-lg  uppercase mb-6">
                                 ✓ PRIZE CLAIMED
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-500 uppercase mb-4">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-500 uppercase mb-6">
                                 RAFFLE WINNER
                               </span>
                             )}
@@ -695,7 +695,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               const isHappeningNow = nextShow && countdown.status === 'live';
               const isEnded = nextShow && countdown.status === 'ended';
               return (
-                <section id="next-show-countdown" className="relative text-white mb-10">
+                <section id="next-show-countdown" className="relative text-white mb-6">
                   <div className="relative z-10">
 
                     {nextShow ? (() => {
@@ -741,7 +741,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </>
                       );
                     })() : (
-                      <div className="mt-4">
+                      <div className="">
                         <p className=" uppercase text-base sm:text-lg">Check back soon — new dates drop regularly</p>
                         <Link href="/#tour" className="mt-3  uppercase text-base sm:text-lg hover:text-white transition-colors">View Tour Page</Link>
                       </div>
@@ -752,7 +752,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             })()}
 
             {/* Upcoming Shows */}
-            <section id="upcoming-shows" className="mb-10 text-white max-w-6xl">
+            <section id="upcoming-shows" className="mb-6 text-white max-w-6xl">
               <div className="flex items-center justify-between mb-6">
                 <Link href="/#tour" className="text-lg sm:text-xl md:text-2xl text-white/50 hover:text-[var(--color-accent)] uppercase font-extrabold transition-colors">All Dates</Link>
               </div>
@@ -871,13 +871,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             </section>
 
             {/* Proximity Alerts & Show Alerts — 50/50 Grid */}
-            <section id="show-alerts" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+            <section id="show-alerts" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <div>
                 <ProximityPanel />
               </div>
 
               <div className="text-white">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-6">
                   <SectionBadge label="Subscribed Show Alerts" />
                   <span className="text-[var(--font-size-2xs)] text-white/40 uppercase">Specific Tour Dates</span>
                 </div>
@@ -993,9 +993,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="lg:col-span-2 space-y-0">
 
                 {/* Tour Memories Gallery & Upload */}
-                <section id="tour-memories" className="space-y-6 pt-4 border-t border-white/10">
-                  <div className="flex items-start justify-between mb-2">
-                  </div>
+                <section id="tour-memories" className="space-y-6  border-t border-white/10">
+
 
                   {/* Photo Gallery Grid */}
                   {myPhotos.length > 0 && (
@@ -1067,7 +1066,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
 
                 {/* VIP Inbox */}
-                <aside id="vip-inbox" className="pt-4 text-white flex flex-col justify-between">
+                <aside id="vip-inbox" className=" text-white flex flex-col justify-between">
                   <div className="border-b border-white/10 pb-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 uppercase text-purple-400">
@@ -1080,7 +1079,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     </div>
                   </div>
 
-                  <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
+                  <div className="space-y-4 max-h-[300px] overflow-y-auto  scrollbar-hide">
                     {inboxMessages.map((msg) => (
                       <div key={msg.id || msg.title} className={`group cursor-pointer p-3 -mx-3 bg-[#00000029] transition-colors border border-transparent border-white/10 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
                         <div className="flex items-start gap-3">

@@ -1217,7 +1217,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fadeIn">
           <div className="bg-[#0f0728] border border-purple-500/30 rounded-2xl p-5 sm:p-6 w-full max-w-xl shadow-[0_0_50px_rgba(147,51,234,0.3)] text-white max-h-[90vh] overflow-y-auto">
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
               <div>
                 <h3 className="text-lg font-bold uppercase tracking-wider text-purple-200 flex items-center gap-2">
                   <span>⚙️</span> Map Zoom Control Settings
@@ -1253,8 +1253,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   <div
                     key={device}
                     className={`p-4 rounded-xl border transition-all ${isCurrentDevice
-                        ? "bg-purple-950/40 border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.25)]"
-                        : "bg-white/5 border-white/10"
+                      ? "bg-purple-950/40 border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.25)]"
+                      : "bg-white/5 border-white/10"
                       }`}
                   >
                     <div className="flex items-center justify-between mb-3">

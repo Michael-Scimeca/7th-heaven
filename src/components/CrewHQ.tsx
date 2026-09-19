@@ -808,13 +808,13 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               : "border-white/[0.07] "
               }`}>
               <div className="p-5">
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-6">
                   <span className="text-base">🎥 Broadcast Studio</span>
                   {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400 uppercase"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
                 </div>
 
                 {isLive ? (
-                  <div className="space-y-3 mb-4">
+                  <div className="space-y-3 mb-6">
                     <div className="flex justify-between items-center p-2.5 bg-white/[0.03] rounded-lg">
                       <span className="text-white/40">Viewers</span>
                       <span className="text-red-400">{viewerCount.toLocaleString()}</span>
@@ -829,7 +829,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     </div>
                   </div>
                 ) : (
-                  <p className="mb-4">
+                  <p className="mb-6">
                     Launch your broadcast studio to go live, manage chat, run raffles, and drop merch in real-time.
                   </p>
                 )}
@@ -855,7 +855,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             {/* Quick Analytics */}
             <div className="border border-white/[0.07] p-5">
-              <h3 className="uppercase text-white/25 mb-4">My Analytics</h3>
+              <h3 className="uppercase text-white/25 mb-6">My Analytics</h3>
               <div className="space-y-3">
                 {[
                   { label: "All-Time Revenue", value: `$${salesRevenue.toLocaleString("en", { minimumFractionDigits: 0 })}`, color: "#10b981" },

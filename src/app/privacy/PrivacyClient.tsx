@@ -10,7 +10,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
 
   return (
     <main className="site-container pt-[100px] min-h-screen text-left" id="privacy-page">
-      <header className="mb-12 text-left">
+      <header className="mb-6 text-left">
         <h1 className="mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Privacy Policy"}
         </h1>
@@ -154,8 +154,8 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
               <h2 id="privacy-sec-12-heading" className="mb-3">12. Contact Us</h2>
               <p className="mb-2">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
               <div className="space-y-1">
-                <p>Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
-                <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com</a></p>
+                <p>Email: <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a></p>
+                <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="a-btn">7thheavenband.com</a></p>
               </div>
             </section>
           </>

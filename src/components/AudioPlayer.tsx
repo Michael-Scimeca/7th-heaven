@@ -358,7 +358,7 @@ export default function AudioPlayerSection() {
   const holidayCds = albums.filter(a => a.title.toLowerCase().includes('christmas') || a.title.toLowerCase().includes('holiday')).sort((a, b) => parseInt(b.year) - parseInt(a.year));
 
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
-    <div className="mb-4">
+    <div className="mb-6">
       <h3 className="uppercase text-white/40 mb-1.5" style={{ fontSize: "clamp(1.2rem, 1.9vw, 2.0rem)" }}>{title}</h3>
       <ul className="flex flex-col gap-0.5">
         {categoryAlbums.map((album) => {
@@ -802,7 +802,7 @@ export default function AudioPlayerSection() {
                 (activeAlbum?.lineup?.length > 0 || activeAlbum?.credits?.length > 0) ? (
                   <div className="relative z-[2] w-full text-left mt-4 pt-4 border-t border-white/10">
                     {activeAlbum?.lineup?.length > 0 && (
-                      <div className="mb-4">
+                      <div className="mb-6">
                         <h3 className="text-white/90 uppercase mb-1.5">Line-Up</h3>
                         <ul className="flex flex-col gap-1 text-[12px] text-white/80 leading-snug">
                           {activeAlbum.lineup.map((line) => (
@@ -813,7 +813,7 @@ export default function AudioPlayerSection() {
                     )}
 
                     {activeAlbum?.credits?.length > 0 && (
-                      <div className="mb-4">
+                      <div className="mb-6">
                         <h3 className="text-white/90 uppercase mb-1.5">Credits</h3>
                         <ul className="flex flex-col gap-1 text-[12px] text-white/80 leading-snug">
                           {activeAlbum.credits.map((line) => (

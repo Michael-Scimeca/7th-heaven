@@ -149,7 +149,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           {/* Top block: UP NEXT Badge & Countdown timer inline */}
           <div className="flex items-center justify-between gap-2 flex-wrap">
             {/* UP NEXT Badge */}
-            <div className="flex items-center gap-1 text-[var(--font-size-5xs)] uppercase tracking-[0.15em]">
+            <div className="flex items-center gap-1 text-[var(--font-size-5xs)] uppercase   ">
               <span className={`w-0.5 h-0.5 rounded-lg ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
               <span className={daysLabel === "Happening Now" ? "text-red-500" : "text-[var(--color-accent)]"}>
                 {daysLabel === "Happening Now" ? "Live" : "Up Next"}

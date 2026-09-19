@@ -305,18 +305,18 @@ export default function PlannerDashboard() {
               <form onSubmit={handlePlannerLogin} className="flex flex-col gap-4">
                 {plannerMode === 'signup' && (
                   <div>
-                    <label htmlFor="planner-full-name" className="uppercase tracking-[0.15em] text-white/40 mb-2 block">Full Name</label>
+                    <label htmlFor="planner-full-name" className="uppercase    text-white/40 mb-2 block">Full Name</label>
                     <input id="planner-full-name" type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
                       placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                   </div>
                 )}
                 <div>
-                  <label htmlFor="planner-login-email" className="uppercase tracking-[0.15em] text-white/40 mb-2 block">Email</label>
+                  <label htmlFor="planner-login-email" className="uppercase    text-white/40 mb-2 block">Email</label>
                   <input id="planner-login-email" type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
                     placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
                 <div>
-                  <label htmlFor="planner-login-password" className="uppercase tracking-[0.15em] text-white/40 mb-2 block">Password</label>
+                  <label htmlFor="planner-login-password" className="uppercase    text-white/40 mb-2 block">Password</label>
                   <input id="planner-login-password" type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
                     placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
@@ -340,12 +340,12 @@ export default function PlannerDashboard() {
                 )}
 
                 <button type="submit" disabled={plannerLoginLoading}
-                  className="w-full py-3.5 bg-[var(--color-accent)] text-white uppercase tracking-[0.15em] hover:bg-[var(--color-accent)] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.2)]">
+                  className="w-full py-3.5 bg-[var(--color-accent)] text-white uppercase    hover:bg-[var(--color-accent)] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.2)]">
                   {plannerLoginLoading ? 'Authenticating...' : plannerMode === 'signup' ? 'Create Planner Account' : 'Sign In as Planner'}
                 </button>
 
                 <button type="button" onClick={() => { setPlannerMode(m => m === 'login' ? 'signup' : 'login'); setPlannerLoginError(''); }}
-                  className="text-[var(--color-accent)]/60  uppercase tracking-[0.15em] transition-colors cursor-pointer">
+                  className="text-[var(--color-accent)]/60  uppercase    transition-colors cursor-pointer">
                   {plannerMode === 'login' ? 'Need an account? Create one' : 'Already have an account? Sign in'}
                 </button>
               </form>
@@ -428,7 +428,7 @@ export default function PlannerDashboard() {
           <div className={`absolute top-0 left-0 w-1 h-full ${s.bar}`} />
 
           <div className="flex-1">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-6">
               <SectionBadge label={s.label} />
               <span className="text-white/40 uppercase">ID: {booking.id}</span>
             </div>
@@ -462,40 +462,40 @@ export default function PlannerDashboard() {
               /* Edit Mode */
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="planner-edit-event-name" className="text-white/30 uppercase tracking-[0.15em] block mb-1">Event Name</label>
+                  <label htmlFor="planner-edit-event-name" className="text-white/30 uppercase    block mb-1">Event Name</label>
                   <input id="planner-edit-event-name" value={editDraft.eventName} onChange={e => setEditDraft(d => ({ ...d, eventName: e.target.value }))}
                     className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors" />
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
-                    <label htmlFor="planner-edit-start-time" className="text-white/30 uppercase tracking-[0.15em] block mb-1">Start Time</label>
+                    <label htmlFor="planner-edit-start-time" className="text-white/30 uppercase    block mb-1">Start Time</label>
                     <input id="planner-edit-start-time" value={editDraft.startTime} onChange={e => setEditDraft(d => ({ ...d, startTime: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="planner-edit-end-time" className="text-white/30 uppercase tracking-[0.15em] block mb-1">End Time</label>
+                    <label htmlFor="planner-edit-end-time" className="text-white/30 uppercase    block mb-1">End Time</label>
                     <input id="planner-edit-end-time" value={editDraft.endTime} onChange={e => setEditDraft(d => ({ ...d, endTime: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="planner-edit-venue" className="text-white/30 uppercase tracking-[0.15em] block mb-1">Venue</label>
+                    <label htmlFor="planner-edit-venue" className="text-white/30 uppercase    block mb-1">Venue</label>
                     <input id="planner-edit-venue" value={editDraft.venueName} onChange={e => setEditDraft(d => ({ ...d, venueName: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="planner-edit-attendance" className="text-white/30 uppercase tracking-[0.15em] block mb-1">Attendance</label>
+                    <label htmlFor="planner-edit-attendance" className="text-white/30 uppercase    block mb-1">Attendance</label>
                     <input id="planner-edit-attendance" value={editDraft.expectedAttendance} onChange={e => setEditDraft(d => ({ ...d, expectedAttendance: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="planner-edit-city" className="text-white/30 uppercase tracking-[0.15em] block mb-1">City</label>
+                    <label htmlFor="planner-edit-city" className="text-white/30 uppercase    block mb-1">City</label>
                     <input id="planner-edit-city" value={editDraft.venueCity} onChange={e => setEditDraft(d => ({ ...d, venueCity: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="planner-edit-state" className="text-white/30 uppercase tracking-[0.15em] block mb-1">State</label>
+                    <label htmlFor="planner-edit-state" className="text-white/30 uppercase    block mb-1">State</label>
                     <input id="planner-edit-state" value={editDraft.venueState} onChange={e => setEditDraft(d => ({ ...d, venueState: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                   </div>
@@ -574,7 +574,7 @@ export default function PlannerDashboard() {
 
 
       {/* ── Band & Event Contacts Panel ── */}
-      <section className="my-10">
+      <section className="my-6">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div>
             <h3 className="text-white uppercase">7th Heaven Band & Event Contacts</h3>

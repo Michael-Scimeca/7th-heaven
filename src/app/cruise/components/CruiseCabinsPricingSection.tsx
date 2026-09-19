@@ -233,9 +233,9 @@ function CruiseCabinsPricingSectionComponent({
         {/* Guidelines Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 min-[1301px]:grid-cols-4 gap-6 text-left border-b border-white/10 py-section-fluid">
           {/* Column 1: Ship Resources */}
-          <div className="relative text-left rounded-2xl flex flex-col justify-between pr-4 sm:pr-6 py-2">
+          <div className="relative text-left rounded-2xl flex flex-col justify-between ">
             <div>
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-6">
                 <Ship className="w-6 h-6 text-purple-400 shrink-0" />
                 <h3 className="uppercase text-white">Ship Resources</h3>
               </div>
@@ -351,15 +351,15 @@ function CruiseCabinsPricingSectionComponent({
           </div>
 
           {/* Column 2: Booking Policy */}
-          <div className="relative text-left rounded-2xl pr-4 sm:pr-6 py-2">
-            <div className="flex items-center gap-3 mb-4">
+          <div className="relative text-left rounded-2xl pr-4 sm:pr-6">
+            <div className="flex items-center gap-3 mb-6">
               <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
               <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.bookingPolicyTitle || "Booking Policy"}</h3>
             </div>
-            <p className="text-purple-400 uppercase mb-4">
+            <p className="text-purple-400 uppercase mb-6">
               {sanityContent?.cruiseInfo?.bookingPolicyHeading || "Book through us to participate & lock in best rates"}
             </p>
-            <p className="mb-4">
+            <p className="mb-6">
               {sanityContent?.cruiseInfo?.bookingPolicyBody || (
                 <>To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.</>
               )}
@@ -387,12 +387,12 @@ function CruiseCabinsPricingSectionComponent({
           </div>
 
           {/* Column 3: Passport */}
-          <div className="relative text-left rounded-2xl pr-4 sm:pr-6 py-2">
-            <div className="flex items-center gap-3 mb-4">
+          <div className="relative text-left rounded-2xl ">
+            <div className="flex items-center gap-3 mb-6">
               <Compass className="w-6 h-6 text-purple-400 shrink-0" />
               <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.passportTitle || "Passport Guidelines"}</h3>
             </div>
-            <p className="text-purple-400 uppercase mb-4">{sanityContent?.cruiseInfo?.passportSubheading || "Essential travel document guidelines"}</p>
+            <p className="text-purple-400 uppercase mb-6">{sanityContent?.cruiseInfo?.passportSubheading || "Essential travel document guidelines"}</p>
             <div className="space-y-4 text-white/80">
               <p>{sanityContent?.cruiseInfo?.passportBody || "A physical passport book valid for 6 months post-cruise is highly recommended for all travelers."}</p>
               <p>For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable.</p>
@@ -400,12 +400,12 @@ function CruiseCabinsPricingSectionComponent({
           </div>
 
           {/* Column 4: Cancellation */}
-          <div className="relative text-left pr-4 sm:pr-6 py-2">
-            <div className="flex items-center gap-3 mb-4">
+          <div className="relative text-left">
+            <div className="flex items-center gap-3 mb-6">
               <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
               <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.cancellationTitle || "Cancellation Policy"}</h3>
             </div>
-            <p className="text-purple-400 uppercase mb-4">{sanityContent?.cruiseInfo?.cancellationSubheading || "Refund terms before booking"}</p>
+            <p className="text-purple-400 uppercase mb-6">{sanityContent?.cruiseInfo?.cancellationSubheading || "Refund terms before booking"}</p>
             <div className="space-y-4 text-white/80">
               <div>
                 <h4 className="text-white uppercase mb-1">Group Rate Rooms:</h4>
@@ -667,14 +667,14 @@ function CruiseCabinsPricingSectionComponent({
             </div>
 
             {roomError && (
-              <div className="mb-4 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm flex items-center gap-2">
+              <div className="mb-6 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
                 <span>{roomError}</span>
               </div>
             )}
 
             {roomSuccess && (
-              <div className="mb-4 p-3 rounded-lg bg-emerald-900/40 border border-emerald-500/50 text-emerald-200 text-sm flex items-center gap-2">
+              <div className="mb-6 p-3 rounded-lg bg-emerald-900/40 border border-emerald-500/50 text-emerald-200 text-sm flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Stateroom saved successfully to Sanity!</span>
               </div>

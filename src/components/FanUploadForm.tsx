@@ -250,9 +250,9 @@ export default function FanUploadForm() {
           <div className="flex flex-col gap-6">
             <div>
               <div
- role={previews.length === 0 ? "button" : undefined}
- tabIndex={previews.length === 0 ? 0 : undefined}
- onClick={(e) => {
+                role={previews.length === 0 ? "button" : undefined}
+                tabIndex={previews.length === 0 ? 0 : undefined}
+                onClick={(e) => {
                   if ((e.target as HTMLElement).closest('.plus-button')) return;
                   if (!isLoggedIn) { openModal('login'); return; }
                   fileRef.current?.click();
@@ -288,8 +288,8 @@ export default function FanUploadForm() {
                       );
                     })}
                     <button type="button"
- aria-label="Add more files"
- onClick={(e) => {
+                      aria-label="Add more files"
+                      onClick={(e) => {
                         e.stopPropagation();
                         if (!isLoggedIn) { openModal('login'); return; }
                         fileRef.current?.click();
@@ -326,46 +326,46 @@ export default function FanUploadForm() {
             <div className="flex flex-col lg:flex-row flex-wrap items-end gap-3 p-0">
               <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="fan-upload-venue" className="uppercase tracking-[0.15em] block mb-1.5 px-1">Venue / Event <span className="text-[var(--color-accent)]">*</span></label>
+                  <label htmlFor="fan-upload-venue" className="uppercase    block mb-1.5 px-1">Venue / Event <span className="text-[var(--color-accent)]">*</span></label>
                   <GlowInput
- id="fan-upload-venue"
- type="text"
- name="venue"
- placeholder="e.g. Durty Nellies"
- required
- aria-label="Venue or Event Name"
- />
+                    id="fan-upload-venue"
+                    type="text"
+                    name="venue"
+                    placeholder="e.g. Durty Nellies"
+                    required
+                    aria-label="Venue or Event Name"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="fan-upload-date" className="uppercase tracking-[0.15em] block mb-1.5 px-1">Date <span className="text-[var(--color-accent)]">*</span></label>
+                  <label htmlFor="fan-upload-date" className="uppercase    block mb-1.5 px-1">Date <span className="text-[var(--color-accent)]">*</span></label>
                   <GlowInput
- id="fan-upload-date"
- type="date"
- name="date"
- required
- aria-label="Date of Event"
- className="[color-scheme:dark] cursor-pointer"
- />
+                    id="fan-upload-date"
+                    type="date"
+                    name="date"
+                    required
+                    aria-label="Date of Event"
+                    className="[color-scheme:dark] cursor-pointer"
+                  />
                 </div>
                 <div className="md:col-span-2">
-                  <label htmlFor="fan-upload-caption" className="uppercase tracking-[0.15em] block mb-1.5 px-1">Caption</label>
+                  <label htmlFor="fan-upload-caption" className="uppercase    block mb-1.5 px-1">Caption</label>
                   <GlowInput
- id="fan-upload-caption"
- type="text"
- name="caption"
- placeholder="Short description..."
- aria-label="Caption"
- />
+                    id="fan-upload-caption"
+                    type="text"
+                    name="caption"
+                    placeholder="Short description..."
+                    aria-label="Caption"
+                  />
                 </div>
               </div>
 
 
               <CosmicRadialButton
- type={isLoggedIn ? "submit" : "button"}
- onClick={() => !isLoggedIn && openModal('login')}
+                type={isLoggedIn ? "submit" : "button"}
+                onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}
                 icon={false}
-                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer">
+                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white uppercase    h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer">
                 {uploading ? "Uploading…" : isScanning ? "Scanning…" : "Publish"}
               </CosmicRadialButton>
             </div>

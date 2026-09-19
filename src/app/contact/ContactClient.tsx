@@ -150,7 +150,7 @@ export default function ContactClient({
                   key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
                   onMouseEnter={() => setActivePhotoId(photoForThisCard)}
                   onClick={() => setActivePhotoId(photoForThisCard)}
-                  className="pb-[clamp(0.4rem,1.2vh,1rem)] border-b border-white/10 cursor-pointer">
+                  className="border-b border-white/10 cursor-pointer">
                   {/* Category Pill */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
                     <SectionBadge

@@ -60,7 +60,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <span className="uppercase text-purple-400 px-3 py-1 border border-purple-500/20">
                 OPTION 2A — CLASSIC DARK GLASS
               </span>
-              <h1 className="mt-4 mb-4">
+              <h1 className="mt-4 mb-6">
                 7th Heaven <br /><span>Band News</span>
               </h1>
               <p className="mb-6">
@@ -69,11 +69,11 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             </div>
 
             <div className="lg:col-span-7 bg-[#110b20]/90 border border-white/10 p-8 text-left relative">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-6">
                 <span className="uppercase text-[var(--color-accent)]">Featured Article</span>
                 <span className="text-white/50">{featured.date}</span>
               </div>
-              <h2 className="text-white mb-4">{featured.title}</h2>
+              <h2 className="text-white mb-6">{featured.title}</h2>
               <p>{featured.content}</p>
             </div>
           </div>
@@ -99,13 +99,13 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-7 relative overflow-hidden border border-purple-500/40 bg-black/80 p-8 md:p-10">
               <div className="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none" style={{ backgroundImage: "url('/images/hero/hero-band-bg.png')" }} />
               <div className="relative z-10">
-                <div className="flex items-center justify-between gap-4 mb-4">
+                <div className="flex items-center justify-between gap-4 mb-6">
                   <span className="px-3 py-1 bg-cyan-400 text-black uppercase">
                     Latest News
                   </span>
                   <span>{featured.date}</span>
                 </div>
-                <h2 className="text-white mb-4">{featured.title}</h2>
+                <h2 className="text-white mb-6">{featured.title}</h2>
                 <p className="mb-6">{featured.content}</p>
                 <button type="button" className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer shadow-purple-600/30">
                   Read Full Story →
@@ -122,20 +122,20 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Card */}
             <div className="lg:col-span-7 bg-[#130d24] border border-purple-500/30 p-8 md:p-10">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-6">
                 <span className="uppercase text-purple-400 px-2.5 py-1">
                   OPTION 2C — REVERSED LEFT CARD
                 </span>
                 <span className="text-white/50">{featured.date}</span>
               </div>
-              <h2 className="text-white mb-4">{featured.title}</h2>
+              <h2 className="text-white mb-6">{featured.title}</h2>
               <p>{featured.content}</p>
             </div>
 
             {/* Right Branding */}
             <div className="lg:col-span-5">
               <span className="text-purple-400 uppercase">Official Channel</span>
-              <h1 className=" mt-2 mb-4">
+              <h1 className=" mt-2 mb-6">
                 7th Heaven <br /><span>News Feed</span>
               </h1>
               <p>
@@ -163,11 +163,11 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
             {/* Right Column */}
             <div className="lg:col-span-7 p-8 md:p-12 flex flex-col justify-center">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-6">
                 <span className="uppercase">{featured.date}</span>
                 <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20  uppercase">Featured</span>
               </div>
-              <h2 className="text-white mb-4">{featured.title}</h2>
+              <h2 className="text-white mb-6">{featured.title}</h2>
               <p>{featured.content}</p>
             </div>
           </div>
@@ -194,7 +194,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
             <div className="lg:col-span-8 bg-gradient-to-r from-[#120a24] to-[#0a0514] border border-purple-400/30 p-8 md:p-12">
               <span className="uppercase block mb-2">{featured.date}</span>
-              <h2 className="text-white mb-4">{featured.title}</h2>
+              <h2 className="text-white mb-6">{featured.title}</h2>
               <p>{featured.content}</p>
             </div>
           </div>
@@ -220,7 +220,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="w-1.5 h-1.5 bg-cyan-400 rounded-lg" />
                 <span className="uppercase text-white/50">Band Announcement</span>
               </div>
-              <h2 className="text-white mb-4">{featured.title}</h2>
+              <h2 className="text-white mb-6">{featured.title}</h2>
               <p>{featured.content}</p>
             </div>
           </div>

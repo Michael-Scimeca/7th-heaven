@@ -18,24 +18,24 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
   return (
     <>
       <button
- onClick={() => setExpanded(true)}
+        onClick={() => setExpanded(true)}
         className={`relative w-full aspect-video overflow-hidden border-2 transition-colors duration-300 cursor-pointer group ${isPurple ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
           : " border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
           }`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image width={200} height={200} unoptimized
- src={src}
- alt={`${title} demo preview`}
- className="w-full h-full object-cover object-top"
- loading="lazy"
- />
+          src={src}
+          alt={`${title} demo preview`}
+          className="w-full h-full object-cover object-top"
+          loading="lazy"
+        />
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-50 transition-opacity" />
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className={`w-14 h-14 rounded-lg flex items-center justify-center transition-colors duration-300 group-hover:scale-110 ${isPurple ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
- : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
- }`}>
+            : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
+            }`}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -43,9 +43,9 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
         </div>
         {/* Label */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
-          <span className={` uppercase tracking-[0.15em] px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
- : "bg-black/50 border-white/10 text-white/80"
- }`}>
+          <span className={` uppercase    px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
+            : "bg-black/50 border-white/10 text-white/80"
+            }`}>
             ▶ Live Preview
           </span>
         </div>
@@ -54,17 +54,17 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
       {/* Fullscreen Modal */}
       {expanded && (
         <div
- className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-[45px] flex items-center justify-center p-4 md:p-8"
- onClick={() => setExpanded(false)}>
+          className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-[45px] flex items-center justify-center p-4 md:p-8"
+          onClick={() => setExpanded(false)}>
           <div className="relative max-w-6xl w-full">
             {/* Close Button */}
             <button
- onClick={() => setExpanded(false)}
+              onClick={() => setExpanded(false)}
               className="absolute -top-12 right-0 text-white hover:text-white uppercase flex items-center gap-2 transition-colors cursor-pointer">
               Close <span className="text-lg">✕</span>
             </button>
             {/* Title */}
-            <div className="mb-4">
+            <div className="mb-6">
               <h3 className="text-white uppercase" style={{ fontStyle: "italic" }}>
                 {title} <span style={{ color: "#851DEF" }}>Demo</span>
               </h3>
@@ -73,10 +73,10 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
             <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : " border-white/10 "}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized
- src={src}
- alt={`${title} demo`}
- className="w-full h-auto"
- />
+                src={src}
+                alt={`${title} demo`}
+                className="w-full h-auto"
+              />
             </div>
           </div>
         </div>
@@ -138,7 +138,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         {/* How It Works — expandable */}
         <div>
           <button
- onClick={() => setExpanded(v => !v)}
+            onClick={() => setExpanded(v => !v)}
             className={`flex items-center gap-2 text-base    uppercase transition-colors cursor-pointer ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white/70"}`}>
             <span className={`transition-transform duration-200 ${expanded ? "rotate-90" : "rotate-0"}`}>▶</span>
             How It Works

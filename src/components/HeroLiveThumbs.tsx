@@ -188,7 +188,7 @@ export default function HeroLiveThumbs() {
             {mediaPosts.length > 2 && (
               <Link
                 href="/live"
-                className="text-red-500 hover:text-red-400 transition-colors uppercase tracking-[0.15em] ml-2 cursor-pointer flex items-center gap-0.5 hover:  whitespace-nowrap">
+                className="text-red-500 hover:text-red-400 transition-colors uppercase    ml-2 cursor-pointer flex items-center gap-0.5 hover:  whitespace-nowrap">
                 + {mediaPosts.length - 2} More →
               </Link>
             )}

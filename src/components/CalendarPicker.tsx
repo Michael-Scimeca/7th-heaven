@@ -131,16 +131,16 @@ export function CalendarPicker({
       </div>
 
       {/* Legend — Static frame-0 render prevents post-mount injection layout shift */}
-      <div className="flex items-center gap-5 mb-4 uppercase">
+      <div className="flex items-center gap-5 mb-6 uppercase">
         <span className="flex items-center gap-1.5 text-white/90"><span className="w-3 h-3 rounded bg-white/10 border border-white/10 inline-block" /> Available</span>
         <span className="flex items-center gap-1.5 text-rose-400"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 min-[1500px]:grid-cols-[1.8fr_1.05fr_1.35fr] gap-8 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 min-[1500px]:grid-cols-[1.8fr_1.05fr_1.35fr] gap-x-4 gap-y-6">
         {/* Row 1, Col 1: Calendar */}
         <div className="col-span-1 min-[1500px]:col-span-1">
           {/* Month & Year Selection Bar */}
-          <div className="flex items-center justify-between border-0 p-0 mb-4">
+          <div className="flex items-center justify-between border-0 p-0 mb-6">
             <button aria-label="Previous"
               type="button"
               onClick={handlePrevMonth}
@@ -187,7 +187,7 @@ export function CalendarPicker({
             </button>
           </div>
 
-          <div className="grid grid-cols-7 mb-4">
+          <div className="grid grid-cols-7 mb-6">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
               <div key={day} className="text-center uppercase text-white/50">{day}</div>
             ))}
@@ -257,11 +257,11 @@ export function CalendarPicker({
         </div>
 
         {/* Row 1, Col 2: Booking Window */}
-        <div className="col-span-1 min-[1500px]:col-span-1 border-t md:border-t-0 md:border-l min-[1500px]:border-l border-white/10 pt-6 md:pt-0 md:pl-6">
-          <h4 className="uppercase tracking-[0.15em] text-white/50 mb-4">
+        <div className="col-span-1 min-[1500px]:col-span-1 border-t md:border-t-0 md:border-l min-[1500px]:border-l border-white/10 pt-6 md:pt-0 pl-3 md:pl-4 ">
+          <h4 className="uppercase    text-white/50 mb-6">
             {labels?.bookingWindowHeading || "Booking Window"}
           </h4>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-">
             {/* Show Start Time */}
             <div>
               <label htmlFor="cal-show-start-time" className="text-white block mb-1">
@@ -329,7 +329,7 @@ export function CalendarPicker({
 
         {/* Row 2: Event Format (spans full width on Row 2 below 1500px, moves to Col 3 at 1500px+) */}
         <div className="col-span-1 md:col-span-2 min-[1500px]:col-span-1 pt-6 min-[1500px]:pt-0 ">
-          <h4 className="uppercase tracking-[0.15em] text-white/50 mb-4">
+          <h4 className="uppercase    text-white/50 mb-6">
             {labels?.eventFormatHeading || "Event Format"}
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 min-[1500px]:grid-cols-1 gap-3">
@@ -349,11 +349,11 @@ export function CalendarPicker({
                   <FoolishShrimpButton
                     isActive={isSelected}
                     onClick={() => onSelectType && onSelectType(type.id)}
-                    className="w-full !justify-start text-left pr-4 py-3 sm:pr-5 sm:py-4 !h-auto flex gap-3 sm:gap-4 items-center group cursor-pointer !rounded-[2.5rem] [&>span]:w-full [&>span]:max-w-full [&>span]:min-w-0 [&>span]:whitespace-normal">
+                    className="w-full !p-0 !justify-start text-left pr-4 py-3 sm:pr-5 sm:py-4 !h-auto flex gap-3 sm:gap-4  group cursor-pointer !rounded-[2.5rem] [&>span]:w-full [&>span]:max-w-full [&>span]:min-w-0 [&>span]:whitespace-normal">
                     <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
                       <TypeIcon className="w-5 h-5 shrink-0" />
                     </div>
-                    <div className="min-w-0 flex-1 text-left">
+                    <div className="min-w-0 flex-1 text-left gap-2 flex ">
                       <span className={`text-sm sm:text-base font-bold block truncate ${isSelected ? "text-purple-300" : "text-white"}`}>{displayLabel}</span>
                       <span className="text-xs sm:text-sm text-white/80 block line-clamp-1 sm:line-clamp-2 leading-tight">{displayDesc}</span>
                     </div>

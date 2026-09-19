@@ -84,7 +84,7 @@ function VideoCardVisual({
           className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-3xl opacity-40 pointer-events-none"
           style={{ background: palette.glow }}
         />
-        <div className="w-20 h-20 flex items-center justify-center mb-4">
+        <div className="w-20 h-20 flex items-center justify-center mb-6">
           <GlassPlayButton size="lg" />
         </div>
         <h4 className="text-white/90 uppercase line-clamp-2 px-2 drop-shadow-md">
@@ -443,7 +443,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         </div>
 
         {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
-        <nav aria-label="Media Categories" className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-4 md:mb-12">
+        <nav aria-label="Media Categories" className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-6 md:mb-12">
           <FoolishShrimpButton
             type="button"
             onClick={() => handleFilterChange("ALL")}
@@ -535,7 +535,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         {/* Empty State */}
         {filteredVideos.length === 0 && (
           <div className="py-24 text-center bg-white/5 rounded-3xl border border-white/10">
-            <Search className="w-12 h-12 text-purple-400/50 mx-auto mb-4" />
+            <Search className="w-12 h-12 text-purple-400/50 mx-auto mb-6" />
             <p className="font-semibold">{sanityContent?.noResultsTitle || "No media found matching"} &quot;{searchQuery}&quot;</p>
             <button
               onClick={() => { setSearchQuery(""); setActiveFilter("ALL"); }}

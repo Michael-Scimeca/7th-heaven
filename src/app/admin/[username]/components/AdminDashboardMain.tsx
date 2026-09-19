@@ -3518,8 +3518,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
             {/* Acquisition Channels */}
-            <div className="bg-[var(--card-bg)] pt-5 pb-5">
-              <h4 className="uppercase mb-4 flex items-center justify-between">
+            <div className="bg-[var(--card-bg)] py-6">
+              <h4 className="uppercase mb-6 flex items-center justify-between">
                 <span> Traffic Acquisition Channels</span>
                 <span>GA4 Attribution</span>
               </h4>
@@ -3580,7 +3580,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {/* Device & Browser Hardware */}
             <div className="bg-[var(--card-bg)] pt-5 pb-5 flex flex-col justify-between">
               <div>
-                <h4 className="uppercase mb-4 flex items-center justify-between">
+                <h4 className="uppercase mb-6 flex items-center justify-between">
                   <span> User Devices & Browsers</span>
                   <span>Device Category</span>
                 </h4>
@@ -3629,7 +3629,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           {/* 3. Top Performing Sitewide Pages Table */}
           <div className="bg-[var(--card-bg)]">
-            <h4 className="uppercase mb-4 flex items-center justify-between">
+            <h4 className="uppercase mb-6 flex items-center justify-between">
               <span> Top Performing Site Pages (Screen Views)</span>
               <span>GA4 Event Metrics</span>
             </h4>
@@ -3698,7 +3698,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
           <div className="bg-[var(--card-bg)] pt-5 pb-5">
-            <h4 className="uppercase mb-4 flex items-center justify-between">
+            <h4 className="uppercase mb-6 flex items-center justify-between">
               <span> Visitor Geo Demographics & Fan Density</span>
               <span>Top Cities</span>
             </h4>
@@ -3841,7 +3841,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="p-16 text-center text-white/30 animate-pulse">Pulling Shopify analytics...</div>
             ) : shopifyError ? (
               <div className="p-16 text-center">
-                <span className="text-4xl opacity-20 block mb-4"></span>
+                <span className="text-4xl opacity-20 block mb-6"></span>
                 <p>{shopifyError}</p>
                 <p className="mt-2">Check your Shopify Admin API credentials in .env.local</p>
               </div>
@@ -3858,22 +3858,22 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 )}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                    <p className="uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Inventory Value</p>
+                    <p className="uppercase    text-[#96bf48]/60 mb-2">Inventory Value</p>
                     <p>${shopifyData.summary.inventoryValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                     <p className="mt-1 uppercase">Retail value on hand</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase tracking-[0.15em] mb-2">Products</p>
+                    <p className="uppercase    mb-2">Products</p>
                     <p>{shopifyData.summary.totalProducts}</p>
                     <p className="mt-1 uppercase">{shopifyData.summary.totalVariants} variants</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase tracking-[0.15em] mb-2">Total Units</p>
+                    <p className="uppercase    mb-2">Total Units</p>
                     <p>{shopifyData.summary.totalInventory}</p>
                     <p className="mt-1 uppercase">In stock</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase tracking-[0.15em] mb-2">Avg Price</p>
+                    <p className="uppercase    mb-2">Avg Price</p>
                     <p>${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
                     <p className="mt-1 uppercase">Per unit</p>
                   </div>
@@ -3924,24 +3924,24 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* Revenue Metrics Row */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                    <p className="uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Total Revenue</p>
+                    <p className="uppercase    text-[#96bf48]/60 mb-2">Total Revenue</p>
                     <p>${shopifyData.summary.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                     <p className="mt-1 uppercase">Last {shopifyData.period}</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase tracking-[0.15em] mb-2">Orders</p>
+                    <p className="uppercase    mb-2">Orders</p>
                     <p>{shopifyData.summary.totalOrders}</p>
                     <p className="mt-1 uppercase">
                       {shopifyData.statusBreakdown.fulfilled} fulfilled · {shopifyData.statusBreakdown.unfulfilled} pending
                     </p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase tracking-[0.15em] mb-2">Avg Order Value</p>
+                    <p className="uppercase    mb-2">Avg Order Value</p>
                     <p>${shopifyData.summary.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                     <p className="mt-1 uppercase">Per transaction</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase tracking-[0.15em] mb-2">Net Revenue</p>
+                    <p className="uppercase    mb-2">Net Revenue</p>
                     <p>${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                     {shopifyData.summary.totalRefunded > 0 && (
                       <p className="text-rose-400 mt-1 uppercase">
@@ -4152,28 +4152,28 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Simulated Metrics Grid */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div className="bg-black/30 border border-white/10 p-5 hover:border-purple-500/40 transition-colors">
-                  <p className="uppercase tracking-[0.15em] mb-2">Simulated Revenue</p>
+                  <p className="uppercase    mb-2">Simulated Revenue</p>
                   <p>
                     ${simulatedOrders.reduce((sum, o) => sum + parseFloat(o.price?.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                   </p>
                   <p className="mt-1 uppercase">Store + Flash Drop</p>
                 </div>
                 <div className="bg-black/30 border border-white/10 p-5 border-white/10 transition-colors">
-                  <p className="uppercase tracking-[0.15em] mb-2">Store Purchases</p>
+                  <p className="uppercase    mb-2">Store Purchases</p>
                   <p>
                     {simulatedOrders.filter(o => o.source === 'Store').length}
                   </p>
                   <p className="mt-1 uppercase">Normal store checkout</p>
                 </div>
                 <div className="bg-black/30 border border-white/10 p-5 border-white/10 transition-colors">
-                  <p className="uppercase tracking-[0.15em] mb-2">Flash Drops</p>
+                  <p className="uppercase    mb-2">Flash Drops</p>
                   <p>
                     {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
                   </p>
                   <p className="mt-1 uppercase">Live drop purchases</p>
                 </div>
                 <div className="bg-black/30 border border-white/10 p-5 border-white/10 transition-colors">
-                  <p className="uppercase tracking-[0.15em] mb-2">Raffle Claims</p>
+                  <p className="uppercase    mb-2">Raffle Claims</p>
                   <p>
                     {simulatedOrders.filter(o => o.source === 'Raffle').length}
                   </p>
@@ -4704,7 +4704,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="p-0">
             {moderationQueue.length === 0 ? (
               <div className="p-16 text-center text-white/30">
-                <span className="text-4xl opacity-20 block mb-4"></span>
+                <span className="text-4xl opacity-20 block mb-6"></span>
                 Queue is entirely empty. All fan content is categorized.
               </div>
             ) : (
@@ -4771,7 +4771,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           {
             memoryQueue.length === 0 ? (
               <div className="p-10 text-center text-white/30">
-                <span className="text-4xl opacity-20 block mb-4"></span>
+                <span className="text-4xl opacity-20 block mb-6"></span>
                 Queue is entirely empty. All fan content is categorized.
               </div>
             ) : (
@@ -6480,7 +6480,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 key={r.id}
                                 role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSelection(); } }}
                                 onClick={toggleSelection}
-                                className={`flex items-center justify-between !bg-[#00000029] gap-2.5 !px-2 py-3 border-b border-white/10 !rounded-none transition-colors duration-200 cursor-pointer select-none min-h-[48px] ${isChecked ? ' text-white'
+                                className={`flex items-center justify-between !bg-[#00000029] gap-2.5 !px-2 border-b border-white/10 !rounded-none transition-colors duration-200 cursor-pointer select-none min-h-[48px] ${isChecked ? ' text-white'
                                   : 'hover:bg-white/[0.04] text-white/80'
                                   }`}
                                 title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}>
@@ -6952,7 +6952,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ) as any;
                     return (
                       <div key={user.id} className="transition-colors">
-                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 pb-4 pt-4 px-4 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors border-b border-black/10 dark:border-white/5">
+                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2  px-4 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors border-b border-black/10 dark:border-white/5">
                           <div className="truncate max-w-[220px]">
                             <div className="flex items-center gap-2.5 truncate">
                               {(() => {
@@ -7094,7 +7094,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="py-6 pl-0">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
               <div>
-                <label htmlFor="admin-create-crew-name" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Full Name</label>
+                <label htmlFor="admin-create-crew-name" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Full Name</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-name"
@@ -7107,7 +7107,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-crew-username" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Username</label>
+                <label htmlFor="admin-create-crew-username" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Username</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-username"
@@ -7121,7 +7121,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-crew-email" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Email Address</label>
+                <label htmlFor="admin-create-crew-email" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Email Address</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-email"
@@ -7134,7 +7134,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-crew-password" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Password</label>
+                <label htmlFor="admin-create-crew-password" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Password</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-password"
@@ -7147,7 +7147,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-crew-phone" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Phone Number <span className="text-purple-300">*</span></label>
+                <label htmlFor="admin-create-crew-phone" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Phone Number <span className="text-purple-300">*</span></label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-phone"
@@ -7167,7 +7167,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <FoolishShrimpButton
                 onClick={createCrew}
                 disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
-                className="px-6 py-3 text-[0.7rem] uppercase tracking-[0.15em] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
+                className="px-6 py-3 text-[0.7rem] uppercase    rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 Create Account
               </FoolishShrimpButton>
@@ -7190,11 +7190,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <p className="mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
                       {createdCrew.phone && <p className="mt-0.5"> {createdCrew.phone}</p>}
                       <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
-                        <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 shrink-0">Temp Password</span>
+                        <span className="text-[0.55rem] uppercase    text-white/30 shrink-0">Temp Password</span>
                         <code className="text-purple-300 select-all">{createdCrew.password}</code>
                         <button
                           onClick={() => { navigator.clipboard.writeText(createdCrew.password); }}
-                          className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
+                          className="ml-auto text-[0.55rem] uppercase    text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
                       </div>
                     </div>
                   </div>
@@ -7202,7 +7202,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
                 <button
                   onClick={scrollToRegistry}
-                  className="mt-4 w-full py-2.5 bg-emerald-500/10 border border-white/10  text-[0.65rem] uppercase tracking-[0.15em] hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2">
+                  className="mt-4 w-full py-2.5 bg-emerald-500/10 border border-white/10  text-[0.65rem] uppercase    hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                   View in Registry ↓
                 </button>
@@ -7270,7 +7270,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="py-6 pl-0">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <div>
-                <label htmlFor="admin-create-admin-name" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Full Name</label>
+                <label htmlFor="admin-create-admin-name" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Full Name</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-admin-name"
@@ -7283,7 +7283,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-admin-email" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Email Address</label>
+                <label htmlFor="admin-create-admin-email" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Email Address</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-admin-email"
@@ -7296,7 +7296,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-admin-username" className="text-[0.9rem] uppercase tracking-[0.15em] text-white/40 mb-2 block">Username</label>
+                <label htmlFor="admin-create-admin-username" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Username</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-admin-username"
@@ -7311,7 +7311,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <FoolishShrimpButton
                 onClick={createAdmin}
                 disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
-                className="px-6 py-3 text-[0.7rem] uppercase tracking-[0.15em] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
+                className="px-6 py-3 text-[0.7rem] uppercase    rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 {adminCreateLoading ? 'Creating…' : 'Create Admin'}
               </FoolishShrimpButton>
@@ -7334,11 +7334,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <h4 className="text-purple-300">Admin Account Created</h4>
                       <p className="mt-1"><strong className="text-white">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
                       <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
-                        <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 shrink-0">Temp Password</span>
+                        <span className="text-[0.55rem] uppercase    text-white/30 shrink-0">Temp Password</span>
                         <code className="text-purple-300 select-all">{createdAdmin.password}</code>
                         <button
                           onClick={() => { navigator.clipboard.writeText(createdAdmin.password); }}
-                          className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
+                          className="ml-auto text-[0.55rem] uppercase    text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
                       </div>
                       <p className="mt-2"> Welcome email sent to {createdAdmin.email}</p>
                     </div>
@@ -7358,7 +7358,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             {/* Sub-Admin Permissions Manager */}
             <div className="mt-8 pt-6 border-t border-white/10">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-6">
                 <div>
                   <h4 className="text-white flex items-center gap-2">
                     Sub-Admin Role Permissions
@@ -8940,7 +8940,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   return (
                     <div key={member.id} className={`flex w-full border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-white/[0.02]'}`}>
-                      <div className={`p-2 w-60 shrink-0 border-r border-[var(--border-color)] relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : ' '}`}>
+                      <div className={` w-60 shrink-0 border-r border-[var(--border-color)] relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : ' '}`}>
                         <div className="flex items-center gap-2.5">
                           {hasExclamation && (
                             <div className="absolute left-1 top-1/2 -translate-y-1/2 text-[var(--color-accent)]" title="Warning: Schedule issues">
@@ -11162,7 +11162,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
 
       {/* === EXECUTIVE ADMIN HERO HEADER === */}
-      <header className="mb-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
+      <header className="mb-6 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
         {/* Admin Identity & Badges */}
         <div className="flex gap-5">
           <input
@@ -11266,7 +11266,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {/*  */}
       {adminTab === 'band' && (
         <>
-          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {METRICS.map((metric) => (
               <div key={metric.label} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); } }} onClick={() => { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); }} className={`p-4 rounded-lg transition-colors ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
                 <p className="uppercase mb-2">{metric.label}</p>
@@ -11437,7 +11437,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start mb-6">
               {/* Column 1: Cruise Information & Guidelines Editor */}
               <div className="relative z-10">
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10 flex-wrap gap-3">
+                <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/10 flex-wrap gap-3">
                   <div className="flex items-center gap-3">
                     <div>
                       <h3 className="text-white">Cruise Information & Guidelines</h3>
@@ -11650,7 +11650,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Right Column: Live Real-Time Dispatch Previews (Dashboard Banner + Email Template) */}
                     <div className="h-full flex flex-col">
-                      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
+                      <div className="flex flex-wrap items-center justify-between gap-3 mb-6 border-b border-white/10 pb-3">
                         <div className="flex items-center gap-2">
                           <span className="text-base"></span>
                           <h4 className="uppercase">Live Dispatch Preview</h4>
@@ -11787,7 +11787,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 custom-scrollbar">
               <div className="space-y-6">
                 <div>
-                  <h4 className="uppercase mb-4">1. Select Target Destination</h4>
+                  <h4 className="uppercase mb-6">1. Select Target Destination</h4>
                   <div className="space-y-3">
                     <div>
                       <span className="block text-[0.65rem] text-white uppercase mb-1.5">Link Destination Type</span>
@@ -11840,7 +11840,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
 
                 <div>
-                  <h4 className="uppercase mb-4">2. Customize Tag Label</h4>
+                  <h4 className="uppercase mb-6">2. Customize Tag Label</h4>
                   <div className="space-y-4">
                     <div>
                       <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] text-white uppercase mb-1.5">Sub-label Text</label>
@@ -11877,7 +11877,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
 
               <div className="flex flex-col items-center justify-center bg-black/30 border border-white/10 p-6 md:p-8">
-                <p className="uppercase mb-4">Live Tag Print Preview (4&quot; × 6&quot;)</p>
+                <p className="uppercase mb-6">Live Tag Print Preview (4&quot; × 6&quot;)</p>
 
                 <div className="print-tag-container">
                   <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px]">

@@ -742,7 +742,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
         >
 
 
-          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 /60 pt-1 z-10">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-6 sticky top-0 /60 pt-1 z-10">
             <div className="flex items-center gap-2">
               <span className="text-xl">⚙️</span>
               <div>
@@ -1161,7 +1161,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
               )}
               {/* Card content header & events list with responsive inner padding */}
               <div className="p-5 md:p-6 bg-black/60 backdrop-blur-xl border border-white/10 rounded-b-2xl rounded-r-2xl shadow-2xl">
-                <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-white/10">
+                <div className="flex items-center justify-between gap-3 mb-6 pb-3 border-b border-white/10">
                   <h3 className="text-xl md:text-2xl font-black uppercase text-white tracking-wide">{day.theme}</h3>
                   {day.location && (
                     <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full shrink-0">

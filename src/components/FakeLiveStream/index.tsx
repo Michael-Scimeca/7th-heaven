@@ -1482,13 +1482,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                       {raffleState.status === 'open' && (
                         <>
-                          <div className="flex items-center gap-2 text-purple-300 mb-4 pr-6">
+                          <div className="flex items-center gap-2 text-purple-300 mb-6 pr-6">
                             <Ticket className="w-5 h-5 text-yellow-400 animate-pulse" />
                             <span className="uppercase ">Live Raffle</span>
                             <span className="ml-auto px-2.5 py-1 bg- purple-white/20 text-purple-300 border border-purple-500/30 rounded uppercase animate-pulse">OPEN</span>
                           </div>
 
-                          <div className="mb-4">
+                          <div className="mb-6">
                             <div className="flex items-center justify-between mb-1.5">
                               <span className="text-black/40 uppercase">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entered</span>
                               <span className="text-[var(--color-accent)]/70 uppercase">{raffleState.minEntrants ?? 10} needed</span>
@@ -1500,8 +1500,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           </div>
 
                           {raffleState.prizes[0]?.name && (
-                            <div className="mb-4 px-3 py-2.5 bg-purple-500/10 border border-white/20">
-                              <p className="text-[var(--color-accent)]/60 uppercase tracking-[0.15em] mb-1">You could win</p>
+                            <div className="mb-6 px-3 py-2.5 bg-purple-500/10 border border-white/20">
+                              <p className="text-[var(--color-accent)]/60 uppercase    mb-1">You could win</p>
                               <p className="text-yellow-300">
                                 {raffleState.prizes[0].qty > 1 ? <span className="text-black bg-yellow-500/30 px-1.5 py-0.5 rounded mr-2">{raffleState.prizes[0].qty}x</span> : null}
                                 {raffleState.prizes[0].name}
@@ -1534,11 +1534,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 inbox.unshift({ id: Date.now(), icon: '🎰', title: 'Raffle Entry Confirmed!', desc: `You've entered the live raffle. Stay tuned!`, time: 'Just now', isNew: true, color: 'yellow' });
                                 localStorage.setItem('vip_inbox_messages_v1', JSON.stringify(inbox));
                               } catch { }
-                            }} className="w-full py-3 bg-[var(--color-purple-primary)] hover:bg-[var(--color-purple-hover)] text-white uppercase tracking-[0.15em] transition-colors shadow-[0_0_15px_var(--color-purple-glow)]">
+                            }} className="w-full py-3 bg-[var(--color-purple-primary)] hover:bg-[var(--color-purple-hover)] text-white uppercase    transition-colors shadow-[0_0_15px_var(--color-purple-glow)]">
                               Enter Raffle
                             </button>
                           ) : (
-                            <div className="w-full py-3 bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)] text-center uppercase tracking-[0.15em] flex items-center justify-center gap-2">
+                            <div className="w-full py-3 bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)] text-center uppercase    flex items-center justify-center gap-2">
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
                               You're Entered!
                             </div>
@@ -1561,14 +1561,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                       {raffleState.status === 'drawing' && (
                         <div className="py-8 text-center flex flex-col items-center justify-center">
-                          <Ticket className="w-11 h-11 text-yellow-400 animate-spin mb-4" />
+                          <Ticket className="w-11 h-11 text-yellow-400 animate-spin mb-6" />
                           <p className="text-purple-300 uppercase animate-pulse">Drawing Winner...</p>
                         </div>
                       )}
 
                       {raffleState.status === 'complete' && (
                         <div className="py-2">
-                          <div className="flex items-center gap-2 text-purple-300 mb-4 pr-6">
+                          <div className="flex items-center gap-2 text-purple-300 mb-6 pr-6">
                             <Trophy className="w-5 h-5 text-yellow-400" />
                             <span className="uppercase">Raffle Winner</span>
                           </div>

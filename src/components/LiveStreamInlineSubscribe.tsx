@@ -116,7 +116,7 @@ export default function LiveStreamInlineSubscribe({
     <>
       <div className={`w-full ${maxWidth} text-white ${className}`}>
         {/* Header Title & Pill */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0 shadow-inner">
               <Bell className="w-5 h-5 animate-bounce" />
@@ -138,7 +138,7 @@ export default function LiveStreamInlineSubscribe({
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300 font-semibold">
+          <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300 font-semibold">
             ⚠️ {error}
           </div>
         )}

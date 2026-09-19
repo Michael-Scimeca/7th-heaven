@@ -714,7 +714,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             {!isLoggedIn && (
               creatingAccount ? (
                 <div className="bg-white/[0.03] border border-white/10 p-5 text-left">
-                  <div className="mb-4">
+                  <div className="mb-6">
                     <span className="text-base text-white/30 uppercase block mb-1.5">Account Email</span>
                     {editingEmail ? (
                       <div className="flex gap-2">
@@ -883,11 +883,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         {/* Step 1: Event Schedule & Format */}
         <section aria-label="Event Schedule and Format" className="border-0 p-0 shadow-none relative">
 
-          <header className="mb-4">
-            <h1 className="mb-4">
+          <header className="mb-6">
+            <h1 className="mb-6">
               Event Schedule & Format
             </h1>
-            <p className="mt-3 mb-6 max-w-2xl">
+            <p className="mt-3 max-w-2xl">
               Select dates on the calendar to reserve 7th Heaven. You can select <strong>multiple dates</strong> for multi-day runs, and configure unique times, formats, and venue details for each date below.
             </p>
           </header>
@@ -911,7 +911,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
             {/* Alternate Dates */}
             <div className="mt-6 p-0 border-0">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-6">
                 <CalendarIcon className="w-5 h-5 text-[#c27aff] shrink-0" />
                 <div>
                   <h4 className="uppercase text-white">Flexible? Add Backup Dates</h4>
@@ -934,7 +934,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           </div>
           {/* Pricing hint per type */}
           {selectedType && (
-            <div className="px-5 py-3 15 border border-purple-500/30 rounded-lg text-base text-white/80 mb-4">
+            <div className="px-5 py-3 15 border border-purple-500/30 rounded-lg text-base text-white/80 mb-6">
               <span className="text-purple-300">Pricing Guide:</span>{" "}
               {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
               {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
@@ -948,7 +948,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         <section className="bg-[var(--color-section-bg)] relative">
           {bookingSlots.length === 0 ? (
             <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] rounded-lg">
-              <span className="text-4xl block mb-4">📅</span>
+              <span className="text-4xl block mb-6">📅</span>
               <h4 className="text-white uppercase mb-2">
                 {sanityContent?.sections?.find((s: any) => s.sectionId === "no_dates")?.title || "No Dates Selected Yet"}
               </h4>
@@ -960,7 +960,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             <>
               <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                 <div>
-                  <h4 className="uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
+                  <h4 className="uppercase    text-white">Your Scheduled Shows</h4>
                   <p className=" uppercase">Configure individual times and formats for each show below</p>
                 </div>
                 <span className="uppercase bg-cyan-500/20 px-3 py-1 rounded-lg border border-purple-400/30">
@@ -998,7 +998,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         </button>
                       </div>
 
-                      <div className="mb-4">
+                      <div className="mb-6">
                         <span className="uppercase block mb-1">Show #{index + 1}</span>
                         <h5 className="text-base text-white">{formattedDate}</h5>
                       </div>
@@ -1302,7 +1302,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
           {/* Show Event Start & End Times + Band Schedule */}
           <div className="space-y-4">
-            <div className="border-b border-white/10 pb-2.5">
+            <div className="border-b border-white/10">
 
             </div>
 
@@ -1313,7 +1313,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             </div>
 
             {/* Row 2: Band Load-In & Band Performance Start / End */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
               <InputField label="Band Start Time" name="startTime" value={formData.startTime} onChange={handleChange} required placeholder="e.g. 7:00 PM (Band Plays)" />
               <InputField label="Band End Time" name="endTime" value={formData.endTime} onChange={handleChange} required placeholder="e.g. 10:30 PM (Band Finish)" />
 
@@ -1365,9 +1365,9 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           {/* Venue Address & Location Picker */}
           <div className="space-y-5">
             <div className="border-b border-white/10 pb-3">
-              <h3 className="uppercase text-purple-300 flex items-center gap-2">
+              <h2 className="uppercase text-purple-300 flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#c27aff]" /> Venue Address & Location Setup
-              </h3>
+              </h2>
             </div>
 
             {addressNotification && (
@@ -1430,7 +1430,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <div className="md:col-span-2 space-y-4 animate-[fade-in-up_0.15s_ease-out_both] p-4 bg-purple-950/20 border border-purple-500/30 rounded-xl">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <label htmlFor="parkingAddress" className="text-base uppercase tracking-[0.15em] text-white block">
+                      <label htmlFor="parkingAddress" className="text-base uppercase    text-white block">
                         Google Maps Parking Location or Link
                       </label>
                       <div className="flex items-center gap-2 flex-wrap">
@@ -1476,7 +1476,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="parkingNotes" className="text-base uppercase tracking-[0.15em] text-white block">
+                    <label htmlFor="parkingNotes" className="text-base uppercase    text-white block">
                       Directions for Parking
                     </label>
                     <div className="input-glow-border rounded-lg">
@@ -1512,7 +1512,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <RadioPillField label={sanityContent?.sections?.find((s: any) => s.sectionId === "logistics_stage")?.title || "Stage Available?"} name="stageAvailable" value={formData.stageAvailable} onChange={handleChange} options={["Yes", "No — performing at floor level", "Portable / riser can be arranged", "Not sure"]} />
                 <RadioPillField label={sanityContent?.sections?.find((s: any) => s.sectionId === "logistics_backline")?.title || "Backline Provided?"} name="backlineProvided" value={formData.backlineProvided} onChange={handleChange} options={["Yes — amps, drums, etc.", "Partial", "No — band brings everything", "Not sure"]} />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-white/10 pt-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8  border-t border-white/10 pt-8">
                   <div>
                     <InputField
                       label={sanityContent?.sections?.find((s: any) => s.sectionId === "attendance")?.title || "Expected Attendance"}
@@ -1578,7 +1578,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               <h2 className="uppercase text-purple-400 mb-2 flex items-center gap-3">
                 {sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.title || "Notes & Questions"}
               </h2>
-              <p className="mb-4">{sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.subtitle || "Anything else you'd like to mention? Special requests, questions, or details for our band manager."}</p>
+              <p className="mb-6">{sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.subtitle || "Anything else you'd like to mention? Special requests, questions, or details for our band manager."}</p>
               <div className="input-glow-border rounded-lg">
                 <textarea aria-label="Text input"
                   name="details"
@@ -1667,7 +1667,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                 {/* Validation Errors */}
                 {validationErrors.length > 0 && (
-                  <div className="bg-rose-500/10 border border-rose-500/30 p-4 mb-4 rounded-xl">
+                  <div className="bg-rose-500/10 border border-rose-500/30 p-4 mb-6 rounded-xl">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-rose-400">⚠</span>
                       <span className="text-rose-300 text-lg uppercase">Please fix the following</span>

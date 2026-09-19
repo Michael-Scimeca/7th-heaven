@@ -11,7 +11,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
 
   return (
     <main className="site-container pt-[100px] min-h-screen text-left" id="terms-page">
-      <header className="mb-12 text-left">
+      <header className="mb-6 text-left">
         <h1 className="mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Terms of Service"}
         </h1>
@@ -75,7 +75,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             {/* 4 */}
             <section aria-labelledby="terms-sec-4-heading">
               <h2 id="terms-sec-4-heading" className="mb-3">4. Proximity Alerts & Web Push Notifications</h2>
-              <p className="mb-4">By subscribing to 7th Heaven Proximity Alerts & Show Notifications, you agree to the following:</p>
+              <p className="mb-6">By subscribing to 7th Heaven Proximity Alerts & Show Notifications, you agree to the following:</p>
 
               <div className="space-y-4">
                 <div>
@@ -100,7 +100,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
 
                 <div>
                   <p className="font-semibold text-white mb-1">4.5 Unsubscribing & Managing Preferences</p>
-                  <p>You can update your distance radius, toggle show type filters, or unsubscribe from proximity alerts at any time using the Proximity & Show Alert Filters panel located in the site footer or by blocking notifications in your browser settings. For assistance, contact us at <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a>.</p>
+                  <p>You can update your distance radius, toggle show type filters, or unsubscribe from proximity alerts at any time using the Proximity & Show Alert Filters panel located in the site footer or by blocking notifications in your browser settings. For assistance, contact us at <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a>.</p>
                 </div>
               </div>
             </section>
@@ -128,7 +128,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <ul className="list-disc pl-5 space-y-2">
                 <li>All prices are displayed in USD and are subject to change without notice.</li>
                 <li>We reserve the right to refuse or cancel orders at our discretion.</li>
-                <li>Returns and refunds are governed by our <Link href="/returns" className="text-[var(--color-accent)] hover:underline">Returns Policy</Link>.</li>
+                <li>Returns and refunds are governed by our <Link href="/returns" className="a-btn">Returns Policy</Link>.</li>
               </ul>
             </section>
 
@@ -173,8 +173,8 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <h2 id="terms-sec-13-heading" className="mb-3">13. Contact</h2>
               <p className="mb-2">For questions about these Terms of Service:</p>
               <div className="space-y-1">
-                <p>Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] hover:underline">info@7thheavenband.com</a></p>
-                <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">7thheavenband.com</a></p>
+                <p>Email: <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a></p>
+                <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="a-btn">7thheavenband.com</a></p>
               </div>
             </section>
           </>

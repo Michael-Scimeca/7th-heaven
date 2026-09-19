@@ -95,7 +95,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
               <span className="text-[var(--color-accent)] uppercase mb-2 block">Specials</span>
               <h2 className="text-white uppercase">On Sale Now</h2>
             </div>
-            <Link href="/merch" className="text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
+            <Link href="/merch" className="text-white/40 hover:text-white uppercase    border border-white/10 px-4 py-2 transition-colors">
               Shop All →
             </Link>
           </div>
@@ -130,7 +130,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
   // When Shopify has no specials, show demo items so the client can see this
   // section. Remove DEMO_PRODUCTS and this block + restore the `return null`
   // below once real Shopify products with sale/featured tags are configured.
-  const displayProducts = products.length> 0 ? products : DEMO_PRODUCTS;
+  const displayProducts = products.length > 0 ? products : DEMO_PRODUCTS;
   const isDemo = products.length === 0;
   // ── END DEMO FALLBACK ──────────────────────────────────────────────────────
 
@@ -151,7 +151,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
             <span className="text-[var(--color-accent)] uppercase mb-2 block">{sanityContent?.merchBadge || "Specials"}</span>
             <h2 className="text-white uppercase">{sanityContent?.merchTitle || "On Sale Now"}</h2>
           </div>
-          <Link href="/merch" className="text-white/40 hover-text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 color-transition">
+          <Link href="/merch" className="text-white/40 hover-text-white uppercase    border border-white/10 px-4 py-2 color-transition">
             {sanityContent?.merchCtaText || "Shop All →"}
           </Link>
         </div>

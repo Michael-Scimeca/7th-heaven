@@ -457,7 +457,7 @@ export default function AdminLegalPage() {
 
             {/* Requirement Checklist Items */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-6">
                 <h3 className="uppercase text-purple-300">
                   Inspections & Technical Verification Items
                 </h3>
