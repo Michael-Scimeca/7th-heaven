@@ -54,7 +54,7 @@ function VersionB() {
           <React.Fragment key={i}>
             <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0 p-0 text-left" onClick={() => setStep(i)}>
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
- : step > i ? "bg-[var(--color-accent)]/30 text-white"
+                : step > i ? "bg-[var(--color-accent)]/30 text-white"
                   : " bg-[#00000029] border border-white/10 text-white/30"
                 }`}>{step > i ? "✓" : i + 1}</div>
               <span className={`text-[var(--font-size-2xs)] uppercase ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
@@ -130,7 +130,7 @@ function VersionD() {
           <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={SMALL} />
         </div>
       ))}
-      <button type="button" className="w-full py-2.5 uppercase text-[var(--color-accent)]/60 text-[var(--color-accent)] hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
+      <button type="button" className="w-full py-2.5 uppercase text-[var(--color-accent)]/60  hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
     </div>
   );
 }
@@ -166,7 +166,7 @@ function VersionE() {
           )}
         </div>
       ))}
-      <button type="button" className="w-full py-3 border border-dashed border-white/10 uppercase text-white/20 text-[var(--color-accent)] border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
+      <button type="button" className="w-full py-3 border border-dashed border-white/10 uppercase text-white/20  border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
     </div>
   );
 }
@@ -193,7 +193,7 @@ function VersionF() {
         </div>
       ))}
       <button type="button" onClick={() => setGuests(g => [...g, emptyGuest()])}
-        className="text-[var(--color-accent)]/60 text-[var(--color-accent)] transition-colors cursor-pointer">+ Add another guest</button>
+        className="text-[var(--color-accent)]/60  transition-colors cursor-pointer">+ Add another guest</button>
     </div>
   );
 }

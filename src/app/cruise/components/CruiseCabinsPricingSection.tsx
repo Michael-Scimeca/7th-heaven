@@ -379,7 +379,7 @@ function CruiseCabinsPricingSectionComponent({
               </li>
             </ul>
             <div className="pt-3 border-t border-white/10 space-y-1.5">
-              <p><strong>Email:</strong> <a href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`} className="!text-purple-400 hover:!text-purple-300 underline transition-colors">{sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}</a></p>
+              <p><strong>Email:</strong> <a href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`} className="a-btn">{sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}</a></p>
               <p><strong>Call Us:</strong> {sanityContent?.cruiseInfo?.bookingPhone || "(877) 683-9753 - opt 5"}</p>
               <p><CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> {sanityContent?.cruiseInfo?.depositInfo || "$250/person ($500/room)."}</p>
               <p className=" "><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? (sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026") : (sanityContent?.cruiseInfo?.finalPayment2028 || "Oct 1, 2027")}.</p>
@@ -502,7 +502,7 @@ function CruiseCabinsPricingSectionComponent({
                       </a>
                     )}
                     {emailStr && (
-                      <a href={`mailto:${emailStr}`} className="!text-purple-400 hover:!text-purple-300 transition-colors font-medium">
+                      <a href={`mailto:${emailStr}`} className="a-btn font-medium">
                         <span>{emailStr}</span>
                       </a>
                     )}

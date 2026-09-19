@@ -293,19 +293,19 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
               <div className="flex items-end gap-1 h-[16px] shrink-0">
                 {[...Array(5)].map((_, i) => (
                   <div
- key={i}
- className="w-[2px] rounded-lg bg-[var(--color-accent)]/80"
- style={{
- animationName: isPlaying ? 'eqBarShort' : 'none',
- animationDuration: `${MINI_EQ_DURATIONS[i % MINI_EQ_DURATIONS.length]}s`,
- animationTimingFunction: 'ease-in-out',
- animationIterationCount: 'infinite',
- animationDirection: 'alternate',
- animationDelay: `${i * 0.05}s`,
- height: isPlaying ? '14px' : '4px',
- transformOrigin: 'bottom',
- }}
- />
+                    key={i}
+                    className="w-[2px] rounded-lg bg-[var(--color-accent)]/80"
+                    style={{
+                      animationName: isPlaying ? 'eqBarShort' : 'none',
+                      animationDuration: `${MINI_EQ_DURATIONS[i % MINI_EQ_DURATIONS.length]}s`,
+                      animationTimingFunction: 'ease-in-out',
+                      animationIterationCount: 'infinite',
+                      animationDirection: 'alternate',
+                      animationDelay: `${i * 0.05}s`,
+                      height: isPlaying ? '14px' : '4px',
+                      transformOrigin: 'bottom',
+                    }}
+                  />
                 ))}
               </div>
             </div>
@@ -315,16 +315,16 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
               <span className="text-[var(--font-size-5xs)] text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
               <div className="relative flex-1 h-[2px] bg-white/10 rounded-lg">
                 <input type="range"
- min="0"
- max={duration || 100}
- value={currentTime}
- onChange={handleSeek}
- className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
- />
+                  min="0"
+                  max={duration || 100}
+                  value={currentTime}
+                  onChange={handleSeek}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
                 <div
- className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
- style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
- />
+                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
+                  style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                />
               </div>
               <span className="text-[var(--font-size-5xs)] text-white/30 min-w-[22px] text-right">{duration ? formatTime(duration) : '0:00'}</span>
             </div>
@@ -336,9 +336,9 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   const isActive = idx === currentSongIndex;
                   return (
                     <button
- key={song.id || song.title}
- type="button"
- onClick={() => {
+                      key={song.id || song.title}
+                      type="button"
+                      onClick={() => {
                         setCurrentSongIndex(idx);
                         setIsPlaying(true);
                       }}
@@ -349,7 +349,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                         {String(idx + 1).padStart(2, '0')}. {song.title}
                       </span>
                       {isActive && isPlaying ? (
-                        <span className="text-[var(--font-size-5xs)] text-[var(--color-accent)] animate-pulse uppercase shrink-0">Playing</span>
+                        <span className="text-[var(--font-size-5xs)]  animate-pulse uppercase shrink-0">Playing</span>
                       ) : (
                         <span className="text-[var(--font-size-5xs)] text-white/25 uppercase shrink-0">MP3</span>
                       )}
@@ -370,8 +370,8 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
     <section className="relative py-16 bg-[var(--color-bg-primary)] border-y border-white/10 overflow-hidden">
       {/* Visual background lights */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-lg opacity-[0.08] blur-[120px] pointer-events-none"
- style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
- />
+        style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
+      />
 
       <div className="site-container relative z-10">
         <div className="max-w-3xl mx-auto">
@@ -384,7 +384,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
           {locked ? (
             /* Locked Panel (Fans Only, logged out) */
             <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300 border-white/10">
-              <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center text-2xl shadow-inner text-[var(--color-accent)] animate-pulse">
+              <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center text-2xl shadow-inner  animate-pulse">
                 🔒
               </div>
               <h3 className="uppercase er text-white mb-2">
@@ -395,14 +395,14 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
               </p>
               <div className="flex justify-center gap-4">
                 <button
- type="button"
- onClick={() => openModal('login')}
+                  type="button"
+                  onClick={() => openModal('login')}
                   className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg cursor-pointer">
                   Log In
                 </button>
                 <button
- type="button"
- onClick={() => openModal('signup')}
+                  type="button"
+                  onClick={() => openModal('signup')}
                   className="px-8 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 text-white uppercase rounded-lg cursor-pointer">
                   Join Fan Club
                 </button>
@@ -423,7 +423,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
                 {/* Track Details */}
                 <div className="flex-1 text-center md:text-left min-w-0">
-                  <span className="text-[0.9rem] uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-white/10 px-2 py-0.5 rounded-lg">
+                  <span className="text-[0.9rem] uppercase bg-[var(--color-accent)]/20  border border-white/10 px-2 py-0.5 rounded-lg">
                     {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
                   </span>
                   <h4 className="text-white mt-2 truncate uppercase">
@@ -441,21 +441,21 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                 <div className="flex items-end gap-[3px] h-[30px] shrink-0">
                   {[...Array(8)].map((_, i) => (
                     <div
- key={i}
- className={`w-[3px] rounded-lg transition-colors duration-300 ${isCompressorActive ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]'
- : 'bg-[var(--color-accent)]/80'
- }`}
- style={{
- animationName: isPlaying ? 'eqBarShort' : 'none',
- animationDuration: `${isCompressorActive ? MAIN_EQ_ACTIVE[i % MAIN_EQ_ACTIVE.length] : MAIN_EQ_NORMAL[i % MAIN_EQ_NORMAL.length]}s`,
- animationTimingFunction: 'ease-in-out',
- animationIterationCount: 'infinite',
- animationDirection: 'alternate',
- animationDelay: `${i * 0.05}s`,
- height: isPlaying ? '24px' : '6px',
- transformOrigin: 'bottom',
- }}
- />
+                      key={i}
+                      className={`w-[3px] rounded-lg transition-colors duration-300 ${isCompressorActive ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]'
+                        : 'bg-[var(--color-accent)]/80'
+                        }`}
+                      style={{
+                        animationName: isPlaying ? 'eqBarShort' : 'none',
+                        animationDuration: `${isCompressorActive ? MAIN_EQ_ACTIVE[i % MAIN_EQ_ACTIVE.length] : MAIN_EQ_NORMAL[i % MAIN_EQ_NORMAL.length]}s`,
+                        animationTimingFunction: 'ease-in-out',
+                        animationIterationCount: 'infinite',
+                        animationDirection: 'alternate',
+                        animationDelay: `${i * 0.05}s`,
+                        height: isPlaying ? '24px' : '6px',
+                        transformOrigin: 'bottom',
+                      }}
+                    />
                   ))}
                 </div>
               </div>
@@ -468,15 +468,15 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
                 <div className="relative flex-1 h-[4px] bg-white/10 rounded-lg group">
                   <input type="range"
- min="0"
- max={duration || 100}
- value={currentTime}
- onChange={handleSeek}
- className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
- />
+                    min="0"
+                    max={duration || 100}
+                    value={currentTime}
+                    onChange={handleSeek}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  />
                   <div
- className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
- style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}>
+                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
+                    style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}>
                     <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-lg shadow-[0_0_10px_rgba(255,255,255,0.6)] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
@@ -491,9 +491,9 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                 {/* Play, Prev, Next */}
                 <div className="flex items-center gap-6">
                   <button
- type="button"
- onClick={togglePlay}
- className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center active:scale-95 transition-colors cursor-pointer">
+                    type="button"
+                    onClick={togglePlay}
+                    className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center active:scale-95 transition-colors cursor-pointer">
                     {isPlaying ? (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                     ) : (
@@ -510,12 +510,12 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
                   {/* Real-time Dynamic Mastering Compressor */}
                   <button
- type="button"
- onClick={toggleCompressor}
- className={`text-[0.65rem] uppercase flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
- : 'bg-white/[0.02] border-white/10 text-white/40 hover:text-white/70 hover:border-white/10'
- }`}
- title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response">
+                    type="button"
+                    onClick={toggleCompressor}
+                    className={`text-[0.65rem] uppercase flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
+                      : 'bg-white/[0.02] border-white/10 text-white/40 hover:text-white/70 hover:border-white/10'
+                      }`}
+                    title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response">
                     <span className={`w-1.5 h-1.5 rounded-lg ${isCompressorActive ? 'bg-cyan-400 animate-pulse' : 'bg-white/20'}`} />
                     Mastering Compressor {isCompressorActive ? 'ON ⚡' : 'OFF'}
                   </button>
@@ -535,17 +535,17 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
                   <div className="relative flex-1 h-[3px] bg-white/10 rounded-lg">
                     <input type="range"
- min="0"
- max="1"
- step="0.05"
- value={volume}
- onChange={(e) => setVolume(Number(e.target.value))}
+                      min="0"
+                      max="1"
+                      step="0.05"
+                      value={volume}
+                      onChange={(e) => setVolume(Number(e.target.value))}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     />
                     <div
- className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-lg"
- style={{ width: `${volume * 100}%` }}
- />
+                      className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-lg"
+                      style={{ width: `${volume * 100}%` }}
+                    />
                   </div>
                 </div>
               </div>
@@ -559,9 +559,9 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                       const isActive = idx === currentSongIndex;
                       return (
                         <button
- type="button"
- key={song.id || song.title}
- onClick={() => {
+                          type="button"
+                          key={song.id || song.title}
+                          onClick={() => {
                             setCurrentSongIndex(idx);
                             setIsPlaying(true);
                           }}
@@ -576,7 +576,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                           </div>
                           <div className="flex items-center gap-3 shrink-0">
                             {isActive && isPlaying && (
-                              <span className="text-[0.55rem] uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded-lg animate-pulse border border-[var(--color-accent)]/30">Playing</span>
+                              <span className="text-[0.55rem] uppercase bg-[var(--color-accent)]/20  px-2 py-0.5 rounded-lg animate-pulse border border-[var(--color-accent)]/30">Playing</span>
                             )}
                             <span className="text-[0.55rem] text-white/25 uppercase">MP3</span>
                           </div>

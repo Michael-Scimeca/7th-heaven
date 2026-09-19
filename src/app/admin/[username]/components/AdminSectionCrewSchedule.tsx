@@ -727,7 +727,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
               {(() => {
                 if (shift.crewId === 'openshifts') {
                   return (
-                    <div className="w-full h-full flex items-center justify-center text-[var(--color-accent)] bg-[#102a1e] rounded-full overflow-hidden">
+                    <div className="w-full h-full flex items-center justify-center  bg-[#102a1e] rounded-full overflow-hidden">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5">
                         <circle cx="12" cy="12" r="10" />
                         <circle cx="12" cy="12" r="4" />
@@ -791,10 +791,10 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
             <div className="flex items-center gap-1.5 .5 pt-1.5 border-t border-white/10 w-full">
               {shift.crewId === 'openshifts' ? (
                 <>
-                  <div className="w-4 h-4 rounded-full border border-purple-500 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] shrink-0 text-[var(--font-size-5xs)]">
+                  <div className="w-4 h-4 rounded-full border border-purple-500 bg-purple-500/10 flex items-center justify-center  shrink-0 text-[var(--font-size-5xs)]">
 
                   </div>
-                  <span className="uppercase text-[var(--color-accent)] truncate">
+                  <span className="uppercase  truncate">
                     OpenShifts
                   </span>
                 </>
@@ -885,7 +885,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
               <div className="flex w-full border-[var(--border-color)] text-[10px] r">
                 <div className="p-1.5 w-60 shrink-0 border-l border-r border-[var(--border-color)] border-b border-[var(--border-color)] flex items-center ">
                   <div className="flex items-center gap-2 pl-1">
-                    <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] shrink-0">
+                    <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center  shrink-0">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
                     </div>
                     <div>
@@ -929,7 +929,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
-                              className="p-0.5 hover:bg-purple-500/10 rounded text-[var(--color-accent)] hover:text-purple-300 border-none cursor-pointer"
+                              className="p-0.5 hover:bg-purple-500/10 rounded  hover:text-purple-300 border-none cursor-pointer"
                               title="Alert assigned crew for this show">
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -1089,7 +1089,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                             <div className="flex items-center justify-between gap-1">
                               <p className="truncate">{member.name}</p>
                               {isWorkingOnActiveDate && (
-                                <span className="text-[9px] uppercase px-1 py-0.5 rounded bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/30 shrink-0 shadow-2xs">
+                                <span className="text-[9px] uppercase px-1 py-0.5 rounded bg-emerald-500/20  border border-emerald-500/30 shrink-0 shadow-2xs">
                                   Working
                                 </span>
                               )}
@@ -1565,7 +1565,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                             <div className="text-[10px] text-white/50">{ed.lastAction}</div>
                           </div>
                         </div>
-                        <span className={`px-2 py-0.5 text-[12px] rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/40'}`}>
+                        <span className={`px-2 py-0.5 text-[12px] rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20  border border-emerald-500/40'}`}>
                           {ed.isEditing ? ' Shift Locked' : '🟢 Viewing'}
                         </span>
                       </div>
@@ -2938,14 +2938,14 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                         <a
                                           href={`tel:${(m.phone || '(555) 123-4567').replace(/[^\d+]/g, '')}`}
                                           onClick={(e) => e.stopPropagation()}
-                                          className="hover:underline transition-colors">
+                                          className="hover:  transition-colors">
                                           {m.phone || '(555) 123-4567'}
                                         </a>
                                         <span className="mx-1 text-white/30">|</span>
                                         <a
                                           href={`mailto:${m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}`}
                                           onClick={(e) => e.stopPropagation()}
-                                          className="hover:underline transition-colors ">
+                                          className="hover:  transition-colors ">
                                           {m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}
                                         </a>
                                       </span>

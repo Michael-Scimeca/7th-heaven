@@ -184,7 +184,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   const [zoomConfig, setZoomConfig] = useState<MapZoomConfig>(getInitialZoomConfig);
   const [isZoomUiOpen, setIsZoomUiOpen] = useState(false);
   const [zoomSaveSuccess, setZoomSaveSuccess] = useState(false);
-  const emptySubscribe = useCallback(() => () => {}, []);
+  const emptySubscribe = useCallback(() => () => { }, []);
   const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   const zoomConfigRef = useRef(zoomConfig);
@@ -926,9 +926,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       {/* ── Google Maps Preloader Intro Animation Overlay ── */}
       <div
-        className={`absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#160533] backdrop-blur-xl transition-all duration-700 ease-out pointer-events-none ${
-          isLoaded ? "opacity-0 scale-105" : "opacity-100 scale-100"
-        }`}
+        className={`absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#160533] backdrop-blur-xl transition-all duration-700 ease-out pointer-events-none ${isLoaded ? "opacity-0 scale-105" : "opacity-100 scale-100"
+          }`}
       >
         {/* Radial Purple Glow Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/30 via-transparent to-[#160533] pointer-events-none" />
@@ -1024,7 +1023,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <span className="uppercase text-white/40">Active</span>
                     <div className="flex items-center gap-2">
                       {selectedTypes.size > 0 && (
-                        <button onClick={() => setSelectedTypes(new Set())} className="uppercase text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
+                        <button onClick={() => setSelectedTypes(new Set())} className="uppercase  hover:text-white transition-colors cursor-pointer">Clear</button>
                       )}
                       <span className="text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
                     </div>
@@ -1253,11 +1252,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 return (
                   <div
                     key={device}
-                    className={`p-4 rounded-xl border transition-all ${
-                      isCurrentDevice
+                    className={`p-4 rounded-xl border transition-all ${isCurrentDevice
                         ? "bg-purple-950/40 border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.25)]"
                         : "bg-white/5 border-white/10"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2 font-bold text-sm text-purple-300">

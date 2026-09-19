@@ -267,14 +267,14 @@ function HomeShaderGradientComponent() {
 
     const updatePositionLayer = (t: number) => {
       if (!positionLayerRef.current) return;
-      const periodMs = (GRADIENT_SETTINGS.colorMovePeriod || 12) * 1000;
-      const basePhase = (((t - startMs) % periodMs) / periodMs) * Math.PI * 2;
+      const elapsed = (t - startMs) / 1000;
+      const basePhase = elapsed * 0.25;
       const winW = cachedWinW || 1920;
       const winH = cachedWinH || 1080;
 
       const layers = GRADIENT_SETTINGS.colors.flatMap((c: any, idx: number) => {
         if (!c.enabled) return [];
-        const phase = basePhase + idx * (Math.PI / 4);
+        const phase = basePhase + idx * (Math.PI / 3);
         const posX = c.posX ?? (15 + (idx * 15) % 70);
         const posY = c.posY ?? (20 + (idx * 25) % 60);
         const moveX = c.moveX ?? 120;
@@ -286,7 +286,7 @@ function HomeShaderGradientComponent() {
         const my = (moveY / winH) * 100;
 
         const xPct = posX + Math.sin(phase) * mx;
-        const yPct = posY + Math.cos(phase * 0.8) * my;
+        const yPct = posY + Math.cos(phase) * my;
 
         return `radial-gradient(circle at ${xPct.toFixed(2)}% ${yPct.toFixed(2)}%, ${hexToRgba(c.color, opacity)} 0%, transparent ${size}%)`;
       });

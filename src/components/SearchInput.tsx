@@ -71,7 +71,7 @@ export function SearchInput({
  type="button"
  aria-label="Clear search"
  onClick={handleClear}
- className="!absolute right-2 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-0.5 rounded bg-white/10 transition z-20 flex items-center justify-center cursor-pointer">
+ className="!absolute right-2 top-1/2 -translate-y-1/2 text-white/50 hover-text-white p-0.5 rounded bg-white/10 btn-transition z-20 flex items-center justify-center cursor-pointer">
           <X className="w-3 h-3" />
         </button>
       ) : null}

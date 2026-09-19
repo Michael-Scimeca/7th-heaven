@@ -183,7 +183,7 @@ export default function ClaimPage() {
 
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${status === 'valid' ? 'flash-bg' : ' '}`}
- style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}>
+      style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}>
 
       {/* Header */}
       <div className="w-full max-w-sm mb-8 text-center">
@@ -211,7 +211,7 @@ export default function ClaimPage() {
               You must be signed in to your 7th Heaven account to verify your raffle win.
             </p>
             <CosmicRadialButton
- onClick={() => openModal()}
+              onClick={() => openModal()}
               icon={false}
               className="w-full py-3 text-white rounded-lg">
               Sign In to Verify
@@ -290,14 +290,14 @@ export default function ClaimPage() {
               {/* Claim Confirm Button */}
               <div className="mt-6 mb-4">
                 {hasClaimed ? (
-                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] uppercase flex items-center justify-center gap-1.5 animate-pulse">
+                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30  uppercase flex items-center justify-center gap-1.5 animate-pulse">
                     <span>✓ Claim Confirmed & Admin Notified</span>
                   </div>
                 ) : (
                   <CosmicRadialButton
- onClick={handleClaimConfirm}
- icon={false}
- className="w-full py-3 text-white rounded-lg ">
+                    onClick={handleClaimConfirm}
+                    icon={false}
+                    className="w-full py-3 text-white rounded-lg ">
                     Confirm Prize Claim
                   </CosmicRadialButton>
                 )}

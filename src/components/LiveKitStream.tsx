@@ -35,8 +35,8 @@ class LiveKitErrorBoundary extends React.Component<
           <div className="text-center">
             <p>Stream connection interrupted</p>
             <button
- onClick={() => this.setState({ hasError: false, error: null })}
-              className="mt-2 text-[var(--color-accent)] underline hover:text-[var(--color-accent)]">
+              onClick={() => this.setState({ hasError: false, error: null })}
+              className="mt-2   hover:text-[var(--color-accent)]">
               Retry
             </button>
           </div>
@@ -144,17 +144,17 @@ export function LiveKitStream({
 
   return (
     <LiveKitRoom
- key={token}
- token={token}
- serverUrl={url}
- connect={true}
- video={isPublisher}
- audio={isPublisher}
- onConnected={onConnected}
- onDisconnected={onDisconnected}
- className={className}
- data-lk-theme="default"
- style={{ height: '100%' }}>
+      key={token}
+      token={token}
+      serverUrl={url}
+      connect={true}
+      video={isPublisher}
+      audio={isPublisher}
+      onConnected={onConnected}
+      onDisconnected={onDisconnected}
+      className={className}
+      data-lk-theme="default"
+      style={{ height: '100%' }}>
       <RoomAudioRenderer />
       <LiveKitErrorBoundary>
         {isPublisher ? <PublisherView lk={lk} /> : <ViewerView lk={lk} room={room} />}
@@ -209,10 +209,10 @@ function PublisherView({ lk }: { lk: any }) {
         )}
       </div>
       <ControlBar
- variation="minimal"
- controls={{ screenShare: false, chat: false, microphone: true, camera: true }}
- className="!bg-black/60 !border-t !border-white/10"
- />
+        variation="minimal"
+        controls={{ screenShare: false, chat: false, microphone: true, camera: true }}
+        className="!bg-black/60 !border-t !border-white/10"
+      />
     </div>
   );
 }
@@ -261,8 +261,8 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
   return (
     <div className="h-full relative">
       <GridLayout
- tracks={remoteCameraTracks}
- style={{ height: '100%' }}>
+        tracks={remoteCameraTracks}
+        style={{ height: '100%' }}>
         <ParticipantTile />
       </GridLayout>
     </div>

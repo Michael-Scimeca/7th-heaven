@@ -156,9 +156,9 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           const TabIcon = tab.Icon;
           return (
             <button
- key={tab.id}
- onClick={() => setActiveSection(tab.id)}
-              className={`flex-1 px-4 py-2.5    uppercase transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${activeSection === tab.id ? ' text-[var(--color-accent)] bg-[var(--color-accent)]/5 border-b-2 border-[var(--color-accent)]'
+              key={tab.id}
+              onClick={() => setActiveSection(tab.id)}
+              className={`flex-1 px-4 py-2.5    uppercase transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${activeSection === tab.id ? '  bg-[var(--color-accent)]/5 border-b-2 border-[var(--color-accent)]'
                 : 'text-white/25 hover:text-white/50 hover:bg-white/[0.02]'
                 }`}>
               <TabIcon className="w-3.5 h-3.5" />
@@ -178,7 +178,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             {data.crew.length === 0 && !addingCrew ? (
               <div className="text-center py-8">
                 <p className="mb-3">No crew assigned yet</p>
-                <button onClick={() => setAddingCrew(true)} className="uppercase text-[var(--color-accent)] text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
+                <button onClick={() => setAddingCrew(true)} className="uppercase  text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
               </div>
             ) : (
               <>
@@ -191,7 +191,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                       <div className="flex-1 min-w-0">
                         <span className={` ${c.confirmed ? 'text-white/70' : 'text-white/40'}`}>{c.name}</span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] uppercase shrink-0 ${c.confirmed ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
+                      <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] uppercase shrink-0 ${c.confirmed ? 'bg-emerald-500/15  border border-[var(--color-accent)]/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
                       <button onClick={() => removeCrew(i)} className="text-white/10 hover:text-rose-400 cursor-pointer transition-colors shrink-0"><X className="w-3.5 h-3.5" /></button>
                     </div>
                   ))}
@@ -213,7 +213,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                     <button onClick={() => setAddingCrew(false)} className="text-white/30 hover:text-white/50 cursor-pointer shrink-0 py-2"><X className="w-4 h-4" /></button>
                   </div>
                 ) : (
-                  <button onClick={() => setAddingCrew(true)} className="uppercase text-[var(--color-accent)]/60 text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Crew</button>
+                  <button onClick={() => setAddingCrew(true)} className="uppercase text-[var(--color-accent)]/60  cursor-pointer transition-colors">+ Add Crew</button>
                 )}
               </>
             )}
@@ -231,8 +231,8 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 </div>
                 <span className="text-white/50 w-24 shrink-0">{event.label}</span>
                 <input type="text"
- value={event.time}
- onChange={e => updateTimeline(i, e.target.value)}
+                  value={event.time}
+                  onChange={e => updateTimeline(i, e.target.value)}
                   placeholder="e.g. 3:00 PM"
                   className="flex-1 border-b border-white/10 focus:border-[var(--color-accent)]/50 text-white px-1 py-1 outline-none placeholder:text-white/10 transition-colors"
                 />
@@ -270,7 +270,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   <button onClick={() => setAddingGear(false)} className="text-white/30 cursor-pointer px-1"><X className="w-3.5 h-3.5" /></button>
                 </div>
               ) : (
-                <button onClick={() => setAddingGear(true)} className="uppercase text-[var(--color-accent)]/60 text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Gear</button>
+                <button onClick={() => setAddingGear(true)} className="uppercase text-[var(--color-accent)]/60  cursor-pointer transition-colors">+ Add Gear</button>
               )}
             </div>
           </div>
@@ -281,7 +281,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           <div>
             <div className="flex gap-2 mb-3">
               <input value={newNote}
- onChange={e => setNewNote(e.target.value)}
+                onChange={e => setNewNote(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
                 className="flex-1 border border-white/10 px-3 py-2 rounded-lg text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]"

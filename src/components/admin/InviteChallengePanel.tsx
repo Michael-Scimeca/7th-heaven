@@ -86,15 +86,15 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
       {/* Accordion Toggle Header */}
       <button
- type="button"
- onClick={() => setIsCollapsed(!isCollapsed)}
+        type="button"
+        onClick={() => setIsCollapsed(!isCollapsed)}
         className="w-full text-left relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group border-0 ">
         <div>
           <p className="uppercase ">Show Promotions</p>
           <h3 className="text-white flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
-              <span className="uppercase text-[var(--color-accent)] border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
+              <span className="uppercase  border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
                 Active
               </span>
             )}
@@ -117,8 +117,8 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           <div className="mb-4 mt-4">
             <label htmlFor="invite-challenge-show-select" className="uppercase tracking-[0.15em] text-white/40 mb-1.5 block">Select Show</label>
             <select id="invite-challenge-show-select"
- value={selectedShowId}
- onChange={(e) => setSelectedShowId(e.target.value)}
+              value={selectedShowId}
+              onChange={(e) => setSelectedShowId(e.target.value)}
               className="w-full bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50">
               <option value="">— Pick a show —</option>
               {shows.map((s) => (
@@ -142,10 +142,10 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                       <p className="mt-0.5">Fans will see this on the show page</p>
                     </div>
                     <SquishyToggle
- id="challenge-enabled"
- label="Enable challenge for this show"
- checked={!!challenge.enabled}
- onChange={(v) => setChallenge((c) => ({ ...c, enabled: v }))}
+                      id="challenge-enabled"
+                      label="Enable challenge for this show"
+                      checked={!!challenge.enabled}
+                      onChange={(v) => setChallenge((c) => ({ ...c, enabled: v }))}
                     />
                   </div>
 
@@ -158,11 +158,11 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                         </label>
                         <div className="flex items-center gap-3">
                           <input id="invite-challenge-threshold"
- type="number"
- min={1}
- max={500}
- value={challenge.threshold}
- onChange={(e) => setChallenge((c) => ({ ...c, threshold: parseInt(e.target.value) || 20 }))}
+                            type="number"
+                            min={1}
+                            max={500}
+                            value={challenge.threshold}
+                            onChange={(e) => setChallenge((c) => ({ ...c, threshold: parseInt(e.target.value) || 20 }))}
                             className="w-24 bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
                           />
                           <span className="text-white/30">fans invited to unlock reward</span>
@@ -175,9 +175,9 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           Reward Name
                         </label>
                         <input id="invite-challenge-reward-name"
- type="text"
- value={challenge.reward_name}
- onChange={(e) => setChallenge((c) => ({ ...c, reward_name: e.target.value }))}
+                          type="text"
+                          value={challenge.reward_name}
+                          onChange={(e) => setChallenge((c) => ({ ...c, reward_name: e.target.value }))}
                           placeholder="e.g. Free Band Tee, Signed Poster, Backstage Pass"
                           className="w-full bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20"
                         />
@@ -189,9 +189,9 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           Claim Instructions
                         </label>
                         <textarea aria-label="Text input"
- id="invite-challenge-claim-instructions"
- value={challenge.reward_description}
- onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
+                          id="invite-challenge-claim-instructions"
+                          value={challenge.reward_description}
+                          onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
                           rows={2}
                           placeholder="e.g. Claim at the merch table, night of show"
                           className="w-full bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20 resize-none"
@@ -221,11 +221,11 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                   {/* Save */}
                   <button
- onClick={save}
- disabled={saving || !challenge.reward_name}
- className={`w-full py-3.5 uppercase transition-colors ${saved ? "bg-[var(--color-accent)] text-white"
- : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
- }`}>
+                    onClick={save}
+                    disabled={saving || !challenge.reward_name}
+                    className={`w-full py-3.5 uppercase transition-colors ${saved ? "bg-[var(--color-accent)] text-white"
+                      : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
+                      }`}>
                     {saved ? " Challenge Saved" : saving ? "Saving…" : "Save Challenge"}
                   </button>
                 </>

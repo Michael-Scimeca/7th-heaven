@@ -44,6 +44,10 @@ const FALLBACK_ENDORSEMENTS = [
 ];
 
 const footerLinks = [
+  { href: "/rock-and-roll-kids", label: "Rock & Roll Kids" },
+  { href: "/cruise", label: "Cruise 2026" },
+  { href: "/contact", label: "Contact Us" },
+  { href: "/fan-media-wall", label: "Fan Media Wall" },
   { href: "/faq", label: "FAQ" },
   { href: "/notifications", label: "Push Alerts" },
   { href: "/shows/past", label: "Past Shows Archive" },
@@ -159,7 +163,7 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-1">
               {footerLinks.map((link, i) => (
                 <span key={link.href} className="flex items-center">
-                  <TransitionLink href={link.href} className="text-[13px] font-semibold text-white/70 hover:text-white transition-colors">
+                  <TransitionLink href={link.href} className="footer-nav-link">
                     {link.label}
                   </TransitionLink>
                   {i < footerLinks.length - 1 && (
@@ -173,7 +177,7 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-1">
               {socialLinks.map((link, i) => (
                 <span key={link.name} className="flex items-center">
-                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold !text-white hover:!text-white/80 transition-colors" style={{ color: '#ffffff' }}>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="footer-nav-link">
                     {link.name}
                   </a>
                   {i < socialLinks.length - 1 && (

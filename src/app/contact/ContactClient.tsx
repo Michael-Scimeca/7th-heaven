@@ -172,8 +172,8 @@ export default function ContactClient({
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-flex items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
-                        <span className="underline underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
+                        className="inline-flex a-btn items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
+                        <span className="  underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
                           {contact.email}
                         </span>
                       </a>

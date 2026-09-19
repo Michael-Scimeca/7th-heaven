@@ -483,7 +483,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <span className="ml-auto uppercase text-cyan-500/60 border border-purple-500/20 px-2 py-1 rounded">Priority Update</span>
                   </div>
                   <div
-                    className="text-black/80 space-y-4 [&_a]: [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:"
+                    className="text-black/80 space-y-4 [&_a]: [&_a]:  [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:"
                     dangerouslySetInnerHTML={{ __html: sanitizeHtml(cruiseAnnouncement) }}
                   />
                 </div>
@@ -640,7 +640,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <div className="flex items-start justify-between relative z-10">
                           <div>
                             {isClaimed ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-white/10 rounded-lg text-[var(--color-accent)] uppercase mb-4">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-white/10 rounded-lg  uppercase mb-4">
                                 ✓ PRIZE CLAIMED
                               </span>
                             ) : (
@@ -743,7 +743,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     })() : (
                       <div className="mt-4">
                         <p className=" uppercase text-base sm:text-lg">Check back soon — new dates drop regularly</p>
-                        <Link href="/#tour" className="mt-3 text-[var(--color-accent)] uppercase text-base sm:text-lg hover:text-white transition-colors">View Tour Page</Link>
+                        <Link href="/#tour" className="mt-3  uppercase text-base sm:text-lg hover:text-white transition-colors">View Tour Page</Link>
                       </div>
                     )}
                   </div>
@@ -910,7 +910,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
                     <p>You aren&apos;t tracking any specific shows yet.</p>
                     <p className=" ">Click the bell icon on the tour page to get date alerts.</p>
-                    <Link href="/#tour" className="mt-3 text-[var(--color-accent)] uppercase hover:text-white transition-colors">Find Shows</Link>
+                    <Link href="/#tour" className="mt-3  uppercase hover:text-white transition-colors">Find Shows</Link>
                   </div>
                 )}
               </div>
@@ -1119,7 +1119,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <section id="merch-quick-shop" className="mt-8 text-white">
                 <div className="flex items-center justify-between mb-5">
                   <span className="flex items-center gap-2 uppercase text-fuchsia-400">🛍️ Quick Shop</span>
-                  <Link href="/merch" className="text-white/40 text-[var(--color-accent)] uppercase transition-colors">Full Store</Link>
+                  <Link href="/merch" className="text-white/40  uppercase transition-colors">Full Store</Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {merch.map((item: any) => (

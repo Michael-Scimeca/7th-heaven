@@ -164,7 +164,7 @@ export default function ReferralProgramPanel() {
           </div>
           <div className="flex items-center gap-3">
             {enabled && (
-              <span className="uppercase text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
+              <span className="uppercase  border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
                 Live
               </span>
             )}
@@ -180,10 +180,10 @@ export default function ReferralProgramPanel() {
             </p>
           </div>
           <SquishyToggle
- id="referral-enabled"
- label="Enable referral program"
- checked={enabled}
- onChange={(v) => { if (!toggling) { toggleEnabled(); void v; } }}
+            id="referral-enabled"
+            label="Enable referral program"
+            checked={enabled}
+            onChange={(v) => { if (!toggling) { toggleEnabled(); void v; } }}
             disabled={toggling}
           />
         </div>
@@ -211,7 +211,7 @@ export default function ReferralProgramPanel() {
               Milestone Rewards
             </p>
             <button
- onClick={() => setShowAddForm(!showAddForm)}
+              onClick={() => setShowAddForm(!showAddForm)}
               className="uppercase text-purple-300 hover:text-purple-200 transition-colors cursor-pointer">
               {showAddForm ? "Cancel" : "+ Add Tier"}
             </button>
@@ -221,8 +221,8 @@ export default function ReferralProgramPanel() {
           <div className="space-y-2 mb-3">
             {Array.from(milestones, (m, i) => ({ m, i })).map(({ m, i }) => (
               <div
- key={m.threshold}
- className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/10 group">
+                key={m.threshold}
+                className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/10 group">
                 <div className="flex items-center gap-3">
                   <span className="text-lg">{m.emoji}</span>
                   <div>
@@ -233,7 +233,7 @@ export default function ReferralProgramPanel() {
                   </div>
                 </div>
                 <button
- onClick={() => removeMilestone(i)}
+                  onClick={() => removeMilestone(i)}
                   className="text-white/20 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
                   title="Remove">
 
@@ -254,10 +254,10 @@ export default function ReferralProgramPanel() {
                     Referrals Needed
                   </label>
                   <input id="referral-new-threshold"
- type="number"
- min={1}
- value={newThreshold || ""}
- onChange={(e) => setNewThreshold(parseInt(e.target.value) || 0)}
+                    type="number"
+                    min={1}
+                    value={newThreshold || ""}
+                    onChange={(e) => setNewThreshold(parseInt(e.target.value) || 0)}
                     className="w-20 bg-white/[0.04] border border-white/10 text-white px-3 py-2 focus:outline-none focus:border-purple-500/50"
                   />
                 </div>
@@ -266,9 +266,9 @@ export default function ReferralProgramPanel() {
                     Reward
                   </label>
                   <input id="referral-new-reward"
- type="text"
- value={newReward}
- onChange={(e) => setNewReward(e.target.value)}
+                    type="text"
+                    value={newReward}
+                    onChange={(e) => setNewReward(e.target.value)}
                     placeholder="e.g. Free Band Tee + Album"
                     className="w-full bg-white/[0.04] border border-white/10 text-white px-3 py-2 focus:outline-none focus:border-purple-500/50 placeholder:text-white/20"
                   />
@@ -278,16 +278,16 @@ export default function ReferralProgramPanel() {
                     Emoji
                   </label>
                   <input id="referral-new-emoji"
- type="text"
- value={newEmoji}
- onChange={(e) => setNewEmoji(e.target.value)}
+                    type="text"
+                    value={newEmoji}
+                    onChange={(e) => setNewEmoji(e.target.value)}
                     className="w-14 bg-white/[0.04] border border-white/10 text-white text-center text-lg px-2 py-1 focus:outline-none focus:border-purple-500/50"
                   />
                 </div>
                 <button
- onClick={addMilestone}
- disabled={!newReward || newThreshold < 1}
- className="self-end px-4 py-2 bg-purple-600 text-white uppercase disabled:opacity-40 hover:bg-purple-500 transition-colors cursor-pointer">
+                  onClick={addMilestone}
+                  disabled={!newReward || newThreshold < 1}
+                  className="self-end px-4 py-2 bg-purple-600 text-white uppercase disabled:opacity-40 hover:bg-purple-500 transition-colors cursor-pointer">
                   Add
                 </button>
               </div>
@@ -296,11 +296,11 @@ export default function ReferralProgramPanel() {
 
           {/* Save button */}
           <button
- onClick={saveMilestones}
- disabled={saving}
- className={`w-full mt-3 py-3 uppercase transition-colors cursor-pointer ${saved ? "bg-[var(--color-accent)] text-white"
- : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
- }`}>
+            onClick={saveMilestones}
+            disabled={saving}
+            className={`w-full mt-3 py-3 uppercase transition-colors cursor-pointer ${saved ? "bg-[var(--color-accent)] text-white"
+              : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
+              }`}>
             {saved ? " Milestones Saved" : saving ? "Saving…" : "Save Milestones"}
           </button>
         </div>
@@ -313,8 +313,8 @@ export default function ReferralProgramPanel() {
           <div className="flex items-center gap-2">
             {milestones.map((m) => (
               <div
- key={m.threshold}
- className="flex-1 text-center p-2 bg-white/[0.02] border border-white/10 rounded-lg">
+                key={m.threshold}
+                className="flex-1 text-center p-2 bg-white/[0.02] border border-white/10 rounded-lg">
                 <p className="text-purple-300">{m.threshold}</p>
                 <p className="uppercase mt-0.5">
                   {m.emoji} {m.reward}
@@ -345,9 +345,9 @@ export default function ReferralProgramPanel() {
                   </p>
                   <div className="flex items-center gap-3">
                     <Dropdown
- id="referral-referrer-select"
- selected={selectedReferrer}
- onSelect={(val: any) => setSelectedReferrer(typeof val === "string" ? val : (val as { value?: string })?.value || "all")}
+                      id="referral-referrer-select"
+                      selected={selectedReferrer}
+                      onSelect={(val: any) => setSelectedReferrer(typeof val === "string" ? val : (val as { value?: string })?.value || "all")}
                       options={[
                         { label: "All Referrers", value: "all" },
                         ...displayLeaderboard.map((e) => ({
@@ -386,7 +386,7 @@ export default function ReferralProgramPanel() {
                       return (
                         <div key={entry.referrer_code}>
                           <button
- onClick={() =>
+                            onClick={() =>
                               setExpandedRow(
                                 expandedRow === entry.referrer_code
                                   ? null
@@ -395,23 +395,23 @@ export default function ReferralProgramPanel() {
                             }
                             className="w-full text-left cursor-pointer">
                             <div
- className={`flex items-center justify-between p-3 border ${i === 0 ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
- : i === 1
- ? " border-white/10 bg-white/[0.02]"
- : i === 2
- ? " border-white/10 bg-white/[0.015]"
- : " border-white/10 bg-white/[0.01]"
- }`}>
+                              className={`flex items-center justify-between p-3 border ${i === 0 ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
+                                : i === 1
+                                  ? " border-white/10 bg-white/[0.02]"
+                                  : i === 2
+                                    ? " border-white/10 bg-white/[0.015]"
+                                    : " border-white/10 bg-white/[0.01]"
+                                }`}>
                               <div className="flex items-center gap-3">
                                 {/* Rank badge */}
                                 <div
- className={`w-8 h-8 flex items-center justify-center text-[var(--font-size-sm)] shrink-0 ${i === 0 ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
- : i === 1
- ? "bg-white/10 text-white border border-white/10"
- : i === 2
- ? " bg-[#00000029] text-white/40 border border-white/5"
- : "text-white/20"
- }`}>
+                                  className={`w-8 h-8 flex items-center justify-center text-[var(--font-size-sm)] shrink-0 ${i === 0 ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
+                                    : i === 1
+                                      ? "bg-white/10 text-white border border-white/10"
+                                      : i === 2
+                                        ? " bg-[#00000029] text-white/40 border border-white/5"
+                                        : "text-white/20"
+                                    }`}>
                                   {i + 1}
                                 </div>
 
@@ -430,9 +430,9 @@ export default function ReferralProgramPanel() {
                                 <div className="flex gap-1">
                                   {milestonesHit.map((m, mi) => (
                                     <span
- key={mi}
+                                      key={mi}
 
- title={`${m.threshold}: ${m.reward}`}>
+                                      title={`${m.threshold}: ${m.reward}`}>
                                       {m.emoji}
                                     </span>
                                   ))}
@@ -495,11 +495,11 @@ export default function ReferralProgramPanel() {
                                   </div>
                                   <div className="h-1.5 bg-[#00000029] rounded-lg overflow-hidden">
                                     <div
- className="h-full bg-purple-600 transition-colors"
- style={{
- width: `${Math.min(100, (entry.total / nextMilestone.threshold) * 100)}%`,
- }}
- />
+                                      className="h-full bg-purple-600 transition-colors"
+                                      style={{
+                                        width: `${Math.min(100, (entry.total / nextMilestone.threshold) * 100)}%`,
+                                      }}
+                                    />
                                   </div>
                                 </div>
                               )}
@@ -513,8 +513,8 @@ export default function ReferralProgramPanel() {
                                   <div className=" flex flex-wrap gap-1">
                                     {entry.recent.map((email, ei) => (
                                       <span
- key={ei}
- className="px-2 py-0.5 bg-[#00000029] border border-white/10 text-white/40">
+                                        key={ei}
+                                        className="px-2 py-0.5 bg-[#00000029] border border-white/10 text-white/40">
                                         {email}
                                       </span>
                                     ))}
@@ -526,7 +526,7 @@ export default function ReferralProgramPanel() {
                               {milestonesHit.length > 0 &&
                                 entry.signed_up > 0 && (
                                   <button
- onClick={() => markRewarded(entry.referrer_code)}
+                                    onClick={() => markRewarded(entry.referrer_code)}
                                     className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 uppercase hover:bg-yellow-500/20 transition-colors cursor-pointer">
                                     Mark Rewards as Claimed
                                   </button>

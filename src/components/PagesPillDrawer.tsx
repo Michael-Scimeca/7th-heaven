@@ -42,6 +42,7 @@ const ALL_SITE_ROUTES: RouteItem[] = [
   { path: "/privacy", type: "Static", label: "Privacy Policy", category: "Public Pages", icon: Globe },
   { path: "/terms", type: "Static", label: "Terms of Service", category: "Public Pages", icon: Globe },
   { path: "/returns", type: "Static", label: "Return Policy", category: "Public Pages", icon: Globe },
+  { path: "/rock-and-roll-kids", type: "Static", label: "Rock 'n' Roll Kids Series", category: "Public Pages", icon: Sparkles },
   { path: "/notifications", type: "Static", label: "🔔 Push Notifications Tester", category: "Public Pages", icon: Bell },
 
   // ── Store & Merch ──

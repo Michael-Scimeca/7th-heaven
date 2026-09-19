@@ -101,10 +101,10 @@ export default function LiveStreamInlineSubscribe({
         </div>
 
         <a
- href={topicUrl}
- target="_blank"
- rel="noopener noreferrer"
- className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-purple-300 hover:text-white uppercase rounded-lg transition-all border border-purple-500/30 flex items-center gap-2 shrink-0">
+          href={topicUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-purple-300 hover:text-white uppercase rounded-lg transition-all border border-purple-500/30 flex items-center gap-2 shrink-0">
           <span>Web Alerts Feed</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </a>
@@ -148,10 +148,10 @@ export default function LiveStreamInlineSubscribe({
             <div className="relative w-full">
               <div className="input-glow-border rounded-lg w-full">
                 <input
- type="text"
- required
- value={name}
- onChange={(e) => setName(e.target.value)}
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Your Full Name"
                   className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                 />
@@ -164,10 +164,10 @@ export default function LiveStreamInlineSubscribe({
             <div className="relative w-full">
               <div className="input-glow-border rounded-lg w-full">
                 <input
- type="email"
- required
- value={email}
- onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your Email Address"
                   className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                 />
@@ -181,18 +181,18 @@ export default function LiveStreamInlineSubscribe({
           {/* Legal Terms & Privacy Toggle */}
           <div className="flex items-center gap-3 pt-1">
             <SquishyToggle
- id="inline-terms-toggle"
- label="I agree to the Terms of Service & Privacy Policy"
- checked={agreedToTerms}
- onChange={(checked) => setAgreedToTerms(checked)}
+              id="inline-terms-toggle"
+              label="I agree to the Terms of Service & Privacy Policy"
+              checked={agreedToTerms}
+              onChange={(checked) => setAgreedToTerms(checked)}
             />
             <label htmlFor="inline-terms-toggle" className="text-gray-300/90 cursor-pointer select-none">
               I agree to the{" "}
-              <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline hover:text-purple-300">
+              <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400  hover:text-purple-300">
                 Terms of Service
               </a>{" "}
               &{" "}
-              <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline hover:text-purple-300">
+              <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400  hover:text-purple-300">
                 Privacy Policy
               </a>{" "}
               for instant push & email alerts.
@@ -202,9 +202,9 @@ export default function LiveStreamInlineSubscribe({
           {/* Action Button */}
           <div className="pt-2">
             <CosmicRadialButton
- type="submit"
- disabled={loading}
- icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
+              type="submit"
+              disabled={loading}
+              icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
               className="w-full py-3 text-white uppercase flex items-center justify-center gap-2 ">
               {loading ? "SUBSCRIBING & ENABLING PUSH ALERTS..." : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
             </CosmicRadialButton>

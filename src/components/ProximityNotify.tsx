@@ -231,23 +231,23 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           <div className="md:col-span-5 flex justify-center md:justify-end items-center w-full h-full my-auto">
             <div className="relative w-full h-full max-h-[900px] flex items-center justify-center md:justify-end">
               <IphoneClipMask
- insetXPercent={0}
- insetTopPercent={0}
- insetBottomPercent={0}
- borderRadiusPx={48}
- className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center md:justify-end">
+                insetXPercent={0}
+                insetTopPercent={0}
+                insetBottomPercent={0}
+                borderRadiusPx={48}
+                className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center md:justify-end">
                 <div className="relative w-full h-full max-h-[900px] aspect-[9/18] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-black flex items-center justify-center transition-opacity duration-300">
                   <video
- ref={phoneVideoRef}
- src={videoLoaded ? "/movie/notefication.mp4" : undefined}
- autoPlay
- loop
- muted
- playsInline
- preload={videoLoaded ? "auto" : "none"}
- aria-label="7th Heaven Concert Live Stream"
- className="w-full h-full object-cover rounded-[40px]"
- onCanPlay={(e) => {
+                    ref={phoneVideoRef}
+                    src={videoLoaded ? "/movie/notefication.mp4" : undefined}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload={videoLoaded ? "auto" : "none"}
+                    aria-label="7th Heaven Concert Live Stream"
+                    className="w-full h-full object-cover rounded-[40px]"
+                    onCanPlay={(e) => {
                       e.currentTarget.muted = true;
                       e.currentTarget.play().catch(() => { });
                     }}
@@ -340,9 +340,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         Full Name
                       </label>
                       <GlowInput
- type="text"
- value={name}
- onChange={(e) => setName(e.target.value)}
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         placeholder="Full name"
                         wrapperClassName="w-full"
                       />
@@ -352,9 +352,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         Email address
                       </label>
                       <GlowInput
- type="email"
- value={email}
- onChange={(e) => setEmail(e.target.value)}
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email address"
                         wrapperClassName="w-full"
                       />
@@ -365,9 +365,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           Zip Code / City
                         </label>
                         <GlowInput
- type="text"
- value={zip}
- onChange={(e) => setZip(e.target.value)}
+                          type="text"
+                          value={zip}
+                          onChange={(e) => setZip(e.target.value)}
                           placeholder="e.g. 60056"
                           wrapperClassName="w-full"
                         />
@@ -381,9 +381,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                             const active = radius === opt.value;
                             return (
                               <FoolishShrimpButton
- key={opt.value}
- type="button"
- onClick={() => setRadius(opt.value)}
+                                key={opt.value}
+                                type="button"
+                                onClick={() => setRadius(opt.value)}
                                 isActive={active}
                                 className="!w-auto px-2.5 py-1.5 text-xs">
                                 {opt.label}
@@ -405,9 +405,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         const isSelected = selectedShowTypes.includes(type.id);
                         return (
                           <FoolishShrimpButton
- key={type.id}
- type="button"
- onClick={() => {
+                            key={type.id}
+                            type="button"
+                            onClick={() => {
                               if (type.id === "all") { setSelectedShowTypes(["all"]); return; }
                               let next = selectedShowTypes.filter((t) => t !== "all");
                               next = next.includes(type.id) ? next.filter((t) => t !== type.id) : [...next, type.id];
@@ -419,12 +419,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                               <Guitar className="w-3.5 h-3.5 text-purple-300 shrink-0 inline-block" />
                             ) : (
                               <span
- className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
- style={{
- backgroundColor: type.color,
- boxShadow: `0 0 6px ${type.color}80`,
- }}
- />
+                                className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
+                                style={{
+                                  backgroundColor: type.color,
+                                  boxShadow: `0 0 6px ${type.color}80`,
+                                }}
+                              />
                             )}
                             <span>{type.label}</span>
                             {isSelected && <CrispCheckIcon />}
@@ -437,28 +437,28 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   {/* Agreements */}
                   <div className="pt-2 space-y-2">
                     <div
- className="flex items-start gap-2.5 cursor-pointer text-left w-full select-none"
- onClick={() => setAgreeTerms(!agreeTerms)}>
+                      className="flex items-start gap-2.5 cursor-pointer text-left w-full select-none"
+                      onClick={() => setAgreeTerms(!agreeTerms)}>
                       <div className="shrink-0 mt-0.5">
                         <SquishyToggle
- id="agree-terms"
- label="Agree to terms and privacy policy"
- checked={agreeTerms}
- onChange={setAgreeTerms}
- />
+                          id="agree-terms"
+                          label="Agree to terms and privacy policy"
+                          checked={agreeTerms}
+                          onChange={setAgreeTerms}
+                        />
                       </div>
                       <span className="text-white/40">
-                        I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
+                        I agree to the <Link href="/terms" className="  hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="  hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
                       </span>
                     </div>
                   </div>
 
                   {/* Submit Button */}
                   <CosmicRadialButton
- type="submit"
- icon={false}
- disabled={status === "loading" || !agreeTerms}
- className="w-full uppercase cursor-pointer transition disabled:opacity-60">
+                    type="submit"
+                    icon={false}
+                    disabled={status === "loading" || !agreeTerms}
+                    className="w-full uppercase cursor-pointer transition disabled:opacity-60">
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
                   </CosmicRadialButton>
 

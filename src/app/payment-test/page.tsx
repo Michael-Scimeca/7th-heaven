@@ -129,6 +129,7 @@ export default function PaymentTestShopPage() {
   const [mockMode, setMockMode] = useState(false);
   const [showLimitations, setShowLimitations] = useState(false);
   const [showRoadmap, setShowRoadmap] = useState(false);
+  const [showCreditGuide, setShowCreditGuide] = useState(true);
 
   // eslint-disable-next-line react-doctor/nextjs-no-client-fetch-for-server-data, react-doctor/no-fetch-in-effect
   useEffect(() => {
@@ -278,7 +279,7 @@ export default function PaymentTestShopPage() {
         </Link>
 
         <div className="mb-8">
-          <span className="inline-block text-[10px] uppercase text-[var(--color-accent)] mb-1">
+          <span className="inline-block text-[10px] uppercase  mb-1">
             Official Band Store &amp; Apparel
           </span>
           <h1 className="text-3xl md:text-4xl uppercase text-white">
@@ -297,9 +298,15 @@ export default function PaymentTestShopPage() {
           <div className="flex flex-wrap gap-2 mt-4">
             <button
               type="button"
+              onClick={() => setShowCreditGuide(!showCreditGuide)}
+              className="flex items-center gap-1.5 text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-2 rounded-lg border border-emerald-500/30 transition-colors font-medium">
+              💳 Credit System &amp; Processing Guide {showCreditGuide ? "▲" : "▼"}
+            </button>
+            <button
+              type="button"
               onClick={() => setShowLimitations(!showLimitations)}
-              className="flex items-center gap-1.5 text-purple-300 bg-purple-500/10 hover:bg- purple-white/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors">
-              ✨ Store Features &amp; Capabilities
+              className="flex items-center gap-1.5 text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors">
+              ✨ Store Features &amp; Architecture
             </button>
             <Link
               href="/admin/shop-inventory"
@@ -308,6 +315,78 @@ export default function PaymentTestShopPage() {
             </Link>
           </div>
         </div>
+
+        {/* ── Credit System Setup & Architecture Discussion ── */}
+        {showCreditGuide && (
+          <div className="mb-8 bg-[#0a0f1d] border border-emerald-500/40 rounded-2xl p-6 relative overflow-hidden shadow-2xl">
+            <div className="flex items-center justify-between border-b border-emerald-500/20 pb-4 mb-4">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">💳</span>
+                <div>
+                  <h2 className="text-white uppercase font-bold text-lg">
+                    Credit Processing &amp; Merchant System Setup
+                  </h2>
+                  <p className="text-xs text-emerald-400/90 mt-0.5">
+                    Step-by-step technical breakdown for configuring North Merchant Processing &amp; Fan Store Credits
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCreditGuide(false)}
+                className="text-white/40 hover:text-white uppercase shrink-0 ml-4 text-xs font-semibold">
+                ✕ Close
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs font-bold">1</span>
+                  <h4 className="text-white font-semibold">Merchant Environment Setup</h4>
+                </div>
+                <p className="text-white/70 text-xs leading-relaxed">
+                  To accept live credit card transactions, configure server credentials in your <code className="text-emerald-300 bg-black/60 px-1.5 py-0.5 rounded">.env.local</code>:
+                </p>
+                <div className="bg-black/80 rounded-lg p-2.5 font-mono text-[11px] text-emerald-300 border border-white/5 space-y-1">
+                  <div>NORTH_MERCHANT_ID=your_merchant_id</div>
+                  <div>NORTH_TERMINAL_ID=your_terminal_id</div>
+                  <div>NORTH_API_SECRET=your_secret_key</div>
+                </div>
+              </div>
+
+              <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs font-bold">2</span>
+                  <h4 className="text-white font-semibold">TAC Tokenization Flow</h4>
+                </div>
+                <p className="text-white/70 text-xs leading-relaxed">
+                  Cart checkout triggers <code className="text-emerald-300 bg-black/60 px-1.5 py-0.5 rounded">/api/payment-test/north/tac</code> to request a temporary <strong>Transaction Access Code (TAC)</strong>. Card numbers are posted directly to North&apos;s SSL gateway endpoint so PCI compliance remains zero-overhead for our server.
+                </p>
+              </div>
+
+              <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs font-bold">3</span>
+                  <h4 className="text-white font-semibold">Verification &amp; Inventory Sync</h4>
+                </div>
+                <p className="text-white/70 text-xs leading-relaxed">
+                  Upon gateway approval, North redirects to <code className="text-emerald-300 bg-black/60 px-1.5 py-0.5 rounded">/api/payment-test/north/result</code>. The route verifies gateway signatures, decrements stock for each variant, and marks the order paid in Supabase.
+                </p>
+              </div>
+
+              <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs font-bold">4</span>
+                  <h4 className="text-white font-semibold">Fan Loyalty &amp; Store Credit</h4>
+                </div>
+                <p className="text-white/70 text-xs leading-relaxed">
+                  Fans earn 5% back in store credits on every purchase. Credits automatically convert to discount tokens redeemable at checkout or applied towards VIP meet-and-greet passes.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ── Store Features Breakdown ── */}
         {showLimitations && (
@@ -353,7 +432,7 @@ export default function PaymentTestShopPage() {
                   ✅ Catalog Admin &amp; Stock Control
                 </span>
                 <p>
-                  <Link href="/admin/shop-inventory" className="underline hover:text-white">
+                  <Link href="/admin/shop-inventory" className="  hover:text-white">
                     /admin/shop-inventory
                   </Link>{" "}
                   lets admins add products, set prices, and adjust stock limits seamlessly.
@@ -466,7 +545,7 @@ export default function PaymentTestShopPage() {
                 <p>
                   North&apos;s Merchant Reporting and Gateway Business Reporting APIs expose
                   settlement and transaction data that could feed a revenue dashboard inside{" "}
-                  <Link href="/admin/shop-inventory" className="underline hover:text-white">
+                  <Link href="/admin/shop-inventory" className="  hover:text-white">
                     /admin/shop-inventory
                   </Link>{" "}
                   — closer to Shopify Analytics than the raw order list is today.
@@ -543,7 +622,7 @@ export default function PaymentTestShopPage() {
         ) : filteredProducts.length === 0 ? (
           <p className="py-12 text-center">
             No products yet.{" "}
-            <Link href="/admin/shop-inventory" className="underline hover:text-white">
+            <Link href="/admin/shop-inventory" className="  hover:text-white">
               Add some in the inventory admin.
             </Link>
           </p>

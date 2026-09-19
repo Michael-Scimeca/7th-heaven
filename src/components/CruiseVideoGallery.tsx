@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { Play, X } from "lucide-react";
 import CosmicRadialButton from "./CosmicRadialButton";
+import GlassPlayButton from "./GlassPlayButton";
 import FoolishShrimpButton from "./FoolishShrimpButton";
 import { SectionBadge } from "./SectionBadge";
 
@@ -248,12 +249,7 @@ export default function CruiseVideoGallery() {
                   className="w-full h-full object-cover opacity-90 overflow-hidden group-hover:opacity-100 rounded-lg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center !rounded-lg">
-                  <CosmicRadialButton
-                    icon={false}
-                    isActive
-                    className="w-14 h-14 rounded-full !p-0 flex items-center justify-center">
-                    <Play className="w-6 h-6 fill-white text-white ml-0.5" />
-                  </CosmicRadialButton>
+                  <GlassPlayButton size="lg" />
                 </div>
 
                 <div className="absolute top-3 left-3 z-10">

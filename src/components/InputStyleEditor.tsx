@@ -856,7 +856,7 @@ a:hover {
                       <p className="uppercase mb-1">Live Typography Preview</p>
                       <h1>Sample H1 Main Title Header</h1>
                       <h3>Sample H3 Section Subtitle</h3>
-                      <p>This is a live preview paragraph demonstrating paragraph text styling with an <button type="button" className="underline cursor-pointer">Interactive Custom Link</button> embedded inside.</p>
+                      <p>This is a live preview paragraph demonstrating paragraph text styling with an <button type="button" className="  cursor-pointer">Interactive Custom Link</button> embedded inside.</p>
                     </div>
                   </div>
                 </div>

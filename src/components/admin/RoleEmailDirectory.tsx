@@ -104,8 +104,8 @@ const getRoleBadgeStyle = (role: string) => {
     case "crew": return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
     case "cruise": return "bg-sky-500/20 text-sky-300 border-sky-500/30";
     case "planner":
-    case "event_planner": return "bg-[var(--color-accent)]  text-[var(--color-accent)] border-[var(--color-accent)]";
-    default: return "bg-[var(--color-accent)]  text-[var(--color-accent)] border-[var(--color-accent)]";
+    case "event_planner": return "bg-[var(--color-accent)]   border-[var(--color-accent)]";
+    default: return "bg-[var(--color-accent)]   border-[var(--color-accent)]";
   }
 };
 

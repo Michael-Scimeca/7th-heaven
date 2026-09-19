@@ -464,266 +464,266 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
         }}
       >
         {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
- {!isDesktop ? (
- <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-          <Image
- src="/images/hero/hero-banner.webp"
- alt="7th Heaven Live Stage"
- fill
- priority
- fetchPriority="high"
- quality={30}
- sizes="100vw"
- className="object-cover z-0 brightness-[0.65]"
- />
+        {!isDesktop ? (
+          <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+            <Image
+              src="/images/hero/hero-banner.webp"
+              alt="7th Heaven Live Stage"
+              fill
+              priority
+              fetchPriority="high"
+              quality={30}
+              sizes="100vw"
+              className="object-cover z-0 brightness-[0.65]"
+            />
+            <video
+              src="/movie/hero-mobile.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="none"
+              className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] opacity-90 transition-opacity duration-500"
+              style={{
+                objectPosition: `center ${videoScreenY}%`,
+                WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
+                maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
+              }}
+            />
+          </div>
+        ) : isYouTube && YTComp ? (
+          <YTComp videoId={ytId} />
+        ) : (
           <video
-            src="/movie/hero-mobile.mp4"
+            key={videoSrc}
+            ref={videoRef}
+            onCanPlay={handleCanPlay}
+            onLoadedMetadata={handleLoadedMetadata}
+            onTimeUpdate={handleTimeUpdate}
+            onPlaying={() => setVideoReady(true)}
+            preload="metadata"
             autoPlay
             muted
             loop
             playsInline
-            preload="none"
-            className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] opacity-90 transition-opacity duration-500"
+            className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
+              }`}
             style={{
               objectPosition: `center ${videoScreenY}%`,
               WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
               maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
-            }}
-          />
-        </div>
-      ) : isYouTube && YTComp ? (
-        <YTComp videoId={ytId} />
-      ) : (
-        <video
-          key={videoSrc}
-          ref={videoRef}
-          onCanPlay={handleCanPlay}
-          onLoadedMetadata={handleLoadedMetadata}
-          onTimeUpdate={handleTimeUpdate}
-          onPlaying={() => setVideoReady(true)}
-          preload="metadata"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
-            }`}
+            }}>
+            <source src={videoSrc} type="video/mp4" />
+            <track kind="captions" />
+          </video>
+        )}
+        <div
+          role="button"
+          tabIndex={0}
+          aria-label="Play video audio and music player"
+          className="absolute inset-0 z-[1] w-full h-full min-w-[48px] min-h-[48px] cursor-pointer transition-all duration-700 ease-in-out"
+          onClick={handleHeroClick}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleHeroClick();
+            }
+          }}
+          title="Click to play video audio & music player"
           style={{
-            objectPosition: `center ${videoScreenY}%`,
-            WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
-            maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
-          }}>
-          <source src={videoSrc} type="video/mp4" />
-          <track kind="captions" />
-        </video>
-      )}
-      <div
- role="button"
- tabIndex={0}
- aria-label="Play video audio and music player"
- className="absolute inset-0 z-[1] w-full h-full min-w-[48px] min-h-[48px] cursor-pointer transition-all duration-700 ease-in-out"
- onClick={handleHeroClick}
- onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleHeroClick();
-          }
-        }}
-        title="Click to play video audio & music player"
-        style={{
-          backgroundColor: tintColor,
-          opacity: isMusicPlaying ? Math.min(tintOpacity * 0.35, 0.18) : tintOpacity,
-          mixBlendMode: mixBlendMode,
-        }}
-      />
+            backgroundColor: tintColor,
+            opacity: isMusicPlaying ? Math.min(tintOpacity * 0.35, 0.18) : tintOpacity,
+            mixBlendMode: mixBlendMode,
+          }}
+        />
 
-      {/* ── Top-Down Black Gradient Overlay for Top Header Navigation ── */}
-      <div
- className="absolute top-0 left-0 right-0 h-44 md:h-64 z-[2] pointer-events-none bg-gradient-to-b from-black/85 via-black/40 to-transparent transition-opacity duration-700"
- style={{ opacity: isMusicPlaying ? 0.6 : 1 }}
- />
+        {/* ── Top-Down Black Gradient Overlay for Top Header Navigation ── */}
+        <div
+          className="absolute top-0 left-0 right-0 h-44 md:h-64 z-[2] pointer-events-none bg-gradient-to-b from-black/85 via-black/40 to-transparent transition-opacity duration-700"
+          style={{ opacity: isMusicPlaying ? 0.6 : 1 }}
+        />
 
-      {/* ── Bottom-Up Black Gradient Overlay ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-all duration-700"
-        style={{
-          height: `${gradHeight}%`,
-          background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.5 : gradOpacity) * 0.75)} ${gradMidstop}%, transparent 100%)`,
-          opacity: isMusicPlaying ? 0.7 : 1,
-        }}
-      />
+        {/* ── Bottom-Up Black Gradient Overlay ── */}
+        <div
+          className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-all duration-700"
+          style={{
+            height: `${gradHeight}%`,
+            background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.5 : gradOpacity) * 0.75)} ${gradMidstop}%, transparent 100%)`,
+            opacity: isMusicPlaying ? 0.7 : 1,
+          }}
+        />
 
-      {/* ── Soft Bottom Dissolve Overlay ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-32 md:h-44 z-[3] pointer-events-none transition-all duration-700"
-        style={{
-          background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.6 : gradOpacity) * 0.85)} 40%, transparent 100%)`,
-        }}
-      />
+        {/* ── Soft Bottom Dissolve Overlay ── */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32 md:h-44 z-[3] pointer-events-none transition-all duration-700"
+          style={{
+            background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.6 : gradOpacity) * 0.85)} 40%, transparent 100%)`,
+          }}
+        />
 
 
 
 
-      {/* ── Tint Customizer Floating Panel (Dev/Tester Only) ── */}
-      {mounted && localStorage.getItem("7h_tint_tester") === "true" && (
-        <div className="absolute top-[104px] right-6 z-40 md:right-8 flex flex-col items-end">
-          {!isCustomizerOpen ? (
-            <button
- onClick={() => setIsCustomizerOpen(true)}
-              className="w-11 h-11 rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
-              title="Open Video Tint Customizer">
-              <svg
- width="18"
- height="18"
- viewBox="0 0 24 24"
- fill="none"
- stroke="currentColor"
- strokeWidth="2"
- strokeLinecap="round"
- strokeLinejoin="round"
- className="text-white/80 group- text-[var(--color-accent)] group-hover:rotate-45 transition-colors duration-300">
-                <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
-                <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
-                <path d="M12 2v2" />
-                <path d="M12 20v2" />
-                <path d="m4.93 4.93 1.41 1.41" />
-                <path d="m17.66 17.66 1.41 1.41" />
-                <path d="M2 12h2" />
-                <path d="M20 12h2" />
-                <path d="m6.34 17.66-1.41 1.41" />
-                <path d="m19.07 4.93-1.41 1.41" />
-              </svg>
-            </button>
-          ) : (
-            <div
- className="w-[280px] bg-black/75 backdrop-blur-xl border border-white/10 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left">
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                <div className="flex flex-col">
-                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] uppercase text-[var(--color-accent)]">
-                    Video Tint Tester
-                  </span>
-                  <span className="text-white/40 uppercase font-semibold">
-                    Customize background tint
-                  </span>
+        {/* ── Tint Customizer Floating Panel (Dev/Tester Only) ── */}
+        {mounted && localStorage.getItem("7h_tint_tester") === "true" && (
+          <div className="absolute top-[104px] right-6 z-40 md:right-8 flex flex-col items-end">
+            {!isCustomizerOpen ? (
+              <button
+                onClick={() => setIsCustomizerOpen(true)}
+                className="w-11 h-11 rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+                title="Open Video Tint Customizer">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-white/80 group-  group-hover:rotate-45 transition-colors duration-300">
+                  <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
+                  <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                  <path d="M12 2v2" />
+                  <path d="M12 20v2" />
+                  <path d="m4.93 4.93 1.41 1.41" />
+                  <path d="m17.66 17.66 1.41 1.41" />
+                  <path d="M2 12h2" />
+                  <path d="M20 12h2" />
+                  <path d="m6.34 17.66-1.41 1.41" />
+                  <path d="m19.07 4.93-1.41 1.41" />
+                </svg>
+              </button>
+            ) : (
+              <div
+                className="w-[280px] bg-black/75 backdrop-blur-xl border border-white/10 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left">
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <div className="flex flex-col">
+                    <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] uppercase text-[var(--color-accent)]">
+                      Video Tint Tester
+                    </span>
+                    <span className="text-white/40 uppercase font-semibold">
+                      Customize background tint
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setIsCustomizerOpen(false)}
+                    className="w-6 h-6 rounded-lg hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
                 </div>
-                <button
- onClick={() => setIsCustomizerOpen(false)}
-                  className="w-6 h-6 rounded-lg hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-              </div>
 
-              {/* Presets */}
-              <div className="space-y-1.5">
-                <span className="text-white/45 uppercase block">Presets</span>
-                <div className="flex flex-wrap gap-2">
-                  {TINT_PRESETS.map((preset) => (
-                    <button
- key={preset.color}
- onClick={() => updateColor(preset.color)}
-                      className={`w-6 h-6 rounded-lg border transition-colors hover:scale-115 relative cursor-pointer flex items-center justify-center`}
-                      style={{
-                        backgroundColor: preset.color,
-                        borderColor: tintColor === preset.color ? '#9333ea' : 'rgba(255,255,255,0.2)'
-                      }}
-                      title={preset.name}>
-                      {tintColor === preset.color && (
-                        <div className="w-1.5 h-1.5 rounded-lg bg-purple-600 shadow-[0_0_4px_rgba(147, 51, 234,0.8)]" />
-                      )}
-                    </button>
-                  ))}
-                  {/* Custom Color Selector */}
-                  <div
- className="w-6 h-6 rounded-lg border border-white/10 relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
- title="Custom Color">
-                    <input type="color"
- value={tintColor}
- onChange={(e) => updateColor(e.target.value)}
-                      className="absolute -inset-1 w-[200%] h-[200%] cursor-pointer border-none p-0 opacity-0"
-                    />
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-white"><path d="M12 5v14M5 12h14" /></svg>
+                {/* Presets */}
+                <div className="space-y-1.5">
+                  <span className="text-white/45 uppercase block">Presets</span>
+                  <div className="flex flex-wrap gap-2">
+                    {TINT_PRESETS.map((preset) => (
+                      <button
+                        key={preset.color}
+                        onClick={() => updateColor(preset.color)}
+                        className={`w-6 h-6 rounded-lg border transition-colors hover:scale-115 relative cursor-pointer flex items-center justify-center`}
+                        style={{
+                          backgroundColor: preset.color,
+                          borderColor: tintColor === preset.color ? '#9333ea' : 'rgba(255,255,255,0.2)'
+                        }}
+                        title={preset.name}>
+                        {tintColor === preset.color && (
+                          <div className="w-1.5 h-1.5 rounded-lg bg-purple-600 shadow-[0_0_4px_rgba(147, 51, 234,0.8)]" />
+                        )}
+                      </button>
+                    ))}
+                    {/* Custom Color Selector */}
+                    <div
+                      className="w-6 h-6 rounded-lg border border-white/10 relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
+                      title="Custom Color">
+                      <input type="color"
+                        value={tintColor}
+                        onChange={(e) => updateColor(e.target.value)}
+                        className="absolute -inset-1 w-[200%] h-[200%] cursor-pointer border-none p-0 opacity-0"
+                      />
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-white"><path d="M12 5v14M5 12h14" /></svg>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Opacity Slider */}
-              <div className="space-y-1.5">
-                <div className="flex justify-between text-white/45 uppercase r">
-                  <span>Opacity</span>
-                  <span className="text-[var(--color-accent)]">{Math.round(tintOpacity * 100)}%</span>
+                {/* Opacity Slider */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-white/45 uppercase r">
+                    <span>Opacity</span>
+                    <span className="text-[var(--color-accent)]">{Math.round(tintOpacity * 100)}%</span>
+                  </div>
+                  <input type="range"
+                    min="0"
+                    max="1"
+                    step="0.02"
+                    value={tintOpacity}
+                    onChange={(e) => updateOpacity(parseFloat(e.target.value))}
+                    className="w-full accent-amber-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+                  />
                 </div>
-                <input type="range"
- min="0"
- max="1"
- step="0.02"
- value={tintOpacity}
- onChange={(e) => updateOpacity(parseFloat(e.target.value))}
-                  className="w-full accent-amber-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
-                />
-              </div>
 
-              {/* Blend Modes */}
-              <div className="space-y-1.5">
-                <span className="text-white/45 uppercase block">Mix Blend Mode</span>
-                <div className="grid grid-cols-3 gap-1">
-                  {(["normal", "multiply", "overlay", "screen", "color", "darken"] as const).map((mode) => (
-                    <button
- key={mode}
- onClick={() => updateBlend(mode)}
-                      className={`px-1 py-1    uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]    "
-                        : " bg-[#00000029] border-white/10 text-white hover:bg-white/10 hover:border-white/10"
-                        }`}>
-                      {mode}
-                    </button>
-                  ))}
+                {/* Blend Modes */}
+                <div className="space-y-1.5">
+                  <span className="text-white/45 uppercase block">Mix Blend Mode</span>
+                  <div className="grid grid-cols-3 gap-1">
+                    {(["normal", "multiply", "overlay", "screen", "color", "darken"] as const).map((mode) => (
+                      <button
+                        key={mode}
+                        onClick={() => updateBlend(mode)}
+                        className={`px-1 py-1    uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]    "
+                          : " bg-[#00000029] border-white/10 text-white hover:bg-white/10 hover:border-white/10"
+                          }`}>
+                        {mode}
+                      </button>
+                    ))}
+                  </div>
                 </div>
+
+                {/* Active Values HUD */}
+                <div className="bg-white/[0.02] border border-white/10 rounded-lg p-2 text-white/40 space-y-0.5">
+                  <div>Color: <span className="text-white">{tintColor}</span></div>
+                  <div>Opacity: <span className="text-white">{tintOpacity}</span></div>
+                  <div>Blend: <span className="text-white">{mixBlendMode}</span></div>
+                </div>
+
+                {/* Copy CSS Button */}
+                <button
+                  onClick={copyCSS}
+                  className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black text-[var(--font-size-2xs)] uppercase transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
+                  {copied ? (
+                    <>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scaleIn_0.15s_ease-out]"><polyline points="20 6 9 17 4 12" /></svg>
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
+                      Copy CSS Snippet
+                    </>
+                  )}
+                </button>
               </div>
+            )}
+          </div>
+        )}
 
-              {/* Active Values HUD */}
-              <div className="bg-white/[0.02] border border-white/10 rounded-lg p-2 text-white/40 space-y-0.5">
-                <div>Color: <span className="text-white">{tintColor}</span></div>
-                <div>Opacity: <span className="text-white">{tintOpacity}</span></div>
-                <div>Blend: <span className="text-white">{mixBlendMode}</span></div>
-              </div>
-
-              {/* Copy CSS Button */}
-              <button
- onClick={copyCSS}
- className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black text-[var(--font-size-2xs)] uppercase transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
-                {copied ? (
-                  <>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scaleIn_0.15s_ease-out]"><polyline points="20 6 9 17 4 12" /></svg>
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
-                    Copy CSS Snippet
-                  </>
-                )}
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Shared across every hero on the site — see src/lib/useHeroParallax.ts.
+        {/* Shared across every hero on the site — see src/lib/useHeroParallax.ts.
        * Positioned lower than the tint panel above so the two don't overlap. */}
-      <HeroParallaxCustomizer {...parallax} positionClassName="top-[160px] right-6 md:right-8" />
+        <HeroParallaxCustomizer {...parallax} positionClassName="top-[160px] right-6 md:right-8" />
 
-      {/* ── Bottom row: live stream thumbs on left + vinyl player on right ── */}
-      <div ref={foregroundRef} className="relative z-[3] flex flex-col md:flex-row items-stretch md:items-end justify-between gap-6 w-full mt-auto">
-        {/* Live stream small thumbnails */}
-        <div className="relative z-30 flex justify-start ml-8">
-          {children}
-        </div>
+        {/* ── Bottom row: live stream thumbs on left + vinyl player on right ── */}
+        <div ref={foregroundRef} className="relative z-[3] flex flex-col md:flex-row items-stretch md:items-end justify-between gap-6 w-full mt-auto">
+          {/* Live stream small thumbnails */}
+          <div className="relative z-30 flex justify-start ml-8">
+            {children}
+          </div>
 
-        <div className="flex justify-end hidden md:flex">
-          {VinylComp && <VinylComp onAlbumChange={handleAlbumChange} />}
+          <div className="flex justify-end hidden md:flex">
+            {VinylComp && <VinylComp onAlbumChange={handleAlbumChange} />}
+          </div>
         </div>
       </div>
-    </div>
     </VideoSnapshotContext.Provider>
   );
 }

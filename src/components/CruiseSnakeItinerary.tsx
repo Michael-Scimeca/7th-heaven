@@ -722,7 +722,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
   return (
     <section
-      className="snake-itinerary-root"
+      className="snake-itinerary-root site-container"
       ref={sectionRef}
     >
 
@@ -1052,14 +1052,14 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
           <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 /40 backdrop-blur-[45px] pb-1 z-10">
             <button
               onClick={handleResetTuning}
-              className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 text-white/70 font-bold uppercase transition-colors border border-white/10 cursor-pointer"
+              className="btn-secondary px-4 py-2.5 rounded-lg cursor-pointer"
             >
               🔄 Reset to Defaults
             </button>
 
             <div className="flex items-center gap-3">
               {saveToast && (
-                <span className="font-bold text-[var(--color-accent)] transition-opacity duration-300 ease-out">
+                <span className="font-bold  transition-opacity duration-300 ease-out">
                   ✓ Settings Saved!
                 </span>
               )}
@@ -1077,7 +1077,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
       )}
 
       {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
-      <div ref={canvasRef} className="snake-itinerary-canvas site-container" style={{ position: 'relative', height: totalH, width: '100%', maxWidth: '100%' }}>
+      <div ref={canvasRef} className="snake-itinerary-canvas" style={{ position: 'relative', height: totalH, width: '100%', maxWidth: '100%' }}>
         {/* SVG — path + nodes */}
         <svg
           className="snake-itinerary-svg"

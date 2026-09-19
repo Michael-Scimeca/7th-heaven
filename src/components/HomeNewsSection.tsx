@@ -5,15 +5,25 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Plus, X, Newspaper, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import AddCmsButton from "./AddCmsButton";
 
 export interface NewsItem {
   id?: string;
+  slug?: string;
   date: string;
   title: string;
   content: string;
   category?: string;
+}
+
+function toSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 }
 
 const FALLBACK_NEWS: NewsItem[] = [
@@ -68,6 +78,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
         if (data?.success && Array.isArray(data.news) && data.news.length > 0) {
           const sanityItems: NewsItem[] = data.news.map((sn: any) => ({
             id: sn._id,
+            slug: sn.slug?.current || toSlug(sn.title),
             date: sn.date || "January 2026",
             title: sn.title,
             content: sn.content,
@@ -147,13 +158,11 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
               {sanityContent?.newsSubtitle || "Stay updated with official announcements, tour updates, new music releases, and exclusive band stories."}
             </p>
           </div>
-          {isAdmin && (
-            <AddCmsButton
- label="ADD NEWS"
- onClick={() => setIsAddModalOpen(true)}
-              className="self-start lg:self-auto"
-            />
-          )}
+          <AddCmsButton
+            label="ADD NEWS"
+            onClick={() => setIsAddModalOpen(true)}
+            className="self-start lg:self-auto"
+          />
         </div>
 
         {/* Featured Article + Remaining Grid */}
@@ -167,7 +176,12 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 </span>
               </div>
               <h3 className="mb-4 transition-colors">
-                {featured.title}
+                <Link
+                  href={`/news/${featured.slug || featured.id || toSlug(featured.title)}`}
+                  className="hover:text-[var(--color-accent)] transition-colors"
+                >
+                  {featured.title}
+                </Link>
               </h3>
               <p className="font-normal">
                 {featured.content}
@@ -177,29 +191,31 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
 
           {/* Remaining Articles List (Right - 5 Cols) */}
           <div className="lg:col-span-5 space-y-4">
-            {news.slice(1).map((item) => (
-              <button
- type="button"
- key={item.title}
- onClick={() => setSelectedArticle(item)}
-                className="w-full text-left border-0 pb-3 md: pb-2 cursor-pointer group font-normal"
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-[var(--color-accent)]">
-                    {item.date}
-                  </span>
-                  <span className="text-[var(--color-accent)] transition-colors">
-                    Read
-                  </span>
-                </div>
-                <h4 className="transition-colors line-clamp-1">
-                  {item.title}
-                </h4>
-                <p className="line-clamp-2 ">
-                  {item.content}
-                </p>
-              </button>
-            ))}
+            {news.slice(1).map((item) => {
+              const href = `/news/${item.slug || item.id || toSlug(item.title)}`;
+              return (
+                <Link
+                  key={item.title}
+                  href={href}
+                  className="block w-full text-left border-0 pb-3 md:pb-2 group font-normal hover:opacity-90 transition-opacity"
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-[var(--color-accent)]">
+                      {item.date}
+                    </span>
+                    <span className="a-btn  transition-colors text-sm font-semibold">
+                      Read
+                    </span>
+                  </div>
+                  <h4 className="transition-colors line-clamp-1">
+                    {item.title}
+                  </h4>
+                  <p className="line-clamp-2 ">
+                    {item.content}
+                  </p>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </>
@@ -207,20 +223,20 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
       {/* Article Detail Modal */}
       {selectedArticle && (
         <div
- className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
- onClick={() => setSelectedArticle(null)}
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={() => setSelectedArticle(null)}
         >
           <div
- className="bg-[var(--card-bg)] border-0 max-w-xl w-full p-8 relative shadow-2xl rounded-2xl"
- onClick={(e) => e.stopPropagation()}
+            className="bg-[var(--card-bg)] border-0 max-w-xl w-full p-8 relative shadow-2xl rounded-2xl"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
               <span className="text-[var(--color-accent)] uppercase">
                 {selectedArticle.date}
               </span>
               <button
- aria-label="Close modal"
- onClick={() => setSelectedArticle(null)}
+                aria-label="Close modal"
+                onClick={() => setSelectedArticle(null)}
                 className="text-xl w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
               >
                 ✕
@@ -249,7 +265,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
         <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
           <div className="relative w-full max-w-xl bg-neutral-900 border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl text-white max-h-[90vh] overflow-y-auto">
             <button
- onClick={() => setIsAddModalOpen(false)}
+              onClick={() => setIsAddModalOpen(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
@@ -277,10 +293,10 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                   Article Title *
                 </label>
                 <input
- type="text"
- required
- value={newTitle}
- onChange={(e) => setNewTitle(e.target.value)}
+                  type="text"
+                  required
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. New Single Released or Summer 2026 Tour Announcement"
                   className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
                 />
@@ -292,10 +308,10 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                     Display Date *
                   </label>
                   <input
- type="text"
- required
- value={newDate}
- onChange={(e) => setNewDate(e.target.value)}
+                    type="text"
+                    required
+                    value={newDate}
+                    onChange={(e) => setNewDate(e.target.value)}
                     placeholder="e.g. September 2026"
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                   />
@@ -306,8 +322,8 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                     Category
                   </label>
                   <select
- value={newCategory}
- onChange={(e) => setNewCategory(e.target.value)}
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value)}
                     className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
                   >
                     <option value="announcement">Announcement</option>
@@ -323,10 +339,10 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                   Content / Article Body *
                 </label>
                 <textarea
- rows={5}
- required
- value={newContent}
- onChange={(e) => setNewContent(e.target.value)}
+                  rows={5}
+                  required
+                  value={newContent}
+                  onChange={(e) => setNewContent(e.target.value)}
                   placeholder="Write the news update content here..."
                   className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                 />
@@ -334,17 +350,17 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
 
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
                 <button
- type="button"
- onClick={() => setIsAddModalOpen(false)}
+                  type="button"
+                  onClick={() => setIsAddModalOpen(false)}
                   className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
- type="submit"
- disabled={submitting}
- className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
- >
+                  type="submit"
+                  disabled={submitting}
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
+                >
                   {submitting ? "Publishing..." : "+ PUBLISH NEWS TO SANITY"}
                 </button>
               </div>

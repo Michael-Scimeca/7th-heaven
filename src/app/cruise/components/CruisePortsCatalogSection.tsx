@@ -52,7 +52,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                       />
                     )}
                     <div className="absolute top-3 left-3 z-20">
-                      <SectionBadge label={`Port Call #${idx + 1}`} className="bg-black/90 backdrop-blur-md border-white/20 text-white shadow-lg" />
+                      <SectionBadge label={`Port Call #${idx + 1}`} className="!bg-black/90 backdrop-blur-md border-white/20 text-white shadow-lg" />
                     </div>
                   </div>
                   <div className="pt-4 flex-1 flex flex-col justify-between">

@@ -23,14 +23,19 @@ export const AuroraText = memo(
     colors = ["#FF0080", "#7928CA", "#0070F3", "#38bdf8"],
     speed = 1,
   }: AuroraTextProps) => {
+    const safeColors =
+      Array.isArray(colors) && colors.length > 0
+        ? colors
+        : ["#FF0080", "#7928CA", "#0070F3", "#38bdf8"];
+    const doubleColors = [...safeColors, ...safeColors, safeColors[0]];
     const gradientStyle: React.CSSProperties = {
-      backgroundImage: `linear-gradient(135deg, ${colors.join(", ")}, ${
-        colors[0]
-      })`,
+      backgroundImage: `linear-gradient(135deg, ${doubleColors.join(", ")})`,
+      backgroundSize: "200% 200%",
       WebkitBackgroundClip: "text",
       backgroundClip: "text",
       WebkitTextFillColor: "transparent",
-      animationDuration: `${8 / speed}s`,
+      animationDuration: `${16 / speed}s`,
+      animationTimingFunction: "linear",
     };
 
     return (

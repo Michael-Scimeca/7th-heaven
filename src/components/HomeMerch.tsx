@@ -151,7 +151,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
             <span className="text-[var(--color-accent)] uppercase mb-2 block">{sanityContent?.merchBadge || "Specials"}</span>
             <h2 className="text-white uppercase">{sanityContent?.merchTitle || "On Sale Now"}</h2>
           </div>
-          <Link href="/merch" className="text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
+          <Link href="/merch" className="text-white/40 hover-text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 color-transition">
             {sanityContent?.merchCtaText || "Shop All →"}
           </Link>
         </div>
@@ -164,7 +164,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
             const soldOut = product.quantityAvailable === 0;
 
             return (
-              <div key={product.id} className="bg-white/[0.02] border border-white/10 overflow-hidden border-white/10 transition-colors group relative">
+              <div key={product.id} className="bg-white/[0.02] border border-white/10 overflow-hidden border-white/10 color-transition group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
                   <span className="bg-red-500 text-white text-[var(--font-size-2xs)] uppercase px-2.5 py-1 rounded-lg shadow-red-500/20">
@@ -184,7 +184,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="text-white truncate mb-1 group- transition-colors">{product.title}</h3>
+                  <h3 className="text-white truncate mb-1 group- color-transition">{product.title}</h3>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-[var(--color-accent)]">{price}</span>
@@ -196,8 +196,8 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                       <span className="text-[var(--font-size-2xs)] text-white/15 uppercase">Sold Out</span>
                     ) : (
                       <button
- onClick={() => handleBuy()}
-                        className="text-[var(--font-size-2xs)] uppercase text-white/30 hover:text-white transition-colors cursor-pointer">
+                        onClick={() => handleBuy()}
+                        className="text-[var(--font-size-2xs)] uppercase text-white/30 hover-text-white color-transition cursor-pointer">
                         Buy →
                       </button>
                     )}

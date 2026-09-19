@@ -10,6 +10,7 @@ import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import GlassPlayButton from "@/components/GlassPlayButton";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import AddCmsButton from "@/components/AddCmsButton";
 
@@ -45,6 +46,7 @@ function VideoCardVisual({
   title,
   isHovered,
   index = 0,
+  shouldPrefetch = index < 6,
 }: {
   videoId: string;
   title: string;
@@ -70,8 +72,9 @@ function VideoCardVisual({
   // 5-Second snippet clip of this specific video (loops between 10s and 15s)
   const embedSnippetUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=15&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`;
 
-  // Render 5-second video snippet iframe ONLY when actively hovered to prevent network congestion & UI freezes
-  const shouldRenderIframe = isHovered;
+  // Preload top 6 video iframe snippets so hover video plays immediately with zero delay
+  const isTop6 = index < 6 || shouldPrefetch;
+  const shouldRenderIframe = isHovered || isTop6;
 
   return (
     <div className={`relative w-full h-full bg-gradient-to-b ${palette.bg} overflow-hidden`}>
@@ -81,10 +84,8 @@ function VideoCardVisual({
           className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-3xl opacity-40 pointer-events-none"
           style={{ background: palette.glow }}
         />
-        <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-500 p-0.5 mb-4">
-          <div className="w-full h-full rounded-full bg-black/80 backdrop-blur-md flex items-center justify-center border border-white/10">
-            <Play className="w-8 h-8 text-white fill-white ml-1" />
-          </div>
+        <div className="w-20 h-20 flex items-center justify-center mb-4">
+          <GlassPlayButton size="lg" />
         </div>
         <h4 className="text-white/90 uppercase line-clamp-2 px-2 drop-shadow-md">
           {title}
@@ -97,7 +98,7 @@ function VideoCardVisual({
           src={imgSrc}
           alt={title}
           fill
-          loading={index < 6 ? "eager" : "lazy"}
+          loading={isTop6 ? "eager" : "lazy"}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className={`object-cover transition-all duration-300 ease-out ${isLoaded ? "opacity-100" : "opacity-0"} ${isHovered ? "scale-105" : "scale-100"}`}
           unoptimized
@@ -106,24 +107,20 @@ function VideoCardVisual({
         />
       )}
 
-      {/* 3. 5-Second Video Hover Snippet (Loops 10s-15s, lazy loaded on hover to avoid network congestion) */}
+      {/* 3. 5-Second Video Hover Snippet (Pre-buffered for top 6, instant playback on hover) */}
       {shouldRenderIframe && (
-        <div className={`absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 transition-opacity duration-300 ${isHovered && iframeLoaded ? "opacity-100" : "opacity-0"}`}>
+        <div className={`absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}>
           <iframe
             src={embedSnippetUrl}
             title={title}
-            loading="lazy"
+            loading={isTop6 ? "eager" : "lazy"}
             onLoad={() => setIframeLoaded(true)}
-            className="w-[160%] h-[160%] -top-[30%] -left-[30%] absolute object-cover pointer-events-none border-0 z-10"
+            className="w-[300%] h-[300%] -top-[100%] -left-[100%] absolute object-cover pointer-events-none border-0 z-10 transform-gpu"
             allow="autoplay; encrypted-media"
           />
         </div>
       )}
 
-      {/* 4. Hover Active Card Overlay */}
-      <div
-        className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-300 flex items-center justify-center bg-black/30 ${isHovered ? "opacity-100" : "opacity-0"}`}>
-      </div>
     </div>
   );
 }
@@ -267,10 +264,17 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
     } catch { }
   }, []);
 
-  const [prefetchLimit] = useState<number>(6);
+  const [prefetchLimit, setPrefetchLimit] = useState<number>(6);
 
   useEffect(() => {
     fetchCategories();
+
+    // After top 6 initial videos load, start downloading remaining videos in the background
+    const bgPreloadTimer = setTimeout(() => {
+      setPrefetchLimit(100);
+    }, 2000);
+
+    return () => clearTimeout(bgPreloadTimer);
   }, [fetchCategories]);
 
   // Flatten all videos with their category attached
@@ -432,12 +436,10 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             placeholder={sanityContent?.searchPlaceholder || "Search Media..."}
             containerClassName="w-full sm:w-[320px]"
           />
-          {isAdmin && (
-            <AddCmsButton
-              label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
-              onClick={() => setIsAddModalOpen(true)}
-            />
-          )}
+          <AddCmsButton
+            label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
+            onClick={() => setIsAddModalOpen(true)}
+          />
         </div>
 
         {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
@@ -492,19 +494,10 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 </div>
 
                 {/* Dark Gradient Overlay at Bottom */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-75 transition-opacity pointer-events-none z-10" />
-
-                {/* Hover Radial Play Icon Button */}
-                <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <CosmicRadialButton
-                    icon={false}
-                    className="w-12 h-12 sm:w-16 sm:h-16 !rounded-full !p-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-300/40 shadow-2xl">
-                    <Play className="w-5 h-5 sm:w-7 sm:h-7 text-white fill-white ml-1" />
-                  </CosmicRadialButton>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none z-10" />
 
                 {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
-                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none">
+                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none group-hover:opacity-0 transition-opacity duration-300">
                   {/* Category Pill Tag */}
                   <span className="inline-flex items-center justify-center text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white uppercase border border-white/10 shrink-0">
                     {video.category || "7TH HEAVEN"}
@@ -533,7 +526,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             <button
               type="button"
               onClick={() => setVisibleCount((prev) => Math.min(prev + CARDS_PER_BATCH, filteredVideos.length))}
-              className="rounded-full border border-white/20 bg-white/5 px-6 py-2.5 text-sm uppercase transition hover:bg-white/10">
+              className="btn-secondary rounded-full px-6 py-2.5 text-sm cursor-pointer">
               {sanityContent?.loadMoreText || "Load more"} ({filteredVideos.length - visibleCount} more)
             </button>
           </div>
@@ -546,22 +539,54 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             <p className="font-semibold">{sanityContent?.noResultsTitle || "No media found matching"} &quot;{searchQuery}&quot;</p>
             <button
               onClick={() => { setSearchQuery(""); setActiveFilter("ALL"); }}
-              className="mt-4 px-6 py-2.5 rounded-lg bg-purple-600 text-white uppercase hover:bg-purple-500 transition-colors cursor-pointer">
+              className="btn-primary mt-4 px-6 py-2.5 rounded-lg cursor-pointer">
               {sanityContent?.clearFiltersText || "Clear Filters & Search"}
             </button>
           </div>
         )}
       </div>
 
-      {/* ── FULL SCREEN VIDEO PLAYER OVERLAY ── */}
-      {playingVideo && (
-        <div className="fixed inset-0 z-[999999] !rounded-none bg-black w-screen h-screen flex items-center justify-center animate-[fade-in_0.2s_ease-out] overflow-hidden">
-          <CustomVideoPlayer
-            videoId={playingVideo.id}
-            title={playingVideo.title}
-            onClose={() => setPlayingVideo(null)}
-          />
-        </div>
+      {/* ── CENTERED VIDEO MODAL ── */}
+      {mounted && playingVideo && createPortal(
+        <div
+          className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/85 backdrop-blur-md animate-[fade-in_0.2s_ease-out]"
+          onClick={() => setPlayingVideo(null)}
+        >
+          <div
+            className="relative w-full max-w-5xl bg-[#090414] border border-purple-500/30 rounded-2xl overflow-hidden] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header Bar */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-black/60">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                  {playingVideo.category || "7TH HEAVEN"}
+                </span>
+                <h3 className="text-base sm:text-lg font-bold text-white uppercase line-clamp-1">
+                  {playingVideo.title}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPlayingVideo(null)}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors cursor-pointer shrink-0"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Video Player 16:9 Aspect Ratio Container */}
+            <div className="relative w-full aspect-video bg-black overflow-hidden">
+              <CustomVideoPlayer
+                videoId={playingVideo.id}
+                title={playingVideo.title}
+                onClose={() => setPlayingVideo(null)}
+              />
+            </div>
+          </div>
+        </div>,
+        document.body
       )}
 
       {/* Toast Notification */}
@@ -588,8 +613,8 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1 text-white/50 hover:text-white transition-colors cursor-pointer">
-                <X className="w-5 h-5" />
+                className="btn-ghost p-1 cursor-pointer">
+                <X className="w-5 h-5 text-white/60" />
               </button>
             </div>
 
@@ -604,7 +629,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
                   placeholder="Paste video link or ID..."
-                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                  className="interactive-input w-full rounded-lg px-3 py-2 text-sm"
                 />
               </div>
 

@@ -29,7 +29,12 @@ export default function GradientText({
       : direction === "vertical"
         ? "to bottom"
         : "to bottom right";
-  const gradientColors = [...colors, colors[0]].join(", ");
+  const safeColors =
+    Array.isArray(colors) && colors.length > 0
+      ? colors
+      : ["#5227FF", "#FF9FFC", "#B497CF"];
+  const doubleColors = [...safeColors, ...safeColors, safeColors[0]];
+  const gradientColors = doubleColors.join(", ");
 
   const animClass =
     direction === "horizontal"
@@ -42,10 +47,10 @@ export default function GradientText({
     backgroundImage: `linear-gradient(${gradientAngle}, ${gradientColors})`,
     backgroundSize:
       direction === "horizontal"
-        ? "300% 100%"
+        ? "200% 100%"
         : direction === "vertical"
-          ? "100% 300%"
-          : "300% 300%",
+          ? "100% 200%"
+          : "200% 200%",
     animationDuration: `${animationSpeed}s`,
   };
 

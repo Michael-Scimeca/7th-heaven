@@ -290,13 +290,13 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                         You must be a <span className="text-white">Fan Member</span> to share your moments.{" "}
                         <button
                           onClick={() => openModal("signup")}
-                          className="underline text-white hover:text-purple-300 transition-colors cursor-pointer">
+                          className="  text-white hover:text-purple-300 transition-colors cursor-pointer">
                           Sign up free
                         </button>{" "}
                         or{" "}
                         <button
                           onClick={() => openModal("login")}
-                          className="underline text-white hover:text-purple-300 transition-colors cursor-pointer">
+                          className="  text-white hover:text-purple-300 transition-colors cursor-pointer">
                           sign in
                         </button>
                         .
@@ -309,13 +309,11 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
 
             {/* Action Buttons on the Right (Stacked Vertically) */}
             <div className="shrink-0 self-start lg:self-end flex flex-col gap-3 w-full sm:w-auto">
-              {isAdmin && (
-                <AddCmsButton
-                  label="ADD PHOTO / VIDEO IN SANITY CMS"
-                  onClick={() => setIsAddCmsModalOpen(true)}
-                  className="w-full justify-center"
-                />
-              )}
+              <AddCmsButton
+                label="ADD PHOTO / VIDEO IN SANITY CMS"
+                onClick={() => setIsAddCmsModalOpen(true)}
+                className="w-full justify-center"
+              />
               <CosmicRadialButton
                 onClick={() => {
                   if (!isLoggedIn) {
@@ -814,14 +812,14 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 <button
                   type="button"
                   onClick={() => setIsAddCmsModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
+                  className="btn-secondary px-5 py-2.5 rounded-xl text-sm font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSavingCms}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+                  className="btn-primary px-6 py-2.5 rounded-xl text-sm tracking-wider cursor-pointer disabled:opacity-50 flex items-center gap-2"
                 >
                   {isSavingCms ? (
                     <>

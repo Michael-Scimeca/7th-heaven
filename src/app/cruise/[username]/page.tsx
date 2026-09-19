@@ -775,7 +775,7 @@ export default function CruiseDashboard() {
                   </div>
                 ) : (
                   <div
-                    className="space-y-4 text-white/80 md:text-base min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]: [&_a]: [&_a]:underline [&_a]:underline-offset-4 [&_a]: [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]: [&_h2]:text-white [&_h2]: [&_h3]:text-white [&_h3]: [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
+                    className="space-y-4 text-white/80 md:text-base min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]: [&_a]: [&_a]:  [&_a]:underline-offset-4 [&_a]: [&_p]:text-white/80 [&_p]:mb-3 [&_p]:max-w-full [&_h1]:text-white [&_h1]: [&_h2]:text-white [&_h2]: [&_h3]:text-white [&_h3]: [&_strong]:text-white [&_span]:text-white/80 [&_li]:text-white/80 [&_div]:text-white/80"
                     dangerouslySetInnerHTML={{ __html: sanitizedGuidelinesContent || sanitizeHtml(cleanWysiwygHtml(guidelines.content)) }}
                   />
                 )}

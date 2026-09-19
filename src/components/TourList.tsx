@@ -962,19 +962,20 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     {/* Action buttons (Directions, Website, Add to Calendar) */}
                     <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full">
                       {upNext.mapUrl && (
-                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] !underline decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 border-none cursor-pointer" id="upnext-map">
+                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="a-btn flex items-center gap-1 text-[11px] md:text-[13px] uppercase font-bold whitespace-nowrap hover:opacity-80 transition-colors p-0 border-none cursor-pointer" id="upnext-map">
                           <span>Directions</span>
                         </a>
                       )}
                       {upNext.websiteUrl && (
-                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] !underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 border-none cursor-pointer" id="upnext-website">
+                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="a-btn flex items-center gap-1 text-[11px] md:text-[13px] uppercase  font-bold whitespace-nowrap hover:opacity-80 transition-colors p-0 border-none cursor-pointer" id="upnext-website">
                           Website
                         </a>
                       )}
                       <div className="relative calendar-dropdown-container">
                         <button aria-label="Next"
                           onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                          className="flex items-center gap-1 text-[11px] md:text-[13px] uppercase text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 border-none cursor-pointer font-bold"
+                          className="a-btn flex items-center gap-1 text-[11px] md:text-[13px] uppercase  font-bold whitespace-nowrap
+  hover:opacity-80 transition-colors p-0 border-none cursor-pointer"
                           id="upnext-calendar-btn">
                           Add to Calendar
                         </button>
@@ -1007,17 +1008,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           <div className="flex items-center justify-end">
             <div className="flex items-center gap-3">
-              {isAdmin && (
-                <AddCmsButton
-                  label="ADD SHOW"
-                  onClick={handleAddShowClick}
-                />
-              )}
+              <AddCmsButton
+                label="ADD SHOW"
+                onClick={handleAddShowClick}
+              />
 
               {hasActiveFilters && (
                 <button
                   onClick={clearAll}
-                  className="text-[0.9rem] uppercase text-[var(--color-accent)] hover:text-white border border-[var(--color-accent)re] hover:border-[rgba(255,10,61,0.6)] rounded-lg px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]">Clear</button>
+                  className="text-[0.9rem] uppercase  hover:text-white border border-[var(--color-accent)re] hover:border-[rgba(255,10,61,0.6)] rounded-lg px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]">Clear</button>
               )}
             </div>
           </div>
@@ -1105,7 +1104,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <div
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}>
-                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap font-bold">{show.day}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase  whitespace-nowrap font-bold">{show.day}</span>
                     <span className="text-white text-[clamp(15px,1.5vw,23px)] whitespace-nowrap font-bold">{show.date}</span>
                     <span className="text-white text-[clamp(15px,1.5vw,23px)] font-bold">{show.venue}</span>
                     <span className="text-white/80 text-[clamp(13px,1.2vw,19px)] font-bold">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
@@ -1138,7 +1137,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               onClick={() => handleToggleNotification(show)}
                               disabled={subscribingId === show._id}
                               title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                              className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
+                              className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)]  hover:bg-[var(--color-accent)]"
                                 : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
                                 }`}>
                               {subscribingId === show._id ? (
@@ -1238,7 +1237,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           target="_blank"
                           rel="noopener noreferrer"
                           title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
-                          className="inline-flex items-center justify-center whitespace-nowrap uppercase text-[var(--color-accent)] !underline font-bold decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer font-bold "
+                          className="a-btn inline-flex items-center justify-center whitespace-nowrap uppercase  font-bold decoration-[var(--color-accent)]/50  hover:opacity-80 transition-all cursor-pointer font-bold "
                           style={{ fontSize: websiteBtnFontSize }}>
                           Website
                         </a>
@@ -1368,7 +1367,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               target="_blank"
                               rel="noopener noreferrer"
                               title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
-                              className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-purple-600/30 border border-purple-400/30 text-white transition-all hover:bg-purple-600/60 active:scale-95">
+                              className="btn-action-purple flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg">
                               <CarIcon className="w-3.5 h-3.5 text-purple-300 shrink-0" />
                               <span>Park</span>
                             </a>
@@ -1380,7 +1379,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                             onClick={() => handleToggleNotification(show)}
                             disabled={subscribingId === show._id}
                             title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                            className="p-2 w-9 h-9 flex items-center justify-center rounded-lg border shrink-0 bg-purple-600/30 border-purple-400/30 text-white hover:bg-purple-600/60 transition-all active:scale-95">
+                            className="btn-action-purple btn-icon-square">
                             {subscribingId === show._id ? (
                               <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-lg animate-spin" />
                             ) : (
@@ -1392,7 +1391,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         {/* Calendar Add */}
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
-                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-lg bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
+                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="btn-action-purple btn-icon-square cursor-pointer">
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
@@ -1442,7 +1441,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           {filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--color-text-muted)]">
               <p>No shows match your filters.</p>
-              <button onClick={clearAll} className="mt-4 text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
+              <button onClick={clearAll} className="mt-4  hover:text-white transition-colors cursor-pointer">
                 Clear all filters
               </button>
             </div>

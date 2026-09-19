@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Smooothy, { damp } from "smooothy";
 import CosmicRadialButton from "./CosmicRadialButton";
+import GlassPlayButton from "./GlassPlayButton";
 import { SectionBadge } from "./SectionBadge";
 import { useMember } from "@/context/MemberContext";
 import AddCmsButton from "./AddCmsButton";
@@ -32,12 +33,11 @@ function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; v
       onMouseLeave={() => setHovered(false)}>
       {hovered ? (
         <iframe
- src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
- title={videoTitle}
- className="absolute -inset-[2px] w-[calc(100%+4px)] h-[calc(100%+4px)] pointer-events-none object-cover transform-gpu"
- allow="autoplay; encrypted-media"
- />
-      ) : (
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
+          title={videoTitle}
+          className="w-[300%] h-[300%] -top-[100%] -left-[100%] absolute object-cover pointer-events-none border-0 z-10 transform-gpu"
+          allow="autoplay; encrypted-media"
+        />  ) : (
         <Image
  src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
  alt={videoTitle}
@@ -731,25 +731,21 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                     {/* Interactive Play Button Overlay */}
                     {playButtonVisibility !== "hidden" && (
                       <div
-                        className={`absolute inset-0 z-30 flex items-center justify-center bg-black/20 transition-opacity duration-300 pointer-events-none ${playButtonVisibility === "always"
-                          ? "opacity-100"
-                          : "opacity-90 sm:opacity-0 group-hover:opacity-100"
-                          }`}>
-                        <CosmicRadialButton
-                          icon={false}
-                          className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 !rounded-full !p-0 flex items-center justify-center border border-purple-300/40 transition-all cursor-pointer pointer-events-auto"
+                        className={`media-hover-overlay group-hover:opacity-0 transition-opacity duration-300 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}>
+                        <GlassPlayButton
+                          size="lg"
                           aria-label={`Play full video for ${video.title}`}
-                          title="Play Full Video">
-                          <Play className="w-6 h-6 sm:w-8 sm:h-8 md:w-9 md:h-9 fill-white ml-1" />
-                        </CosmicRadialButton>
+                          title="Play Full Video"
+                          className="pointer-events-auto"
+                        />
                       </div>
                     )}
 
                     {/* Gradient shadow overlay for legibility */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10 transition-opacity duration-300 group-hover:opacity-0" />
 
                     {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
-                    <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 md:p-8 flex flex-col items-center justify-end text-center pointer-events-none">
+                    <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 md:p-8 flex flex-col items-center justify-end text-center pointer-events-none transition-opacity duration-300 group-hover:opacity-0">
                       {showBadges && (
                         <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
                           {video.badges.map((badge, bIdx) => (
@@ -762,7 +758,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                         </div>
                       )}
 
-                      <h3 className="font-black uppercase text-white line-clamp-2 text-base sm:text-lg md:text-xl group-hover:text-purple-300 transition-colors">
+                      <h3 className="font-black uppercase text-white line-clamp-2 text-base sm:text-lg md:text-xl transition-colors">
                         {video.title}
                       </h3>
                     </div>

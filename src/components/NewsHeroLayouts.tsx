@@ -165,7 +165,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-7 p-8 md:p-12 flex flex-col justify-center">
               <div className="flex items-center justify-between mb-4">
                 <span className="uppercase">{featured.date}</span>
-                <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20 text-[var(--color-accent)] uppercase">Featured</span>
+                <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20  uppercase">Featured</span>
               </div>
               <h2 className="text-white mb-4">{featured.title}</h2>
               <p>{featured.content}</p>

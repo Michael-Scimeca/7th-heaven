@@ -126,19 +126,19 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
       {/* ── STATS BAR ── */}
       <section aria-label="Archive Statistics" className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl text-[var(--color-accent)] font-bold">{totalShowsCount}+</span>
+          <span className="text-3xl sm:text-4xl  font-bold">{totalShowsCount}+</span>
           <span className="uppercase font-bold">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl text-[var(--color-accent)] font-bold">40+</span>
+          <span className="text-3xl sm:text-4xl  font-bold">40+</span>
           <span className="uppercase font-bold">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl text-[var(--color-accent)] font-bold">500+</span>
+          <span className="text-3xl sm:text-4xl  font-bold">500+</span>
           <span className="uppercase font-bold">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl text-[var(--color-accent)] font-bold">5+</span>
+          <span className="text-3xl sm:text-4xl  font-bold">5+</span>
           <span className="uppercase font-bold">Countries Played</span>
         </div>
       </section>
@@ -162,9 +162,9 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
           </span>
           <button
             onClick={() => setSelectedYear("ALL")}
-            className={`px-3 py-1.5 rounded-lg uppercase transition-colors cursor-pointer font-bold ${selectedYear === "ALL" || selectedYear === "All"
+            className={`px-3 py-1.5 rounded-lg uppercase color-transition cursor-pointer font-bold ${selectedYear === "ALL" || selectedYear === "All"
               ? "bg-[var(--color-accent)] text-white"
-              : "bg-[#00000029] text-white/70 hover:text-white border-0"
+              : "bg-[#00000029] text-white/70 hover-text-white border-0"
               }`}>
             {sanityContent?.allYearsLabel || "All Years"}
           </button>
@@ -175,9 +175,9 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                 setSelectedYear(y.year);
                 setOpenYears((prev) => ({ ...prev, [y.year]: true }));
               }}
-              className={`px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer ${selectedYear === y.year
+              className={`px-3 py-1.5 rounded-lg font-bold color-transition cursor-pointer ${selectedYear === y.year
                 ? "bg-[var(--color-accent)] text-white"
-                : "bg-[#00000029] text-white/70 hover:text-white border-0"
+                : "bg-[#00000029] text-white/70 hover-text-white border-0"
                 }`}>
               {y.year}
             </button>
@@ -203,7 +203,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
               setSelectedYear("ALL");
               setSelectedCategory("ALL");
             }}
-            className="px-6 py-2.5 bg-[var(--color-accent)] text-white uppercase hover:bg-[#851de7] transition-colors">
+            className="px-6 py-2.5 bg-[var(--color-accent)] text-white uppercase color-transition">
             {sanityContent?.resetFiltersText || "Reset Filters"}
           </button>
         </div>
@@ -218,7 +218,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                 {/* Year Header Accordion Bar */}
                 <button
                   onClick={() => toggleYear(yGroup.year)}
-                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left transition-colors"
+                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left color-transition"
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}>
                   <div className="flex items-center gap-3">
                     <span className="px-3 py-1 bg-[var(--color-accent)] text-white rounded-lg font-bold">
@@ -242,11 +242,11 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                       return (
                         <div
                           key={`${yGroup.year}-${idx}`}
-                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
+                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover-bg-purple-light color-transition group"
                           style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
                           {/* Date & Day */}
                           <div className="w-full sm:w-48 shrink-0 font-semibold flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] transition-colors"></span>
+                            <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] color-transition"></span>
                             {show.date || yGroup.year}
                           </div>
 
@@ -263,12 +263,12 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                               </span>
                             )}
                             {isUnplugged && (
-                              <span className="px-2 py-0.5 text-[10px] uppercase bg-purple-600/20 text-[var(--color-accent)] rounded-lg border border-purple-500/30">
+                              <span className="px-2 py-0.5 text-[10px] uppercase bg-purple-600/20  rounded-lg border border-purple-500/30">
                                 Unplugged
                               </span>
                             )}
                             {isPrivate && (
-                              <span className="px-2 py-0.5 text-[10px] uppercase bg-[var(--color-accent)]/20 text-[var(--color-accent)] rounded-lg border border-[var(--color-accent)]/30">
+                              <span className="px-2 py-0.5 text-[10px] uppercase bg-[var(--color-accent)]/20  rounded-lg border border-[var(--color-accent)]/30">
                                 Private Event
                               </span>
                             )}

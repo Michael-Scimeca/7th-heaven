@@ -120,11 +120,11 @@ export default function CruiseHeroSection({
 
         {/* Cruise Ship Names Subtitle */}
         <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 md:text-base uppercase text-white">
-          <span className="bg-[#e1e6ff29] border-white/10 border px-3 py-2 !rounded-full text-white border border-white/10 backdrop-blur-[45px] flex items-center gap-2.5">
-            {ship1Title} <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 !rounded-full border border-purple-400/40">{ship1Year}</span>
+          <span className="btn-pill-glass backdrop-blur-[45px] flex items-center gap-2.5">
+            {ship1Title} <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-full border border-purple-400/40">{ship1Year}</span>
           </span>
-          <span className="bg-[#e1e6ff29] border-white/10 border px-3 py-2 !rounded-full text-white border border-white/10 backdrop-blur-[45px] flex items-center gap-2.5">
-            {ship2Title} <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 !rounded-full border border-purple-400/40">{ship2Year}</span>
+          <span className="btn-pill-glass backdrop-blur-[45px] flex items-center gap-2.5">
+            {ship2Title} <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-full border border-purple-400/40">{ship2Year}</span>
           </span>
         </div>
       </div>

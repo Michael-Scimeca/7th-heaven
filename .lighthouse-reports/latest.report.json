@@ -10844,7 +10844,7 @@
                 "width": 51,
                 "height": 16
               },
-              "snippet": "<span class=\" text-[var(--color-accent)] font-extrabold\">",
+              "snippet": "<span class=\"  font-extrabold\">",
               "nodeLabel": "UP NEXT",
               "explanation": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #9333ea, background color: #000000, font size: 7.8pt (10.4px), font weight: bold). Expected contrast ratio of 4.5:1"
             },

@@ -126,15 +126,15 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           </p>
         </div>
         <input type="file"
- ref={fileInputRef}
- onChange={handleFileChange}
- accept="image/*"
- className="hidden"
- />
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept="image/*"
+          className="hidden"
+        />
         <button
- onClick={() => fileInputRef.current?.click()}
+          onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50">
+          className="btn-primary px-3 py-1.5 rounded-lg cursor-pointer disabled:opacity-50">
           {isUploading ? "Uploading..." : isAvatarUrl ? "Change" : "Upload"}
         </button>
       </div>
@@ -177,8 +177,8 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             </div>
           )}
           <button
- onClick={() => fileInputRef.current?.click()}
-            className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white transition-opacity cursor-pointer gap-1">
+            onClick={() => fileInputRef.current?.click()}
+            className="overlay-center-hover cursor-pointer gap-1 text-white">
             <Edit className="w-3.5 h-3.5" /> Change
           </button>
         </div>
@@ -186,24 +186,24 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
         {/* Upload Controls */}
         <div className="flex-1 w-full space-y-3">
           <input type="file"
- ref={fileInputRef}
- onChange={handleFileChange}
- accept="image/*"
- className="hidden"
- />
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            className="hidden"
+          />
 
           <div className="flex flex-wrap gap-2">
             <button
- onClick={() => fileInputRef.current?.click()}
+              onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2">
+              className="btn-primary flex-1 min-w-[140px] px-4 py-2.5 rounded-lg cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
               {isUploading ? "Uploading..." : "Upload Photo File"}
             </button>
 
             <button
- onClick={() => setShowInput(!showInput)}
-              className="px-4 py-2.5 bg-black/5 hover:bg-black/10 text-black uppercase rounded-lg border border-black/15 transition-colors cursor-pointer">
+              onClick={() => setShowInput(!showInput)}
+              className="btn-secondary px-4 py-2.5 rounded-lg cursor-pointer">
               {showInput ? "Cancel URL" : "Paste Image URL"}
             </button>
           </div>
@@ -211,15 +211,15 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           {showInput && (
             <form onSubmit={handleUrlSubmit} className="flex gap-2">
               <input type="url"
- value={urlInput}
- onChange={(e) => setUrlInput(e.target.value)}
+                value={urlInput}
+                onChange={(e) => setUrlInput(e.target.value)}
                 placeholder="https://example.com/my-photo.jpg"
                 required
                 className="flex-1 px-3 py-2 bg-white border border-black/15 rounded-lg text-black font-semibold placeholder:text-black/40 outline-none focus:border-[var(--color-accent)]"
               />
               <button
- type="submit"
- className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white uppercase rounded-lg cursor-pointer">
+                type="submit"
+                className="btn-primary px-4 py-2 rounded-lg cursor-pointer">
                 Save
               </button>
             </form>

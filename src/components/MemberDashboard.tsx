@@ -228,10 +228,10 @@ export default function MemberDashboard() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)]  transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-[var(--color-accent)] flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10  flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
                     Crew Portal
                   </button>
                 </div>
@@ -280,7 +280,7 @@ export default function MemberDashboard() {
           </div>
           <div className="flex items-center gap-2">
             {(member?.role === 'crew' || member?.role === 'admin') && (
-              <Link href="/crew" className="px-4 py-2 uppercase tracking-[0.15em] text-[var(--color-accent)] hover:text-white bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
+              <Link href="/crew" className="px-4 py-2 uppercase tracking-[0.15em]  hover:text-white bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
                 Crew Dashboard
               </Link>
@@ -393,18 +393,18 @@ export default function MemberDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {myPhotos.map((photo: any) => (
                 <div
- key={photo.id}
- className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
- : photo.approved
- ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
- : "border-white/10"
- }`}>
+                  key={photo.id}
+                  className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
+                    : photo.approved
+                      ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
+                      : "border-white/10"
+                    }`}>
                   <div className="aspect-[4/3] bg-[#00000029] relative overflow-hidden">
                     <Image width={200} height={200} unoptimized
- src={photo.src}
- alt={photo.caption || "Upload"}
- className="w-full h-full object-cover"
- />
+                      src={photo.src}
+                      alt={photo.caption || "Upload"}
+                      className="w-full h-full object-cover"
+                    />
 
                     {/* Status Overlay Badge */}
                     <div className="absolute top-2 right-2">

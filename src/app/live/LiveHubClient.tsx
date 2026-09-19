@@ -402,7 +402,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                 </div>
 
                 {/* Hover overlay */}
-                <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(0,0,0,0.3)" }}>
+                <div className="overlay-center-hover z-10" style={{ background: "rgba(0,0,0,0.3)" }}>
                   <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
                     <svg width="28" height="28" viewBox="0 0 24 24" fill={room.color}><polygon points="5 3 19 12 5 21 5 3" /></svg>
                   </div>

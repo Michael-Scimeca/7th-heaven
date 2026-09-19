@@ -1460,7 +1460,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)] animate-ping shrink-0" />
                       <span className="text-[var(--color-accent)] shrink-0">Now Playing:</span>
                       <span className="text-black truncate">{activeSong.title}</span>
-                      <Music className="w-3.5 h-3.5 text-[var(--color-accent)] shrink-0" />
+                      <Music className="w-3.5 h-3.5  shrink-0" />
                     </div>
                   </div>
                 );
@@ -2463,7 +2463,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       </button>
                       <button
                         onClick={() => setSetlistSort('likes')}
-                        className={`px-2 py-1 rounded text-3xs    uppercase transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : '   text-white/30   text-white border border-transparent'
+                        className={`px-2 py-1 rounded text-3xs    uppercase transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20  border border-[var(--color-accent)]/30' : '   text-white/30   text-white border border-transparent'
                           }`}>
                         Most Liked
                       </button>
@@ -3006,7 +3006,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   const successIsClothing = successProdName.includes('shirt') || successProdName.includes('tee') || successProdName.includes('hood') || successProdName.includes('sweat') || successProdName.includes('jersey') || successProdName.includes('jacket') || successProdName.includes('tank') || successProdName.includes('hat') || successProdName.includes('cap');
                   return (
                     <div className="text-center py-4 space-y-4">
-                      <div className="w-16 h-16 rounded-lg bg-emerald-500/20 text-[var(--color-accent)] flex items-center justify-center mx-auto"
+                      <div className="w-16 h-16 rounded-lg bg-emerald-500/20  flex items-center justify-center mx-auto"
                         style={{ boxShadow: '0 0 20px rgba(16,185,129,0.1)' }}>
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
                       </div>
@@ -3074,7 +3074,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       {shippingDetails.email && (
                         <p className="text-[var(--color-accent)]/80 flex items-center justify-center gap-1.5">
                           <span>📧</span>
-                          <span>Confirmation email sent to <span className="underline underline-offset-2">{shippingDetails.email}</span></span>
+                          <span>Confirmation email sent to <span className="  underline-offset-2">{shippingDetails.email}</span></span>
                         </p>
                       )}
 

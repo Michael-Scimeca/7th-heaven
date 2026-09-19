@@ -310,7 +310,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
           {/* Quick Fulfillment Mode Badges */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <div className="flex items-center gap-2 text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-[var(--color-accent)]/30">
+            <div className="flex items-center gap-2  bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-[var(--color-accent)]/30">
               <span>🎪</span> Table Pickup Ready
             </div>
             <div className="flex items-center gap-2 text-purple-400 px-3 py-1.5 rounded-lg border border-purple-500/20">

@@ -57,7 +57,7 @@ import CruiseChat from "@/components/CruiseChat";
 function OpenShiftsCellHeader() {
   return (
     <div className="flex items-center gap-2 pl-1">
-      <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] shrink-0">
+      <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center  shrink-0">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
       </div>
       <div>
@@ -107,12 +107,12 @@ function ShiftCardHoverActions({
   onDelete: (e: React.MouseEvent) => void;
 }) {
   return (
-    <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+    <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 z-10 opacity-0 group-hover:opacity-100 opacity-transition">
       <button
         type="button"
         aria-label="Edit shift"
         onClick={onEdit}
-        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:bg-black/80 text-white/70 hover:text-white transition-colors cursor-pointer border-none backdrop-blur-sm"
+        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover-bg-black-80 text-white/70 hover-text-white color-transition cursor-pointer border-none backdrop-blur-sm"
         title="Edit shift">
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -123,7 +123,7 @@ function ShiftCardHoverActions({
         type="button"
         aria-label="Delete shift"
         onClick={onDelete}
-        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:bg-red-600 text-white/70 hover:text-white transition-colors cursor-pointer border-none backdrop-blur-sm"
+        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover-bg-red-600 text-white/70 hover-text-white color-transition cursor-pointer border-none backdrop-blur-sm"
         title="Delete shift">
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="3 6 5 6 21 6" />
@@ -3366,7 +3366,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/* Save status toast */}
                   {bannerSaveStatus && (
                     <div className={`flex items-center gap-2 px-4 py-2.5 text-[0.9rem] uppercase animate-[slideIn_0.3s_ease-out] backdrop-blur-[45px] ${bannerSaveStatus === 'saved'
-                      ? 'bg-emerald-500/10 text-[var(--color-accent)] border border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
+                      ? 'bg-emerald-500/10  border border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
                       : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
                       }`}>
                       {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
@@ -3497,14 +3497,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             <div className="bg-[var(--card-bg)]">
               <span className="text-[0.55rem] uppercase block mb-1">Conversion Rate</span>
-              <span className="text-2xl text-[var(--color-accent)] block">{gaData.conversionRate}</span>
-              <span className="text-[0.55rem] text-[var(--color-accent)] uppercase mt-1 block">Traffic → Purchases</span>
+              <span className="text-2xl  block">{gaData.conversionRate}</span>
+              <span className="text-[0.55rem]  uppercase mt-1 block">Traffic → Purchases</span>
             </div>
 
             <div className="bg-[var(--card-bg)]">
               <span className="text-[0.55rem] uppercase block mb-1">Rev / Session</span>
-              <span className="text-2xl text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
-              <span className="text-[0.55rem] text-[var(--color-accent)] uppercase mt-1 block">Avg Fan Value</span>
+              <span className="text-2xl  block">{gaData.revenuePerSession}</span>
+              <span className="text-[0.55rem]  uppercase mt-1 block">Avg Fan Value</span>
             </div>
 
             <div className="bg-[var(--card-bg)]">
@@ -4068,7 +4068,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               <td className="px-4 py-3">
                                 <div className="truncate max-w-[120px]">{order.customer.name}</div>
                                 {order.customer.ordersCount > 1 && (
-                                  <span className="text-[0.5rem] text-[var(--color-accent)] uppercase">Repeat ({order.customer.ordersCount}×)</span>
+                                  <span className="text-[0.5rem]  uppercase">Repeat ({order.customer.ordersCount}×)</span>
                                 )}
                               </td>
                               <td className="px-4 py-3">
@@ -4076,7 +4076,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               </td>
                               <td className="px-4 py-3">
                                 <div className="flex flex-col gap-1">
-                                  <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.financialStatus === 'PAID' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
+                                  <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.financialStatus === 'PAID' ? 'bg-emerald-500/15  border border-emerald-500/30'
                                     : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
                                       : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
                                     }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
@@ -4246,7 +4246,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </td>
                             <td className="px-4 py-3">
                               <div className="flex flex-col gap-1">
-                                <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
+                                <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15  border border-emerald-500/30'
                                   : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
                                     : ' bg-[#00000029] text-white/40 border border-white/10'
                                   }`}>{order.status}</span>
@@ -4513,7 +4513,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div>
                             <p className="uppercase text-black/50 dark:text-white/40 mb-1">Ticket Link</p>
                             {b.ticketLink ? (
-                              <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="font-semibold hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
+                              <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="font-semibold hover:  truncate block max-w-[200px]" title={b.ticketLink}>
                                 {b.ticketLink}
                               </a>
                             ) : (
@@ -4627,7 +4627,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).map((planner: any) => (
                   <div key={planner.email} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center border-b border-white/10 px-4 py-4 transition-colors bg-[#00000029]">
                     <div className="col-span-12 md:col-span-3 flex items-center gap-4 min-w-0">
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center  shrink-0 border border-[var(--color-accent)]/20">
                         {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
                       </div>
                       <div className="overflow-hidden min-w-0">
@@ -4663,7 +4663,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         Email
                       </a>
                       {planner.phone ? (
-                        <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[0.9rem] uppercase !text-white text-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors">
+                        <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[0.9rem] uppercase !text-white  hover:text-[var(--color-accent)] transition-colors">
                           Text
                         </a>
                       ) : (
@@ -4756,7 +4756,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <p className="mt-0.5 ">Review fan memories, stories, and concert anecdotes before they are published to the public website timeline</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="px-3 py-1 bg-white/20 text-[var(--color-accent)] border border-purple-500/30 rounded-full text-[0.9rem] uppercase flex items-center gap-2">
+          <span className="px-3 py-1 bg-white/20  border border-purple-500/30 rounded-full text-[0.9rem] uppercase flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
             {memoryQueue.length} Pending
           </span>
@@ -4860,12 +4860,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <div className="flex items-center gap-2">
                           <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shrink-0" />
                           {feed.isSimulated && feed.route ? (
-                            <Link href={feed.route} className="truncate block text-[var(--color-accent)] transition-colors">{feed.name}</Link>
+                            <Link href={feed.route} className="truncate block  transition-colors">{feed.name}</Link>
                           ) : (
                             <span className="truncate block">{feed.name}</span>
                           )}
                           {feed.isSimulated && (
-                            <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] uppercase text-[var(--color-accent)] shrink-0">Demo</span>
+                            <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] uppercase  shrink-0">Demo</span>
                           )}
                         </div>
                         <div className="text-white/40 text-[0.9rem] uppercase mt-1">Uptime: {feed.uptime}</div>
@@ -5062,7 +5062,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-white">Twilio A2P 10DLC Gateway</span>
-                        <span className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/40 text-[var(--color-accent)] text-[10px] uppercase rounded-full flex items-center gap-1">
+                        <span className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/40  text-[10px] uppercase rounded-full flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Connected
                         </span>
                       </div>
@@ -5149,7 +5149,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                         <div>
                           <div className="text-white">7th Heaven Band</div>
-                          <div className="text-[12px] text-[var(--color-accent)] font-semibold mt-0.5">Verified Twilio SMS</div>
+                          <div className="text-[12px]  font-semibold mt-0.5">Verified Twilio SMS</div>
                         </div>
                       </div>
 
@@ -5357,7 +5357,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <td className="py-2.5 px-4">{log.segments} SMS</td>
                           <td className="py-2.5 px-4 text-rose-400">${log.cost.toFixed(2)}</td>
                           <td className="py-2.5 pl-4 pr-0 text-right">
-                            <span className="px-2 py-0.5 bg-emerald-500/10 text-[var(--color-accent)] border border-emerald-500/30 text-[10px] rounded-lg">
+                            <span className="px-2 py-0.5 bg-emerald-500/10  border border-emerald-500/30 text-[10px] rounded-lg">
                               {log.status}
                             </span>
                           </td>
@@ -5602,7 +5602,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <button
                         type="button"
                         onClick={() => setIsManageRolesModalOpen(true)}
-                        className=" border-none p-0 text-white/70 hover:text-white underline decoration-purple-400/60 underline-offset-4 hover:decoration-purple-400 transition-all cursor-pointer flex items-center gap-1">
+                        className="a-btn border-none p-0 text-white/70 hover:text-white transition-all cursor-pointer flex items-center gap-1">
                         <Plus className="w-3 h-3 text-purple-400" />
                         <span>Manage Preset Roles</span>
                       </button>
@@ -5686,7 +5686,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           setEditingDutyMemberId(isEditingThis ? null : editKey);
                                           setEditingDutyValue(r.duty || '');
                                         }}
-                                        className="group relative inline-flex items-center gap-1.5 text-xs md:text-sm uppercase text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-white/20 border border-purple-500/30 px-3 py-1 rounded-lg shrink-0 cursor-pointer transition-colors"
+                                        className="group relative inline-flex items-center gap-1.5 text-xs md:text-sm uppercase  dark:text-purple-300 bg-purple-500/10 hover:bg-white/20 border border-purple-500/30 px-3 py-1 rounded-lg shrink-0 cursor-pointer transition-colors"
                                         title={`Click to change or edit role(s): ${r.duty}`}>
                                         <span className="truncate max-w-[200px] md:max-w-[320px]">{r.duty}</span>
                                       </button>
@@ -7202,7 +7202,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
                 <button
                   onClick={scrollToRegistry}
-                  className="mt-4 w-full py-2.5 bg-emerald-500/10 border border-white/10 text-[var(--color-accent)] text-[0.65rem] uppercase tracking-[0.15em] hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2">
+                  className="mt-4 w-full py-2.5 bg-emerald-500/10 border border-white/10  text-[0.65rem] uppercase tracking-[0.15em] hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                   View in Registry ↓
                 </button>
@@ -8612,7 +8612,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {(() => {
                 if (shift.crewId === 'openshifts') {
                   return (
-                    <div className="w-full h-full flex items-center justify-center text-[var(--color-accent)] bg-[#102a1e] rounded-full overflow-hidden">
+                    <div className="w-full h-full flex items-center justify-center  bg-[#102a1e] rounded-full overflow-hidden">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5">
                         <circle cx="12" cy="12" r="10" />
                         <circle cx="12" cy="12" r="4" />
@@ -8664,10 +8664,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="flex items-center gap-1.5 mt-1.5 pt-1.5 border-t border-white/10 w-full">
               {shift.crewId === 'openshifts' ? (
                 <>
-                  <div className="w-4 h-4 rounded-full border border-purple-500 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] shrink-0 text-[var(--font-size-5xs)]">
+                  <div className="w-4 h-4 rounded-full border border-purple-500 bg-purple-500/10 flex items-center justify-center  shrink-0 text-[var(--font-size-5xs)]">
 
                   </div>
-                  <span className="uppercase text-[var(--color-accent)] truncate">
+                  <span className="uppercase  truncate">
                     OpenShifts
                   </span>
                 </>
@@ -8792,7 +8792,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
-                              className="p-0.5 hover:bg-purple-500/10 rounded text-[var(--color-accent)] hover:text-purple-300 border-none cursor-pointer"
+                              className="p-0.5 hover:bg-purple-500/10 rounded  hover:text-purple-300 border-none cursor-pointer"
                               title="Alert assigned crew for this show">
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -8952,7 +8952,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <div className="flex items-center justify-between gap-1">
                               <p className="truncate">{member.name}</p>
                               {isWorkingOnActiveDate && (
-                                <span className="text-[9px] uppercase px-1 py-0.5 rounded bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/30 shrink-0 shadow-2xs">
+                                <span className="text-[9px] uppercase px-1 py-0.5 rounded bg-emerald-500/20  border border-emerald-500/30 shrink-0 shadow-2xs">
                                   Working
                                 </span>
                               )}
@@ -9423,7 +9423,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <div className="text-[10px] text-white/50">{ed.lastAction}</div>
                           </div>
                         </div>
-                        <span className={`px-2 py-0.5 text-[12px] rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/40'}`}>
+                        <span className={`px-2 py-0.5 text-[12px] rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20  border border-emerald-500/40'}`}>
                           {ed.isEditing ? ' Shift Locked' : '🟢 Viewing'}
                         </span>
                       </div>
@@ -10795,14 +10795,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         <a
                                           href={`tel:${(m.phone || '(555) 123-4567').replace(/[^\d+]/g, '')}`}
                                           onClick={(e) => e.stopPropagation()}
-                                          className="hover:underline transition-colors">
+                                          className="hover:  transition-colors">
                                           {m.phone || '(555) 123-4567'}
                                         </a>
                                         <span className="mx-1 text-white/30">|</span>
                                         <a
                                           href={`mailto:${m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}`}
                                           onClick={(e) => e.stopPropagation()}
-                                          className="hover:underline transition-colors">
+                                          className="hover:  transition-colors">
                                           {m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}
                                         </a>
                                       </span>
@@ -11341,7 +11341,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <button
                             type="button"
                             onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
-                            className="inline-flex items-center gap-1 text-white hover:text-white underline decoration-white/40 hover:decoration-white transition-colors cursor-pointer">
+                            className="a-btn inline-flex items-center gap-1 text-white hover:text-white transition-colors cursor-pointer">
                             {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
                           </button>
 
@@ -11557,7 +11557,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   {cruiseSaveStatus && (
-                    <div className={`flex items-center gap-2 px-4 py-2.5 text-[0.9rem] uppercase animate-[slideIn_0.3s_ease-out]${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                    <div className={`flex items-center gap-2 px-4 py-2.5 text-[0.9rem] uppercase animate-[slideIn_0.3s_ease-out]${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10  border border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
                       {cruiseSaveStatus === 'saved' ? ' Update dispatched to cruise dashboard & passenger inboxes!' : ' Failed to update — try again'}
                     </div>
                   )}
@@ -11727,7 +11727,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="max-h-[550px] min-h-[320px] overflow-y-auto custom-admin-scrollbar space-y-1.5 pr-1">
                       {(cruiseStats.recentSignups || []).map((s) => (
                         <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 border-b border-white/10 transition-colors group/row mb-0">
-                          <div className="w-7 h-7 rounded-full bg-emerald-500/10 border border-white/10 flex items-center justify-center text-[0.5rem] text-[var(--color-accent)] shrink-0">
+                          <div className="w-7 h-7 rounded-full bg-emerald-500/10 border border-white/10 flex items-center justify-center text-[0.5rem]  shrink-0">
                             {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
                           </div>
                           <div className="flex-1 min-w-0">

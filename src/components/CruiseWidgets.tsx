@@ -634,7 +634,7 @@ export function BookingManager({ email }: { email?: string }) {
           <span className="uppercase">Cruising Power Integration</span>
         </div>
         <p>
-          Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="underline text-white">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
+          Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="  text-white">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
         </p>
       </div>
 
@@ -761,7 +761,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
       <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-purple-500/20 shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-colors duration-300 text-left">
         {success ? (
           <div className="p-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center  mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <CheckMarkIcon className="w-8 h-8 text-emerald-400" />
             </div>
             <h3 className="uppercase text-white">Payment Successful</h3>

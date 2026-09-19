@@ -42,8 +42,8 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
     <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm pointer-events-auto">
       <div className="bg-gray-50/98 backdrop-blur-xl border border-purple-500/40 p-6 w-full max-w-sm relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto text-black">
         <button aria-label="Close"
- onClick={handleClose}
- className="absolute top-3 right-3 text-black/50 hover:text-black transition-colors p-1 bg-gray-50 hover:bg-gray-100 rounded-lg">
+          onClick={handleClose}
+          className="absolute top-3 right-3 text-black/50 hover:text-black transition-colors p-1 bg-gray-50 hover:bg-gray-100 rounded-lg">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
@@ -71,7 +71,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
                   ))}
                 </div>
                 <a href={claimUrl} target="_blank" rel="noreferrer"
- className="block w-full py-2.5 bg-[var(--color-purple-primary)] hover:bg-[var(--color-purple-hover)] text-white text-[var(--font-size-xs)] uppercase rounded-lg transition-colors mb-2">
+                  className="block w-full py-2.5 bg-[var(--color-purple-primary)] hover:bg-[var(--color-purple-hover)] text-white text-[var(--font-size-xs)] uppercase rounded-lg transition-colors mb-2">
                   Open Full Claim Page
                 </a>
                 <p className="text-black/25">This link is unique to you — show it to the crew</p>
@@ -92,7 +92,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
               </button>
               <button onClick={() => setClaimMethod('merch_table')}
                 className="w-full p-3 border border-black/10 hover:border-purple-500/30 bg-gray-50 flex items-center gap-3 transition-colors text-left">
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-[var(--color-accent)] flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/20  flex items-center justify-center shrink-0">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
                 </div>
                 <div>
@@ -110,7 +110,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
             <h3 className="text-black uppercase mb-2">Shipping Claim</h3>
             <p className="text-black/50 mb-6 px-4">Your 100% off voucher is being generated. You'll be transferred to Shopify to enter your shipping details.</p>
             <button aria-label="Close"
- onClick={() => { alert('In production, this opens a Shopify Cart with discount applied!'); handleClose(); }}
+              onClick={() => { alert('In production, this opens a Shopify Cart with discount applied!'); handleClose(); }}
               className="w-full py-3 bg-blue-500 hover:bg-blue-400 text-black uppercase transition-colors">
               Open Secure Checkout
             </button>

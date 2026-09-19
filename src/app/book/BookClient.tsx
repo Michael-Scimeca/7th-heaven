@@ -725,13 +725,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           disabled={pinSent || pinLoading}
                           className="flex-1 border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
-                        <button type="button" onClick={() => setEditingEmail(false)} className="text-base text-[var(--color-accent)] uppercase cursor-pointer px-3">Done</button>
+                        <button type="button" onClick={() => setEditingEmail(false)} className="text-base  uppercase cursor-pointer px-3">Done</button>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
                         <span className="text-lg text-white">{accountEmail}</span>
                         {!pinSent && (
-                          <button type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 text-[var(--color-accent)] uppercase cursor-pointer transition-colors">Edit</button>
+                          <button type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30  uppercase cursor-pointer transition-colors">Edit</button>
                         )}
                       </div>
                     )}
@@ -789,7 +789,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           type="button"
                           onClick={handleSendPin}
                           disabled={pinLoading}
-                          className="text-[var(--color-accent)] hover:underline disabled:opacity-40">
+                          className="text-[var(--color-accent)] hover:  disabled:opacity-40">
                           Resend Code
                         </button>
                         <button
@@ -1154,7 +1154,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="hover:underline cursor-pointer">
+                                  className="hover:  cursor-pointer">
                                   ⚡ Copy Main
                                 </button>
                                 {hasSavedForm && (
@@ -1178,7 +1178,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                         }
                                       } catch { }
                                     }}
-                                    className="text-purple-400 hover:underline cursor-pointer">
+                                    className="text-purple-400 hover:  cursor-pointer">
                                     ⚡ Load Last
                                   </button>
                                 )}
@@ -1437,7 +1437,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         <button
                           type="button"
                           onClick={() => setShowMapPicker(true)}
-                          className="text-[#c27aff] hover:text-purple-300 flex items-center gap-1 hover:underline cursor-pointer">
+                          className="text-[#c27aff] hover:text-purple-300 flex items-center gap-1 hover:  cursor-pointer">
                           <MapPin className="w-3.5 h-3.5" /> Pick on Map
                         </button>
                         <span className="text-white/20">•</span>
@@ -1456,7 +1456,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         <button
                           type="button"
                           onClick={() => handleSaveCurrentAddress()}
-                          className="text-emerald-400 hover:text-emerald-300 flex items-center gap-1 hover:underline cursor-pointer">
+                          className="text-emerald-400 hover:text-emerald-300 flex items-center gap-1 hover:  cursor-pointer">
                           <Bookmark className="w-3.5 h-3.5" /> Save Link
                         </button>
                       </div>
@@ -1695,7 +1695,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   )}
                 </CosmicRadialButton>
                 <p className="text-center mt-4">
-                  By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="underline hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="underline hover:text-white transition-colors">Terms</Link>.
+                  By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="  hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="  hover:text-white transition-colors">Terms</Link>.
                 </p>
               </div>
             </aside>

@@ -280,13 +280,13 @@ export default function ShowPageClient({
 
     return (
       <div
- key={a.id}
- className={`flex items-center gap-4 p-4 border transition-colors ${a.status === "there"
- ? "border-emerald-500/30 bg-emerald-500/[0.03]"
- : isMe
- ? "border-purple-500/40 bg-purple-500/5"
- : `border-white/[0.06] bg-white/[0.02] border-white/10 ${tierGlow[tier] || ""}`
- }`}>
+        key={a.id}
+        className={`flex items-center gap-4 p-4 border transition-colors ${a.status === "there"
+          ? "border-emerald-500/30 bg-emerald-500/[0.03]"
+          : isMe
+            ? "border-purple-500/40 bg-purple-500/5"
+            : `border-white/[0.06] bg-white/[0.02] border-white/10 ${tierGlow[tier] || ""}`
+          }`}>
         {/* Avatar */}
         <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 border-2 ${isAnon ? " border-white/10 text-white/30" : tierColors[tier] || " border-white/10 text-white "} bg-white/[0.04]`}>
           {!isAnon && a.profiles?.profile_photo_url ? (
@@ -405,19 +405,19 @@ export default function ShowPageClient({
                 <>
                   {isGoing ? (
                     <button
- onClick={handleRsvp}
- disabled={rsvpLoading}
- id="rsvp-btn"
- className="px-8 py-4 uppercase transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/10 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400">
+                      onClick={handleRsvp}
+                      disabled={rsvpLoading}
+                      id="rsvp-btn"
+                      className="px-8 py-4 uppercase transition-colors disabled:opacity-50 cursor-pointer bg-white/10 text-white border border-white/10 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400">
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
                   ) : (
                     <CosmicRadialButton
- onClick={handleRsvp}
- disabled={rsvpLoading}
- icon={false}
- id="rsvp-btn"
- className="px-8 py-4 uppercase disabled:opacity-50">
+                      onClick={handleRsvp}
+                      disabled={rsvpLoading}
+                      icon={false}
+                      id="rsvp-btn"
+                      className="px-8 py-4 uppercase disabled:opacity-50">
                       {rsvpLoading ? "…" : "🎸 I'm Going"}
                     </CosmicRadialButton>
                   )}
@@ -426,11 +426,11 @@ export default function ShowPageClient({
                   {!isGoing && isLoggedIn && (
                     <div className="flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg bg-[#00000029]">
                       <GradientToggle
- id="show-anonymous-toggle"
- label="Go anonymously"
- checked={wantAnonymous}
- onChange={setWantAnonymous}
- />
+                        id="show-anonymous-toggle"
+                        label="Go anonymously"
+                        checked={wantAnonymous}
+                        onChange={setWantAnonymous}
+                      />
                     </div>
                   )}
                 </>
@@ -457,7 +457,7 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/10 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-lg blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-white/10 rounded-lg text-[var(--font-size-2xs)] text-[var(--color-accent)] uppercase mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-white/10 rounded-lg text-[var(--font-size-2xs)]  uppercase mb-4">
                     Missed this show?
                   </span>
                   <h3 className="text-white uppercase mb-2">Notify Me Next Time</h3>
@@ -475,20 +475,20 @@ export default function ShowPageClient({
                     <form onSubmit={handleNotifyMe} className="space-y-3">
                       <div className="flex flex-col sm:flex-row gap-3">
                         <InputField
- type="email"
- required
- placeholder="yourname@domain.com"
- value={notifyEmail}
- onChange={(e) => setNotifyEmail(e.target.value)}
+                          type="email"
+                          required
+                          placeholder="yourname@domain.com"
+                          value={notifyEmail}
+                          onChange={(e) => setNotifyEmail(e.target.value)}
                           containerClassName="flex-1"
                           glow={true}
                           inputClassName="bg-black/40 border  border-white/10  px-4 py-3 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                         />
                         <CosmicRadialButton
- type="submit"
- disabled={notifyLoading}
- icon={false}
- className="px-6 py-3 text-white uppercase disabled:opacity-50 shrink-0 rounded-lg">
+                          type="submit"
+                          disabled={notifyLoading}
+                          icon={false}
+                          className="px-6 py-3 text-white uppercase disabled:opacity-50 shrink-0 rounded-lg">
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
                         </CosmicRadialButton>
                       </div>
@@ -509,13 +509,13 @@ export default function ShowPageClient({
                 </div>
                 <div className="aspect-video w-full overflow-hidden border border-white/10 bg-black">
                   <iframe
- src="https://www.youtube.com/embed/Dnic7xeXrQo?autoplay=0&rel=0&modestbranding=1"
- title="7th Heaven Live Performance Video"
- className="w-full h-full border-0"
- allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
- sandbox="allow-scripts allow-presentation allow-popups allow-forms"
- allowFullScreen
- />
+                    src="https://www.youtube.com/embed/Dnic7xeXrQo?autoplay=0&rel=0&modestbranding=1"
+                    title="7th Heaven Live Performance Video"
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    sandbox="allow-scripts allow-presentation allow-popups allow-forms"
+                    allowFullScreen
+                  />
                 </div>
               </div>
             </div>
@@ -523,8 +523,8 @@ export default function ShowPageClient({
 
           {/* Clickable count summary */}
           <button
- id="attendee-toggle-btn"
- onClick={() => setAttendeeListOpen(!attendeeListOpen)}
+            id="attendee-toggle-btn"
+            onClick={() => setAttendeeListOpen(!attendeeListOpen)}
             className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] border-white/10 transition-colors mb-1 group cursor-pointer">
             <div className="flex items-center gap-6">
               <div className="text-left">
@@ -546,7 +546,7 @@ export default function ShowPageClient({
             </div>
             <div className="flex items-center gap-3">
               {!isLoggedIn && (
-                <span className="uppercase text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">
+                <span className="uppercase  border border-purple-500/30 px-3 py-1 bg-purple-500/5">
                   Login to RSVP
                 </span>
               )}
@@ -565,8 +565,8 @@ export default function ShowPageClient({
                 <div className="flex items-center gap-1 mb-6 bg-white/[0.03] border border-white/10 p-1 w-fit">
                   {(["all", "going", "there"] as const).map((f) => (
                     <button
- key={f}
- onClick={() => setGoingFilter(f)}
+                      key={f}
+                      onClick={() => setGoingFilter(f)}
                       className={`px-4 py-1.5    uppercase transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30   text-white "
                         }`}>
                       {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}
@@ -606,26 +606,26 @@ export default function ShowPageClient({
               <div className="flex flex-col items-center mb-8">
                 <div className="p-4 bg-white inline-block shadow-[0_0_40px_rgba(255,10,61,0.25)] mb-3">
                   <QRCode
- value={shareUrl}
- size={140}
- bgColor="#ffffff"
- fgColor="#0a0a0a"
- level="M"
- />
+                    value={shareUrl}
+                    size={140}
+                    bgColor="#ffffff"
+                    fgColor="#0a0a0a"
+                    level="M"
+                  />
                 </div>
                 <p className="uppercase">Scan to open the show page</p>
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <CosmicRadialButton
- onClick={copyLink}
- icon={false}
- className="px-6 py-3 text-white rounded-lg">
+                  onClick={copyLink}
+                  icon={false}
+                  className="px-6 py-3 text-white rounded-lg">
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </CosmicRadialButton>
                 <a
- href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
- className="px-6 py-3 border border-white/10 text-white/50 uppercase hover:border-white/30 hover:text-white transition-colors">
+                  href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
+                  className="px-6 py-3 border border-white/10 text-white/50 uppercase hover:border-white/30 hover:text-white transition-colors">
                   💬 Text a Friend
                 </a>
               </div>

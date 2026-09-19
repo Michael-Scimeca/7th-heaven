@@ -19,30 +19,25 @@ export function SectionBadge({
   ...props
 }: SectionBadgeProps) {
   const isInteractive = Boolean(onClick);
-  const hasCustomBg = className.includes("bg-");
-  const defaultBg = hasCustomBg
-    ? ""
-    : isActive
-      ? "bg-[#e1e6ff29] hover:bg-white/1"
-      : "bg-[#e1e6ff29] hover:bg-white/10";
 
   return (
     <span
- role={isInteractive ? "button" : undefined}
- tabIndex={isInteractive ? 0 : undefined}
- onClick={onClick}
- onKeyDown={
- isInteractive
- ? (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              onClick?.(e as any);
+      role={isInteractive ? "button" : undefined}
+      tabIndex={isInteractive ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={
+        isInteractive
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick?.(e as any);
+              }
             }
-          }
           : undefined
       }
-      className={`inline-flex items-center justify-center !text-[11px] !leading-[11px] font-bold uppercase transition-all duration-200 ${isInteractive ? "cursor-pointer active:scale-95 select-none" : ""
-        } ${defaultBg} text-white border border-white/10 hover:border-purple-400/50 px-3.5 py-1.5 rounded-full whitespace-nowrap w-fit ${className}`}
+      className={`btn-pill-glass ${isInteractive ? "cursor-pointer active:scale-95 select-none" : ""} ${
+        isActive ? "active" : ""
+      } ${className}`}
       {...props}>
       {children || label}
     </span>

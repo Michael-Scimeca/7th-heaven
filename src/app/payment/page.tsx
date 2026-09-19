@@ -67,15 +67,15 @@ function PaymentTestContent() {
       <div className="site-container max-w-xl mx-auto px-6">
         <div className="mb-8 text-left">
           <Link
- href="/"
- className="uppercase text-purple-400hover:text-white transition-colors flex items-center gap-2">
+            href="/"
+            className="uppercase text-purple-400hover:text-white transition-colors flex items-center gap-2">
             ← Back to Home
           </Link>
         </div>
 
         <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)] text-left">
           <div className="mb-6">
-            <span className="inline-block uppercase text-[var(--color-accent)] mb-1">
+            <span className="inline-block uppercase  mb-1">
               Stripe Test Mode
             </span>
             <h1>
@@ -90,7 +90,7 @@ function PaymentTestContent() {
           </div>
 
           {status === "success" && (
-            <div className="mb-6 p-4 border border-white/10 bg-emerald-500/10 text-[var(--color-accent)] leading-normal">
+            <div className="mb-6 p-4 border border-white/10 bg-emerald-500/10  leading-normal">
               🎉{" "}
               {confirmed
                 ? `Payment confirmed: $${(confirmed.amountTotal / 100).toFixed(2)} ${confirmed.currency?.toUpperCase()}.`
@@ -116,12 +116,12 @@ function PaymentTestContent() {
                 Amount (USD)
               </label>
               <input
- type="number"
- step="0.01"
- min="0.50"
- required
- value={amount}
- onChange={(e) => setAmount(e.target.value)}
+                type="number"
+                step="0.01"
+                min="0.50"
+                required
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
                 className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
               />
             </div>
@@ -131,18 +131,18 @@ function PaymentTestContent() {
                 Description
               </label>
               <input
- type="text"
- required
- value={description}
- onChange={(e) => setDescription(e.target.value)}
+                type="text"
+                required
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--color-accent)]"
               />
             </div>
 
             <button
- type="submit"
- disabled={loading}
- className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase py-3.5 rounded-lg transition-colors disabled:opacity-50">
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase py-3.5 rounded-lg transition-colors disabled:opacity-50">
               {loading ? "Redirecting to Stripe…" : "Pay with Stripe (Test Mode)"}
             </button>
           </form>

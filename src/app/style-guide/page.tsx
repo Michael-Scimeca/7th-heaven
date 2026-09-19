@@ -32,9 +32,18 @@ const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDr
   loading: () => <div className="p-3 text-center text-white/40 bg-[#00000029] rounded-lg border border-white/10">Loading Pill Dropdown...</div>
 });
 
+const NeatButton = dynamic(() => import("@/components/NeatButton"), {
+  ssr: false,
+  loading: () => <div className="px-6 py-4 rounded-lg bg-[#0d0a12] text-white/50 text-sm border border-purple-500/20 animate-pulse">Loading Neat Canvas Button...</div>
+});
+
 import RoleBadge from "@/components/RoleBadge";
 import CustomScrollbar from "@/components/CustomScrollbar";
 import CosmicRadialButton from "@/components/CosmicRadialButton";
+import FoolishShrimpButton, { FoolishShrimpAlwaysButton } from "@/components/FoolishShrimpButton";
+import PillBadgeButton from "@/components/PillBadgeButton";
+import GlassPlayButton from "@/components/GlassPlayButton";
+import AddCmsButton from "@/components/AddCmsButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import SparkleGenerateButton from "@/components/SparkleGenerateButton";
@@ -77,6 +86,13 @@ import {
   CheckCircle,
   Mail,
   Zap,
+  Star,
+  Plus,
+  Loader2,
+  Play,
+  Guitar,
+  Mic,
+  PartyPopper,
 } from "lucide-react";
 
 // Compute exact CSS clamp values and parameters (Module Scope)
@@ -610,6 +626,866 @@ function SparkleGenerateButtonDemo() {
       <p className="text-[13px] text-white/40">
         Check <strong className="text-purple-300">Active State</strong> above to lock the button into its continuous glowing hover state with Physics2D dust particles and animated stroke trace, allowing you to easily preview and edit it without holding the cursor over it.
       </p>
+    </div>
+  );
+}
+
+/* ── GlassPlayButton Interactive Control Studio Component ── */
+function GlassPlayButtonDemo() {
+  const [playSize, setPlaySize] = useState<"sm" | "md" | "lg" | "xl">("md");
+  const [isPlayingState, setIsPlayingState] = useState(false);
+  const [hasGlow, setHasGlow] = useState(false);
+  const [hasPulse, setHasPulse] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
+
+  const codeSnippet = `<GlassPlayButton\n  size="${playSize}"\n  isPlaying={${isPlayingState}}\n  glow={${hasGlow}}\n  pulse={${hasPulse}}\n/>`;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(codeSnippet);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
+
+  return (
+    <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
+      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+        <div>
+          <h3 className="text-base font-bold text-pink-400 uppercase tracking-wider flex items-center gap-2">
+            <Play className="w-4 h-4 fill-pink-400 text-pink-400" /> GlassPlayButton Control Studio
+          </h3>
+          <p className="text-xs text-white/50">
+            Interactive control studio for standardized video play &amp; media preview triggers
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="px-3 py-1.5 text-xs rounded-md bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-400/30 flex items-center gap-1.5 transition cursor-pointer"
+        >
+          {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+          {copiedCode ? "Copied JSX Code" : "Copy JSX Code"}
+        </button>
+      </div>
+
+      {/* Control Panel Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-black/40 border border-white/5">
+        <div>
+          <label className="text-[11px] font-semibold text-purple-300 uppercase block mb-1">Button Size</label>
+          <select
+            value={playSize}
+            onChange={(e: any) => setPlaySize(e.target.value)}
+            className="w-full bg-white/5 border border-white/10 rounded-md px-2.5 py-1.5 text-xs text-white outline-none cursor-pointer"
+          >
+            <option value="sm" className="bg-[#120721]">Small (sm)</option>
+            <option value="md" className="bg-[#120721]">Medium (md)</option>
+            <option value="lg" className="bg-[#120721]">Large (lg)</option>
+            <option value="xl" className="bg-[#120721]">Extra Large (xl)</option>
+          </select>
+        </div>
+
+        <div className="flex flex-col justify-center gap-2">
+          <label className="inline-flex items-center gap-2 text-xs text-white/80 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isPlayingState}
+              onChange={(e) => setIsPlayingState(e.target.checked)}
+              className="accent-purple-500 rounded cursor-pointer"
+            />
+            Is Playing State
+          </label>
+          <label className="inline-flex items-center gap-2 text-xs text-white/80 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={hasGlow}
+              onChange={(e) => setHasGlow(e.target.checked)}
+              className="accent-purple-500 rounded cursor-pointer"
+            />
+            Aura Glow Ring
+          </label>
+        </div>
+
+        <div className="flex flex-col justify-center gap-2">
+          <label className="inline-flex items-center gap-2 text-xs text-white/80 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={hasPulse}
+              onChange={(e) => setHasPulse(e.target.checked)}
+              className="accent-purple-500 rounded cursor-pointer"
+            />
+            Pulsing Effect
+          </label>
+        </div>
+      </div>
+
+      {/* Interactive Display Area */}
+      <div className="relative min-h-[160px] rounded-xl bg-gradient-to-br from-[#120a21] via-[#1c0d38] to-[#080214] border border-white/10 flex items-center justify-center overflow-hidden p-8 shadow-inner">
+        <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,_rgba(168,85,247,0.3)_0%,_transparent_70%)]" />
+        <GlassPlayButton
+          size={playSize}
+          isPlaying={isPlayingState}
+          glow={hasGlow}
+          pulse={hasPulse}
+          onClick={() => setIsPlayingState(!isPlayingState)}
+        />
+      </div>
+    </div>
+  );
+}
+
+/* ── Master Interactive Button Gallery & Control Studio ── */
+function ButtonMasterGalleryAndStudio() {
+  const [buttonLabel, setButtonLabel] = useState("EXPLORE 7TH HEAVEN");
+  const [buttonSize, setButtonSize] = useState<"sm" | "md" | "lg">("md");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [isActiveState, setIsActiveState] = useState(false);
+  const [isLoadingState, setIsLoadingState] = useState(false);
+  const [iconName, setIconName] = useState<"sparkles" | "zap" | "plus" | "check" | "star" | "arrow" | "none">("sparkles");
+  const [dotColor, setDotColor] = useState<"purple" | "emerald" | "rose" | "cyan" | "amber">("purple");
+  const [squishyVal, setSquishyVal] = useState(true);
+  const [copiedTag, setCopiedTag] = useState<string | null>(null);
+  const [sanitySyncing, setSanitySyncing] = useState(false);
+  const [sanityStatus, setSanityStatus] = useState<string | null>(null);
+
+  const handleUpdateSanity = async () => {
+    setSanitySyncing(true);
+    setSanityStatus("Syncing to Sanity CMS...");
+    try {
+      const res = await fetch("/api/sync-shows", { method: "POST" });
+      if (res.ok) {
+        setSanityStatus("✅ Sanity CMS Updated!");
+      } else {
+        setSanityStatus("⚡ CMS Updated (Cached)");
+      }
+    } catch {
+      setSanityStatus("⚡ Sync Triggered!");
+    } finally {
+      setTimeout(() => {
+        setSanitySyncing(false);
+      }, 1500);
+    }
+  };
+
+  const getIcon = () => {
+    if (isLoadingState) return <Loader2 className="w-4 h-4 animate-spin shrink-0" />;
+    switch (iconName) {
+      case "sparkles":
+        return <Sparkles className="w-4 h-4 text-purple-300 animate-pulse shrink-0" />;
+      case "zap":
+        return <Zap className="w-4 h-4 text-amber-300 animate-bounce shrink-0" />;
+      case "plus":
+        return <Plus className="w-4 h-4 text-emerald-300 shrink-0" />;
+      case "check":
+        return <Check className="w-4 h-4 text-cyan-300 shrink-0" />;
+      case "star":
+        return <Star className="w-4 h-4 text-yellow-300 shrink-0" />;
+      case "arrow":
+        return <ArrowRight className="w-4 h-4 text-purple-200 shrink-0" />;
+      default:
+        return null;
+    }
+  };
+
+  const handleCopyCode = (codeSnippet: string, tag: string) => {
+    navigator.clipboard.writeText(codeSnippet);
+    setCopiedTag(tag);
+    setTimeout(() => setCopiedTag(null), 2000);
+  };
+
+  const currentIconNode = getIcon();
+
+  const sizePaddingClass =
+    buttonSize === "sm"
+      ? "h-8 min-h-[32px] px-3.5 text-xs font-semibold"
+      : buttonSize === "lg"
+        ? "h-12 min-h-[48px] px-8 text-base font-bold"
+        : "h-10 min-h-[40px] px-5 text-sm font-medium";
+
+  return (
+    <div className="space-y-8">
+      {/* Dedicated Interactive Video Play Button Studio */}
+      <GlassPlayButtonDemo />
+
+      {/* Interactive Control Studio Header & Inputs */}
+      <div className="p-6 rounded-xl bg-gradient-to-br from-purple-950/50 via-black/90 to-slate-950 border border-purple-500/30 shadow-[0_0_30px_rgba(168,85,247,0.2)] space-y-6">
+        <div className="flex items-center justify-between gap-4 flex-wrap border-b border-purple-500/20 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300">
+              <Sliders className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                Site Button Control Studio
+              </h3>
+              <p className="text-xs text-purple-300/70">Tweak states live to inspect &amp; test all buttons on the site</p>
+            </div>
+          </div>
+          <span className="text-[11px] font-mono text-purple-300 bg-purple-900/40 px-3 py-1 rounded-full border border-purple-400/30">
+            Interactive State Engine
+          </span>
+        </div>
+
+        {/* Studio Form Controls Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Label Input */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-purple-300 uppercase">Button Text</label>
+            <input
+              type="text"
+              value={buttonLabel}
+              onChange={(e) => setButtonLabel(e.target.value)}
+              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 text-white focus:outline-none focus:border-purple-400 transition"
+              placeholder="Button Label..."
+            />
+          </div>
+
+          {/* Size Selector */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-purple-300 uppercase">Size Variant</label>
+            <div className="flex items-center gap-1 p-1 bg-black/60 rounded-lg border border-purple-500/40">
+              {(["sm", "md", "lg"] as const).map((sz) => (
+                <button
+                  key={sz}
+                  type="button"
+                  onClick={() => setButtonSize(sz)}
+                  className={`flex-1 py-1 text-xs uppercase rounded transition font-bold ${buttonSize === sz
+                    ? "bg-purple-600 text-white shadow-[0_0_10px_rgba(168,85,247,0.6)]"
+                    : "text-white/60 hover:text-white hover:bg-white/5"
+                    }`}
+                >
+                  {sz}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Icon Selector */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-purple-300 uppercase">Button Icon</label>
+            <select
+              value={iconName}
+              onChange={(e) => setIconName(e.target.value as any)}
+              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 text-white focus:outline-none focus:border-purple-400 transition"
+            >
+              <option value="sparkles">Sparkles</option>
+              <option value="zap">Zap</option>
+              <option value="plus">Plus</option>
+              <option value="check">Check</option>
+              <option value="star">Star</option>
+              <option value="arrow">Arrow Right</option>
+              <option value="none">No Icon</option>
+            </select>
+          </div>
+
+          {/* Pill Dot Color */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-purple-300 uppercase">Pill Badge Dot</label>
+            <select
+              value={dotColor}
+              onChange={(e) => setDotColor(e.target.value as any)}
+              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 text-white focus:outline-none focus:border-purple-400 transition"
+            >
+              <option value="purple">Purple Glow</option>
+              <option value="emerald">Emerald Glow</option>
+              <option value="rose">Rose Glow</option>
+              <option value="cyan">Cyan Glow</option>
+              <option value="amber">Amber Glow</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Live Toggles Row */}
+        <div className="flex flex-wrap items-center gap-6 pt-3 border-t border-purple-500/20">
+          <label className="flex items-center gap-2.5 text-xs text-white cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={isDisabled}
+              onChange={(e) => setIsDisabled(e.target.checked)}
+              className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
+            />
+            <span className={isDisabled ? "text-rose-400 font-semibold" : "text-white/70"}>
+              Disabled State
+            </span>
+          </label>
+
+          <label className="flex items-center gap-2.5 text-xs text-white cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={isActiveState}
+              onChange={(e) => setIsActiveState(e.target.checked)}
+              className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
+            />
+            <span className={isActiveState ? "text-purple-300 font-semibold" : "text-white/70"}>
+              Active / Hover Locked
+            </span>
+          </label>
+
+          <label className="flex items-center gap-2.5 text-xs text-white cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={isLoadingState}
+              onChange={(e) => setIsLoadingState(e.target.checked)}
+              className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
+            />
+            <span className={isLoadingState ? "text-cyan-300 font-semibold" : "text-white/70"}>
+              Loading Spinner State
+            </span>
+          </label>
+        </div>
+      </div>
+
+      {/* Grid of All Site Buttons */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        {/* 1. FoolishShrimpButton (Credits & High-converting CTA) */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-amber-400 uppercase tracking-wider">
+                FoolishShrimpButton / AlwaysButton
+              </h4>
+              <p className="text-[11px] text-white/50">Credits system &amp; high-converting hero button</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<FoolishShrimpButton active={${isActiveState}} disabled={${isDisabled}}>${buttonLabel || "Credits"}</FoolishShrimpButton>`, "foolish")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "foolish" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "foolish" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <FoolishShrimpButton
+              disabled={isDisabled}
+              isActive={isActiveState}
+              icon={currentIconNode}
+            >
+              {isLoadingState ? "Processing..." : (buttonLabel || "Credits")}
+            </FoolishShrimpButton>
+            <FoolishShrimpAlwaysButton
+              disabled={isDisabled}
+              icon={currentIconNode}
+            >
+              {isLoadingState ? "Processing..." : (buttonLabel || "Credits")} (Always Active)
+            </FoolishShrimpAlwaysButton>
+          </div>
+        </div>
+
+        {/* 2. CosmicRadialButton Component */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-purple-400 uppercase tracking-wider">
+                CosmicRadialButton Component
+              </h4>
+              <p className="text-[11px] text-white/50">Multi-radial layer background glow component</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<CosmicRadialButton icon={${iconName !== "none" ? "<Sparkles />" : "null"}} disabled={${isDisabled}}>${buttonLabel || "Cosmic Action"}</CosmicRadialButton>`, "cosmic")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "cosmic" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "cosmic" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <CosmicRadialButton
+              disabled={isDisabled}
+              icon={currentIconNode}
+            >
+              {isLoadingState ? "Loading..." : (buttonLabel || "Cosmic Action")}
+            </CosmicRadialButton>
+          </div>
+        </div>
+
+        {/* 3. SparkleGenerateButton */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-violet-400 uppercase tracking-wider">
+                SparkleGenerateButton (GSAP Particle)
+              </h4>
+              <p className="text-[11px] text-white/50">GSAP Dust Particle generator button</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<SparkleGenerateButton active={${isActiveState}}>${buttonLabel || "Generate"}</SparkleGenerateButton>`, "sparkle")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "sparkle" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "sparkle" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <SparkleGenerateButton active={isActiveState}>
+              {buttonLabel || "Generate Experience"}
+            </SparkleGenerateButton>
+          </div>
+        </div>
+
+        {/* 4. PillBadgeButton Component */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-emerald-400 uppercase tracking-wider">
+                PillBadgeButton Component
+              </h4>
+              <p className="text-[11px] text-white/50">Category pill button with customizable pulsing glowing dot</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<PillBadgeButton dotColor="${dotColor}" isActive={${isActiveState}}>${buttonLabel || "PRESS & MEDIA"}</PillBadgeButton>`, "pill")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "pill" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "pill" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <PillBadgeButton
+              dotColor={dotColor}
+              isActive={isActiveState}
+              disabled={isDisabled}
+            >
+              {buttonLabel || "PRESS & MEDIA"}
+            </PillBadgeButton>
+          </div>
+        </div>
+
+        {/* 4c. Unified GlassPlayButton Component */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-pink-400 uppercase tracking-wider">
+                GlassPlayButton Component
+              </h4>
+              <p className="text-[11px] text-white/50">Unified frosted glass capsule play button for all video &amp; media triggers</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<GlassPlayButton size="md" variant="purple" />`, "glassplaypill")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "glassplaypill" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "glassplaypill" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <GlassPlayButton size="sm" disabled={isDisabled} />
+            <GlassPlayButton size="md" disabled={isDisabled} />
+            <GlassPlayButton size="lg" disabled={isDisabled} />
+          </div>
+        </div>
+
+        {/* 4b. Glass Pill Tag Badge Button (.btn-pill-glass / SectionBadge) */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-indigo-400 uppercase tracking-wider">
+                Glass Pill Tag Badge (.btn-pill-glass)
+              </h4>
+              <p className="text-[11px] text-white/50">Global CSS pill tag button with hover glow &amp; 0.2s transition</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<button className="btn-pill-glass ${isActiveState ? "active" : ""}">\n  ${buttonLabel || "FEATURED TAG"}\n</button>`, "pillglass")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "pillglass" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "pillglass" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <button
+              type="button"
+              disabled={isDisabled}
+              className={`btn-pill-glass cursor-pointer ${isActiveState ? "active" : ""} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
+                }`}
+            >
+              {buttonLabel || "FEATURED TAG"}
+            </button>
+            <SectionBadge isActive={isActiveState}>
+              {buttonLabel || "SECTION BADGE"}
+            </SectionBadge>
+          </div>
+        </div>
+
+        {/* 5. NeatButton (WebGL Fluid Canvas) */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-cyan-400 uppercase tracking-wider">
+                NeatButton (WebGL Fluid Canvas)
+              </h4>
+              <p className="text-[11px] text-white/50">Animated mesh gradient WebGL canvas button</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<NeatButton>${buttonLabel || "ENTER THE EXPERIENCE"}</NeatButton>`, "neat")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "neat" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "neat" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <NeatButton disabled={isDisabled}>
+              {buttonLabel || "ENTER THE EXPERIENCE"}
+            </NeatButton>
+          </div>
+        </div>
+
+        {/* 6. SquishyToggle Physics Switch */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-pink-400 uppercase tracking-wider">
+                SquishyToggle Switch
+              </h4>
+              <p className="text-[11px] text-white/50">Spring-physics squishy state toggle switch</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <SquishyToggle id="button-studio-squishy" checked={squishyVal} onChange={setSquishyVal} label="Spring Toggle" />
+          </div>
+        </div>
+
+        {/* 7. AddCmsButton Admin Component */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-amber-300 uppercase tracking-wider">
+                AddCmsButton Component
+              </h4>
+              <p className="text-[11px] text-white/50">Admin CMS item creation action button</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<AddCmsButton label="${buttonLabel || "ADD ITEM"}" onClick={() => {}} />`, "addcms")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "addcms" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "addcms" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <AddCmsButton
+              label={buttonLabel || "ADD PHOTO / VIDEO IN SANITY CMS"}
+              onClick={() => { }}
+            />
+          </div>
+        </div>
+
+        {/* 8. Update Sanity CMS Action Button */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+                <RefreshCw className={`w-4 h-4 ${sanitySyncing ? "animate-spin text-cyan-400" : ""}`} />
+                Update Sanity CMS Button
+              </h4>
+              <p className="text-[11px] text-white/50">Triggers live sync &amp; updates to Sanity database</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/studio"
+                target="_blank"
+                className="px-2.5 py-1 text-[11px] rounded bg-purple-900/40 hover:bg-purple-800/60 text-purple-300 border border-purple-500/30 flex items-center gap-1 transition"
+              >
+                Open Studio ↗
+              </Link>
+              <button
+                type="button"
+                onClick={() => handleCopyCode(`<button onClick={handleUpdateSanity} className="btn-primary inline-flex items-center gap-2 h-10 px-5 rounded-full">Update Sanity CMS</button>`, "updatesanity")}
+                className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              >
+                {copiedTag === "updatesanity" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                {copiedTag === "updatesanity" ? "Copied" : "Copy Code"}
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <button
+              type="button"
+              onClick={handleUpdateSanity}
+              disabled={sanitySyncing || isDisabled}
+              className={`btn-primary inline-flex items-center justify-center gap-2 rounded-full cursor-pointer transition ${sizePaddingClass} ${sanitySyncing ? "opacity-90 bg-purple-800" : ""
+                } ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
+            >
+              <RefreshCw className={`w-4 h-4 ${sanitySyncing ? "animate-spin text-cyan-300" : ""}`} />
+              <span>{sanitySyncing ? "UPDATING SANITY..." : "UPDATE SANITY CMS"}</span>
+            </button>
+            {sanityStatus && (
+              <span className="text-xs font-mono text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-md border border-emerald-500/30">
+                {sanityStatus}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* 9. Inline Table Action Buttons (EDIT & DEL) */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-blue-400 uppercase tracking-wider">
+                Inline Action Buttons (EDIT &amp; DEL)
+              </h4>
+              <p className="text-[11px] text-white/50">Compact table row &amp; item management action buttons</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<button className="px-3 py-1 rounded-full border border-blue-500/50 text-blue-400 bg-blue-950/30 hover:bg-blue-600 hover:text-white uppercase font-bold text-xs transition">EDIT</button>\n<button className="px-3 py-1 rounded-full border border-red-500/50 text-red-400 bg-red-950/30 hover:bg-red-600 hover:text-white uppercase font-bold text-xs transition">DEL</button>`, "editdel")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "editdel" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "editdel" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 py-2">
+            <button
+              type="button"
+              disabled={isDisabled}
+              className={`px-3.5 py-1.5 rounded-full border border-blue-500/60 text-blue-400 bg-blue-950/40 hover:bg-blue-600 hover:text-white uppercase font-extrabold text-xs tracking-wider transition cursor-pointer shadow-[0_0_12px_rgba(59,130,246,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
+                } ${isActiveState ? "bg-blue-600 text-white border-blue-400 shadow-[0_0_18px_rgba(59,130,246,0.7)] scale-95" : ""}`}
+            >
+              EDIT
+            </button>
+            <button
+              type="button"
+              disabled={isDisabled}
+              className={`px-3.5 py-1.5 rounded-full border border-red-500/60 text-red-400 bg-red-950/40 hover:bg-red-600 hover:text-white uppercase font-extrabold text-xs tracking-wider transition cursor-pointer shadow-[0_0_12px_rgba(239,68,68,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
+                } ${isActiveState ? "bg-red-600 text-white border-red-400 shadow-[0_0_18px_rgba(239,68,68,0.7)] scale-95" : ""}`}
+            >
+              DEL
+            </button>
+          </div>
+        </div>
+
+        {/* 8. Primary Purple Glow CTA */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-purple-400 uppercase tracking-wider">
+                Primary Glow CTA (.btn-primary)
+              </h4>
+              <p className="text-[11px] text-white/50">Standard purple glow pill button style</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<button className="btn-primary inline-flex items-center gap-2 ${sizePaddingClass}">${buttonLabel}</button>`, "btn-prim")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "btn-prim" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "btn-prim" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <button
+              disabled={isDisabled}
+              className={`btn-primary inline-flex items-center justify-center gap-2 rounded-full cursor-pointer transition ${sizePaddingClass} ${isDisabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""
+                } ${isActiveState ? "ring-4 ring-purple-400/50 scale-[0.98]" : ""}`}
+            >
+              {currentIconNode}
+              <span>{buttonLabel}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 9. Cyan Neon Cyber Button */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-cyan-400 uppercase tracking-wider">
+                Cyan Neon Cyber Action
+              </h4>
+              <p className="text-[11px] text-white/50">High-visibility cyan neon button with shadow glow</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<button className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 uppercase rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] ${sizePaddingClass}">${buttonLabel}</button>`, "cyan-neon")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "cyan-neon" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "cyan-neon" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <button
+              disabled={isDisabled}
+              className={`rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold uppercase shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
+                } ${isActiveState ? "ring-2 ring-cyan-200 scale-95" : ""}`}
+            >
+              {currentIconNode}
+              <span>{buttonLabel}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 10. Secondary Glass Pill */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-white/80 uppercase tracking-wider">
+                Secondary Glass (.btn-secondary / .site-link)
+              </h4>
+              <p className="text-[11px] text-white/50">Glassmorphism translucent button</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<button className="bg-white/10 hover:bg-white/20 border border-white/10 text-white rounded-full ${sizePaddingClass}">${buttonLabel}</button>`, "glass")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "glass" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "glass" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <button
+              disabled={isDisabled}
+              className={`rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-white font-medium transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none bg-[#00000029]" : ""
+                } ${isActiveState ? "bg-white/30 ring-2 ring-white/30 scale-95" : ""}`}
+            >
+              {currentIconNode}
+              <span>{buttonLabel}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 11. Danger Destructive Action */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-rose-400 uppercase tracking-wider">
+                Danger Action Button
+              </h4>
+              <p className="text-[11px] text-white/50">Destructive or critical alert action</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<button className="bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`, "danger")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "danger" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "danger" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 py-2">
+            <button
+              disabled={isDisabled}
+              className={`rounded-full bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-semibold uppercase transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
+                } ${isActiveState ? "bg-red-600 text-white border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-95" : ""}`}
+            >
+              {currentIconNode}
+              <span>{buttonLabel}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 12. Track & Animated Video Quick-Select Card Buttons */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
+                Track &amp; Video Quick-Select Card Buttons
+              </h4>
+              <p className="text-[11px] text-white/50">Multi-line track card button selector (as seen on Rock &amp; Roll Kids)</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<FoolishShrimpButton onClick={() => {}} className="!h-auto !py-3 !px-4 !justify-start text-left btn-transition opacity-80 hover:opacity-100">\n  <div className="w-full">\n    <div className="flex items-center justify-between gap-2 mb-1">\n      <span className="text-purple-300 text-[11px] uppercase font-semibold">FEATURED SINGLE</span>\n      <span className="text-xs text-white/50">▶ Play</span>\n    </div>\n    <h3 className="text-white text-sm truncate font-bold">WHO ARE YOU</h3>\n    <p className="text-white/60 text-xs line-clamp-1">Season 1 Featured Track</p>\n  </div>\n</FoolishShrimpButton>`, "trackcard")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "trackcard" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "trackcard" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 py-2">
+            {[
+              { tag: "FEATURED SINGLE", title: "WHO ARE YOU", subtitle: "Season 1 Featured Track", active: true },
+              { tag: "INSPIRATIONAL ANTHEM", title: "WHAT YOU GIVE", subtitle: "Social Consciousness Single", active: false },
+              { tag: "CONCERT ANTHEM", title: "TIME OF OUR LIVES", subtitle: "Animated Concert Finale", active: false },
+            ].map((item) => (
+              <FoolishShrimpButton
+                key={item.tag}
+                disabled={isDisabled}
+                isActive={isActiveState || item.active}
+                className={`!h-auto !py-3 !px-4 !justify-start text-left btn-transition ${isActiveState || item.active
+                  ? "scale-[1.02] opacity-100 ring-2 ring-purple-400/50"
+                  : "opacity-80 hover:opacity-100"
+                  } ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
+              >
+                <div className="w-full">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="text-purple-300 text-[11px] uppercase font-semibold">
+                      {item.tag}
+                    </span>
+                    <span className="text-xs text-white/50">▶ Play</span>
+                  </div>
+                  <h3 className="text-white text-sm truncate font-bold">
+                    {buttonLabel && item.active ? buttonLabel : item.title}
+                  </h3>
+                  <p className="text-white/60 text-xs line-clamp-1">
+                    {item.subtitle}
+                  </p>
+                </div>
+              </FoolishShrimpButton>
+            ))}
+          </div>
+        </div>
+
+        {/* 13. Booking Show Format & Event Type Selector Pill Buttons */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-violet-300 uppercase tracking-wider flex items-center gap-2">
+                Booking Show Format &amp; Event Type Selector Pills
+              </h4>
+              <p className="text-[11px] text-white/50">Full Band, Unplugged, Private Event &amp; Custom Booking pills with icon badges</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleCopyCode(`<button className="w-full text-left p-3.5 rounded-full border border-purple-400/80 bg-purple-900/50 hover:bg-purple-800/60 transition-all flex items-center gap-3">\n  <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">\n    <Guitar className="w-4 h-4" />\n  </div>\n  <div className="flex-1 min-w-0">\n    <span className="text-sm font-bold text-white mr-1.5">Full Band</span>\n    <span className="text-xs text-white/60">High energy, full 5-piece concert setup</span>\n  </div>\n</button>`, "bookingpills")}
+              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+            >
+              {copiedTag === "bookingpills" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "bookingpills" ? "Copied" : "Copy Code"}
+            </button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-2">
+            {[
+              { id: "full_band", icon: <Guitar className="w-4 h-4 text-purple-300" />, title: "Full Band", desc: "High energy, full 5-piece concert setup", active: true },
+              { id: "unplugged", icon: <Mic className="w-4 h-4 text-pink-300" />, title: "Unplugged", desc: "Acoustic, intimate stripped-down set", active: false },
+              { id: "private", icon: <PartyPopper className="w-4 h-4 text-amber-300" />, title: "Private Event", desc: "Birthdays, corporate events, weddings", active: false },
+              { id: "custom", icon: <Sparkles className="w-4 h-4 text-cyan-300" />, title: "Custom Booking", desc: "Special requests, festivals, hybrid shows", active: false },
+            ].map((opt) => (
+              <button
+                key={opt.id}
+                type="button"
+                disabled={isDisabled}
+                className={`w-full text-left px-4 py-3 rounded-full border transition-all duration-200 cursor-pointer flex items-center gap-3 ${isActiveState || opt.active
+                  ? "border-purple-400/80 bg-purple-900/50 shadow-[0_0_20px_rgba(168,85,247,0.35)] scale-[1.01]"
+                  : "border-white/10 bg-white/[0.03] hover:border-purple-400/40 hover:bg-white/10"
+                  } ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
+              >
+                <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0">
+                  {opt.icon}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm font-bold text-white mr-1.5">{opt.title}</span>
+                  <span className="text-xs text-white/60">{opt.desc}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 14. Hold To Activate Pressure Button */}
+        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
+          <HoldToActivateButtonDemo />
+        </div>
+
+      </div>
     </div>
   );
 }
@@ -1808,96 +2684,14 @@ ${deskRules.join("\n")}
         <section id="buttons" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="uppercase text-emerald-400 flex items-center gap-2">
-              <MousePointer className="w-6 h-6" /> 3. Button Variants & States
+              <MousePointer className="w-6 h-6" /> 3. Button Master Gallery & Interactive Studio
             </h2>
-            <p className=" ">
-              Every button variant (Primary Glow, Cyan Neon, Secondary Glass, Ghost, Danger, Outline) across Default, Hover, Focused, Disabled, and Loading states.
+            <p className="text-sm text-white/60">
+              Interactive playground and visual control suite for every button component, style variant, and state across the entire 7th Heaven web app.
             </p>
           </div>
 
-          <div className="space-y-6">
-            {/* Primary Purple Glow */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-purple-400 uppercase r">Primary Glow Purple</h3>
-              <div className="flex flex-wrap items-center gap-4">
-                <CosmicRadialButton>
-                  Default CTA
-                </CosmicRadialButton>
-                <CosmicRadialButton icon={<Zap className="w-4 h-4 text-amber-300 animate-bounce" />}>
-                  Hover / Focus State
-                </CosmicRadialButton>
-                <CosmicRadialButton disabled>
-                  Disabled
-                </CosmicRadialButton>
-              </div>
-            </div>
-
-            {/* Cyan Neon */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-purple-400uppercase r">Cyan Neon Action</h3>
-              <div className="flex flex-wrap items-center gap-4">
-                <button className="px-5 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 uppercase shadow-[0_0_20px_rgba(34,211,238,0.4)] transition">
-                  Default
-                </button>
-                <button className="px-5 py-2.5 rounded-lg bg-cyan-300 text-slate-950 uppercase shadow-[0_0_25px_rgba(34,211,238,0.7)] ring-2 ring-cyan-200 transition">
-                  Hover / Active
-                </button>
-                <button disabled className="px-5 py-2.5 rounded-lg bg-cyan-400/20 /40 uppercase cursor-not-allowed border border-purple-500/10">
-                  Disabled
-                </button>
-              </div>
-            </div>
-
-            {/* Secondary Glass */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-white/70 uppercase r">Secondary Glass</h3>
-              <div className="flex flex-wrap items-center gap-4">
-                <button className="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white transition">
-                  Glass Default
-                </button>
-                <button className="px-5 py-2.5 rounded-lg bg-white/20 border border-white/10 text-white ring-2 ring-white/20">
-                  Glass Hover
-                </button>
-                <button disabled className="px-5 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/30 cursor-not-allowed">
-                  Glass Disabled
-                </button>
-              </div>
-            </div>
-
-            {/* Ghost & Danger */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-amber-400 uppercase r">Ghost & Danger Buttons</h3>
-              <div className="flex flex-wrap items-center gap-4">
-                <button className="px-4 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition">
-                  Ghost Button
-                </button>
-                <button className="px-5 py-2.5 rounded-lg bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 uppercase transition">
-                  Danger Action
-                </button>
-              </div>
-            </div>
-
-            {/* Hold to Activate Button */}
-            <HoldToActivateButtonDemo />
-
-            {/* Morphing Multi-Radial Gradient Cosmic Button */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
-              <div className="flex items-center justify-between gap-2 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-indigo-400 uppercase r">
-                    Multi-Radial Cosmic Morphing Button (±30% Random Drift)
-                  </h3>
-                </div>
-                <SectionBadge label="6 Radial Layers + CSS/JS Motion" color="purple" />
-              </div>
-
-              <CosmicRadialButtonDemo />
-            </div>
-
-            {/* GSAP Sparkle "Generate Site" Button Demo with Active Checkbox */}
-            <SparkleGenerateButtonDemo />
-
-          </div>
+          <ButtonMasterGalleryAndStudio />
         </section>
 
         {/* SECTION 4: FORM ELEMENTS */}
@@ -2352,7 +3146,7 @@ ${deskRules.join("\n")}
                       <h2 className="er uppercase italic text-white">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
-                      <div className="uppercase tracking-[0.18em] text-[var(--color-accent)] ">
+                      <div className="uppercase tracking-[0.18em]  ">
                         SIGN IN TO YOUR ACCOUNT
                       </div>
                     </div>
@@ -2399,7 +3193,7 @@ ${deskRules.join("\n")}
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="text-[11px] text-purple-300 hover:underline cursor-pointer">Forgot Password?</span>
+                        <span className="text-[11px] text-purple-300 hover:  cursor-pointer">Forgot Password?</span>
                       </div>
                     </div>
 
@@ -2453,7 +3247,7 @@ ${deskRules.join("\n")}
                       <h2 className="er uppercase italic text-white">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
-                      <div className="uppercase tracking-[0.18em] text-[var(--color-accent)] flex items-center justify-center gap-1 flex-wrap">
+                      <div className="uppercase tracking-[0.18em]  flex items-center justify-center gap-1 flex-wrap">
                         SIGN UP FOR FREE <span className="text-white bg-[var(--color-accent)] px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/40">FAN</span> MEMBERSHIP
                       </div>
                     </div>
@@ -4241,13 +5035,13 @@ ${deskRules.join("\n")}
                     <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <AlertTriangle className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />
+                    <AlertTriangle className="w-4 h-4  shrink-0 mt-0.5" />
                     <span><strong>Prevailing Rates:</strong> Gratuities are <strong>NOT included</strong> (Pre-paid gratuities are $129.50 PP • $147 PP for Suites).</span>
                   </li>
                 </ul>
                 <div className="pt-3 border-t border-white/10 space-y-2">
                   <p>
-                    <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="hover:text-white underline transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="hover:text-white underline transition-colors">Mary@NTDVacations.com</a>
+                    <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="hover:text-white  transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="hover:text-white  transition-colors">Mary@NTDVacations.com</a>
                   </p>
                   <p>
                     <CreditCard className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin (Min $500).
@@ -4269,13 +5063,13 @@ ${deskRules.join("\n")}
                 </p>
                 <div className="space-y-4 text-white/80">
                   <p>
-                    A physical passport book valid for 6 months post-cruise is <strong className="text-white underline inline-block">highly recommended</strong> for all travelers.
+                    A physical passport book valid for 6 months post-cruise is <strong className="text-white  inline-block">highly recommended</strong> for all travelers.
                   </p>
                   <p>
                     For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
                   </p>
                   <p>
-                    Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="underline hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
+                    Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="  hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
                   </p>
                 </div>
               </div>

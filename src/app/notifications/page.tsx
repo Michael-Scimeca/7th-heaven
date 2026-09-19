@@ -111,12 +111,12 @@ export default function NotificationsPage() {
           7th Heaven can push an alert straight to your phone the moment we post one &mdash;
           new shows, ticket drops, cruise news, whatever the group needs. It doesn&apos;t
           use text messages or carrier fees; it rides on{" "}
-          <a href="https://ntfy.sh" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">
+          <a href="https://ntfy.sh" target="_blank" rel="noopener noreferrer" className="  hover:text-white transition-colors">
             ntfy
           </a>
           , a free, open push network, so there&apos;s no cost to you and none to us.
           Prefer old-fashioned alerts? Check out our live stream alerts on{" "}
-          <Link href="/live" className="underline hover:text-white transition-colors">
+          <Link href="/live" className="  hover:text-white transition-colors">
             the live page
           </Link>{" "}
           too.
@@ -129,10 +129,10 @@ export default function NotificationsPage() {
           const isActive = activeTab === tab.id;
           return (
             <button
- type="button"
- aria-label={`Show ${tab.label} alerts`}
- key={tab.id}
- onClick={() => handleTabChange(tab.id)}
+              type="button"
+              aria-label={`Show ${tab.label} alerts`}
+              key={tab.id}
+              onClick={() => handleTabChange(tab.id)}
               className={`px-5 py-2.5 rounded-lg    uppercase transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white "
                 : " bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:border-white/30"
                 }`}>
@@ -152,7 +152,7 @@ export default function NotificationsPage() {
             <p>
               This alert channel hasn&apos;t been configured on the server yet. Check back soon,
               or reach out on the{" "}
-              <Link href="/contact" className="underline hover:text-white transition-colors">
+              <Link href="/contact" className="  hover:text-white transition-colors">
                 Contact
               </Link>{" "}
               page.
@@ -178,17 +178,17 @@ export default function NotificationsPage() {
                   <p className="mb-2">Get the free ntfy app (or skip it and use your browser)</p>
                   <div className="flex flex-wrap gap-2">
                     <a
- href="https://apps.apple.com/us/app/ntfy/id1625396347"
- target="_blank"
- rel="noopener noreferrer"
- className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white hover:bg-white/15 transition-colors">
+                      href="https://apps.apple.com/us/app/ntfy/id1625396347"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg">
                       <AppleIcon /> App Store
                     </a>
                     <a
- href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
- target="_blank"
- rel="noopener noreferrer"
- className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white hover:bg-white/15 transition-colors">
+                      href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg">
                       <AndroidIcon /> Google Play
                     </a>
                   </div>
@@ -201,16 +201,16 @@ export default function NotificationsPage() {
                   <p className="mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
                   <div className="flex flex-wrap items-center gap-2">
                     <CosmicRadialButton
- icon={false}
- onClick={() => window.open(appDeepLink, "_self")}
+                      icon={false}
+                      onClick={() => window.open(appDeepLink, "_self")}
                       className="px-5 py-2.5 rounded-lg">
                       Open in ntfy App
                     </CosmicRadialButton>
                     <a
- href={browserUrl}
- target="_blank"
- rel="noopener noreferrer"
- className="text-white hover:text-white underline transition-colors">
+                      href={browserUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white hover:text-white  transition-colors">
                       Or subscribe in your browser instead
                     </a>
                   </div>
@@ -228,9 +228,9 @@ export default function NotificationsPage() {
               </div>
 
               <button
- type="button"
- onClick={handleCopy}
- className="inline-flex items-center gap-1.5 text-[11px] uppercase text-white/40 hover:text-white/70 transition-colors cursor-pointer pt-1">
+                type="button"
+                onClick={handleCopy}
+                className="inline-flex items-center gap-1.5 text-[11px] uppercase text-white/40 hover:text-white/70 transition-colors cursor-pointer pt-1">
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 {copied ? "Copied channel name" : "Copy channel name manually"}
               </button>

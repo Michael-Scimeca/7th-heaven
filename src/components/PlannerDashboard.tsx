@@ -345,7 +345,7 @@ export default function PlannerDashboard() {
                 </button>
 
                 <button type="button" onClick={() => { setPlannerMode(m => m === 'login' ? 'signup' : 'login'); setPlannerLoginError(''); }}
-                  className="text-[var(--color-accent)]/60 text-[var(--color-accent)] uppercase tracking-[0.15em] transition-colors cursor-pointer">
+                  className="text-[var(--color-accent)]/60  uppercase tracking-[0.15em] transition-colors cursor-pointer">
                   {plannerMode === 'login' ? 'Need an account? Create one' : 'Already have an account? Sign in'}
                 </button>
               </form>
@@ -512,7 +512,7 @@ export default function PlannerDashboard() {
                   /* Edit mode actions */
                   <>
                     <button onClick={handleEditSave}
-                      className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors">
+                      className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent  hover:text-white uppercase transition-colors">
                       Save Changes
                     </button>
                     <button onClick={handleEditCancel}
@@ -525,13 +525,13 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors text-center rounded-lg">
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent  hover:text-white uppercase transition-colors text-center rounded-lg">
                       Rebook This Event
                     </a>
                     {reviveTimeLeft && (
                       <>
                         <button aria-label="Previous" onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
-                          className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors">
+                          className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent  hover:text-white uppercase transition-colors">
                           Revive Booking
                         </button>
                         <p className="text-center">
@@ -545,7 +545,7 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase transition-colors text-center rounded-lg">
+                      className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-white/10 hover:border-transparent  hover:text-white uppercase transition-colors text-center rounded-lg">
                       Rebook This Event
                     </a>
                     <button onClick={handleEditStart}
@@ -608,7 +608,7 @@ export default function PlannerDashboard() {
                   Richard Hofherr
                 </h3>
                 <p className="text-white/70 text-sm mb-2">NTD Management</p>
-                <a href="tel:8475515363" className="text-[var(--color-accent)] text-base hover:underline mb-1">
+                <a href="tel:8475515363" className="text-[var(--color-accent)] text-base hover:  mb-1">
                   (847) 551-5363
                 </a>
                 <a href="mailto:info@NTDManagement.com" className="text-white/80 hover:text-white text-sm truncate max-w-full px-2">
@@ -643,7 +643,7 @@ export default function PlannerDashboard() {
                   Jeff Dobbs
                 </h3>
                 <p className="text-white/70 text-sm mb-2">Production & Sound</p>
-                <a href="tel:8477725333" className="text-[var(--color-accent)] text-base hover:underline mb-1">
+                <a href="tel:8477725333" className="text-[var(--color-accent)] text-base hover:  mb-1">
                   (847) 772-5333
                 </a>
                 <a href="mailto:jeffdobbs64@yahoo.com" className="text-white/80 hover:text-white text-sm truncate max-w-full px-2">
@@ -678,7 +678,7 @@ export default function PlannerDashboard() {
                   Alan McRae
                 </h3>
                 <p className="text-white/70 text-sm mb-2">NTD Management</p>
-                <a href="tel:6308429129" className="text-[var(--color-accent)] text-base hover:underline mb-1">
+                <a href="tel:6308429129" className="text-[var(--color-accent)] text-base hover:  mb-1">
                   (630) 842-9129
                 </a>
                 <a href="mailto:Alan@NTDManagement.com" className="text-white/80 hover:text-white text-sm truncate max-w-full px-2">
@@ -713,7 +713,7 @@ export default function PlannerDashboard() {
                   Lenny Rago
                 </h3>
                 <p className="text-white/70 text-sm mb-2">NTD Records</p>
-                <a href="tel:8472696200" className="text-[var(--color-accent)] text-base hover:underline mb-1">
+                <a href="tel:8472696200" className="text-[var(--color-accent)] text-base hover:  mb-1">
                   (847) 269-6200
                 </a>
                 <a href="mailto:LRago@NTDRecords.com" className="text-white/80 hover:text-white text-sm truncate max-w-full px-2">

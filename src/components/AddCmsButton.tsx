@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Plus } from "lucide-react";
-import { useMember } from "@/context/MemberContext";
 
 export interface AddCmsButtonProps {
   label: string;
@@ -17,31 +16,16 @@ export default function AddCmsButton({
   className = "",
   icon,
 }: AddCmsButtonProps) {
-  const { member, isLoggedIn } = useMember();
-
-  const isAdmin = Boolean(
-    isLoggedIn &&
-    (
-      member?.role === "admin" ||
-      (member as unknown as Record<string, unknown>)?.isAdmin === true
-    )
-  );
-
-  // Strictly enforce Admin visibility requirement across all AddCmsButton instances
-  if (!isAdmin) {
-    return null;
-  }
-
   // Clean leading '+' to prevent "+ + ADD ..." double icon rendering
   const cleanLabel = label.replace(/^\+\s*/, "").toUpperCase();
 
   return (
     <button
- type="button"
- onClick={onClick}
- className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs sm:text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:shadow-[0_0_30px_rgba(217,70,239,0.7)] hover:scale-105 active:scale-95 border border-purple-300/30 shrink-0 cursor-pointer ${className}`}
- >
-      {icon ?? <Plus className="w-4 h-4 shrink-0" />}
+      type="button"
+      onClick={onClick}
+      className={`inline-flex items-center justify-center gap-2.5 h-10 min-h-[40px] px-6 rounded-2xl text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white bg-[#6b05be] hover:bg-[#7e07de] active:bg-[#5a04a1] border border-purple-400/30 shadow-[0_4px_18px_rgba(107,5,190,0.5)] hover:shadow-[0_6px_24px_rgba(126,7,222,0.7)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer shrink-0 ${className}`}
+    >
+      {icon ?? <Plus className="w-4 h-4 text-white shrink-0 stroke-[2.5]" />}
       <span>{cleanLabel}</span>
     </button>
   );

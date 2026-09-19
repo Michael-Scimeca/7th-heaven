@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import AddCmsButton from "@/components/AddCmsButton";
 import SectionBadge from "@/components/SectionBadge";
 import { getMediaUrl } from "@/lib/sanity";
 
@@ -501,12 +502,17 @@ export default function RockNRollKidsClient({
 
             {/* Animated Singles Quick Select Buttons */}
             <div className="pt-3 border-t border-white/10 space-y-3">
+              <AddCmsButton
+                label="ADD KIDS SONG / VIDEO IN SANITY CMS"
+                onClick={() => window.open("/studio", "_blank")}
+                className="w-full justify-center"
+              />
               <div className="flex flex-wrap gap-2.5">
                 {musicSinglesList.map((single: any) => (
                   <FoolishShrimpButton
                     key={single.id}
                     onClick={() => setSelectedVideo(single.id)}
-                    className={`px-4 py-2 transition-all ${selectedVideo === single.id
+                    className={`px-4 py-2 btn-transition ${selectedVideo === single.id
                       ? "scale-105 opacity-100"
                       : "opacity-80 hover:opacity-100"
                       }`}>
@@ -534,7 +540,7 @@ export default function RockNRollKidsClient({
                 <FoolishShrimpButton
                   key={v.id}
                   onClick={() => setSelectedVideo(v.id)}
-                  className={`!h-auto !py-3 !px-4 !justify-start text-left transition-all ${selectedVideo === v.id
+                  className={`!h-auto !py-3 !px-4 !justify-start text-left btn-transition ${selectedVideo === v.id
                     ? "scale-[1.02] opacity-100"
                     : "opacity-80 hover:opacity-100"
                     }`}>
@@ -665,14 +671,14 @@ export default function RockNRollKidsClient({
                 {founder.phone ? (
                   <a
                     href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                    className="!text-white font-bold text-sm sm:text-base hover:underline block mb-0">
+                    className="!text-white font-bold text-sm sm:text-base hover:  block mb-0">
                     {founder.phone}
                   </a>
                 ) : null}
                 {founder.email ? (
                   <a
                     href={`mailto:${founder.email}`}
-                    className="text-purple-400 font-bold text-sm sm:text-base hover:underline block">
+                    className="text-purple-400 font-bold text-sm sm:text-base hover:  block">
                     {founder.email}
                   </a>
                 ) : null}

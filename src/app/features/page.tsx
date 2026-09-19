@@ -66,22 +66,25 @@ export default function FeaturesPage() {
           </h1>
 
           <p className="max-w-3xl mx-auto mb-6">
-            A production-grade digital platform for 7th Heaven. Every feature is live, documented, and explained in full — from live-stream raffles to proximity SMS alerts to AI photo moderation.
+            A production-grade digital platform for 7th Heaven. Every feature is live, documented, and explained in full — from interactive visual sitemaps to live-stream raffles, 6-digit PIN security flows, and AI photo moderation.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-            {["WebRTC Live Streaming", "Web Push Notifications", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "Push Notification Engine", "Sanity CMS"].map(p => (
+            {["Interactive Visual Sitemap", "WebRTC Live Streaming", "Web Push Notifications", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "Pick Collector Game", "1,200+ Shows Archive", "Sanity CMS"].map(p => (
               <span key={p} className="px-3 py-1.5 rounded-lg bg-[#00000029] border border-white/10 text-white/40 font-semibold">{p}</span>
             ))}
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-base uppercase tracking-[0.12em] rounded-lg transition-colors hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/sitemap" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-base uppercase tracking-[0.12em] rounded-lg transition-colors hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+              Interactive Sitemap →
+            </Link>
+            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.12em] rounded-lg transition-colors">
               <span className="w-2 h-2 rounded-lg bg-white animate-pulse" />Watch Live
             </Link>
             <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Book The Band →</Link>
             <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase tracking-[0.12em] rounded-lg transition-colors">Fan Dashboard →</Link>
-            <a href="#all-features" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)] text-base uppercase tracking-[0.12em] rounded-lg transition-colors">View All Features ↓</a>
+            <a href="#all-features" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60  text-base uppercase tracking-[0.12em] rounded-lg transition-colors">View All Features ↓</a>
           </div>
         </div>
       </section>
@@ -175,8 +178,8 @@ export default function FeaturesPage() {
           <p className="mb-12">Questions? Reach out via the contact page.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <CosmicRadialButton
- icon={false}
- onClick={() => window.location.href = "/fans"}
+              icon={false}
+              onClick={() => window.location.href = "/fans"}
               className="px-8 py-4 text-white text-base tracking-[0.15em] rounded-lg">
               Join as a Fan →
             </CosmicRadialButton>

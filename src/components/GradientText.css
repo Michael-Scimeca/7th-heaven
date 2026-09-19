@@ -52,30 +52,30 @@
 }
 
 @keyframes cssGradientMoveH {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 @keyframes cssGradientMoveV {
-  0%, 100% { background-position: 50% 0%; }
-  50% { background-position: 50% 100%; }
+  0% { background-position: 50% 0%; }
+  100% { background-position: 50% 100%; }
 }
 
 @keyframes cssGradientMoveD {
-  0%, 100% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
 }
 
 .css-anim-h {
-  animation: cssGradientMoveH ease-in-out infinite;
+  animation: cssGradientMoveH linear infinite;
 }
 
 .css-anim-v {
-  animation: cssGradientMoveV ease-in-out infinite;
+  animation: cssGradientMoveV linear infinite;
 }
 
 .css-anim-d {
-  animation: cssGradientMoveD ease-in-out infinite;
+  animation: cssGradientMoveD linear infinite;
 }
 
 .animated-gradient-text:hover .pause-hover {

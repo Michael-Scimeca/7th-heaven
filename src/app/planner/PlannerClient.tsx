@@ -169,14 +169,14 @@ export default function PlannerClient() {
               </p>
               <div className="pt-4 flex items-center justify-center gap-4 flex-wrap">
                 <button
- type="button"
- onClick={() => openModal("login", "planner")}
+                  type="button"
+                  onClick={() => openModal("login", "planner")}
                   className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-purple-500 text-white uppercase tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)] rounded-lg cursor-pointer">
                   Sign In to Planner Portal
                 </button>
                 <button
- type="button"
- onClick={() => openModal("signup", "planner")}
+                  type="button"
+                  onClick={() => openModal("signup", "planner")}
                   className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase tracking-[0.18em] transition-colors rounded-lg cursor-pointer">
                   Create Account
                 </button>
@@ -313,7 +313,7 @@ export default function PlannerClient() {
                     className="w-full bg-[#00000029] border border-white/10 px-3 py-2.5 text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
                 </div>
                 <button onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
-                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50">
+                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  hover:text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50">
                   {notesSaving ? 'Saving...' : 'Save Notes'}
                 </button>
               </div>
@@ -344,12 +344,12 @@ export default function PlannerClient() {
                           {isEditing ? (
                             <div className="flex gap-1.5 ">
                               <input type="text"
- defaultValue={item.val || ''}
- autoFocus
- onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({ ...booking, [fieldKey]: v } as Booking); setEditField(null); } } }}
+                                defaultValue={item.val || ''}
+                                autoFocus
+                                onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({ ...booking, [fieldKey]: v } as Booking); setEditField(null); } } }}
                                 className="flex-1 bg-white/10 border border-white/10 px-2 py-1 rounded text-white focus:border-purple-500 outline-none"
                               />
-                              <button aria-label="Previous" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] text-[var(--color-accent)] uppercase cursor-pointer px-1.5">Save</button>
+                              <button aria-label="Previous" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)]  uppercase cursor-pointer px-1.5">Save</button>
                               <button type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-white/40 uppercase cursor-pointer px-1">✕</button>
                             </div>
                           ) : (
@@ -358,7 +358,7 @@ export default function PlannerClient() {
                         </div>
                         {!isEditing && (
                           item.done ? (
-                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] text-white/40 text-[var(--color-accent)] uppercase cursor-pointer transition-colors shrink-0">Edit</button>
+                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] text-white/40  uppercase cursor-pointer transition-colors shrink-0">Edit</button>
                           ) : (
                             <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-colors">NEEDED</button>
                           )
@@ -368,7 +368,7 @@ export default function PlannerClient() {
                   })}
                   {done < checklist.length && (
                     <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}`}
- className="mt-2 text-center py-2 bg-purple-600/5 hover:bg-purple-600/10 border border-purple-500/15 text-purple-300/70 hover:text-purple-300 uppercase rounded-lg transition-colors">
+                      className="mt-2 text-center py-2 bg-purple-600/5 hover:bg-purple-600/10 border border-purple-500/15 text-purple-300/70 hover:text-purple-300 uppercase rounded-lg transition-colors">
                       Fill Missing Details →
                     </Link>
                   )}
@@ -380,19 +380,19 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="text-white">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
- className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20 text-[var(--color-accent)] hover:bg-purple-600 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20  hover:bg-purple-600 hover:text-white rounded-lg">
                     <span>🔄</span> Rebook This Event
                   </Link>
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
- className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✏️</span> Edit Logistics
                   </Link>
                   <a href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking ${booking.id}] Question about ${booking.eventName}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nRe: ${booking.eventName}\nBooking ID: ${booking.id}\nDate: ${booking.date}\nVenue: ${booking.venueName}\n\nMy question:\n\n`)}`}
- className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✉️</span> Contact 7th Heaven
                   </a>
                   <button aria-label="Cancel request" onClick={handleCancelBooking} disabled={isCancelling}
- className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white disabled:opacity-50 rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white disabled:opacity-50 rounded-lg">
                     <span>✕</span> {isCancelling ? 'Cancelling...' : 'Cancel Request'}
                   </button>
                 </div>
@@ -425,7 +425,7 @@ export default function PlannerClient() {
                         </div>
                         <span className={`text-[var(--font-size-2xs)] uppercase ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
                         <Link href={`/book?from=rebook&eventType=${encodeURIComponent(pb.eventType)}&venueName=${encodeURIComponent(pb.venueName)}&venueCity=${encodeURIComponent(pb.venueCity)}&venueState=${encodeURIComponent(pb.venueState)}&indoorOutdoor=${encodeURIComponent(pb.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(pb.expectedAttendance)}&organization=${encodeURIComponent(pb.organization)}`}
- className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-[var(--color-accent)] hover:text-white uppercase rounded-lg transition-colors cursor-pointer shrink-0">
+                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  hover:text-white uppercase rounded-lg transition-colors cursor-pointer shrink-0">
                           Rebook →
                         </Link>
                       </div>

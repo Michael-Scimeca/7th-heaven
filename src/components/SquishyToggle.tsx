@@ -3,8 +3,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 export interface SquishyToggleProps {
-  checked: boolean;
-  onChange: (checked: boolean) => void;
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
   disabled?: boolean;
   label?: string;
   id?: string;
@@ -40,8 +40,8 @@ export interface SquishyToggleProps {
  * touching the animation curve itself.
  */
 export function SquishyToggle({
-  checked,
-  onChange,
+  checked = false,
+  onChange = () => {},
   disabled = false,
   label = 'Toggle switch',
   id = 'squishy-toggle',
@@ -61,7 +61,7 @@ export function SquishyToggle({
     const nextVal = e.target.checked;
     prevChecked.current = nextVal;
     setAnimState(nextVal ? 'in' : 'out');
-    onChange(nextVal);
+    onChange?.(nextVal);
   };
 
   const handleAnimationEnd = () => {

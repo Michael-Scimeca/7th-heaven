@@ -30,6 +30,34 @@ export interface CategoryItem {
 
 export const FEATURES: FeatureCard[] = [
   {
+    icon: "🗺️",
+    title: "Interactive Visual Sitemap & Flowcharts",
+    tagline: "Full interactive architecture canvas with Header Nav pages listed first with thumbnails.",
+    description:
+      "A complete interactive visual sitemap powered by @xyflow/react mapping every page, portal, PIN security module, and transactional email trigger across the site. Displays primary Header Navigation pages first with high-resolution thumbnail screenshots, followed by step-by-step 6-digit PIN verification user journeys and an XML sitemap generator.",
+    whyItMatters:
+      "Gives developers, event organizers, and site admins complete architectural clarity into every user entry point, authentication funnel, and transactional email dispatch flow across the platform.",
+    bullets: [
+      "Top-level Header Navigation pages displayed across Row 1 with live thumbnail screenshots",
+      "Interactive pan, zoom, minimap, and node-drag capabilities powered by @xyflow/react",
+      "Dedicated step-by-step user journey tabs: Booking PIN Flow, Cruise Reservation Flow, Fan Signup Flow",
+      "Visual mapping of 12+ Resend transactional email templates triggered at exact funnel nodes",
+      "Direct click-through navigation to any page or email preview directly from canvas cards",
+      "Built-in XML sitemap download generator (/sitemap.xml)",
+      "React Doctor 100/100 certified canvas architecture with custom calm slate connectors",
+    ],
+    howItWorks: [
+      "ReactFlow component renders node data arrays with custom SitemapCardNode rendering",
+      "Node hierarchy maps top-level routes (Home, Merch, Media, Fan Wall, Live, Cruise, Book Us, Contact, Sitemap) directly to child modules",
+      "Custom smoothstep edges draw non-overlapping connectors between parent pages and child security modules",
+      "Switching view tabs dynamically updates node/edge state while keeping zoom and pan positions fluid",
+    ],
+    tags: ["React Flow", "Visual Sitemap", "Header Nav First", "Thumbnail Screenshots", "PIN Verification"],
+    category: ["platform", "booking"],
+    highlight: true,
+    link: "/sitemap",
+  },
+  {
     icon: "📌",
     title: "Interactive Client Sticky Notes System",
     tagline: "Drag & drop sticky notes anywhere on screen with zero-snapping pixel-exact placement.",
@@ -56,6 +84,56 @@ export const FEATURES: FeatureCard[] = [
     category: ["comms", "platform"],
     highlight: true,
     link: "/",
+  },
+  {
+    icon: "🎸",
+    title: "Guitar Pick Collector Lottery Game",
+    tagline: "Collect rare digital concert picks and enter exclusive stage raffles.",
+    description:
+      "An interactive gamified collector experience where fans discover and unlock rare 7th Heaven concert guitar picks (Signature, Stage Worn, Anniversary Edition). Fans earn entries into exclusive band raffles, view 3D pick art, and redeem winning PIN codes at live shows.",
+    whyItMatters:
+      "Drives fan retention and daily active engagement by turning concert memorabilia into a fun, rewarding digital collection game.",
+    bullets: [
+      "Interactive 3D-styled guitar pick collection gallery with rarity badges",
+      "Virtual pick lottery draws with real-time spin animations",
+      "PIN-coded prize claim portal (/claim/[pin]) for raffle winners",
+      "Direct integration with Fan Dashboard prize wallet and VIP points",
+      "Exclusive concert stage-worn pick redemptions at merchandise tables",
+    ],
+    howItWorks: [
+      "Pick lottery state is stored in Supabase with user_picks association tables",
+      "Winning draws generate a 6-digit PIN code emailed via Resend and claimable at /claim/[pin]",
+      "Client UI uses CSS 3D transforms and glassmorphism cards for realistic pick displays",
+    ],
+    tags: ["Guitar Picks", "Gamification", "Lottery Game", "Raffle Claims", "VIP Rewards"],
+    category: ["fan", "live"],
+    highlight: true,
+    link: "/picks",
+  },
+  {
+    icon: "📜",
+    title: "1,200+ Performance Past Shows Archive",
+    tagline: "Searchable database of over 1,200 historic 7th Heaven concerts and setlists.",
+    description:
+      "A comprehensive, searchable archive indexing over 1,200 past 7th Heaven performances since the band's formation. Fans and venue managers can search by city, venue, year, or song title, view historical setlists, watch live fan video captures, and sign up for venue-specific show alerts.",
+    whyItMatters:
+      "Establishes 7th Heaven's unparalleled live performance history while giving fans nostalgia-driven engagement and targeted email capture opportunities for future tour stops.",
+    bullets: [
+      "Searchable catalog of 1,200+ past performance dates with instant filtering",
+      "Per-show archive pages displaying venue details, setlists, and song lists",
+      "Embedded live performance videos recorded at that specific show",
+      "'Notify Me Next Time' automated email collector for returning concert cities",
+      "Interactive attendance counter letting fans check off shows they attended",
+    ],
+    howItWorks: [
+      "Past performance records are indexed in Supabase with full-text search triggers",
+      "Next.js SSG pre-renders popular show pages with ISR revalidation for fast load times",
+      "The 'Notify Me Next Time' form registers city/venue push preferences for future proximity alerts",
+    ],
+    tags: ["Past Shows", "1200+ Concerts", "Setlist Database", "Full-Text Search", "Nostalgia Marketing"],
+    category: ["fan"],
+    highlight: true,
+    link: "/shows/past",
   },
   {
     icon: "🏠",

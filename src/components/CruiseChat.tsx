@@ -67,11 +67,11 @@ const getNameColor = (role?: string, name?: string) => {
 };
 
 const getRoleColor = (role: string) => {
-  if (role === "admin") return " text-[var(--color-accent)] bg-purple-600/20 border-purple-500/40 font-extrabold";
+  if (role === "admin") return "  bg-purple-600/20 border-purple-500/40 font-extrabold";
   if (role === "crew") return "text-purple-300 bg-purple-600/30 border-purple-500/40 font-extrabold";
-  if (role === "planner") return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 font-extrabold";
+  if (role === "planner") return "  bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 font-extrabold";
   if (role === "cruise") return "text-cyan-800 bg-cyan-500/20 border-purple-500/40 font-extrabold";
-  return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/35 font-extrabold";
+  return "  bg-[var(--color-accent)]/20 border-[var(--color-accent)]/35 font-extrabold";
 };
 
 const getAvatarGradient = (name: string) => {
