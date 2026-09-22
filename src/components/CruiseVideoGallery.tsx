@@ -194,7 +194,7 @@ export default function CruiseVideoGallery() {
   return (
     <section id="ship-videos" className="py-section-fluid relative z-20 site-container border-b border-white/10" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto mb-12">
+      <div className="text-center max-w-3xl mx-auto mb-9">
 
         <h2
           className="md:text-6xl uppercase text-white ">
@@ -206,7 +206,7 @@ export default function CruiseVideoGallery() {
 
         {/* Category Filters */}
         {categories.length > 1 && (
-          <div className="flex flex-wrap gap-2.5 justify-center mt-8">
+          <div className="flex flex-wrap gap-3 justify-center mt-8">
             {categories.map(cat => (
               <SeventhButton
                 key={cat}
@@ -232,7 +232,7 @@ export default function CruiseVideoGallery() {
           No videos found in this category.
         </div>
       ) : (
-        <div key={selectedCategory} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-[fade-in_0.35s_ease-out_both]">
+        <div key={selectedCategory} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-[fade-in_0.35s_ease-out_both]">
           {filteredVideos.map(vid => (
             <div
               key={vid.id}

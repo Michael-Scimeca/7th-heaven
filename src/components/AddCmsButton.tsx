@@ -23,7 +23,7 @@ export default function AddCmsButton({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex items-center justify-center gap-2.5 h-10 min-h-[40px] px-6 rounded-2xl text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white bg-[#6b05be] hover:bg-[#7e07de] active:bg-[#5a04a1] border border-purple-400/30 shadow-[0_4px_18px_rgba(107,5,190,0.5)] hover:shadow-[0_6px_24px_rgba(126,7,222,0.7)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer shrink-0 ${className}`}
+      className={`inline-flex items-center justify-center gap-2.5 h-10 min-h-[40px] px-6 rounded-2xl text-xs sm:text-sm font-extrabold uppercase    text-white bg-[#6b05be] hover:bg-[#7e07de] active:bg-[#5a04a1] border border-purple-400/30 shadow-[0_4px_18px_rgba(107,5,190,0.5)] hover:shadow-[0_6px_24px_rgba(126,7,222,0.7)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer shrink-0 ${className}`}
     >
       {icon ?? <Plus className="w-4 h-4 text-white shrink-0 stroke-[2.5]" />}
       <span>{cleanLabel}</span>

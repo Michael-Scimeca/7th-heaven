@@ -54,7 +54,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {[
             { title: "Star of the Seas Sunset Aerial", img: "/images/cruise/ship/star-aerial-sunset.jpg", category: "Icon Class Ship" },
             { title: "Twilight Evening Aerial View", img: "/images/cruise/ship/star-aerial-evening.jpg", category: "Exterior Architecture" },
@@ -95,7 +95,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
             <p className="font-semibold ">Discover included food spots and premium specialty restaurants.</p>
           </div>
           {/* Dining Filter Tabs */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <SeventhButton
               onClick={() => setFoodTypeTab("included")}
               isActive={foodTypeTab === "included"}
@@ -112,7 +112,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
         </div>
 
         {/* Bento Box Food Grid */}
-        <div key={foodTypeTab} className="grid grid-cols-2 md:grid-cols-4 gap-4 text-white/80 animate-[fade-in_0.35s_ease-out_both]">
+        <div key={foodTypeTab} className="grid grid-cols-2 md:grid-cols-4 gap-6 text-white/80 animate-[fade-in_0.35s_ease-out_both]">
           {(foodTypeTab === "included"
             ? [
               { name: "Windjammer Buffet", img: "/images/cruise/ship/windjammer.jpg", tag: "Buffet" },
@@ -172,7 +172,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
             <h3 className="uppercase text-white">Bars & Entertainment Explorer</h3>
             <p className="font-semibold ">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
           </div>
-          <div className="flex shrink-0 self-start lg:self-center max-w-full gap-2">
+          <div className="flex shrink-0 self-start lg:self-center max-w-full gap-3">
             <SeventhButton
               onClick={() => setBarTab("bars")}
               isActive={barTab === "bars"}
@@ -190,7 +190,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
           </div>
         </div>
 
-        <div key={barTab} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-white/80 animate-[fade-in_0.35s_ease-out_both]">
+        <div key={barTab} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-white/80 animate-[fade-in_0.35s_ease-out_both]">
           {(barTab === "bars"
             ? [
               { name: "Lime & Coconut Bar", img: "/images/cruise/ship/limecoconut.jpg", tag: "Poolside" },

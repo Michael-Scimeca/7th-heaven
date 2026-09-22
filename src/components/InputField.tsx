@@ -46,10 +46,10 @@ export const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Inp
     return (
       <div className={`flex flex-col justify-start w-full ${containerClassName} ${className}`}>
         {label && (
-          <div className="mb-2 min-h-[24px]">
+          <div className=" min-h-[24px]">
             <label
- htmlFor={inputId}
- className={`text-white block ${labelClassName}`}>
+              htmlFor={inputId}
+              className={`text-white block ${labelClassName}`}>
               {label}
               {required && " *"}
             </label>
@@ -59,7 +59,7 @@ export const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Inp
         <div className={`${glow ? "input-glow-border" : ""} rounded-lg w-full`}>
           {multiline ? (
             <textarea
- ref={ref as React.Ref<HTMLTextAreaElement>}
+              ref={ref as React.Ref<HTMLTextAreaElement>}
               id={inputId}
               name={name}
               required={required}
@@ -71,7 +71,7 @@ export const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Inp
             />
           ) : (
             <input
- ref={ref as React.Ref<HTMLInputElement>}
+              ref={ref as React.Ref<HTMLInputElement>}
               id={inputId}
               name={name}
               required={required}

@@ -846,7 +846,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
   }
 
   return (
-    <main className="min-h-screen relative overflow-clip pt-[100px]" id="book-page">
+    <main id="book-page" className="min-h-screen relative pt-[100px]">
 
       <form id="book-event" className="site-container relative z-10" onSubmit={handleSubmit}>
         {isFromPlanner && (
@@ -918,7 +918,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   <p>Increase your chances — we&apos;ll try your preferred date first</p>
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <MiniDatePicker label={sanityContent?.sections?.find((s: any) => s.sectionId === "backup_2nd")?.title || "2nd Choice"} value={altDate1} onChange={setAltDate1} />
                 <MiniDatePicker label={sanityContent?.sections?.find((s: any) => s.sectionId === "backup_3rd")?.title || "3rd Choice"} value={altDate2} onChange={setAltDate2} />
               </div>
@@ -1286,7 +1286,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           <h2 className="uppercase text-purple-400 mb-6 flex items-center gap-3">
             {sanityContent?.sections?.find((s: any) => s.sectionId === "contact")?.title || "Contact Information"}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InputField label={sanityContent?.sections?.find((s: any) => s.sectionId === "contact_name")?.title || "Full Name"} name="name" value={formData.name} onChange={handleChange} required placeholder="John Smith" />
             <InputField label={sanityContent?.sections?.find((s: any) => s.sectionId === "contact_org")?.title || "Organization"} name="organization" value={formData.organization} onChange={handleChange} placeholder="Venue or company name" />
             <InputField label={sanityContent?.sections?.find((s: any) => s.sectionId === "contact_email")?.title || "Email"} name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="you@email.com" />
@@ -1307,13 +1307,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             </div>
 
             {/* Row 1: Overall Event Start & End */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InputField label="Event Start Time" name="eventStartTime" value={formData.eventStartTime} onChange={handleChange} placeholder="e.g. 5:00 PM (Doors / Event Starts)" />
               <InputField label="Event End Time" name="eventEndTime" value={formData.eventEndTime} onChange={handleChange} placeholder="e.g. 11:30 PM (Event Ends)" />
             </div>
 
             {/* Row 2: Band Load-In & Band Performance Start / End */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
               <InputField label="Band Start Time" name="startTime" value={formData.startTime} onChange={handleChange} required placeholder="e.g. 7:00 PM (Band Plays)" />
               <InputField label="Band End Time" name="endTime" value={formData.endTime} onChange={handleChange} required placeholder="e.g. 10:30 PM (Band Finish)" />
 
@@ -1378,7 +1378,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             )}
 
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InputField label="Venue Name" name="venueName" value={formData.venueName} onChange={handleChange} required placeholder="Venue name (e.g. Bridges Scoreboard)" />
               <InputField label="City" name="venueCity" value={formData.venueCity} onChange={handleChange} required placeholder="Chicago" />
 
@@ -1498,7 +1498,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         </section>
 
         {/* Steps 4-6 and Sidebar 2-Column Grid */}
-        <section className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
+        <section className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6 items-start py-section-fluid">
           <div className="flex flex-col gap-8">
 
             {/* Step 4: Technical & Logistics */}
@@ -1532,7 +1532,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 {sanityContent?.sections?.find((s: any) => s.sectionId === "extras")?.title || "Production & Extras"}
               </h2>
               <p className="mb-6">{sanityContent?.sections?.find((s: any) => s.sectionId === "extras")?.subtitle || "Select any features you'd like the band to bring to your event. Pricing discussed with your band manager."}</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {(() => {
                   const addOnsSet = new Set(addOns);
                   return ([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
@@ -1605,101 +1605,99 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           </div>
 
           {/* Right Column: Sticky Summary Sidebar */}
-          <div>
-            <aside aria-label="Booking Summary" className="sticky top-32">
-              <div className=" border-0 p-0 shadow-none">
-                <h3 className="uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
+          <aside aria-label="Booking Summary" className="sticky top-32 pt-10">
+            <div className=" border-0 p-0 shadow-none">
+              <h3 className="uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
-                <div className="flex flex-col  mb-8">
-                  <div className="flex justify-between items-start">
-                    <span className="text-lg text-white/50 uppercase ">Date</span>
-                    <span className="text-base text-white text-right">
-                      {bookingSlots.length === 1 ? (
-                        new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
-                      ) : bookingSlots.length > 1 ? (
-                        `${bookingSlots.length} Shows Scheduled`
-                      ) : (
-                        <span className="text-white/30">—</span>
-                      )}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-start">
-                    <span className="text-lg text-white/50 uppercase ">Time</span>
-                    <span className="text-base text-white text-right">
-                      {bookingSlots.length === 1 ? (
-                        `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
-                      ) : bookingSlots.length > 1 ? (
-                        "Varies by show"
-                      ) : (
-                        <span className="text-white/30">—</span>
-                      )}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-start">
-                    <span className="text-lg text-white/50 uppercase ">Format</span>
-                    <span className="text-base text-right">
-                      {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="/30">—</span>}
-                    </span>
-                  </div>
+              <div className="flex flex-col  mb-8">
+                <div className="flex justify-between items-start">
+                  <span className="text-lg text-white/50 uppercase ">Date</span>
+                  <span className="text-base text-white text-right">
+                    {bookingSlots.length === 1 ? (
+                      new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
+                    ) : bookingSlots.length > 1 ? (
+                      `${bookingSlots.length} Shows Scheduled`
+                    ) : (
+                      <span className="text-white/30">—</span>
+                    )}
+                  </span>
+                </div>
+                <div className="flex justify-between items-start">
+                  <span className="text-lg text-white/50 uppercase ">Time</span>
+                  <span className="text-base text-white text-right">
+                    {bookingSlots.length === 1 ? (
+                      `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
+                    ) : bookingSlots.length > 1 ? (
+                      "Varies by show"
+                    ) : (
+                      <span className="text-white/30">—</span>
+                    )}
+                  </span>
+                </div>
+                <div className="flex justify-between items-start">
+                  <span className="text-lg text-white/50 uppercase ">Format</span>
+                  <span className="text-base text-right">
+                    {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="/30">—</span>}
+                  </span>
+                </div>
+                <div className="flex justify-between items-start pt-4 border-t border-white/10">
+                  <span className="text-lg text-white/50 uppercase ">Venue</span>
+                  <span className="text-base text-white text-right break-words max-w-[150px]">
+                    {formData.venueName ? formData.venueName : <span className="text-white/30">—</span>}
+                    {formData.venueCity && <span className="block text-base text-white/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
+                  </span>
+                </div>
+                {addOns.length > 0 && (
                   <div className="flex justify-between items-start pt-4 border-t border-white/10">
-                    <span className="text-lg text-white/50 uppercase ">Venue</span>
-                    <span className="text-base text-white text-right break-words max-w-[150px]">
-                      {formData.venueName ? formData.venueName : <span className="text-white/30">—</span>}
-                      {formData.venueCity && <span className="block text-base text-white/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
-                    </span>
-                  </div>
-                  {addOns.length > 0 && (
-                    <div className="flex justify-between items-start pt-4 border-t border-white/10">
-                      <span className="text-lg text-white/50 uppercase ">Add-Ons</span>
-                      <div className="text-right">
-                        <span className="text-base">{addOns.length} selected</span>
-                        <div className="flex flex-wrap gap-1 justify-end max-w-[160px]">
-                          {addOns.slice(0, 3).map(id => (
-                            <span key={id} className="text-lg bg-cyan-500/20 px-1.5 py-0.5 rounded">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
-                          ))}
-                          {addOns.length > 3 && <span className="text-lg text-white/40">+{addOns.length - 3} more</span>}
-                        </div>
+                    <span className="text-lg text-white/50 uppercase ">Add-Ons</span>
+                    <div className="text-right">
+                      <span className="text-base">{addOns.length} selected</span>
+                      <div className="flex flex-wrap gap-1 justify-end max-w-[160px]">
+                        {addOns.slice(0, 3).map(id => (
+                          <span key={id} className="text-lg bg-cyan-500/20 px-1.5 py-0.5 rounded">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
+                        ))}
+                        {addOns.length > 3 && <span className="text-lg text-white/40">+{addOns.length - 3} more</span>}
                       </div>
                     </div>
-                  )}
-                </div>
-
-
-                {/* Validation Errors */}
-                {validationErrors.length > 0 && (
-                  <div className="bg-rose-500/10 border border-rose-500/30 p-4 mb-6 rounded-xl">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-rose-400">⚠</span>
-                      <span className="text-rose-300 text-lg uppercase">Please fix the following</span>
-                    </div>
-                    <ul className="space-y-1">
-                      {validationErrors.map((err, i) => (
-                        <li key={`err-${i}-${err}`} className="text-rose-300 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-rose-400">{err}</li>
-                      ))}
-                    </ul>
                   </div>
                 )}
-
-                <SeventhButton
-                  type="submit"
-                  icon={false}
-                  disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                  className="w-full text-white text-base py-4 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed">
-                  {submitting ? (
-                    <>
-                      <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
-                      Submitting...
-                    </>
-                  ) : (
-                    "Submit Booking Request"
-                  )}
-                </SeventhButton>
-                <p className="text-center mt-4">
-                  By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="  hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="  hover:text-white transition-colors">Terms</Link>.
-                </p>
               </div>
-            </aside>
-          </div>
+
+
+              {/* Validation Errors */}
+              {validationErrors.length > 0 && (
+                <div className="bg-rose-500/10 border border-rose-500/30 p-4 mb-6 rounded-xl">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-rose-400">⚠</span>
+                    <span className="text-rose-300 text-lg uppercase">Please fix the following</span>
+                  </div>
+                  <ul className="space-y-1">
+                    {validationErrors.map((err, i) => (
+                      <li key={`err-${i}-${err}`} className="text-rose-300 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-rose-400">{err}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <SeventhButton
+                type="submit"
+                icon={false}
+                disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
+                className="w-full text-white text-base py-4 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed">
+                {submitting ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Booking Request"
+                )}
+              </SeventhButton>
+              <p className="text-center mt-4">
+                By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="  hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="  hover:text-white transition-colors">Terms</Link>.
+              </p>
+            </div>
+          </aside>
         </section>
       </form>
     </main>

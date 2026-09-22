@@ -881,7 +881,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         <div className="w-full relative site-container">
 
           {/* Section Headline & Paragraph */}
-          <div className="text-center max-w-3xl mx-auto pt-8 pb-9 relative z-20">
+          <div className="text-center mx-auto pt-8 pb-9 absolute left-0 right-0 z-[5] pointer-events-none">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase text-white tracking-tight mb-3">
               Upcoming Tour Dates
             </h2>
@@ -892,7 +892,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           {!hideMap && (
             <div
-              className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden "
+              className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden z-10"
               style={{
                 transform: 'translateZ(0)',
                 backfaceVisibility: 'hidden',
@@ -1035,7 +1035,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             />
 
             {/* Search Bar ON TOP (Sticks cleanly above table header on scroll for desktop & mobile) */}
-            <div className="input-glow-border rounded-lg w-full max-w-[300px] shrink-0">
+            <div className="input-glow-border rounded-lg w-full max-w-[300px] shrink-0 mb-3">
               <div className="relative flex items-center w-full">
                 <Search className="w-4 h-4 text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
                 <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full border-0 rounded-lg no-bg-icon pr-5 py-2 text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
@@ -1191,7 +1191,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                                   <span
                                     title="No Parking Link"
                                     className="flex items-center justify-center p-1 text-white/20 opacity-20 cursor-not-allowed pointer-events-none select-none">
-                                    <CarIcon className="w-5.5 h-5.5 shrink-0" />
+                                    <CarIcon className="w-5.5 h-5.5 shrink-0 text-white/20" />
                                   </span>
                                 );
                               }
@@ -1203,7 +1203,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                                   rel="noopener noreferrer"
                                   title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
                                   style={{ color: cfg.color }}
-                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity">
+                                  className=" flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity seventh--btn">
                                   <CarIcon className="w-5.5 h-5.5 shrink-0" />
                                 </a>
                               );
@@ -1268,12 +1268,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                     {/* 1. Venue & City (FIRST) */}
                     <div className="space-y-1">
-                      <h4 className=" font-black text-white uppercase ">
+                      <h4 className=" font-black text-white uppercase">
                         {show.venue}
                       </h4>
 
                       {(show.city || show.state) && (
-                        <p className="flex items-center gap-1.5 text-white/70 font-semibold truncate">
+                        <p className="flex items-center gap-1.5 text-white/70 font-semibold truncate ">
                           <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" />
                           <span>{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state}</span>
                         </p>
@@ -1342,7 +1342,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                             <SeventhButton
                               onClick={() => window.open(gUrl, '_blank', 'noopener,noreferrer')}
                               icon={<LocationPinIcon className="w-3.5 h-3.5 text-white shrink-0" />}
-                              className="flex-1 font-bold"
+                              className="font-bold"
                               title="Get Directions">
                               Map
                             </SeventhButton>
@@ -1354,12 +1354,14 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           const hasExplicitParking = Boolean(show.parkingUrl || show.parkingInfo);
                           if (!hasExplicitParking) {
                             return (
-                              <span
+
+                              <div
                                 title="No Parking Link"
-                                className="flex-1 flex items-center justify-center gap-1.5 sgb-generate-button bg-white/5 border border-white/10 text-white/20 opacity-25 cursor-not-allowed pointer-events-none select-none">
-                                <CarIcon className="w-3.5 h-3.5 text-white/20 shrink-0" />
-                                <span>Park</span>
-                              </span>
+                                className="text-white/20 opacity-25 cursor-not-allowed pointer-events-none select-none seventh--btn">
+                                <span> <CarIcon className="w-3.5 h-3.5 text-white/20 shrink-0" />
+                                  <span>Park</span></span>
+
+                              </div>
                             );
                           }
                           const pUrl = show.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
@@ -1418,7 +1420,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                     {/* Admin Actions */}
                     {isAdmin && show._id && (
-                      <div className="flex items-center gap-1.5 shrink-0">
+                      <div className="flex items-center gap-1.5 shrink-0 mt-3">
                         <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 uppercase rounded transition-colors cursor-pointer"><Edit className="w-3.5 h-3.5 inline mr-1" /> Edit</button>
                         <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 uppercase rounded transition-colors cursor-pointer"><X className="w-3.5 h-3.5 inline mr-1" /> Delete</button>
                       </div>
@@ -1481,7 +1483,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     <div className="sm:col-span-2">
                       <label htmlFor="tour-form-city" className="uppercase    text-white/30 block mb-1.5">City *</label>
                       <input id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}

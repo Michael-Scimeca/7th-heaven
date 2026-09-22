@@ -55,7 +55,7 @@ export async function GET() {
         </div>
 
         {/* Booking Card Grid */}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* Active Booking Card */}
           <div class="bg-[#0b0b14] border border-purple-500/30 rounded-lg p-5 space-y-4">

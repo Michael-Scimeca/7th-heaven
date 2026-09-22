@@ -79,7 +79,7 @@ export const GlassPlayButton = memo(
       <button
         type={type}
         disabled={disabled}
-        className={`group relative inline-flex items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-all duration-300 cursor-pointer select-none active:scale-95 ${varStyles.bg
+        className={`seventh--btn w-15 h-15 group relative inline-flex items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-all duration-300 cursor-pointer select-none active:scale-95 ${varStyles.bg
           } ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? "ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50" : ""
           } ${pulse ? "animate-pulse" : ""} ${disabled ? "opacity-40 cursor-not-allowed pointer-events-none" : "hover:scale-105"
           } ${className}`}
@@ -96,7 +96,7 @@ export const GlassPlayButton = memo(
               } ${iconClassName}`}
           />
         )}
-        {children && <span className="ml-2 font-bold uppercase tracking-wider text-xs">{children}</span>}
+        {children && <span className="ml-2 font-bold uppercase    text-xs">{children}</span>}
       </button>
     );
   }

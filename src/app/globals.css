@@ -578,6 +578,8 @@ label,
   color: #ffffff !important;
   position: relative;
   z-index: 33;
+  display: block;
+  margin-bottom: 6px;
 }
 
 .site-input,
@@ -661,7 +663,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 textarea {
-  background: #a855f71f !important;
+
   backdrop-filter: blur(var(--input-blur)) !important;
   -webkit-backdrop-filter: blur(var(--input-blur)) !important;
   border: 1px solid #ffffff1a !important;
@@ -3718,7 +3720,51 @@ html.is-preloading body {
   opacity: 1 !important;
   animation: mapMarkerBounce 0.65s cubic-bezier(0.28, 0.84, 0.42, 1) infinite alternate !important;
   filter: none !important;
-  z-index: 9999 !important;
+  z-index: 99999 !important;
+}
+
+/* Top and Bottom Map Edge Gradient Fades over Map Tile Canvas Layer (below markers & popups) */
+.gm-style > div:first-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 9rem;
+  background: linear-gradient(to bottom, #090314 0%, rgba(9, 3, 20, 0.85) 50%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gm-style > div:first-child::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 9rem;
+  background: linear-gradient(to top, #090314 0%, rgba(9, 3, 20, 0.85) 50%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Map Popups & InfoWindow High Z-Index Override */
+.custom-tooltip-card,
+.custom-venue-marker,
+.gm-style-iw,
+.gm-style-iw-c,
+.gm-style-iw-t,
+.gm-style-iw-tc,
+.gm-style .gm-style-iw-c,
+.gm-style .gm-style-iw-t,
+.gm-style .gm-style-iw-tc {
+  z-index: 9999999 !important;
+}
+
+.custom-venue-marker:hover,
+.custom-venue-marker:focus-within,
+.custom-venue-marker:active {
+  z-index: 9999999 !important;
 }
 
 @keyframes mapMarkerBounce {
@@ -3731,93 +3777,6 @@ html.is-preloading body {
   }
 }
 
-/* =============================================
-   SlideupSection Component Styles (.su-*)
-   ============================================= */
-.su-bleed {
-  position: relative;
-  background: transparent;
-  color: #f2f1e6;
-  font-family: inherit;
-}
-
-.su-rail-track {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -24px;
-  z-index: 50;
-  pointer-events: none;
-}
-
-.su-rail {
-  position: sticky;
-  top: 50vh;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.su-rail .su-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.18);
-  transition: background 0.3s ease, height 0.3s ease;
-}
-
-.su-rail .su-dot.su-active {
-  background: #c084fc;
-  height: 22px;
-}
-
-.su-intro {
-  min-height: 40vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 8vh 6vw 4vh;
-  gap: 18px;
-}
-
-.su-intro h1 {
-  font-size: clamp(2.2rem, 6vw, 4.5rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #c084fc;
-  line-height: 1.05;
-  margin: 0;
-}
-
-.su-intro p {
-  max-width: 520px;
-  color: #a9a897;
-  font-size: 1rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.su-hint {
-  margin-top: 10px;
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #a855f7;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.su-hint::before {
-  content: "";
-  width: 1px;
-  height: 26px;
-  background: linear-gradient(#a855f7, transparent);
-  animation: su-pulse 1.6s ease-in-out infinite;
-}
 
 @keyframes su-pulse {
 
@@ -3831,232 +3790,7 @@ html.is-preloading body {
   }
 }
 
-.su-stack {
-  position: relative;
-}
 
-.su-card {
-  position: sticky;
-  top: 80px;
-  height: auto;
-  min-height: 0;
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  overflow: visible;
-  border-radius: 28px 28px 0 0;
-  /* Removed will-change: transform, filter — will-change: filter holds a permanent
-     GPU texture buffer even when the card is idle; transform: translateZ(0) is
-     sufficient to get compositor-layer benefits without the memory overhead */
-  transform: translateZ(0);
-  background: transparent;
-  padding-top: 40px;
-  margin-bottom: 20px;
-}
-
-.su-card-inner {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 16px;
-
-}
-
-.su-tag {
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
-  opacity: 0.75;
-  font-weight: 600;
-}
-
-.su-headline {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  font-size: clamp(1.75rem, 4.2vw, 3.8rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  max-width: 800px;
-  width: 100%;
-  text-transform: uppercase;
-}
-
-.su-desc {
-  max-width: 600px;
-
-  margin: 0;
-}
-
-.su-thumbs {
-  display: flex;
-  gap: 16px;
-  width: 100%;
-  max-width: 100%;
-}
-
-.su-thumb {
-  flex: 1;
-  height: clamp(230px, 42vh, 600px);
-  max-height: 600px;
-  aspect-ratio: 16/10;
-  border-radius: 16px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 24px 20px 28px;
-}
-
-.su-thumb-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.4) 35%, transparent 100%);
-  pointer-events: none;
-}
-
-.su-thumb-content {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  text-align: center;
-  pointer-events: none;
-  padding-bottom: 6px;
-}
-
-.su-thumb-badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.22);
-  padding: 5px 12px;
-  border-radius: 6px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  margin-bottom: 8px;
-}
-
-.su-thumb-title {
-  font-size: clamp(1.2rem, 1.9vw, 2.0rem);
-  font-weight: 900;
-  line-height: 1.1;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  margin: 0;
-  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.98));
-}
-
-.su-thumb video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.su-thumb-yt {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  height: 100%;
-  width: auto;
-  aspect-ratio: 16/9;
-  min-width: 100%;
-  transform: translate(-50%, -50%);
-  border: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* From 1800px down until tablet (1025px): exactly 3 videos */
-@media (max-width: 1800px) and (min-width: 1025px) {
-  .su-thumbs {
-    flex-wrap: nowrap;
-    gap: 14px;
-  }
-
-  .su-thumb {
-    flex: 1;
-    aspect-ratio: 16/10;
-  }
-
-  .su-thumb:nth-child(n+4) {
-    display: none !important;
-  }
-}
-
-/* Tablet (641px - 1024px): exactly 2 videos */
-@media (min-width: 641px) and (max-width: 1024px) {
-  .su-thumbs {
-    flex-wrap: nowrap;
-    gap: 12px;
-  }
-
-  .su-thumb {
-    flex: 1;
-    aspect-ratio: 9/16;
-    max-height: 44vh;
-  }
-
-  .su-thumb:nth-child(n+3) {
-    display: none !important;
-  }
-}
-
-/* Mobile (max-width: 640px): exactly 1 video */
-@media (max-width: 640px) {
-  .su-thumbs {
-    flex-wrap: nowrap;
-    gap: 10px;
-  }
-
-  .su-thumb {
-    flex: 1;
-    aspect-ratio: 9/16;
-    max-height: 44vh;
-  }
-
-  .su-thumb:nth-child(n+2) {
-    display: none !important;
-  }
-
-  .su-rail {
-    left: 12px;
-  }
-}
-
-/* 
-#names::before {
-  content: '';
-  position: absolute;
-  top: calc(3px - 50%);
-  left: -10px;
-  width: calc(100% + 20px);
-  height: 150%;
-  backdrop-filter: blur(2px);
-  z-index: -1;
-  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-  background: linear-gradient(#000000bf 0%, #000000 100%);
-} */
 
 
 @utility pt-stage-fluid {
@@ -5662,6 +5396,7 @@ body.fake-livestream-active {
   width: fit-content;
   padding: 0.375rem 0.875rem;
   border-radius: 9999px;
+  min-height: 32px;
   color: #ffffff;
   background-color: rgba(225, 230, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -6005,8 +5740,9 @@ body.fake-livestream-active {
   padding: 1.5px;
   z-index: 1;
   box-shadow: 0 24px 60px #0000008c;
-  background: linear-gradient(to left, #591ed0, #8b5cf6);
+  background: linear-gradient(to left, #581ed0, #8b5cf6);
   background-size: 200% 100%;
+  font-weight: bold;
 
   /* 3. Position it on the right side initially */
   background-position: right center;
@@ -6062,6 +5798,7 @@ body.fake-livestream-active {
   height: 100%;
   border-radius: inherit;
   overflow: hidden;
+  font-weight: inherit;
 }
 
 .seventh--btn:hover {
@@ -6209,7 +5946,6 @@ body.fake-livestream-active {
 }
 
 /* Orb Button Glass Stack Styles */
-.btn-wrapper:hover {}
 
 .orb-btn {
   position: relative;

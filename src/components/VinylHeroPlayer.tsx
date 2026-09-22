@@ -637,11 +637,11 @@ export default function VinylHeroPlayer({
                             {/* Center label with album art — sits on top of the vinyl image */}
                             <div className="relative z-10 flex items-center justify-center">
                               <div
-                                className="relative w-[60px] h-[60px] rounded-lg overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
+                                className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
                                 style={{ backgroundColor: album.centerLabelColor }}>
                                 <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105 rounded-full" />
                                 <div className="absolute inset-0 bg-gradient-to-t via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center !rounded-full">
-                                  <span className="text-[var(--font-size-5xs)] text-white uppercase tracking-wider">{album.title}</span>
+                                  <span className="text-[var(--font-size-5xs)] text-white uppercase   ">{album.title}</span>
                                   <span className="w-2 h-2 rounded-lg bg-white border border-black/60 mt-0.5" />
                                 </div>
                               </div>

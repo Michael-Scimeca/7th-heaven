@@ -428,7 +428,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                 type="button"
                 aria-label="Copy stream link"
                 onClick={(e) => handleCopyLink(e, room.name.replace(/^live_/, ""))}
-                className={`ml-2 md:ml-4 shrink-0 px-3 md:px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all border cursor-pointer whitespace-nowrap z-20 ${copiedSlug === room.name.replace(/^live_/, "")
+                className={`ml-2 md:ml-4 shrink-0 px-3 md:px-4 py-2 text-xs font-bold uppercase    rounded-lg transition-all border cursor-pointer whitespace-nowrap z-20 ${copiedSlug === room.name.replace(/^live_/, "")
                   ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]"
                   : "bg-white/10 hover:bg-white/20 border-white/10 text-white active:scale-95"
                   }`}>

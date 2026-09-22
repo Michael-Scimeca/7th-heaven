@@ -37,7 +37,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
 
         {/* LAYOUT 1: GRID VIEW */}
         {portLayoutMode === "grid" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left animate-fadeIn">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
             {portsList.map((port: any, idx: number) => {
               const currentImg = activePortImages[port.name] || port.image;
               return (

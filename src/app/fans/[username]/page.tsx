@@ -741,7 +741,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </>
                       );
                     })() : (
-                      <div className="">
+                      <div>
                         <p className=" uppercase text-base sm:text-lg">Check back soon — new dates drop regularly</p>
                         <Link href="/#tour" className="mt-3  uppercase text-base sm:text-lg hover:text-white transition-colors">View Tour Page</Link>
                       </div>

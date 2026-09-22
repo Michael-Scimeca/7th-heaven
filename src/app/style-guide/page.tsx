@@ -411,7 +411,7 @@ function GlassPlayButtonDemo() {
     <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
-          <h3 className="text-base font-bold text-pink-400 uppercase tracking-wider flex items-center gap-2">
+          <h3 className="text-base font-bold text-pink-400 uppercase    flex items-center gap-2">
             <Play className="w-4 h-4 fill-pink-400 text-pink-400" /> GlassPlayButton Control Studio
           </h3>
           <p className="text-xs text-white/50">
@@ -577,7 +577,7 @@ function ButtonMasterGalleryAndStudio() {
               <Sliders className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <h3 className="text-base font-bold text-white uppercase    flex items-center gap-2">
                 Site Button Control Studio
               </h3>
               <p className="text-xs text-purple-300/70">Tweak states live to inspect &amp; test all buttons on the site</p>
@@ -704,7 +704,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-amber-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-amber-400 uppercase   ">
                 SeventhButton / AlwaysButton
               </h4>
               <p className="text-[11px] text-white/50">Credits system &amp; high-converting hero button</p>
@@ -742,7 +742,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-violet-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-violet-400 uppercase   ">
                 SparkleGenerateButton (GSAP Particle)
               </h4>
               <p className="text-[11px] text-white/50">GSAP Dust Particle generator button</p>
@@ -767,7 +767,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-emerald-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-emerald-400 uppercase   ">
                 PillBadgeButton Component
               </h4>
               <p className="text-[11px] text-white/50">Category pill button with customizable pulsing glowing dot</p>
@@ -796,7 +796,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-pink-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-pink-400 uppercase   ">
                 GlassPlayButton Component
               </h4>
               <p className="text-[11px] text-white/50">Unified frosted glass capsule play button for all video &amp; media triggers</p>
@@ -821,7 +821,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-indigo-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-indigo-400 uppercase   ">
                 Glass Pill Tag Badge (.btn-pill-glass)
               </h4>
               <p className="text-[11px] text-white/50">Global CSS pill tag button with hover glow &amp; 0.2s transition</p>
@@ -859,7 +859,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-pink-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-pink-400 uppercase   ">
                 SquishyToggle Switch
               </h4>
               <p className="text-[11px] text-white/50">Spring-physics squishy state toggle switch</p>
@@ -874,7 +874,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-amber-300 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-amber-300 uppercase   ">
                 AddCmsButton Component
               </h4>
               <p className="text-[11px] text-white/50">Admin CMS item creation action button</p>
@@ -900,7 +900,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+              <h4 className="text-sm font-bold text-emerald-400 uppercase    flex items-center gap-2">
                 <RefreshCw className={`w-4 h-4 ${sanitySyncing ? "animate-spin text-cyan-400" : ""}`} />
                 Update Sanity CMS Button
               </h4>
@@ -947,7 +947,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-blue-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-blue-400 uppercase   ">
                 Inline Action Buttons (EDIT &amp; DEL)
               </h4>
               <p className="text-[11px] text-white/50">Compact table row &amp; item management action buttons</p>
@@ -965,7 +965,7 @@ function ButtonMasterGalleryAndStudio() {
             <button
               type="button"
               disabled={isDisabled}
-              className={`px-3.5 py-1.5 rounded-full border border-blue-500/60 text-blue-400 bg-blue-950/40 hover:bg-blue-600 hover:text-white uppercase font-extrabold text-xs tracking-wider transition cursor-pointer shadow-[0_0_12px_rgba(59,130,246,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
+              className={`px-3.5 py-1.5 rounded-full border border-blue-500/60 text-blue-400 bg-blue-950/40 hover:bg-blue-600 hover:text-white uppercase font-extrabold text-xs    transition cursor-pointer shadow-[0_0_12px_rgba(59,130,246,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
                 } ${isActiveState ? "bg-blue-600 text-white border-blue-400 shadow-[0_0_18px_rgba(59,130,246,0.7)] scale-95" : ""}`}
             >
               EDIT
@@ -973,7 +973,7 @@ function ButtonMasterGalleryAndStudio() {
             <button
               type="button"
               disabled={isDisabled}
-              className={`px-3.5 py-1.5 rounded-full border border-red-500/60 text-red-400 bg-red-950/40 hover:bg-red-600 hover:text-white uppercase font-extrabold text-xs tracking-wider transition cursor-pointer shadow-[0_0_12px_rgba(239,68,68,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
+              className={`px-3.5 py-1.5 rounded-full border border-red-500/60 text-red-400 bg-red-950/40 hover:bg-red-600 hover:text-white uppercase font-extrabold text-xs    transition cursor-pointer shadow-[0_0_12px_rgba(239,68,68,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
                 } ${isActiveState ? "bg-red-600 text-white border-red-400 shadow-[0_0_18px_rgba(239,68,68,0.7)] scale-95" : ""}`}
             >
               DEL
@@ -985,7 +985,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-purple-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-purple-400 uppercase   ">
                 Primary Glow CTA (.btn-primary)
               </h4>
               <p className="text-[11px] text-white/50">Standard purple glow pill button style</p>
@@ -1015,7 +1015,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-cyan-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-cyan-400 uppercase   ">
                 Cyan Neon Cyber Action
               </h4>
               <p className="text-[11px] text-white/50">High-visibility cyan neon button with shadow glow</p>
@@ -1045,7 +1045,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-white/80 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-white/80 uppercase   ">
                 Secondary Glass (.btn-secondary / .site-link)
               </h4>
               <p className="text-[11px] text-white/50">Glassmorphism translucent button</p>
@@ -1075,7 +1075,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-rose-400 uppercase tracking-wider">
+              <h4 className="text-sm font-bold text-rose-400 uppercase   ">
                 Danger Action Button
               </h4>
               <p className="text-[11px] text-white/50">Destructive or critical alert action</p>
@@ -1105,7 +1105,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
+              <h4 className="text-sm font-bold text-purple-300 uppercase    flex items-center gap-2">
                 Track &amp; Video Quick-Select Card Buttons
               </h4>
               <p className="text-[11px] text-white/50">Multi-line track card button selector (as seen on Rock &amp; Roll Kids)</p>
@@ -1141,7 +1141,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-violet-300 uppercase tracking-wider flex items-center gap-2">
+              <h4 className="text-sm font-bold text-violet-300 uppercase    flex items-center gap-2">
                 Booking Show Format &amp; Event Type Selector Pills
               </h4>
               <p className="text-[11px] text-white/50">Full Band, Unplugged, Private Event &amp; Custom Booking pills with icon badges</p>

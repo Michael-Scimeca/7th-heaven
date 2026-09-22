@@ -65,7 +65,7 @@ export function AdminDashboardSkeleton() {
                 <div className="w-48 h-6 rounded bg-white/20 animate-pulse" />
                 <div className="w-20 h-6 rounded-lg bg-white/10 animate-pulse" />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
                 <div className="h-24 rounded-lg bg-white/5 animate-pulse" />
                 <div className="h-24 rounded-lg bg-white/5 animate-pulse" />
                 <div className="h-24 rounded-lg bg-white/5 animate-pulse" />

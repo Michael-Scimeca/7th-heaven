@@ -406,6 +406,7 @@ export default function RockNRollKidsClient({
   sanityContent?: any;
 }) {
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
+  const [storyLayout, setStoryLayout] = useState<"1" | "2" | "3" | "4">("1");
 
   const aboutSection = sanityContent?.sections?.find((s: any) => s.sectionId === "about");
   const comicsSection = sanityContent?.sections?.find((s: any) => s.sectionId === "comics");
@@ -415,6 +416,11 @@ export default function RockNRollKidsClient({
   const musicSinglesList = getMusicSinglesList(sanityContent);
   const foundersList = getFoundersList(sanityContent);
   const videosList = musicSinglesList.filter((v: any) => v.id !== selectedVideo);
+
+  const titleText = aboutSection?.title || "Story & Concept";
+  const badgeText = aboutSection?.badge || "We love art";
+  const para1 = aboutSection?.subtitle || ABOUT_DATA.paragraph1;
+  const para2 = aboutSection?.body || ABOUT_DATA.paragraph2;
 
   return (
     <main className="site-container min-h-screen w-full text-white pt-[100px] overflow-x-hidden">
@@ -440,34 +446,62 @@ export default function RockNRollKidsClient({
         </div>
       </header>
 
-      {/* Story & Concept Section */}
-      <section aria-labelledby="rrk-story-heading" className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-start text-left w-full py-section-fluid border-b border-white/10">
-        <div className="md:col-span-4 space-y-3">
-          <h2 id="rrk-story-heading" className="text-white text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase tracking-tight">
-            {aboutSection?.title || "Story & Concept"}
-          </h2>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-400/30 text-purple-300 font-semibold text-xs sm:text-sm uppercase tracking-wider">
-            <span>✨</span> {aboutSection?.badge || "We love art"}
-          </div>
-        </div>
-
-        <div className="md:col-span-8 p-6 sm:p-8 rounded-2xl bg-black/40 border border-purple-500/20 backdrop-blur-xl shadow-2xl relative overflow-hidden space-y-4">
-          <div className="absolute -top-12 -right-12 w-48 h-48 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
-          <p className="text-white/95 text-base sm:text-lg leading-relaxed font-medium">
-            {aboutSection?.subtitle || ABOUT_DATA.paragraph1}
-          </p>
-          {(aboutSection?.body || ABOUT_DATA.paragraph2) && (
-            <p className="text-white/80 text-sm sm:text-base leading-relaxed border-t border-white/10 pt-4">
-              {aboutSection?.body || ABOUT_DATA.paragraph2}
+      {/* ── STORY & CONCEPT SECTION (LAYOUT 1: SPLIT DUAL GLASS) ── */}
+      <section aria-labelledby="rrk-story-heading" className="w-full py-section-fluid border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-start text-left w-full">
+          <div className="md:col-span-5 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/20 border border-purple-400/40 text-purple-300 font-bold text-xs uppercase shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+              <span>✨</span> {badgeText}
+            </div>
+            <h2 id="rrk-story-heading" className="text-white text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase tracking-tight leading-tight">
+              {titleText}
+            </h2>
+            <p className="text-white/70 text-sm leading-relaxed">
+              An original animated series & multi-platform universe bringing positive rock and roll energy to kids worldwide.
             </p>
-          )}
+
+            {/* Quick Spec Pills */}
+            <div className="pt-2 flex flex-col gap-2">
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs font-semibold text-purple-200">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
+                <span>Animated TV Series & Comic Books</span>
+              </div>
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs font-semibold text-purple-200">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                <span>Original Songs, Mobile Apps & Games</span>
+              </div>
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs font-semibold text-purple-200">
+                <span className="w-2 h-2 rounded-full bg-purple-400 shrink-0" />
+                <span>Positive Influence & Creative Inspiration</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="md:col-span-7 p-7 sm:p-10 rounded-3xl bg-gradient-to-br from-[#12092a]/90 via-black/80 to-[#0b041a]/90 border border-purple-500/30 backdrop-blur-2xl shadow-[0_0_50px_rgba(147,51,234,0.15)] relative overflow-hidden space-y-6">
+            <div className="absolute -top-16 -right-16 w-56 h-56 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 space-y-5">
+              <div className="flex items-center gap-2">
+                <span className="text-purple-400 font-bold uppercase text-xs tracking-wider">[ CONCEPT OVERVIEW ]</span>
+              </div>
+              <p className="text-white text-lg sm:text-xl leading-relaxed font-semibold drop-shadow-md">
+                &ldquo;{para1}&rdquo;
+              </p>
+              {para2 && (
+                <p className="text-white/80 text-sm sm:text-base leading-relaxed border-t border-purple-500/20 pt-5 font-normal">
+                  {para2}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Character Roster Info Cards Grid */}
       <section aria-labelledby="rrk-cast-heading" className="py-section-fluid border-b border-white/10">
         <h2 id="rrk-cast-heading" className="sr-only">Character Cast Lineup</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
           {charactersList.map((char: any) => (
             <article
               key={char.name}
@@ -498,7 +532,7 @@ export default function RockNRollKidsClient({
 
       {/* ── UNIFIED VIDEO MATRIX SHOWCASE ── */}
       <section aria-labelledby="rrk-videos-heading" className="py-section-fluid border-b border-white/10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
           <div className="lg:col-span-5 space-y-6">
             <div className="space-y-3">
@@ -562,7 +596,7 @@ export default function RockNRollKidsClient({
 
       {/* ── COMIC BOOKS & EPISODES CATALOG (12 ITEMS GRID) ── */}
       <section aria-labelledby="rrk-comics-heading" className="py-section-fluid border-b border-white/10">
-        <div className="border-b border-white/10 pb-4">
+        <div className="pb-4 mb-6">
           <div>
             <h2 id="rrk-comics-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
               {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
@@ -589,7 +623,7 @@ export default function RockNRollKidsClient({
                     className="object-cover"
                   />
                 </div>
-                <span className="text-[11px] text-purple-400 font-bold uppercase tracking-wider block mb-1">
+                <span className="text-[11px] text-purple-400 font-bold uppercase    block mb-1">
                   {prod.badge}
                 </span>
                 <h3 className="text-white text-base font-bold mb-1.5 line-clamp-1">

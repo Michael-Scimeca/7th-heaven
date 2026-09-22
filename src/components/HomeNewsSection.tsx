@@ -166,12 +166,12 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
         </div>
 
         {/* Featured Article + Remaining Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
             <div className="lg:col-span-7 border-0 pb-4 md:pb-6 relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
-                <span className="text-[var(--color-accent)]">
+                <span className="text-[var(--color-accent)] font-bold">
                   {featured.date}
                 </span>
               </div>
@@ -200,7 +200,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                   className="block w-full text-left border-0 pb-3 md:pb-2 group font-normal hover:opacity-90 transition-opacity"
                 >
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-[var(--color-accent)]">
+                    <span className="text-[var(--color-accent)] font-bold">
                       {item.date}
                     </span>
                     <span className="a-btn  transition-colors text-sm font-semibold">
@@ -289,7 +289,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
 
             <form onSubmit={handleAddNewsSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                   Article Title *
                 </label>
                 <input
@@ -304,7 +304,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                     Display Date *
                   </label>
                   <input
@@ -318,7 +318,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                     Category
                   </label>
                   <select
@@ -335,7 +335,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                   Content / Article Body *
                 </label>
                 <textarea
@@ -359,7 +359,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm    uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
                 >
                   {submitting ? "Publishing..." : "+ PUBLISH NEWS TO SANITY"}
                 </button>

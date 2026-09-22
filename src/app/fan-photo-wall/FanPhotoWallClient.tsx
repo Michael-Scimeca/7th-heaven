@@ -407,14 +407,14 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                       <button
                         onClick={() => handleRejectPhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="py-2 px-3 text-xs uppercase font-bold text-red-200 bg-red-950/60 border border-red-500/30 !rounded-full hover:bg-red-900/80 transition-colors cursor-pointer text-center">
+                        className="  uppercase font-bold text-red-200 bg-red-950/60 border border-red-500/30 !rounded-full hover:bg-red-900/80 transition-colors cursor-pointer text-center">
                         Reject
                       </button>
                       <SeventhButton
                         onClick={() => handleApprovePhoto(photo.id)}
                         disabled={moderatingId === photo.id}
                         icon={false}
-                        className="!py-2 !px-3 text-xs text-white !rounded-full text-center font-bold">
+                        className="text-center font-bold">
                         Approve
                       </SeventhButton>
                     </div>
@@ -427,206 +427,208 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
       }
 
       {/* Featured Media Section Title & Paragraph */}
-      <section className="mx-auto site-container pt-8 pb-4">
-        <h2 className="uppercase text-white">
-          {sanityContent?.sectionTitle || "FEATURED MEDIA"}
-        </h2>
-        <p className="mt-2 max-w-2xl text-white/70">
-          {sanityContent?.sectionDescription || "Featured media highlights, live concert captures, fan photos, and video moments from 7th Heaven shows across the country."}
-        </p>
-      </section>
+      <section className="mx-auto site-container py-section-fluid ">
+        <div className="mb-6">
+          <h2 className="uppercase text-white">
+            {sanityContent?.sectionTitle || "FEATURED MEDIA"}
+          </h2>
+          <p className="mt-2 max-w-2xl text-white/70">
+            {sanityContent?.sectionDescription || "Featured media highlights, live concert captures, fan photos, and video moments from 7th Heaven shows across the country."}
+          </p> </div>
 
-      {/* Photo Feed Grid - Full Bleed 0 Gap Uniform Grid */}
-      {
-        approvedPhotos.length > 0 ? (
-          <section className="mx-auto site-container pb-section-fluid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 w-full ">
-            {approvedPhotos.map((photo) => {
-              const isVideo =
-                photo.type === "video" ||
-                photo.src.endsWith(".mp4") ||
-                photo.src.endsWith(".mov");
-              return (
-                <div
-                  key={photo.id}
-                  className="flex flex-col justify-between bg-[#0b041a]/90 border-b border-r border-white/10 overflow-hidden hover:bg-purple-900/30 transition-colors duration-300 h-full border-t border-white/10">
-                  <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/10 bg-black/[0.02] gap-3">
-                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center text-white" style={{ aspectRatio: "1 / 1" }}>
-                        {photo.name
-                          ? photo.name
-                            .split(" ")
-                            .filter(Boolean)
-                            .map((n) => n[0])
-                            .join("")
-                            .substring(0, 2)
-                            .toUpperCase()
-                          : "FP"}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-purple-300 truncate">
-                          {photo.name}
-                        </p>
-                        {(photo.venue || photo.city) && (
-                          <p className="uppercase mt-0.5 truncate">
-                            {photo.venue}
-                            {photo.venue && photo.city && " • "}
-                            {photo.city}
+
+
+        {/* Photo Feed Grid - Full Bleed 0 Gap Uniform Grid */}
+        {
+          approvedPhotos.length > 0 ? (
+            <div className="mx-auto   grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+              {approvedPhotos.map((photo) => {
+                const isVideo =
+                  photo.type === "video" ||
+                  photo.src.endsWith(".mp4") ||
+                  photo.src.endsWith(".mov");
+                return (
+                  <div
+                    key={photo.id}
+                    className="flex flex-col justify-between border border-white/10 rounded-2xl overflow-hidden hover:bg-[#0b041a]/90 bg-purple-900/30 transition-colors duration-300 h-full">
+                    <div className="p-4 flex items-center justify-between border-b border-white/10 bg-black/[0.02] gap-3">
+                      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                        <div className="w-11 h-11 min-w-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center text-white" style={{ aspectRatio: "1 / 1" }}>
+                          {photo.name
+                            ? photo.name
+                              .split(" ")
+                              .filter(Boolean)
+                              .map((n) => n[0])
+                              .join("")
+                              .substring(0, 2)
+                              .toUpperCase()
+                            : "FP"}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-purple-300 truncate">
+                            {photo.name}
                           </p>
+                          {(photo.venue || photo.city) && (
+                            <p className="uppercase mt-0.5 truncate">
+                              {photo.venue}
+                              {photo.venue && photo.city && " • "}
+                              {photo.city}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-0.5 shrink-0">
+                        <span className="text-white  uppercase font-bold">
+                          {isVideo ? "Video" : "Photo"}
+                        </span>
+                        {photo.date && (
+                          <span className="text-white/70  font-bold">{photo.date}</span>
                         )}
                       </div>
                     </div>
-                    <div className="flex flex-col items-end gap-0.5 shrink-0">
-                      <span className="text-white text-[10px] uppercase font-bold">
-                        {isVideo ? "Video" : "Photo"}
-                      </span>
-                      {photo.date && (
-                        <span className="text-white/70 text-[10px] font-bold">{photo.date}</span>
-                      )}
-                    </div>
-                  </div>
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    className="relative group cursor-pointer w-full text-left flex-1"
-                    onClick={() => setSelectedPhoto(photo)}
-                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedPhoto(photo); } }}>
-                    <div className="relative aspect-[16/10] w-full bg-black/40 overflow-hidden">
-                      {photo.src.endsWith(".mp4") || photo.src.endsWith(".mov") || photo.src.endsWith(".webm") ? (
-                        <video
-                          src={photo.src}
-                          className="w-full h-full object-cover block"
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                        />
-                      ) : (
-                        <Image
-                          src={photo.src}
-                          alt={`Media by ${photo.name}`}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          unoptimized
-                          className="w-full h-full object-cover block"
-                          loading="lazy"
-                        />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 z-10">
-                        <SeventhButton>
-                          {isVideo ? "Play Video" : "Expand Photo"}
-                        </SeventhButton>
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      className="relative group cursor-pointer w-full text-left flex-1"
+                      onClick={() => setSelectedPhoto(photo)}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedPhoto(photo); } }}>
+                      <div className="relative aspect-[16/10] w-full bg-black/40 overflow-hidden">
+                        {photo.src.endsWith(".mp4") || photo.src.endsWith(".mov") || photo.src.endsWith(".webm") ? (
+                          <video
+                            src={photo.src}
+                            className="w-full h-full object-cover block"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                          />
+                        ) : (
+                          <Image
+                            src={photo.src}
+                            alt={`Media by ${photo.name}`}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            unoptimized
+                            className="w-full h-full object-cover block"
+                            loading="lazy"
+                          />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 z-10">
+                          <SeventhButton>
+                            {isVideo ? "Play Video" : "Expand Photo"}
+                          </SeventhButton>
+                        </div>
                       </div>
                     </div>
+                    {photo.caption && (
+                      <div className="p-4 bg-black/[0.02] border-t border-white/10 flex-1 flex items-center">
+                        <p className="font-medium">
+                          &ldquo;{photo.caption}&rdquo;
+                        </p>
+                      </div>
+                    )}
                   </div>
-                  {photo.caption && (
-                    <div className="pl-4 sm:pl-8 pr-4 py-3 sm:py-4 bg-black/[0.02] border-t border-white/10 flex-1 flex items-center">
-                      <p className="font-medium">
-                        &ldquo;{photo.caption}&rdquo;
-                      </p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </section>
-        ) : (
-          /* Empty state */
-          <div className="text-center py-32">
-            <div className="w-20 h-20 mx-auto mb-8 border border-white/10 flex items-center justify-center">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/15">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
+                );
+              })}
             </div>
-            <h3 className="text-white/30 mb-3">
-              {sanityContent?.emptyStateTitle || "No moments yet"}
-            </h3>
-            <p className="mb-8 max-w-sm mx-auto">
-              {sanityContent?.emptyStateSubtitle || "Check back soon for moments from 7th Heaven shows!"}
-            </p>
-          </div>
-        )
-      }
+          ) : (
+            /* Empty state */
+            <div className="text-center py-32">
+              <div className="w-20 h-20 mx-auto mb-8 border border-white/10 flex items-center justify-center">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-white/15">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+              </div>
+              <h3 className="text-white/30 mb-3">
+                {sanityContent?.emptyStateTitle || "No moments yet"}
+              </h3>
+              <p className="mb-8 max-w-sm mx-auto">
+                {sanityContent?.emptyStateSubtitle || "Check back soon for moments from 7th Heaven shows!"}
+              </p>
+            </div>
+          )
+        }
 
-      {/* Lightbox */}
-      {
-        mounted && selectedPhoto && createPortal(
-          <div
-            className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
-            onClick={() => setSelectedPhoto(null)}>
+        {/* Lightbox */}
+        {
+          mounted && selectedPhoto && createPortal(
             <div
-              className="relative max-w-4xl max-h-[90vh] w-full flex flex-col bg-black/80 rounded-lg p-6 overflow-hidden"
-              onClick={(e) => e.stopPropagation()}>
-              <button aria-label="Close"
-                onClick={() => setSelectedPhoto(null)}
-                className="absolute top-4 right-4 text-white/60 hover:text-white bg-black/50 hover:bg-black/80 p-2 !rounded-full border border-white/10 transition-colors cursor-pointer z-20">
-                <X className="w-5 h-5" />
-              </button>
-              {selectedPhoto.type === "video" ||
-                selectedPhoto.src.endsWith(".mp4") ||
-                selectedPhoto.src.endsWith(".mov") ? (
-                <video
-                  src={selectedPhoto.src}
-                  className="w-full max-h-[65vh] object-contain rounded-xl"
-                  controls
-                  autoPlay
-                  muted
-                  playsInline
-                />
-              ) : (
-                <img
-                  src={selectedPhoto.src}
-                  alt={selectedPhoto.name}
-                  className="w-full max-h-[65vh] object-contain rounded-xl shadow-2xl"
-                />
-              )}
-              <div className="mt-4 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
-                <div>
-                  <p className="text-white text-lg">
-                    {selectedPhoto.name}
-                  </p>
-                  {selectedPhoto.venue && (
-                    <p className="mt-0.5 text-sm text-purple-300 font-medium">
-                      {selectedPhoto.venue}
-                      {selectedPhoto.city ? ` — ${selectedPhoto.city}` : ""}
-                      {selectedPhoto.date ? ` · ${selectedPhoto.date}` : ""}
+              className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+              onClick={() => setSelectedPhoto(null)}>
+              <div
+                className="relative max-w-4xl max-h-[90vh] w-full flex flex-col bg-black/80 rounded-lg p-6 overflow-hidden"
+                onClick={(e) => e.stopPropagation()}>
+                <button aria-label="Close"
+                  onClick={() => setSelectedPhoto(null)}
+                  className="absolute top-4 right-4 text-white/60 hover:text-white bg-black/50 hover:bg-black/80 p-2 !rounded-full border border-white/10 transition-colors cursor-pointer z-20">
+                  <X className="w-5 h-5" />
+                </button>
+                {selectedPhoto.type === "video" ||
+                  selectedPhoto.src.endsWith(".mp4") ||
+                  selectedPhoto.src.endsWith(".mov") ? (
+                  <video
+                    src={selectedPhoto.src}
+                    className="w-full max-h-[65vh] object-contain rounded-xl"
+                    controls
+                    autoPlay
+                    muted
+                    playsInline
+                  />
+                ) : (
+                  <img
+                    src={selectedPhoto.src}
+                    alt={selectedPhoto.name}
+                    className="w-full max-h-[65vh] object-contain rounded-xl shadow-2xl"
+                  />
+                )}
+                <div className="mt-4 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
+                  <div>
+                    <p className="text-white text-lg">
+                      {selectedPhoto.name}
                     </p>
-                  )}
-                  {selectedPhoto.caption && (
-                    <p className="mt-2 text-left text-gray-300 text-sm">
-                      &ldquo;{selectedPhoto.caption}&rdquo;
-                    </p>
-                  )}
-                </div>
-                <div className="flex flex-col items-end gap-2 shrink-0">
-                  <button
-                    onClick={() => handleFlagPhoto(selectedPhoto.id)}
-                    disabled={flaggingId === selectedPhoto.id}
-                    className="text-white/40 hover:text-red-400 text-xs uppercase st transition-colors flex items-center gap-1.5 disabled:opacity-50">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-                      <line x1="4" y1="22" x2="4" y2="15" />
-                    </svg>
-                    {flaggingId === selectedPhoto.id ? "Flagging..." : "Report"}
-                  </button>
+                    {selectedPhoto.venue && (
+                      <p className="mt-0.5 text-sm text-purple-300 font-medium">
+                        {selectedPhoto.venue}
+                        {selectedPhoto.city ? ` — ${selectedPhoto.city}` : ""}
+                        {selectedPhoto.date ? ` · ${selectedPhoto.date}` : ""}
+                      </p>
+                    )}
+                    {selectedPhoto.caption && (
+                      <p className="mt-2 text-left text-gray-300 text-sm">
+                        &ldquo;{selectedPhoto.caption}&rdquo;
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex flex-col items-end gap-2 shrink-0">
+                    <button
+                      onClick={() => handleFlagPhoto(selectedPhoto.id)}
+                      disabled={flaggingId === selectedPhoto.id}
+                      className="text-white/40 hover:text-red-400 text-xs uppercase st transition-colors flex items-center gap-1.5 disabled:opacity-50">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                        <line x1="4" y1="22" x2="4" y2="15" />
+                      </svg>
+                      {flaggingId === selectedPhoto.id ? "Flagging..." : "Report"}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>,
-          document.body
-        )
-      }
-
+            </div>,
+            document.body
+          )
+        }
+      </section>
 
       {/* ── ADD PHOTO / VIDEO CMS MODAL PORTAL ── */}
       {mounted && isAddCmsModalOpen && createPortal(
@@ -673,7 +675,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.name}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, name: e.target.value }))}
                   placeholder="e.g. ChicagoLou"
-                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
                   inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
                 />
 
@@ -682,7 +684,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.venue}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, venue: e.target.value }))}
                   placeholder="e.g. DeKalb Cornfest"
-                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
                   inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
                 />
               </div>
@@ -693,7 +695,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.city}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, city: e.target.value }))}
                   placeholder="e.g. DeKalb, IL"
-                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
                   inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
                 />
 
@@ -702,14 +704,14 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.date}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, date: e.target.value }))}
                   placeholder="e.g. August 2024"
-                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
                   inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-2 min-h-[24px]">
+                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 min-h-[24px]">
                     Media Type
                   </label>
                   <CustomDropdown
@@ -729,7 +731,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.instagram}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, instagram: e.target.value }))}
                   placeholder="e.g. @chicagolou"
-                  labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
                   inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
                 />
               </div>
@@ -740,7 +742,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 value={cmsForm.src}
                 onChange={(e) => setCmsForm((prev) => ({ ...prev, src: e.target.value }))}
                 placeholder="e.g. /images/fan-photo-featured.jpg or https://..."
-                labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
                 inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
               />
 
@@ -751,7 +753,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 value={cmsForm.caption}
                 onChange={(e) => setCmsForm((prev) => ({ ...prev, caption: e.target.value }))}
                 placeholder="e.g. Front row every single time. Best night of the summer!"
-                labelClassName="text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-0"
+                labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
                 inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
               />
 
@@ -779,7 +781,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 <button
                   type="submit"
                   disabled={isSavingCms}
-                  className="btn-primary px-6 py-2.5 rounded-xl text-sm tracking-wider cursor-pointer disabled:opacity-50 flex items-center gap-2"
+                  className="btn-primary px-6 py-2.5 rounded-xl text-sm    cursor-pointer disabled:opacity-50 flex items-center gap-2"
                 >
                   {isSavingCms ? (
                     <>

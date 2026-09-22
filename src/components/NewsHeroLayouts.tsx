@@ -30,7 +30,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
       {/* ── OPTION 2 VARIATIONS SWITCHER TOOLBAR ── */}
       <div className="bg-[var(--color-bg-surface)] border-b border-white/10 px-4 py-3 sticky top-[72px] z-50 flex items-center justify-between flex-wrap gap-2 text-white">
         <div className="flex items-center gap-2">
-          <span className="uppercase text-purple-400tracking-wider flex items-center gap-1">
+          <span className="uppercase text-purple-400   flex items-center gap-1">
             <span>⚡</span> Option 2 Split Showcase Variations:
           </span>
         </div>

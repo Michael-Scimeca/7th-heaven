@@ -292,7 +292,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <div className="text-white select-all truncate">
                       {user.email}
                     </div>
-                    <div className="py-1 text-white rouned-lgtracking-wider font-bold">
+                    <div className="py-1 text-white rouned-lg   font-bold">
                       {user.role}
                     </div>
                     <div className="text-white/50 font-semibold truncate">

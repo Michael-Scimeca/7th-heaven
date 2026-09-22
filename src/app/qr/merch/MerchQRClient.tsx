@@ -766,7 +766,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                 />
               </div>
 
-              <p className="text-purple-400tracking-wider">7THHEAVENBAND.COM/QR/MERCH</p>
+              <p className="text-purple-400  ">7THHEAVENBAND.COM/QR/MERCH</p>
             </div>
 
             <div className="flex gap-3">

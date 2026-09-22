@@ -24,6 +24,7 @@ import LazyMount from "@/components/LazyMount";
 
 import CruiseHeroSection from "./components/CruiseHeroSection";
 import CruiseCabinsPricingSection from "./components/CruiseCabinsPricingSection";
+import CruiseHistorySection from "./components/CruiseHistorySection";
 import CruisePortsCatalogSection from "./components/CruisePortsCatalogSection";
 import CruiseItinerarySection from "./components/CruiseItinerarySection";
 import CruiseShipExplorerSection from "./components/CruiseShipExplorerSection";
@@ -370,6 +371,9 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
 
           {/* SECTION 7: FAQS */}
           <CruiseFaqSection sanityContent={sanityContent} />
+
+          {/* 25-YEAR CRUISE HISTORY TIMELINE */}
+          <CruiseHistorySection />
         </>
       )}
     </main>
@@ -380,7 +384,7 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
   return (
     <div className="py-4 border-b border-white/10">
       <span className="text-white uppercase block mb-3">Card 1 - Deposit Details</span>
-      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="booking-cell pb-4 pt-4">
           <label htmlFor="cruise-card-name-1" className="booking-label block text-white uppercase mb-1.5">Your Full Name on the Card *</label>
           <div className="input-glow-border rounded-xl">
@@ -394,7 +398,7 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
           </div>
         </div>
         <div className="booking-cell pb-4 pt-4">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-6">
             <div>
               <label htmlFor="cruise-card-exp-1" className="booking-label block text-white uppercase mb-1.5">Exp. Date *</label>
               <div className="input-glow-border rounded-xl">
@@ -430,7 +434,7 @@ function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormD
   return (
     <div className="p-4 border-b border-white/10">
       <span className="text-white uppercase block mb-3">Card 2 - Split Details</span>
-      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="booking-cell p-4">
           <label htmlFor="cruise-card-name-2" className="booking-label block text-white uppercase mb-1.5">Your Full Name on the Card *</label>
           <div className="input-glow-border rounded-xl">
@@ -444,7 +448,7 @@ function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormD
           </div>
         </div>
         <div className="booking-cell p-4">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-6">
             <div>
               <label htmlFor="cruise-card-exp-2" className="booking-label block text-white uppercase mb-1.5">Exp. Date *</label>
               <div className="input-glow-border rounded-xl">
@@ -496,7 +500,7 @@ function CruiseNotesAndSignatureSection({
       </div>
 
       <div className="py-3 border-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           <div className="flex flex-col justify-start">
             <label htmlFor="cruise-how-heard" className="booking-label block text-white uppercase mb-1.5">How Did You Hear About Us? (Which Band?)</label>
             <div className="input-glow-border rounded-xl">
@@ -506,23 +510,23 @@ function CruiseNotesAndSignatureSection({
           <div className="flex flex-col justify-start">
             <label htmlFor="cruise-dining-requests" className="booking-label block text-white uppercase mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
             <div className="input-glow-border rounded-xl">
-              <textarea id="cruise-dining-requests" placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({ ...f, notes: e.target.value }))} rows={2} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none resize-none rounded-lg" />
+              <textarea id="cruise-dining-requests" placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({ ...f, notes: e.target.value }))} rows={2} className="booking-input w-full  border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none resize-none rounded-lg" />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 border-0 items-start gap-4 mt-2">
+      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 border-0 items-start gap-6 mt-2">
         <div className="booking-cell border-0 py-3 px-0 flex flex-col justify-start">
           <label htmlFor="cruise-e-signature" className="booking-label block text-white uppercase mb-1.5">Date &amp; E-Signature (Type full name to sign) *</label>
           <div className="input-glow-border rounded-xl">
             <input
- id="cruise-e-signature"
- type="text"
- required
- placeholder="Type legal name to sign"
- value={signature}
- onChange={e => setSignature(e.target.value)}
+              id="cruise-e-signature"
+              type="text"
+              required
+              placeholder="Type legal name to sign"
+              value={signature}
+              onChange={e => setSignature(e.target.value)}
               className="booking-signature-input signature-font w-full bg-black/50 border-0 px-3.5 py-2.5 text-lg text-purple-300 placeholder:text-white/30 focus:outline-none rounded-lg"
             />
           </div>
@@ -584,8 +588,8 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
           </div>
           <div className="pt-2">
             <button
- type="button"
- onClick={() => {
+              type="button"
+              onClick={() => {
                 setSubmittedRef(null);
                 onClose();
               }}
@@ -598,94 +602,94 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
         <form onSubmit={handleSubmit} className="space-y-3.5">
           <div className="grid grid-cols-1 gap-3.5">
             <InputField
- id="pay-booking-number"
- label="Booking Number"
- required
- type="text"
- placeholder="Enter Booking Number"
- value={payForm.bookingNumber}
- onChange={(e) => setPayForm({ ...payForm, bookingNumber: e.target.value })}
+              id="pay-booking-number"
+              label="Booking Number"
+              required
+              type="text"
+              placeholder="Enter Booking Number"
+              value={payForm.bookingNumber}
+              onChange={(e) => setPayForm({ ...payForm, bookingNumber: e.target.value })}
             />
             <InputField
- id="pay-email"
- label="Email Address"
- required
- type="email"
- placeholder="your@email.com"
- value={payForm.email}
- onChange={(e) => setPayForm({ ...payForm, email: e.target.value })}
+              id="pay-email"
+              label="Email Address"
+              required
+              type="email"
+              placeholder="your@email.com"
+              value={payForm.email}
+              onChange={(e) => setPayForm({ ...payForm, email: e.target.value })}
             />
             <InputField
- id="pay-phone"
- label="Cell Phone"
- required
- type="tel"
- placeholder="(555) 000-0000"
- value={payForm.phone}
- onChange={(e) => setPayForm({ ...payForm, phone: formatPhoneDisplay(e.target.value) })}
+              id="pay-phone"
+              label="Cell Phone"
+              required
+              type="tel"
+              placeholder="(555) 000-0000"
+              value={payForm.phone}
+              onChange={(e) => setPayForm({ ...payForm, phone: formatPhoneDisplay(e.target.value) })}
             />
             <InputField
- id="pay-card-name"
- label="Your Name on Credit Card"
- required
- type="text"
- placeholder="Name on Credit Card"
- value={payForm.cardName}
- onChange={(e) => setPayForm({ ...payForm, cardName: e.target.value })}
+              id="pay-card-name"
+              label="Your Name on Credit Card"
+              required
+              type="text"
+              placeholder="Name on Credit Card"
+              value={payForm.cardName}
+              onChange={(e) => setPayForm({ ...payForm, cardName: e.target.value })}
             />
             <InputField
- id="pay-card-number"
- label="Credit Card Number"
- required
- type="text"
- placeholder="Card Number"
- value={payForm.cardNumber}
- onChange={(e) => setPayForm({ ...payForm, cardNumber: e.target.value })}
+              id="pay-card-number"
+              label="Credit Card Number"
+              required
+              type="text"
+              placeholder="Card Number"
+              value={payForm.cardNumber}
+              onChange={(e) => setPayForm({ ...payForm, cardNumber: e.target.value })}
             />
           </div>
 
           <div className="grid grid-cols-3 gap-2">
             <InputField
- id="pay-card-exp"
- label="Exp. Date"
- required
- type="text"
- placeholder="MM/YY"
- value={payForm.cardExp}
- onChange={(e) => setPayForm({ ...payForm, cardExp: e.target.value })}
+              id="pay-card-exp"
+              label="Exp. Date"
+              required
+              type="text"
+              placeholder="MM/YY"
+              value={payForm.cardExp}
+              onChange={(e) => setPayForm({ ...payForm, cardExp: e.target.value })}
               inputClassName="text-center"
             />
             <InputField
- id="pay-card-cvc"
- label="3/4 CVC"
- required
- type="text"
- placeholder="CVC"
- value={payForm.cardCvc}
- onChange={(e) => setPayForm({ ...payForm, cardCvc: e.target.value })}
+              id="pay-card-cvc"
+              label="3/4 CVC"
+              required
+              type="text"
+              placeholder="CVC"
+              value={payForm.cardCvc}
+              onChange={(e) => setPayForm({ ...payForm, cardCvc: e.target.value })}
               inputClassName="text-center"
             />
             <InputField
- id="pay-card-zip"
- label="Billing Zip"
- required
- type="text"
- placeholder="Zip"
- value={payForm.cardZip}
- onChange={(e) => setPayForm({ ...payForm, cardZip: e.target.value })}
+              id="pay-card-zip"
+              label="Billing Zip"
+              required
+              type="text"
+              placeholder="Zip"
+              value={payForm.cardZip}
+              onChange={(e) => setPayForm({ ...payForm, cardZip: e.target.value })}
               inputClassName="text-center"
             />
           </div>
 
           <InputField
- id="pay-card-amount"
- label="Amount to Charge ($ USD)"
- required
- type="text"
- placeholder="250.00"
- value={payForm.cardAmount}
- onChange={(e) => setPayForm({ ...payForm, cardAmount: e.target.value })}
-            inputClassName="   text-purple-300"
+            id="pay-card-amount"
+            label="Amount to Charge ($ USD)"
+            required
+            type="text"
+            placeholder="250.00"
+            value={payForm.cardAmount}
+            onChange={(e) => setPayForm({ ...payForm, cardAmount: e.target.value })}
+            inputClassName="text-purple-300"
           />
 
           <div className="pt-2 flex flex-col gap-2">
@@ -693,9 +697,9 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
               🔒 256-Bit SSL Encrypted Royal Caribbean Authorization
             </span>
             <SeventhButton
- type="submit"
- disabled={isSubmitting}
- className="w-full py-3 text-white uppercase text-xs r cursor-pointer disabled:opacity-50">
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-3 text-white uppercase cursor-pointer disabled:opacity-50 font-extrabold">
               {isSubmitting ? "PROCESSING PAYMENT..." : "SUBMIT PAYMENT"}
             </SeventhButton>
           </div>

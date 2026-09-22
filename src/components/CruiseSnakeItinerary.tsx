@@ -722,9 +722,22 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
   return (
     <section
-      className="snake-itinerary-root site-container"
+      className="snake-itinerary-root site-container relative overflow-hidden"
       ref={sectionRef}
     >
+      {/* Ocean Video Background inside snake-itinerary-root container */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden rounded-2xl">
+        <video
+          src="/movie/ocean.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="w-full  object-cover "
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#05030a]/60 via-transparent to-[#05030a]/70 pointer-events-none" />
+      </div>
 
       {/* ── Header (Inside Blue Container Box) ── */}
       {!hideHeader && (
@@ -772,7 +785,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
                 className="w-full accent-cyan-400 cursor-pointer h-2"
               />
-              <div className="flex justify-between text-white/50 font-bold uppercase tracking-wider">
+              <div className="flex justify-between text-white/50 font-bold uppercase   ">
                 <span>0.2x (Slow Motion)</span>
                 <span>1.0x (1:1 Viewport Lock)</span>
                 <span>4.0x (Hyper Speed)</span>
@@ -913,7 +926,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             <div className="col-span-1 md:col-span-2 bg-cyan-950/40 border border-purple-500/30 p-4 space-y-3 mt-2">
               <div className="flex items-center gap-2 border-b border-purple-500/20 pb-2">
                 <span className="text-lg">📍</span>
-                <h3 className="text-white font-bold uppercase tracking-wider">Port Circle & Corner Arrival Controls</h3>
+                <h3 className="text-white font-bold uppercase   ">Port Circle & Corner Arrival Controls</h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -1164,7 +1177,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                 <div className="flex items-center justify-between gap-3 mb-6 pb-3 border-b border-white/10">
                   <h3 className="text-xl md:text-2xl font-black uppercase text-white tracking-wide">{day.theme}</h3>
                   {day.location && (
-                    <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full shrink-0">
+                    <span className="text-[10px] md:text-xs font-bold uppercase    px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full shrink-0">
                       {day.location}
                     </span>
                   )}
@@ -1179,7 +1192,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
                     return (
                       <div key={ev.id} className="relative pl-3.5 border-l-2 border-purple-500/40 hover:border-cyan-400 transition-colors py-0.5">
                         {ev.time && (
-                          <div className="inline-flex items-center px-2 py-0.5 mb-1 text-[11px] font-mono font-bold tracking-wider uppercase text-cyan-300 bg-cyan-950/80 border border-cyan-500/30 rounded">
+                          <div className="inline-flex items-center px-2 py-0.5 mb-1 text-[11px] font-mono font-bold    uppercase text-cyan-300 bg-cyan-950/80 border border-cyan-500/30 rounded">
                             {ev.time}
                           </div>
                         )}

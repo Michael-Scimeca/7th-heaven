@@ -148,7 +148,7 @@ function AvailabilityCardForm({
         </div>
       </div>
       <div>
-        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-6">
+        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end mb-6">
           <div>
             <label htmlFor="avail-date-input" className="uppercase text-white block mb-1.5">Date</label>
             <input
@@ -213,7 +213,7 @@ function AvailabilityCardForm({
             <p>No availability blocks configured yet.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[...myAvailabilities]
               .sort((a: any, b: any) => a.date.localeCompare(b.date))
               .map((item: any) => (
@@ -240,7 +240,7 @@ function TimeOffCardForm({
         </div>
       </div>
       <div>
-        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-6">
+        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end mb-6">
           <div>
             <label htmlFor="time-off-date-input" className="uppercase text-white block mb-1.5">Request Date</label>
             <input

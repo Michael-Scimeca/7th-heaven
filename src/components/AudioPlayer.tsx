@@ -506,7 +506,7 @@ export default function AudioPlayerSection() {
   if (!isExpanded) {
     return (
       <section id="music-player-section" className="site-container">
-        <div className="relative overflow-hidden rounded-full bg-gradient-to-r from-purple-950/70 via-indigo-950/50 to-purple-950/70 border border-purple-500/30 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 backdrop-blur-xl">
+        <div className="relative overflow-hidden rounded-full bg-gradient-to-r from-purple-950/70 via-indigo-950/50 to-purple-950/70 border border-purple-500/30 p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-6 backdrop-blur-xl">
           <div className="flex items-center gap-5">
             <div className="w-14 h-14 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0">
               <Music className="w-7 h-7 text-purple-300" />

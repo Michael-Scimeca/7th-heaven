@@ -6092,7 +6092,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* FULL BLEED / FULL WIDTH MESSAGE COMPOSE & PREVIEW SECTION */}
               <div className="mt-6 space-y-5">
                 {/* SMS & Email Option Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   <div
                     role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendSmsAlert(prev => !prev); } }}
                     onClick={() => setSendSmsAlert(prev => !prev)}
@@ -7013,7 +7013,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                         {viewingUser === user.id && (
                           <div className="bg-white/[0.02] px-6 py-3 border-b border-black/10 dark:border-white/5">
-                            <div className="flex items-center gap-8 text-[0.7rem]">
+                            <div className="flex items-center gap-6 text-[0.7rem]">
                               <div>
                                 <span className="text-white/30 uppercase text-[0.55rem]">Email: </span>
                                 <span className="text-white">{acct?.email || user.email || 'N/A'}</span>

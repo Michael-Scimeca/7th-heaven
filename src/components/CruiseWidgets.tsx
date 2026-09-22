@@ -530,7 +530,7 @@ export function BookingManager({ email }: { email?: string }) {
   return (
     <div className="text-white relative overflow-hidden flex flex-col justify-between">
       {/* Travel Readiness Checklist Badges */}
-      <div className="">
+      <div>
         <span className="uppercase block mb-2">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
           <div className="flex items-center gap-1.5 text-emerald-300 py-1">
@@ -594,7 +594,7 @@ export function BookingManager({ email }: { email?: string }) {
       {/* Two Clickable Cruise Agent Email Buttons */}
       <div className="mt-4 border-t border-white/10 space-y-2">
         <span className="text-white/40 uppercase block mb-2">Get in Touch with Cruise Agents</span>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* Button 1: Cruise Admin Agent */}
           <SeventhButton
             icon={false}

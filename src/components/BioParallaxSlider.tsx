@@ -1133,7 +1133,7 @@ lerpSpeed: ${lerpSpeed}`;
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                 <div>
-                  <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                  <h4 className="text-sm font-bold uppercase    text-amber-400 flex items-center gap-2">
                     <span>🔥</span> Canvas & Stage Control
                   </h4>
                   <p className="text-[11px] text-white/50">Tune WebGL Fireplace & Bio Parallax Slider</p>
@@ -1871,7 +1871,7 @@ lerpSpeed: ${lerpSpeed}`;
                         </picture>
 
                         {/* Orb Button Glass Stack — Toggle Bio Fact Sheet (Active Member Only) */}
-                        {isActive && (
+                        {/* {isActive && (
                           <div className="btn-wrapper absolute top-2 right-2 md:top-4 md:right-4 z-0 text-[7.5px] md:text-[8.5px] transition-all duration-300 pointer-events-auto animate-orb-pop">
                             <button
                               type="button"
@@ -1901,7 +1901,7 @@ lerpSpeed: ${lerpSpeed}`;
                               )}
                             </button>
                           </div>
-                        )}
+                        )} */}
 
                         {/* Bottom Gradient Fade Overlay for Mobile & Tablet */}
                       </div>
@@ -1916,10 +1916,10 @@ lerpSpeed: ${lerpSpeed}`;
                             opacity: activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
-                          <h3 className="sm:bg-black/60 bg-black/40 text-white pb-1pt-1 pr-2 pl-2" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="sm:bg-black/60 bg-black/40 text-white pt-1 pr-2 pl-2" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="sm:bg-black/60 bg-black/40 md:pb-1 pb-1 pt-1 pr-2 pl-2 text-[#c084fc] block" style={{ fontSize: computedRoleFontSize }}>
+                          <span className="sm:bg-black/60 bg-black/40 md:pb-1 pb-1 pt-1 pr-2 pl-2 text-[#c084fc] block font-bold" style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
 

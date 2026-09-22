@@ -233,7 +233,7 @@ export default function FooterProximityAlerts() {
     const isBusy = status === "saving";
 
     return (
-        <div className="w-full relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-10">
+        <div className="w-full relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-6">
             {/* ── LEFT COLUMN: iPhone Mobile Preview Device Mockup (Hidden on mobile, shown on tablet/desktop) ── */}
             <div className="hidden md:flex shrink-0 w-full md:w-auto justify-center items-center my-auto">
                 <div className="relative w-[190px] sm:w-[210px] lg:w-[230px] aspect-[9/19.5] select-none filter ">

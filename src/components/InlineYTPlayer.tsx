@@ -180,21 +180,25 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       <div className="relative w-full h-full bg-black">
         {onClose && (
           <button
- onClick={onClose}
- className="absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/70 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
- aria-label="Close video">
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+            className="absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/70 hover:bg-black/90 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
+            aria-label="Close video">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         )}
         <iframe
- src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1&controls=1&origin=${encodeURIComponent(typeof window !== "undefined" ? window.location.origin : "")}`}
- title={title}
- className="w-full h-full border-0"
- allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
- allowFullScreen
- />
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1&controls=1`}
+          title={title}
+          className="w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
       </div>
     );
   }

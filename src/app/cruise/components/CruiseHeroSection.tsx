@@ -18,7 +18,7 @@ export default function CruiseHeroSection({
   heroForegroundRef,
   heroMaskSettings,
   heroParallax,
-  setIsPaymentDropdownOpen: _setIsPaymentDropdownOpen,
+  setIsPaymentDropdownOpen,
   sanityContent,
 }: CruiseHeroSectionProps) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
@@ -30,7 +30,7 @@ export default function CruiseHeroSection({
   }, []);
 
   const desktopVideoUrl = sanityContent?.heroVideoUrl || "/movie/cruise-desktop.mp4";
-  const mobileVideoUrl = sanityContent?.heroVideoMobileUrl || "/movie/cruise-mobile.mp4";
+  const mobileVideoUrl = sanityContent?.heroVideoMobileUrl || "/movie/cruise-desktop.mp4";
   const posterUrl = sanityContent?.heroPosterUrl || "/images/cruise/hero-video-poster.jpg";
 
   const bottomFadeStart = heroMaskSettings?.bottomFadeStart ?? 80;
@@ -59,7 +59,7 @@ export default function CruiseHeroSection({
           marginLeft: "calc(-1 * var(--page-padding-x))",
           marginRight: "calc(-1 * var(--page-padding-x))",
           width: "calc(100% + 2 * var(--page-padding-x))",
-          bottom: "-12px",
+          bottom: "-8px",
           maskImage: maskImageGradient,
           WebkitMaskImage: maskImageGradient,
           maskRepeat: "no-repeat",
@@ -83,8 +83,7 @@ export default function CruiseHeroSection({
             transform: "scale(1.02)",
             transformOrigin: "center center",
           }}>
-          <source src={mobileVideoUrl} media="(max-width: 767px)" type="video/mp4" />
-          <source src={desktopVideoUrl} media="(min-width: 768px)" type="video/mp4" />
+          <source src={desktopVideoUrl} type="video/mp4" />
           <track kind="captions" />
         </video>
 
@@ -106,7 +105,7 @@ export default function CruiseHeroSection({
         ref={heroForegroundRef}
         className="relative z-10 text-left mb-6">
         {/* Chicago Music Cruise Official Branding Badges & Social Links */}
-        <div className="flex flex-wrap items-center gap-2.5 mb-6">
+        <div className="flex flex-wrap items-center gap-2.5 mb-4">
           <SectionBadge label={subheading} />
           <SectionBadge label="ROYAL CARIBBEAN GROUP ID: 3325680" />
         </div>
@@ -118,14 +117,24 @@ export default function CruiseHeroSection({
           )}
         </h1>
 
-        {/* Cruise Ship Names Subtitle */}
-        <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-start gap-3 sm:gap-4 md:text-base uppercase text-white">
+        {/* Cruise Ship Names Subtitle & Payment Action */}
+        <div className="mt-4 sm:mt-4 flex flex-wrap items-center justify-start gap-3 uppercase text-white">
           <span className="btn-pill-glass backdrop-blur-[45px] flex items-center gap-2.5">
             {ship1Title} <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-full border border-purple-400/40">{ship1Year}</span>
           </span>
           <span className="btn-pill-glass backdrop-blur-[45px] flex items-center gap-2.5">
             {ship2Title} <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-full border border-purple-400/40">{ship2Year}</span>
           </span>
+          <button
+            type="button"
+            onClick={() => {
+              setIsPaymentDropdownOpen(true);
+              const el = document.getElementById("signup");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="btn-pill-glass backdrop-blur-[45px] flex items-center gap-2 text-rose-200 hover:text-white bg-rose-900/40 hover:bg-rose-800/60 border border-rose-500/40 transition-all cursor-pointer">
+            <span>💳 MAKE A PAYMENT</span>
+          </button>
         </div>
       </div>
     </section>

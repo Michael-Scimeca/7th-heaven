@@ -423,11 +423,11 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         </header>
 
         {/* ── 700+ SONG MP3/CD AUDIO VAULT PLAYER (TOP OF MEDIA PAGE) ── */}
-        <section aria-label="Audio Vault Player" className="pb-section-fluid">
+        <section aria-label="Audio Vault Player" className="pb-6">
           <AudioPlayer />
         </section>
 
-        <section className="">
+        <section className="mb-3">
           {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
             <SearchInput
@@ -474,7 +474,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         </section>
 
         {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
-        <section aria-label="Media Gallery" key={activeFilter} className="py-section-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+        <section aria-label="Media Gallery" key={activeFilter} className="py-section-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {visibleVideos.map((video, index) => {
             const isHovered = hoveredVideoId === video.id;
             const isMiddleCol = index % 3 === 1;
@@ -500,10 +500,15 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 {/* Dark Gradient Overlay at Bottom */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none z-10" />
 
+                {/* Centered Glass Play Button Above Dark Overlay */}
+                <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none group-hover:scale-110 group-hover:opacity-0 transition-all duration-300">
+                  <GlassPlayButton size="lg" />
+                </div>
+
                 {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none group-hover:opacity-0 transition-opacity duration-300">
                   {/* Category Pill Tag */}
-                  <span className="inline-flex items-center justify-center text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white uppercase border border-white/10 shrink-0">
+                  <span className="inline-flex items-center justify-center text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white uppercase border border-white/10 shrink-0 font-bold mb-2">
                     {video.category || "7TH HEAVEN"}
                   </span>
 
@@ -563,7 +568,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             {/* Modal Header Bar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-black/60">
               <div className="flex items-center gap-3">
-                <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                <span className="text-xs font-bold uppercase    px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30">
                   {playingVideo.category || "7TH HEAVEN"}
                 </span>
                 <h3 className="text-base sm:text-lg font-bold text-white uppercase line-clamp-1">
@@ -585,7 +590,6 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
               <CustomVideoPlayer
                 videoId={playingVideo.id}
                 title={playingVideo.title}
-                onClose={() => setPlayingVideo(null)}
               />
             </div>
           </div>
@@ -768,7 +772,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white uppercase rounded-lg font-bold text-xs tracking-wider transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] cursor-pointer disabled:opacity-50 flex items-center gap-2">
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white uppercase rounded-lg font-bold text-xs    transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] cursor-pointer disabled:opacity-50 flex items-center gap-2">
                   {submitting
                     ? (sanityContent?.modalSavingText || "Saving to Sanity...")
                     : (sanityContent?.modalSubmitText || "+ PUBLISH VIDEO TO SANITY")}

@@ -13,6 +13,8 @@ import {
   Plus,
   Video as VideoIcon,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import Smooothy, { damp } from "smooothy";
 import SeventhButton from "./SeventhButton";
@@ -97,7 +99,7 @@ const CATEGORY_SHOWCASE: ShowcaseCategoryVideo[] = [
     previewEnd: 40,
   },
   {
-    id: "rTZI2YYtUxY",
+    id: "88TOdJ24Re0",
     title: "7th Heaven – Always (Acoustic & Cover)",
     category: "Cover Songs",
     badges: ["COVERS", "ACOUSTIC MEDLEYS"],
@@ -137,6 +139,8 @@ interface SmooothyInstance {
   goToIndex?: (idx: number) => void;
   destroy?: () => void;
   update?: () => void;
+  resize?: () => void;
+  isDragging?: boolean;
 }
 
 function extractYouTubeId(urlOrId: string): string {
@@ -359,6 +363,10 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
   const [showMetadata, setShowMetadata] = useState<boolean>(true);
   const [showBottomCategoryTabs, setShowBottomCategoryTabs] = useState<boolean>(true);
 
+  const startLoopRef = useRef<(() => void) | undefined>(undefined);
+  const dragDistanceRef = useRef(0);
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+
   const isParallaxEnabledRef = useRef(isParallaxEnabled);
   const isSpeedBouncyEnabledRef = useRef(isSpeedBouncyEnabled);
   useEffect(() => {
@@ -370,7 +378,15 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
     const el = sectionRef.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
     const observer = new IntersectionObserver(
-      ([entry]) => { isInViewRef.current = entry.isIntersecting; },
+      ([entry]) => {
+        isInViewRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          startLoopRef.current?.();
+          try {
+            smooothyInstanceRef.current?.resize?.();
+          } catch { }
+        }
+      },
       { rootMargin: "300px 0px" }
     );
     observer.observe(el);
@@ -425,7 +441,6 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
           const spd = (instance?.speed as number) ?? 0;
           const dt = (instance?.deltaTime as number) ?? 0.016;
-          const parallax = (instance?.parallaxValues as number[]) || [];
 
           lerpedSpeedRef.current = damp(
             lerpedSpeedRef.current,
@@ -463,6 +478,8 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
           animId = requestAnimationFrame(renderLoop);
         }
       };
+
+      startLoopRef.current = startLoopIfNeeded;
 
       startLoopIfNeeded();
 
@@ -631,8 +648,9 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
   }, []);
 
   const effectiveCardsVisible = useMemo(() => {
-    if (windowWidth < 640) return 1.18;
-    if (windowWidth < 1024) return 2.1;
+    if (windowWidth < 640) return 1;
+    if (windowWidth <= 1024) return 2;
+    if (windowWidth <= 1200) return 3;
     return cardsVisible;
   }, [windowWidth, cardsVisible]);
 
@@ -643,7 +661,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
       {/* Section Header inside site-container */}
       <div className="site-container relative z-10">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
             <h2 className="mb-2.5 text-white">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
@@ -652,136 +670,177 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
               {sanityContent?.videoShowcaseSubtitle || "Explore 7th Heaven's live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax."}
             </p>
           </div>
-          {isAdmin && (
-            <AddCmsButton
-              label="ADD VIDEO"
-              onClick={() => setIsAddModalOpen(true)}
-              className="self-start lg:self-auto"
-            />
-          )}
+
+          <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
+
+            {isAdmin && (
+              <AddCmsButton
+                label="ADD VIDEO"
+                onClick={() => setIsAddModalOpen(true)}
+                className="ml-2"
+              />
+            )}
+          </div>
         </div>
       </div>
 
       {/* Pure Smooothy Engine DOM Slider Track (Edge-to-Edge) */}
-      <div
-        ref={trackRef}
-        data-slider="true"
-        data-vertical={smooothyVertical}
-        className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
-          }`}
-        style={{
-          touchAction: "pan-y",
-          ...(smooothyVertical
-            ? {}
-            : { marginLeft: `-${gapPx / 2}px`, marginRight: `-${gapPx / 2}px`, width: `calc(100% + ${gapPx}px)` })
-        }}>
-        {videos.map((video, idx) => {
-          const start = video.previewStart ?? previewStartSec;
-          const end = start + previewDurationSec;
+      <div className="relative w-full group/track">
+        {/* Floating Side Arrow Controls */}
+        <button
+          type="button"
+          onClick={handlePrev}
+          aria-label="Previous Video Slide"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/70 hover:bg-purple-600 border border-white/20 text-white flex items-center justify-center opacity-0 group-hover/track:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 backdrop-blur-md shadow-2xl cursor-pointer"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          type="button"
+          onClick={handleNext}
+          aria-label="Next Video Slide"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/70 hover:bg-purple-600 border border-white/20 text-white flex items-center justify-center opacity-0 group-hover/track:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 backdrop-blur-md shadow-2xl cursor-pointer"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
 
-          return (
-            <div
-              key={video.id + idx}
-              className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
-              style={{
-                width: smooothyVertical
-                  ? "100%"
-                  : `${100 / effectiveCardsVisible}%`,
-                paddingLeft: smooothyVertical ? 0 : `${gapPx / 2}px`,
-                paddingRight: smooothyVertical ? 0 : `${gapPx / 2}px`,
-                paddingTop: smooothyVertical ? `${gapPx / 2}px` : 0,
-                paddingBottom: smooothyVertical ? `${gapPx / 2}px` : 0,
-              }}>
-              {/* Video Card Container — Whole Card Clickable */}
+        <div
+          ref={trackRef}
+          data-slider="true"
+          data-vertical={smooothyVertical}
+          className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
+            }`}
+          style={{
+            touchAction: "pan-y",
+            ...(smooothyVertical
+              ? {}
+              : { marginLeft: `-${gapPx / 2}px`, marginRight: `-${gapPx / 2}px`, width: `calc(100% + ${gapPx}px)` })
+          }}>
+          {videos.map((video, idx) => {
+            const start = video.previewStart ?? previewStartSec;
+            const end = start + previewDurationSec;
+
+            return (
               <div
+                key={video.id + idx}
+                className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
                 style={{
-                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
-                  isolation: "isolate",
-                }}
-                onClick={() => {
-                  if (playingVideoId !== video.id) {
-                    setPlayingVideoId(video.id);
-                  }
-                }}
-                className={`relative w-full h-[300px] sm:h-[400px] md:h-[500px] ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
-                  : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
-                  }`}>
-                {playingVideoId === video.id ? (
-                  <div className="relative w-full h-full bg-black z-30">
-                    <InlineYTPlayer
-                      videoId={video.id}
-                      title={video.title}
-                      onClose={() => setPlayingVideoId(null)}
-                    />
-                  </div>
-                ) : (
-                  <>
-                    {/* Transparent Drag Capture Layer */}
-                    <div className="absolute inset-0 z-10 " />
+                  width: smooothyVertical
+                    ? "100%"
+                    : `${100 / effectiveCardsVisible}%`,
+                  paddingLeft: smooothyVertical ? 0 : `${gapPx / 2}px`,
+                  paddingRight: smooothyVertical ? 0 : `${gapPx / 2}px`,
+                  paddingTop: smooothyVertical ? `${gapPx / 2}px` : 0,
+                  paddingBottom: smooothyVertical ? `${gapPx / 2}px` : 0,
+                }}>
+                {/* Video Card Container — Whole Card Clickable */}
+                <div
+                  style={{
+                    WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+                    isolation: "isolate",
+                  }}
+                  onPointerDown={(e) => {
+                    pointerStartRef.current = { x: e.clientX, y: e.clientY };
+                    dragDistanceRef.current = 0;
+                  }}
+                  onPointerMove={(e) => {
+                    if (pointerStartRef.current) {
+                      const dx = e.clientX - pointerStartRef.current.x;
+                      const dy = e.clientY - pointerStartRef.current.y;
+                      dragDistanceRef.current = Math.sqrt(dx * dx + dy * dy);
+                    }
+                  }}
+                  onPointerUp={() => {
+                    pointerStartRef.current = null;
+                  }}
+                  onClick={() => {
+                    if (dragDistanceRef.current > 8 || smooothyInstanceRef.current?.isDragging) {
+                      return;
+                    }
+                    if (playingVideoId !== video.id) {
+                      setPlayingVideoId(video.id);
+                    }
+                  }}
+                  className={`relative w-full h-[300px] sm:h-[400px] md:h-[500px] ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
+                    : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
+                    }`}>
+                  {playingVideoId === video.id ? (
+                    <div className="relative w-full h-full bg-black z-30">
+                      <InlineYTPlayer
+                        videoId={video.id}
+                        title={video.title}
+                        onClose={() => setPlayingVideoId(null)}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      {/* Transparent Drag Capture Layer */}
+                      <div className="absolute inset-0 z-10 " />
 
-                    {/* YouTube On-Demand Autoplay Preview Frame */}
-                    <ShowcaseMedia
-                      videoId={video.id}
-                      videoTitle={video.title}
-                      start={start}
-                      end={end}
-                      previewZoomPercent={previewZoomPercent}
-                    />
+                      {/* YouTube On-Demand Autoplay Preview Frame */}
+                      <ShowcaseMedia
+                        videoId={video.id}
+                        videoTitle={video.title}
+                        start={start}
+                        end={end}
+                        previewZoomPercent={previewZoomPercent}
+                      />
 
-                    {/* Interactive Play Button Overlay */}
-                    {playButtonVisibility !== "hidden" && (
-                      <div
-                        className={`media-hover-overlay group-hover:opacity-0 transition-opacity duration-300 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}>
-                        <GlassPlayButton
-                          size="lg"
-                          aria-label={`Play full video for ${video.title}`}
-                          title="Play Full Video"
-                          className="pointer-events-auto"
-                        />
-                      </div>
-                    )}
+                      {/* Gradient shadow overlay for legibility */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10 transition-opacity duration-300 group-hover:opacity-0" />
 
-                    {/* Gradient shadow overlay for legibility */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10 transition-opacity duration-300 group-hover:opacity-0" />
-
-                    {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
-                    <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 md:p-8 flex flex-col items-center justify-end text-center pointer-events-none transition-opacity duration-300 group-hover:opacity-0">
-                      {showBadges && (
-                        <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
-                          {video.badges.map((badge, bIdx) => (
-                            <SectionBadge
-                              key={badge + bIdx}
-                              label={badge}
-                              className="mb-1"
-                            />
-                          ))}
+                      {/* Interactive Play Button Overlay (Above Dark Overlay) */}
+                      {playButtonVisibility !== "hidden" && (
+                        <div
+                          className={`media-hover-overlay z-20 group-hover:opacity-0 transition-opacity duration-300 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}>
+                          <GlassPlayButton
+                            size="lg"
+                            aria-label={`Play full video for ${video.title}`}
+                            title="Play Full Video"
+                            className="pointer-events-auto"
+                          />
                         </div>
                       )}
 
-                      <h3 className="font-black uppercase text-white line-clamp-2 text-base sm:text-lg md:text-xl transition-colors">
-                        {video.title}
-                      </h3>
-                    </div>
-                  </>
-                )}
-              </div>
+                      {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
+                      <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 md:p-8 flex flex-col items-center justify-end text-center pointer-events-none transition-opacity duration-300 group-hover:opacity-0">
+                        {showBadges && (
+                          <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
+                            {video.badges.map((badge, bIdx) => (
+                              <SectionBadge
+                                key={badge + bIdx}
+                                label={badge}
+                                className="mb-1"
+                              />
+                            ))}
+                          </div>
+                        )}
 
-              {/* Below Card Metadata */}
-              {showMetadata && (
-                <div className="pt-2.5 flex items-center justify-between gap-2 text-white/80 font-semibold w-full px-0.5 pointer-events-none">
-                  <span className="shrink-0">
-                    Views <strong className="text-white ml-1">{video.viewCount}</strong>
-                  </span>
-
-                  <span className="shrink-0">
-                    Year <strong className="text-white ml-1">{video.year}</strong>
-                  </span>
+                        <h3 className="font-black uppercase text-white line-clamp-2 text-base sm:text-lg md:text-xl transition-colors">
+                          {video.title}
+                        </h3>
+                      </div>
+                    </>
+                  )}
                 </div>
-              )}
 
-            </div>
-          );
-        })}
+                {/* Below Card Metadata */}
+                {showMetadata && (
+                  <div className="pt-2.5 flex items-center justify-between gap-2 text-white/80 font-semibold w-full px-0.5 pointer-events-none">
+                    <span className="shrink-0">
+                      Views <strong className="text-white ml-1">{video.viewCount}</strong>
+                    </span>
+
+                    <span className="shrink-0">
+                      Year <strong className="text-white ml-1">{video.year}</strong>
+                    </span>
+                  </div>
+                )}
+
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Toast Notification */}
@@ -821,7 +880,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
             <form onSubmit={handleAddVideoSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                   Video Title *
                 </label>
                 <input
@@ -835,7 +894,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                   YouTube URL or Video ID *
                 </label>
                 <input
@@ -848,10 +907,10 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80">
+                    <label className="block text-xs font-semibold uppercase    text-purple-200/80">
                       Category *
                     </label>
                     <button
@@ -901,7 +960,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                     Year
                   </label>
                   <input
@@ -913,7 +972,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                     Duration
                   </label>
                   <input
@@ -927,7 +986,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                   Description
                 </label>
                 <textarea
@@ -950,7 +1009,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm    uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
                 >
                   {submitting ? "Saving..." : "+ SAVE VIDEO TO SANITY"}
                 </button>

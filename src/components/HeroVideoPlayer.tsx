@@ -486,10 +486,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
     <VideoSnapshotContext.Provider value={ctxValue}>
       <div
         className="relative w-full h-full flex flex-col justify-between overflow-hidden"
-        style={{
-          WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
-          maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
-        }}
+
       >
         {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
         {!isDesktop ? (
@@ -512,7 +509,10 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
               loop
               playsInline
               preload="auto"
-              className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] opacity-90 transition-opacity duration-500"
+              className={`absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading
+                ? "opacity-0 translate-y-[30px]"
+                : "opacity-90 translate-y-0"
+                }`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
                 WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
@@ -552,7 +552,9 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
               muted
               loop
               playsInline
-              className={`absolute inset-0 w-full h-full object-cover z-10 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
+              className={`absolute inset-0 w-full h-full object-cover z-10 pointer-events-none transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading
+                ? "opacity-0 translate-y-[30px] scale-[1.50] filter blur-sm"
+                : "opacity-100 translate-y-0 scale-[1.43] filter blur-0"
                 }`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,

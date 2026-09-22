@@ -60,7 +60,7 @@ function RoomModalFooterButtons({
       <button
         type="submit"
         disabled={isSaving}
-        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm    uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
       >
         {isSaving ? (
           <>
@@ -90,7 +90,7 @@ function ModalInputField({
 }) {
   return (
     <div>
-      <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+      <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
         {label}
       </label>
       <input
@@ -352,7 +352,7 @@ function CruiseCabinsPricingSectionComponent({
           </div>
 
           {/* Column 2: Booking Policy */}
-          <div className="relative text-left rounded-2xl pr-4 sm:pr-6 md:col-span-8 lg:col-span-5 min-[1600px]:col-span-3">
+          <div className="relative text-left rounded-2xl md:col-span-8 lg:col-span-5 min-[1600px]:col-span-3">
             <div className="flex items-center gap-3 mb-6">
               <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
               <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.bookingPolicyTitle || "Booking Policy"}</h3>
@@ -443,7 +443,7 @@ function CruiseCabinsPricingSectionComponent({
               )}
             </div>
 
-            <div key={`group-${activePriceYear}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-[fade-in_0.35s_ease-out_both]">
+            <div key={`group-${activePriceYear}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-[fade-in_0.35s_ease-out_both]">
               {((([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]).length > 0
                 ? ([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]).flatMap((c: any) =>
                   String(c.year) === String(activePriceYear)
@@ -527,12 +527,21 @@ function CruiseCabinsPricingSectionComponent({
       <section id="signup" className="site-container py-section-fluid relative z-20 border-b border-white/10">
         <div id="booking" />
         <div id="book-now" />
+        <div id="payment-portal" />
 
-        <div className="">
+        <div>
           <div className="text-center mb-8 border-b border-white/10 pb-6">
-            <span className="inline-block text-xs font-bold uppercase tracking-widest px-3.5 py-1 rounded-full bg-purple-900/50 text-purple-300 border border-purple-500/30 mb-3">
-              Official Booking Form
-            </span>
+            <div className="flex items-center justify-center gap-3 flex-wrap mb-3">
+              <span className="inline-block text-xs font-bold uppercase tracking-widest px-3.5 py-1 rounded-full bg-purple-900/50 text-purple-300 border border-purple-500/30">
+                Official Booking Form
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
+                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full bg-rose-600/30 hover:bg-rose-600/50 text-rose-200 border border-rose-500/40 transition-all cursor-pointer">
+                💳 {isPaymentDropdownOpen ? "Hide Payment Form" : "Make A Payment On Existing Booking"}
+              </button>
+            </div>
             <h2 className="uppercase text-white text-2xl sm:text-3xl font-extrabold tracking-wide">
               RESERVE YOUR CRUISE STATEROOM
             </h2>
@@ -540,6 +549,15 @@ function CruiseCabinsPricingSectionComponent({
               Every booking requires a $500 deposit per room ($250 per person). Complete the form below to lock in your cabin rate.
             </p>
           </div>
+
+          {PaymentPortalDropdownPanel && (
+            <div className="mb-8">
+              <PaymentPortalDropdownPanel
+                isOpen={isPaymentDropdownOpen}
+                onClose={() => setIsPaymentDropdownOpen(false)}
+              />
+            </div>
+          )}
 
           {signupStatus === "success" ? (
             <div className="p-8 text-center space-y-4 bg-emerald-950/40 border border-emerald-500/40 rounded-2xl animate-fade-in">
@@ -562,8 +580,8 @@ function CruiseCabinsPricingSectionComponent({
               )}
 
               {/* ROOM CATEGORY SELECTION */}
-              <div className="">
-                <label htmlFor="cabinPreference" className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-2">
+              <div>
+                <label htmlFor="cabinPreference" className="block font-bold uppercase  text-purple-300 mb-2">
                   Room Category / Cabin Preference *
                 </label>
                 <div className="input-glow-border rounded-xl">
@@ -585,13 +603,13 @@ function CruiseCabinsPricingSectionComponent({
               {/* GUEST 1 DETAILS & PAYMENT */}
               <div className="space-y-5">
                 <div className="border-b border-white/10 pb-3 flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-white uppercase tracking-wider">GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
+                  <h3 className="text-lg font-bold text-white uppercase   ">GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
                   <span className="text-xs text-purple-400 uppercase font-semibold">Primary Guest</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">Full Legal Name *</label>
+                    <label className="">Full Legal Name *</label>
                     <div className="input-glow-border rounded-xl">
                       <input
                         type="text"
@@ -604,7 +622,7 @@ function CruiseCabinsPricingSectionComponent({
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">Email Address *</label>
+                    <label>Email Address *</label>
                     <div className="input-glow-border rounded-xl">
                       <input
                         type="email"
@@ -620,7 +638,7 @@ function CruiseCabinsPricingSectionComponent({
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">Cell Phone *</label>
+                    <label>Cell Phone *</label>
                     <div className="input-glow-border rounded-xl">
                       <input
                         type="tel"
@@ -633,7 +651,7 @@ function CruiseCabinsPricingSectionComponent({
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">Crown &amp; Anchor # (If Any)</label>
+                    <label>Crown &amp; Anchor # (If Any)</label>
                     <div className="input-glow-border rounded-xl">
                       <input
                         type="text"
@@ -645,7 +663,7 @@ function CruiseCabinsPricingSectionComponent({
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">T-Shirt Size</label>
+                    <label>T-Shirt Size</label>
                     <CustomDropdown
                       value={formData.tshirtSize1 || "L"}
                       onChange={(val) => setFormData((prev: any) => ({ ...prev, tshirtSize1: val }))}
@@ -673,7 +691,7 @@ function CruiseCabinsPricingSectionComponent({
               <div className="space-y-5">
                 <div className="border-b border-white/10 pb-3 flex items-center justify-between flex-wrap gap-2">
                   <div>
-                    <h3 className="text-lg font-bold text-white uppercase tracking-wider">GUEST 2 (IF NEEDED)</h3>
+                    <h3 className="text-lg font-bold text-white uppercase   ">GUEST 2 (IF NEEDED)</h3>
                     <p className="text-[11px] text-white/50 uppercase mt-0.5">
                       YOU DO NOT NEED TO FILL OUT GUEST 2 CREDIT CARD INFO IF YOU ARE A COUPLE GOING TOGETHER ON ONE CREDIT CARD
                     </p>
@@ -689,9 +707,9 @@ function CruiseCabinsPricingSectionComponent({
 
                 {guests[0]?.active && (
                   <div className="space-y-4 animate-fade-in">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">Guest 2 Full Legal Name</label>
+                        <label className="mb-1">Guest 2 Full Legal Name</label>
                         <div className="input-glow-border rounded-xl">
                           <input
                             type="text"
@@ -703,7 +721,7 @@ function CruiseCabinsPricingSectionComponent({
                         </div>
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">Guest 2 Email</label>
+                        <label className="block mb-1">Guest 2 Email</label>
                         <div className="input-glow-border rounded-xl">
                           <input
                             type="email"
@@ -718,7 +736,7 @@ function CruiseCabinsPricingSectionComponent({
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">Guest 2 Phone</label>
+                        <label className="mb-1">Guest 2 Phone</label>
                         <div className="input-glow-border rounded-xl">
                           <input
                             type="tel"
@@ -730,7 +748,7 @@ function CruiseCabinsPricingSectionComponent({
                         </div>
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">Guest 2 Crown &amp; Anchor #</label>
+                        <label className="mb-1">Guest 2 Crown &amp; Anchor #</label>
                         <div className="input-glow-border rounded-xl">
                           <input
                             type="text"
@@ -742,7 +760,7 @@ function CruiseCabinsPricingSectionComponent({
                         </div>
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1">Guest 2 T-Shirt Size</label>
+                        <label className="mb-1">Guest 2 T-Shirt Size</label>
                         <CustomDropdown
                           value={guests[0]?.tshirtSize || "L"}
                           onChange={(val) => updateGuest(0, "tshirtSize", val)}
@@ -785,13 +803,13 @@ function CruiseCabinsPricingSectionComponent({
 
               {/* EXTRA / OPTIONS & NOTES */}
               <div className="space-y-4">
-                <h3 className="text-lg font-bold text-white uppercase tracking-wider border-b border-white/10 pb-3">
+                <h3 className="text-lg font-bold text-white uppercase border-b border-white/10 pb-3">
                   EXTRA &amp; SPECIAL REQUESTS
                 </h3>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1.5">
+                    <label>
                       Travel Insurance? (Yes / No)
                     </label>
                     <CustomDropdown
@@ -807,7 +825,7 @@ function CruiseCabinsPricingSectionComponent({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase text-purple-200/80 mb-1.5">
+                    <label>
                       Pre-Paid Gratuities? (Y/N?) *
                     </label>
                     <CustomDropdown
@@ -839,7 +857,7 @@ function CruiseCabinsPricingSectionComponent({
                 <SeventhButton
                   type="submit"
                   disabled={signupStatus === "submitting"}
-                  className="t font-extrabold uppercase w-full sm:w-auto justify-center"
+                  className="font-extrabold uppercase w-full sm:w-auto justify-center"
                 >
                   {signupStatus === "submitting" ? (
                     <div className="flex items-center gap-2">
@@ -904,10 +922,10 @@ function CruiseCabinsPricingSectionComponent({
             return (
               <div key={nameStr + emailStr} className="flex flex-col items-center">
                 <div
-                  className="w-full overflow-hidden flex items-end justify-center relative shadow-none"
+                  className="w-full  overflow-hidden flex items-end justify-center relative shadow-none"
                   style={{
-                    WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                    maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                    WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                    maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
                   }}>
                   <Image
                     width={408}
@@ -915,10 +933,10 @@ function CruiseCabinsPricingSectionComponent({
                     unoptimized
                     src={photoSrc}
                     alt={nameStr}
-                    className="h-full w-auto object-contain object-bottom"
+                    className="w-full h-full object-contain object-bottom"
                     style={{
-                      WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                      maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                      WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                      maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
                     }}
                   />
                 </div>
@@ -961,12 +979,23 @@ function CruiseCabinsPricingSectionComponent({
             <div key={band.name} className="relative overflow-hidden group border-0 flex flex-col justify-between">
               {band.photo && (
                 <div
-                  className="w-full h-[315px] sm:h-[370px] relative flex items-end justify-center"
+                  className="relative flex items-end justify-center  w-full overflow-hidden"
                   style={{
-                    maskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
-                    WebkitMaskImage: "linear-gradient(black 0%, black 75%, transparent 100%)",
+                    WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                    maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
                   }}>
-                  <Image width={400} height={400} unoptimized src={band.photo} alt={band.name} className="w-full h-full object-contain object-bottom" />
+                  <Image
+                    width={400}
+                    height={400}
+                    unoptimized
+                    src={band.photo}
+                    alt={band.name}
+                    className="w-full h-full object-contain object-bottom"
+                    style={{
+                      WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                      maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                    }}
+                  />
                 </div>
               )}
               <div className="relative z-10 pt-3 pb-2 flex flex-col text-left">
@@ -1022,9 +1051,9 @@ function CruiseCabinsPricingSectionComponent({
               )}
 
               <form onSubmit={handleSaveRoom} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                       Stateroom Title *
                     </label>
                     <input
@@ -1038,7 +1067,7 @@ function CruiseCabinsPricingSectionComponent({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                       Category Code *
                     </label>
                     <input
@@ -1052,9 +1081,9 @@ function CruiseCabinsPricingSectionComponent({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                       Cruise Year *
                     </label>
                     <select
@@ -1085,7 +1114,7 @@ function CruiseCabinsPricingSectionComponent({
                   />
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-purple-200/80 mb-1.5">
+                    <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
                       Badge Status Color
                     </label>
                     <select
