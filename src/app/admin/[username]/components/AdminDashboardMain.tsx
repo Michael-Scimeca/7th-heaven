@@ -11157,7 +11157,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   }
 
   return (
-    <main id="admin-dashboard-root" className="site-container min-h-screen pt-[100px] selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
+    <main id="admin-dashboard-root" className="site-container min-h-screen page-container selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
 
 
       {/* === EXECUTIVE ADMIN HERO HEADER === */}

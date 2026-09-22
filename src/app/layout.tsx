@@ -192,9 +192,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://maps.googleapis.com" />
         <link
- rel="stylesheet"
- href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
- />
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
+        />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
          * This has to be a plain inline <script> in <head> rather than a
@@ -208,10 +208,10 @@ export default function RootLayout({
          * blocked or failed script degrades to simply not showing the
          * preloader rather than to a stuck black screen. */}
         <script
- dangerouslySetInnerHTML={{
- __html: PRELOAD_SCRIPT_CONTENT,
- }}
- />
+          dangerouslySetInnerHTML={{
+            __html: PRELOAD_SCRIPT_CONTENT,
+          }}
+        />
       </head>
       <body suppressHydrationWarning>
         <Preloader />
@@ -220,11 +220,11 @@ export default function RootLayout({
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
         )}
         <Script
- id="band-jsonld"
- type="application/ld+json"
- strategy="afterInteractive"
- dangerouslySetInnerHTML={{
- // Escape <,> and & so that </script> sequences in data values
+          id="band-jsonld"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            // Escape <,> and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
             __html: JSON.stringify(BAND_LD)
               .replace(/</g, '\\u003c')
@@ -234,7 +234,7 @@ export default function RootLayout({
         />
 
         <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{
- __html: `
+          __html: `
  if (window.location.search.includes('bypass=true')) {
  var style = document.createElement('style');
  style.innerHTML = '* { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; } #curtain-primary, #curtain-accent { display: none !important; } #page-content-wrapper { opacity: 1 !important; transform: none !important; }';
@@ -263,6 +263,8 @@ export default function RootLayout({
             </Providers>
           </ThemeProvider>
         </TransitionProvider>
+        {/* <Script id="font-inspector-snippet" src="/js/snippet.js" strategy="afterInteractive" /> */}
+
       </body>
     </html>
   );

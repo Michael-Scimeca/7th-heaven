@@ -140,7 +140,7 @@ export default async function NewsArticlePage({
   const categoryLabel = CATEGORY_LABELS[article.category ?? ""] ?? article.category ?? "";
 
   return (
-    <main className="min-h-screen pt-[100px] text-white">
+    <main className="min-h-screen page-container text-white">
       {/* Top nav bar */}
       <div className="site-container py-6">
         <Link

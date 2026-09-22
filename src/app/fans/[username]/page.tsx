@@ -410,7 +410,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   }
 
   return (
-    <main className="site-container pt-[100px] min-h-screen" id="fan-profile-page">
+    <main className="site-container page-container min-h-screen" id="fan-profile-page">
       <div>
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (

@@ -881,16 +881,7 @@ function TransitionTunerPanel({
   useEffect(() => {
     if (typeof window !== "undefined") {
       const search = window.location.search;
-      if (search.includes("tuner=false")) {
-        setIsVisible(false);
-        return;
-      }
-      const isRoleAdmin = member?.role === "admin";
-      const isPathAdmin = pathname?.startsWith("/admin");
-      const isCookieAdmin = document.cookie.includes("admin_authenticated=true");
-      const isQueryAdmin = search.includes("tuner=true") || search.includes("admin=true");
-
-      if (isRoleAdmin || isPathAdmin || isCookieAdmin || isQueryAdmin) {
+      if (search.includes("tuner=true")) {
         setIsVisible(true);
       } else {
         setIsVisible(false);

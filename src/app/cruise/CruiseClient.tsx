@@ -38,30 +38,31 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
 
   const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
 
-  const [heroMaskSettings, setHeroMaskSettings] = useState(() => {
-    const defaults = {
-      topFadeStart: 0,
-      topFadeEnd: 15,
-      topGradientHeight: 240,
-      topGradientOpacity: 85,
-      bottomFadeStart: 80,
-      bottomFadeEnd: 98,
-      videoBlur: 0,
-      videoBrightness: 90,
-      videoContrast: 100,
-      videoOpacity: 100,
-      beforeHeight: 0,
-      beforeBlur: 0,
-      beforeBgOpacity: 85,
-      beforeZIndex: 10,
-    };
-    if (typeof window === "undefined") return defaults;
+  const [heroMaskSettings, setHeroMaskSettings] = useState<Record<string, any>>({
+    topFadeStart: 0,
+    topFadeEnd: 15,
+    topGradientHeight: 240,
+    topGradientOpacity: 85,
+    bottomFadeStart: 75,
+    bottomFadeEnd: 83,
+    videoBlur: 0,
+    videoBrightness: 90,
+    videoContrast: 100,
+    videoOpacity: 100,
+    beforeHeight: 0,
+    beforeBlur: 0,
+    beforeBgOpacity: 85,
+    beforeZIndex: 10,
+  });
+
+  useEffect(() => {
     try {
       const saved = localStorage.getItem('7h_cruise_hero_mask_v6');
-      if (saved) return { ...defaults, ...JSON.parse(saved) };
+      if (saved) {
+        setHeroMaskSettings(prev => ({ ...prev, ...JSON.parse(saved) }));
+      }
     } catch { }
-    return defaults;
-  });
+  }, []);
 
   useEffect(() => {
     const handleUpdate = (e: Event) => {
@@ -87,25 +88,26 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
   const transitionDone = true;
 
   const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [formData, setFormData] = useState(() => {
-    const defaults = {
-      name: "", email: "", phone: "", notes: "", anonymous: false,
-      joinCommunity: true, cruiseNotifications: true, website: "", guestCount: 1, cabinPreference: "",
-      dob1: "", crownAnchor1: "", tshirtSize1: "L",
-      cardName1: "", cardNumber1: "", cardExpiry1: "", cardCvv1: "", cardZip1: "", cardAmount1: "250.00",
-      cardName2: "", cardNumber2: "", cardExpiry2: "", cardCvv2: "", cardZip2: "", cardAmount2: "250.00",
-      splitPayment: false,
-      insurance: "no", prepaidGratuities: "yes", howHeard: "7th Heaven"
-    };
-    if (typeof window === "undefined") return defaults;
+  const [formData, setFormData] = useState({
+    name: "", email: "", phone: "", notes: "", anonymous: false,
+    joinCommunity: true, cruiseNotifications: true, website: "", guestCount: 1, cabinPreference: "",
+    dob1: "", crownAnchor1: "", tshirtSize1: "L",
+    cardName1: "", cardNumber1: "", cardExpiry1: "", cardCvv1: "", cardZip1: "", cardAmount1: "250.00",
+    cardName2: "", cardNumber2: "", cardExpiry2: "", cardCvv2: "", cardZip2: "", cardAmount2: "250.00",
+    splitPayment: false,
+    insurance: "no", prepaidGratuities: "yes", howHeard: "7th Heaven"
+  });
+
+  // Load saved draft after mount to prevent SSR hydration mismatch
+  useEffect(() => {
     try {
       const saved = localStorage.getItem("7h_cruise_cabin_draft_v1") || localStorage.getItem("7h_cruise_cabin_draft");
       if (saved) {
-        return { ...defaults, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved);
+        setFormData(prev => ({ ...prev, ...parsed }));
       }
     } catch { }
-    return defaults;
-  });
+  }, []);
 
   useEffect(() => {
     if (typeof document !== "undefined" && "fonts" in document) {
@@ -319,7 +321,7 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
   };
 
   return (
-    <main className="min-h-screen text-white pt-[100px]" id="cruise-page">
+    <main className="min-h-screen text-white page-container" id="cruise-page">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
         heroForegroundRef={heroForegroundRef}
@@ -383,7 +385,7 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
 function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormData: (fd: any) => void }) {
   return (
     <div className="py-4 border-b border-white/10">
-      <span className="text-white uppercase block mb-3">Card 1 - Deposit Details</span>
+      <span className="text-white uppercase block font-bold">Card 1 - Deposit Details</span>
       <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="booking-cell pb-4 pt-4">
           <label htmlFor="cruise-card-name-1" className="booking-label block text-white uppercase mb-1.5">Your Full Name on the Card *</label>
@@ -433,7 +435,7 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
 function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormData: (fd: any) => void }) {
   return (
     <div className="p-4 border-b border-white/10">
-      <span className="text-white uppercase block mb-3">Card 2 - Split Details</span>
+      <span className="text-white uppercase block font-bold">Card 2 - Split Details</span>
       <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="booking-cell p-4">
           <label htmlFor="cruise-card-name-2" className="booking-label block text-white uppercase mb-1.5">Your Full Name on the Card *</label>
@@ -496,7 +498,7 @@ function CruiseNotesAndSignatureSection({
   return (
     <div className="booking-section-container border-0 p-0 mt-4">
       <div className="booking-section-header px-0 py-2 border-0">
-        <span className="uppercase text-white">ADDITIONAL NOTES &amp; DIGITAL SIGNATURE</span>
+        <span className="uppercase text-white font-bold">ADDITIONAL NOTES &amp; DIGITAL SIGNATURE</span>
       </div>
 
       <div className="py-3 border-0">

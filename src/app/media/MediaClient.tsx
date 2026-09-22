@@ -410,7 +410,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
   };
 
   return (
-    <main className="min-h-screen text-white pt-[100px] relative overflow-hidden" id="media-page">
+    <main className="min-h-screen text-white page-container relative overflow-hidden" id="media-page">
       <div className="site-container relative z-10 ">
         {/* ── CENTERED PAGE TITLE ── */}
         <header className="text-center mb-6">

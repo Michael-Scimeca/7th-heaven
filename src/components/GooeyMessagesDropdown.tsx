@@ -1,7 +1,7 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 
 export interface DropdownOption {
   label: string;
@@ -68,6 +68,9 @@ export default function GooeyMessagesDropdown({
   id,
   name,
 }: GooeyMessagesDropdownProps) {
+  const autoId = useId();
+  const elementId = id || autoId;
+
   const [open, setOpen] = useState(false);
   const [selectedIdState, setSelectedIdState] = useState<string | undefined>(defaultSelectedId);
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -161,7 +164,7 @@ export default function GooeyMessagesDropdown({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={triggerText}
-        id={id || "gooey-toggle"}
+        id={elementId}
         name={name}>
         <span
           className={` text-white whitespace-normal break-words flex-1 font-bold ${triggerTextClassName}`}>

@@ -586,21 +586,9 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
           }}
         />
 
-        {/* ── Top-Down Black Gradient Overlay for Top Header Navigation ── */}
-        <div
-          className="absolute top-0 left-0 right-0 h-44 md:h-64 z-[2] pointer-events-none bg-gradient-to-b from-black/85 via-black/40 to-transparent transition-opacity duration-700"
-          style={{ opacity: isMusicPlaying ? 0.6 : 1 }}
-        />
 
-        {/* ── Bottom-Up Black Gradient Overlay ── */}
-        <div
-          className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-all duration-700"
-          style={{
-            height: `${gradHeight}%`,
-            background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.5 : gradOpacity) * 0.75)} ${gradMidstop}%, transparent 100%)`,
-            opacity: isMusicPlaying ? 0.7 : 1,
-          }}
-        />
+
+
 
         {/* ── Soft Bottom Dissolve Overlay ── */}
         <div
@@ -765,13 +753,6 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
         <div ref={foregroundRef} className="relative z-[10] flex flex-col justify-between w-full h-full pointer-events-none p-6 sm:p-10 md:p-12">
           {/* Hero Title & Subheading Content */}
           <div className="site-container-left flex flex-col items-start max-w-3xl  pointer-events-auto">
-            {/* Top Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/70 border border-purple-400/30 backdrop-blur-md mb-3.5 shadow-[0_0_20px_rgba(147,51,234,0.35)]">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-purple-200">
-                {sanityContent?.heroBadge || "✦ Chicago's #1 Rock Experience • Live On Tour"}
-              </span>
-            </div>
 
             {/* Hero Main Headline */}
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-[0.92] mb-3">

@@ -695,7 +695,7 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="site-container min-h-screen text-white pt-[100px] selection:bg-cyan-500 selection:text-black">
+    <div className="site-container min-h-screen text-white page-container selection:bg-cyan-500 selection:text-black">
       <div>
         <header className="mb-5 border-b border-white/10 flex flex-col md:flex-row justify-between gap-8">
           <MemberHeaderBadge

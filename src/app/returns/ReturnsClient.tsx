@@ -9,7 +9,7 @@ interface ReturnsClientProps {
 export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
 
   return (
-    <main className="site-container pt-[100px] min-h-screen text-left" id="returns-page">
+    <main className="site-container page-container min-h-screen text-left" id="returns-page">
       <header className="mb-6 text-left">
         <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Return & Refund Policy"}

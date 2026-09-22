@@ -10,7 +10,7 @@ interface TermsClientProps {
 export default function TermsClient({ sanityContent }: TermsClientProps) {
 
   return (
-    <main className="site-container pt-[100px] min-h-screen text-left" id="terms-page">
+    <main className="site-container page-container min-h-screen text-left" id="terms-page">
       <header className="mb-6 text-left">
         <h1 className="mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Terms of Service"}

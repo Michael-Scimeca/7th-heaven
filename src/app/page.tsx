@@ -33,7 +33,7 @@ export default async function Home() {
   const sanityContent = await fetchPageContent("home");
 
   return (
-    <main id="home-page">
+    <main id="home-page" >
       {/* ====== HERO (90vh Viewport Height) ====== */}
       <section
         className="relative w-full h-[90vh] max-h-[90vh] p-0 m-0 overflow-hidden morph-pick"

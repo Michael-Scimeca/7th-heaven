@@ -527,7 +527,7 @@ export default function VinylHeroPlayer({
         height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
       }}>
       <div
-        className="absolute right-0 bottom-0 select-none"
+        className="absolute right-[-11px] bottom-0 select-none"
         style={{
           width: `${unscaledWidth}px`,
           height: `${unscaledHeight}px`,

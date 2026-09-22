@@ -9,7 +9,7 @@ interface PrivacyClientProps {
 export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
 
   return (
-    <main className="site-container pt-[100px] min-h-screen text-left" id="privacy-page">
+    <main className="site-container page-container min-h-screen text-left" id="privacy-page">
       <header className="mb-6 text-left">
         <h1 className="mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Privacy Policy"}

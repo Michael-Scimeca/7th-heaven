@@ -203,7 +203,7 @@ function CruiseCabinsPricingSectionComponent({
   return (
     <>
       {/* ── SECTION 2: CABINS & PRICING ── */}
-      <LazyMount as="section" id="pricing" className="site-container border-b border-white/10 relative z-20" minHeight="800px" rootMargin="300px 0px">
+      <LazyMount as="section" id="pricing" className="site-container relative z-20 -mt-85 lg:-mt-[460px] [text-shadow:3px_5px_6px_rgba(0,0,0,0.5)]" minHeight="800px" rootMargin="300px 0px">
         <div className="text-left max-w-3xl">
           <h2 className="uppercase text-white">
             {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")?.title || "Staterooms & Cruise Rates"}
@@ -636,7 +636,7 @@ function CruiseCabinsPricingSectionComponent({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   <div>
                     <label>Cell Phone *</label>
                     <div className="input-glow-border rounded-xl">
@@ -734,7 +734,7 @@ function CruiseCabinsPricingSectionComponent({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                       <div>
                         <label className="mb-1">Guest 2 Phone</label>
                         <div className="input-glow-border rounded-xl">
@@ -832,11 +832,11 @@ function CruiseCabinsPricingSectionComponent({
                       value={formData.prepaidGratuities || "yes"}
                       onChange={(val) => setFormData((prev: any) => ({ ...prev, prepaidGratuities: val }))}
                       options={[
-                        { value: "yes", label: "Yes - Add pre-paid gratuities (Recommended for group rates)" },
+                        { value: "yes", label: "Yes - Add pre-paid gratuities" },
                         { value: "no", label: "No - Pay gratuities onboard ship" },
                       ]}
                       chevronColor="#f43f5e"
-                      className=""
+
                     />
                     <p className="text-[11px] text-white/50 mt-1 uppercase">GROUP RATE ROOMS MUST HAVE THIS</p>
                   </div>
@@ -850,39 +850,40 @@ function CruiseCabinsPricingSectionComponent({
                   setSignature={setSignature}
                   signatureDate={signatureDate}
                 />
+                {/* SUBMIT BUTTON */}
+                <div className="text-center">
+                  <SeventhButton
+                    type="submit"
+                    disabled={signupStatus === "submitting"}
+                    className="font-extrabold uppercase w-full sm:w-auto justify-center"
+                  >
+                    {signupStatus === "submitting" ? (
+                      <div className="flex items-center gap-2">
+                        <Loader2 className="w-5 h-5 animate-spin text-white" />
+                        <span>SUBMITTING RESERVATION...</span>
+                      </div>
+                    ) : (
+                      <span>SUBMIT RESERVATION &amp; BOOKING</span>
+                    )}
+                  </SeventhButton>
+                </div>
               </div>
 
-              {/* SUBMIT BUTTON */}
-              <div className="pt-4 text-center">
-                <SeventhButton
-                  type="submit"
-                  disabled={signupStatus === "submitting"}
-                  className="font-extrabold uppercase w-full sm:w-auto justify-center"
-                >
-                  {signupStatus === "submitting" ? (
-                    <div className="flex items-center gap-2">
-                      <Loader2 className="w-5 h-5 animate-spin text-white" />
-                      <span>SUBMITTING RESERVATION...</span>
-                    </div>
-                  ) : (
-                    <span>SUBMIT RESERVATION &amp; BOOKING</span>
-                  )}
-                </SeventhButton>
-              </div>
+
             </form>
           )}
-        </div >
-      </section >
+        </div>
+      </section>
 
       {/* Cruise Support Team */}
-      < LazyMount as="section" id="concierge" className="site-container py-section-fluid text-center relative z-20 border-b border-white/10" minHeight="400px" rootMargin="300px 0px" >
+      <LazyMount as="section" id="concierge" className="site-container py-section-fluid text-center relative z-20 border-b border-white/10" minHeight="400px" rootMargin="300px 0px">
         <h2 className="uppercase text-purple-300">
           Official Cruise Concierge &amp; Booking Team
         </h2>
         <p className="text-white/70 max-w-2xl mx-auto mt-3 font-medium text-sm sm:text-base">
           Have questions about your booking, cabin options, group travel, or excursions? Our dedicated 7th Heaven Cruise concierge team is here to assist you every step of the way.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 pt-6 md:pt-12 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-8 lg:gap-6 pt-6 md:pt-12 text-center">
           {((sanityContent?.founders?.length ? sanityContent.founders : sanityContent?.contacts?.length ? sanityContent.contacts : null) || [
             {
               name: "RICHARD HOFHERR",
@@ -961,10 +962,10 @@ function CruiseCabinsPricingSectionComponent({
             );
           })}
         </div>
-      </LazyMount >
+      </LazyMount>
 
       {/* FEATURED ARTISTS */}
-      < LazyMount as="section" id="artists" className="site-container py-section-fluid border-b border-white/10" minHeight="500px" rootMargin="300px 0px" >
+      <LazyMount as="section" id="artists" className="site-container py-section-fluid border-b border-white/10" minHeight="500px" rootMargin="300px 0px">
         <div className="text-left w-full mb-10 max-w-3xl">
           <h2 className="uppercase text-white mt-2">
             Featured <span className="accent-gradient-text">Artists</span>

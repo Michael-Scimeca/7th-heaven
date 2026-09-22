@@ -533,7 +533,7 @@ export function Header() {
         <div
           id="nav-inner-card"
           suppressHydrationWarning
-          className="w-full h-[80px] flex items-center justify-between relative pointer-events-auto gap-4 z-[30000]">
+          className="w-full h-[60px] md:h-[70px] flex items-center justify-between relative pointer-events-auto gap-4 z-[30000]">
 
           {/* ── LOGO (Left-aligned on mobile; dead-centered on desktop>= 1024px) ── */}
           <TransitionLink

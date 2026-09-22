@@ -46,15 +46,15 @@ export default function CruiseHeroSection({
   const ship2Year = ship2?.subtitle || "2028";
   const subheading = sanityContent?.heroSubheading || "CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)";
 
-  const maskImageGradient = `linear-gradient(to bottom, black 0%, black ${bottomFadeStart}%, transparent ${bottomFadeEnd}%, transparent 100%)`;
+  const maskImageGradient = "linear-gradient(to bottom, black 0%, black 65%, transparent 95%)";
 
   return (
     <section
       id="cruise-hero"
-      className="-mt-[100px] pt-[100px] relative flex flex-col justify-start overflow-hidden pb-8 md:pb-16 text-white min-h-[35vh] md:min-h-[36vh] lg:min-h-[620px] site-container">
+      className="-mt-[100px] page-container relative flex flex-col justify-start overflow-hidden  text-white min-h-[710px] md:min-h-[70vw] site-container">
       {/* Full-bleed background video & image mask wrapper */}
       <div
-        className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#05030a]"
+        className="absolute inset-0 z-0 pointer-events-none overflow-hidden "
         style={{
           marginLeft: "calc(-1 * var(--page-padding-x))",
           marginRight: "calc(-1 * var(--page-padding-x))",
@@ -77,11 +77,13 @@ export default function CruiseHeroSection({
           muted
           playsInline
           preload="auto"
-          className="w-full h-full object-cover bg-[#05030a]"
+          className="w-full h-full object-cover "
           style={{
-            objectPosition: "center 40%",
-            transform: "scale(1.02)",
-            transformOrigin: "center center",
+            objectPosition: "center 0%",
+            transform: "translateY(-17vw) scale(1)",
+            transformOrigin: "top",
+            WebkitMaskImage: maskImageGradient,
+            maskImage: maskImageGradient,
           }}>
           <source src={desktopVideoUrl} type="video/mp4" />
           <track kind="captions" />
@@ -104,11 +106,7 @@ export default function CruiseHeroSection({
       <div
         ref={heroForegroundRef}
         className="relative z-10 text-left mb-6">
-        {/* Chicago Music Cruise Official Branding Badges & Social Links */}
-        <div className="flex flex-wrap items-center gap-2.5 mb-4">
-          <SectionBadge label={subheading} />
-          <SectionBadge label="ROYAL CARIBBEAN GROUP ID: 3325680" />
-        </div>
+
 
         {/* Main Title: Cruise Name */}
         <h1>
@@ -133,7 +131,7 @@ export default function CruiseHeroSection({
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
             className="btn-pill-glass backdrop-blur-[45px] flex items-center gap-2 text-rose-200 hover:text-white bg-rose-900/40 hover:bg-rose-800/60 border border-rose-500/40 transition-all cursor-pointer">
-            <span>💳 MAKE A PAYMENT</span>
+            <span>💳 MAKE A PAYMENT - GROUP ID: 3325680</span>
           </button>
         </div>
       </div>

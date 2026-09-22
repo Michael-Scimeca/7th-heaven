@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PastShowsPage() {
   const sanityContent = await fetchPageContent("past-shows");
   return (
-    <main className="site-container min-h-screen pt-[100px]" id="past-shows-page">
+    <main className="site-container min-h-screen page-container" id="past-shows-page">
       <PastShowsClient
         years={pastShowsData.years}
         totalShowsCount={pastShowsData.totalShows}

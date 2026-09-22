@@ -423,7 +423,7 @@ export default function RockNRollKidsClient({
   const para2 = aboutSection?.body || ABOUT_DATA.paragraph2;
 
   return (
-    <main className="site-container min-h-screen w-full text-white pt-[100px] overflow-x-hidden">
+    <main className="site-container min-h-screen w-full text-white page-container overflow-x-hidden">
       {/* Hero Header */}
       <header className="text-center space-y-6">
         <h1 className="mb-3">

@@ -846,7 +846,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
   }
 
   return (
-    <main id="book-page" className="min-h-screen relative pt-[100px]">
+    <main id="book-page" className="min-h-screen relative page-container">
 
       <form id="book-event" className="site-container relative z-10" onSubmit={handleSubmit}>
         {isFromPlanner && (

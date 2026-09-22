@@ -725,18 +725,30 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
       className="snake-itinerary-root site-container relative overflow-hidden"
       ref={sectionRef}
     >
-      {/* Ocean Video Background inside snake-itinerary-root container */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden rounded-2xl">
-        <video
-          src="/movie/ocean.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="w-full  object-cover "
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#05030a]/60 via-transparent to-[#05030a]/70 pointer-events-none" />
+      {/* Deep Ocean Video Background — Fixed 100vh Window Height & Sticks to window */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
+        style={{
+          marginLeft: "calc(-1 * var(--page-padding-x))",
+          marginRight: "calc(-1 * var(--page-padding-x))",
+          width: "calc(100% + 2 * var(--page-padding-x))",
+        }}>
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          <video
+            src="/movie/deep.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            onEnded={(e) => {
+              e.currentTarget.currentTime = 0;
+              e.currentTarget.play().catch(() => {});
+            }}
+            className="w-full h-screen object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#05030a]/60 via-transparent to-[#05030a]/70 pointer-events-none" />
+        </div>
       </div>
 
       {/* ── Header (Inside Blue Container Box) ── */}
