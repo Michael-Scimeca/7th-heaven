@@ -11,8 +11,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { signupSchema } from "@/lib/validation";
 import { SquishyToggle } from "@/components/SquishyToggle";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 import { GlowInput } from "@/components/GlowInput";
 import IphoneClipMask from "@/components/IphoneClipMask";
 import { User, Mail, MapPin, Sliders, Music, Check, Guitar } from "lucide-react";
@@ -380,14 +379,14 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           {RADIUS_OPTIONS.map((opt) => {
                             const active = radius === opt.value;
                             return (
-                              <FoolishShrimpButton
+                              <SeventhButton
                                 key={opt.value}
                                 type="button"
                                 onClick={() => setRadius(opt.value)}
                                 isActive={active}
                                 className="!w-auto px-2.5 py-1.5 text-xs">
                                 {opt.label}
-                              </FoolishShrimpButton>
+                              </SeventhButton>
                             );
                           })}
                         </div>
@@ -404,7 +403,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       {SHOW_TYPES.map((type) => {
                         const isSelected = selectedShowTypes.includes(type.id);
                         return (
-                          <FoolishShrimpButton
+                          <SeventhButton
                             key={type.id}
                             type="button"
                             onClick={() => {
@@ -428,7 +427,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                             )}
                             <span>{type.label}</span>
                             {isSelected && <CrispCheckIcon />}
-                          </FoolishShrimpButton>
+                          </SeventhButton>
                         );
                       })}
                     </div>
@@ -454,13 +453,13 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   </div>
 
                   {/* Submit Button */}
-                  <CosmicRadialButton
+                  <SeventhButton
                     type="submit"
                     icon={false}
                     disabled={status === "loading" || !agreeTerms}
                     className="w-full uppercase cursor-pointer transition disabled:opacity-60">
                     {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
-                  </CosmicRadialButton>
+                  </SeventhButton>
 
                   {/* Errors */}
                   {Object.keys(fieldErrors).length > 0 && (

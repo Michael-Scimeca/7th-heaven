@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from 'next/image';
 import Link from "next/link";
 import TransitionLink from "@/components/TransitionLink";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import { FEATURES, TECH, CATEGORIES, Category, FeatureCard } from "./data/featuresData";
 import { FeatureCardUI } from "./components/FeatureCardUI";
 
@@ -177,12 +177,12 @@ export default function FeaturesPage() {
           <p className="mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>
           <p className="mb-12">Questions? Reach out via the contact page.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <CosmicRadialButton
+            <SeventhButton
               icon={false}
               onClick={() => window.location.href = "/fans"}
               className="px-8 py-4 text-white text-base    rounded-lg">
               Join as a Fan →
-            </CosmicRadialButton>
+            </SeventhButton>
             <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase    rounded-lg transition-colors">Watch Live</Link>
             <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase    rounded-lg transition-colors">See Tour Dates</Link>
             <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-white text-base uppercase    rounded-lg transition-colors">Book the Band</Link>

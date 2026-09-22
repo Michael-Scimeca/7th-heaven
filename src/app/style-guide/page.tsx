@@ -36,16 +36,13 @@ const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDr
 
 import RoleBadge from "@/components/RoleBadge";
 import CustomScrollbar from "@/components/CustomScrollbar";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import CosmicTrackCard from "@/components/CosmicTrackCard";
-import FoolishShrimpButton, { FoolishShrimpAlwaysButton } from "@/components/FoolishShrimpButton";
 import PillBadgeButton from "@/components/PillBadgeButton";
 import GlassPlayButton from "@/components/GlassPlayButton";
-import GlowOrbButton from "@/components/GlowOrbButton";
 import AddCmsButton from "@/components/AddCmsButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
-import SparkleGenerateButton from "@/components/SparkleGenerateButton";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import { useThemeTokens } from "@/components/ThemeProvider";
 import { useMember } from "@/context/MemberContext";
@@ -330,9 +327,9 @@ function SparkleGenerateButtonDemo() {
 
       {/* Button Render Display Area */}
       <div className="flex flex-col items-center justify-center py-8 rounded-lg bg-gradient-to-b from-purple-900/20 via-black/40 to-black/60 border border-white/5 min-h-[140px] relative overflow-hidden">
-        <SparkleGenerateButton active={isActive} dotCount={particleCount}>
+        <SeventhButton active={isActive} dotCount={particleCount}>
           {buttonText || "Generate Site"}
-        </SparkleGenerateButton>
+        </SeventhButton>
       </div>
 
       <p className="text-[13px] text-white/40">
@@ -703,18 +700,18 @@ function ButtonMasterGalleryAndStudio() {
       {/* Grid of All Site Buttons */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        {/* 1. FoolishShrimpButton (Credits & High-converting CTA) */}
+        {/* 1. SeventhButton (Credits & High-converting CTA) */}
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-sm font-bold text-amber-400 uppercase tracking-wider">
-                FoolishShrimpButton / AlwaysButton
+                SeventhButton / AlwaysButton
               </h4>
               <p className="text-[11px] text-white/50">Credits system &amp; high-converting hero button</p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<FoolishShrimpButton active={${isActiveState}} disabled={${isDisabled}}>${buttonLabel || "Credits"}</FoolishShrimpButton>`, "foolish")}
+              onClick={() => handleCopyCode(`<SeventhButton active={${isActiveState}} disabled={${isDisabled}}>${buttonLabel || "Credits"}</SeventhButton>`, "foolish")}
               className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
             >
               {copiedTag === "foolish" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -722,19 +719,20 @@ function ButtonMasterGalleryAndStudio() {
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-4 py-2">
-            <FoolishShrimpButton
+            <SeventhButton
               disabled={isDisabled}
               isActive={isActiveState}
               icon={currentIconNode}
             >
               {isLoadingState ? "Processing..." : (buttonLabel || "Credits")}
-            </FoolishShrimpButton>
-            <FoolishShrimpAlwaysButton
+            </SeventhButton>
+            <SeventhButton
               disabled={isDisabled}
+              isActive={true}
               icon={currentIconNode}
             >
               {isLoadingState ? "Processing..." : (buttonLabel || "Credits")} (Always Active)
-            </FoolishShrimpAlwaysButton>
+            </SeventhButton>
           </div>
         </div>
 
@@ -759,9 +757,9 @@ function ButtonMasterGalleryAndStudio() {
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-4 py-2">
-            <SparkleGenerateButton active={isActiveState}>
+            <SeventhButton active={isActiveState}>
               {buttonLabel || "Generate Experience"}
-            </SparkleGenerateButton>
+            </SeventhButton>
           </div>
         </div>
 

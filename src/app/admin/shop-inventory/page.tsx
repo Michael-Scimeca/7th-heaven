@@ -411,7 +411,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setPrice(e.target.value);
             markDirty();
           }}
-          className="w-full bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white"
+          className="form-input !px-2 !py-1.5"
         />
       </div>
       <div>
@@ -422,7 +422,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setStock(e.target.value);
             markDirty();
           }}
-          className={`w-full bg-[#00000029] border rounded px-2 py-1.5 text-white ${isOut ? "border-rose-500/50" : isLow ? "border-yellow-500/50" : "border-white/10"}`}
+          className={`form-input !px-2 !py-1.5 ${isOut ? "border-rose-500/50" : isLow ? "border-yellow-500/50" : ""}`}
           title="Stock quantity"
         />
         {isOut && <span className="text-[12px] text-rose-400">SOLD OUT</span>}
@@ -436,7 +436,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             setLowStock(e.target.value);
             markDirty();
           }}
-          className="w-full bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white"
+          className="form-input !px-2 !py-1.5"
           title="Low-stock threshold"
         />
       </div>

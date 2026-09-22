@@ -7,8 +7,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Bell, MapPin, Check, Sliders, Music, Mail, User, Guitar } from "lucide-react";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 import GlowInput from "@/components/GlowInput";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import IphoneClipMask from "@/components/IphoneClipMask";
@@ -323,14 +322,14 @@ export default function FooterProximityAlerts() {
                             {RADIUS_OPTIONS.map((opt) => {
                                 const isSelected = radius === opt.value;
                                 return (
-                                    <FoolishShrimpButton
+                                    <SeventhButton
                                         key={opt.value}
                                         type="button"
                                         onClick={() => setRadius(opt.value)}
                                         isActive={isSelected}
                                         className="!w-auto px-3.5 py-2 text-xs">
                                         {opt.label}
-                                    </FoolishShrimpButton>
+                                    </SeventhButton>
                                 );
                             })}
                         </div>
@@ -348,7 +347,7 @@ export default function FooterProximityAlerts() {
                                     const isSelected = isAll || activeTypeSet.has(type.id);
                                     return (
                                         /* eslint-disable-next-line react-doctor/duplicate-jsx-subtree */
-                                        <FoolishShrimpButton
+                                        <SeventhButton
                                             key={type.id}
                                             type="button"
                                             onClick={() => toggleType(type.id)}
@@ -356,7 +355,7 @@ export default function FooterProximityAlerts() {
                                             className="!w-auto inline-flex items-center gap-1.5 px-2.5 py-2 text-xs">
                                             <span>{type.label}</span>
 
-                                        </FoolishShrimpButton>
+                                        </SeventhButton>
                                     );
                                 });
                             })()}
@@ -377,7 +376,7 @@ export default function FooterProximityAlerts() {
                             <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 uppercase whitespace-nowrap shrink-0">
                                 <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
                             </span>
-                            <CosmicRadialButton
+                            <SeventhButton
                                 icon={false}
                                 onClick={handleSavePrefs}
                                 disabled={isBusy}
@@ -391,10 +390,10 @@ export default function FooterProximityAlerts() {
                                         <span className="whitespace-nowrap">Save Preferences</span>
                                     )}
                                 </span>
-                            </CosmicRadialButton>
+                            </SeventhButton>
                         </div>
                     ) : (
-                        <CosmicRadialButton
+                        <SeventhButton
                             icon={false}
                             onClick={handleEnableAlerts}
                             disabled={isBusy || permission === "denied"}
@@ -411,7 +410,7 @@ export default function FooterProximityAlerts() {
                                     </>
                                 )}
                             </span>
-                        </CosmicRadialButton>
+                        </SeventhButton>
                     )}
 
                     <p className="uppercase text-xs text-white/70 tracking-wide ">

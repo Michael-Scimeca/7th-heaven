@@ -439,11 +439,11 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [dragThreshold, setDragThreshold] = useState<number>(4);
 
   // Tunable Stage & Cutout Size Controls — Saved User Configuration
-  const [cardWidth, setCardWidth] = useState<number>(303);
-  const [imageHeight, setImageHeight] = useState<number>(404);
+  const [cardWidth, setCardWidth] = useState<number>(458);
+  const [imageHeight, setImageHeight] = useState<number>(610);
   const [imageScale, setImageScale] = useState<number>(1.42);
   const [imageOffsetY, setImageOffsetY] = useState<number>(-10);
-  const [gap, setGap] = useState<number>(-30);
+  const [gap, setGap] = useState<number>(-69);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.00);
   const [maxSkew, setMaxSkew] = useState<number>(30);
   const [focalScale, setFocalScale] = useState<number>(1.36);
@@ -455,18 +455,18 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   // Fireplace WebGL Shader Canvas & BioParallax UI Controls State
   const [isCanvasEnabled, setIsCanvasEnabled] = useState<boolean>(true);
-  const [flameSpeed, setFlameSpeed] = useState<number>(0.2);
-  const [flameHeight, setFlameHeight] = useState<number>(1.3);
-  const [sparkDensity, setSparkDensity] = useState<number>(2.3);
-  const [sparkScale, setSparkScale] = useState<number>(0.1);
+  const [flameSpeed, setFlameSpeed] = useState<number>(0.3);
+  const [flameHeight, setFlameHeight] = useState<number>(0.2);
+  const [sparkDensity, setSparkDensity] = useState<number>(1.1);
+  const [sparkScale, setSparkScale] = useState<number>(0.09);
   const [paletteTheme, setPaletteTheme] = useState<number>(1);
-  const [canvasOpacity, setCanvasOpacity] = useState<number>(60);
+  const [canvasOpacity, setCanvasOpacity] = useState<number>(75);
   const [glowOpacity, setGlowOpacity] = useState<number>(75);
   const [useCustomColors, setUseCustomColors] = useState<boolean>(true);
   const [colorBaseHex, setColorBaseHex] = useState<string>("#330000");
   const [colorMidHex, setColorMidHex] = useState<string>("#CC1100");
   const [colorCoreHex, setColorCoreHex] = useState<string>("#FFAA00");
-  const [colorSparkHex, setColorSparkHex] = useState<string>("#FFD700");
+  const [colorSparkHex, setColorSparkHex] = useState<string>("#fdf7d8");
   const [isCanvasCustomizerOpen, setIsCanvasCustomizerOpen] = useState<boolean>(false);
   const [activeCustomizerTab, setActiveCustomizerTab] = useState<"canvas" | "stage">("canvas");
   const [copiedConfigNotification, setCopiedConfigNotification] = useState<boolean>(false);
@@ -1117,35 +1117,12 @@ lerpSpeed: ${lerpSpeed}`;
   }, [imageHeight, focalScale, paddingOffset]);
 
   return (
-    <div
+    <section
       id="band"
       ref={sectionRef}
       className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none relative "
     >
-      {/* Floating Canvas UI Settings Button */}
-      <button
-        type="button"
-        onClick={() => setIsCanvasCustomizerOpen((prev) => !prev)}
-        aria-label="Open Canvas & BioParallax UI Settings"
-        title="Canvas & BioParallax UI Settings"
-        className="absolute top-4 right-4 z-40 flex items-center gap-2 bg-black/80 hover:bg-black/95 backdrop-blur-xl border border-white/20 text-white text-xs font-semibold px-3.5 py-2 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer group"
-      >
-        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-amber-400 group-hover:rotate-12 transition-transform"
-        >
-          <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z" />
-        </svg>
-        <span>Canvas UI Settings</span>
-      </button>
+
 
       {/* Live Canvas & Stage UI Customizer Drawer Panel */}
       {isCanvasCustomizerOpen && mounted && typeof document !== "undefined" && createPortal(
@@ -1757,7 +1734,7 @@ lerpSpeed: ${lerpSpeed}`;
       }
 
       {/* 100VW FULL-SCREEN STAGE CONTAINER */}
-      <div className="w-full relative overflow-x-clip">
+      <div className="w-full relative z-[100] overflow-x-clip">
 
 
 
@@ -1895,7 +1872,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                         {/* Orb Button Glass Stack — Toggle Bio Fact Sheet (Active Member Only) */}
                         {isActive && (
-                          <div className="btn-wrapper absolute top-2 right-2 md:top-4 md:right-4 z-40 text-[7.5px] md:text-[8.5px] transition-opacity duration-300">
+                          <div className="btn-wrapper absolute top-2 right-2 md:top-4 md:right-4 z-0 text-[7.5px] md:text-[8.5px] transition-all duration-300 pointer-events-auto animate-orb-pop">
                             <button
                               type="button"
                               aria-label={isFactSheetOpen ? `Close bio details for ${m?.name || "Band Member"}` : `View bio details for ${m?.name || "Band Member"}`}
@@ -2069,6 +2046,6 @@ lerpSpeed: ${lerpSpeed}`;
           if (idx !== -1) goToSlide(idx);
         }}
       />
-    </div >
+    </section>
   );
 }

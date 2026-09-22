@@ -310,7 +310,7 @@ export default function PlannerClient() {
                 </div>
                 <div className="input-glow-border rounded-xl">
                   <textarea aria-label="Text input" value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
-                    className="w-full bg-[#00000029] border border-white/10 px-3 py-2.5 text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
+                    className="form-input resize-none" />
                 </div>
                 <button onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
                   className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  hover:text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50">

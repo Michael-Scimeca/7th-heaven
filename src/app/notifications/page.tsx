@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import QRCode from "react-qr-code";
 import { useMember } from "@/context/MemberContext";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 
 type Group = "fans" | "crew" | "cruise";
 
@@ -200,12 +200,12 @@ export default function NotificationsPage() {
                 <div className="flex-1">
                   <p className="mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
                   <div className="flex flex-wrap items-center gap-2">
-                    <CosmicRadialButton
+                    <SeventhButton
                       icon={false}
                       onClick={() => window.open(appDeepLink, "_self")}
                       className="px-5 py-2.5 rounded-lg">
                       Open in ntfy App
-                    </CosmicRadialButton>
+                    </SeventhButton>
                     <a
                       href={browserUrl}
                       target="_blank"

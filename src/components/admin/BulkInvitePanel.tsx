@@ -3,7 +3,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useRef } from "react";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 
 interface ParsedInvite {
   email: string;
@@ -232,7 +232,7 @@ export default function BulkInvitePanel() {
             <p className="text-black/60 .5 max-w-xs">
               Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
             </p>
-            <CosmicRadialButton
+            <SeventhButton
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
@@ -240,7 +240,7 @@ export default function BulkInvitePanel() {
               }}
               className="mt-4 !py-2 !px-5 uppercase text-white ">
               Browse Files
-            </CosmicRadialButton>
+            </SeventhButton>
           </button>
 
           {/* Direct Copy-Paste Text Area */}
@@ -256,13 +256,13 @@ export default function BulkInvitePanel() {
                 className="w-full bg-black/40 border-white/10 outline-none text-white px-4 py-3 rounded-lg resize-none placeholder:text-white/40 transition-colors"
               />
             </div>
-            <CosmicRadialButton
+            <SeventhButton
               type="button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
               className="w-full justify-center !py-3 !px-5 uppercase text-white disabled:opacity-30">
               Parse & Import List
-            </CosmicRadialButton>
+            </SeventhButton>
           </div>
         </div>
       ) : (
@@ -286,13 +286,13 @@ export default function BulkInvitePanel() {
                 className="px-4 py-2 uppercase text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30">
                 Clear List
               </button>
-              <CosmicRadialButton
+              <SeventhButton
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
                 className="!py-3 !px-6 uppercase !text-white disabled:opacity-40">
                 {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
-              </CosmicRadialButton>
+              </SeventhButton>
             </div>
           </div>
 

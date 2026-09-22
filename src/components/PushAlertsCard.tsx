@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 
 type Group = "fans" | "crew" | "cruise";
@@ -111,13 +111,13 @@ export default function PushAlertsCard({
           ) : (
             <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3">
               {/* Primary Action: Open Subscription Modal to collect Name & Email */}
-              <CosmicRadialButton
+              <SeventhButton
                 onClick={() => setShowModal(true)}
                 className="justify-center !py-2.5 !px-5 uppercase !text-white"
               >
                 <BellIcon />
                 {subscribed ? "✓ Live Alerts Enabled 🔔" : "Enable Push Alerts"}
-              </CosmicRadialButton>
+              </SeventhButton>
 
               {/* Secondary Action: Open Web Version */}
               {webUrl ? (

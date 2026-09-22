@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { useSettings } from "@/lib/useSettings";
 import { useTransition } from "@/context/TransitionContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import dynamic from "next/dynamic";
 import FooterProximityAlerts from "@/components/FooterProximityAlerts";
 

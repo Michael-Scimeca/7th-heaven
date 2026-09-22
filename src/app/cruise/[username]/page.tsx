@@ -16,7 +16,7 @@ import { createClient } from "@/lib/supabase/client";
 import { formatPhoneDisplay } from "@/lib/validation";
 import dynamic from "next/dynamic";
 import PushAlertsCard from "@/components/PushAlertsCard";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 
 const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
@@ -746,7 +746,7 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={e => setGuidelinesTitleInput(e.target.value)}
-                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg px-4 py-2 text-white focus:border-purple-400 outline-none"
+                        className="form-input"
                       />
                     </div>
                     <div>
@@ -755,13 +755,13 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={e => setGuidelinesSubtitleInput(e.target.value)}
-                        className="w-full bg-[#00000029] border border-white/10 backdrop-blur-[16px]15 rounded-lg px-4 py-2 text-purple-400focus:border-purple-400 outline-none"
+                        className="form-input text-purple-400"
                       />
                     </div>
                     <div>
                       <span className="block text-white/50 uppercase mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
                       <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-[#00000029] border border-white/10 backdrop-blur-[16px] border border-white/10 rounded-lg text-white overflow-hidden" />
+                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="form-input text-white overflow-hidden" />
                       </div>
                     </div>
                     <div className="flex gap-3 justify-end">
@@ -830,20 +830,20 @@ export default function CruiseDashboard() {
 
             {/* Itinerary Year Toggle */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mt-8">
-              <FoolishShrimpButton
+              <SeventhButton
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
                 isActive={activeItinYear === 2027}
-                className="!w-auto px-6 py-2.5">
+                className="">
                 2027 Star of the Seas (7-Night)
-              </FoolishShrimpButton>
-              <FoolishShrimpButton
+              </SeventhButton>
+              <SeventhButton
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
                 isActive={activeItinYear === 2028}
-                className="!w-auto px-6 py-2.5">
+                className="">
                 2028 Legend of the Seas (8-Night)
-              </FoolishShrimpButton>
+              </SeventhButton>
             </div>
           </div>
 

@@ -4,7 +4,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import { GlowInput } from "@/components/GlowInput";
 
 const fileToDataUrl = (blob: Blob): Promise<string> => {
@@ -360,14 +360,14 @@ export default function FanUploadForm() {
               </div>
 
 
-              <CosmicRadialButton
+              <SeventhButton
                 type={isLoggedIn ? "submit" : "button"}
                 onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}
                 icon={false}
                 className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white uppercase    h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer">
                 {uploading ? "Uploading…" : isScanning ? "Scanning…" : "Publish"}
-              </CosmicRadialButton>
+              </SeventhButton>
             </div>
           </div>
         </form >

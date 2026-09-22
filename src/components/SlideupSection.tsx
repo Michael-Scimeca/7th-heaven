@@ -47,16 +47,16 @@ function AutoPlayVideo({ src }: { src: string }) {
 
   return (
     <video
- ref={videoRef}
- src={shouldLoad ? src : undefined}
- onTimeUpdate={handleTimeUpdate}
- autoPlay
- muted
- loop
- playsInline
- preload="none"
- className="absolute inset-0 z-[1] w-full h-full object-cover"
- />
+      ref={videoRef}
+      src={shouldLoad ? src : undefined}
+      onTimeUpdate={handleTimeUpdate}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="none"
+      className="absolute inset-0 z-[1] w-full h-full object-cover"
+    />
   );
 }
 
@@ -180,7 +180,7 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
           }
 
           if (overlapPercent !== prev.overlap) {
-            if (overlapPercent> 0) {
+            if (overlapPercent > 0) {
               const maskTopPercent = Math.max(0, 100 - overlapPercent);
               const fadeEdge = Math.max(0, maskTopPercent - 6);
               const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
@@ -231,7 +231,7 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
   }, [showIntro]);
 
   return (
-    <section id="slide-up" className="su-bleed py-section-fluid">
+    <section id="slide-up" className="su-bleed py-section-fluid border-b border-white/10">
       <div className="su-rail-track">
         <div className="su-rail">
           {activeSlides.map((_, i) => (
@@ -251,9 +251,9 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
       <section className="su-stack site-container">
         {activeSlides.map((slide, i) => (
           <article
- key={slide.title}
- className="su-card"
- ref={(el) => { cardRefs.current[i] = el; }}>
+            key={slide.title}
+            className="su-card"
+            ref={(el) => { cardRefs.current[i] = el; }}>
             <div className="su-card-inner">
               <div className="flex flex-col items-center text-center pb-[20px] gap-4">
                 <div className="su-headline">
@@ -269,13 +269,13 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
                     )}
                     {t.youtube && (
                       <Image
- src={`https://img.youtube.com/vi/${t.youtube}/hqdefault.jpg`}
- alt={t.label}
- width={480}
- height={360}
- className="su-thumb-yt object-cover"
- loading="lazy"
- />
+                        src={`https://img.youtube.com/vi/${t.youtube}/hqdefault.jpg`}
+                        alt={t.label}
+                        width={480}
+                        height={360}
+                        className="su-thumb-yt object-cover"
+                        loading="lazy"
+                      />
                     )}
                     <div className="su-thumb-overlay" />
                     <div className="su-thumb-content">

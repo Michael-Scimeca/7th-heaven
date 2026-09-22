@@ -10,9 +10,9 @@ interface HeroYTBackgroundProps {
 }
 
 export default function HeroYTBackground({
-  videoId = "tNQnzl6i7EM",
-  start = 28,
-  end = 36,
+  videoId = "UQBvl_wZ0ak",
+  start = 20,
+  end = 29,
 }: HeroYTBackgroundProps) {
   const playerRef = useRef<any>(null);
   const playerDivId = useRef(`hero-yt-bg-${Math.random().toString(36).substring(2, 9)}`);

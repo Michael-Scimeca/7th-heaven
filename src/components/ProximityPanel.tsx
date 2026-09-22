@@ -7,7 +7,7 @@ import { SquishyToggle } from "@/components/SquishyToggle";
 import { GlowInput, GlowSelect } from "@/components/GlowInput";
 import CustomDropdown from "@/components/CustomDropdown";
 import { useMember } from "@/context/MemberContext";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 
 interface NearbyShow {
   id: string;
@@ -209,13 +209,13 @@ export default function ProximityPanel() {
           </div>
         </div>
 
-        <CosmicRadialButton
+        <SeventhButton
           onClick={saveSettings}
           disabled={saving || !zip || zip.length < 5}
           icon={false}
           className="w-full py-3 uppercase text-white cursor-pointer">
           {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
-        </CosmicRadialButton>
+        </SeventhButton>
       </div>
 
       {/* Nearby Shows */}

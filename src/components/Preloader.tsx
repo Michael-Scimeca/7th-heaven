@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
-import { waitForPageReady } from "@/lib/waitForPageReady";
+import { waitForPageReady, waitForHeroVideoReady } from "@/lib/waitForPageReady";
 
 // Diagonal wipe-reveal preloader, sharing its visual language with the
 // page-to-page curtain (PageTransition.tsx): a dark overlay, the loader
@@ -43,19 +43,16 @@ import { waitForPageReady } from "@/lib/waitForPageReady";
 // unchanged from before.
 type Phase = "loading" | "wiping" | "done";
 
-const WIPE_DURATION = 0.43;
+const WIPE_DURATION = 0.35;
 const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 const WIPE_SLANT_RATIO = 0.095;
 
-// Loader fill: cycles through every color once, then hands off to the
-// existing fade -> wipe chain below.
+// Loader fill: cycles through colors in 500ms total
 const LOADER_PALETTE = ["#5f3fb1", "#850FB7", "#A43E17", "#a73373", "#611EBD"];
-const LOADER_STEP_MS = 200; // how long each color holds (1.0s total fill time)
-const LOADER_TOTAL_MS = LOADER_STEP_MS * LOADER_PALETTE.length; // full single-pass fill time
+const LOADER_STEP_MS = 100; // 100ms per color step = 500ms total fill time
+const LOADER_TOTAL_MS = 500; // 500ms total preloader time
 
-// Loader fill (LOADER_TOTAL_MS) + content fade-out (0.3s) + wipe (1.0s) is
-// the happy path. Give it a generous multiple of that before force-finishing.
-const HARD_CEILING_MS = 6000;
+const HARD_CEILING_MS = 3500;
 
 // Shared with PageTransition.tsx so the preloader and every in-site
 // navigation after it read as the same curtain, not two different overlays.
@@ -238,22 +235,10 @@ export default function Preloader() {
         if (particleInterval) clearInterval(particleInterval);
         wrap.classList.add("done"); // fades the bar track + trailing dot
 
-        // Ensure page is fully loaded, fonts ready, and layout painted before wiping
+        // Ensure page is painted, fonts ready, and hero video loaded & playing before wiping
         if (typeof window !== "undefined") {
-          if (document.readyState !== "complete") {
-            await new Promise<void>((res) => {
-              const timer = setTimeout(res, 2500);
-              window.addEventListener(
-                "load",
-                () => {
-                  clearTimeout(timer);
-                  res();
-                },
-                { once: true }
-              );
-            });
-          }
           await waitForPageReady();
+          await waitForHeroVideoReady();
         }
 
         advanceToWipe();
@@ -321,21 +306,85 @@ export default function Preloader() {
       <div
  ref={contentRef}
  className="preloader-content flex flex-col items-center justify-center text-center select-none z-10">
-        <div ref={loaderWrapRef} className="preloader-loader">
+        <div
+          ref={loaderWrapRef}
+          className="preloader-loader"
+          style={{ "--pc": LOADER_PALETTE[0] } as React.CSSProperties}>
           <svg
- className="preloader-note-icon"
- viewBox="0 0 9.06 11.45"
- width="40"
- height="51"
- fill="currentColor"
- aria-hidden="true">
+            className="preloader-note-icon"
+            viewBox="0 0 9.06 11.45"
+            width="40"
+            height="51"
+            fill="currentColor"
+            aria-hidden="true">
             <path d="M1.75,11.45h-.47c-.42-.06-.82-.22-1.1-.56-.26-.4-.23-.92.07-1.32.52-.69,1.45-.96,2.3-.7V1.05s6.52-1.05,6.52-1.05v8.83c-.02.43-.19.78-.51,1.07-.86.72-2.41.74-2.88-.34-.11-.39-.02-.8.24-1.12.54-.65,1.44-.9,2.28-.65V2.48s-4.77.87-4.77.87l-.02,6.51c0,.92-.82,1.47-1.66,1.59Z" />
           </svg>
 
-          <div ref={particlesRef} className="preloader-particles" />
+          <div ref={particlesRef} className="preloader-particles">
+            <span
+              className="preloader-note-particle"
+              style={
+                {
+                  left: "20%",
+                  width: "14px",
+                  height: "23px",
+                  "--pc-drift": "-12px",
+                  animationDuration: "1.8s",
+                  animationDelay: "0s",
+                  opacity: 0.95,
+                } as React.CSSProperties
+              }
+              dangerouslySetInnerHTML={{ __html: NOTE_SVG_MARKUP }}
+            />
+            <span
+              className="preloader-note-particle"
+              style={
+                {
+                  left: "45%",
+                  width: "18px",
+                  height: "29px",
+                  "--pc-drift": "15px",
+                  animationDuration: "2.2s",
+                  animationDelay: "0.15s",
+                  opacity: 0.9,
+                } as React.CSSProperties
+              }
+              dangerouslySetInnerHTML={{ __html: NOTE_SVG_MARKUP }}
+            />
+            <span
+              className="preloader-note-particle"
+              style={
+                {
+                  left: "70%",
+                  width: "12px",
+                  height: "19px",
+                  "--pc-drift": "-8px",
+                  animationDuration: "1.6s",
+                  animationDelay: "0.3s",
+                  opacity: 0.85,
+                } as React.CSSProperties
+              }
+              dangerouslySetInnerHTML={{ __html: NOTE_SVG_MARKUP }}
+            />
+            <span
+              className="preloader-note-particle"
+              style={
+                {
+                  left: "85%",
+                  width: "16px",
+                  height: "26px",
+                  "--pc-drift": "10px",
+                  animationDuration: "2.0s",
+                  animationDelay: "0.45s",
+                  opacity: 0.9,
+                } as React.CSSProperties
+              }
+              dangerouslySetInnerHTML={{ __html: NOTE_SVG_MARKUP }}
+            />
+          </div>
 
           <div className="preloader-bar-track">
-            <div ref={barRef} className="preloader-bar-fill">
+            <div ref={barRef} className="preloader-bar-fill filling">
               <div className="preloader-bar-shine" />
             </div>
           </div>

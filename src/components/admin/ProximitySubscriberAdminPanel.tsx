@@ -17,7 +17,7 @@ import {
   Shield,
   RefreshCw,
 } from "lucide-react";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 
 export interface PushSubscriber {

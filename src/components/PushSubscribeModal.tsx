@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Bell, Check, X, Shield, Mail, User, Sparkles } from "lucide-react";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import SquishyToggle from "@/components/SquishyToggle";
 import { useMember } from "@/context/MemberContext";
 
@@ -183,12 +183,12 @@ export default function PushSubscribeModal({
               </div>
 
               <div className="pt-2">
-                <CosmicRadialButton
+                <SeventhButton
                   type="submit"
                   disabled={loading}
                   className="w-full py-3.5 text-white uppercase flex items-center justify-center gap-2">
                   {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS "}
-                </CosmicRadialButton>
+                </SeventhButton>
               </div>
             </form>
 

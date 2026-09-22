@@ -18,7 +18,7 @@ import { SectionBadge } from "@/components/SectionBadge";
 import InputField from "@/components/InputField";
 import SquishyToggle from "@/components/SquishyToggle";
 import Dropdown from "@/components/Dropdown";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 import dynamic from "next/dynamic";
 import LazyMount from "@/components/LazyMount";
 
@@ -692,12 +692,12 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
             <span className="text-[10px] text-white/50">
               🔒 256-Bit SSL Encrypted Royal Caribbean Authorization
             </span>
-            <FoolishShrimpButton
+            <SeventhButton
  type="submit"
  disabled={isSubmitting}
  className="w-full py-3 text-white uppercase text-xs r cursor-pointer disabled:opacity-50">
               {isSubmitting ? "PROCESSING PAYMENT..." : "SUBMIT PAYMENT"}
-            </FoolishShrimpButton>
+            </SeventhButton>
           </div>
         </form>
       )}

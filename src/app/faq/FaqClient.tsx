@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
 import Link from "next/link";
 import TransitionLink from "@/components/TransitionLink";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 
 interface FAQItem {
   id: string;
@@ -195,7 +195,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
           const Icon = cat.icon;
           const isActive = activeTab === cat.id;
           return (
-            <FoolishShrimpButton
+            <SeventhButton
               key={cat.id}
               type="button"
               onClick={() => setActiveTab(cat.id)}
@@ -205,7 +205,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                 <Icon />
               </span>
               <span>{cat.label}</span>
-            </FoolishShrimpButton>
+            </SeventhButton>
           );
         })}
       </nav>
@@ -269,9 +269,9 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
           </p>
         </div>
         <TransitionLink href="/contact">
-          <FoolishShrimpButton className="px-6 py-3 uppercase whitespace-nowrap">
+          <SeventhButton className="px-6 py-3 uppercase whitespace-nowrap">
             {sanityContent?.supportCtaText || "Contact Us"}
-          </FoolishShrimpButton>
+          </SeventhButton>
         </TransitionLink>
       </aside>
     </main>

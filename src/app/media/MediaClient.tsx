@@ -9,7 +9,7 @@ import { Plus, X, Video as VideoIcon, CheckCircle2, Play, Search } from "lucide-
 import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import GlassPlayButton from "@/components/GlassPlayButton";
 import AddCmsButton from "@/components/AddCmsButton";
 
@@ -411,7 +411,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
   return (
     <main className="min-h-screen text-white pt-[100px] relative overflow-hidden" id="media-page">
-      <div className="site-container relative z-10 pb-section-fluid">
+      <div className="site-container relative z-10 ">
         {/* ── CENTERED PAGE TITLE ── */}
         <header className="text-center mb-6">
           <h1>
@@ -423,55 +423,58 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         </header>
 
         {/* ── 700+ SONG MP3/CD AUDIO VAULT PLAYER (TOP OF MEDIA PAGE) ── */}
-        <section aria-label="Audio Vault Player" className="mb-8 rounded-2xl overflow-hidden border border-purple-500/20 bg-black/40 backdrop-blur-xl">
+        <section aria-label="Audio Vault Player" className="pb-section-fluid">
           <AudioPlayer />
         </section>
 
-        {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
-          <SearchInput
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder={sanityContent?.searchPlaceholder || "Search Media..."}
-            containerClassName="w-full sm:w-[320px]"
-          />
-          <AddCmsButton
-            label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
-            onClick={() => setIsAddModalOpen(true)}
-          />
-        </div>
+        <section className="">
+          {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+            <SearchInput
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder={sanityContent?.searchPlaceholder || "Search Media..."}
+              containerClassName="w-full sm:w-[320px]"
+            />
+            <AddCmsButton
+              label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
+              onClick={() => setIsAddModalOpen(true)}
+            />
+          </div>
 
-        {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
-        <nav aria-label="Media Categories" className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto mb-6 md:mb-12">
-          <CosmicRadialButton
-            type="button"
-            onClick={() => handleFilterChange("ALL")}
-            isActive={activeFilter === "ALL"}
-            className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
-          >
-            ALL
-          </CosmicRadialButton>
+          {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
+          <nav aria-label="Media Categories" className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto">
+            <SeventhButton
+              type="button"
+              onClick={() => handleFilterChange("ALL")}
+              isActive={activeFilter === "ALL"}
+              className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+            >
+              ALL
+            </SeventhButton>
 
-          {categories.map((cat) => {
-            if (!cat.category || !cat.category.trim() || cat.videos.length === 0) return null;
-            const catUpper = cat.category.toUpperCase();
-            const isActive = activeFilter.toUpperCase() === catUpper;
-            return (
-              <CosmicRadialButton
-                key={cat.category}
-                type="button"
-                onClick={() => handleFilterChange(catUpper)}
-                isActive={isActive}
-                className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
-              >
-                {catUpper}
-              </CosmicRadialButton>
-            );
-          })}
-        </nav>
+            {categories.map((cat) => {
+              if (!cat.category || !cat.category.trim() || cat.videos.length === 0) return null;
+              const catUpper = cat.category.toUpperCase();
+              const isActive = activeFilter.toUpperCase() === catUpper;
+              return (
+                <SeventhButton
+                  key={cat.category}
+                  type="button"
+                  onClick={() => handleFilterChange(catUpper)}
+                  isActive={isActive}
+                  className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+                >
+                  {catUpper}
+                </SeventhButton>
+              );
+            })}
+          </nav>
+
+        </section>
 
         {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
-        <section aria-label="Media Gallery" key={activeFilter} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch pb-6">
+        <section aria-label="Media Gallery" key={activeFilter} className="py-section-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {visibleVideos.map((video, index) => {
             const isHovered = hoveredVideoId === video.id;
             const isMiddleCol = index % 3 === 1;
@@ -486,7 +489,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 onMouseEnter={() => setHoveredVideoId(video.id)}
                 onMouseLeave={() => setHoveredVideoId(null)}
                 onClick={() => setPlayingVideo(video)}
-                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] rounded-lg overflow-hidden transition-all duration-500 bg-[#0c071a] cursor-pointer animate-[fade-in_0.35s_ease-out_both] ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"
+                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] overflow-hidden transition-all duration-500 bg-[#0c071a] cursor-pointer animate-[fade-in_0.35s_ease-out_both] rounded-[40px] ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"
                   }`}
                 style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}>
                 {/* Full Bleed Visual Media Player Preview */}

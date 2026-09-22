@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Bell, Check, Sparkles, User, Mail, ExternalLink, QrCode } from "lucide-react";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import SquishyToggle from "@/components/SquishyToggle";
 import { useMember } from "@/context/MemberContext";
 
@@ -201,13 +201,13 @@ export default function LiveStreamInlineSubscribe({
 
           {/* Action Button */}
           <div className="pt-2">
-            <CosmicRadialButton
+            <SeventhButton
               type="submit"
               disabled={loading}
               icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
               className="w-full py-3 text-white uppercase flex items-center justify-center gap-2 ">
               {loading ? "SUBSCRIBING & ENABLING PUSH ALERTS..." : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
-            </CosmicRadialButton>
+            </SeventhButton>
           </div>
         </form>
       </div>

@@ -5,8 +5,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Play, Music, X, ChevronUp } from "lucide-react";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 import data from "../../public/data/albums.json";
 
 interface LyricSong {
@@ -506,8 +505,8 @@ export default function AudioPlayerSection() {
 
   if (!isExpanded) {
     return (
-      <section id="music-player-section" className="site-container py-6">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-950/70 via-indigo-950/50 to-purple-950/70 border border-purple-500/30 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 backdrop-blur-xl">
+      <section id="music-player-section" className="site-container">
+        <div className="relative overflow-hidden rounded-full bg-gradient-to-r from-purple-950/70 via-indigo-950/50 to-purple-950/70 border border-purple-500/30 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 backdrop-blur-xl">
           <div className="flex items-center gap-5">
             <div className="w-14 h-14 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0">
               <Music className="w-7 h-7 text-purple-300" />
@@ -522,12 +521,12 @@ export default function AudioPlayerSection() {
             </div>
           </div>
 
-          <FoolishShrimpButton
+          <SeventhButton
             onClick={() => setIsExpanded(true)}
             className="px-6 py-3 text-white bg-purple-600 hover:bg-purple-500 rounded-xl shrink-0 flex items-center gap-2">
             <Play className="w-5 h-5 fill-current" />
             <span>Open Audio Player</span>
-          </FoolishShrimpButton>
+          </SeventhButton>
         </div>
       </section>
     );
@@ -835,7 +834,7 @@ export default function AudioPlayerSection() {
                     {/* Buy / Stream Buttons */}
                     <div className="pt-4 border-t border-white/10 mt-6 flex flex-col gap-2 w-full">
                       {(activeAlbum?.paypalButtonId || activeAlbum?.storeUrl) && (
-                        <CosmicRadialButton
+                        <SeventhButton
                           icon={<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>}
                           onClick={() => {
                             const url = activeAlbum?.paypalButtonId
@@ -845,7 +844,7 @@ export default function AudioPlayerSection() {
                           }}
                           className="!text-white uppercase py-2.5 px-4 rounded-lg w-full">
                           Buy CD
-                        </CosmicRadialButton>
+                        </SeventhButton>
                       )}
                       <div className="flex flex-col xl:flex-row gap-2 w-full">
                         {activeAlbum?.spotifyUrl && (

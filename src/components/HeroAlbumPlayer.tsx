@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 
 interface LatestReleaseProps {
   release?: {
@@ -125,7 +125,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
             className="object-cover group-hover/art:scale-105 transition-transform duration-500"
           />
           <div className="absolute inset-0 bg-black/40 group-hover/art:bg-black/20 flex items-center justify-center transition-colors">
-            <CosmicRadialButton
+            <SeventhButton
               icon={false}
               className="w-11 h-11 ! rounded-lg !p-0 flex items-center justify-center group-hover/art:scale-110 border border-purple-300/40">
               {isPlaying ? (
@@ -133,7 +133,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
               ) : (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
               )}
-            </CosmicRadialButton>
+            </SeventhButton>
           </div>
         </button>
 

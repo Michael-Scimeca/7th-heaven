@@ -9,7 +9,7 @@ import { useMember } from "@/context/MemberContext";
 import { AlertTriangle, Ban, Trash2, LogOut, MessageSquare } from "lucide-react";
 import ChatInputBar from "@/components/ChatInputBar";
 import { useAuth } from "@/context/AuthContext";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 
 type ChatMessage = {
   id: string;
@@ -542,13 +542,13 @@ export default function CruiseChat({
           </div>
 
           <div className="flex flex-col gap-2.5 w-full max-w-xs pt-2">
-            <FoolishShrimpButton
+            <SeventhButton
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
               }}
               className="w-full py-3 text-white uppercase rounded-xl cursor-pointer flex items-center justify-center gap-2 border border-white/25">
               Sign Up as a Fan
-            </FoolishShrimpButton>
+            </SeventhButton>
 
             <button
               type="button"

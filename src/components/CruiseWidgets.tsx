@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
 import { SquishyToggle } from "@/components/SquishyToggle";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import InputField from "@/components/InputField";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
 
@@ -516,13 +516,13 @@ export function BookingManager({ email }: { email?: string }) {
 
         {regError && <p className="text-rose-400 ">{regError}</p>}
 
-        <CosmicRadialButton
+        <SeventhButton
           type="submit"
           icon={false}
           disabled={registering}
           className="w-full mt-2 py-2.5 text-white rounded-lg disabled:opacity-50">
           {registering ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Complete Cruise Registration"}
-        </CosmicRadialButton>
+        </SeventhButton>
       </form>
     </div>
   );
@@ -596,7 +596,7 @@ export function BookingManager({ email }: { email?: string }) {
         <span className="text-white/40 uppercase block mb-2">Get in Touch with Cruise Agents</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Button 1: Cruise Admin Agent */}
-          <CosmicRadialButton
+          <SeventhButton
             icon={false}
             onClick={() => window.location.href = `mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
               `7th Heaven Cruise Inquiry - ${booking.cabin_preference || 'Cabin 9122'} (${booking.name || 'Passenger'})`
@@ -608,10 +608,10 @@ export function BookingManager({ email }: { email?: string }) {
               <span>✉️</span> Cruise Admin
             </div>
             <span className="font-normal text-white/80 lowercase tracking-normal normal-case">cruise@7thheavenband.com</span>
-          </CosmicRadialButton>
+          </SeventhButton>
 
           {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
-          <CosmicRadialButton
+          <SeventhButton
             icon={false}
             onClick={() => window.location.href = `mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
               `7th Heaven Cruise Support - ${booking.name || 'Passenger'} (${booking.cabin_preference || 'Cabin 9122'})`
@@ -623,7 +623,7 @@ export function BookingManager({ email }: { email?: string }) {
               <span>✉️</span> Support Agent (Mary)
             </div>
             <span className="font-normal text-white/80 lowercase tracking-normal normal-case">mary@ntdvacations.com</span>
-          </CosmicRadialButton>
+          </SeventhButton>
         </div>
       </div>
 
@@ -884,12 +884,12 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                     className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white/80 uppercase transition-colors cursor-pointer">
                     Cancel
                   </button>
-                  <CosmicRadialButton
+                  <SeventhButton
                     type="submit"
                     icon={false}
                     className="flex-1 py-2.5 text-white rounded-lg">
                     Pay {balanceDue}
-                  </CosmicRadialButton>
+                  </SeventhButton>
                 </div>
               </>
             )}

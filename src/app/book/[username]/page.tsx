@@ -9,7 +9,7 @@ import { useTransition } from "@/context/TransitionContext";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import PlannerDashboard from "@/components/PlannerDashboard";
-import { CosmicRadialButton } from "@/components/CosmicRadialButton";
+import { SeventhButton } from "@/components/SeventhButton";
 import { Plus } from "lucide-react";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 
@@ -91,33 +91,33 @@ export default function PlannerDashboardPage() {
   };
 
   return (
-    <div className="site-container text-white pt-[100px] selection:bg-[var(--color-accent)] selection:text-white">
-      <div>
-        {/* Planner Profile Header */}
-        <header className="mb-6 border-b border-white/10  flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <MemberHeaderBadge
-            name={displayName}
-            email={effectiveMember?.email || ''}
-            avatar={effectiveMember?.avatar}
-            badgeLabel="PLANNER"
-            badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
-            subtitle="Manage upcoming event bookings, venue logistics, and show requests."
-          />
+    <main className="site-container text-white pt-[100px] selection:bg-[var(--color-accent)] selection:text-white">
 
-          {/* Plus Sign Create New Event Button */}
-          <div className="flex items-center self-start md:self-auto">
-            <CosmicRadialButton
-              icon={<Plus className="w-4 h-4 text-white" />}
-              onClick={handleCreateNewEvent}
-              className="px-5 py-2.5 rounded-lg uppercase flex items-center gap-2 cursor-pointer">
-              Create New Event
-            </CosmicRadialButton>
-          </div>
-        </header>
+      {/* Planner Profile Header */}
+      <header className="mb-6 pb-6 border-b border-white/10  flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <MemberHeaderBadge
+          name={displayName}
+          email={effectiveMember?.email || ''}
+          avatar={effectiveMember?.avatar}
+          badgeLabel="PLANNER"
+          badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
+          subtitle="Manage upcoming event bookings, venue logistics, and show requests."
+        />
 
-        {/* Planner Dashboard Content */}
-        <PlannerDashboard />
-      </div>
-    </div>
+        {/* Plus Sign Create New Event Button */}
+        <div className="flex items-center self-start md:self-auto">
+          <SeventhButton
+            icon={<Plus className="w-4 h-4 text-white" />}
+            onClick={handleCreateNewEvent}
+            className="px-5 py-2.5 rounded-lg uppercase flex items-center gap-2 cursor-pointer">
+            Create New Event
+          </SeventhButton>
+        </div>
+      </header>
+
+      {/* Planner Dashboard Content */}
+      <PlannerDashboard />
+
+    </main>
   );
 }

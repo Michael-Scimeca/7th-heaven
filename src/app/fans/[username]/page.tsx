@@ -20,7 +20,7 @@ const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import { GlowInput } from "@/components/GlowInput";
 import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/components/CruiseWidgets";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 
@@ -969,13 +969,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           onChange={(e) => setLiveAlertPhone(e.target.value)}
                         />
                       </div>
-                      <CosmicRadialButton
+                      <SeventhButton
                         onClick={handleLiveAlertSubscribe}
                         disabled={liveAlertStatus === 'saving'}
                         icon={false}
                         className="w-full sm:w-auto px-6 py-3.5 whitespace-nowrap shrink-0 text-white uppercase cursor-pointer text-center justify-center">
                         {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me'}
-                      </CosmicRadialButton>
+                      </SeventhButton>
                     </div>
                   )}
                   {liveAlertStatus === 'error' && (

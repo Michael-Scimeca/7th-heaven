@@ -8,9 +8,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMember } from "@/context/MemberContext";
 import { SquishyToggle } from "@/components/SquishyToggle";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 
 interface BookingData {
   id: string;
@@ -574,10 +573,10 @@ export default function PlannerDashboard() {
 
 
       {/* ── Band & Event Contacts Panel ── */}
-      <section className="my-6">
+      <section>
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div>
-            <h3 className="text-white uppercase">7th Heaven Band & Event Contacts</h3>
+            <h3>7th Heaven Band & Event Contacts</h3>
             <p className="mt-0.5">Direct contacts for booking, production, hospitality & press</p>
           </div>
         </div>

@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect, useCallback, useId } from "react";
 import Image from "next/image";
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, RotateCcw, RotateCw, X } from "lucide-react";
-import CosmicRadialButton from "./CosmicRadialButton";
+import SeventhButton from "./SeventhButton";
 import GlassPlayButton from "./GlassPlayButton";
 import { loadYouTubeAPI } from "@/lib/youtube-api";
 
@@ -228,10 +228,10 @@ export default function CustomVideoPlayer({
         </div>
       )}
 
-      {/* Animated Center Play/Pause Indicator Ring */}
-      {centerAnim && (
+      {/* Animated Center Play Indicator Ring (Pause button hidden) */}
+      {centerAnim && centerAnim !== "pause" && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30 animate-ping duration-500">
-          <GlassPlayButton size="xl" isPlaying={centerAnim === "pause"} glow />
+          <GlassPlayButton size="xl" isPlaying={false} glow />
         </div>
       )}
 
@@ -291,7 +291,7 @@ export default function CustomVideoPlayer({
           {/* Left Controls: Play, Rewind, Fast Forward, Time */}
           <div className="flex items-center gap-3">
             {/* Play/Pause */}
-            <CosmicRadialButton
+            <SeventhButton
               onClick={togglePlay}
               icon={false}
               className="w-11 h-11 !rounded-full !p-0 text-white flex items-center justify-center transition-transform cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
@@ -301,7 +301,7 @@ export default function CustomVideoPlayer({
               ) : (
                 <Play className="w-5 h-5 fill-white ml-0.5" />
               )}
-            </CosmicRadialButton>
+            </SeventhButton>
 
             {/* Skip -10s */}
             <button

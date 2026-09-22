@@ -1,9 +1,8 @@
 'use client';
 import Image from 'next/image';
 import { Play, X } from "lucide-react";
-import CosmicRadialButton from "./CosmicRadialButton";
+import SeventhButton from "./SeventhButton";
 import GlassPlayButton from "./GlassPlayButton";
-import FoolishShrimpButton from "./FoolishShrimpButton";
 import { SectionBadge } from "./SectionBadge";
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -193,12 +192,10 @@ export default function CruiseVideoGallery() {
     : videos.filter(v => v.category === selectedCategory);
 
   return (
-    <section id="ship-videos" className="py-section-fluid relative z-20 site-container" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
+    <section id="ship-videos" className="py-section-fluid relative z-20 site-container border-b border-white/10" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <div className="flex justify-center mb-3">
-          <SectionBadge label="Virtual Tours & Video Showcase" />
-        </div>
+
         <h2
           className="md:text-6xl uppercase text-white ">
           Explore <span className="accent-gradient-text">Ship Videos</span>
@@ -211,13 +208,13 @@ export default function CruiseVideoGallery() {
         {categories.length > 1 && (
           <div className="flex flex-wrap gap-2.5 justify-center mt-8">
             {categories.map(cat => (
-              <FoolishShrimpButton
+              <SeventhButton
                 key={cat}
                 isActive={selectedCategory === cat}
                 onClick={() => setSelectedCategory(cat)}
                 className="px-5 py-2 uppercase">
                 {cat}
-              </FoolishShrimpButton>
+              </SeventhButton>
             ))}
           </div>
         )}
@@ -258,7 +255,7 @@ export default function CruiseVideoGallery() {
               </div>
 
               {/* Title & Info */}
-              <div className="py-6 flex-1 flex flex-col space-y-3">
+              <div className="pt-6 flex-1 flex flex-col space-y-3">
                 <div>
                   <h3 className="text-white uppercase group- transition-colors">
                     {vid.title}

@@ -32,7 +32,7 @@ const ALBUM_VIDEOS: Record<string, string> = {
   "09-luminous": "/movie/luminous-clip.mp4",
 };
 
-const DEFAULT_VIDEO = "tNQnzl6i7EM";
+const DEFAULT_VIDEO = "/movie/be-here-clip.mp4";
 
 // Unique video URLs to prefetch in the background for instant album switching
 const PREFETCH_URLS = [...new Set(Object.values(ALBUM_VIDEOS))];
@@ -70,14 +70,15 @@ const GRADIENT_PRESETS = [
 export default function HeroVideoPlayer({ children, sanityContent }: { children?: ReactNode; sanityContent?: any }) {
   const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
   const [isVideoFading, setIsVideoFading] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
+  const [videoReady, setVideoReady] = useState(true);
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const [snapshots, setSnapshots] = useState<string[]>([]);
-
 
   // SSR-safe desktop detection — server always returns false, client reads matchMedia
   const isDesktop = useSyncExternalStore(mqSubscribe, mqSnapshot, mqServerSnapshot);
+  const activeMediaRef = isDesktop ? videoRef : mobileVideoRef;
 
   const isYouTube = !videoSrc.includes(".mp4");
 
@@ -352,31 +353,58 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   }, [handleAlbumChange]);
 
   useEffect(() => {
-    const video = videoRef.current;
+    const video = activeMediaRef.current;
     if (video && !isYouTube) {
       const handlePlayStart = () => {
         setIsVideoFading(false);
         setVideoReady(true);
+        if (typeof window !== "undefined") {
+          (window as any).__7hHeroVideoReady = true;
+          window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
+        }
       };
       video.addEventListener("canplay", handlePlayStart, { once: true });
       video.addEventListener("playing", handlePlayStart, { once: true });
-      video.load();
-      video.play().then(() => {
+
+      if (video.readyState >= 3) {
         handlePlayStart();
-      }).catch(() => {
-        setIsVideoFading(false);
-        setVideoReady(true);
-      });
+      }
+
+      const triggerPlay = () => {
+        const target = activeMediaRef.current;
+        if (target) {
+          target.play().then(() => {
+            handlePlayStart();
+          }).catch(() => {
+            setIsVideoFading(false);
+            setVideoReady(true);
+            if (typeof window !== "undefined") {
+              (window as any).__7hHeroVideoReady = true;
+              window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
+            }
+          });
+        }
+      };
+
+      triggerPlay();
+
+      window.addEventListener("preloader-wiping", triggerPlay);
+      window.addEventListener("preloader-complete", triggerPlay);
+      window.addEventListener("7h-preloader-done", triggerPlay);
+
       return () => {
         video.removeEventListener("canplay", handlePlayStart);
         video.removeEventListener("playing", handlePlayStart);
+        window.removeEventListener("preloader-wiping", triggerPlay);
+        window.removeEventListener("preloader-complete", triggerPlay);
+        window.removeEventListener("7h-preloader-done", triggerPlay);
       };
     }
-  }, [videoSrc, isYouTube]);
+  }, [videoSrc, isYouTube, isDesktop, activeMediaRef]);
 
   // ── Pause video when out of viewport to optimize GPU/CPU performance ─────────
   useEffect(() => {
-    const video = videoRef.current;
+    const video = activeMediaRef.current;
     if (!video || isYouTube) return;
 
     const observer = new IntersectionObserver(
@@ -397,15 +425,15 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
     return () => {
       observer.disconnect();
     };
-  }, [isYouTube, videoSrc]);
+  }, [isYouTube, videoSrc, activeMediaRef]);
 
   // ── Parallax: background video drifts slower than the page as you scroll ────
   const parallax = useHeroParallax({
-    mediaRef: videoRef,
+    mediaRef: activeMediaRef,
     foregroundRef,
     triggerSelector: "#hero",
-    enabled: isDesktop && !isYouTube,
-    remountKey: videoSrc,
+    enabled: !isYouTube,
+    remountKey: `${videoSrc}-${isDesktop ? 'dt' : 'mb'}`,
   });
 
   const ctxValue: VideoSnapshotContextValue = useMemo(
@@ -477,12 +505,13 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
               className="object-cover z-0 brightness-[0.65]"
             />
             <video
+              ref={mobileVideoRef}
               src="/movie/hero-mobile.mp4"
               autoPlay
               muted
               loop
               playsInline
-              preload="none"
+              preload="auto"
               className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] opacity-90 transition-opacity duration-500"
               style={{
                 objectPosition: `center ${videoScreenY}%`,
@@ -492,30 +521,48 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
             />
           </div>
         ) : isYouTube && YTComp ? (
-          <YTComp videoId={ytId || "tNQnzl6i7EM"} start={28} end={36} />
+          <YTComp videoId={ytId || "UQBvl_wZ0ak"} start={20} end={29} />
         ) : (
-          <video
-            key={videoSrc}
-            ref={videoRef}
-            onCanPlay={handleCanPlay}
-            onLoadedMetadata={handleLoadedMetadata}
-            onTimeUpdate={handleTimeUpdate}
-            onPlaying={() => setVideoReady(true)}
-            preload="metadata"
-            autoPlay
-            muted
-            loop
-            playsInline
-            className={`absolute inset-0 w-full h-full object-cover z-0 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
-              }`}
-            style={{
-              objectPosition: `center ${videoScreenY}%`,
-              WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
-              maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
-            }}>
-            <source src={videoSrc} type="video/mp4" />
-            <track kind="captions" />
-          </video>
+          <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+            <Image
+              src="/images/hero/hero-banner.webp"
+              alt="7th Heaven Live Stage"
+              fill
+              priority
+              fetchPriority="high"
+              quality={50}
+              sizes="100vw"
+              className="object-cover z-0 brightness-[0.65]"
+            />
+            <video
+              key={videoSrc}
+              ref={videoRef}
+              onCanPlay={handleCanPlay}
+              onLoadedMetadata={handleLoadedMetadata}
+              onTimeUpdate={handleTimeUpdate}
+              onPlaying={() => {
+                setVideoReady(true);
+                if (typeof window !== "undefined") {
+                  (window as any).__7hHeroVideoReady = true;
+                  window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
+                }
+              }}
+              preload="auto"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className={`absolute inset-0 w-full h-full object-cover z-10 pointer-events-none transition-all duration-500 ease-in-out ${!videoReady || isVideoFading ? "opacity-0 scale-[1.50] filter blur-sm" : "opacity-100 scale-[1.43] filter blur-0"
+                }`}
+              style={{
+                objectPosition: `center ${videoScreenY}%`,
+                WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
+                maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
+              }}>
+              <source src={videoSrc} type="video/mp4" />
+              <track kind="captions" />
+            </video>
+          </div>
         )}
         <div
           role="button"
@@ -712,15 +759,38 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
        * Positioned lower than the tint panel above so the two don't overlap. */}
         <HeroParallaxCustomizer {...parallax} positionClassName="top-[160px] right-6 md:right-8" />
 
-        {/* ── Bottom row: live stream thumbs on left + vinyl player on right ── */}
-        <div ref={foregroundRef} className="relative z-[3] flex flex-col md:flex-row items-stretch md:items-end justify-between gap-6 w-full mt-auto">
-          {/* Live stream small thumbnails */}
-          <div className="relative z-30 flex justify-start ml-8">
-            {children}
+        {/* ── Hero Foreground Content & Text Overlay (Parallaxes UP on scroll) ── */}
+        <div ref={foregroundRef} className="relative z-[10] flex flex-col justify-between w-full h-full pointer-events-none p-6 sm:p-10 md:p-12">
+          {/* Hero Title & Subheading Content */}
+          <div className="site-container-left flex flex-col items-start max-w-3xl  pointer-events-auto">
+            {/* Top Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/70 border border-purple-400/30 backdrop-blur-md mb-3.5 shadow-[0_0_20px_rgba(147,51,234,0.35)]">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-purple-200">
+                {sanityContent?.heroBadge || "✦ Chicago's #1 Rock Experience • Live On Tour"}
+              </span>
+            </div>
+
+            {/* Hero Main Headline */}
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-[0.92] mb-3">
+              {sanityContent?.heroHeading || "7TH HEAVEN"}
+            </h1>
+
+            {/* Hero Subheading */}
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl font-medium text-white/90 max-w-2xl drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] leading-relaxed">
+              {sanityContent?.heroSubheading || "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
+            </p>
           </div>
 
-          <div className="flex justify-end hidden md:flex">
-            {VinylComp && <VinylComp onAlbumChange={handleAlbumChange} />}
+          {/* Bottom Row: Live Stream Thumbs + Vinyl Player */}
+          <div className="flex flex-col md:flex-row items-stretch md:items-end justify-between gap-6 w-full pointer-events-auto">
+            <div className="relative z-30 flex justify-start">
+              {children}
+            </div>
+
+            <div className="flex justify-end hidden md:flex">
+              {VinylComp && <VinylComp onAlbumChange={handleAlbumChange} />}
+            </div>
           </div>
         </div>
       </div>

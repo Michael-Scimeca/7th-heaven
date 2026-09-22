@@ -56,6 +56,7 @@ body {
   max-width: 100vw;
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
+
 }
 
 p {
@@ -178,6 +179,7 @@ h6 {
   --chat-bubble-padding-y: 5px;
   --chat-bubble-padding-x: 13px;
   --chat-message-spacing: 13px;
+  --glow-color: 168, 85, 247;
 }
 
 @utility py-section-3 {
@@ -574,6 +576,8 @@ label,
 .booking-label {
   font-weight: 600;
   color: #ffffff !important;
+  position: relative;
+  z-index: 33;
 }
 
 .site-input,
@@ -581,18 +585,27 @@ label,
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
 select,
 textarea {
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 500;
-  background: rgba(var(--input-bg-red, 192), var(--input-bg-green, 132), var(--input-bg-blue, 252), var(--input-bg-opacity, 0.03));
+  background: #00000029;
   backdrop-filter: blur(var(--input-blur, 24px));
   -webkit-backdrop-filter: blur(var(--input-blur, 24px));
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--input-border-radius, 8px);
   color: var(--input-text-color, #ffffff);
-  padding: 10px 10px;
+  padding: 0.625rem 0.875rem;
   outline: none;
+  box-shadow: 0 24px 60px #0000008c;
   transition: all 0.2s ease-in-out;
-  background: #a855f71f;
+}
+
+/* Ensure all form inputs except search inputs (aria-label="Search") and native toggles have width 100% */
+.site-input:not([aria-label="Search"]),
+.form-input:not([aria-label="Search"]),
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([aria-label="Search"]),
+select:not([aria-label="Search"]),
+textarea:not([aria-label="Search"]) {
+  width: 100%;
 }
 
 /* Default input cursor on mouseover & focus for all inputs and textareas */
@@ -1122,7 +1135,6 @@ a:visited {}
 button,
 [role="button"] {
   cursor: pointer;
-  border-radius: 8px;
 }
 
 /* Global Button Setup */
@@ -2074,6 +2086,10 @@ button,
   margin-right: auto;
   padding-left: var(--page-padding-x) !important;
   padding-right: var(--page-padding-x) !important;
+}
+
+.site-container-left {
+  padding-left: var(--page-padding-x) !important;
 }
 
 
@@ -4490,249 +4506,13 @@ body:has(textarea:focus) .cursor-tail-circle {
   }
 }
 
-/* UIverse Foolish Shrimp 59 Button */
-.uiverse-foolish-shrimp,
-.btn-cosmic-radial-property {
-  --h-button: 48px;
-  --w-button: 102px;
-  --round: 0.75rem;
-  cursor: pointer;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  transition: all 0.25s ease;
-  border-radius: var(--round);
-  border: 1px solid color-mix(in oklab, var(--color-white) 10%, transparent);
-  outline: none;
-  padding: 8px 12px;
-  order: 1px;
-  background-image: linear-gradient(to bottom right, #420a68, #554360);
-}
-
-.uiverse-foolish-shrimp.rounded-full,
-.uiverse-foolish-shrimp[class*="rounded-full"] {
-  --round: 9999px !important;
-  border-radius: 9999px !important;
-}
-
-.uiverse-foolish-shrimp.rounded-full::before,
-.uiverse-foolish-shrimp.rounded-full::after,
-.uiverse-foolish-shrimp[class*="rounded-full"]::before,
-.uiverse-foolish-shrimp[class*="rounded-full"]::after {
-  --round: 9999px !important;
-  border-radius: 9999px !important;
-}
-
-
-
-
-.uiverse-foolish-shrimp::before,
-.uiverse-foolish-shrimp::after,
-.btn-cosmic-radial-property::before,
-.btn-cosmic-radial-property::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transition: all 0.5s ease-in-out;
-  border-radius: calc(var(--round) - var(--space));
-  z-index: 0;
-}
-
-.uiverse-foolish-shrimp::before,
-.btn-cosmic-radial-property::before {
-  --space: 1px;
-  /* background: linear-gradient(177.95deg,
-      rgba(255, 255, 255, 0.19) 0%,
-      rgba(255, 255, 255, 0) 100%); */
-}
-
-.uiverse-foolish-shrimp::after,
-.btn-cosmic-radial-property::after {
-  --space: 2px;
-  background: transparent;
-  /* background: radial-gradient(65.28% 65.28% at 50% 100%,
-      rgba(223, 113, 255, 0.8) 0%,
-      rgba(223, 113, 255, 0) 100%),
-    linear-gradient(0deg, #7a5af8, #7a5af8); */
-}
-
-.uiverse-foolish-shrimp:active,
-.btn-cosmic-radial-property:active {
-  transform: scale(0.95);
-}
-
-.uiverse-foolish-shrimp .points_wrapper,
-.btn-cosmic-radial-property .points_wrapper {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  position: absolute;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.uiverse-foolish-shrimp:hover .points_wrapper,
-.btn-cosmic-radial-property:hover .points_wrapper {
-  opacity: 1;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point,
-.btn-cosmic-radial-property .points_wrapper .point {
-  bottom: -14px;
-  position: absolute;
-  animation: foolish-floating-points infinite ease-in-out;
-  pointer-events: none;
-  width: 11px;
-  height: 14px;
-  background-image: url("/images/ui/buttonsyb.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9));
-}
-
-@keyframes foolish-floating-points {
-  0% {
-    transform: translateY(0);
-  }
-
-  85% {
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateY(-55px);
-    opacity: 0;
-  }
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(1) {
-  left: 10%;
-  opacity: 1;
-  animation-duration: 2.35s;
-  animation-delay: 0.2s;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(2) {
-  left: 30%;
-  opacity: 0.7;
-  animation-duration: 2.5s;
-  animation-delay: 0.5s;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(3) {
-  left: 25%;
-  opacity: 0.8;
-  animation-duration: 2.2s;
-  animation-delay: 0.1s;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(4) {
-  left: 44%;
-  opacity: 0.6;
-  animation-duration: 2.05s;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(5) {
-  left: 50%;
-  opacity: 1;
-  animation-duration: 1.9s;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(6) {
-  left: 75%;
-  opacity: 0.5;
-  animation-duration: 1.5s;
-  animation-delay: 1.5s;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(7) {
-  left: 88%;
-  opacity: 0.9;
-  animation-duration: 2.2s;
-  animation-delay: 0.2s;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(8) {
-  left: 58%;
-  opacity: 0.8;
-  animation-duration: 2.25s;
-  animation-delay: 0.2s;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(9) {
-  left: 98%;
-  opacity: 0.6;
-  animation-duration: 2.6s;
-  animation-delay: 0.1s;
-}
-
-.uiverse-foolish-shrimp .points_wrapper .point:nth-child(10) {
-  left: 65%;
-  opacity: 1;
-  animation-duration: 2.5s;
-  animation-delay: 0.2s;
-}
-
-.uiverse-foolish-shrimp .inner {
-  z-index: 2;
-  gap: 6px;
-  position: relative;
-  width: 100%;
-  color: white;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.5;
-  transition: color 0.2s ease-in-out;
-}
-
-.uiverse-foolish-shrimp.text-left .inner,
-.uiverse-foolish-shrimp.justify-start .inner,
-.uiverse-foolish-shrimp[class*="text-left"] .inner,
-.uiverse-foolish-shrimp[class*="justify-start"] .inner {
+/* Seventh Button Text Alignment Utilities */
+.seventh--btn.text-left>span,
+.seventh--btn.justify-start>span,
+.seventh--btn[class*="text-left"]>span,
+.seventh--btn[class*="justify-start"]>span {
   justify-content: flex-start !important;
   text-align: left !important;
-}
-
-.uiverse-foolish-shrimp .inner svg.icon {
-  width: 18px;
-  height: 18px;
-  transition: fill 0.1s linear;
-}
-
-.uiverse-foolish-shrimp:focus svg.icon {
-  fill: white;
-}
-
-.uiverse-foolish-shrimp:hover svg.icon {
-  fill: transparent;
-  animation:
-    foolish-dasharray 1s linear forwards,
-    foolish-filled 0.1s linear forwards 0.95s;
-}
-
-@keyframes foolish-dasharray {
-  from {
-    stroke-dasharray: 0 0 0 0;
-  }
-
-  to {
-    stroke-dasharray: 68 68 0 0;
-  }
-}
-
-@keyframes foolish-filled {
-  to {
-    fill: white;
-  }
 }
 
 .module-bg {
@@ -6217,98 +5997,57 @@ body.fake-livestream-active {
   line-height: 1;
 }
 
-/* GlowOrbButton & SparkleGenerateButton — cursor-tracking glow buttons */
-.gob-button,
-.sgb-generate-button {
-  --button-background: #09041e;
-  --button-color: #fff;
-  --button-shadow: rgba(33, 4, 104, 0.2);
-  --button-shine-left: rgba(120, 0, 245, 0.6);
-  --button-shine-right: rgba(220, 160, 255, 0.95);
-  --button-glow-start: #B000E8;
-  --button-glow-end: #009FFD;
-
-  appearance: none;
-  outline: none !important;
-  outline-style: none !important;
-  border: none;
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 500;
+/* seventh--btn — cursor-tracking glow buttons */
+.seventh--btn {
   border-radius: 100px;
   position: relative;
   line-height: 24px;
-  cursor: pointer;
-  color: var(--button-color);
   padding: 1.5px;
-  margin: 0;
-  background: none;
   z-index: 1;
-  box-shadow: 0 8px 20px var(--button-shadow);
-  -webkit-user-select: none;
-  user-select: none;
+  box-shadow: 0 24px 60px #0000008c;
+  background: linear-gradient(to left, #591ed0, #8b5cf6);
+  background-size: 200% 100%;
+
+  /* 3. Position it on the right side initially */
+  background-position: right center;
+
+  /* 4. Smoothly transition the background movement over 0.5 seconds */
+  transition: background-position 0.5s ease;
+
+
 }
 
-.gob-button *,
-.sgb-generate-button *,
-.gob-button:focus,
-.sgb-generate-button:focus,
-.gob-button:focus-visible,
-.sgb-generate-button:focus-visible,
-.gob-button span:focus,
-.sgb-generate-button span:focus,
-.gob-button span:focus-visible,
-.sgb-generate-button span:focus-visible,
-.gob-button::-moz-focus-inner,
-.sgb-generate-button::-moz-focus-inner {
+.seventh--btn:hover {
+  background-position: left center;
+}
+
+.seventh--btn.is-active {
+  background-position: left center;
+}
+
+.seventh--btn *,
+.seventh--btn:focus,
+.seventh--btn:focus-visible,
+.seventh--btn span:focus,
+.seventh--btn span:focus-visible,
+.seventh--btn::-moz-focus-inner {
   outline: none !important;
   outline-style: none !important;
   box-shadow: none;
 }
 
-.gob-gradient {
+.seventh--gradient {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
   overflow: hidden;
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  padding: 1.5px;
+  pointer-events: none;
+  border-radius: 100px;
+  background-color: red;
 }
 
-.gob-gradient::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 400%;
-  height: 400%;
-  aspect-ratio: 1 / 1;
-  min-width: 400px;
-  min-height: 400px;
-  border-radius: inherit;
-  background: conic-gradient(from 0deg,
-      var(--button-shine-left) 0deg,
-      var(--button-shine-right) 70deg,
-      #ffffff 120deg,
-      var(--button-shine-right) 170deg,
-      var(--button-shine-left) 270deg,
-      var(--button-shine-left) 360deg);
-  animation: gob-rotate linear 2.5s infinite;
-  transform: translate(-50%, -50%) rotate(0deg);
-  transform-origin: center center;
-}
 
-@keyframes gob-rotate {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-.gob-button > span,
-.sgb-generate-button > span {
+.seventh--btn>span {
   z-index: 1;
   position: relative;
   display: flex;
@@ -6322,40 +6061,18 @@ body.fake-livestream-active {
   width: 100%;
   height: 100%;
   border-radius: inherit;
-  background-color: var(--button-background, rgba(9, 4, 30, 0.85));
   overflow: hidden;
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
-.gob-button>span::before,
-.sgb-generate-button>span::before {
-  content: '';
-  position: absolute;
-  left: -16px;
-  top: -16px;
-  transform: translate(var(--pointer-x, 0px), var(--pointer-y, 0px)) translateZ(0);
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: var(--button-glow, transparent);
-  opacity: var(--button-glow-opacity, 0);
-  transition: opacity var(--button-glow-duration, 0.5s);
-  filter: blur(20px);
-}
-
-.gob-button:hover,
-.sgb-generate-button:hover,
-.sgb-generate-button.sgb-is-forced {
+.seventh--btn:hover {
   --button-glow-opacity: 1;
   --button-glow-duration: 0.25s;
 }
 
 @media (prefers-reduced-motion: reduce) {
 
-  .gob-button,
-  .gob-button *,
-  .sgb-generate-button,
-  .sgb-generate-button * {
+  .seventh--btn,
+  .seventh--btn * {
     transition: none !important;
     animation: none !important;
   }
@@ -6469,15 +6186,35 @@ body.fake-livestream-active {
   }
 }
 
-/* Orb Button Glass Stack Styles */
-.btn-wrapper:hover {
-  z-index: 10;
+/* Pop scale-up spring animation for orb button when person is activated */
+@keyframes orbPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  75% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
+
+.animate-orb-pop {
+  animation: orbPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Orb Button Glass Stack Styles */
+.btn-wrapper:hover {}
 
 .orb-btn {
   position: relative;
-  width: 5em;
-  height: 5em;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -6577,16 +6314,4 @@ body.fake-livestream-active {
 
 .btn-wrapper:hover .btn-violet svg {
   transform: scale(1.15) rotate(180deg);
-}
-
-.btn-violet {
-  --glow-color: 168, 85, 247;
-}
-
-.btn-silver {
-  --glow-color: 180, 195, 210;
-}
-
-.btn-mauve {
-  --glow-color: 188, 108, 148;
 }

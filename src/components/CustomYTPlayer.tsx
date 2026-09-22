@@ -3,7 +3,7 @@
 
 
 import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
-import CosmicRadialButton from "./CosmicRadialButton";
+import SeventhButton from "./SeventhButton";
 
 declare global {
   interface Window {
@@ -278,13 +278,13 @@ export default function CustomYTPlayer({
           <div
             className={`absolute inset-0 flex items-center justify-center z-10 transition-opacity duration-300 pointer-events-none ${showControls && !isPlaying ? "opacity-100" : "opacity-0"
               }`}>
-            <CosmicRadialButton
+            <SeventhButton
               icon={false}
               className="w-20 h-20 ! rounded-lg !p-0 flex items-center justify-center border border-purple-300/40 shadow-2xl">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="white" className="ml-1">
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
-            </CosmicRadialButton>
+            </SeventhButton>
           </div>
 
           {/* Top Gradient */}
@@ -377,7 +377,7 @@ export default function CustomYTPlayer({
                 )}
 
                 {/* Play/Pause */}
-                <CosmicRadialButton onClick={togglePlay}
+                <SeventhButton onClick={togglePlay}
                   icon={false}
                   className="w-11 h-11 ! rounded-lg !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
                   aria-label={isPlaying ? "Pause" : "Play"}>
@@ -390,7 +390,7 @@ export default function CustomYTPlayer({
                       <polygon points="5 3 19 12 5 21 5 3" />
                     </svg>
                   )}
-                </CosmicRadialButton>
+                </SeventhButton>
 
                 {/* Next */}
                 {hasNext && (

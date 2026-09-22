@@ -8,7 +8,7 @@ import { useMember } from "@/context/MemberContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { GradientToggle } from "@/components/GradientToggle";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import InputField from "@/components/InputField";
 import QRCode from "react-qr-code";
 import { SectionBadge } from "@/components/SectionBadge";
@@ -412,14 +412,14 @@ export default function ShowPageClient({
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
                   ) : (
-                    <CosmicRadialButton
+                    <SeventhButton
                       onClick={handleRsvp}
                       disabled={rsvpLoading}
                       icon={false}
                       id="rsvp-btn"
                       className="px-8 py-4 uppercase disabled:opacity-50">
                       {rsvpLoading ? "…" : "🎸 I'm Going"}
-                    </CosmicRadialButton>
+                    </SeventhButton>
                   )}
 
                   {/* Anonymous toggle — only before RSVP */}
@@ -484,13 +484,13 @@ export default function ShowPageClient({
                           glow={true}
                           inputClassName="bg-black/40 border  border-white/10  px-4 py-3 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                         />
-                        <CosmicRadialButton
+                        <SeventhButton
                           type="submit"
                           disabled={notifyLoading}
                           icon={false}
                           className="px-6 py-3 text-white uppercase disabled:opacity-50 shrink-0 rounded-lg">
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
-                        </CosmicRadialButton>
+                        </SeventhButton>
                       </div>
                       {notifyError && <p className="text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20 rounded">{notifyError}</p>}
                     </form>
@@ -617,12 +617,12 @@ export default function ShowPageClient({
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <CosmicRadialButton
+                <SeventhButton
                   onClick={copyLink}
                   icon={false}
                   className="px-6 py-3 text-white rounded-lg">
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
-                </CosmicRadialButton>
+                </SeventhButton>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
                   className="px-6 py-3 border border-white/10 text-white/50 uppercase hover:border-white/30 hover:text-white transition-colors">

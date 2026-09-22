@@ -24,12 +24,15 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
   const sectionTagline = sanityContent?.sections?.find((s: any) => s.sectionId === "ports")?.subtitle || "Destination Explorer";
 
   return (
-    <LazyMount as="section" id="ports" className="site-container py-section-fluid" minHeight="700px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "700px" }}>
+    <LazyMount as="section" id="ports" className="site-container py-section-fluid border-b border-white/10" minHeight="700px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "700px" }}>
       <div>
-        <div className="text-center md:text-left mb-10">
+        <div className="text-center md:text-left mb-10 max-w-3xl">
           <h2 className="uppercase mt-0.5">
             {sectionTitle}
           </h2>
+          <p className="text-white/70 mt-2.5 font-medium text-sm sm:text-base leading-relaxed">
+            Discover tropical paradises, pristine beaches, and breathtaking Caribbean destinations featured on our upcoming concert cruise itineraries.
+          </p>
         </div>
 
         {/* LAYOUT 1: GRID VIEW */}

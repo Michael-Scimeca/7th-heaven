@@ -608,7 +608,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     placeholder="e.g. Alex Miller"
                     value={customerName}
                     onChange={e => setCustomerName(e.target.value)}
-                    className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-white focus:border-purple-500 outline-none"
+                    className="form-input"
                   />
                 </div>
 
@@ -620,7 +620,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                     placeholder="alex@example.com"
                     value={customerEmail}
                     onChange={e => setCustomerEmail(e.target.value)}
-                    className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-white focus:border-purple-500 outline-none"
+                    className="form-input"
                   />
                 </div>
               </div>
@@ -635,7 +635,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                       placeholder="Street Address"
                       value={street}
                       onChange={e => setStreet(e.target.value)}
-                      className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-white focus:border-purple-500 outline-none mb-2"
+                      className="form-input mb-2"
                     />
                     <div className="grid grid-cols-3 gap-2">
                       <input type="text"
@@ -643,21 +643,21 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                         placeholder="City"
                         value={city}
                         onChange={e => setCity(e.target.value)}
-                        className="bg-[#00000029] border border-white/10 px-3 py-2.5 text-white focus:border-purple-500 outline-none"
+                        className="form-input"
                       />
                       <input type="text"
                         required
                         placeholder="State"
                         value={state}
                         onChange={e => setState(e.target.value)}
-                        className="bg-[#00000029] border border-white/10 px-3 py-2.5 text-white focus:border-purple-500 outline-none"
+                        className="form-input"
                       />
                       <input type="text"
                         required
                         placeholder="ZIP Code"
                         value={zip}
                         onChange={e => setZip(e.target.value)}
-                        className="bg-[#00000029] border border-white/10 px-3 py-2.5 text-white focus:border-purple-500 outline-none"
+                        className="form-input"
                       />
                     </div>
                   </div>
@@ -704,7 +704,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                 placeholder="Street Address"
                 value={street}
                 onChange={e => setStreet(e.target.value)}
-                className="w-full bg-[#00000029] border border-white/10 px-4 py-3 text-white focus:border-yellow-400 outline-none"
+                className="form-input mb-2"
               />
 
               <div className="grid grid-cols-3 gap-2">
@@ -713,21 +713,21 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   placeholder="City"
                   value={city}
                   onChange={e => setCity(e.target.value)}
-                  className="bg-[#00000029] border border-white/10 px-3 py-2.5 text-white focus:border-yellow-400 outline-none"
+                  className="form-input"
                 />
                 <input type="text"
                   required
                   placeholder="State"
                   value={state}
                   onChange={e => setState(e.target.value)}
-                  className="bg-[#00000029] border border-white/10 px-3 py-2.5 text-white focus:border-yellow-400 outline-none"
+                  className="form-input"
                 />
                 <input type="text"
                   required
                   placeholder="ZIP Code"
                   value={zip}
                   onChange={e => setZip(e.target.value)}
-                  className="bg-[#00000029] border border-white/10 px-3 py-2.5 text-white focus:border-yellow-400 outline-none"
+                  className="form-input"
                 />
               </div>
 

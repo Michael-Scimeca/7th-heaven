@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import CosmicRadialButton from "./CosmicRadialButton";
+import SeventhButton from "./SeventhButton";
 
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
 
@@ -145,13 +145,13 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                       />
                       <div className="absolute inset-0 z-[2] bg-black/30 group-hover:bg-black/10 transition-colors duration-300" />
                       <div className="absolute top-4 right-4 z-[3]">
-                        <CosmicRadialButton
+                        <SeventhButton
                           icon={false}
                           className="w-11 h-11 !rounded-full !p-0 flex items-center justify-center border border-purple-300/40">
                           <svg width="12" height="14" viewBox="0 0 20 22" fill="none">
                             <path d="M19 11L1 21V1L19 11Z" fill="white" strokeLinejoin="round" />
                           </svg>
-                        </CosmicRadialButton>
+                        </SeventhButton>
                       </div>
                     </button>
                   )}

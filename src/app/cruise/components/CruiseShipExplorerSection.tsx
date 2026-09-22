@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { SectionBadge } from "@/components/SectionBadge";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 import LazyMount from "@/components/LazyMount";
 
 interface CruiseShipExplorerSectionProps {
@@ -18,7 +18,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
   const sectionSubtitle = sanityContent?.sections?.find((s: any) => s.sectionId === "ship")?.subtitle || "Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.";
 
   return (
-    <LazyMount as="section" id="ship-explorer" className="pt-[32px] md:pt-20 site-container" minHeight="800px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
+    <LazyMount as="section" id="ship-explorer" className="py-section-fluid border-b border-white/10 site-container" minHeight="800px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <div className="text-left w-full mb-10">
         <h2 className="uppercase text-white ">
           {sectionTitle}
@@ -89,25 +89,25 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
 
       {/* Dining Tab Section */}
       <div className="text-left pt-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4  mb-6 border-b border-white/10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-white/10">
           <div>
             <h3 className="uppercase text-white">Dining Explorer Guide</h3>
             <p className="font-semibold ">Discover included food spots and premium specialty restaurants.</p>
           </div>
           {/* Dining Filter Tabs */}
           <div className="flex items-center gap-2">
-            <FoolishShrimpButton
+            <SeventhButton
               onClick={() => setFoodTypeTab("included")}
               isActive={foodTypeTab === "included"}
-              className="px-4 py-2 uppercase text-xs cursor-pointer">
+            >
               Included (Free)
-            </FoolishShrimpButton>
-            <FoolishShrimpButton
+            </SeventhButton>
+            <SeventhButton
               onClick={() => setFoodTypeTab("paid")}
               isActive={foodTypeTab === "paid"}
-              className="px-4 py-2 uppercase text-xs cursor-pointer">
+            >
               Specialty (With Fee)
-            </FoolishShrimpButton>
+            </SeventhButton>
           </div>
         </div>
 
@@ -167,26 +167,26 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
 
       {/* ── BARS & ENTERTAINMENT SEGMENTED TABS SECTION ── */}
       <div className="pt-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6  border-b border-white/10 text-left">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 mb-6  border-b border-white/10 text-left">
           <div className="w-full lg:w-auto">
             <h3 className="uppercase text-white">Bars & Entertainment Explorer</h3>
             <p className="font-semibold ">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
           </div>
-          <div className="flex  shrink-0 self-start lg:self-center max-w-full overflow-x-auto gap-2">
-            <FoolishShrimpButton
+          <div className="flex shrink-0 self-start lg:self-center max-w-full gap-2">
+            <SeventhButton
               onClick={() => setBarTab("bars")}
               isActive={barTab === "bars"}
-              className="px-4 py-2 uppercase text-xs cursor-pointer flex items-center gap-2">
+              className=" flex items-center gap-2">
               <span>Bars & Clubs</span>
               <span className={`text-[10px] px-2 py-0.5 rounded-lg ${barTab === "bars" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
-            </FoolishShrimpButton>
-            <FoolishShrimpButton
+            </SeventhButton>
+            <SeventhButton
               onClick={() => setBarTab("entertainment")}
               isActive={barTab === "entertainment"}
-              className="px-4 py-2 uppercase text-xs cursor-pointer flex items-center gap-2">
+              className="flex items-center gap-2">
               <span>Entertainment</span>
               <span className={`text-[10px] px-2 py-0.5 rounded-lg ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
-            </FoolishShrimpButton>
+            </SeventhButton>
           </div>
         </div>
 
@@ -247,7 +247,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
           ))}
         </div>
       </div>
-    </LazyMount>
+    </LazyMount >
   );
 }
 

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
-import CosmicRadialButton from '@/components/CosmicRadialButton';
+import SeventhButton from '@/components/SeventhButton';
 
 export default function ClaimPage() {
   const params = useParams();
@@ -210,12 +210,12 @@ export default function ClaimPage() {
             <p className="mb-6">
               You must be signed in to your 7th Heaven account to verify your raffle win.
             </p>
-            <CosmicRadialButton
+            <SeventhButton
               onClick={() => openModal()}
               icon={false}
               className="w-full py-3 text-white rounded-lg">
               Sign In to Verify
-            </CosmicRadialButton>
+            </SeventhButton>
           </div>
         )}
 
@@ -294,12 +294,12 @@ export default function ClaimPage() {
                     <span>✓ Claim Confirmed & Admin Notified</span>
                   </div>
                 ) : (
-                  <CosmicRadialButton
+                  <SeventhButton
                     onClick={handleClaimConfirm}
                     icon={false}
                     className="w-full py-3 text-white rounded-lg ">
                     Confirm Prize Claim
-                  </CosmicRadialButton>
+                  </SeventhButton>
                 )}
               </div>
 

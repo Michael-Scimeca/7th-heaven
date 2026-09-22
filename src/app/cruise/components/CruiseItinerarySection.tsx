@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
 import LazyMount from "@/components/LazyMount";
@@ -18,7 +18,7 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
   const rawItin2028 = sanityContent?.itinerary2028?.length ? sanityContent.itinerary2028 : ITINERARY_2028;
 
   return (
-    <LazyMount as="section" id="itinerary" className="pb-16 md:pb-24 relative z-20" minHeight="800px" rootMargin="300px 0px">
+    <LazyMount as="section" id="itinerary" className="py-section-fluid relative z-20 border-b border-white/10" minHeight="800px" rootMargin="300px 0px">
       <div className="w-full mx-auto">
         <div className="text-left w-full site-container">
           <SectionBadge label="Interactive Voyage Map" className="mb-3" />
@@ -31,31 +31,31 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
 
           {/* Itinerary Year Toggle */}
           <div className="flex flex-wrap items-center gap-3 mt-6">
-            <FoolishShrimpButton
- type="button"
- onClick={() => setActiveItinYear(2027)}
+            <SeventhButton
+              type="button"
+              onClick={() => setActiveItinYear(2027)}
               isActive={activeItinYear === 2027}
               className="!w-auto px-5 py-2 text-xs uppercase font-bold"
             >
               2027 Star of the Seas (7-Night)
-            </FoolishShrimpButton>
-            <FoolishShrimpButton
- type="button"
- onClick={() => setActiveItinYear(2028)}
+            </SeventhButton>
+            <SeventhButton
+              type="button"
+              onClick={() => setActiveItinYear(2028)}
               isActive={activeItinYear === 2028}
               className="!w-auto px-5 py-2 text-xs uppercase font-bold"
             >
               2028 Legend of the Seas (8-Night)
-            </FoolishShrimpButton>
+            </SeventhButton>
           </div>
         </div>
 
         <div className="w-full overflow-x-hidden">
           <CruiseSnakeItinerary
- key={`itin-${activeItinYear}`}
- itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? rawItin2027 : rawItin2028)}
- hideHeader
- />
+            key={`itin-${activeItinYear}`}
+            itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? rawItin2027 : rawItin2028)}
+            hideHeader
+          />
         </div>
       </div>
     </LazyMount>

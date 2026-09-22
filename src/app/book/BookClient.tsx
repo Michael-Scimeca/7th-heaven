@@ -10,7 +10,7 @@ import { Guitar, Mic, PartyPopper, Sparkles, Check, AlertTriangle, Star, Shield,
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Dropdown from "@/components/Dropdown";
 import SquishyToggle from "@/components/SquishyToggle";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import InputField from "@/components/InputField";
 import dynamic from "next/dynamic";
@@ -1344,11 +1344,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     </div>
                   }
                 />
+                <p className="text-xs text-purple-300/80 mt-1.5 font-medium">
+                  Band load-in is usually ~2 hours before band start time.
+                </p>
               </div>
             </div>
-            <p className="text-purple-300/80 flex items-center gap-1 .5 justify-end">
-              Band load-in is usually ~2 hours before band start time.
-            </p>
 
             {isLoadInUnsure && (
               <div className="p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-lg text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both]">
@@ -1680,7 +1680,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   </div>
                 )}
 
-                <CosmicRadialButton
+                <SeventhButton
                   type="submit"
                   icon={false}
                   disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
@@ -1693,7 +1693,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   ) : (
                     "Submit Booking Request"
                   )}
-                </CosmicRadialButton>
+                </SeventhButton>
                 <p className="text-center mt-4">
                   By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="  hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="  hover:text-white transition-colors">Terms</Link>.
                 </p>

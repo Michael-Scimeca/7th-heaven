@@ -66,7 +66,7 @@ export const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Inp
               rows={rows}
               onChange={onChange}
               aria-label={props["aria-label"] || (label ? label : "Input field")}
-              className={`w-full bg-[#00000029] border-0 text-white font-normal font-semibold placeholder:text-white/45 focus:outline-none transition-colors rounded-lg ${inputClassName}`}
+              className={`form-input ${inputClassName}`}
               {...(props as any)}
             />
           ) : (
@@ -77,7 +77,7 @@ export const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Inp
               required={required}
               onChange={onChange}
               aria-label={props["aria-label"] || (label ? label : "Input field")}
-              className={`w-full bg-[#00000029] border-0  text-white font-normal font-semibold placeholder:text-white/45 focus:outline-none transition-colors rounded-lg ${inputClassName}`}
+              className={`form-input ${inputClassName}`}
               {...(props as any)}
             />
           )}

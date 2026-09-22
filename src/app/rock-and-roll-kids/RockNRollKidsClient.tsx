@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import CosmicTrackCard from "@/components/CosmicTrackCard";
 import AddCmsButton from "@/components/AddCmsButton";
 import SectionBadge from "@/components/SectionBadge";
@@ -417,7 +417,7 @@ export default function RockNRollKidsClient({
   const videosList = musicSinglesList.filter((v: any) => v.id !== selectedVideo);
 
   return (
-    <main className="site-container min-h-screen w-full text-white pt-[100px] pb-16 space-y-16 overflow-x-hidden">
+    <main className="site-container min-h-screen w-full text-white pt-[100px] overflow-x-hidden">
       {/* Hero Header */}
       <header className="text-center space-y-6">
         <h1 className="mb-3">
@@ -441,22 +441,31 @@ export default function RockNRollKidsClient({
       </header>
 
       {/* Story & Concept Section */}
-      <section aria-labelledby="rrk-story-heading" className="text-left w-full space-y-3">
-        <h2 id="rrk-story-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase tracking-wide mb-3 text-left">
-          {aboutSection?.title || "Story & Concept"}
-        </h2>
-        <div className="space-y-3 text-white/90 text-sm sm:text-base leading-relaxed max-w-4xl">
-          <p>
+      <section aria-labelledby="rrk-story-heading" className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-start text-left w-full py-section-fluid border-b border-white/10">
+        <div className="md:col-span-4 space-y-3">
+          <h2 id="rrk-story-heading" className="text-white text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase tracking-tight">
+            {aboutSection?.title || "Story & Concept"}
+          </h2>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-400/30 text-purple-300 font-semibold text-xs sm:text-sm uppercase tracking-wider">
+            <span>✨</span> {aboutSection?.badge || "We love art"}
+          </div>
+        </div>
+
+        <div className="md:col-span-8 p-6 sm:p-8 rounded-2xl bg-black/40 border border-purple-500/20 backdrop-blur-xl shadow-2xl relative overflow-hidden space-y-4">
+          <div className="absolute -top-12 -right-12 w-48 h-48 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
+          <p className="text-white/95 text-base sm:text-lg leading-relaxed font-medium">
             {aboutSection?.subtitle || ABOUT_DATA.paragraph1}
           </p>
-          <p>
-            {aboutSection?.body || ABOUT_DATA.paragraph2}
-          </p>
+          {(aboutSection?.body || ABOUT_DATA.paragraph2) && (
+            <p className="text-white/80 text-sm sm:text-base leading-relaxed border-t border-white/10 pt-4">
+              {aboutSection?.body || ABOUT_DATA.paragraph2}
+            </p>
+          )}
         </div>
       </section>
 
       {/* Character Roster Info Cards Grid */}
-      <section aria-labelledby="rrk-cast-heading">
+      <section aria-labelledby="rrk-cast-heading" className="py-section-fluid border-b border-white/10">
         <h2 id="rrk-cast-heading" className="sr-only">Character Cast Lineup</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
           {charactersList.map((char: any) => (
@@ -488,7 +497,7 @@ export default function RockNRollKidsClient({
       </section>
 
       {/* ── UNIFIED VIDEO MATRIX SHOWCASE ── */}
-      <section aria-labelledby="rrk-videos-heading" className="space-y-6">
+      <section aria-labelledby="rrk-videos-heading" className="py-section-fluid border-b border-white/10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
           <div className="lg:col-span-5 space-y-6">
@@ -510,14 +519,14 @@ export default function RockNRollKidsClient({
               />
               <div className="flex flex-wrap gap-2.5">
                 {musicSinglesList.map((single: any) => (
-                  <CosmicRadialButton
+                  <SeventhButton
                     key={single.id}
                     onClick={() => setSelectedVideo(single.id)}
                     isActive={selectedVideo === single.id}
                     className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
                   >
                     {single.title}
-                  </CosmicRadialButton>
+                  </SeventhButton>
                 ))}
               </div>
             </div>
@@ -535,7 +544,7 @@ export default function RockNRollKidsClient({
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 border border-white/10">
               {videosList.map((v: any) => (
                 <CosmicTrackCard
                   key={v.id}
@@ -552,7 +561,7 @@ export default function RockNRollKidsClient({
       </section>
 
       {/* ── COMIC BOOKS & EPISODES CATALOG (12 ITEMS GRID) ── */}
-      <section aria-labelledby="rrk-comics-heading" className="space-y-6 pt-6">
+      <section aria-labelledby="rrk-comics-heading" className="py-section-fluid border-b border-white/10">
         <div className="border-b border-white/10 pb-4">
           <div>
             <h2 id="rrk-comics-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
@@ -596,9 +605,9 @@ export default function RockNRollKidsClient({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full block">
-                <CosmicRadialButton className="w-full !text-center justify-center font-bold text-xs ">
+                <SeventhButton className="w-full !text-center justify-center font-bold text-xs ">
                   <span>Amazon Link</span>
-                </CosmicRadialButton>
+                </SeventhButton>
               </a>
             </article>
           ))}
@@ -606,16 +615,14 @@ export default function RockNRollKidsClient({
       </section>
 
       {/* ── SERIES FOUNDERS & CREATORS ── */}
-      <section aria-labelledby="rrk-founders-heading" className="space-y-6 pt-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
-
+      <section aria-labelledby="rrk-founders-heading" className="py-section-fluid">
+        <div className="mb-6 text-left">
           <h2 id="rrk-founders-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
             {foundersSection?.title || "Series Founders & Contact"}
           </h2>
           <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
-            {foundersSection?.subtitle || foundersSection?.body || "Meet the series creators and art team behind 7th Heaven & The Rock 'n' Roll Kids."}
+            {foundersSection?.subtitle || "Meet the creators and co-founders behind 7th Heaven and the Rock 'n' Roll Kids franchise, bringing animated music adventures, comic books, and live rock performances to life."}
           </p>
-
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

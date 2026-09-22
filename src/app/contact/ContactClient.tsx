@@ -137,10 +137,10 @@ export default function ContactClient({
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10 flex-1">
 
         {/* Left Column: Contact Cards (Full Width on Mobile, Smaller on Tablet md:col-span-5) */}
-        <section aria-label="Contact Directory" className="w-full max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left">
+        <section aria-label="Contact Directory" className="w-full max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left h-full flex-1">
 
-          {/* Contact Cards List (1 Column Stacked) */}
-          <div className="space-y-[clamp(0.4rem,1.2vh,1rem)] w-full">
+          {/* Contact Cards List (1 Column Stacked, Distributed to fill section height) */}
+          <div className="flex-1 flex flex-col justify-between w-full h-full pb-6">
             {contacts.map((contact) => {
               const photoForThisCard = getPhotoForCategory(contact);
               const isCardActive = activePhotoId === photoForThisCard;

@@ -12,7 +12,7 @@ import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 import { useTransition } from "@/context/TransitionContext";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import ProgressiveBlur from "@/components/ProgressiveBlur";
 
 const emptySubscribe = () => () => { };
@@ -670,7 +670,7 @@ export function Header() {
                 </button>
               </div>
             ) : (
-              <CosmicRadialButton
+              <SeventhButton
                 icon={false}
                 onClick={() => openModal("login")}
                 className="px-4 py-2 rounded-lg shrink-0 flex items-center gap-2 font-bold "
@@ -679,7 +679,7 @@ export function Header() {
                 {isModalOpen && (
                   <span className="w-4.5 h-4.5 rounded-full border-[3.5px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.9)] shrink-0 ml-0.5" />
                 )}
-              </CosmicRadialButton>
+              </SeventhButton>
             )}
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
@@ -909,7 +909,7 @@ export function Header() {
                       </button>
                     </div>
                   ) : (
-                    <CosmicRadialButton
+                    <SeventhButton
                       icon={false}
                       onClick={() => {
                         setMobileOpen(false);
@@ -917,7 +917,7 @@ export function Header() {
                       }}
                       className="px-3.5 py-1.5 text-xs rounded-lg shrink-0">
                       SIGN IN
-                    </CosmicRadialButton>
+                    </SeventhButton>
                   )}
                 </div>
               </div>

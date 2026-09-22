@@ -15,7 +15,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import Smooothy, { damp } from "smooothy";
-import CosmicRadialButton from "./CosmicRadialButton";
+import SeventhButton from "./SeventhButton";
 import GlassPlayButton from "./GlassPlayButton";
 import { SectionBadge } from "./SectionBadge";
 import { useMember } from "@/context/MemberContext";
@@ -639,7 +639,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
   const gapPx = getGapPx();
 
   return (
-    <section ref={sectionRef} id="video-slider" className={`py-section-fluid bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-full select-none`}>
+    <section ref={sectionRef} id="video-slider" className={`py-section-fluid border-b border-white/10  relative overflow-hidden w-full select-none`}>
 
       {/* Section Header inside site-container */}
       <div className="site-container relative z-10">

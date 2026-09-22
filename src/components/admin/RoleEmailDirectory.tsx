@@ -2,9 +2,8 @@
 
 import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import CustomScrollbar from "@/components/CustomScrollbar";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
 import { SectionBadge } from "@/components/SectionBadge";
 
 export interface RoleUser {
@@ -220,14 +219,14 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2">
-          <CosmicRadialButton
+          <SeventhButton
             type="button"
             onClick={handleCopyEmails}
             icon={false}
             className="px-3.5 py-2 uppercase cursor-pointer whitespace-nowrap"
             title="Copy all email addresses for BCC email dispatch">
             {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
-          </CosmicRadialButton>
+          </SeventhButton>
 
           <button
             type="button"

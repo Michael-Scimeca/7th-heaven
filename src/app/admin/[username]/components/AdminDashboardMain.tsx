@@ -21,8 +21,7 @@ import GooeyDropdown from "@/components/GooeyDropdown";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import GlowInput from "@/components/GlowInput";
 import SearchInput from "@/components/SearchInput";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 
 import { adminKillStream, adminBanUser, seedMockData, adminCreateCrewMember, adminResetPassword, adminCreateAdmin } from "../../actions";
 import { CrewSetPasswordModal } from "@/components/CrewSetPasswordModal";
@@ -3405,7 +3404,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         ].map(({ label, hours }) => {
                           const isSelected = !!bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - (Date.now() + hours * 3600000)) < 60000;
                           return (
-                            <FoolishShrimpButton
+                            <SeventhButton
                               key={label}
                               isActive={isSelected}
                               onClick={async () => {
@@ -3415,10 +3414,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               }}
                               className="px-3 py-1.5 text-[0.65rem] uppercase cursor-pointer whitespace-nowrap">
                               {label}
-                            </FoolishShrimpButton>
+                            </SeventhButton>
                           );
                         })}
-                        <FoolishShrimpButton
+                        <SeventhButton
                           isActive={!bannerExpiresAt}
                           onClick={async () => {
                             setBannerExpiresAt(null);
@@ -3426,7 +3425,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           }}
                           className="px-3 py-1.5 text-[0.65rem] uppercase cursor-pointer whitespace-nowrap">
                           OFF
-                        </FoolishShrimpButton>
+                        </SeventhButton>
                       </div>
                     </div>
 
@@ -3780,24 +3779,24 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <div className="flex items-center gap-3">
           {/* Shopify vs Simulated Toggle */}
           <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-            <FoolishShrimpButton
+            <SeventhButton
               isActive={shopifyTab === 'shopify'}
               onClick={() => setShopifyTab('shopify')}
               className="px-4 py-2 text-xs uppercase cursor-pointer whitespace-nowrap">
               Shopify API
-            </FoolishShrimpButton>
-            <FoolishShrimpButton
+            </SeventhButton>
+            <SeventhButton
               isActive={shopifyTab === 'simulated'}
               onClick={() => setShopifyTab('simulated')}
               className="px-4 py-2 text-xs uppercase cursor-pointer whitespace-nowrap">
               Simulated Checkouts
-            </FoolishShrimpButton>
+            </SeventhButton>
           </div>
           {shopifyTab === 'shopify' && (
             <div className="flex items-center gap-3 transition-opacity duration-300 ease-out">
               <div className="flex items-center gap-1.5">
                 {[7, 30, 90].map(d => (
-                  <FoolishShrimpButton
+                  <SeventhButton
                     key={d}
                     isActive={shopifyPeriod === d}
                     onClick={async () => {
@@ -3811,7 +3810,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     }}
                     className="px-3 py-1.5 text-[0.65rem] uppercase cursor-pointer whitespace-nowrap">
                     {d}D
-                  </FoolishShrimpButton>
+                  </SeventhButton>
                 ))}
               </div>
               <button
@@ -5747,7 +5746,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="py-4 pr-0 space-y-4">
                     <div>
                       <div className="flex items-center justify-between mb-6">
-                        <CosmicRadialButton
+                        <SeventhButton
                           type="button"
                           onClick={() => {
                             setNewSmsGroupError('');
@@ -5756,7 +5755,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           icon={false}
                           className="px-3 py-2 uppercase cursor-pointer">
                           Create Group
-                        </CosmicRadialButton>
+                        </SeventhButton>
                       </div>
                       <Dropdown
                         id="crew-sms-select-group"
@@ -5966,13 +5965,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           )}
 
                           <div className="flex items-center gap-2 mt-1">
-                            <CosmicRadialButton
+                            <SeventhButton
                               type="button"
                               onClick={handleSaveSmsGroup}
                               icon={false}
                               className="px-4 py-2 uppercase cursor-pointer flex-1">
                               Save Group
-                            </CosmicRadialButton>
+                            </SeventhButton>
                             <button
                               type="button"
                               onClick={() => {
@@ -5985,7 +5984,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           </div>
                         </div>
                       ) : (
-                        <CosmicRadialButton
+                        <SeventhButton
                           type="button"
                           onClick={() => {
                             setNewSmsGroupError('');
@@ -5994,7 +5993,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           icon={false}
                           className="w-full py-3 uppercase cursor-pointer">
                           CREATE NEW GROUP FROM SELECTION
-                        </CosmicRadialButton>
+                        </SeventhButton>
                       )}
                     </div>
                   </div>
@@ -6622,7 +6621,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             value={bandEmailSubject}
                             onChange={(e) => setBandEmailSubject(e.target.value)}
                             placeholder="e.g. Band Schedule Update"
-                            className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3.5 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 transition-colors"
+                            className="form-input"
                           />
                         </div>
                       </section>
@@ -6849,7 +6848,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </p>
                   )}
                 </div>
-                <CosmicRadialButton
+                <SeventhButton
                   disabled={blastSending || !blastSubject.trim() || !blastBody.trim()}
                   onClick={async () => {
                     if (blastSendingRef.current) return;
@@ -6884,7 +6883,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   ) : (
                     <>Send Blast</>
                   )}
-                </CosmicRadialButton>
+                </SeventhButton>
               </div>
             </div>
           </div>
@@ -6909,13 +6908,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 p-1 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
             {['All', 'fan', 'crew', 'admin'].map(role => (
-              <FoolishShrimpButton
+              <SeventhButton
                 key={role}
                 isActive={filterRole === role}
                 onClick={() => setFilterRole(role as any)}
                 className="px-3 py-1.5 text-[0.65rem] uppercase cursor-pointer whitespace-nowrap">
                 {role}
-              </FoolishShrimpButton>
+              </SeventhButton>
             ))}
           </div>
           <div className={"w-7 h-7 rounded-lg bg-[#00000029] flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('registry') ? 'rotate-0' : '-rotate-90')}>
@@ -7164,13 +7163,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   />
                 </div>
               </div>
-              <FoolishShrimpButton
+              <SeventhButton
                 onClick={createCrew}
                 disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
                 className="px-6 py-3 text-[0.7rem] uppercase    rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 Create Account
-              </FoolishShrimpButton>
+              </SeventhButton>
             </div>
             <div className="mt-4 p-3 bg-white/[0.02] border border-white/10 rounded-lg flex items-start gap-3">
               <span className="text-purple-300 mt-0.5"></span>
@@ -7308,13 +7307,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   />
                 </div>
               </div>
-              <FoolishShrimpButton
+              <SeventhButton
                 onClick={createAdmin}
                 disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
                 className="px-6 py-3 text-[0.7rem] uppercase    rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 {adminCreateLoading ? 'Creating…' : 'Create Admin'}
-              </FoolishShrimpButton>
+              </SeventhButton>
             </div>
 
             <div className="mt-4 p-3 bg-white/[0.02] border border-white/10 rounded-lg flex items-start gap-3">
@@ -11232,14 +11231,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
           {/* Mode Switcher Pills */}
           <div className="flex items-center gap-2 select-none">
-            <FoolishShrimpButton
+            <SeventhButton
               isActive={adminTab === 'band'}
               onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
               className="px-5 py-2 text-[10px] uppercase cursor-pointer whitespace-nowrap">
               Band &amp; Site
-            </FoolishShrimpButton>
+            </SeventhButton>
 
-            <FoolishShrimpButton
+            <SeventhButton
               isActive={adminTab === 'cruise'}
               onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
               className="px-5 py-2 text-[10px] uppercase cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap">
@@ -11249,7 +11248,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
                 </span>
               )}
-            </FoolishShrimpButton>
+            </SeventhButton>
           </div>
 
           {/* Exit Link */}
@@ -11498,7 +11497,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   <div className="flex justify-end pt-2 border-t border-white/5">
-                    <FoolishShrimpButton
+                    <SeventhButton
                       type="button"
                       onClick={async () => {
                         if (adminGuidelinesUpdatingRef.current) return;
@@ -11530,7 +11529,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       disabled={adminGuidelinesUpdating}
                       className="px-8 py-3.5 !h-auto disabled:opacity-50 cursor-pointer">
                       {adminGuidelinesUpdating ? 'SAVING...' : 'SAVE GUIDELINES'}
-                    </FoolishShrimpButton>
+                    </SeventhButton>
                   </div>
                 </div>
               </div>
@@ -11608,7 +11607,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2 justify-end mt-auto pt-3 border-t border-white/5">
-                        <FoolishShrimpButton
+                        <SeventhButton
                           onClick={async () => {
                             if (cruiseUpdatingRef.current) return;
                             cruiseUpdatingRef.current = true;
@@ -11641,7 +11640,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           disabled={cruiseUpdating || (!postNoticeToDashboard && !sendEmailToPassengers)}
                           className="px-6 py-2.5 text-[0.65rem] uppercase cursor-pointer flex items-center justify-center">
                           {cruiseUpdating ? 'Dispatching...' : 'Dispatch Notice & Email'}
-                        </FoolishShrimpButton>
+                        </SeventhButton>
                         <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-11 h-11 flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-colors disabled:opacity-50 group/trash">
                           <svg className="group-hover/trash:scale-110 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" /></svg>
                         </button>
@@ -11657,18 +11656,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                         {/* Live Preview Tab Switcher */}
                         <div className="flex items-center gap-2 select-none">
-                          <FoolishShrimpButton
+                          <SeventhButton
                             isActive={livePreviewTab === 'dashboard'}
                             onClick={() => setLivePreviewTab('dashboard')}
                             className="px-4 py-2 text-xs uppercase r cursor-pointer whitespace-nowrap">
                             CRUISE DASHBOARD BANNER
-                          </FoolishShrimpButton>
-                          <FoolishShrimpButton
+                          </SeventhButton>
+                          <SeventhButton
                             isActive={livePreviewTab === 'email'}
                             onClick={() => setLivePreviewTab('email')}
                             className="px-4 py-2 text-xs uppercase r cursor-pointer whitespace-nowrap">
                             EMAIL BROADCAST
-                          </FoolishShrimpButton>
+                          </SeventhButton>
                         </div>
                       </div>
 

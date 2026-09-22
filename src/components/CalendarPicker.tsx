@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useSyncExternalStore } from "react";
 import { Guitar, Mic, PartyPopper, Sparkles } from "lucide-react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 
 export interface BookingSlot {
   id: string;
@@ -258,10 +258,10 @@ export function CalendarPicker({
 
         {/* Row 1, Col 2: Booking Window */}
         <div className="col-span-1 min-[1500px]:col-span-1 border-t md:border-t-0 md:border-l min-[1500px]:border-l border-white/10 pt-6 md:pt-0 pl-3 md:pl-4 ">
-          <h4 className="uppercase    text-white/50 mb-6">
+          <h4 className="uppercase text-white/50 mb-6">
             {labels?.bookingWindowHeading || "Booking Window"}
           </h4>
-          <div className="flex flex-col gap-">
+          <div className="flex flex-col gap-3">
             {/* Show Start Time */}
             <div>
               <label htmlFor="cal-show-start-time" className="text-white block mb-1">
@@ -292,7 +292,6 @@ export function CalendarPicker({
               />
             </div>
 
-            <div className="border-t border-white/10 pt-2" />
 
             {/* Band Start Time */}
             <div>
@@ -329,7 +328,7 @@ export function CalendarPicker({
 
         {/* Row 2: Event Format (spans full width on Row 2 below 1500px, moves to Col 3 at 1500px+) */}
         <div className="col-span-1 md:col-span-2 min-[1500px]:col-span-1 pt-6 min-[1500px]:pt-0 ">
-          <h4 className="uppercase    text-white/50 mb-6">
+          <h4 className="uppercase text-white/50 mb-6">
             {labels?.eventFormatHeading || "Event Format"}
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 min-[1500px]:grid-cols-1 gap-3">
@@ -346,7 +345,7 @@ export function CalendarPicker({
               const TypeIcon = type.Icon;
               return (
                 <div key={type.id}>
-                  <FoolishShrimpButton
+                  <SeventhButton
                     isActive={isSelected}
                     onClick={() => onSelectType && onSelectType(type.id)}
                     className="w-full !p-0 !justify-start text-left pr-4 py-3 sm:pr-5 sm:py-4 !h-auto flex gap-3 sm:gap-4  group cursor-pointer !rounded-[2.5rem] [&>span]:w-full [&>span]:max-w-full [&>span]:min-w-0 [&>span]:whitespace-normal">
@@ -357,7 +356,7 @@ export function CalendarPicker({
                       <span className={`text-sm sm:text-base font-bold block truncate ${isSelected ? "text-purple-300" : "text-white"}`}>{displayLabel}</span>
                       <span className="text-xs sm:text-sm text-white/80 block line-clamp-1 sm:line-clamp-2 leading-tight">{displayDesc}</span>
                     </div>
-                  </FoolishShrimpButton>
+                  </SeventhButton>
                   {type.id === "custom" && isSelected && (
                     <div className="mt-2 animate-[fade-in-up_0.2s_ease-out_both]">
                       <input type="text"

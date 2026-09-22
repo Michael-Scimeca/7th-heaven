@@ -19,7 +19,7 @@ import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase-client';
 import ChatInputBar from '@/components/ChatInputBar';
 import CruiseChat from '@/components/CruiseChat';
-import FoolishShrimpButton from '@/components/FoolishShrimpButton';
+import SeventhButton from '@/components/SeventhButton';
 import PushSubscribeModal from '@/components/PushSubscribeModal';
 
 const getInstrumentIcon = (nameOrInstrument: string, className = "w-3.5 h-3.5") => {
@@ -1276,7 +1276,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           <div className="shrink-0 flex items-center gap-2">
             {/* Live Stream Push Alert Button — Restricted to Admin & Crew */}
             {(contextMember?.role === 'crew' || contextMember?.role === 'admin') && (
-              <FoolishShrimpButton
+              <SeventhButton
                 disabled={notifyingFans}
                 onClick={async () => {
                   if (notifyingFans) return;
@@ -1310,7 +1310,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       ? "Connecting..."
                       : "BROADCASTING PUSH ALERT 🔔"}
                 </span>
-              </FoolishShrimpButton>
+              </SeventhButton>
             )}
 
             <Link
@@ -2072,7 +2072,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               }
                             }}
                             placeholder="e.g. ticket-scalper"
-                            className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-1.5 text-white outline-none placeholder:text-white/30"
+                            className="form-input !py-1.5"
                           />
                         </div>
                         <button
@@ -2431,13 +2431,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   </div>
 
                   <div className="flex flex-col gap-2.5 w-full max-w-xs pt-2">
-                    <FoolishShrimpButton
+                    <SeventhButton
                       onClick={() => {
                         window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
                       }}
                       className="w-full py-3 bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] text-white uppercase rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25">
                       Sign Up as a Fan
-                    </FoolishShrimpButton>
+                    </SeventhButton>
 
                     <button
                       type="button"

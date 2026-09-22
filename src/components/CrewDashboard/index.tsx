@@ -15,8 +15,7 @@ import { getShowDateTime } from '@/lib/date-utils';
 import ChatInputBar from '@/components/ChatInputBar';
 import SquishyToggle from '@/components/SquishyToggle';
 import PushAlertsCard from '@/components/PushAlertsCard';
-import CosmicRadialButton from '@/components/CosmicRadialButton';
-import FoolishShrimpButton from '@/components/FoolishShrimpButton';
+import SeventhButton from '@/components/SeventhButton';
 import { useTransition } from '@/context/TransitionContext';
 import MemberHeaderBadge from '@/components/MemberHeaderBadge';
 import SectionBadge from '@/components/SectionBadge';
@@ -200,12 +199,12 @@ function AvailabilityCardForm({
                 chevronColor="#c084fc"
               />
             </div>
-            <CosmicRadialButton
+            <SeventhButton
               type="submit"
               icon={false}
               className="px-5 h-[36px] uppercase shrink-0 cursor-pointer flex items-center justify-center">
               Save
-            </CosmicRadialButton>
+            </SeventhButton>
           </div>
         </form>
 
@@ -275,12 +274,12 @@ function TimeOffCardForm({
                 chevronColor="#c084fc"
               />
             </div>
-            <CosmicRadialButton
+            <SeventhButton
               type="submit"
               icon={false}
               className="px-5 h-[36px] uppercase shrink-0 cursor-pointer flex items-center justify-center">
               Submit Request
-            </CosmicRadialButton>
+            </SeventhButton>
           </div>
         </form>
 
@@ -2822,14 +2821,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <p className="text-center max-w-[250px] text-xs sm:text-sm text-white/60 mb-6">
                         Click <span className="text-white font-semibold">GO LIVE</span> below to start your camera and begin broadcasting.
                       </p>
-                      <CosmicRadialButton
+                      <SeventhButton
                         onClick={attemptEndStream}
                         disabled={toggling}
                         icon={false}
                         className="px-8 sm:px-10 py-3 sm:py-3.5 uppercase disabled:opacity-50 flex items-center gap-2.5 cursor-pointer text-xs sm:text-sm z-20">
                         <span className="animate-pulse shadow-[0_0_12px_#ffffff] shrink-0" style={{ backgroundColor: '#ffffff', width: '10px', height: '10px', borderRadius: '50%', display: 'inline-block' }} />
                         {toggling ? 'Starting...' : 'Go Live'}
-                      </CosmicRadialButton>
+                      </SeventhButton>
                     </div>
                   )}
 
@@ -3283,13 +3282,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             <p className="uppercase mb-2">Duration</p>
                             <div className="grid grid-cols-4 gap-2">
                               {['2m', '5m', '10m', '15m'].map((d) => (
-                                <FoolishShrimpButton
+                                <SeventhButton
                                   key={d}
                                   isActive={dropDurationStr === d}
                                   onClick={() => setDropDurationStr(d)}
                                   className="!w-full !py-2 text-sm">
                                   {d}
-                                </FoolishShrimpButton>
+                                </SeventhButton>
                               ))}
                             </div>
                           </div>
@@ -3307,13 +3306,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           </label>
                         </div>
 
-                        <CosmicRadialButton
+                        <SeventhButton
                           type="button"
                           onClick={launchFlashDrop}
                           icon={false}
                           className="w-full py-4 uppercase cursor-pointer">
                           Launch Flash Drop
-                        </CosmicRadialButton>
+                        </SeventhButton>
 
                         <button
                           type="button"
@@ -3380,7 +3379,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     value={item.name}
                                     onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
                                     placeholder="e.g. VIP Meet & Greet Pass"
-                                    className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2.5 sm:py-2 text-white placeholder:text-white/30 outline-none transition-colors"
+                                    className="form-input"
                                   />
                                 </div>
                               </div>
@@ -3401,7 +3400,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                       disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                       value={item.min || ''}
                                       onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                      className="w-full bg-[#00000029] border border-white/10 px-3 py-2.5 sm:py-2 text-purple-300 outline-none transition-colors text-center rounded-lg"
+                                      className="form-input text-purple-300 text-center"
                                     />
                                   </div>
                                   {/* Floating counter during active raffle */}
@@ -3493,14 +3492,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     {/* Draw Action */}
                     <div className="mt-auto">
                       {raffleStatus !== 'complete' ? (
-                        <CosmicRadialButton
+                        <SeventhButton
                           type="button"
                           onClick={drawWinner}
                           disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
                           icon={false}
                           className="w-full py-4 uppercase disabled:opacity-30 disabled:grayscale cursor-pointer">
                           {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
-                        </CosmicRadialButton>
+                        </SeventhButton>
                       ) : (
                         <div className="bg-gray-50 border border-purple-500/30 p-4 text-center">
                           <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(147,51,234,0.5)]">🎉</div>
@@ -3549,15 +3548,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             value={newCustomWord}
                             onChange={e => setNewCustomWord(e.target.value)}
                             placeholder="e.g. ticket-scalper"
-                            className="w-full bg-[#00000029] border border-white/10 px-4 py-2.5 text-white outline-none placeholder:text-white/30"
+                            className="form-input"
                           />
                         </div>
-                        <CosmicRadialButton
+                        <SeventhButton
                           type="submit"
                           icon={false}
                           className="px-5 py-2.5 uppercase shrink-0 cursor-pointer">
                           Add Keyword
-                        </CosmicRadialButton>
+                        </SeventhButton>
                       </form>
                     </div>
 
@@ -3672,7 +3671,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       value={newSongTitle}
                       onChange={e => setNewSongTitle(e.target.value)}
                       rows={4}
-                      className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors resize-none"
+                      className="form-input resize-none"
                     />
                     <div className="flex justify-between items-center">
                       <button
@@ -3680,13 +3679,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         className="text-3xs uppercase text-white/40 text-white transition-colors">
                         Cancel
                       </button>
-                      <CosmicRadialButton
+                      <SeventhButton
                         type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
                         icon={false}
                         className="px-4 py-2 uppercase cursor-pointer">
                         Import Playlist
-                      </CosmicRadialButton>
+                      </SeventhButton>
                     </div>
                   </div>
                 ) : (
@@ -3701,13 +3700,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         onKeyDown={e => e.key === 'Enter' && addSongToSetlist(newSongTitle)}
                         className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
                       />
-                      <CosmicRadialButton
+                      <SeventhButton
                         type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
                         icon={false}
                         className="px-4 py-2 uppercase cursor-pointer">
                         Add
-                      </CosmicRadialButton>
+                      </SeventhButton>
                     </div>
                     <div className="flex justify-start">
                       <button
@@ -3789,7 +3788,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             <p className="mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
                           </div>
                         </div>
-                        <CosmicRadialButton
+                        <SeventhButton
                           onClick={() => {
                             const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${slug}`;
                             navigator.clipboard.writeText(icsUrl);
@@ -3798,19 +3797,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           icon={<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>}
                           className="px-4 py-2 text-white uppercase !rounded-lg shrink-0 cursor-pointer">
                           Copy Feed URL
-                        </CosmicRadialButton>
+                        </SeventhButton>
                       </div>
 
                       {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
                       <div className="grid grid-cols-2 gap-2 bg-[#00000029] p-1 border border-white/10 mb-6 shrink-0 rounded-xl">
                         {activeScheduleTab === 'my_schedule' ? (
-                          <CosmicRadialButton
+                          <SeventhButton
                             type="button"
                             onClick={() => setActiveScheduleTab('my_schedule')}
                             icon={false}
                             className="py-2 uppercase text-white cursor-pointer !rounded-lg">
                             My Shift Schedule ({activeShifts.length})
-                          </CosmicRadialButton>
+                          </SeventhButton>
                         ) : (
                           <button
                             type="button"
@@ -3821,13 +3820,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         )}
 
                         {activeScheduleTab === 'tour_events' ? (
-                          <CosmicRadialButton
+                          <SeventhButton
                             type="button"
                             onClick={() => setActiveScheduleTab('tour_events')}
                             icon={false}
                             className="py-2 uppercase text-white cursor-pointer !rounded-lg">
                             Band Tour Events ({tourDates.length})
-                          </CosmicRadialButton>
+                          </SeventhButton>
                         ) : (
                           <button
                             type="button"

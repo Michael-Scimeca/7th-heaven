@@ -19,7 +19,7 @@ import { useMember } from "@/context/MemberContext";
 const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDropdown"), { ssr: false });
 import { SquishyToggle } from "@/components/SquishyToggle";
 import LazySection from "@/components/LazySection";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import AddCmsButton from "./AddCmsButton";
 import { VENUE_LINKS } from "@/lib/venue-links";
@@ -226,15 +226,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [activeCity, setActiveCity] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
-  const [displayLimit, setDisplayLimit] = useState<number | null>(maxShows || 20);
 
-  // Set initial display limit to 15 on mobile (<1024px) after mount
-  useEffect(() => {
-    if (!maxShows && window.innerWidth < 1024) {
-      setDisplayLimit(15);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(null);
   const [isSortBarStuck, setIsSortBarStuck] = useState(false);
   const [sortBarOpacity, setSortBarOpacity] = useState(1);
@@ -888,9 +880,19 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         } as React.CSSProperties}>
         <div className="w-full relative site-container">
 
+          {/* Section Headline & Paragraph */}
+          <div className="text-center max-w-3xl mx-auto pt-8 pb-9 relative z-20">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase text-white tracking-tight mb-3">
+              Upcoming Tour Dates
+            </h2>
+            <p className="text-white/70 text-sm sm:text-base md:text-lg font-medium leading-relaxed">
+              Catch 7th Heaven live on stage! Explore all upcoming show dates, venues, directions, and sync concerts directly to your calendar.
+            </p>
+          </div>
+
           {!hideMap && (
             <div
-              className="-mt-[100px] mb-6 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden "
+              className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden "
               style={{
                 transform: 'translateZ(0)',
                 backfaceVisibility: 'hidden',
@@ -1023,7 +1025,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none", top: `${mobileHeaderOffset}px` }} className="relative sticky z-[90] flex flex-col gap-3.5 w-full border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none", top: `${mobileHeaderOffset}px` }} className="relative sticky z-[40] flex flex-col gap-3.5 w-full border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
             <div
               className="sort-bar-bg absolute -top-3 -bottom-3 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px]   pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
               style={{
@@ -1080,10 +1082,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             </div>
           </div>
 
-          <div className="flex flex-col gap-0 overflow-visible pt-0" id="tour-rows-container">
+          <div className="flex flex-col gap-0 overflow-visible pb-section-fluid" id="tour-rows-container">
             {Array.from((() => {
               let rows = filtered;
-              const effectiveLimit = maxShows || displayLimit;
+              const effectiveLimit = maxShows;
               if (effectiveLimit && upNext) {
                 const startIdx = filtered.findIndex(s => s.date === upNext.date && s.venue === upNext.venue && s.time === upNext.time);
                 rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 0) + effectiveLimit);
@@ -1105,9 +1107,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}>
                     <span className="text-[clamp(14px,1.3vw,21px)] uppercase  whitespace-nowrap font-bold">{show.day}</span>
-                    <span className="text-white text-[clamp(15px,1.5vw,23px)] whitespace-nowrap font-bold">{show.date}</span>
-                    <span className="text-white text-[clamp(15px,1.5vw,23px)] font-bold">{show.venue}</span>
-                    <span className="text-white/80 text-[clamp(13px,1.2vw,19px)] font-bold">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase  whitespace-nowrap font-bold">{show.date}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase  whitespace-nowrap font-bold">{show.venue}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase  whitespace-nowrap font-bold">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
                     <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)] font-bold">
                       {(() => {
                         const { doorsTime, playTime, time } = getShowDisplayTimes(show);
@@ -1337,13 +1339,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                             ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
                             : effectiveMapUrl;
                           return (
-                            <CosmicRadialButton
+                            <SeventhButton
                               onClick={() => window.open(gUrl, '_blank', 'noopener,noreferrer')}
                               icon={<LocationPinIcon className="w-3.5 h-3.5 text-white shrink-0" />}
                               className="flex-1 font-bold"
                               title="Get Directions">
                               Map
-                            </CosmicRadialButton>
+                            </SeventhButton>
                           );
                         })()}
 
@@ -1426,17 +1428,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 </div>
               );
             })}
+
           </div>
 
-          {displayLimit && !maxShows && filtered.length > displayLimit && (
-            <div className="flex justify-center pt-8 pb-0 relative z-20">
-              <CosmicRadialButton
-                onClick={() => setDisplayLimit(null)}
-                className="!text-xs sm:!text-sm !font-extrabold">
-                Load The Rest ({filtered.length - displayLimit} More Shows)
-              </CosmicRadialButton>
-            </div>
-          )}
 
           {filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--color-text-muted)]">
@@ -1790,7 +1784,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 <select id="tour-font-style"
                   value={tourFontFamily}
                   onChange={(e) => setTourFontFamily(e.target.value)}
-                  className="w-full bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer">
+                  className="form-input cursor-pointer">
                   <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Switzer (Default)</option>
                   <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
                   <option value="Inter" className="bg-[var(--color-bg-surface)] text-white">Inter</option>

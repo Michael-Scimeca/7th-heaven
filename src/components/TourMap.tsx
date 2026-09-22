@@ -11,7 +11,7 @@ import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 let googleMapsOptionsSet = false;
 
 import { VENUE_COORDS, getVenueCoords, typeConfig, getShowType, getShowDateTime, isShowOver } from "@/lib/tour-helpers";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 
 function formatDateLabel(timestamp: number) {
   if (!timestamp) return "";
@@ -180,6 +180,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   // ── Date Range Zoom & Filter state ──
   const [dateRange, setDateRange] = useState<[number, number] | null>(null);
   const [isDateUiOpen, setIsDateUiOpen] = useState(false);
+  const [isShowTypesUiOpen, setIsShowTypesUiOpen] = useState(false);
 
   // ── Zoom Settings & Persistence State ──
   const [zoomConfig, setZoomConfig] = useState<MapZoomConfig>(getInitialZoomConfig);
@@ -919,8 +920,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative w-full h-[50vh] sm:h-auto sm:aspect-[3/1] overflow-hidden pb-px bg-[#160533]" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '500px', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 90%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 0%, black 90%, transparent 100%)' }}>
+    <div className="relative w-full h-[50vh] sm:h-auto sm:aspect-[2/1] overflow-hidden pb-px bg-[#160533]" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '500px' }}>
       <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862 bg-[#160533]" />
+      {/* Top Gradient Fade */}
+      <div className="absolute top-0 left-0 right-0 h-28 sm:h-36 z-[5] pointer-events-none bg-gradient-to-b from-[#090314] via-[#090314]/80 to-transparent" />
 
       {/* Bottom Gradient Mask Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-28 sm:h-36 z-[5] pointer-events-none bg-gradient-to-t from-[#090314] via-[#090314]/80 to-transparent" />
@@ -976,198 +979,109 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
 
       {/* ── Map Overlay Controls aligned precisely to .site-container ── */}
-      <div className="absolute inset-x-0 bottom-[36px] z-[10] pointer-events-none">
-        <div className="site-container flex items-end justify-between gap-4">
+      <div className="absolute inset-x-0 bottom-[16px] sm:bottom-[36px] z-[10] pointer-events-none">
+        <div className="site-container flex items-end justify-between gap-2 sm:gap-4">
           {/* Left Map Controls: Show Types & Date Range Zoom */}
-          <div className="pointer-events-auto flex items-center gap-3 flex-wrap max-w-[calc(100%-120px)] sm:max-w-none">
-            {/* Legend / Show Types */}
-            <div className="group overflow-visible transition-colors duration-300">
-              {/* Header - always visible, click to toggle */}
-              <CosmicRadialButton
-                aria-label="Show Types"
-                onClick={() => setLegendOpen(o => !o)}
-                className="!text-xs sm:!text-sm !font-bold flex items-center justify-between gap-2">
-                <span>SHOW TYPES</span>
-                <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-              </CosmicRadialButton>
-              {/* Expandable content */}
-              {legendOpen && (
-                <div className="px-3 pb-2.5">
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mb-2">
-                    {Object.entries(typeConfig).map(([key, cfg]) => {
-                      const isSelected = selectedTypes.has(key);
-                      const isAnySelected = selectedTypes.size > 0;
-                      const isActive = !isAnySelected || isSelected;
-                      const isLightColor = cfg.color === '#9333ea' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
-                      const textColor = isLightColor ? '#000000' : '#ffffff';
-                      const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
-                      return (
-                        <button aria-label="Next"
-                          key={key}
-                          onClick={() => {
-                            setSelectedTypes(prev => {
-                              const next = new Set(prev);
-                              if (next.has(key)) { next.delete(key); } else { next.add(key); }
-                              return next;
-                            });
-                          }}
-                          className={`flex items-center gap-1.5 transition-colors duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
-                            }`}>
-                          <div className="w-3.5 h-3.5 rounded-lg shrink-0 flex items-center justify-center text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
-                            {showLetter}
-                          </div>
-                          <span className="font-semibold text-white/80">{cfg.label}</span>
-                        </button>
-                      );
-                    })}
+          <div className="pointer-events-auto flex items-end gap-2 sm:gap-3 flex-wrap max-w-[calc(100%-60px)] sm:max-w-[calc(100%-100px)] lg:max-w-none">
+            {/* Legend / Show Types - Always Visible Box on Desktop, Hidden on Mobile/Tablet */}
+            <div className="hidden lg:block bg-[#0c0621]/95 border border-purple-500/40 rounded-2xl p-3 sm:p-4.5 backdrop-blur-[18px] shadow-[0_20px_60px_rgba(0,0,0,0.9)] text-left select-none text-white max-w-full">
+              <div className="flex items-center justify-between gap-2 sm:gap-3 mb-2 sm:mb-3.5 pb-1.5 sm:pb-2.5 border-b border-white/10">
+                <div className="flex items-center gap-2 sm:gap-2.5">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-base sm:text-lg shrink-0">
+                    🎭
                   </div>
-                  <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-3">
-                    <span className="uppercase text-white/40">Active</span>
-                    <div className="flex items-center gap-2">
-                      {selectedTypes.size > 0 && (
-                        <button onClick={() => setSelectedTypes(new Set())} className="uppercase  hover:text-white transition-colors cursor-pointer">Clear</button>
-                      )}
-                      <span className="text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Date Range Zoom Control (Bottom-Left) */}
-            <div className="relative">
-              {!isDateUiOpen ? (
-                <CosmicRadialButton
-                  onClick={() => setIsDateUiOpen(true)}
-                  title="Zoom in on dates & filter show markers"
-                  className="!text-xs sm:!text-sm !font-bold">
-                  <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "DATE RANGE ZOOM"}</span>
-                  {isDateFiltered && (
-                    <span className="ml-1 text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
-                      ({markerCount})
+                  <div className="flex flex-col">
+                    <span className="text-purple-300 font-extrabold uppercase text-[11px] sm:text-xs md:text-sm tracking-wider">
+                      SHOW TYPES
                     </span>
-                  )}
-                </CosmicRadialButton>
-              ) : (
-                <div className="absolute bottom-full mb-2 left-0 w-[340px] max-w-[90vw] bg-[rgba(8,8,18,0.96)]backdrop-blur-[18px] border border-purple-500/40 p-4.5 rounded-lg shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 select-none text-left text-white z-50">
-                  {/* Header */}
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl">📅</span>
-                      <div className="flex flex-col">
-                        <span className="text-purple-300 uppercase">Date Range Zoom</span>
-                        <span className="text-[10px] text-white/50">Filter map markers by timeframe</span>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setIsDateUiOpen(false)}
-                      className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white hover:text-white transition-colors">
-                      ✕
-                    </button>
+                    <span className="text-[9px] sm:text-[10px] text-white/50">Filter map markers by category</span>
                   </div>
-
-                  {/* Dual Date Sliders */}
-                  <div className="space-y-3.5">
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[10px] text-white/70 uppercase r">
-                        <span>Start Date (From)</span>
-                        <span className="text-purple-300">{formatDateShort(activeStart)}</span>
-                      </div>
-                      <input
-                        type="range"
-                        min={minShowTime}
-                        max={maxShowTime}
-                        step={86400000}
-                        value={activeStart}
-                        onChange={(e) => {
-                          const val = parseFloat(e.target.value);
-                          setDateRange([val, Math.max(val + 86400000, activeEnd)]);
-                        }}
-                        className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[10px] text-white/70 uppercase r">
-                        <span>End Date (To)</span>
-                        <span className="text-purple-300">{formatDateShort(activeEnd)}</span>
-                      </div>
-                      <input
-                        type="range"
-                        min={minShowTime}
-                        max={maxShowTime}
-                        step={86400000}
-                        value={activeEnd}
-                        onChange={(e) => {
-                          const val = parseFloat(e.target.value);
-                          setDateRange([activeStart, Math.max(val, activeStart + 86400000)]);
-                        }}
-                        className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Quick Preset Buttons */}
-                  <div className="space-y-1">
-                    <span className="text-[12px] text-white/50 uppercase block">Quick Presets</span>
-                    <div className="grid grid-cols-3 gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const now = Date.now();
-                          const target = now + 30 * 24 * 60 * 60 * 1000;
-                          setDateRange([now, Math.min(target, maxShowTime)]);
-                        }}
-                        className="px-2 py-1 text-[12px] uppercase rounded-lg border border-white/10 bg-[#00000029] hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer">
-                        Next 30 Days
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const now = Date.now();
-                          const target = now + 90 * 24 * 60 * 60 * 1000;
-                          setDateRange([now, Math.min(target, maxShowTime)]);
-                        }}
-                        className="px-2 py-1 text-[12px] uppercase rounded-lg border border-white/10 bg-[#00000029] hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer">
-                        Next 90 Days
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setDateRange([minShowTime, maxShowTime])}
-                        className="px-2 py-1 text-[12px] uppercase rounded-lg border border-white/10 bg-[#00000029] hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer">
-                        All Dates
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Remove / Reset Filter Button */}
-                  {isDateFiltered ? (
-                    <button
-                      type="button"
-                      onClick={() => setDateRange(null)}
-                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-[10px] uppercase transition-colors rounded-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 ">
-                      <span>✕ Remove Date Filter</span>
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setIsDateUiOpen(false)}
-                      className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 text-[10px] uppercase rounded-lg transition-colors cursor-pointer text-center">
-                      Close Controls
-                    </button>
-                  )}
                 </div>
-              )}
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  {selectedTypes.size > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedTypes(new Set())}
+                      className="text-[10px] sm:text-[11px] font-bold text-purple-300 hover:text-white uppercase tracking-wider transition-colors cursor-pointer px-1.5 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
+                    >
+                      CLEAR
+                    </button>
+                  )}
+                  <span className="text-[10px] sm:text-[11px] font-bold text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30">
+                    {markerCount}
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 sm:gap-x-3 sm:gap-y-2">
+                {Object.entries(typeConfig).map(([key, cfg]) => {
+                  const isSelected = selectedTypes.has(key);
+                  const isAnySelected = selectedTypes.size > 0;
+                  const isActive = !isAnySelected || isSelected;
+                  const isLightColor = cfg.color === '#9333ea' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
+                  const textColor = isLightColor ? '#000000' : '#ffffff';
+                  const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
+                  return (
+                    <button
+                      type="button"
+                      aria-label={`Filter ${cfg.label}`}
+                      key={key}
+                      onClick={() => {
+                        setSelectedTypes(prev => {
+                          const next = new Set(prev);
+                          if (next.has(key)) { next.delete(key); } else { next.add(key); }
+                          return next;
+                        });
+                      }}
+                      className={`flex items-center gap-1.5 sm:gap-2 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded-lg sm:rounded-xl border transition-all cursor-pointer text-left ${isActive
+                        ? "bg-white/5 border-white/15 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20"
+                        : "bg-transparent border-transparent opacity-40 hover:opacity-80"
+                        }`}
+                    >
+                      <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full shrink-0 flex items-center justify-center text-[9px] sm:text-[10px] font-bold shadow-sm" style={{ backgroundColor: cfg.color, color: textColor }}>
+                        {showLetter}
+                      </div>
+                      <span className="text-[10px] sm:text-xs font-bold text-white/90 uppercase tracking-wide truncate">{cfg.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Zoom Settings Control (Bottom-Left) */}
-            <CosmicRadialButton
-              onClick={() => setIsZoomUiOpen(true)}
-              title="Configure & Save Map Zoom Levels per Device"
-              className="!text-xs sm:!text-sm !font-bold">
-              <span>⚙️ ZOOM SETTINGS</span>
-            </CosmicRadialButton>
+            {/* Responsive Control Buttons: Side-by-Side on Desktop/Tablet, Stacked on Mobile when needed */}
+            <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-end flex-wrap">
+              {/* Mobile/Tablet Show Types Button */}
+              <SeventhButton
+                onClick={() => setIsShowTypesUiOpen(true)}
+                title="Filter map markers by category"
+                className="lg:hidden !text-[11px] sm:!text-xs md:!text-sm !font-bold flex">
+                <span className='relative pr-1'>🎭</span><span> SHOW TYPES</span>
+                {selectedTypes.size > 0 && (
+                  <span className="ml-1 text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
+                    ({selectedTypes.size})
+                  </span>
+                )}
+              </SeventhButton>
+
+              <SeventhButton
+                onClick={() => setIsDateUiOpen(true)}
+                title="Zoom in on dates & filter show markers"
+                className="!text-[11px] sm:!text-xs md:!text-sm !font-bold flex">
+                <span className='relative pr-1'>📅</span>{isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "DATE RANGE ZOOM"}
+                {isDateFiltered && (
+                  <span className="ml-1 text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
+                    ({markerCount})
+                  </span>
+                )}
+              </SeventhButton>
+
+              <SeventhButton
+                onClick={() => setIsZoomUiOpen(true)}
+                title="Configure & Save Map Zoom Levels per Device"
+                className="!text-[11px] sm:!text-xs md:!text-sm !font-bold flex">
+                <span className='relative pr-1'>⚙️</span><span> ZOOM SETTINGS</span>
+              </SeventhButton>
+            </div>
           </div>
 
           {/* Right Map Controls: Custom Big Zoom Controls (+ / -) */}
@@ -1176,7 +1090,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom In"
               title="Zoom In"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center  backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -1186,7 +1100,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom Out"
               title="Zoom Out"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
@@ -1208,24 +1122,155 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         </div>
       )}
 
-      {/* ── Zoom Settings Modal Overlay ── */}
-      {mounted && isZoomUiOpen && createPortal(
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fadeIn">
-          <div className="bg-[#0f0728] border border-purple-500/30 rounded-2xl p-5 sm:p-6 w-full max-w-xl shadow-[0_0_50px_rgba(147,51,234,0.3)] text-white max-h-[90vh] overflow-y-auto">
+      {/* ── Date Range Zoom Small Module Dialog ── */}
+      {mounted && isDateUiOpen && createPortal(
+        <div
+          onClick={() => setIsDateUiOpen(false)}
+          className="fixed inset-0 z-[99999] flex items-center justify-end  animate-fadeIn"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-[360px] max-w-[90vw] max-h-[85vh] overflow-y-auto bg-[#0c0621]/95 backdrop-blur-[18px] border border-purple-500/40 p-4.5 sm:p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none text-left text-white"
+          >
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
-              <div>
-                <h3 className="text-lg font-bold uppercase tracking-wider text-purple-200 flex items-center gap-2">
-                  <span>⚙️</span> Map Zoom Control Settings
-                </h3>
-                <p className="text-xs text-white/60 mt-0.5">
-                  Customize initial and active venue zoom levels per device & save your preferences.
-                </p>
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xl shrink-0">
+                  📅
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-purple-300 font-extrabold uppercase text-xs sm:text-sm tracking-wider">DATE RANGE ZOOM</span>
+                  <span className="text-[10px] sm:text-xs text-white/50">Filter map markers by timeframe</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsDateUiOpen(false)}
+                className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer">
+                ✕
+              </button>
+            </div>
+
+            {/* Dual Date Sliders */}
+            <div className="space-y-4">
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[11px] font-bold text-white/70 uppercase tracking-wider">
+                  <span>START DATE (FROM)</span>
+                  <span className="text-purple-300">{formatDateShort(activeStart)}</span>
+                </div>
+                <input
+                  type="range"
+                  min={minShowTime}
+                  max={maxShowTime}
+                  step={86400000}
+                  value={activeStart}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    setDateRange([val, Math.max(val + 86400000, activeEnd)]);
+                  }}
+                  className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[11px] font-bold text-white/70 uppercase tracking-wider">
+                  <span>END DATE (TO)</span>
+                  <span className="text-purple-300">{formatDateShort(activeEnd)}</span>
+                </div>
+                <input
+                  type="range"
+                  min={minShowTime}
+                  max={maxShowTime}
+                  step={86400000}
+                  value={activeEnd}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    setDateRange([activeStart, Math.max(val, activeStart + 86400000)]);
+                  }}
+                  className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+            </div>
+
+            {/* Quick Preset Buttons */}
+            <div className="space-y-2">
+              <span className="text-[11px] font-bold text-white/50 uppercase tracking-wider block">QUICK PRESETS</span>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const now = Date.now();
+                    const target = now + 30 * 24 * 60 * 60 * 1000;
+                    setDateRange([now, Math.min(target, maxShowTime)]);
+                  }}
+                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold uppercase rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white transition-all text-center cursor-pointer">
+                  NEXT 30 DAYS
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const now = Date.now();
+                    const target = now + 90 * 24 * 60 * 60 * 1000;
+                    setDateRange([now, Math.min(target, maxShowTime)]);
+                  }}
+                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold uppercase rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white transition-all text-center cursor-pointer">
+                  NEXT 90 DAYS
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDateRange([minShowTime, maxShowTime])}
+                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold uppercase rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white transition-all text-center cursor-pointer">
+                  ALL DATES
+                </button>
+              </div>
+            </div>
+
+            {/* Remove / Reset Filter Button */}
+            {isDateFiltered ? (
+              <button
+                type="button"
+                onClick={() => setDateRange(null)}
+                className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-[11px] font-bold uppercase tracking-wider transition-all rounded-xl shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5">
+                <span>✕ REMOVE DATE FILTER</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsDateUiOpen(false)}
+                className="w-full py-2.5 bg-white/10 hover:bg-white/15 border border-white/10 text-white text-[11px] font-bold uppercase tracking-wider rounded-xl transition-colors cursor-pointer text-center">
+                CLOSE CONTROLS
+              </button>
+            )}
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* ── Zoom Settings Small Module Dialog ── */}
+      {mounted && isZoomUiOpen && createPortal(
+        <div
+          onClick={() => setIsZoomUiOpen(false)}
+          className="fixed inset-0 z-[99999] flex items-center justify-end animate-fadeIn"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-[360px] max-w-[90vw] max-h-[85vh] overflow-y-auto bg-[#0c0621]/95 backdrop-blur-[18px] border border-purple-500/40 p-4.5 sm:p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none text-left text-white"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xl shrink-0">
+                  ⚙️
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-purple-300 font-extrabold uppercase text-xs sm:text-sm tracking-wider">MAP ZOOM SETTINGS</span>
+                  <span className="text-[10px] sm:text-xs text-white/50">Customize zoom levels per device</span>
+                </div>
               </div>
               <button
                 type="button"
                 onClick={() => setIsZoomUiOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+                className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
                 aria-label="Close"
               >
                 ✕
@@ -1233,7 +1278,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             </div>
 
             {/* Settings Grid for Mobile, Tablet, Desktop */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               {(["mobile", "tablet", "desktop"] as const).map((device) => {
                 const isCurrentDevice = typeof window !== "undefined" && (
                   (device === "mobile" && window.innerWidth < 768) ||
@@ -1242,84 +1287,80 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 );
 
                 const icon = device === "mobile" ? "📱" : device === "tablet" ? "📱" : "💻";
-                const label = device === "mobile" ? "Mobile (<768px)" : device === "tablet" ? "Tablet (768px–1023px)" : "Desktop (≥1024px)";
+                const label = device === "mobile" ? "MOBILE (<768PX)" : device === "tablet" ? "TABLET (768PX–1023PX)" : "DESKTOP (≥1024PX)";
                 const cfg = zoomConfig[device];
 
                 return (
                   <div
                     key={device}
-                    className={`p-4 rounded-xl border transition-all ${isCurrentDevice
-                      ? "bg-purple-950/40 border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.25)]"
-                      : "bg-white/5 border-white/10"
+                    className={`p-3 rounded-xl border transition-all ${isCurrentDevice
+                      ? "bg-[#160a36] border-2 border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+                      : "bg-[#130d2d]/80 border-white/10"
                       }`}
                   >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2 font-bold text-sm text-purple-300">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2 font-extrabold text-[11px] text-purple-300 tracking-wider">
                         <span>{icon}</span>
                         <span className="uppercase">{label}</span>
                       </div>
                       {isCurrentDevice && (
-                        <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-purple-600 text-white">
-                          Active Screen
+                        <span className="text-[9px] uppercase font-black px-2 py-0.5 rounded-full bg-purple-600 text-white tracking-wider">
+                          ACTIVE SCREEN
                         </span>
                       )}
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                      {/* Initial Zoom Slider */}
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between text-white/80">
-                          <span>Initial Map Zoom:</span>
-                          <span className="font-mono font-bold text-purple-300">{cfg.initial}</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[11px]">
+                      {/* Initial Map Zoom Slider */}
+                      <div className="space-y-1">
+                        <div className="flex justify-between items-center text-white/80 font-semibold">
+                          <span>Initial:</span>
+                          <span className="font-mono font-bold text-purple-300 text-xs">{cfg.initial}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="range"
-                            min={4}
-                            max={18}
-                            step={0.5}
-                            value={cfg.initial}
-                            onChange={(e) => {
-                              const val = parseFloat(e.target.value);
-                              handleSaveZoomConfig(
-                                {
-                                  ...zoomConfig,
-                                  [device]: { ...cfg, initial: val },
-                                },
-                                val
-                              );
-                            }}
-                            className="w-full accent-purple-500 cursor-pointer"
-                          />
-                        </div>
+                        <input
+                          type="range"
+                          min={4}
+                          max={18}
+                          step={0.5}
+                          value={cfg.initial}
+                          onChange={(e) => {
+                            const val = parseFloat(e.target.value);
+                            handleSaveZoomConfig(
+                              {
+                                ...zoomConfig,
+                                [device]: { ...cfg, initial: val },
+                              },
+                              val
+                            );
+                          }}
+                          className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
+                        />
                       </div>
 
-                      {/* Active Venue Zoom Slider */}
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between text-white/80">
-                          <span>Venue Focus Zoom:</span>
-                          <span className="font-mono font-bold text-purple-300">{cfg.active}</span>
+                      {/* Venue Focus Zoom Slider */}
+                      <div className="space-y-1">
+                        <div className="flex justify-between items-center text-white/80 font-semibold">
+                          <span>Focus:</span>
+                          <span className="font-mono font-bold text-purple-300 text-xs">{cfg.active}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="range"
-                            min={4}
-                            max={18}
-                            step={0.5}
-                            value={cfg.active}
-                            onChange={(e) => {
-                              const val = parseFloat(e.target.value);
-                              handleSaveZoomConfig(
-                                {
-                                  ...zoomConfig,
-                                  [device]: { ...cfg, active: val },
-                                },
-                                val
-                              );
-                            }}
-                            className="w-full accent-purple-500 cursor-pointer"
-                          />
-                        </div>
+                        <input
+                          type="range"
+                          min={4}
+                          max={18}
+                          step={0.5}
+                          value={cfg.active}
+                          onChange={(e) => {
+                            const val = parseFloat(e.target.value);
+                            handleSaveZoomConfig(
+                              {
+                                ...zoomConfig,
+                                [device]: { ...cfg, active: val },
+                              },
+                              val
+                            );
+                          }}
+                          className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
+                        />
                       </div>
                     </div>
                   </div>
@@ -1328,27 +1369,27 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             </div>
 
             {/* Action Footer */}
-            <div className="flex items-center justify-between gap-3 pt-5 mt-5 border-t border-white/10">
+            <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/10">
               <button
                 type="button"
                 onClick={handleResetZoomConfig}
-                className="px-4 py-2 text-xs uppercase font-medium text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-lg transition-colors cursor-pointer"
+                className="px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-white/80 hover:text-white bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl transition-colors cursor-pointer"
               >
-                Reset Defaults
+                RESET DEFAULTS
               </button>
 
               <div className="flex items-center gap-2">
                 {zoomSaveSuccess && (
-                  <span className="text-xs text-green-400 font-semibold flex items-center gap-1">
+                  <span className="text-[11px] text-green-400 font-bold flex items-center gap-1">
                     ✓ Saved!
                   </span>
                 )}
                 <button
                   type="button"
                   onClick={() => setIsZoomUiOpen(false)}
-                  className="px-5 py-2 text-xs uppercase font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-lg transition-colors shadow-lg cursor-pointer"
+                  className="px-4 py-2 text-[11px] uppercase font-black tracking-wider text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl transition-all shadow-lg shadow-purple-600/30 cursor-pointer"
                 >
-                  Done
+                  DONE
                 </button>
               </div>
             </div>
@@ -1357,8 +1398,94 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         document.body
       )}
 
+      {/* ── Show Types Category Filter Small Module Dialog ── */}
+      {mounted && isShowTypesUiOpen && createPortal(
+        <div
+          onClick={() => setIsShowTypesUiOpen(false)}
+          className="fixed inset-0 z-[99999] flex items-center justify-end  animate-fadeIn"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-[360px] max-w-[90vw] max-h-[85vh] overflow-y-auto bg-[#0c0621]/95 backdrop-blur-[18px] border border-purple-500/40 p-4.5 sm:p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none text-left text-white"
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
+                  🎭
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-purple-300 font-extrabold uppercase text-xs tracking-wider">
+                    SHOW TYPES
+                  </span>
+                  <span className="text-[10px] text-white/50">Filter map markers by category</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                {selectedTypes.size > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedTypes(new Set())}
+                    className="text-[11px] font-bold text-purple-300 hover:text-white uppercase tracking-wider transition-colors cursor-pointer px-2 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
+                  >
+                    CLEAR
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsShowTypesUiOpen(false)}
+                  className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer text-xs"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
 
+            <div className="grid grid-cols-2 gap-2">
+              {Object.entries(typeConfig).map(([key, cfg]) => {
+                const isSelected = selectedTypes.has(key);
+                const isAnySelected = selectedTypes.size > 0;
+                const isActive = !isAnySelected || isSelected;
+                const isLightColor = cfg.color === '#9333ea' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
+                const textColor = isLightColor ? '#000000' : '#ffffff';
+                const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
+                return (
+                  <button
+                    type="button"
+                    aria-label={`Filter ${cfg.label}`}
+                    key={key}
+                    onClick={() => {
+                      setSelectedTypes(prev => {
+                        const next = new Set(prev);
+                        if (next.has(key)) { next.delete(key); } else { next.add(key); }
+                        return next;
+                      });
+                    }}
+                    className={`flex items-center gap-2 px-2 py-1.5 rounded-xl border transition-all cursor-pointer text-left ${isActive
+                      ? "bg-white/5 border-white/15 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20"
+                      : "bg-transparent border-transparent opacity-40 hover:opacity-80"
+                      }`}
+                  >
+                    <div className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center text-[10px] font-bold shadow-sm" style={{ backgroundColor: cfg.color, color: textColor }}>
+                      {showLetter}
+                    </div>
+                    <span className="text-xs font-bold text-white/90 uppercase tracking-wide truncate">{cfg.label}</span>
+                  </button>
+                );
+              })}
+            </div>
 
+            <div className="pt-2 border-t border-white/10 flex justify-end">
+              <SeventhButton
+                onClick={() => setIsShowTypesUiOpen(false)}
+                className="!text-xs !py-1.5 !px-4"
+              >
+                DONE
+              </SeventhButton>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

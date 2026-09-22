@@ -44,3 +44,50 @@ export async function waitForPageReady(): Promise<void> {
     });
   });
 }
+
+export async function waitForHeroVideoReady(timeoutMs = 2000): Promise<void> {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+
+  const heroVideo = document.querySelector("#hero video") as HTMLVideoElement | null;
+  if (!heroVideo) return;
+
+  if (
+    (window as any).__7hHeroVideoReady ||
+    heroVideo.readyState >= 3 ||
+    (!heroVideo.paused && heroVideo.currentTime > 0)
+  ) {
+    return;
+  }
+
+  return new Promise<void>((resolve) => {
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        cleanup();
+        resolve();
+      }
+    }, timeoutMs);
+
+    const onReady = () => {
+      if (!settled) {
+        settled = true;
+        cleanup();
+        resolve();
+      }
+    };
+
+    const cleanup = () => {
+      clearTimeout(timer);
+      window.removeEventListener("7h-hero-video-ready", onReady);
+      heroVideo.removeEventListener("canplay", onReady);
+      heroVideo.removeEventListener("playing", onReady);
+      heroVideo.removeEventListener("loadeddata", onReady);
+    };
+
+    window.addEventListener("7h-hero-video-ready", onReady);
+    heroVideo.addEventListener("canplay", onReady, { once: true });
+    heroVideo.addEventListener("playing", onReady, { once: true });
+    heroVideo.addEventListener("loadeddata", onReady, { once: true });
+  });
+}

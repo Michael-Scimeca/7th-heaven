@@ -12,11 +12,11 @@ import { createPortal } from "react-dom";
 const emptySubscribe = () => () => { };
 const useMounted = () => useSyncExternalStore(emptySubscribe, () => true, () => false);
 import { useMember } from "@/context/MemberContext";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
-import FoolishShrimpButton from "@/components/FoolishShrimpButton";
+import SeventhButton from "@/components/SeventhButton";
 import AddCmsButton from "@/components/AddCmsButton";
 import InputField from "@/components/InputField";
 import CustomDropdown from "@/components/CustomDropdown";
+import { getMediaUrl } from "@/lib/sanity";
 import dynamic from "next/dynamic";
 
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
@@ -258,7 +258,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
   return (
     <div className="min-h-screen pt-[100px]" id="fan-photo-wall-page">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
-      <section className="site-container relative pb-6 overflow-hidden flex flex-col justify-center" id="fan-wall">
+      <section className="site-container  relative pb-6 flex flex-col justify-center" id="fan-wall">
         <div className="relative z-10">
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8">
@@ -309,12 +309,14 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
 
             {/* Action Buttons on the Right (Stacked Vertically) */}
             <div className="shrink-0 self-start lg:self-end flex flex-col gap-3 w-full sm:w-auto">
-              <AddCmsButton
-                label="ADD PHOTO / VIDEO IN SANITY CMS"
-                onClick={() => setIsAddCmsModalOpen(true)}
-                className="w-full justify-center"
-              />
-              <CosmicRadialButton
+              {isModerator && (
+                <AddCmsButton
+                  label="ADD PHOTO / VIDEO IN SANITY CMS"
+                  onClick={() => setIsAddCmsModalOpen(true)}
+                  className="w-full justify-center"
+                />
+              )}
+              <SeventhButton
                 onClick={() => {
                   if (!isLoggedIn) {
                     openModal("login");
@@ -327,7 +329,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 {showUpload
                   ? (sanityContent?.uploadButtonHideText || "Hide Upload Form")
                   : (sanityContent?.uploadButtonText || "Upload Photo / Video")}
-              </CosmicRadialButton>
+              </SeventhButton>
             </div>
           </div>
 
@@ -339,334 +341,292 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
               </div>
             )
           }
+
         </div>
       </section>
 
       {/* ── PHOTO GRID & MODERATION SECTION (FULL BLEED) ── */}
-      <section className="py-0 w-full max-w-none">
-        {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
-        {
-          isModerator && pendingPhotos.length > 0 && (
-            <div className="mx-auto site-container mb-6">
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div>
-                  <h3 className="text-white text-lg font-bold uppercase">
-                    {sanityContent?.pendingQueueTitle || "Pending Review Queue"}
-                  </h3>
-                  <p className="uppercase text-xs text-purple-300/70">
-                    {sanityContent?.pendingQueueSubtitle || "Viewed & Approved by Admins & Crew only"}
-                  </p>
-                </div>
 
-                <span className="bg-[#00000040] text-white px-3 py-1 rounded-xl border border-white/10 text-xs font-semibold">
-                  {pendingPhotos.length} Pending
-                </span>
+      {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
+      {
+        isModerator && pendingPhotos.length > 0 && (
+          <section className="mx-auto site-container py-section-fluid">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+              <div>
+                <h3 className="text-white text-lg font-bold uppercase">
+                  {sanityContent?.pendingQueueTitle || "Pending Review Queue"}
+                </h3>
+                <p className="uppercase text-xs text-purple-300/70">
+                  {sanityContent?.pendingQueueSubtitle || "Viewed & Approved by Admins & Crew only"}
+                </p>
               </div>
 
-              {/* ── STACKED CARD GRID LAYOUT ── */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {pendingPhotos.map((photo) => {
-                  const isVideo = photo.type === "video" || photo.src.endsWith(".mp4") || photo.src.endsWith(".mov");
-                  return (
-                    <div
-                      key={photo.id}
-                      className="p-4 border border-purple-500/20 rounded-2xl flex flex-col justify-between backdrop-blur-md w-full shadow-xl hover:border-purple-400/40 transition-all text-left">
-                      <div>
-                        <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-white/10 bg-black/40 mb-3">
-                          {isVideo ? (
-                            <video src={photo.src} className="w-full h-full object-cover" muted playsInline autoPlay loop />
-                          ) : (
-                            <Image src={photo.src} alt="Fan Upload" fill sizes="(max-width: 768px) 100vw, 400px" unoptimized className="object-cover" />
-                          )}
-                          <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-black/80 backdrop-blur-md rounded-md text-[11px] text-white font-semibold border border-white/10">
-                            {photo.date || "Pending"}
-                          </div>
-                        </div>
-                        <div className="space-y-1.5">
-                          <div className="flex items-center gap-1.5 text-white font-bold text-sm">
-                            <span className="text-purple-400">@</span>
-                            <span className="truncate">{photo.name}</span>
-                          </div>
-                          {photo.venue && (
-                            <p className="uppercase text-xs text-white/70 flex items-center gap-1.5 font-medium">
-                              <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" /> {photo.venue}
-                            </p>
-                          )}
-                          {photo.caption && (
-                            <p className="text-xs text-white/90 italic leading-relaxed line-clamp-2 pt-0.5">
-                              &quot;{photo.caption}&quot;
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2.5 mt-4 pt-3 border-t border-white/10">
-                        <button
-                          onClick={() => handleRejectPhoto(photo.id)}
-                          disabled={moderatingId === photo.id}
-                          className="py-2 px-3 text-xs uppercase font-bold text-red-200 bg-red-950/60 border border-red-500/30 !rounded-full hover:bg-red-900/80 transition-colors cursor-pointer text-center">
-                          Reject
-                        </button>
-                        <CosmicRadialButton
-                          onClick={() => handleApprovePhoto(photo.id)}
-                          disabled={moderatingId === photo.id}
-                          icon={false}
-                          className="!py-2 !px-3 text-xs text-white !rounded-full text-center font-bold">
-                          Approve
-                        </CosmicRadialButton>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <span className="bg-[#00000040] text-white px-3 py-1 rounded-xl border border-white/10 text-xs font-semibold">
+                {pendingPhotos.length} Pending
+              </span>
             </div>
-          )
-        }
 
-        {/* Featured Hero Photo */}
-        {
-          approvedPhotos.length > 0 && (
-            <div className="mx-auto">
-              <div className="relative w-full aspect-[21/9] min-h-[300px] bg-purple-950/60 overflow-hidden text-left">
-                {approvedPhotos[0].src.endsWith(".mp4") ||
-                  approvedPhotos[0].src.endsWith(".mov") ||
-                  approvedPhotos[0].src.endsWith(".webm") ? (
-                  <video
-                    src={approvedPhotos[0].src}
-                    className="w-full h-full object-cover object-top"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  />
-                ) : (
-                  <Image
-                    src={approvedPhotos[0].src}
-                    alt={`Featured: ${approvedPhotos[0].name}`}
-                    fill
-                    sizes="100vw"
-                    unoptimized
-                    priority
-                    className="object-cover object-top"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                  <span className="inline-block text-[10px] sm:text-[11px] uppercase px-3 py-1 rounded-lg border border-white/10 bg-black/45 backdrop-blur-md text-white/90 mb-2">
-                    {sanityContent?.featuredMomentBadge || "Featured Moment"}
-                  </span>
-                  <h3 className="uppercase text-purple-300 drop-">
-                    {approvedPhotos[0].name}
-                  </h3>
-                  <div className="flex items-center gap-2 text-white/70 font-semibold mt-2">
-                    {approvedPhotos[0].venue && <span>{approvedPhotos[0].venue}</span>}
-                    {approvedPhotos[0].venue && approvedPhotos[0].date && (
-                      <span>·</span>
-                    )}
-                    {approvedPhotos[0].date && <span>{approvedPhotos[0].date}</span>}
-                  </div>
-                  {approvedPhotos[0].caption && (
-                    <p className="mt-2 max-w-xl drop-shadow">
-                      &ldquo;{approvedPhotos[0].caption}&rdquo;
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          )
-        }
-
-        {/* Photo Feed Grid - Full Bleed 0 Gap Uniform Grid */}
-        {
-          approvedPhotos.length > 1 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 w-full border-t border-white/10">
-              {approvedPhotos.slice(1).map((photo) => {
-                const isVideo =
-                  photo.type === "video" ||
-                  photo.src.endsWith(".mp4") ||
-                  photo.src.endsWith(".mov");
+            {/* ── STACKED CARD GRID LAYOUT ── */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {pendingPhotos.map((photo) => {
+                const isVideo = photo.type === "video" || photo.src.endsWith(".mp4") || photo.src.endsWith(".mov");
                 return (
                   <div
                     key={photo.id}
-                    className="flex flex-col justify-between bg-[#0b041a]/90 border-b border-r border-white/10 overflow-hidden hover:bg-purple-900/30 transition-colors duration-300 h-full">
-                    <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/10 bg-black/[0.02] gap-3">
-                      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                        <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center text-white" style={{ aspectRatio: "1 / 1" }}>
-                          {photo.name
-                            ? photo.name
-                              .split(" ")
-                              .filter(Boolean)
-                              .map((n) => n[0])
-                              .join("")
-                              .substring(0, 2)
-                              .toUpperCase()
-                            : "FP"}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-purple-300 truncate">
-                            {photo.name}
-                          </p>
-                          {(photo.venue || photo.city) && (
-                            <p className="uppercase mt-0.5 truncate">
-                              {photo.venue}
-                              {photo.venue && photo.city && " • "}
-                              {photo.city}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-end gap-0.5 shrink-0">
-                        <span className="text-white text-[10px] uppercase font-bold">
-                          {isVideo ? "Video" : "Photo"}
-                        </span>
-                        {photo.date && (
-                          <span className="text-white/70 text-[10px] font-bold">{photo.date}</span>
-                        )}
-                      </div>
-                    </div>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      className="relative group cursor-pointer w-full text-left flex-1"
-                      onClick={() => setSelectedPhoto(photo)}
-                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedPhoto(photo); } }}>
-                      <div className="relative aspect-[16/10] w-full bg-black/40 overflow-hidden">
-                        {photo.src.endsWith(".mp4") || photo.src.endsWith(".mov") || photo.src.endsWith(".webm") ? (
-                          <video
-                            src={photo.src}
-                            className="w-full h-full object-cover block"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                          />
+                    className="p-4 border border-purple-500/20 rounded-2xl flex flex-col justify-between backdrop-blur-md w-full shadow-xl hover:border-purple-400/40 transition-all text-left">
+                    <div>
+                      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-white/10 bg-black/40 mb-3">
+                        {isVideo ? (
+                          <video src={photo.src} className="w-full h-full object-cover" muted playsInline autoPlay loop />
                         ) : (
-                          <Image
-                            src={photo.src}
-                            alt={`Media by ${photo.name}`}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            unoptimized
-                            className="w-full h-full object-cover block"
-                            loading="lazy"
-                          />
+                          <Image src={photo.src} alt="Fan Upload" fill sizes="(max-width: 768px) 100vw, 400px" unoptimized className="object-cover" />
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 z-10">
-                          <FoolishShrimpButton>
-                            {isVideo ? "Play Video" : "Expand Photo"}
-                          </FoolishShrimpButton>
+                        <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-black/80 backdrop-blur-md rounded-md text-[11px] text-white font-semibold border border-white/10">
+                          {photo.date || "Pending"}
                         </div>
                       </div>
-                    </div>
-                    {photo.caption && (
-                      <div className="pl-4 sm:pl-8 pr-4 py-3 sm:py-4 bg-black/[0.02] border-t border-white/10 flex-1 flex items-center">
-                        <p className="font-medium">
-                          &ldquo;{photo.caption}&rdquo;
-                        </p>
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-1.5 text-white font-bold text-sm">
+                          <span className="text-purple-400">@</span>
+                          <span className="truncate">{photo.name}</span>
+                        </div>
+                        {photo.venue && (
+                          <p className="uppercase text-xs text-white/70 flex items-center gap-1.5 font-medium">
+                            <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" /> {photo.venue}
+                          </p>
+                        )}
+                        {photo.caption && (
+                          <p className="text-xs text-white/90 italic leading-relaxed line-clamp-2 pt-0.5">
+                            &quot;{photo.caption}&quot;
+                          </p>
+                        )}
                       </div>
-                    )}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2.5 mt-4 pt-3 border-t border-white/10">
+                      <button
+                        onClick={() => handleRejectPhoto(photo.id)}
+                        disabled={moderatingId === photo.id}
+                        className="py-2 px-3 text-xs uppercase font-bold text-red-200 bg-red-950/60 border border-red-500/30 !rounded-full hover:bg-red-900/80 transition-colors cursor-pointer text-center">
+                        Reject
+                      </button>
+                      <SeventhButton
+                        onClick={() => handleApprovePhoto(photo.id)}
+                        disabled={moderatingId === photo.id}
+                        icon={false}
+                        className="!py-2 !px-3 text-xs text-white !rounded-full text-center font-bold">
+                        Approve
+                      </SeventhButton>
+                    </div>
                   </div>
                 );
               })}
             </div>
-          ) : (
-            /* Empty state */
-            <div className="text-center py-32">
-              <div className="w-20 h-20 mx-auto mb-8 border border-white/10 flex items-center justify-center">
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-white/15">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
-              </div>
-              <h3 className="text-white/30 mb-3">
-                {sanityContent?.emptyStateTitle || "No moments yet"}
-              </h3>
-              <p className="mb-8 max-w-sm mx-auto">
-                {sanityContent?.emptyStateSubtitle || "Check back soon for moments from 7th Heaven shows!"}
-              </p>
-            </div>
-          )
-        }
+          </section>
+        )
+      }
 
-        {/* Lightbox */}
-        {
-          mounted && selectedPhoto && createPortal(
+      {/* Featured Media Section Title & Paragraph */}
+      <section className="mx-auto site-container pt-8 pb-4">
+        <h2 className="uppercase text-white">
+          {sanityContent?.sectionTitle || "FEATURED MEDIA"}
+        </h2>
+        <p className="mt-2 max-w-2xl text-white/70">
+          {sanityContent?.sectionDescription || "Featured media highlights, live concert captures, fan photos, and video moments from 7th Heaven shows across the country."}
+        </p>
+      </section>
+
+      {/* Photo Feed Grid - Full Bleed 0 Gap Uniform Grid */}
+      {
+        approvedPhotos.length > 0 ? (
+          <section className="mx-auto site-container pb-section-fluid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 w-full ">
+            {approvedPhotos.map((photo) => {
+              const isVideo =
+                photo.type === "video" ||
+                photo.src.endsWith(".mp4") ||
+                photo.src.endsWith(".mov");
+              return (
+                <div
+                  key={photo.id}
+                  className="flex flex-col justify-between bg-[#0b041a]/90 border-b border-r border-white/10 overflow-hidden hover:bg-purple-900/30 transition-colors duration-300 h-full border-t border-white/10">
+                  <div className="pl-4 sm:pl-8 pr-4 py-3.5 sm:py-4 flex items-center justify-between border-b border-white/10 bg-black/[0.02] gap-3">
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <div className="w-8 h-8 min-w-8 min-h-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center text-white" style={{ aspectRatio: "1 / 1" }}>
+                        {photo.name
+                          ? photo.name
+                            .split(" ")
+                            .filter(Boolean)
+                            .map((n) => n[0])
+                            .join("")
+                            .substring(0, 2)
+                            .toUpperCase()
+                          : "FP"}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-purple-300 truncate">
+                          {photo.name}
+                        </p>
+                        {(photo.venue || photo.city) && (
+                          <p className="uppercase mt-0.5 truncate">
+                            {photo.venue}
+                            {photo.venue && photo.city && " • "}
+                            {photo.city}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-0.5 shrink-0">
+                      <span className="text-white text-[10px] uppercase font-bold">
+                        {isVideo ? "Video" : "Photo"}
+                      </span>
+                      {photo.date && (
+                        <span className="text-white/70 text-[10px] font-bold">{photo.date}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    className="relative group cursor-pointer w-full text-left flex-1"
+                    onClick={() => setSelectedPhoto(photo)}
+                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedPhoto(photo); } }}>
+                    <div className="relative aspect-[16/10] w-full bg-black/40 overflow-hidden">
+                      {photo.src.endsWith(".mp4") || photo.src.endsWith(".mov") || photo.src.endsWith(".webm") ? (
+                        <video
+                          src={photo.src}
+                          className="w-full h-full object-cover block"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                        />
+                      ) : (
+                        <Image
+                          src={photo.src}
+                          alt={`Media by ${photo.name}`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          unoptimized
+                          className="w-full h-full object-cover block"
+                          loading="lazy"
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 z-10">
+                        <SeventhButton>
+                          {isVideo ? "Play Video" : "Expand Photo"}
+                        </SeventhButton>
+                      </div>
+                    </div>
+                  </div>
+                  {photo.caption && (
+                    <div className="pl-4 sm:pl-8 pr-4 py-3 sm:py-4 bg-black/[0.02] border-t border-white/10 flex-1 flex items-center">
+                      <p className="font-medium">
+                        &ldquo;{photo.caption}&rdquo;
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </section>
+        ) : (
+          /* Empty state */
+          <div className="text-center py-32">
+            <div className="w-20 h-20 mx-auto mb-8 border border-white/10 flex items-center justify-center">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-white/15">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+            <h3 className="text-white/30 mb-3">
+              {sanityContent?.emptyStateTitle || "No moments yet"}
+            </h3>
+            <p className="mb-8 max-w-sm mx-auto">
+              {sanityContent?.emptyStateSubtitle || "Check back soon for moments from 7th Heaven shows!"}
+            </p>
+          </div>
+        )
+      }
+
+      {/* Lightbox */}
+      {
+        mounted && selectedPhoto && createPortal(
+          <div
+            className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+            onClick={() => setSelectedPhoto(null)}>
             <div
-              className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
-              onClick={() => setSelectedPhoto(null)}>
-              <div
-                className="relative max-w-4xl max-h-[90vh] w-full flex flex-col bg-black/80 rounded-lg p-6 overflow-hidden"
-                onClick={(e) => e.stopPropagation()}>
-                <button aria-label="Close"
-                  onClick={() => setSelectedPhoto(null)}
-                  className="absolute top-4 right-4 text-white/60 hover:text-white bg-black/50 hover:bg-black/80 p-2 !rounded-full border border-white/10 transition-colors cursor-pointer z-20">
-                  <X className="w-5 h-5" />
-                </button>
-                {selectedPhoto.type === "video" ||
-                  selectedPhoto.src.endsWith(".mp4") ||
-                  selectedPhoto.src.endsWith(".mov") ? (
-                  <video
-                    src={selectedPhoto.src}
-                    className="w-full max-h-[65vh] object-contain rounded-xl"
-                    controls
-                    autoPlay
-                    muted
-                    playsInline
-                  />
-                ) : (
-                  <img
-                    src={selectedPhoto.src}
-                    alt={selectedPhoto.name}
-                    className="w-full max-h-[65vh] object-contain rounded-xl shadow-2xl"
-                  />
-                )}
-                <div className="mt-4 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
-                  <div>
-                    <p className="text-white text-lg">
-                      {selectedPhoto.name}
+              className="relative max-w-4xl max-h-[90vh] w-full flex flex-col bg-black/80 rounded-lg p-6 overflow-hidden"
+              onClick={(e) => e.stopPropagation()}>
+              <button aria-label="Close"
+                onClick={() => setSelectedPhoto(null)}
+                className="absolute top-4 right-4 text-white/60 hover:text-white bg-black/50 hover:bg-black/80 p-2 !rounded-full border border-white/10 transition-colors cursor-pointer z-20">
+                <X className="w-5 h-5" />
+              </button>
+              {selectedPhoto.type === "video" ||
+                selectedPhoto.src.endsWith(".mp4") ||
+                selectedPhoto.src.endsWith(".mov") ? (
+                <video
+                  src={selectedPhoto.src}
+                  className="w-full max-h-[65vh] object-contain rounded-xl"
+                  controls
+                  autoPlay
+                  muted
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={selectedPhoto.src}
+                  alt={selectedPhoto.name}
+                  className="w-full max-h-[65vh] object-contain rounded-xl shadow-2xl"
+                />
+              )}
+              <div className="mt-4 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
+                <div>
+                  <p className="text-white text-lg">
+                    {selectedPhoto.name}
+                  </p>
+                  {selectedPhoto.venue && (
+                    <p className="mt-0.5 text-sm text-purple-300 font-medium">
+                      {selectedPhoto.venue}
+                      {selectedPhoto.city ? ` — ${selectedPhoto.city}` : ""}
+                      {selectedPhoto.date ? ` · ${selectedPhoto.date}` : ""}
                     </p>
-                    {selectedPhoto.venue && (
-                      <p className="mt-0.5 text-sm text-purple-300 font-medium">
-                        {selectedPhoto.venue}
-                        {selectedPhoto.city ? ` — ${selectedPhoto.city}` : ""}
-                        {selectedPhoto.date ? ` · ${selectedPhoto.date}` : ""}
-                      </p>
-                    )}
-                    {selectedPhoto.caption && (
-                      <p className="mt-2 text-left text-gray-300 text-sm">
-                        &ldquo;{selectedPhoto.caption}&rdquo;
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex flex-col items-end gap-2 shrink-0">
-                    <button
-                      onClick={() => handleFlagPhoto(selectedPhoto.id)}
-                      disabled={flaggingId === selectedPhoto.id}
-                      className="text-white/40 hover:text-red-400 text-xs uppercase st transition-colors flex items-center gap-1.5 disabled:opacity-50">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-                        <line x1="4" y1="22" x2="4" y2="15" />
-                      </svg>
-                      {flaggingId === selectedPhoto.id ? "Flagging..." : "Report"}
-                    </button>
-                  </div>
+                  )}
+                  {selectedPhoto.caption && (
+                    <p className="mt-2 text-left text-gray-300 text-sm">
+                      &ldquo;{selectedPhoto.caption}&rdquo;
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-col items-end gap-2 shrink-0">
+                  <button
+                    onClick={() => handleFlagPhoto(selectedPhoto.id)}
+                    disabled={flaggingId === selectedPhoto.id}
+                    className="text-white/40 hover:text-red-400 text-xs uppercase st transition-colors flex items-center gap-1.5 disabled:opacity-50">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                      <line x1="4" y1="22" x2="4" y2="15" />
+                    </svg>
+                    {flaggingId === selectedPhoto.id ? "Flagging..." : "Report"}
+                  </button>
                 </div>
               </div>
-            </div>,
-            document.body
-          )
-        }
-      </section>
+            </div>
+          </div>,
+          document.body
+        )
+      }
+
 
       {/* ── ADD PHOTO / VIDEO CMS MODAL PORTAL ── */}
       {mounted && isAddCmsModalOpen && createPortal(

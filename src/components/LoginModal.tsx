@@ -11,7 +11,7 @@ import { isValidEmail } from "@/lib/validation";
 import { SquishyToggle } from "./SquishyToggle";
 import GooeyDropdown from "./GooeyDropdown";
 import Dropdown from "@/components/Dropdown";
-import CosmicRadialButton from "@/components/CosmicRadialButton";
+import SeventhButton from "@/components/SeventhButton";
 import { getFakeLogins } from "@/lib/get-fake-logins";
 // Dev-only: never ships in the production bundle
 const fakeLogins = getFakeLogins();
@@ -1014,7 +1014,7 @@ function LoginModalBodyContent(props: any) {
               <p className="text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
             )}
 
-            <CosmicRadialButton
+            <SeventhButton
               type="submit"
               icon={false}
               disabled={loading}
@@ -1033,7 +1033,7 @@ function LoginModalBodyContent(props: any) {
                       ? "Activate Account"
                       : "Create Account"
               )}
-            </CosmicRadialButton>
+            </SeventhButton>
 
             {modalMode === "forgot" && (
               <button type="button"

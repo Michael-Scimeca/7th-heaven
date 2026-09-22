@@ -587,7 +587,7 @@ function SingleStickyCard({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Type your sticky note message or feedback here..."
-          className="w-full bg-[#00000029] border border-white/10 rounded-lg p-2.5 text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors resize-none "
+          className="form-input focus:border-amber-400 resize-none"
         />
 
         <div className="flex items-center justify-between pt-1">
