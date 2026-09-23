@@ -47,7 +47,7 @@ export function EmbarkationCountdown() {
       <div className="flex items-center shrink-0 z-10">
         <div>
           <h2 className="leading-normal py-0.5">Embarkation</h2>
-          <p className="">Port of Miami</p>
+          <p >Port of Miami</p>
         </div>
       </div>
 
@@ -55,11 +55,11 @@ export function EmbarkationCountdown() {
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
             <div className="min-w-[48px] flex items-center justify-center">
-              <span className="text-2xl md:text-3xl text-center font-bold">
+              <span className="text-2xl md:text-3xl text-center   ">
                 {value.toString().padStart(2, '0')}
               </span>
             </div>
-            <span className="text-[10px]   font-bold">{unit}</span>
+            <span className="text-[10px]     ">{unit}</span>
           </div>
         ))}
       </div>
@@ -184,7 +184,7 @@ export function PhotoWall() {
       <div className="flex items-end justify-between mb-8">
         <div>
           <h2 className="mb-1">Fan Pre-Cruise Photo Wall</h2>
-          <p className="">Share your prep and packing photos!</p>
+          <p >Share your prep and packing photos!</p>
         </div>
         <button className="px-4 py-2 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg transition-colors">
           + Upload
@@ -548,7 +548,7 @@ export function BookingManager({ email }: { email?: string }) {
       <div className="space-y-2.5 my-3">
         <div className="flex justify-between items-center">
           <span className="r">Total Cruise Fare</span>
-          <span className="">{booking.total_fare || "$1,550.00"}</span>
+          <span >{booking.total_fare || "$1,550.00"}</span>
         </div>
         <div className="flex justify-between items-center border-t border-white/10 pt-2">
           <span className="text-emerald-400 flex items-center gap-1">
@@ -579,7 +579,7 @@ export function BookingManager({ email }: { email?: string }) {
           <div className="space-y-1.5">
             {booking.guests.map((g: any, i: number) => (
               <div key={i} className="flex justify-between items-center">
-                <span className="font-medium">{g.name || `Guest ${i + 2}`}</span>
+                <span className=" ">{g.name || `Guest ${i + 2}`}</span>
                 <span className="text-white/40">{g.type === 'child' ? `Child ${g.age ? `(Age ${g.age})` : ''}` : 'Adult'}</span>
               </div>
             ))}
@@ -627,10 +627,10 @@ export function BookingManager({ email }: { email?: string }) {
       <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] relative z-10 text-left">
         <div className="flex items-center gap-2 mb-1.5">
           <span>🚢</span>
-          <span className="">Cruising Power Integration</span>
+          <span >Cruising Power Integration</span>
         </div>
         <p>
-          Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
+          Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" >Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
         </p>
       </div>
 
@@ -760,13 +760,13 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
             <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-center mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <CheckMarkIcon className="w-8 h-8 text-emerald-400" />
             </div>
-            <h3 className="">Payment Successful</h3>
+            <h3 >Payment Successful</h3>
             <p>
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
             <button aria-label="Close"
               onClick={onClose}
-              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black transition-colors cursor-pointer shadow-emerald-500/15">
+              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400   transition-colors cursor-pointer shadow-emerald-500/15">
               Close
             </button>
           </div>
@@ -774,7 +774,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
           <form onSubmit={handlePaymentSubmit} className="p-6 md:p-8 space-y-6">
             <div className="flex justify-between items-center pb-4 border-b border-white/5">
               <div>
-                <h3 className="">Final Payment</h3>
+                <h3 >Final Payment</h3>
                 <p className="mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
@@ -985,7 +985,7 @@ export function SongRequestLeaderboard() {
               {i + 1}
             </span>
             <div className="flex-1">
-              <div className="/90 font-medium">{song.title}</div>
+              <div className="/90  ">{song.title}</div>
               <div className="text-white/30">{song.votes} votes</div>
             </div>
             <button
@@ -1069,11 +1069,11 @@ export function ExcursionTeasers() {
         {EXCURSIONS.map((ex, i) => (
           <div key={ex.title} className="p-3 bg-cyan-900/10 border border-purple-500/10 hover:border-purple-500/30 transition-colors flex items-center justify-between">
             <div>
-              <div className="">{ex.title}</div>
+              <div >{ex.title}</div>
               <div className="/80 r">Join {ex.bandMember}</div>
             </div>
             <div className="text-right">
-              <div className="">{ex.spots}</div>
+              <div >{ex.spots}</div>
               <div className="text-white/40">Spots Left</div>
             </div>
           </div>

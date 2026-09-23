@@ -40,7 +40,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               key={opt.id}
               type="button"
               onClick={() => setActiveLayout(opt.id)}
-              className={`px-3 py-1.5 transition-colors cursor-pointer border ${activeLayout === opt.id ? "bg-cyan-500 text-black border-purple-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : " bg-[#00000029] border-white/10 text-white/70 hover:bg-white/10 hover:text-white " }`}>
+              className={`px-3 py-1.5 transition-colors cursor-pointer border ${activeLayout === opt.id ? "bg-cyan-500   border-purple-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : " bg-[#00000029] border-white/10 text-white/70 hover:bg-white/10 hover:text-white "}`}>
               {opt.name}
             </button>
           ))}
@@ -83,7 +83,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <section className="relative py-16 md:py-24 overflow-hidden bg-[#05030a] text-left">
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
-              <span className="">
+              <span >
                 OPTION 2B — PHOTO BOX RIGHT
               </span>
               <h1 className="mt-3 mb-3">
@@ -162,7 +162,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             {/* Right Column */}
             <div className="lg:col-span-7 p-8 md:p-12 flex flex-col justify-center">
               <div className="flex items-center justify-between mb-6">
-                <span className="">{featured.date}</span>
+                <span >{featured.date}</span>
                 <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20">Featured</span>
               </div>
               <h2 className="mb-6">{featured.title}</h2>
@@ -214,7 +214,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
             <div className="lg:col-span-8">
               <div className="flex items-center gap-4 mb-3">
-                <span className="">{featured.date}</span>
+                <span >{featured.date}</span>
                 <span className="w-1.5 h-1.5 bg-cyan-400 rounded-lg" />
                 <span className="text-white/50">Band Announcement</span>
               </div>

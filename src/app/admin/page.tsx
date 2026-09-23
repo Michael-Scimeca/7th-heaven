@@ -215,7 +215,7 @@ export default function AdminGatewayPage() {
       <div className="fixed inset-0 h-screen w-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 rounded-lg border-4 border-purple-500 border-t-transparent animate-spin mx-auto mb-6" />
-          <p className="">Redirecting to dashboard...</p>
+          <p >Redirecting to dashboard...</p>
         </div>
       </div>
     );
@@ -225,7 +225,7 @@ export default function AdminGatewayPage() {
   const fullPin = pin.join("");
 
   return (
-    <div className="fixed inset-0 h-screen w-screen flex items-center justify-center px-6 overflow-hidden lock-scroll-fullscreen" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <main id="admin-gateway-page" className="fixed inset-0 h-screen w-screen flex items-center justify-center px-6 overflow-hidden lock-scroll-fullscreen" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Blurred Hero Background Overlay */}
       <div
@@ -267,7 +267,7 @@ export default function AdminGatewayPage() {
                 <div className="text-center">
                   <div className="p-5 bg-purple-600/10 border border-purple-500/30 mb-6">
                     <p className="mb-1">Access Denied</p>
-                    <p className="font-semibold">
+                    <p className=" ">
                       You&apos;re logged in as <strong className=" ">{member?.name}</strong> ({member?.role}).
                       Admin privileges are required to access this dashboard.
                     </p>
@@ -294,7 +294,7 @@ export default function AdminGatewayPage() {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold placeholder: text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border border-white/10   placeholder: text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>
@@ -307,7 +307,7 @@ export default function AdminGatewayPage() {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold placeholder: text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border border-white/10   placeholder: text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>
@@ -351,9 +351,9 @@ export default function AdminGatewayPage() {
         {step === "verify" && (
           <>
             <div className="text-center mb-8 relative z-10">
-              <p className="tracking-[0.3em] mb-1">7th Heaven · Admin</p>
+              <p className="  mb-1">7th Heaven · Admin</p>
               <h2 className="text-xl mb-2">Admin 2FA Verification</h2>
-              <p className="">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
+              <p >We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
             </div>
 
             <div
@@ -471,6 +471,6 @@ export default function AdminGatewayPage() {
           </>
         )}
       </div>
-    </div>
+    </main>
   );
 }

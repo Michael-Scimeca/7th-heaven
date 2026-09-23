@@ -43,7 +43,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                 7th Heaven (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) respects your privacy and is committed to protecting
                 your personal information. This Privacy Policy explains how we collect, use, disclose, and
                 safeguard your information when you visit our website at{" "}
-                <span className="text-[var(--color-accent)] font-semibold">7thheavenband.com</span> (the &quot;Site&quot;),
+                <span className="text-[var(--color-accent)]  ">7thheavenband.com</span> (the &quot;Site&quot;),
                 use our member portal, or subscribe to our SMS show alerts.
               </p>
             </section>
@@ -52,24 +52,24 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             <section aria-labelledby="privacy-sec-2-heading">
               <h2 id="privacy-sec-2-heading" className="mb-3">2. Information We Collect</h2>
               <p className="mb-3">We may collect the following types of information:</p>
-              <div className="flex flex-col gap-3">
+              <dl className="flex flex-col gap-3">
                 <div>
-                  <p className="mb-1 font-semibold  ">Account Information</p>
-                  <p>Name, email address, and password when you create a member account.</p>
+                  <dt className="mb-1 font-semibold">Account Information</dt>
+                  <dd>Name, email address, and password when you create a member account.</dd>
                 </div>
                 <div>
-                  <p className="mb-1 font-semibold  ">SMS Alert Information</p>
-                  <p>Name, zip code, and phone number when you subscribe to show alerts. We also record your consent timestamp and IP address as required by law.</p>
+                  <dt className="mb-1 font-semibold">SMS Alert Information</dt>
+                  <dd>Name, zip code, and phone number when you subscribe to show alerts. We also record your consent timestamp and IP address as required by law.</dd>
                 </div>
                 <div>
-                  <p className="mb-1 font-semibold  ">Location Data</p>
-                  <p>Approximate geolocation (latitude/longitude) only when you explicitly enable the &quot;Nearby Shows&quot; feature. This data is stored locally in your browser and is not transmitted to our servers.</p>
+                  <dt className="mb-1 font-semibold">Location Data</dt>
+                  <dd>Approximate geolocation (latitude/longitude) only when you explicitly enable the &quot;Nearby Shows&quot; feature. This data is stored locally in your browser and is not transmitted to our servers.</dd>
                 </div>
                 <div>
-                  <p className="mb-1 font-semibold  ">Usage Data</p>
-                  <p>Browser type, pages visited, and interaction patterns collected automatically through standard web analytics.</p>
+                  <dt className="mb-1 font-semibold">Usage Data</dt>
+                  <dd>Browser type, pages visited, and interaction patterns collected automatically through standard web analytics.</dd>
                 </div>
-              </div>
+              </dl>
             </section>
 
             {/* 3 */}
@@ -153,10 +153,10 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             <section aria-labelledby="privacy-sec-12-heading">
               <h2 id="privacy-sec-12-heading" className="mb-3">12. Contact Us</h2>
               <p className="mb-2">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
-              <div className="space-y-1">
+              <address className="not-italic space-y-1">
                 <p>Email: <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a></p>
                 <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="a-btn">7thheavenband.com</a></p>
-              </div>
+              </address>
             </section>
           </>
         )}

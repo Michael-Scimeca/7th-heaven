@@ -924,7 +924,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative z-10 w-full h-[400px] sm:h-[600px] lg:h-[900px] pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none' }}>
+    <div className="relative z-10 w-full h-[400px] sm:h-[600px] " style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none' }}>
       <div
         ref={mapRef}
         className={`absolute inset-0 w-full h-full transition-opacity duration-300 ease-out map-masked-tiles ${isLoaded ? "opacity-100" : "opacity-0 pointer-events-none"}`}
@@ -963,10 +963,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
           {/* Intro Text */}
           <div className="flex flex-col items-center gap-1.5 text-center px-4">
-            <span className="font-mono text-xs  st text-purple-300 font-bold animate-pulse">
+            <span className="font-mono text-xs  st text-purple-300    animate-pulse">
               Initializing Google Maps
             </span>
-            <span className="text-[11px] text-white/50 font-semibold">
+            <span className="text-[11px] text-white/50  ">
               7th Heaven Live Tour Locations
             </span>
           </div>
@@ -1005,12 +1005,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setSelectedTypes(new Set())}
-                      className="text-[10px] sm:text-[11px] font-bold text-purple-300 hover:text-white transition-colors cursor-pointer px-1.5 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
+                      className="text-[10px] sm:text-[11px]    text-purple-300 hover:text-white transition-colors cursor-pointer px-1.5 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
                     >
                       CLEAR
                     </button>
                   )}
-                  <span className="text-[10px] sm:text-[11px] font-bold text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30">
+                  <span className="text-[10px] sm:text-[11px]    text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30">
                     {markerCount}
                   </span>
                 </div>
@@ -1038,10 +1038,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                       }}
                       className={`flex items-center gap-1.5 sm:gap-2 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded-lg sm:rounded-xl border transition-all cursor-pointer text-left ${isActive ? "bg-white/5 border-white/15 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20" : "bg-transparent border-transparent opacity-40 hover:opacity-80"}`}
                     >
-                      <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full shrink-0 flex items-center justify-center text-[9px] sm:text-[10px] font-bold shadow-sm" style={{ backgroundColor: cfg.color, color: textColor }}>
+                      <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full shrink-0 flex items-center justify-center text-[9px] sm:text-[10px]    shadow-sm" style={{ backgroundColor: cfg.color, color: textColor }}>
                         {showLetter}
                       </div>
-                      <span className="text-[10px] sm:text-xs font-bold /90   truncate">{cfg.label}</span>
+                      <span className="text-[10px] sm:text-xs    /90   truncate">{cfg.label}</span>
                     </button>
                   );
                 })}
@@ -1054,7 +1054,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <SeventhButton
                 onClick={() => setIsShowTypesUiOpen(true)}
                 title="Filter map markers by category"
-                className="lg:hidden !text-[11px] sm:!text-xs md:!text-sm !font-bold flex">
+                className="lg:hidden !text-[11px] sm:!text-xs md:!text-sm !   flex">
                 <span className='relative pr-1'>🎭</span><span> SHOW TYPES</span>
                 {selectedTypes.size > 0 && (
                   <span className="ml-1 text-[10px] bg-purple-600 px-2 py-0.5 rounded-full border border-purple-400/50">
@@ -1066,7 +1066,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <SeventhButton
                 onClick={() => setIsDateUiOpen(true)}
                 title="Zoom in on dates & filter show markers"
-                className="!text-[11px] sm:!text-xs md:!text-sm !font-bold flex">
+                className=" flex">
                 <span className='relative pr-1'>📅</span>{isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "DATE RANGE ZOOM"}
                 {isDateFiltered && (
                   <span className="ml-1 text-[10px] bg-purple-600 px-2 py-0.5 rounded-full border border-purple-400/50">
@@ -1078,7 +1078,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <SeventhButton
                 onClick={() => setIsZoomUiOpen(true)}
                 title="Configure & Save Map Zoom Levels per Device"
-                className="!text-[11px] sm:!text-xs md:!text-sm !font-bold flex">
+                className="flex">
                 <span className='relative pr-1'>⚙️</span><span> ZOOM SETTINGS</span>
               </SeventhButton>
             </div>
@@ -1090,7 +1090,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom In"
               title="Zoom In"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center border border-white/10 hover:border-white/40 rounded-full /90 hover:text-white   transition-colors cursor-pointer active:scale-95 select-none bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[position:100%] bg-[size:200%_100%]">
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full /90 hover:text-white   transition-colors cursor-pointer active:scale-95 select-none bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[position:100%] bg-[size:200%_100%]">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -1100,7 +1100,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom Out"
               title="Zoom Out"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center border border-white/10 hover:border-white/40 rounded-full /90 hover:text-white   cursor-pointer active:scale-95 select-none bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[position:100%] bg-[size:200%_100%]">
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center  rounded-full  hover:text-white   cursor-pointer active:scale-95 select-none bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[position:100%] bg-[size:200%_100%]">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
@@ -1112,7 +1112,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       {mapLoadError && (
         <div className="absolute inset-0 z-[2] flex items-center justify-center bg-purple-950/80 backdrop-blur-md">
           <div className="text-center px-6">
-            <p className="font-semibold mb-1">Map couldn't load</p>
+            <p className="  mb-1">Map couldn't load</p>
             <p>{mapLoadError === "Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY" ? "Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.local" : "Check your Google Maps API key and quota."}</p>
           </div>
         </div>
@@ -1150,7 +1150,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             {/* Dual Date Sliders */}
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <div className="flex justify-between text-[11px] font-bold text-white/70">
+                <div className="flex justify-between text-[11px]    text-white/70">
                   <span>START DATE (FROM)</span>
                   <span className="text-purple-300">{formatDateShort(activeStart)}</span>
                 </div>
@@ -1169,7 +1169,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               </div>
 
               <div className="space-y-1.5">
-                <div className="flex justify-between text-[11px] font-bold text-white/70">
+                <div className="flex justify-between text-[11px]    text-white/70">
                   <span>END DATE (TO)</span>
                   <span className="text-purple-300">{formatDateShort(activeEnd)}</span>
                 </div>
@@ -1190,7 +1190,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
             {/* Quick Preset Buttons */}
             <div className="space-y-2">
-              <span className="text-[11px] font-bold text-white/50 block">QUICK PRESETS</span>
+              <span className="text-[11px]    text-white/50 block">QUICK PRESETS</span>
               <div className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
@@ -1199,7 +1199,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     const target = now + 30 * 24 * 60 * 60 * 1000;
                     setDateRange([now, Math.min(target, maxShowTime)]);
                   }}
-                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 transition-all text-center cursor-pointer">
+                  className="px-2 py-2 text-[10px] sm:text-[11px]    rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 transition-all text-center cursor-pointer">
                   NEXT 30 DAYS
                 </button>
                 <button
@@ -1209,13 +1209,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     const target = now + 90 * 24 * 60 * 60 * 1000;
                     setDateRange([now, Math.min(target, maxShowTime)]);
                   }}
-                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 transition-all text-center cursor-pointer">
+                  className="px-2 py-2 text-[10px] sm:text-[11px]    rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 transition-all text-center cursor-pointer">
                   NEXT 90 DAYS
                 </button>
                 <button
                   type="button"
                   onClick={() => setDateRange([minShowTime, maxShowTime])}
-                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 transition-all text-center cursor-pointer">
+                  className="px-2 py-2 text-[10px] sm:text-[11px]    rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 transition-all text-center cursor-pointer">
                   ALL DATES
                 </button>
               </div>
@@ -1226,14 +1226,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <button
                 type="button"
                 onClick={() => setDateRange(null)}
-                className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-[11px] font-bold transition-all rounded-xl shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5">
+                className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-[11px]    transition-all rounded-xl shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5">
                 <span>✕ REMOVE DATE FILTER</span>
               </button>
             ) : (
               <button
                 type="button"
                 onClick={() => setIsDateUiOpen(false)}
-                className="w-full py-2.5 bg-white/10 hover:bg-white/15 border border-white/10 text-[11px] font-bold rounded-xl transition-colors cursor-pointer text-center">
+                className="w-full py-2.5 bg-white/10 hover:bg-white/15 border border-white/10 text-[11px]    rounded-xl transition-colors cursor-pointer text-center">
                 CLOSE CONTROLS
               </button>
             )}
@@ -1294,7 +1294,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2   text-[11px] text-purple-300">
                         <span>{icon}</span>
-                        <span className="">{label}</span>
+                        <span >{label}</span>
                       </div>
                       {isCurrentDevice && (
                         <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-purple-600">
@@ -1306,9 +1306,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[11px]">
                       {/* Initial Map Zoom Slider */}
                       <div className="space-y-1">
-                        <div className="flex justify-between items-center   font-semibold">
+                        <div className="flex justify-between items-center    ">
                           <span>Initial:</span>
-                          <span className="font-mono font-bold text-purple-300 text-xs">{cfg.initial}</span>
+                          <span className="font-mono    text-purple-300 text-xs">{cfg.initial}</span>
                         </div>
                         <input
                           type="range"
@@ -1332,9 +1332,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
                       {/* Venue Focus Zoom Slider */}
                       <div className="space-y-1">
-                        <div className="flex justify-between items-center   font-semibold">
+                        <div className="flex justify-between items-center    ">
                           <span>Focus:</span>
-                          <span className="font-mono font-bold text-purple-300 text-xs">{cfg.active}</span>
+                          <span className="font-mono    text-purple-300 text-xs">{cfg.active}</span>
                         </div>
                         <input
                           type="range"
@@ -1366,14 +1366,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <button
                 type="button"
                 onClick={handleResetZoomConfig}
-                className="px-3 py-2 text-[11px] font-bold   hover:text-white bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl transition-colors cursor-pointer"
+                className="px-3 py-2 text-[11px]      hover:text-white bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl transition-colors cursor-pointer"
               >
                 RESET DEFAULTS
               </button>
 
               <div className="flex items-center gap-2">
                 {zoomSaveSuccess && (
-                  <span className="text-[11px] text-green-400 font-bold flex items-center gap-1">
+                  <span className="text-[11px] text-green-400    flex items-center gap-1">
                     ✓ Saved!
                   </span>
                 )}
@@ -1418,7 +1418,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   <button
                     type="button"
                     onClick={() => setSelectedTypes(new Set())}
-                    className="text-[11px] font-bold text-purple-300 hover:text-white transition-colors cursor-pointer px-2 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
+                    className="text-[11px]    text-purple-300 hover:text-white transition-colors cursor-pointer px-2 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
                   >
                     CLEAR
                   </button>
@@ -1455,10 +1455,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     }}
                     className={`flex items-center gap-2 px-2 py-1.5 rounded-xl border transition-all cursor-pointer text-left ${isActive ? "bg-white/5 border-white/15 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20" : "bg-transparent border-transparent opacity-40 hover:opacity-80"}`}
                   >
-                    <div className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center text-[10px] font-bold shadow-sm" style={{ backgroundColor: cfg.color, color: textColor }}>
+                    <div className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center text-[10px]    shadow-sm" style={{ backgroundColor: cfg.color, color: textColor }}>
                       {showLetter}
                     </div>
-                    <span className="text-xs font-bold /90   truncate">{cfg.label}</span>
+                    <span className="text-xs    /90   truncate">{cfg.label}</span>
                   </button>
                 );
               })}

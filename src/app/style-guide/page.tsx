@@ -279,7 +279,7 @@ function SparkleGenerateButtonDemo() {
             className="w-5 h-5 rounded border-purple-400/50 text-purple-600 focus:ring-purple-500 focus:ring-offset-gray-900 bg-purple-950/40 cursor-pointer accent-purple-500"
           />
           <div>
-            <span className="text-sm font-semibold text-purple-200 group-hover:text-white transition">
+            <span className="text-sm   text-purple-200 group-hover:text-white transition">
               Active State
             </span>
             <p className="text-[11px] text-white/40">Lock active glow &amp; dust loop</p>
@@ -288,7 +288,7 @@ function SparkleGenerateButtonDemo() {
 
         {/* Button Label Text Input */}
         <div className="space-y-1">
-          <label htmlFor="sgb-button-text-input" className="block text-xs font-semibold text-purple-200 r">
+          <label htmlFor="sgb-button-text-input" className="block text-xs   text-purple-200 r">
             Button Text
           </label>
           <input
@@ -303,7 +303,7 @@ function SparkleGenerateButtonDemo() {
 
         {/* Particle Count Slider */}
         <div className="space-y-1">
-          <div className="flex justify-between items-center text-xs font-semibold text-purple-200">
+          <div className="flex justify-between items-center text-xs   text-purple-200">
             <label htmlFor="sgb-particle-count-slider">Particles</label>
             <span className="text-white/60">{particleCount} dots</span>
           </div>
@@ -362,7 +362,7 @@ function CosmicTrackCardDemo() {
   return (
     <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
       <div className="flex items-center justify-between gap-2 flex-wrap border-b border-white/10 pb-3">
-        <h3 className="text-violet-400 text-sm sm:text-base font-bold">
+        <h3 className="text-violet-400 text-sm sm:text-base   ">
           Cosmic Track Card (Media Grid Selector Component)
         </h3>
         <span className="px-2 py-0.5 rounded text-[11px] bg-purple-500/20 text-purple-300 border border-purple-500/50 font-mono">
@@ -406,7 +406,7 @@ function GlassPlayButtonDemo() {
     <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
-          <h3 className="text-base font-bold text-pink-400 flex items-center gap-2">
+          <h3 className="    text-pink-400 flex items-center gap-2">
             <Play className="w-4 h-4 fill-pink-400 text-pink-400" /> GlassPlayButton Control Studio
           </h3>
           <p className="text-xs text-white/50">
@@ -426,7 +426,7 @@ function GlassPlayButtonDemo() {
       {/* Control Panel Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-black/40 border border-white/5">
         <div>
-          <label className="text-[11px] font-semibold text-purple-300 block mb-1">Button Size</label>
+          <label className="text-[11px]   text-purple-300 block mb-1">Button Size</label>
           <select
             value={playSize}
             onChange={(e: any) => setPlaySize(e.target.value)}
@@ -551,10 +551,10 @@ function ButtonMasterGalleryAndStudio() {
 
   const sizePaddingClass =
     buttonSize === "sm"
-      ? "h-8 min-h-[32px] px-3.5 text-xs font-semibold"
+      ? "h-8 min-h-[32px] px-3.5 text-xs  "
       : buttonSize === "lg"
-        ? "h-12 min-h-[48px] px-8 text-base font-bold"
-        : "h-10 min-h-[40px] px-5 text-sm font-medium";
+        ? "h-12 min-h-[48px] px-8 text-base   "
+        : "h-10 min-h-[40px] px-5 text-sm  ";
 
   return (
     <div className="space-y-8">
@@ -572,7 +572,7 @@ function ButtonMasterGalleryAndStudio() {
               <Sliders className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold flex items-center gap-2">
+              <h3 className="    flex items-center gap-2">
                 Site Button Control Studio
               </h3>
               <p className="text-xs text-purple-300/70">Tweak states live to inspect &amp; test all buttons on the site</p>
@@ -587,7 +587,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Label Input */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-purple-300">Button Text</label>
+            <label className="text-xs   text-purple-300">Button Text</label>
             <input
               type="text"
               value={buttonLabel}
@@ -599,14 +599,14 @@ function ButtonMasterGalleryAndStudio() {
 
           {/* Size Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-purple-300">Size Variant</label>
+            <label className="text-xs   text-purple-300">Size Variant</label>
             <div className="flex items-center gap-1 p-1 bg-black/60 rounded-lg border border-purple-500/40">
               {(["sm", "md", "lg"] as const).map((sz) => (
                 <button
                   key={sz}
                   type="button"
                   onClick={() => setButtonSize(sz)}
-                  className={`flex-1 py-1 text-xs rounded transition font-bold ${buttonSize === sz ? "bg-purple-600 shadow-[0_0_10px_rgba(168,85,247,0.6)]" : " text-white/60 hover:text-white hover:bg-white/5"}`}
+                  className={`flex-1 py-1 text-xs rounded transition    ${buttonSize === sz ? "bg-purple-600 shadow-[0_0_10px_rgba(168,85,247,0.6)]" : " text-white/60 hover:text-white hover:bg-white/5"}`}
                 >
                   {sz}
                 </button>
@@ -616,7 +616,7 @@ function ButtonMasterGalleryAndStudio() {
 
           {/* Icon Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-purple-300">Button Icon</label>
+            <label className="text-xs   text-purple-300">Button Icon</label>
             <select
               value={iconName}
               onChange={(e) => setIconName(e.target.value as any)}
@@ -634,7 +634,7 @@ function ButtonMasterGalleryAndStudio() {
 
           {/* Pill Dot Color */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-purple-300">Pill Badge Dot</label>
+            <label className="text-xs   text-purple-300">Pill Badge Dot</label>
             <select
               value={dotColor}
               onChange={(e) => setDotColor(e.target.value as any)}
@@ -658,7 +658,7 @@ function ButtonMasterGalleryAndStudio() {
               onChange={(e) => setIsDisabled(e.target.checked)}
               className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
             />
-            <span className={isDisabled ? "text-rose-400 font-semibold" : " text-white/70"}>
+            <span className={isDisabled ? "text-rose-400  " : " text-white/70"}>
               Disabled State
             </span>
           </label>
@@ -670,7 +670,7 @@ function ButtonMasterGalleryAndStudio() {
               onChange={(e) => setIsActiveState(e.target.checked)}
               className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
             />
-            <span className={isActiveState ? "text-purple-300 font-semibold" : " text-white/70"}>
+            <span className={isActiveState ? "text-purple-300  " : " text-white/70"}>
               Active / Hover Locked
             </span>
           </label>
@@ -682,7 +682,7 @@ function ButtonMasterGalleryAndStudio() {
               onChange={(e) => setIsLoadingState(e.target.checked)}
               className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
             />
-            <span className={isLoadingState ? "text-cyan-300 font-semibold" : " text-white/70"}>
+            <span className={isLoadingState ? "text-cyan-300  " : " text-white/70"}>
               Loading Spinner State
             </span>
           </label>
@@ -696,7 +696,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-amber-400">
+              <h4 className="text-sm    text-amber-400">
                 SeventhButton / AlwaysButton
               </h4>
               <p className="text-[11px] text-white/50">Credits system &amp; high-converting hero button</p>
@@ -734,7 +734,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-violet-400">
+              <h4 className="text-sm    text-violet-400">
                 SparkleGenerateButton (GSAP Particle)
               </h4>
               <p className="text-[11px] text-white/50">GSAP Dust Particle generator button</p>
@@ -759,7 +759,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-emerald-400">
+              <h4 className="text-sm    text-emerald-400">
                 PillBadgeButton Component
               </h4>
               <p className="text-[11px] text-white/50">Category pill button with customizable pulsing glowing dot</p>
@@ -788,7 +788,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-pink-400">
+              <h4 className="text-sm    text-pink-400">
                 GlassPlayButton Component
               </h4>
               <p className="text-[11px] text-white/50">Unified frosted glass capsule play button for all video &amp; media triggers</p>
@@ -813,7 +813,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-indigo-400">
+              <h4 className="text-sm    text-indigo-400">
                 Glass Pill Tag Badge (.btn-pill-glass)
               </h4>
               <p className="text-[11px] text-white/50">Global CSS pill tag button with hover glow &amp; 0.2s transition</p>
@@ -850,7 +850,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-pink-400">
+              <h4 className="text-sm    text-pink-400">
                 SquishyToggle Switch
               </h4>
               <p className="text-[11px] text-white/50">Spring-physics squishy state toggle switch</p>
@@ -865,7 +865,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-amber-300">
+              <h4 className="text-sm    text-amber-300">
                 AddCmsButton Component
               </h4>
               <p className="text-[11px] text-white/50">Admin CMS item creation action button</p>
@@ -891,7 +891,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-emerald-400 flex items-center gap-2">
+              <h4 className="text-sm    text-emerald-400 flex items-center gap-2">
                 <RefreshCw className={`w-4 h-4 ${sanitySyncing ? "animate-spin text-cyan-400" : ""}`} />
                 Update Sanity CMS Button
               </h4>
@@ -937,14 +937,14 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-blue-400">
+              <h4 className="text-sm    text-blue-400">
                 Inline Action Buttons (EDIT &amp; DEL)
               </h4>
               <p className="text-[11px] text-white/50">Compact table row &amp; item management action buttons</p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="px-3 py-1 rounded-full border border-blue-500/50 text-blue-400 bg-blue-950/30 hover:bg-blue-600 hover:text-white font-bold text-xs transition">EDIT</button>\n<button className="px-3 py-1 rounded-full border border-red-500/50 text-red-400 bg-red-950/30 hover:bg-red-600 hover:text-white font-bold text-xs transition">DEL</button>`, "editdel")}
+              onClick={() => handleCopyCode(`<button className="px-3 py-1 rounded-full border border-blue-500/50 text-blue-400 bg-blue-950/30 hover:bg-blue-600 hover:text-white    text-xs transition">EDIT</button>\n<button className="px-3 py-1 rounded-full border border-red-500/50 text-red-400 bg-red-950/30 hover:bg-red-600 hover:text-white    text-xs transition">DEL</button>`, "editdel")}
               className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
             >
               {copiedTag === "editdel" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -973,7 +973,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-purple-400">
+              <h4 className="text-sm    text-purple-400">
                 Primary Glow CTA (.btn-primary)
               </h4>
               <p className="text-[11px] text-white/50">Standard purple glow pill button style</p>
@@ -1002,7 +1002,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-cyan-400">
+              <h4 className="text-sm    text-cyan-400">
                 Cyan Neon Cyber Action
               </h4>
               <p className="text-[11px] text-white/50">High-visibility cyan neon button with shadow glow</p>
@@ -1019,7 +1019,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "ring-2 ring-cyan-200 scale-95" : ""}`}
+              className={`rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950    shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "ring-2 ring-cyan-200 scale-95" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1031,7 +1031,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold  ">
+              <h4 className="text-sm     ">
                 Secondary Glass (.btn-secondary / .site-link)
               </h4>
               <p className="text-[11px] text-white/50">Glassmorphism translucent button</p>
@@ -1048,7 +1048,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`rounded-full bg-white/10 hover:bg-white/20 border border-white/10 font-medium transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none bg-[#00000029]" : ""} ${isActiveState ? "bg-white/30 ring-2 ring-white/30 scale-95" : ""}`}
+              className={`rounded-full bg-white/10 hover:bg-white/20 border border-white/10   transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none bg-[#00000029]" : ""} ${isActiveState ? "bg-white/30 ring-2 ring-white/30 scale-95" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1060,7 +1060,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-rose-400">
+              <h4 className="text-sm    text-rose-400">
                 Danger Action Button
               </h4>
               <p className="text-[11px] text-white/50">Destructive or critical alert action</p>
@@ -1077,7 +1077,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`rounded-full bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-semibold transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "bg-red-600 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-95" : ""}`}
+              className={`rounded-full bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300   transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "bg-red-600 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-95" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1089,7 +1089,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-purple-300 flex items-center gap-2">
+              <h4 className="text-sm    text-purple-300 flex items-center gap-2">
                 Track &amp; Video Quick-Select Card Buttons
               </h4>
               <p className="text-[11px] text-white/50">Multi-line track card button selector (as seen on Rock &amp; Roll Kids)</p>
@@ -1125,14 +1125,14 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-violet-300 flex items-center gap-2">
+              <h4 className="text-sm    text-violet-300 flex items-center gap-2">
                 Booking Show Format &amp; Event Type Selector Pills
               </h4>
               <p className="text-[11px] text-white/50">Full Band, Unplugged, Private Event &amp; Custom Booking pills with icon badges</p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="w-full text-left p-3.5 rounded-full border border-purple-400/80 bg-purple-900/50 hover:bg-purple-800/60 transition-all flex items-center gap-3">\n  <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">\n    <Guitar className="w-4 h-4" />\n  </div>\n  <div className="flex-1 min-w-0">\n    <span className="text-sm font-bold mr-1.5">Full Band</span>\n    <span className="text-xs text-white/60">High energy, full 5-piece concert setup</span>\n  </div>\n</button>`, "bookingpills")}
+              onClick={() => handleCopyCode(`<button className="w-full text-left p-3.5 rounded-full border border-purple-400/80 bg-purple-900/50 hover:bg-purple-800/60 transition-all flex items-center gap-3">\n  <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">\n    <Guitar className="w-4 h-4" />\n  </div>\n  <div className="flex-1 min-w-0">\n    <span className="text-sm    mr-1.5">Full Band</span>\n    <span className="text-xs text-white/60">High energy, full 5-piece concert setup</span>\n  </div>\n</button>`, "bookingpills")}
               className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
             >
               {copiedTag === "bookingpills" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -1156,7 +1156,7 @@ function ButtonMasterGalleryAndStudio() {
                   {opt.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="text-sm font-bold mr-1.5">{opt.title}</span>
+                  <span className="text-sm    mr-1.5">{opt.title}</span>
                   <span className="text-xs text-white/60">{opt.desc}</span>
                 </div>
               </button>
@@ -1518,7 +1518,7 @@ export default function StyleGuidePage() {
             <h2 className="flex items-center gap-2">
               <Type className="w-6 h-6" /> 1. Fluid Typography System
             </h2>
-            <p className="">
+            <p >
               Every text size uses <code className="text-purple-400">clamp()</code> for fluid scaling. Edit <strong>Mobile</strong>, <strong>Tablet</strong>, and <strong>Desktop</strong> values — changes apply live to the entire site.
             </p>
           </div>
@@ -1762,7 +1762,7 @@ export default function StyleGuidePage() {
                   {/* Code snippet */}
                   <div className="overflow-x-auto rounded-lg bg-black/80 pt-3 pb-3 text-purple-200 border border-white/20">
                     <code className="text-purple-400">font-size</code>:{" "}
-                    <span className="">{studioClamp.clampStr}</span> !important;
+                    <span >{studioClamp.clampStr}</span> !important;
                   </div>
 
                   {/* Formula Math Breakdown */}
@@ -1809,7 +1809,7 @@ export default function StyleGuidePage() {
               { key: "4xl", label: "text-4xl", cssProp: "--text-4xl", mobMin: "1.0", mobMax: "1.75", tabMin: "1.75", tabMax: "2.5", deskMin: "2.5", deskMax: "4.5", sample: "7TH HEAVEN (NOW 4XL)", weight: "    ", extra: "" },
               { key: "3xl", label: "text-3xl", cssProp: "--text-3xl", mobMin: "0.875", mobMax: "1.0", tabMin: "1.0", tabMax: "1.25", deskMin: "1.25", deskMax: "1.75", sample: "VIP Backstage Package", weight: " ", extra: "" },
               { key: "2xl", label: "text-2xl", cssProp: "--text-2xl", mobMin: "0.8125", mobMax: "0.9375", tabMin: "0.9375", tabMax: "1.125", deskMin: "1.125", deskMax: "1.5", sample: "Rocking Chicago & Nationwide Since 1985", weight: "  ", extra: "" },
-              { key: "xl", label: "text-xl", cssProp: "--text-xl", mobMin: "0.8125", mobMax: "0.875", tabMin: "0.875", tabMax: "1.0", deskMin: "1.0", deskMax: "1.25", sample: "Join over 50,000 fans across 100+ shows every single year (Unified XL).", weight: "font-semibold", extra: "" },
+              { key: "xl", label: "text-xl", cssProp: "--text-xl", mobMin: "0.8125", mobMax: "0.875", tabMin: "0.875", tabMax: "1.0", deskMin: "1.0", deskMax: "1.25", sample: "Join over 50,000 fans across 100+ shows every single year (Unified XL).", weight: " ", extra: "" },
               { key: "base", label: "text-base", cssProp: "--text-base", mobMin: "0.75", mobMax: "0.8125", tabMin: "0.8125", tabMax: "0.875", deskMin: "0.875", deskMax: "1.0", sample: "7th Heaven has processed over 1.5 million ticket requests. Book early for best availability.", weight: "font-normal", extra: "" },
               { key: "sm", label: "text-sm", cssProp: "--text-sm", mobMin: "0.6875", mobMax: "0.75", tabMin: "0.75", tabMax: "0.8125", deskMin: "0.8125", deskMax: "0.875", sample: "Doors open at 6:30 PM. All ages event subject to venue policies. Tickets non-refundable.", weight: "font-normal", extra: "" },
               { key: "xs", label: "text-xs", cssProp: "--text-xs", mobMin: "0.625", mobMax: "0.6875", tabMin: "0.6875", tabMax: "0.75", deskMin: "0.75", deskMax: "0.75", sample: "LAST UPDATED 2 HOURS AGO • VERIFIED BY BAND MANAGEMENT", weight: "  ", extra: "  r" },
@@ -2201,7 +2201,7 @@ ${deskRules.join("\n")}
                       <div className="flex items-center justify-between pb-3 border-b border-white/10">
                         <div className="flex items-center gap-3">
                           <span className="w-3 h-3 rounded-lg bg-emerald-400 animate-ping" />
-                          <h3 className="">
+                          <h3 >
                             Global CSS Saved to Clipboard
                           </h3>
                         </div>
@@ -2251,7 +2251,7 @@ ${deskRules.join("\n")}
               <h2 className=" flex items-center gap-2">
                 <Palette className="w-6 h-6" /> 2. Full Color Palette & Swatches
               </h2>
-              <p className="">
+              <p >
                 Standard CSS custom variables and live theme color tokens across background, text, accent, status, and borders.
               </p>
             </div>
@@ -2263,16 +2263,16 @@ ${deskRules.join("\n")}
               <span className="text-purple-400 block mb-1">
                 Standardized White Palette Rules
               </span>
-              <h3 className="">The Two White Palette: Solid White & 0.5 White</h3>
-              <p className="">
-                Our site design strictly uses only two shades of white: <strong className="">Solid White (#ffffff / 100%)</strong> for primary text and titles, and <strong className="text-white/70">0.5 White (rgba(255, 255, 255, 0.5) / 50%)</strong> for secondary text, labels, and muted metadata.
+              <h3 >The Two White Palette: Solid White & 0.5 White</h3>
+              <p >
+                Our site design strictly uses only two shades of white: <strong >Solid White (#ffffff / 100%)</strong> for primary text and titles, and <strong className="text-white/70">0.5 White (rgba(255, 255, 255, 0.5) / 50%)</strong> for secondary text, labels, and muted metadata.
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0">
               <div className="px-4 py-2 rounded-lg bg-white text-black">
                 Solid White (#ffffff)
               </div>
-              <div className="px-4 py-2 rounded-lg bg-[#00000029] 0 text-black border border-white/10">
+              <div className="px-4 py-2 rounded-lg bg-[#00000029] 0   border border-white/10">
                 0.5 White (50%)
               </div>
             </div>
@@ -2370,7 +2370,7 @@ ${deskRules.join("\n")}
             <h2 className="text-amber-400 flex items-center gap-2">
               <Layout className="w-6 h-6" /> 4. Form Elements & Real Controls
             </h2>
-            <p className="">
+            <p >
               Text inputs, search inputs, textareas, checkboxes, radios, switches, and select dropdowns across Default, Focused, Filled, Error, and Disabled states.
             </p>
           </div>
@@ -2604,7 +2604,7 @@ ${deskRules.join("\n")}
 
                   {/* ── Crew Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <p className="tracking-[0.3em] mb-1">7th Heaven · Crew</p>
+                    <p className="  mb-1">7th Heaven · Crew</p>
                     <h4 className="mb-1">Crew PIN Verification</h4>
                     <p className="mb-6">Enter your 6-digit PIN to verify crew access</p>
                     <div
@@ -2637,7 +2637,7 @@ ${deskRules.join("\n")}
                       <p className="text-center cursor-pointer transition">← Back to Crew Page</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px] tracking-[0.1em]">7TH HEAVEN · CREW ACCESS</span>
+                        <span className="text-[8px]  ">7TH HEAVEN · CREW ACCESS</span>
                         <div className="flex-1 h-px bg-white/[0.08]" />
                       </div>
                     </div>
@@ -2680,7 +2680,7 @@ ${deskRules.join("\n")}
                       <p className="text-center cursor-pointer transition">← Back to Planner Page</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px] tracking-[0.1em]">7TH HEAVEN · PLANNER ACCESS</span>
+                        <span className="text-[8px]  ">7TH HEAVEN · PLANNER ACCESS</span>
                         <div className="flex-1 h-px bg-white/[0.08]" />
                       </div>
                     </div>
@@ -2727,7 +2727,7 @@ ${deskRules.join("\n")}
                       <p className="text-center cursor-pointer transition">← Back to Cruise Page</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px] tracking-[0.1em]">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
+                        <span className="text-[8px]  ">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
                         <div className="flex-1 h-px bg-white/[0.08]" />
                       </div>
                     </div>
@@ -2735,7 +2735,7 @@ ${deskRules.join("\n")}
 
                   {/* ── Admin 2FA Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <p className="tracking-[0.3em] mb-1">7th Heaven · Admin</p>
+                    <p className="  mb-1">7th Heaven · Admin</p>
                     <h4 className="mb-1">Admin 2FA Verification</h4>
                     <p className="mb-6">Enter your 6-digit PIN after login</p>
                     <div
@@ -2768,7 +2768,7 @@ ${deskRules.join("\n")}
                       <p className="text-center cursor-pointer transition">← Back to Login</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px] tracking-[0.1em]">7TH HEAVEN · ADMIN ACCESS</span>
+                        <span className="text-[8px]  ">7TH HEAVEN · ADMIN ACCESS</span>
                         <div className="flex-1 h-px bg-white/[0.08]" />
                       </div>
                     </div>
@@ -2787,7 +2787,7 @@ ${deskRules.join("\n")}
 
                 {/* ── Sign In Modal Card ── */}
                 <div className="flex flex-col items-center">
-                  <p className="tracking-[0.3em] mb-1">7th Heaven · Auth</p>
+                  <p className="  mb-1">7th Heaven · Auth</p>
                   <h4 className="mb-1">Sign In Modal</h4>
                   <p className="mb-6">Existing member login interface</p>
                   <div
@@ -2808,7 +2808,7 @@ ${deskRules.join("\n")}
                       <h2 className="er italic">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
-                      <div className="tracking-[0.18em]">
+                      <div className=" ">
                         SIGN IN TO YOUR ACCOUNT
                       </div>
                     </div>
@@ -2842,13 +2842,13 @@ ${deskRules.join("\n")}
                     <div className="space-y-3 mb-6">
                       <div>
                         <label className="text-[10px]   mb-1 block">EMAIL</label>
-                        <div className="input-glow-border rounded-lg w-full">
+                        <div className="input-glow-border  w-full">
                           <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div>
                         <label className="text-[10px]   mb-1 block">PASSWORD</label>
-                        <div className="input-glow-border rounded-lg w-full">
+                        <div className="input-glow-border  w-full">
                           <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
@@ -2886,7 +2886,7 @@ ${deskRules.join("\n")}
 
                 {/* ── Sign Up Modal Card ── */}
                 <div className="flex flex-col items-center">
-                  <p className="tracking-[0.3em] mb-1">7th Heaven · Auth</p>
+                  <p className="  mb-1">7th Heaven · Auth</p>
                   <h4 className="mb-1">Sign Up Modal</h4>
                   <p className="mb-6">New fan registration interface</p>
                   <div
@@ -2907,7 +2907,7 @@ ${deskRules.join("\n")}
                       <h2 className="er italic">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
-                      <div className="tracking-[0.18em] flex items-center justify-center gap-1 flex-wrap">
+                      <div className="  flex items-center justify-center gap-1 flex-wrap">
                         SIGN UP FOR FREE <span className="bg-[var(--color-accent)] px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/40">FAN</span> MEMBERSHIP
                       </div>
                     </div>
@@ -2941,13 +2941,13 @@ ${deskRules.join("\n")}
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="text-[10px]   mb-1 block">FULL NAME</label>
-                            <div className="input-glow-border rounded-lg w-full">
+                            <div className="input-glow-border  w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
                             <label className="text-[10px]   mb-1 block">COMPANY / VENUE NAME</label>
-                            <div className="input-glow-border rounded-lg w-full">
+                            <div className="input-glow-border  w-full">
                               <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
@@ -2956,13 +2956,13 @@ ${deskRules.join("\n")}
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="text-[10px]   mb-1 block">FULL NAME</label>
-                            <div className="input-glow-border rounded-lg w-full">
+                            <div className="input-glow-border  w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
                             <label className="text-[10px]   mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
-                            <div className="input-glow-border rounded-lg w-full">
+                            <div className="input-glow-border  w-full">
                               <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
@@ -2972,13 +2972,13 @@ ${deskRules.join("\n")}
                           <div className="grid grid-cols-2 gap-3">
                             <div>
                               <label className="text-[10px]   mb-1 block">FULL NAME</label>
-                              <div className="input-glow-border rounded-lg w-full">
+                              <div className="input-glow-border  w-full">
                                 <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
                             <div>
                               <label className="text-[10px]   mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
-                              <div className="input-glow-border rounded-lg w-full">
+                              <div className="input-glow-border  w-full">
                                 <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
@@ -3025,13 +3025,13 @@ ${deskRules.join("\n")}
                       <div className="grid grid-cols-2 gap-3">
                         <div>
                           <label className="text-[10px]   mb-1 block">EMAIL</label>
-                          <div className="input-glow-border rounded-lg w-full">
+                          <div className="input-glow-border  w-full">
                             <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                         <div>
                           <label className="text-[10px]   mb-1 block">PASSWORD</label>
-                          <div className="input-glow-border rounded-lg w-full">
+                          <div className="input-glow-border  w-full">
                             <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
@@ -3075,7 +3075,7 @@ ${deskRules.join("\n")}
                     checked={false}
                     onChange={() => { }}
                   />
-                  <span className="">Unchecked state</span>
+                  <span >Unchecked state</span>
                 </div>
 
                 <div className="flex items-center gap-3 opacity-40">
@@ -3162,7 +3162,7 @@ ${deskRules.join("\n")}
             <h2 className=" flex items-center gap-2">
               <ChevronDown className="w-6 h-6" /> 5. Standardized Global Dropdowns
             </h2>
-            <p className="">
+            <p >
               Standardized dropdown implementation using our global border standard <code>rgba(255,255,255,0.08)</code>.
             </p>
           </div>
@@ -3202,7 +3202,7 @@ ${deskRules.join("\n")}
               <h2 className=" flex items-center gap-2">
                 <MessageSquare className="w-6 h-6" /> 6. Live Chat Box Component
               </h2>
-              <p className="">
+              <p >
                 Live interactive preview of <code className="text-purple-300">CruiseChat</code> with real-time UI controls for bubble radius, borders, opacity, font size, and per-user colors.
               </p>
             </div>
@@ -3570,7 +3570,7 @@ ${deskRules.join("\n")}
             <h2 className="text-pink-400 flex items-center gap-2">
               <Layers className="w-6 h-6" /> 7. Reusable Cards, Badges & Alerts
             </h2>
-            <p className="">
+            <p >
               Actual shipping badges, announcement banners, cookie notices, and glass card containers.
             </p>
           </div>
@@ -3604,7 +3604,7 @@ ${deskRules.join("\n")}
             {/* Glass Card Container */}
             <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 backdrop-blur-xl hover:border-purple-500/40 transition space-y-3">
               <span className="text-purple-400">Glassmorphism Card</span>
-              <h4 className="">House of Blues Chicago</h4>
+              <h4 >House of Blues Chicago</h4>
               <p>
                 Standard container card with 1px border <code className="text-purple-300">rgba(255,255,255,0.08)</code>.
               </p>
@@ -3627,8 +3627,8 @@ ${deskRules.join("\n")}
             <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="text-emerald-400">Interactive Modal</span>
-                <h4 className="">Login & Authentication Modal</h4>
-                <p className="">
+                <h4 >Login & Authentication Modal</h4>
+                <p >
                   Trigger the site-wide login/signup modal dialog.
                 </p>
               </div>
@@ -3648,7 +3648,7 @@ ${deskRules.join("\n")}
             <h2 className="flex items-center gap-2">
               <Maximize2 className="w-6 h-6" /> 8. Modals & Dialogs
             </h2>
-            <p className="">
+            <p >
               Standard modal patterns: glassmorphism shell, confirmation/alert dialogs, and the global login/signup auth modal.
             </p>
           </div>
@@ -3658,9 +3658,9 @@ ${deskRules.join("\n")}
             {/* 1 — Glassmorphism Modal Shell */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
-                <span className="">Glass Shell</span>
-                <h4 className="">Glassmorphism Modal</h4>
-                <p className="">
+                <span >Glass Shell</span>
+                <h4 >Glassmorphism Modal</h4>
+                <p >
                   The frosted-glass card used for verify screens, PIN entry, and success states.
                 </p>
               </div>
@@ -3675,8 +3675,8 @@ ${deskRules.join("\n")}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="text-amber-400">Confirm / Alert</span>
-                <h4 className="">Confirmation Dialog</h4>
-                <p className="">
+                <h4 >Confirmation Dialog</h4>
+                <p >
                   Destructive action confirmation with cancel/confirm buttons.
                 </p>
                 {confirmResult && (
@@ -3696,8 +3696,8 @@ ${deskRules.join("\n")}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
                 <span className="text-emerald-400">Auth Modal</span>
-                <h4 className="">Login & Signup Modal</h4>
-                <p className="">
+                <h4 >Login & Signup Modal</h4>
+                <p >
                   Site-wide auth modal with login/signup toggle, form validation, and role selection.
                 </p>
               </div>
@@ -3773,7 +3773,7 @@ ${deskRules.join("\n")}
                 </p>
 
                 <div className="space-y-3">
-                  <div className="input-glow-border rounded-lg w-full">
+                  <div className="input-glow-border  w-full">
                     <input
                       type="text"
                       placeholder="Enter your email..."
@@ -3837,14 +3837,14 @@ ${deskRules.join("\n")}
             <h2 className="flex items-center gap-2">
               9. Border & Glass Standard
             </h2>
-            <p className="">
+            <p >
               Confirming all dividers and component boundaries use our standardized global border color: <code>rgba(255, 255, 255, 0.08)</code>.
             </p>
           </div>
 
           <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
             <div className="flex items-center justify-between">
-              <span>Variable: <strong className="">--color-border-main</strong></span>
+              <span>Variable: <strong >--color-border-main</strong></span>
               <span>Computed Value: <strong>rgba(255, 255, 255, 0.08)</strong></span>
             </div>
 
@@ -3870,7 +3870,7 @@ ${deskRules.join("\n")}
             <h2 className="flex items-center gap-2">
               <Sliders className="w-6 h-6" /> Custom Scrollbars
             </h2>
-            <p className="">
+            <p >
               Apply <code className="text-purple-300">custom-scrollbar</code> or <code className="text-purple-300">custom-purple-scrollbar</code> to any scrollable container.
               Both classes are identical — the glowing purple thumb always shows.
             </p>
@@ -3961,7 +3961,7 @@ ${deskRules.join("\n")}
             <h2 className=" flex items-center gap-2">
               <Box className="w-6 h-6" /> 10. Spacing & Page Padding Scale
             </h2>
-            <p className="">
+            <p >
               Standardized responsive page padding scale: <code className="text-purple-300">px-6 sm:px-8 lg:px-[42px]</code> (24px Mobile / 32px Tablet / 42px Desktop).
             </p>
           </div>
@@ -4015,7 +4015,7 @@ ${deskRules.join("\n")}
               <h2 className="text-emerald-400 flex items-center gap-2">
                 <Sliders className="w-6 h-6" /> 11. Canvas Shader & Full-Page Film Grain Studio
               </h2>
-              <p className="">
+              <p >
                 Interactive real-time controller for background WebGL shader parameters and full-page film grain overlay system.
               </p>
             </div>
@@ -4192,8 +4192,8 @@ ${deskRules.join("\n")}
             <h2 className="text-pink-400 flex items-center gap-2">
               <Settings className="w-6 h-6" /> 11. Global Container, Border & Background Styles
             </h2>
-            <p className="">
-              Edit global CSS variables for section/card backgrounds, borders, and glass surfaces. Changes apply site-wide in real-time. Hit <strong className="">SAVE THEME TOKENS</strong> at the top to persist.
+            <p >
+              Edit global CSS variables for section/card backgrounds, borders, and glass surfaces. Changes apply site-wide in real-time. Hit <strong >SAVE THEME TOKENS</strong> at the top to persist.
             </p>
           </div>
 
@@ -4264,7 +4264,7 @@ ${deskRules.join("\n")}
 
           {/* Live Preview Strip */}
           <div className="space-y-3">
-            <h3 className="">Live Preview</h3>
+            <h3 >Live Preview</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-5 rounded-lg space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-card"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
                 <span className="text-pink-400">Card Container</span>
@@ -4288,7 +4288,7 @@ ${deskRules.join("\n")}
             <h2 className=" flex items-center gap-2">
               <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
             </h2>
-            <p className="">
+            <p >
               Interactive preview of the Stateroom Categories catalog and Suite Class Perks component (from the Cruise page). Responds to container, border, and accent theme token changes in real-time.
             </p>
           </div>
@@ -4311,7 +4311,7 @@ ${deskRules.join("\n")}
                       onClick={() => setStateroomTab(tab.id as any)}
                       className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 " : " bg-[#00000029] hover:bg-white/10  "}`}>
                       <h4 className="r">{tab.label}</h4>
-                      <p className="">{tab.desc}</p>
+                      <p >{tab.desc}</p>
                     </button>
                   ))}
                 </div>
@@ -4320,7 +4320,7 @@ ${deskRules.join("\n")}
               <div className="mt-8 border-0 p-0">
                 <h4 className="mb-3">Available layouts:</h4>
                 {stateroomTab === "suites" && (
-                  <div className="space-y-2   font-medium">
+                  <div className="space-y-2    ">
                     <p>• Ultimate Family Townhouse</p>
                     <p>• Royal Loft Suite</p>
                     <p>• Owner&apos;s Suite</p>
@@ -4330,7 +4330,7 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "balcony" && (
-                  <div className="space-y-2   font-medium">
+                  <div className="space-y-2    ">
                     <p>• Infinite Ocean View Balcony</p>
                     <p>• Infinite Central Park Balcony</p>
                     <p>• Ocean View Balcony</p>
@@ -4339,13 +4339,13 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "ocean" && (
-                  <div className="space-y-2   font-medium">
+                  <div className="space-y-2    ">
                     <p>• Panoramic Ocean View</p>
                     <p>• Ocean View</p>
                   </div>
                 )}
                 {stateroomTab === "interior" && (
-                  <div className="space-y-2   font-medium">
+                  <div className="space-y-2    ">
                     <p>• Interior</p>
                     <p>• Spacious Interior</p>
                     <p>• Central Park View Interior</p>
@@ -4361,7 +4361,7 @@ ${deskRules.join("\n")}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                   <div>
                     <span className="]">VIP Experiences</span>
-                    <h3 className="">Suite Class Perks</h3>
+                    <h3 >Suite Class Perks</h3>
                   </div>
                   <div className="flex gap-1.5 bg-[#00000029] p-1.5 border border-white/10 rounded-xl">
                     {(["sea", "sky", "star"] as const).map(perk => (
@@ -4411,7 +4411,7 @@ ${deskRules.join("\n")}
                     "Lavazza Espresso coffee machine"
                   ].map((perk) => (
                     <div key={`sky-perk-${perk}`} className="flex items-center gap-2.5">
-                      <span className="text-base shrink-0">✓</span>
+                      <span className=" shrink-0">✓</span>
                       <span>{perk}</span>
                     </div>
                   ))}
@@ -4446,7 +4446,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Disclaimers & Notes */}
-              <div className="mt-8 border-t border-white/10 pt-4 space-y-1.5 font-semibold">
+              <div className="mt-8 border-t border-white/10 pt-4 space-y-1.5  ">
                 {suiteTab === "sea" && (
                   <>
                     <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
@@ -4477,7 +4477,7 @@ ${deskRules.join("\n")}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <span className="text-purple-400">Prevailing Market Pricing Cards</span>
-                <h3 className="">Stateroom & Cabin Rate Cards</h3>
+                <h3 >Stateroom & Cabin Rate Cards</h3>
               </div>
             </div>
 
@@ -4516,7 +4516,7 @@ ${deskRules.join("\n")}
                     <div className="px-0 pt-0 pb-5 text-left">
                       <div className="flex items-baseline gap-1.5">
                         <span className="text-xl">{room.price}</span>
-                        <span className="">USD pp</span>
+                        <span >USD pp</span>
                       </div>
                       <span className="text-[10px] text-white/50 block">Rates as of June 27, 2026</span>
                       <button
@@ -4537,14 +4537,14 @@ ${deskRules.join("\n")}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <span className="]">Reservation Form Component</span>
-                <h3 className="">Cruise Guest Booking Registration Card</h3>
+                <h3 >Cruise Guest Booking Registration Card</h3>
               </div>
             </div>
 
             <div className="booking-form-card border-0 rounded-lg overflow-hidden   p-0 text-left">
               {/* Header Banner */}
               <div className="booking-header-banner border-0 px-0 py-2 text-left">
-                <h2 className="">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                <h2 >7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
                 <p className="text-purple-400">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
                 <p className="mt-0.5">GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS <a href="tel:8776839753" className="hover:underline transition-colors">(877-683-9753)</a></p>
               </div>
@@ -4552,36 +4552,36 @@ ${deskRules.join("\n")}
               {/* GUEST 1 (Primary Booker) */}
               <div className="booking-section-container border-0 p-0">
                 <div className="booking-section-header px-0 py-3 border-0 flex items-center justify-between">
-                  <span className="">Guest 1 (Primary Booker)</span>
+                  <span >Guest 1 (Primary Booker)</span>
                   <span className="bg-purple-600 px-3 py-1 rounded-lg border-0">Primary</span>
                 </div>
                 <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2" suppressHydrationWarning>
                   {/* Name */}
                   <div className="booking-cell border-0 py-3 px-0 col-span-2" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-name" className="booking-label block text-purple-400 mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
+                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   placeholder: text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Phone */}
                   <div className="booking-cell border-0 py-3 px-0 md:pr-3" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-phone" className="booking-label block text-purple-400 mb-1.5">Phone Number *</label>
-                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
+                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   placeholder: text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Email */}
                   <div className="booking-cell border-0 py-3 px-0 md:pl-3" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-email" className="booking-label block text-purple-400 mb-1.5">Email Address *</label>
-                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
+                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   placeholder: text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* T-Shirt Size */}
                   <div className="booking-cell border-0 py-3 px-0 md:pr-3 relative" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-tshirt" className="booking-label block text-purple-400 mb-1.5">T-Shirt Size</label>
-                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold focus:outline-none cursor-pointer appearance-none rounded-lg">
+                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   focus:outline-none cursor-pointer appearance-none rounded-lg">
                       {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817]">{sz}</option>)}
                     </select>
                   </div>
                   {/* Crown & Anchor */}
                   <div className="booking-cell border-0 py-3 px-0 md:pl-3" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-crown" className="booking-label block text-purple-400 mb-1.5">Crown & Anchor Number (if applicable)</label>
-                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
+                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   placeholder: text-white/40 focus:outline-none rounded-lg" />
                   </div>
                 </div>
 
@@ -4620,7 +4620,7 @@ ${deskRules.join("\n")}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <span className="text-purple-400">Policies & Terms Component</span>
-                <h3 className="">Cruise Booking, Passport & Cancellation Guidelines</h3>
+                <h3 >Cruise Booking, Passport & Cancellation Guidelines</h3>
               </div>
             </div>
 
@@ -4629,7 +4629,7 @@ ${deskRules.join("\n")}
               <div className="border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-6">
                   <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0" />
-                  <h3 className="">Booking Policy & Best Rate Guarantee</h3>
+                  <h3 >Booking Policy & Best Rate Guarantee</h3>
                 </div>
                 <p className="text-amber-400 mb-6">
                   Book through us to participate & lock in best rates
@@ -4676,7 +4676,7 @@ ${deskRules.join("\n")}
               <div className="border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-6">
                   <Compass className="w-6 h-6 text-purple-400shrink-0" />
-                  <h3 className="">Passport Requirements</h3>
+                  <h3 >Passport Requirements</h3>
                 </div>
                 <p className="mb-6">
                   Essential travel document guidelines
@@ -4698,7 +4698,7 @@ ${deskRules.join("\n")}
               <div className="border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-6">
                   <Calendar className="w-6 h-6 text-purple-400 shrink-0" />
-                  <h3 className="">Cancellation Policy</h3>
+                  <h3 >Cancellation Policy</h3>
                 </div>
                 <p className=" mb-6">
                   Refund terms before booking
@@ -4731,7 +4731,7 @@ ${deskRules.join("\n")}
             <h2 className=" flex items-center gap-2">
               <Calendar className="w-6 h-6" /> 13. Crew Scheduling & Crew Groups System
             </h2>
-            <p className="">
+            <p >
               Complete UI specification and live previews of the OpenShifts grid cell controls, Select Crew Group popover module, Create New Crew Group glass modal, and Shift Drawer candidate assignment cards.
             </p>
           </div>
@@ -4743,7 +4743,7 @@ ${deskRules.join("\n")}
               <div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-6">
                   <div>
-                    <h3 className="">OpenShifts Cell & Group Popover</h3>
+                    <h3 >OpenShifts Cell & Group Popover</h3>
                     <p>Grid cell action buttons & frosted glass group selection popover</p>
                   </div>
                   <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] border border-purple-500/30">Module Preview</span>
@@ -4795,7 +4795,7 @@ ${deskRules.join("\n")}
                           <span className="w-7 h-7 rounded-lg bg- purple-white/20 border border-purple-500/30 text-purple-300 flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
                             <span className="truncate  ">{grp.name}</span>
-                            <span className="text-[10px] text-white/40 font-semibold">{grp.count}</span>
+                            <span className="text-[10px] text-white/40  ">{grp.count}</span>
                           </div>
                         </button>
                       ))}
@@ -4809,7 +4809,7 @@ ${deskRules.join("\n")}
             <div className="bg-white/[0.02] border border-white/10 rounded-lg p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
-                  <h3 className="">Create New Crew Group Glass Modal</h3>
+                  <h3 >Create New Crew Group Glass Modal</h3>
                   <p>Modal container, input spacing, toggle checklist & role preset pills</p>
                 </div>
                 <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] border border-purple-500/30">Modal Spec</span>
@@ -4853,7 +4853,7 @@ ${deskRules.join("\n")}
                           </div>
                           <div>
                             <p>Abbie Janssen</p>
-                            <span className="text-[8px] text-white/40 font-semibold block">STAGE MANAGER</span>
+                            <span className="text-[8px] text-white/40   block">STAGE MANAGER</span>
                           </div>
                         </div>
                       </div>

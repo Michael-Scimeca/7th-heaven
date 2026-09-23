@@ -107,7 +107,7 @@ export default function NotificationsPage() {
         <h1 className="text-4xl sm:text-5xl mb-6">
           Get Notified <span className="text-purple-600">Instantly</span>
         </h1>
-        <p className="font-medium">
+        <p className=" ">
           7th Heaven can push an alert straight to your phone the moment we post one &mdash;
           new shows, ticket drops, cruise news, whatever the group needs. It doesn&apos;t
           use text messages or carrier fees; it rides on{" "}
@@ -133,7 +133,7 @@ export default function NotificationsPage() {
               aria-label={`Show ${tab.label} alerts`}
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`px-5 py-2.5 rounded-lg transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 " : " bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:border-white/30" }`}>
+              className={`px-5 py-2.5 rounded-lg transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 " : " bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:border-white/30"}`}>
               {tab.label}
             </button>
           );

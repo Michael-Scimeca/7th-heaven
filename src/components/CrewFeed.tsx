@@ -272,7 +272,7 @@ export default function CrewFeed() {
               return (
                 <article
                   key={post.id}
-                  className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : "" }`}
+                  className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""}`}
                   id={`crew-feed-${post.id}`}
                   style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
                   {/* Timeline dot */}
@@ -294,7 +294,7 @@ export default function CrewFeed() {
 
                   {/* Post Card */}
                   <div
-                    className={`border bg-white/[0.02] p-6 transition-colors duration-300 border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]" }`}>
+                    className={`border bg-white/[0.02] p-6 transition-colors duration-300 border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"}`}>
                     {/* Header: Avatar + Name + Time */}
                     <div className="flex items-start justify-between mb-6">
                       <div className="flex items-center gap-3">
@@ -309,7 +309,7 @@ export default function CrewFeed() {
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="text-base font-semibold">{post.member_name}</span>
+                            <span className="  ">{post.member_name}</span>
                             {post.post_type === "announcement" && (
                               <span className="text-[var(--font-size-2xs)] px-2 py-0.5 bg-purple-600/20 text-purple-300 border border-purple-500/30">
                                 Official

@@ -661,7 +661,7 @@ export default function VinylHeroPlayer({
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                        className="text-left border-0 bg-white text-black rounded-lg px-3 py-1 min-w-[130px] cursor-pointer">
+                        className="text-left border-0 bg-white   rounded-lg px-3 py-1 min-w-[130px] cursor-pointer">
                         <div className="text-[12px] flex items-center gap-1">
                           <span className="truncate">{currentAlbum.title}</span>
                           {isBuffering ? (

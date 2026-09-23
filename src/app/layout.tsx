@@ -1,6 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import localFont from "next/font/local";
 import "./globals.css";
+
+const tanker = localFont({
+  src: "../../public/fonts/Tanker-Regular.woff2",
+  variable: "--font-tanker",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -174,7 +181,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" className={`dark ${tanker.variable}`} suppressHydrationWarning>
       <head>
         {/* Switzer (Fontshare, free variable font) — now the site's primary
          * typeface for both body copy and headings. Loaded as a linked
@@ -193,7 +200,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://maps.googleapis.com" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable-italic&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=tanker@400&f[]=switzer@variable,variable-italic&display=swap"
         />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *

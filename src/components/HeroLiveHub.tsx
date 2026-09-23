@@ -211,7 +211,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                     <div className="w-6 h-6 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)] bg-[var(--color-accent)]/15">
                       {selectedMedia.member_avatar}
                     </div>
-                    <span className="font-semibold  ">{selectedMedia.member_name}</span>
+                    <span className="   ">{selectedMedia.member_name}</span>
                     <span className="text-white/30">{timeAgo(selectedMedia.created_at)}</span>
                   </div>
                   <p>{selectedMedia.content}</p>

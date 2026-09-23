@@ -156,10 +156,10 @@ export default function PlannerClient() {
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen pt-24 pb-16 relative">
+      <main id="planner-portal-page" className="min-h-screen pt-24 pb-16 relative">
         <div className="site-container max-w-4xl mx-auto px-4 space-y-12">
           {/* Hero Header */}
-          <div className="relative rounded-lg p-8 sm:p-12 text-center overflow-hidden">
+          <header className="relative rounded-lg p-8 sm:p-12 text-center overflow-hidden">
             <div className="relative z-10 max-w-2xl mx-auto space-y-4">
               <h1>
                 Planner <span className="text-[#c27aff]">Portal</span>
@@ -171,21 +171,21 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => openModal("login", "planner")}
-                  className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-purple-500 tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)] rounded-lg cursor-pointer">
+                  className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-purple-500   transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)] rounded-lg cursor-pointer">
                   Sign In to Planner Portal
                 </button>
                 <button
                   type="button"
                   onClick={() => openModal("signup", "planner")}
-                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 tracking-[0.18em] transition-colors rounded-lg cursor-pointer">
+                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/10   transition-colors rounded-lg cursor-pointer">
                   Create Account
                 </button>
               </div>
             </div>
-          </div>
+          </header>
 
           {/* Feature Highlights Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <section aria-label="Planner Portal Process Highlights" className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { step: "1", title: "Submit Request", desc: "Fill out event details, venue info, and your preferred date." },
               { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
@@ -197,9 +197,9 @@ export default function PlannerClient() {
                 <p>{item.desc}</p>
               </div>
             ))}
-          </div>
+          </section>
         </div>
-      </div>
+      </main>
     );
   }
 
@@ -232,11 +232,11 @@ export default function PlannerClient() {
   const initials = member?.name ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'PL';
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
+    <main id="planner-portal-dashboard" className="min-h-screen pt-24 pb-16">
       <div className="site-container max-w-[1400px] mx-auto">
         <div className="flex gap-8">
           {/* LEFT SIDEBAR */}
-          <div className="w-[220px] shrink-0 hidden lg:block">
+          <aside aria-label="Booking Status Sidebar" className="w-[220px] shrink-0 hidden lg:block">
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 sticky top-24 rounded-lg">
               <h3 className="text-white/50 mb-8">Booking Status</h3>
               <div className="relative pl-5">
@@ -247,7 +247,7 @@ export default function PlannerClient() {
                       <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10 border-white/10 '}`}>
                         {step.active && <div className="w-2 h-2 rounded-lg bg-white" />}
                       </div>
-                      <span className={`font-semibold ${step.active ? ' ' : ' text-white/40'}`}>{step.label}</span>
+                      <span className={`  ${step.active ? ' ' : ' text-white/40'}`}>{step.label}</span>
                     </div>
                   ))}
                 </div>
@@ -264,12 +264,12 @@ export default function PlannerClient() {
                 </div>
               </div>
             </div>
-          </div>
+          </aside>
 
-          {/* MAIN */}
+          {/* MAIN CONTENT AREA */}
           <div className="flex-1 min-w-0">
             {/* Hero Card */}
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-8 mb-6 relative overflow-hidden">
+            <header className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-8 mb-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/5 rounded-lg blur-[80px]" />
               <div className="relative">
                 <div className="flex items-start justify-between mb-6">
@@ -282,8 +282,8 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-3 mb-1">
                   <h1>{booking.eventName}</h1>
                 </div>
-                <p className="font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
-                <p className="mb-6">Booked by <span className="  font-semibold">{member?.name}</span></p>
+                <p className="  mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
+                <p className="mb-6">Booked by <span className="   ">{member?.name}</span></p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {[
                     { label: "Date", value: booking.date },
@@ -298,14 +298,14 @@ export default function PlannerClient() {
                   ))}
                 </div>
               </div>
-            </div>
+            </header>
 
             {/* 3-Column Tools */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <section aria-label="Planner Tools and Readiness Checklist" className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Notes */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg">
                 <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="">Event Notes</h3></div>
+                  <div className="flex items-center gap-2"><span >📝</span><h3 >Event Notes</h3></div>
                   {notesSaved && <span className="text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/30">✓ Saved</span>}
                 </div>
                 <div className="input-glow-border rounded-xl">
@@ -321,7 +321,7 @@ export default function PlannerClient() {
               {/* Checklist — editable */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg">
                 <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="">Readiness</h3></div>
+                  <div className="flex items-center gap-2"><span >✅</span><h3 >Readiness</h3></div>
                   <span className={`${pct === 100 ? 'text-emerald-400' : ' text-white/50'}`}>{done}/{checklist.length}</span>
                 </div>
                 <div className="w-full h-2 bg-[#00000029] rounded-lg overflow-hidden mb-6">
@@ -340,7 +340,7 @@ export default function PlannerClient() {
                       <div key={item.label} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done ? 'bg-emerald-500/5 border-emerald-500/10' : ' bg-[#00000029] border-white/10'}`}>
                         <span className="shrink-0">{item.done ? '✅' : '⬜'}</span>
                         <div className="flex-1 min-w-0">
-                          <span className={`font-semibold ${item.done ? '  ' : ' text-white/40'}`}>{item.label}</span>
+                          <span className={`  ${item.done ? '  ' : ' text-white/40'}`}>{item.label}</span>
                           {isEditing ? (
                             <div className="flex gap-1.5">
                               <input type="text"
@@ -349,7 +349,7 @@ export default function PlannerClient() {
                                 onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({ ...booking, [fieldKey]: v } as Booking); setEditField(null); } } }}
                                 className="flex-1 bg-white/10 border border-white/10 px-2 py-1 rounded focus:border-purple-500 outline-none"
                               />
-                              <button aria-label="Previous" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] cursor-pointer px-1.5">Save</button>
+                              <button aria-label="Save field value" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] cursor-pointer px-1.5">Save</button>
                               <button type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-white/40 cursor-pointer px-1">✕</button>
                             </div>
                           ) : (
@@ -377,7 +377,7 @@ export default function PlannerClient() {
 
               {/* Quick Actions */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg">
-                <div className="flex items-center gap-2 mb-6"><span className="text-base">⚡</span><h3 className="">Quick Actions</h3></div>
+                <div className="flex items-center gap-2 mb-6"><span >⚡</span><h3 >Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
                     className="w-full py-3 px-4 flex items-center gap-3 border transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20 hover:bg-purple-600 hover:text-white rounded-lg">
@@ -397,14 +397,14 @@ export default function PlannerClient() {
                   </button>
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* Past Bookings */}
             {pastBookings.length > 0 && (
-              <div className="mt-8">
+              <section aria-label="Past Event Bookings" className="mt-8">
                 <div className="flex items-center gap-3 mb-6">
-                  <span className="text-base">📜</span>
-                  <h3 className="">Past Events</h3>
+                  <span >📜</span>
+                  <h3 >Past Events</h3>
                   <span className="text-white/50 bg-[#00000029] px-2 py-0.5 rounded">{pastBookings.length} events</span>
                 </div>
                 <div className="flex flex-col gap-3">
@@ -415,7 +415,7 @@ export default function PlannerClient() {
                         ? { dot: 'bg-emerald-500', text: 'text-emerald-400', bg: 'bg-emerald-500/5', border: 'border-emerald-500/15' }
                         : { dot: 'bg-purple-500', text: ' text-[var(--color-accent)]', bg: 'bg-purple-500/5', border: 'border-purple-500/15' };
                     return (
-                      <div key={pb.id || pb.eventName || pb.date} className="bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-purple-500/30 p-4 flex items-center gap-4 transition-colors group rounded-lg">
+                      <article key={pb.id || pb.eventName || pb.date} className="bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-purple-500/30 p-4 flex items-center gap-4 transition-colors group rounded-lg">
                         <div className={`w-2.5 h-2.5 rounded-lg ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
                           <h4 className="truncate">{pb.eventName}</h4>
@@ -428,15 +428,15 @@ export default function PlannerClient() {
                           className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent hover:text-white rounded-lg transition-colors cursor-pointer shrink-0">
                           Rebook →
                         </Link>
-                      </div>
+                      </article>
                     );
                   })}
                 </div>
-              </div>
+              </section>
             )}
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -70,7 +70,7 @@ function BioScrollRevealComponent({
     <section ref={containerRef} className="relative w-full py-20 px-6 site-container">
       {/* Header */}
       <div className="mb-16 max-w-2xl">
-        <span className="tracking-[0.3em] mb-2 flex items-center gap-2">
+        <span className="  mb-2 flex items-center gap-2">
           {subtitle}
         </span>
         <h2
@@ -108,7 +108,7 @@ function BioScrollRevealComponent({
 
                 {member.description && (
                   <p
-                    className={`mt-3 max-w-lg transition-opacity duration-300 font-bold ${isActive ? "   opacity-100" : " text-white/30 opacity-40"}`}>
+                    className={`mt-3 max-w-lg transition-opacity duration-300    ${isActive ? "   opacity-100" : " text-white/30 opacity-40"}`}>
                     {member.description}
                   </p>
                 )}
@@ -117,7 +117,7 @@ function BioScrollRevealComponent({
                   <Link
                     href={member.linkHref}
                     onClick={(e) => e.stopPropagation()}
-                    className={`inline-flex items-center gap-2 mt-4 font-bold hover:text-white transition-opacity ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+                    className={`inline-flex items-center gap-2 mt-4    hover:text-white transition-opacity ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
                     <span>View Full Bio</span>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M5 12h14M12 5l7 7-7 7" />

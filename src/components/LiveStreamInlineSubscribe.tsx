@@ -93,9 +93,9 @@ export default function LiveStreamInlineSubscribe({
             <Mail className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="">Verification Email Sent to {email}! ✉️</h4>
+            <h4 >Verification Email Sent to {email}! ✉️</h4>
             <p className="text-gray-300 mt-0.5">
-              To prevent unauthorized signups, we sent a verification link to <strong className="">{email}</strong>. Click the link in your email to activate live alerts!
+              To prevent unauthorized signups, we sent a verification link to <strong >{email}</strong>. Click the link in your email to activate live alerts!
             </p>
           </div>
         </div>
@@ -138,7 +138,7 @@ export default function LiveStreamInlineSubscribe({
         </div>
 
         {error && (
-          <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300 font-semibold">
+          <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300  ">
             ⚠️ {error}
           </div>
         )}
@@ -146,7 +146,7 @@ export default function LiveStreamInlineSubscribe({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="relative w-full">
-              <div className="input-glow-border rounded-lg w-full">
+              <div className="input-glow-border  w-full">
                 <input
                   type="text"
                   required
@@ -162,7 +162,7 @@ export default function LiveStreamInlineSubscribe({
             </div>
 
             <div className="relative w-full">
-              <div className="input-glow-border rounded-lg w-full">
+              <div className="input-glow-border  w-full">
                 <input
                   type="email"
                   required

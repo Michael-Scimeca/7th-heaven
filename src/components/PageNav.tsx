@@ -160,7 +160,7 @@ export function PageNav() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
               Dev Navigator
             </h3>
-            <p className="font-semibold">Jump to any page instantly</p>
+            <p className=" ">Jump to any page instantly</p>
           </div>
 
           {/* Scrollable list — grows to fill remaining height with visible custom scrollbar */}
@@ -205,7 +205,7 @@ export function PageNav() {
           e.stopPropagation();
           setIsOpen((prev) => !prev);
         }}
-        className={`flex items-center gap-2 px-6 h-12 rounded-lg transition-colors duration-300 cursor-pointer pointer-events-auto select-none ${isOpen ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200" : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:bg-[var(--color-accent-hover)]"}`}
+        className={`flex items-center gap-2 px-6 h-12 rounded-lg transition-colors duration-300 cursor-pointer pointer-events-auto select-none ${isOpen ? "bg-white   shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200" : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:bg-[var(--color-accent-hover)]"}`}
         title="Page Navigator">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300">
           {isOpen ? (

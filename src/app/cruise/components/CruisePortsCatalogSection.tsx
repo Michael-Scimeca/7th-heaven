@@ -24,81 +24,83 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
   const sectionTagline = sanityContent?.sections?.find((s: any) => s.sectionId === "ports")?.subtitle || "Destination Explorer";
 
   return (
-    <LazyMount as="section" id="ports" className="site-container py-section-fluid border-b border-white/10" minHeight="700px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "700px" }}>
+    <LazyMount as="section" id="ports" aria-label="Ports of Call Catalog" className="site-container py-section-fluid border-b border-white/10" minHeight="700px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "700px" }}>
       <div>
         <div className="text-center md:text-left mb-10 max-w-3xl">
           <h2>
             {sectionTitle}
           </h2>
-          <p className="text-white/70 mt-2.5 font-medium text-sm sm:text-base leading-relaxed">
+          <p className="text-white/70 mt-2.5 text-sm sm:text-base leading-relaxed">
             Discover tropical paradises, pristine beaches, and breathtaking Caribbean destinations featured on our upcoming concert cruise itineraries.
           </p>
         </div>
 
         {/* LAYOUT 1: GRID VIEW */}
         {portLayoutMode === "grid" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
             {portsList.map((port: any, idx: number) => {
               const currentImg = activePortImages[port.name] || port.image;
               return (
-                <div key={`grid-${port.name}`} className="flex flex-col justify-between group ">
-                  <div className="h-48 sm:h-56 w-full relative overflow-hidden  bg-black">
-                    {currentImg && (
-                      <Image
-                        key={currentImg}
-                        width={400}
-                        height={300}
-                        unoptimized
-                        src={currentImg}
-                        alt={port.name}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                    <div className="absolute top-3 left-3 z-20">
-                      <SectionBadge label={`Port Call #${idx + 1}`} className="!bg-black/90 backdrop-blur-md border-white/20 shadow-lg" />
+                <li key={`grid-${port.name}`}>
+                  <article className="flex flex-col justify-between group h-full">
+                    <div className="h-48 sm:h-56 w-full relative overflow-hidden bg-black rounded-t-lg">
+                      {currentImg && (
+                        <Image
+                          key={currentImg}
+                          width={400}
+                          height={300}
+                          unoptimized
+                          src={currentImg}
+                          alt={port.name}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                      <div className="absolute top-3 left-3 z-20">
+                        <SectionBadge label={`Port Call #${idx + 1}`} className="!bg-black/90 backdrop-blur-md border-white/20 shadow-lg" />
+                      </div>
                     </div>
-                  </div>
-                  <div className="pt-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h4 className="mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
-                      <p className="font-semibold">{port.desc}</p>
+                    <div className="pt-4 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h4 className="mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
+                        <p >{port.desc}</p>
 
-                      {/* Port Highlights */}
-                      {port.highlights && (
-                        <div className="flex flex-wrap gap-1.5 mt-3">
-                          {port.highlights.map((h: string) => (
-                            <span key={h} className="px-2 py-0.5 rounded-lg border border-white/10 bg-[#00000029] font-bold">
-                              {h}
-                            </span>
-                          ))}
+                        {/* Port Highlights */}
+                        {port.highlights && (
+                          <div className="flex flex-wrap gap-1.5 mt-3">
+                            {port.highlights.map((h: string) => (
+                              <span key={h} className="px-2 py-0.5 rounded-lg border border-white/10 bg-[#00000029]">
+                                {h}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Gallery Thumbnail Strip */}
+                      {port.gallery && port.gallery.length > 1 && (
+                        <div className="flex flex-wrap gap-2 mt-4 py-1">
+                          {port.gallery.map((gImg: string, gIdx: number) => {
+                            const isActive = currentImg === gImg;
+                            return (
+                              <button
+                                key={gIdx}
+                                type="button"
+                                onMouseEnter={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
+                                onClick={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
+                                className={`w-14 h-11 overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10 shadow-purple-500/20" : "border-white/20"}`}
+                                title={`View photo ${gIdx + 1}`}>
+                                <Image width={56} height={44} unoptimized src={gImg} alt={`${port.name} thumb ${gIdx}`} className="w-full h-full object-cover" />
+                              </button>
+                            );
+                          })}
                         </div>
                       )}
                     </div>
-
-                    {/* Gallery Thumbnail Strip */}
-                    {port.gallery && port.gallery.length > 1 && (
-                      <div className="flex flex-wrap gap-2 mt-4 py-1">
-                        {port.gallery.map((gImg: string, gIdx: number) => {
-                          const isActive = currentImg === gImg;
-                          return (
-                            <button
-                              key={gIdx}
-                              type="button"
-                              onMouseEnter={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
-                              onClick={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
-                              className={`w-14 h-11  overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10 shadow-purple-500/20" : "border-white/20 "}`}
-                              title={`View photo ${gIdx + 1}`}>
-                              <Image width={56} height={44} unoptimized src={gImg} alt={`${port.name} thumb ${gIdx}`} className="w-full h-full object-cover" />
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                </div>
+                  </article>
+                </li>
               );
             })}
-          </div>
+          </ul>
         )}
 
         {/* LAYOUT 2: SPOTLIGHT HERO VIEW */}
@@ -309,7 +311,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
-                    <h4 className="">{port.name}</h4>
+                    <h4 >{port.name}</h4>
                   </div>
                   <p>{port.desc}</p>
 

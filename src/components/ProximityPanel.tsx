@@ -271,7 +271,7 @@ export default function ProximityPanel() {
                     <button
                       type="button"
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
-                      className={`px-4 py-2 rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ? "bg-blue-600 border-blue-600" : "bg-white/10 border-white/10 hover:bg-blue-500 hover:text-black hover:border-blue-500" }`}>
+                      className={`px-4 py-2 rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ? "bg-blue-600 border-blue-600" : "bg-white/10 border-white/10 hover:bg-blue-500 hover:  hover:border-blue-500"}`}>
                       {myStatus && selectedShow?.id === show.id ? "Going" : "I'm Going"}
                     </button>
                   </div>
@@ -280,7 +280,7 @@ export default function ProximityPanel() {
                   {selectedShow?.id === show.id && (
                     <div className="mt-4 pt-4 border-t border-white/10">
                       <div className="flex items-center justify-between mb-3">
-                        <p className="">
+                        <p >
                           {attendees.length} fan{attendees.length !== 1 ? "s" : ""} going
                         </p>
                         <div className="flex items-center gap-2">
@@ -308,7 +308,7 @@ export default function ProximityPanel() {
                               <div className="w-5 h-5 rounded-lg bg-[var(--color-accent)] flex items-center justify-center text-[var(--font-size-2xs)] text-[var(--color-accent)]">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
-                              <span className="text-black/70 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>
+                              <span className="text-black/70  ">{a.profiles?.full_name?.split(" ")[0]}</span>
                               {a.profiles?.tier && a.profiles.tier !== "Bronze" && (
                                 <span className={`text-[var(--font-size-2xs)] ${tierColors[a.profiles.tier]}`}>
                                   {a.profiles.tier}

@@ -301,7 +301,7 @@ a:hover {
                   <Sliders className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="">Style Customization Studio</h3>
+                  <h3 >Style Customization Studio</h3>
                   <p>Form inputs, checkboxes, headings, p tags & links</p>
                 </div>
               </div>
@@ -681,7 +681,7 @@ a:hover {
                             type="search"
                             aria-label="Search"
                             placeholder="Search"
-                            className="form-input w-full font-semibold"
+                            className="form-input w-full  "
                             style={{
                               paddingLeft: `${settings.searchPaddingLeft ?? 48}px`,
                               paddingRight: `${settings.searchPaddingRight ?? 48}px`,
@@ -858,7 +858,7 @@ a:hover {
 
               {activeTab === "preview" && (
                 <div className="p-6 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black rounded-lg border border-purple-500/20 space-y-4">
-                  <h4 className="">Live Input Testing Sandbox</h4>
+                  <h4 >Live Input Testing Sandbox</h4>
                   <div className="space-y-3">
                     <div>
                       <label className="block mb-1">Full Name</label>
@@ -888,7 +888,7 @@ a:hover {
               {activeTab === "css" && (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="">Generated Global CSS Rules</span>
+                    <span >Generated Global CSS Rules</span>
                     <button
                       onClick={copyCSS}
                       className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-purple-400/40 transition-all flex items-center gap-1.5 cursor-pointer">

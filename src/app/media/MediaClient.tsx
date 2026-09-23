@@ -427,9 +427,9 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
           <AudioPlayer />
         </section>
 
-        <section className="mb-3">
+        <section className="mb-6">
           {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
@@ -448,7 +448,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
               type="button"
               onClick={() => handleFilterChange("ALL")}
               isActive={activeFilter === "ALL"}
-              className="!w-auto text-xs [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+              className="!w-auto  [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0"
             >
               ALL
             </SeventhButton>
@@ -463,7 +463,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                   type="button"
                   onClick={() => handleFilterChange(catUpper)}
                   isActive={isActive}
-                  className="!w-auto text-xs [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+                  className="!w-auto [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0"
                 >
                   {catUpper}
                 </SeventhButton>
@@ -474,59 +474,62 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         </section>
 
         {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
-        <section aria-label="Media Gallery" key={activeFilter} className="py-section-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-          {visibleVideos.map((video, index) => {
-            const isHovered = hoveredVideoId === video.id;
-            const isMiddleCol = index % 3 === 1;
+        <section aria-label="Media Gallery" key={activeFilter}>
+          <ul className="py-section-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            {visibleVideos.map((video, index) => {
+              const isHovered = hoveredVideoId === video.id;
+              const isMiddleCol = index % 3 === 1;
 
-            return (
-              <div
-                key={`${activeFilter}-${video.id}`}
-                role="button"
-                tabIndex={0}
-                aria-label={`Play ${video.title}`}
-                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPlayingVideo(video); } }}
-                onMouseEnter={() => setHoveredVideoId(video.id)}
-                onMouseLeave={() => setHoveredVideoId(null)}
-                onClick={() => setPlayingVideo(video)}
-                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] overflow-hidden transition-all duration-500 bg-[#0c071a] cursor-pointer animate-[fade-in_0.35s_ease-out_both]  ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"}`}
-                style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}>
-                {/* Full Bleed Visual Media Player Preview */}
-                <div className="absolute inset-0 w-full h-full">
-                  <VideoCardVisual key={video.id} videoId={video.id} title={video.title} isHovered={isHovered} index={index} shouldPrefetch={index < prefetchLimit} />
-                </div>
+              return (
+                <li key={`${activeFilter}-${video.id}`}>
+                  <article
+                    className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] overflow-hidden transition-all duration-500 bg-[#0c071a] animate-[fade-in_0.35s_ease-out_both] ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"}`}
+                    style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}>
+                    <button
+                      type="button"
+                      aria-label={`Play ${video.title}`}
+                      onMouseEnter={() => setHoveredVideoId(video.id)}
+                      onMouseLeave={() => setHoveredVideoId(null)}
+                      onClick={() => setPlayingVideo(video)}
+                      className="w-full h-full text-left relative focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer">
+                      {/* Full Bleed Visual Media Player Preview */}
+                      <div className="absolute inset-0 w-full h-full">
+                        <VideoCardVisual key={video.id} videoId={video.id} title={video.title} isHovered={isHovered} index={index} shouldPrefetch={index < prefetchLimit} />
+                      </div>
 
-                {/* Dark Gradient Overlay at Bottom */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none z-10" />
+                      {/* Dark Gradient Overlay at Bottom */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none z-10" />
 
-                {/* Centered Glass Play Button Above Dark Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none group-hover:scale-110 group-hover:opacity-0 transition-all duration-300">
-                  <GlassPlayButton size="lg" />
-                </div>
+                      {/* Centered Glass Play Button Above Dark Overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none group-hover:scale-110 group-hover:opacity-0 transition-all duration-300">
+                        <GlassPlayButton size="lg" />
+                      </div>
 
-                {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
-                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none group-hover:opacity-0 transition-opacity duration-300">
-                  {/* Category Pill Tag */}
-                  <span className="inline-flex items-center justify-center text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md border border-white/10 shrink-0 font-bold mb-2">
-                    {video.category || "7TH HEAVEN"}
-                  </span>
+                      {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
+                      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none group-hover:opacity-0 transition-opacity duration-300">
+                        {/* Category Pill Tag */}
+                        <span className="inline-flex items-center justify-center text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md border border-white/10 shrink-0 mb-2">
+                          {video.category || "7TH HEAVEN"}
+                        </span>
 
-                  {/* Poster Title Container with Responsive Height */}
-                  <div className="h-10 sm:h-14 flex items-center justify-center">
-                    <h3
-                      className="drop-shadow-md line-clamp-2">
-                      {video.title}
-                    </h3>
-                  </div>
+                        {/* Poster Title Container with Responsive Height */}
+                        <div className="h-10 sm:h-14 flex items-center justify-center">
+                          <h3 className="drop-shadow-md line-clamp-2 font-bold">
+                            {video.title}
+                          </h3>
+                        </div>
 
-                  {/* Year / Duration Metadata */}
-                  <span className="font-semibold shrink-0">
-                    {video.year || "2026"} {video.duration ? `• ${video.duration}` : ""}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+                        {/* Year / Duration Metadata */}
+                        <span className="shrink-0 text-white/70 text-xs">
+                          {video.year || "2026"} {video.duration ? `• ${video.duration}` : ""}
+                        </span>
+                      </div>
+                    </button>
+                  </article>
+                </li>
+              );
+            })}
+          </ul>
         </section>
 
         {hasMoreVideos && (
@@ -544,7 +547,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
         {filteredVideos.length === 0 && (
           <div className="py-24 text-center bg-white/5 rounded-3xl border border-white/10">
             <Search className="w-12 h-12 text-purple-400/50 mx-auto mb-6" />
-            <p className="font-semibold">{sanityContent?.noResultsTitle || "No media found matching"} &quot;{searchQuery}&quot;</p>
+            <p className=" ">{sanityContent?.noResultsTitle || "No media found matching"} &quot;{searchQuery}&quot;</p>
             <button
               onClick={() => { setSearchQuery(""); setActiveFilter("ALL"); }}
               className="btn-primary mt-4 px-6 py-2.5 rounded-lg cursor-pointer">
@@ -567,10 +570,10 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             {/* Modal Header Bar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-black/60">
               <div className="flex items-center gap-3">
-                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                <span className="text-xs    px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30">
                   {playingVideo.category || "7TH HEAVEN"}
                 </span>
-                <h3 className="text-base sm:text-lg font-bold line-clamp-1">
+                <h3 className=" sm:text-lg    line-clamp-1">
                   {playingVideo.title}
                 </h3>
               </div>
@@ -613,7 +616,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                   <VideoIcon className="w-4 h-4 text-purple-300" />
                 </div>
                 <div>
-                  <h3 className="font-bold">{sanityContent?.modalTitle || "Add Video to Media Vault"}</h3>
+                  <h3 className="  ">{sanityContent?.modalTitle || "Add Video to Media Vault"}</h3>
                   <p className="text-xs text-purple-300/70">{sanityContent?.modalSubtitle || "Syncs to Sanity CMS & Media Hub"}</p>
                 </div>
               </div>
@@ -696,7 +699,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                           setCustomCategoryInput("");
                         }
                       }}
-                      className="text-[10px] font-medium text-purple-400 hover:text-purple-300 transition-colors cursor-pointer"
+                      className="text-[10px]   text-purple-400 hover:text-purple-300 transition-colors cursor-pointer"
                     >
                       {isCustomCategory ? "← Select List" : "+ New Category"}
                     </button>
@@ -771,7 +774,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 rounded-lg font-bold text-xs transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] cursor-pointer disabled:opacity-50 flex items-center gap-2">
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 rounded-lg    text-xs transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] cursor-pointer disabled:opacity-50 flex items-center gap-2">
                   {submitting
                     ? (sanityContent?.modalSavingText || "Saving to Sanity...")
                     : (sanityContent?.modalSubmitText || "+ PUBLISH VIDEO TO SANITY")}

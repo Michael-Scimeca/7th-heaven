@@ -35,7 +35,7 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
           <div className="flex items-center gap-3">
             <span className="text-lg animate-pulse shrink-0">⚠️</span>
             <div
-              className="leading-snug [&_p]:m-0 [&_p]:inline"
+              className="  [&_p]:m-0 [&_p]:inline"
               dangerouslySetInnerHTML={{ __html: sanitizeBannerHtml(text) }}
             />
           </div>
@@ -66,7 +66,7 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
         <div className="flex items-center gap-3">
           <span className="text-lg animate-pulse shrink-0">⚠️</span>
           <div
-            className="leading-snug [&_p]:m-0 [&_p]:inline"
+            className="  [&_p]:m-0 [&_p]:inline"
             dangerouslySetInnerHTML={{ __html: sanitizeBannerHtml(text) }}
           />
         </div>

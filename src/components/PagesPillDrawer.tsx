@@ -133,7 +133,7 @@ export default function PagesPillDrawer() {
       {/* ── PURPLE FLOATING PILL BUTTON (Matching Screenshot) ── */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 left-6 z-[9999] flex items-center gap-3 px-8 py-4.5 rounded-lg bg-[#8b3dff] hover:bg-[#7b2cff] active:scale-95 font-black text-base md:text-lg transition-all duration-200 shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] border-2 border-white/30 group cursor-pointer"
+        className="fixed bottom-6 left-6 z-[9999] flex items-center gap-3 px-8 py-4.5 rounded-lg bg-[#8b3dff] hover:bg-[#7b2cff] active:scale-95 font-black text-base md:text-lg transition-[background-color,box-shadow,transform] duration-200 shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] border-2 border-white/30 group cursor-pointer"
         aria-label="Open Pages Directory">
         <Menu className="w-6 h-6 md:w-7 md:h-7 transition-transform group-hover:scale-110" />
         <span>PAGES</span>
@@ -192,7 +192,7 @@ export default function PagesPillDrawer() {
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`px-3 py-1.5 rounded-lg transition-all ${activeCategory === cat ? "bg-[#8b3dff] shadow-purple-950/60" : " bg-[#00000029] hover:bg-white/10 hover:text-white " }`}>
+                      className={`px-3 py-1.5 rounded-lg transition-colors ${activeCategory === cat ? "bg-[#8b3dff] shadow-purple-950/60" : " bg-[#00000029] hover:bg-white/10 hover:text-white " }`}>
                       {cat}
                     </button>
                   ))}
@@ -221,7 +221,7 @@ export default function PagesPillDrawer() {
                 return (
                   <div
                     key={item.path}
-                    className="group p-4 rounded-lg bg-white/[0.03] hover:bg-purple-900/10 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between">
+                    className="group p-4 rounded-lg bg-white/[0.03] hover:bg-purple-900/10 border border-white/10 hover:border-purple-500/40 transition-[background-color,border-color] flex flex-col justify-between">
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                         <div className="flex items-center gap-2">

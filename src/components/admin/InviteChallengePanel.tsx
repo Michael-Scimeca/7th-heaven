@@ -90,7 +90,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
         onClick={() => setIsCollapsed(!isCollapsed)}
         className="w-full text-left relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group border-0">
         <div>
-          <p className="">Show Promotions</p>
+          <p >Show Promotions</p>
           <h3 className="flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
@@ -223,7 +223,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   <button
                     onClick={save}
                     disabled={saving || !challenge.reward_name}
-                    className={`w-full py-3.5 transition-colors ${saved ? "bg-[var(--color-accent)] " : "bg-[var(--color-accent)] hover:brightness-110 disabled:opacity-40" }`}>
+                    className={`w-full py-3.5 transition-colors ${saved ? "bg-[var(--color-accent)] " : "bg-[var(--color-accent)] hover:brightness-110 disabled:opacity-40"}`}>
                     {saved ? " Challenge Saved" : saving ? "Saving…" : "Save Challenge"}
                   </button>
                 </>

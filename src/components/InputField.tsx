@@ -83,7 +83,7 @@ export const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Inp
           )}
         </div>
         {error && (
-          <span className="text-xs text-rose-400 font-medium">{error}</span>
+          <span className="text-xs text-rose-400  ">{error}</span>
         )}
       </div>
     );

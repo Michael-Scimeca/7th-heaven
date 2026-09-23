@@ -42,7 +42,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <h2 id="terms-sec-1-heading" className="mb-3">1. Acceptance of Terms</h2>
               <p>
                 By accessing or using the 7th Heaven website at{" "}
-                <span className="text-[var(--color-accent)] font-semibold">7thheavenband.com</span> (the &quot;Site&quot;),
+                <span className="text-[var(--color-accent)]  ">7thheavenband.com</span> (the &quot;Site&quot;),
                 creating a member account, or subscribing to our SMS alert service, you agree to be bound
                 by these Terms of Service (&quot;Terms&quot;). If you do not agree, please do not use the Site or its services.
               </p>
@@ -77,32 +77,32 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <h2 id="terms-sec-4-heading" className="mb-3">4. Proximity Alerts & Web Push Notifications</h2>
               <p className="mb-6">By subscribing to 7th Heaven Proximity Alerts & Show Notifications, you agree to the following:</p>
 
-              <div className="space-y-4">
+              <dl className="space-y-4">
                 <div>
-                  <p className="font-semibold   mb-1">4.1 Consent & Subscription</p>
-                  <p>You expressly consent to receive automated show notifications, proximity alerts, and event updates via browser web push, email, or digital alerts based on your provided full name, email address, zip code / city, distance radius (e.g., 15 mi, 30 mi, 50 mi, 100 mi, or all shows), and selected show type preferences (e.g., Full Band, Unplugged, Outdoor, Casino, TV, Fundraiser, Special). Consent is not required as a condition of any purchase.</p>
+                  <dt className="font-semibold mb-1">4.1 Consent & Subscription</dt>
+                  <dd>You expressly consent to receive automated show notifications, proximity alerts, and event updates via browser web push, email, or digital alerts based on your provided full name, email address, zip code / city, distance radius (e.g., 15 mi, 30 mi, 50 mi, 100 mi, or all shows), and selected show type preferences (e.g., Full Band, Unplugged, Outdoor, Casino, TV, Fundraiser, Special). Consent is not required as a condition of any purchase.</dd>
                 </div>
 
                 <div>
-                  <p className="font-semibold   mb-1">4.2 Location & Zip Code Data</p>
-                  <p>Proximity alerts calculate distance thresholds to upcoming tour dates based on the zip code or city you provide. Location data is stored securely and used exclusively to filter and deliver relevant nearby concert notifications.</p>
+                  <dt className="font-semibold mb-1">4.2 Location & Zip Code Data</dt>
+                  <dd>Proximity alerts calculate distance thresholds to upcoming tour dates based on the zip code or city you provide. Location data is stored securely and used exclusively to filter and deliver relevant nearby concert notifications.</dd>
                 </div>
 
                 <div>
-                  <p className="font-semibold   mb-1">4.3 Web Push & Browser Permissions</p>
-                  <p>Web push notifications are delivered directly through your web browser or device when push permissions are granted. You may grant or revoke notification permissions at any time through your browser settings or via the site footer alert preferences panel.</p>
+                  <dt className="font-semibold mb-1">4.3 Web Push & Browser Permissions</dt>
+                  <dd>Web push notifications are delivered directly through your web browser or device when push permissions are granted. You may grant or revoke notification permissions at any time through your browser settings or via the site footer alert preferences panel.</dd>
                 </div>
 
                 <div>
-                  <p className="font-semibold   mb-1">4.4 Message & Alert Frequency</p>
-                  <p>Alert frequency varies based on band concert schedules and new tour date additions in your specified distance radius (typically 1–4 notifications per month).</p>
+                  <dt className="font-semibold mb-1">4.4 Message & Alert Frequency</dt>
+                  <dd>Alert frequency varies based on band concert schedules and new tour date additions in your specified distance radius (typically 1–4 notifications per month).</dd>
                 </div>
 
                 <div>
-                  <p className="font-semibold   mb-1">4.5 Unsubscribing & Managing Preferences</p>
-                  <p>You can update your distance radius, toggle show type filters, or unsubscribe from proximity alerts at any time using the Proximity & Show Alert Filters panel located in the site footer or by blocking notifications in your browser settings. For assistance, contact us at <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a>.</p>
+                  <dt className="font-semibold mb-1">4.5 Unsubscribing & Managing Preferences</dt>
+                  <dd>You can update your distance radius, toggle show type filters, or unsubscribe from proximity alerts at any time using the Proximity & Show Alert Filters panel located in the site footer or by blocking notifications in your browser settings. For assistance, contact us at <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a>.</dd>
                 </div>
-              </div>
+              </dl>
             </section>
 
             {/* 5 */}
@@ -172,10 +172,10 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             <section aria-labelledby="terms-sec-13-heading">
               <h2 id="terms-sec-13-heading" className="mb-3">13. Contact</h2>
               <p className="mb-2">For questions about these Terms of Service:</p>
-              <div className="space-y-1">
+              <address className="not-italic space-y-1">
                 <p>Email: <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a></p>
                 <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="a-btn">7thheavenband.com</a></p>
-              </div>
+              </address>
             </section>
           </>
         )}

@@ -68,7 +68,7 @@ export default function HeroParallaxCustomizer({
               <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] text-[var(--color-accent)]">
                 Parallax Tester
               </span>
-              <span className="text-white/40 font-semibold">
+              <span className="text-white/40  ">
                 Applies to every hero site-wide
               </span>
             </div>
@@ -151,13 +151,13 @@ export default function HeroParallaxCustomizer({
           {/* Active Values HUD */}
           <div className="bg-white/[0.02] border border-white/10 rounded-lg p-2 text-white/40 space-y-0.5">
             <div>
-              Depth: <span className="">±{pxRange}%</span>
+              Depth: <span >±{pxRange}%</span>
             </div>
             <div>
-              Smoothing: <span className="">{pxScrub.toFixed(1)}s</span>
+              Smoothing: <span >{pxScrub.toFixed(1)}s</span>
             </div>
             <div>
-              Foreground drift: <span className="">{pxForeground ? "on" : "off"}</span>
+              Foreground drift: <span >{pxForeground ? "on" : "off"}</span>
             </div>
           </div>
 
@@ -165,7 +165,7 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Copy parallax settings"
             onClick={copyPxSettings}
-            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black text-[var(--font-size-2xs)] transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
+            className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700   text-[var(--font-size-2xs)] transition-colors shadow-[0_4px_12px_rgba(147,51,234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
             {pxCopied ? (
               <>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scaleIn_0.15s_ease-out]">

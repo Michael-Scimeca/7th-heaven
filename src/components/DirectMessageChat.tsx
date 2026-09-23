@@ -142,7 +142,7 @@ export default function DirectMessageChat() {
             <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse" />
             <div className="flex flex-col text-left">
               <span className="text-[var(--color-accent)]">Direct Message</span>
-              <span className="">Admin Support Chat</span>
+              <span >Admin Support Chat</span>
             </div>
           </div>
 
@@ -160,16 +160,16 @@ export default function DirectMessageChat() {
                 return (
                   <div
                     key={msg.id}
-                    className={`flex flex-col max-w-[85%] ${isAdminMsg ? "mr-auto text-left" : "ml-auto text-right" }`}>
+                    className={`flex flex-col max-w-[85%] ${isAdminMsg ? "mr-auto text-left" : "ml-auto text-right"}`}>
                     {/* Sender tag */}
                     <div className={`flex items-center gap-1 mb-1 ${isAdminMsg ? '' : 'justify-end'}`}>
-                      <span className={`text-[8px] px-1 py-0.5 rounded border ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35' }`}>
+                      <span className={`text-[8px] px-1 py-0.5 rounded border ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'}`}>
                         {isAdminMsg ? 'ADMIN' : 'YOU'}
                       </span>
                     </div>
                     {/* Text bubble */}
                     <div
-                      className={`p-2.5 ! ${isAdminMsg ? "bg-[var(--color-purple-primary)] rounded-tl-xs" : "bg-cyan-500 border border-purple-400/50 rounded-tr-xs" }`}>
+                      className={`p-2.5 ! ${isAdminMsg ? "bg-[var(--color-purple-primary)] rounded-tl-xs" : "bg-cyan-500 border border-purple-400/50 rounded-tr-xs"}`}>
                       {msg.text}
                     </div>
                     {/* Timestamp */}

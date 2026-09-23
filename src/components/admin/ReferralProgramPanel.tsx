@@ -157,7 +157,7 @@ export default function ReferralProgramPanel() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <p className="text-purple-300">Fan Engagement</p>
-            <h3 className=""> Referral Program</h3>
+            <h3 > Referral Program</h3>
             <p className="mt-0.5">
               Toggle visibility, configure milestone rewards, and track top referrers
             </p>
@@ -192,22 +192,22 @@ export default function ReferralProgramPanel() {
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="p-4 bg-white/[0.02] border border-white/10 text-center">
             <p className="text-purple-300">{totalReferrals}</p>
-            <p className="">Total Referrals</p>
+            <p >Total Referrals</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/10 text-center">
             <p>{totalConverted}</p>
-            <p className="">Converted</p>
+            <p >Converted</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/10 text-center">
             <p>{leaderboard.length}</p>
-            <p className="">Active Referrers</p>
+            <p >Active Referrers</p>
           </div>
         </div>
 
         {/*  Milestone Rewards Editor  */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
-            <p className="">
+            <p >
               Milestone Rewards
             </p>
             <button
@@ -298,7 +298,7 @@ export default function ReferralProgramPanel() {
           <button
             onClick={saveMilestones}
             disabled={saving}
-            className={`w-full mt-3 py-3 transition-colors cursor-pointer ${saved ? "bg-[var(--color-accent)] " : "bg-purple-600 hover:bg-purple-500 disabled:opacity-40" }`}>
+            className={`w-full mt-3 py-3 transition-colors cursor-pointer ${saved ? "bg-[var(--color-accent)] " : "bg-purple-600 hover:bg-purple-500 disabled:opacity-40"}`}>
             {saved ? " Milestones Saved" : saving ? "Saving…" : "Save Milestones"}
           </button>
         </div>
@@ -338,7 +338,7 @@ export default function ReferralProgramPanel() {
             return (
               <>
                 <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-                  <p className="">
+                  <p >
                     Top Referrers
                   </p>
                   <div className="flex items-center gap-3">
@@ -366,7 +366,7 @@ export default function ReferralProgramPanel() {
                   <div className="py-8 flex flex-col items-center border border-dashed border-white/10 bg-white/[0.02]">
                     <span className="text-3xl mb-2 opacity-20"></span>
                     <p>No referrals found</p>
-                    <p className="">
+                    <p >
                       Try selecting a different referrer from the dropdown.
                     </p>
                   </div>
@@ -393,11 +393,11 @@ export default function ReferralProgramPanel() {
                             }
                             className="w-full text-left cursor-pointer">
                             <div
-                              className={`flex items-center justify-between p-3 border ${i === 0 ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]" : i === 1 ? " border-white/10 bg-white/[0.02]" : i === 2 ? " border-white/10 bg-white/[0.015]" : " border-white/10 bg-white/[0.01]" }`}>
+                              className={`flex items-center justify-between p-3 border ${i === 0 ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]" : i === 1 ? " border-white/10 bg-white/[0.02]" : i === 2 ? " border-white/10 bg-white/[0.015]" : " border-white/10 bg-white/[0.01]"}`}>
                               <div className="flex items-center gap-3">
                                 {/* Rank badge */}
                                 <div
-                                  className={`w-8 h-8 flex items-center justify-center text-[var(--font-size-sm)] shrink-0 ${i === 0 ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]" : i === 1 ? "bg-white/10 border border-white/10" : i === 2 ? " bg-[#00000029] text-white/40 border border-white/5" : " text-white/20" }`}>
+                                  className={`w-8 h-8 flex items-center justify-center text-[var(--font-size-sm)] shrink-0 ${i === 0 ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]" : i === 1 ? "bg-white/10 border border-white/10" : i === 2 ? " bg-[#00000029] text-white/40 border border-white/5" : " text-white/20"}`}>
                                   {i + 1}
                                 </div>
 
@@ -429,7 +429,7 @@ export default function ReferralProgramPanel() {
                                   <p className="text-purple-300">
                                     {entry.total}
                                   </p>
-                                  <p className="">
+                                  <p >
                                     referrals
                                   </p>
                                 </div>

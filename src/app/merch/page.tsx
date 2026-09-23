@@ -269,7 +269,7 @@ function MerchDashboard() {
       <header className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
-            <p className="text-pink-500 tracking-[0.3em]">7th Heaven</p>
+            <p className="text-pink-500  ">7th Heaven</p>
             <h1>Merch Table</h1>
           </div>
           <div className="flex items-center gap-2">
@@ -287,10 +287,10 @@ function MerchDashboard() {
         <div className="w-16 h-16 rounded-lg bg-purple-600/10 border border-white/10 flex items-center justify-center text-2xl shadow-[0_0_30px_rgba(147,51,234,0.15)]">
           ✨
         </div>
-        <h2 className="">
+        <h2 >
           Coming Soon
         </h2>
-        <p className="max-w-sm mt-2 font-medium">
+        <p className="max-w-sm mt-2  ">
           The 7th Heaven Merch Table portal is currently under maintenance and will be live soon.
         </p>
       </div>

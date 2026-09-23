@@ -124,22 +124,22 @@ export default function HeaderMaskEditor() {
             <div className="grid grid-cols-2 gap-2 text-[11px]">
               <button
                 onClick={() => applyPreset({ height: 228, fadeStart: 70, fadeEnd: 100, blurAmount: 24, bgOpacity: 60, maskMode: "linear" })}
-                className="px-2.5 py-1.5 bg-purple-950/60 hover:bg-purple-800/80 border border-purple-500/30 rounded-lg font-semibold text-left transition-colors cursor-pointer">
+                className="px-2.5 py-1.5 bg-purple-950/60 hover:bg-purple-800/80 border border-purple-500/30 rounded-lg   text-left transition-colors cursor-pointer">
                 ⚡ Standard 228px
               </button>
               <button
                 onClick={() => applyPreset({ height: 260, fadeStart: 85, fadeEnd: 100, blurAmount: 40, bgOpacity: 75, maskMode: "ease" })}
-                className="px-2.5 py-1.5 bg-purple-950/60 hover:bg-purple-800/80 border border-purple-500/30 rounded-lg font-semibold text-left transition-colors cursor-pointer">
+                className="px-2.5 py-1.5 bg-purple-950/60 hover:bg-purple-800/80 border border-purple-500/30 rounded-lg   text-left transition-colors cursor-pointer">
                 ✨ Ultra Glass
               </button>
               <button
                 onClick={() => applyPreset({ height: 200, fadeStart: 40, fadeEnd: 100, blurAmount: 16, bgOpacity: 45, maskMode: "linear" })}
-                className="px-2.5 py-1.5 bg-purple-950/60 hover:bg-purple-800/80 border border-purple-500/30 rounded-lg font-semibold text-left transition-colors cursor-pointer">
+                className="px-2.5 py-1.5 bg-purple-950/60 hover:bg-purple-800/80 border border-purple-500/30 rounded-lg   text-left transition-colors cursor-pointer">
                 🌊 Soft Fade
               </button>
               <button
                 onClick={() => applyPreset({ height: 280, fadeStart: 95, fadeEnd: 100, blurAmount: 32, bgOpacity: 90, maskMode: "sharp" })}
-                className="px-2.5 py-1.5 bg-purple-950/60 hover:bg-purple-800/80 border border-purple-500/30 rounded-lg font-semibold text-left transition-colors cursor-pointer">
+                className="px-2.5 py-1.5 bg-purple-950/60 hover:bg-purple-800/80 border border-purple-500/30 rounded-lg   text-left transition-colors cursor-pointer">
                 ⬛ Solid Dark
               </button>
             </div>
@@ -149,7 +149,7 @@ export default function HeaderMaskEditor() {
           <div className="flex flex-col gap-3.5">
             {/* Expanded Mask Height */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between font-semibold">
+              <div className="flex justify-between  ">
                 <span className="text-purple-200">Expanded Mask Height</span>
                 <span className="text-purple-400">{settings.height}px</span>
               </div>
@@ -166,7 +166,7 @@ export default function HeaderMaskEditor() {
 
             {/* Gradient Fade Start */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between font-semibold">
+              <div className="flex justify-between  ">
                 <span className="text-purple-200">Bottom Fade Start</span>
                 <span className="text-purple-400">{settings.fadeStart}%</span>
               </div>
@@ -183,7 +183,7 @@ export default function HeaderMaskEditor() {
 
             {/* Gradient Fade End */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between font-semibold">
+              <div className="flex justify-between  ">
                 <span className="text-purple-200">Bottom Fade End (100% Transparent)</span>
                 <span className="text-purple-400">{settings.fadeEnd}%</span>
               </div>
@@ -200,7 +200,7 @@ export default function HeaderMaskEditor() {
 
             {/* Backdrop Blur Amount */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between font-semibold">
+              <div className="flex justify-between  ">
                 <span className="text-purple-200">Backdrop Blur Radius</span>
                 <span className="text-purple-400">{settings.blurAmount}px</span>
               </div>
@@ -217,7 +217,7 @@ export default function HeaderMaskEditor() {
 
             {/* Dark Background Opacity */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between font-semibold">
+              <div className="flex justify-between  ">
                 <span className="text-purple-200">Background Dark Opacity</span>
                 <span className="text-purple-400">{settings.bgOpacity}%</span>
               </div>

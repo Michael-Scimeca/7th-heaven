@@ -194,20 +194,21 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
   };
 
   return (
-    <div
- style={{
- minHeight: "100vh",
- display: "flex",
- alignItems: "center",
- justifyContent: "center",
- padding: 16,
- background: "#050508",
- color: "#fff",
- fontFamily: "'Outfit', sans-serif",
- }}>
+    <main
+      id="planner-verify-page"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 16,
+        background: "#050508",
+        color: "#fff",
+        fontFamily: "'Outfit', sans-serif",
+      }}>
       {renderBg()}
 
-      <div style={CONTAINER_STYLE}>
+      <section id="verify-card" aria-label="Access Code Verification" style={CONTAINER_STYLE}>
         {/* Top Header Badge */}
         <div style={{ marginBottom: 20 }}>
           <div
@@ -471,8 +472,8 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
             ← Back to Booking Request Form
           </Link>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 

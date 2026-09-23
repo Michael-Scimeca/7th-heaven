@@ -134,64 +134,70 @@ export default function ContactClient({
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10 flex-1 min-h-[700px]">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6  items-stretch relative z-10 flex-1 min-h-[700px]">
 
         {/* Left Column: Contact Cards (Full Width on Mobile, Smaller on Tablet md:col-span-5) */}
         <section aria-label="Contact Directory" className="w-full min-h-full max-w-full md:max-w-md  md:col-span-5 lg:col-span-4 flex flex-col text-left h-full flex-1">
 
           {/* Contact Cards List (1 Column Stacked, Distributed to fill section height) */}
-          <div className="flex-1 flex flex-col justify-between w-full h-full pb-6">
+          <ul className="flex-1 flex flex-col justify-between w-full h-full pb-6">
             {contacts.map((contact) => {
               const photoForThisCard = getPhotoForCategory(contact);
               const isCardActive = activePhotoId === photoForThisCard;
 
               return (
-                <div
+                <li
                   key={(contact.email || "") + (contact.category || "") + (contact.name || "")}
-                  onMouseEnter={() => setActivePhotoId(photoForThisCard)}
-                  onClick={() => setActivePhotoId(photoForThisCard)}
-                  className="border-b border-white/10 cursor-pointer">
-                  {/* Name & Title / Note */}
-                  <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <h3 className="leading-snug">
-                      {contact.name || "7th Heaven Representative"}
-                    </h3>
-                  </div>
+                  className="border-b border-white/10">
+                  <article className="flex flex-col">
+                    <button
+                      type="button"
+                      onMouseEnter={() => setActivePhotoId(photoForThisCard)}
+                      onClick={() => setActivePhotoId(photoForThisCard)}
+                      className="text-left focus:outline-none focus:ring-1 focus:ring-purple-400 rounded group w-full cursor-pointer">
+                      {/* Name & Title / Note */}
+                      <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
+                        <h3 className="group-hover:text-purple-300 transition-colors">
+                          {contact.name || "7th Heaven Representative"}
+                        </h3>
+                      </div>
 
-                  {/* Category Pill */}
-                  <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <SectionBadge
-                      label={contact.category || "General Contact"}
-                      isActive={isCardActive}
-                    />
-                  </div>
+                      {/* Category Pill */}
+                      <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
+                        <SectionBadge
+                          label={contact.category || "General Contact"}
+                          isActive={isCardActive}
+                        />
+                      </div>
+                    </button>
 
-                  {/* Contact Info: Email Top, Phone Directly Underneath */}
-                  <div className="flex flex-col items-start  pb-2">
-                    {/* Email */}
-                    {contact.email && (
-                      <a
-                        href={`mailto:${contact.email}`}
-                        className="inline-flex a-btn items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)]   hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
-                        <span className="  underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
-                          {contact.email}
-                        </span>
-                      </a>
-                    )}
+                    {/* Contact Info: Email Top, Phone Directly Underneath */}
+                    <address className="not-italic flex flex-col items-start pb-2">
+                      {/* Email */}
+                      {contact.email && (
+                        <a
+                          href={`mailto:${contact.email}`}
+                          className="inline-flex a-btn items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
+                          <span className="underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
+                            {contact.email}
+                          </span>
+                        </a>
+                      )}
 
-                    {/* Phone Number Directly Below Email */}
-                    {contact.phone && (
-                      <a
-                        href={`tel:${contact.phone.replace(/-/g, "")}`}
-                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !  hover:text-[var(--color-accent)] transition-colors duration-150 group/link w-fit whitespace-nowrap">
-                        <span className="whitespace-nowrap">{contact.phone}</span>
-                      </a>
-                    )}
-                  </div>
-                </div>
+                      {/* Phone Number Directly Below Email */}
+                      {contact.phone && (
+                        <a
+                          href={`tel:${contact.phone.replace(/-/g, "")}`}
+                          className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] hover:text-[var(--color-accent)] transition-colors duration-150 group/link w-fit whitespace-nowrap">
+                          <span className="whitespace-nowrap">{contact.phone}</span>
+                        </a>
+                      )}
+                    </address>
+                  </article>
+                </li>
               );
             })}
-          </div>
+          </ul>
         </section>
 
         {/* Right Column: Preloaded Contact Photos Stage Attached to Container */}

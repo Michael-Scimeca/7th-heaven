@@ -134,14 +134,14 @@ export function Footer() {
       <div className="relative z-10 site-container">
         {/* Proximity Distance & Free Push Alerts Section */}
         {!isCrewOrAdmin && (
-          <div id="push-alerts-footer" className="py-6">
+          <div id="push-alerts-footer">
             <FooterProximityAlerts />
           </div>
         )}
 
         {/* Endorsements */}
-        <div className="py-8 text-left">
-          <p className="tracking-[0.3em] mb-6 sm:mb-8">Official Gear Endorsements</p>
+        <div className="py-6 text-left">
+          <p className="mb-2">Official Gear Endorsements</p>
           <div className="flex flex-wrap justify-start items-center gap-x-4 sm:gap-x-6 gap-y-4 sm:gap-y-6">
             {endorsements.map((brand) => (
               <Image width={200} height={200} unoptimized
@@ -156,7 +156,7 @@ export function Footer() {
         </div>
 
         {/* Inline Links Row — MOVED TO BOTTOM */}
-        <div className="pt-2 pb-4">
+        <nav aria-label="Footer Navigation" className="pb-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             {/* Nav Links */}
             <div className="flex flex-wrap items-center gap-1">
@@ -186,7 +186,7 @@ export function Footer() {
               ))}
             </div>
           </div>
-        </div>
+        </nav>
 
         {/* Credit Line */}
         <div className="absolute bottom-0 right-0 site-container flex items-center justify-end text-[10px]">

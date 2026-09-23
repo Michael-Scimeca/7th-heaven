@@ -25,7 +25,7 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
           <h2>
             Day-by-Day <span className="accent-gradient-text">Voyage Itinerary</span>
           </h2>
-          <p className="mt-3 font-semibold max-w-2xl">
+          <p className="mt-3   max-w-2xl">
             Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
           </p>
 
@@ -35,7 +35,7 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
               type="button"
               onClick={() => setActiveItinYear(2027)}
               isActive={activeItinYear === 2027}
-              className="!w-auto px-5 py-2 text-xs font-bold"
+              className="!w-auto"
             >
               2027 Star of the Seas (7-Night)
             </SeventhButton>
@@ -43,7 +43,7 @@ export default function CruiseItinerarySection({ sanityContent }: CruiseItinerar
               type="button"
               onClick={() => setActiveItinYear(2028)}
               isActive={activeItinYear === 2028}
-              className="!w-auto px-5 py-2 text-xs font-bold"
+              className="!w-auto"
             >
               2028 Legend of the Seas (8-Night)
             </SeventhButton>

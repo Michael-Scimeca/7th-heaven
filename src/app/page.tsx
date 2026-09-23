@@ -36,12 +36,12 @@ export default async function Home() {
     <main id="home-page" >
       {/* ====== HERO (Viewport Height) ====== */}
       <section
-        className="relative w-full h-auto min-h-[650px] md:h-[88vh] py-section-fluid"
+        className="relative w-full !h-[calc(100vh)]"
         data-pick-label="Play Music"
         id="hero"
       >
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
-        <div id="hero-card" className="relative w-full h-full  flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
+        <div id="hero-card" className="relative w-full h-full  flex flex-col justify-between pb-15" data-pick-label="Play Music">
           <HeroVideoPlayer sanityContent={sanityContent} />
         </div>
       </section>

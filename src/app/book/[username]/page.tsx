@@ -91,7 +91,7 @@ export default function PlannerDashboardPage() {
   };
 
   return (
-    <main className="site-container page-container selection:bg-[var(--color-accent)] selection:">
+    <main id="planner-dashboard-page" className="site-container page-container selection:bg-[var(--color-accent)] selection:">
 
       {/* Planner Profile Header */}
       <header className="mb-6 pb-6 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">

@@ -703,8 +703,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           </div>
           <h2 className="mb-3">Request Received</h2>
           <p className="mb-8">
-            Thank you for your interest in booking 7th Heaven! We&apos;ve sent a confirmation email to <strong className="">{formData.email}</strong>. Please check your inbox to verify your request.
-            <br /><span className="text-base text-[var(--color-accent)]/70 mt-2 inline-block">✓ Notification sent to band management</span>
+            Thank you for your interest in booking 7th Heaven! We&apos;ve sent a confirmation email to <strong >{formData.email}</strong>. Please check your inbox to verify your request.
+            <br /><span className=" text-[var(--color-accent)]/70 mt-2 inline-block">✓ Notification sent to band management</span>
           </p>
 
           <div className="flex flex-col gap-3 w-full">
@@ -715,7 +715,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               creatingAccount ? (
                 <div className="bg-white/[0.03] border border-white/10 p-5 text-left">
                   <div className="mb-6">
-                    <span className="text-base text-white/30 block mb-1.5">Account Email</span>
+                    <span className=" text-white/30 block mb-1.5">Account Email</span>
                     {editingEmail ? (
                       <div className="flex gap-2">
                         <input type="email"
@@ -725,13 +725,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           disabled={pinSent || pinLoading}
                           className="flex-1 border border-white/10 px-4 py-2.5 rounded-lg text-lg focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
-                        <button type="button" onClick={() => setEditingEmail(false)} className="text-base cursor-pointer px-3">Done</button>
+                        <button type="button" onClick={() => setEditingEmail(false)} className=" cursor-pointer px-3">Done</button>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
                         <span className="text-lg">{accountEmail}</span>
                         {!pinSent && (
-                          <button type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 cursor-pointer transition-colors">Edit</button>
+                          <button type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className=" text-white/30 cursor-pointer transition-colors">Edit</button>
                         )}
                       </div>
                     )}
@@ -818,7 +818,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       setPinError("");
                       setPinCode("");
                     }}
-                    className="text-base text-white/30 hover:text-white text-white/50 mt-4 cursor-pointer transition-colors block text-center w-full">
+                    className=" text-white/30 hover:text-white text-white/50 mt-4 cursor-pointer transition-colors block text-center w-full">
                     Cancel
                   </button>
                 </div>
@@ -914,7 +914,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               <div className="flex items-center gap-3 mb-6">
                 <CalendarIcon className="w-5 h-5 text-[#c27aff] shrink-0" />
                 <div>
-                  <h4 className="">Flexible? Add Backup Dates</h4>
+                  <h4 >Flexible? Add Backup Dates</h4>
                   <p>Increase your chances — we&apos;ll try your preferred date first</p>
                 </div>
               </div>
@@ -924,10 +924,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               </div>
               {(altDate1 || altDate2) && (
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="text-base text-white/50">Priority:</span>
-                  <span className="text-base bg-white/10   px-2.5 py-0.5 rounded-lg">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
-                  {altDate1 && <span className="text-base bg-white/10   px-2.5 py-0.5 rounded-lg">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
-                  {altDate2 && <span className="text-base bg-white/10   px-2.5 py-0.5 rounded-lg">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                  <span className=" text-white/50">Priority:</span>
+                  <span className=" bg-white/10   px-2.5 py-0.5 rounded-lg">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
+                  {altDate1 && <span className=" bg-white/10   px-2.5 py-0.5 rounded-lg">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                  {altDate2 && <span className=" bg-white/10   px-2.5 py-0.5 rounded-lg">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
                 </div>
               )}
             </div>
@@ -945,7 +945,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         </section>
 
         {/* Your Scheduled Shows (Full Width Grid) */}
-        <section className="bg-[var(--color-section-bg)] relative">
+        <section aria-label="Your Scheduled Shows" className="bg-[var(--color-section-bg)] relative">
           {bookingSlots.length === 0 ? (
             <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] rounded-lg">
               <span className="text-4xl block mb-6">📅</span>
@@ -960,8 +960,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             <>
               <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                 <div>
-                  <h4 className="">Your Scheduled Shows</h4>
-                  <p className="">Configure individual times and formats for each show below</p>
+                  <h4 >Your Scheduled Shows</h4>
+                  <p >Configure individual times and formats for each show below</p>
                 </div>
                 <span className="bg-cyan-500/20 px-3 py-1 rounded-lg border border-purple-400/30">
                   {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
@@ -1000,7 +1000,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                       <div className="mb-6">
                         <span className="block mb-1">Show #{index + 1}</span>
-                        <h5 className="text-base">{formattedDate}</h5>
+                        <h5 >{formattedDate}</h5>
                       </div>
 
                       <div className="space-y-3 mt-4 border-t border-white/10 pt-4">
@@ -1261,8 +1261,9 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       </div>
 
                       <div className="mt-4 pt-4 border-t border-white/10">
-                        <button aria-label="Previous"
+                        <button
                           type="button"
+                          aria-label="Toggle tour page details"
                           onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
                           className="w-full text-left flex items-center justify-between hover:text-purple-400 transition-colors">
                           <span className="flex items-center gap-1.5"><Megaphone className="w-3.5 h-3.5" /> Tour Page Details {expandedMetadata[slot.id] ? <ChevronDown className="w-3.5 h-3.5 inline" /> : <ChevronRight className="w-3.5 h-3.5 inline" />}</span>
@@ -1282,8 +1283,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         </section>
 
         {/* Step 2: Contact Information */}
-        <section aria-label="Contact Information" className="border-0 p-0   relative py-section-fluid animate-[fade-in-up_0.15s_ease-out_both]">
-          <h2 className="mb-6 flex items-center gap-3">
+        <section aria-label="Contact Information" className="border-0  relative  animate-[fade-in-up_0.15s_ease-out_both]">
+          <h2 className="pb-3 flex items-center gap-3">
             {sanityContent?.sections?.find((s: any) => s.sectionId === "contact")?.title || "Contact Information"}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1296,13 +1297,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
         {/* Step 3: Venue Details & Event Schedule */}
         <section aria-label="Venue and Event Logistics" className="border-0 p-0   relative animate-[fade-in-up_0.15s_ease-out_both] space-y-6">
-          <h2 className="mb-6 flex items-center gap-3">
-            <MapPin className="w-5 h-5 text-[#c27aff]" /> Venue & Event Logistics
-          </h2>
 
           {/* Show Event Start & End Times + Band Schedule */}
           <div className="space-y-4">
             <div className="border-b border-white/10">
+              <h2 className="pb-3 flex items-center gap-3">
+                <MapPin className="w-5 h-5 text-[#c27aff]" /> Venue & Event Logistics
+              </h2>
 
             </div>
 
@@ -1344,7 +1345,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     </div>
                   }
                 />
-                <p className="text-xs text-purple-300/80 mt-1.5 font-medium">
+                <p className="mt-1.5">
                   Band load-in is usually ~2 hours before band start time.
                 </p>
               </div>
@@ -1430,7 +1431,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <div className="md:col-span-2 space-y-4 animate-[fade-in-up_0.15s_ease-out_both] p-4 bg-purple-950/20 border border-purple-500/30 rounded-xl">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <label htmlFor="parkingAddress" className="text-base block">
+                      <label htmlFor="parkingAddress" className=" block">
                         Google Maps Parking Location or Link
                       </label>
                       <div className="flex items-center gap-2 flex-wrap">
@@ -1476,7 +1477,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="parkingNotes" className="text-base block">
+                    <label htmlFor="parkingNotes" className=" block">
                       Directions for Parking
                     </label>
                     <div className="input-glow-border rounded-lg">
@@ -1499,14 +1500,14 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
         {/* Steps 4-6 and Sidebar 2-Column Grid */}
         <section className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6 items-start py-section-fluid">
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
 
             {/* Step 4: Technical & Logistics */}
-            <div className="border-0 pt-10   relative">
-              <h2 className="mb-6 flex items-center gap-3">
+            <section aria-label="Technical and Logistics" className="border-0 pt-10 relative">
+              <h2 className="pb-3 flex items-center gap-3">
                 {sanityContent?.sections?.find((s: any) => s.sectionId === "logistics")?.title || "Technical & Logistics"}
               </h2>
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-6">
                 <RadioPillField label={sanityContent?.sections?.find((s: any) => s.sectionId === "logistics_indoor")?.title || "Indoor / Outdoor"} name="indoorOutdoor" value={formData.indoorOutdoor} onChange={handleChange} options={["Indoor", "Outdoor", "Both / Hybrid", "TBD"]} />
                 <RadioPillField label={sanityContent?.sections?.find((s: any) => s.sectionId === "logistics_sound")?.title || "Sound System Available?"} name="soundSystem" value={formData.soundSystem} onChange={handleChange} options={["Yes — full PA system", "Partial — need supplemental", "No — band needs to provide", "Not sure"]} />
                 <RadioPillField label={sanityContent?.sections?.find((s: any) => s.sectionId === "logistics_stage")?.title || "Stage Available?"} name="stageAvailable" value={formData.stageAvailable} onChange={handleChange} options={["Yes", "No — performing at floor level", "Portable / riser can be arranged", "Not sure"]} />
@@ -1524,23 +1525,24 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* Step 5: Additional Options */}
-            <div className="border-0 p-0   relative">
-              <h2 className=" mb-2 flex items-center gap-3">
+            <section aria-label="Production Extras and Add-Ons" className="border-0 p-0 relative">
+              <h2 className="mb-2 flex items-center gap-3">
                 {sanityContent?.sections?.find((s: any) => s.sectionId === "extras")?.title || "Production & Extras"}
               </h2>
-              <p className="mb-6">{sanityContent?.sections?.find((s: any) => s.sectionId === "extras")?.subtitle || "Select any features you'd like the band to bring to your event. Pricing discussed with your band manager."}</p>
+              <p >{sanityContent?.sections?.find((s: any) => s.sectionId === "extras")?.subtitle || "Select any features you'd like the band to bring to your event. Pricing discussed with your band manager."}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {(() => {
                   const addOnsSet = new Set(addOns);
                   return ([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
                     const isActive = addOnsSet.has(option.id);
                     return (
-                      <button aria-label="Previous"
+                      <button
                         key={option.id}
                         type="button"
+                        aria-label={`Toggle ${option.label} option`}
                         onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
                         className={`w-full text-left p-4 rounded-lg border transition-colors cursor-pointer flex items-start gap-3 group ${isActive ? 'border-purple-400 bg-cyan-500/20 ' : ' border-white/10 bg-[#00000029] border-white/10 hover:bg-white/10'}`}>
                         <span className="text-xl mt-0.5">{option.icon}</span>
@@ -1551,7 +1553,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                             )}
                           </div>
-                          <span className="text-base block leading-snug">{option.desc}</span>
+                          <span className=" block  ">{option.desc}</span>
                         </div>
                       </button>
                     );
@@ -1560,25 +1562,27 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               </div>
               {addOns.length > 0 && (
                 <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-3 flex-wrap">
-                  <span className="text-base text-white/50">Selected:</span>
+                  <span className=" text-white/50">Selected:</span>
                   {addOns.map(id => (
                     <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 text-base rounded-lg border border-purple-400/30">
                       {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                      <button aria-label="Previous" type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5 text-white/50 cursor-pointer">×</button>
+                      <button type="button" aria-label={`Remove ${id.replace(/_/g, ' ')} option`} onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5 text-white/50 cursor-pointer">×</button>
                     </span>
                   ))}
                 </div>
               )}
-            </div>
+            </section>
 
             {/* Step 6: Notes & Questions */}
-            <div className="border-0 p-0   relative">
-              <h2 className=" mb-2 flex items-center gap-3">
+            <section aria-label="Notes and Questions" className="border-0 p-0 relative">
+              <h2 className="mb-2 flex items-center gap-3">
                 {sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.title || "Notes & Questions"}
               </h2>
               <p className="mb-6">{sanityContent?.sections?.find((s: any) => s.sectionId === "notes")?.subtitle || "Anything else you'd like to mention? Special requests, questions, or details for our band manager."}</p>
               <div className="input-glow-border rounded-lg">
-                <textarea aria-label="Text input"
+                <label htmlFor="details" className="sr-only font-semibold text-white/90">Notes and Questions for Band Manager</label>
+                <textarea
+                  id="details"
                   name="details"
                   value={formData.details}
                   onChange={handleChange}
@@ -1590,10 +1594,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               {formData.details && (
                 <div className="mt-3 flex items-center gap-2 text-base text-emerald-400">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-                  <span className="">Note attached to your booking</span>
+                  <span >Note attached to your booking</span>
                 </div>
               )}
-            </div>
+            </section>
 
             {/* Honeypot */}
             <div className="hidden" aria-hidden="true">
@@ -1603,14 +1607,14 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           </div>
 
           {/* Right Column: Sticky Summary Sidebar */}
-          <aside aria-label="Booking Summary" className="sticky top-32 pt-10">
+          <aside aria-label="Booking Summary" className="sticky top-32 ">
             <div className="border-0 p-0  ">
               <h3 className="mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
               <div className="flex flex-col mb-8">
                 <div className="flex justify-between items-start">
                   <span className="text-lg text-white/50">Date</span>
-                  <span className="text-base text-right">
+                  <span className=" text-right">
                     {bookingSlots.length === 1 ? (
                       new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
                     ) : bookingSlots.length > 1 ? (
@@ -1622,7 +1626,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 </div>
                 <div className="flex justify-between items-start">
                   <span className="text-lg text-white/50">Time</span>
-                  <span className="text-base text-right">
+                  <span className=" text-right">
                     {bookingSlots.length === 1 ? (
                       `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
                     ) : bookingSlots.length > 1 ? (
@@ -1634,13 +1638,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 </div>
                 <div className="flex justify-between items-start">
                   <span className="text-lg text-white/50">Format</span>
-                  <span className="text-base text-right">
+                  <span className=" text-right">
                     {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="/30">—</span>}
                   </span>
                 </div>
                 <div className="flex justify-between items-start pt-4 border-t border-white/10">
                   <span className="text-lg text-white/50">Venue</span>
-                  <span className="text-base text-right break-words max-w-[150px]">
+                  <span className=" text-right break-words max-w-[150px]">
                     {formData.venueName ? formData.venueName : <span className="text-white/30">—</span>}
                     {formData.venueCity && <span className="block text-base text-white/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
                   </span>
@@ -1649,7 +1653,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   <div className="flex justify-between items-start pt-4 border-t border-white/10">
                     <span className="text-lg text-white/50">Add-Ons</span>
                     <div className="text-right">
-                      <span className="text-base">{addOns.length} selected</span>
+                      <span >{addOns.length} selected</span>
                       <div className="flex flex-wrap gap-1 justify-end max-w-[160px]">
                         {addOns.slice(0, 3).map(id => (
                           <span key={id} className="text-lg bg-cyan-500/20 px-1.5 py-0.5 rounded">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
@@ -1804,12 +1808,13 @@ function MapPickerModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
-      <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg w-full max-w-2xl overflow-hidden space-y-5 p-6 max-h-[90vh] overflow-y-auto">
+    <dialog open aria-labelledby="map-picker-heading" className="fixed inset-0 z-[999999] bg-transparent border-0 w-full h-full max-w-none max-h-none flex items-center justify-center p-4">
+      <button type="button" aria-label="Close location picker backdrop" onClick={onClose} className="fixed inset-0 bg-black/80 backdrop-blur-[45px] w-full h-full border-0 cursor-default" />
+      <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg w-full max-w-2xl overflow-hidden space-y-5 p-6 max-h-[90vh] overflow-y-auto relative z-10">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="w-5 h-5 text-[#c27aff]" />
-            <h3 className="">Google Maps Location & Address Picker</h3>
+            <h3 id="map-picker-heading" >Google Maps Location & Address Picker</h3>
           </div>
           <button aria-label="Close modal"
             type="button"
@@ -1823,14 +1828,15 @@ function MapPickerModal({
         {savedAddresses.length > 0 && (
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
-              <label className="text-purple-400block">Saved Locations & Venue Presets</label>
+              <label htmlFor="search-location-input" className="text-purple-400 block">Saved Locations & Venue Presets</label>
               <span className="text-[10px] text-white/50 font-normal">Click to auto-fill form</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {savedAddresses.map((item) => (
-                <div
+                <button
+                  type="button"
                   key={item.id}
-                  className="p-3 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-purple-400/50 rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer"
+                  className="p-3 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-purple-400/50 rounded-lg transition-colors flex items-start justify-between gap-2 group cursor-pointer text-left w-full"
                   onClick={() => {
                     if (onSelectSaved) {
                       onSelectSaved(item);
@@ -1850,24 +1856,11 @@ function MapPickerModal({
                     </div>
                   </div>
                   <div className="flex items-center gap-1 shrink-0 opacity-80 group-hover:opacity-100">
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (onSelectSaved) {
-                          onSelectSaved(item);
-                          onClose();
-                        } else {
-                          onSave(item.parkingAddress, item);
-                          onClose();
-                        }
-                      }}
-                      className="px-2 py-1 bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/40 rounded text-[10px] r">
+                    <span className="px-2 py-1 bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/40 rounded text-[10px] r">
                       Use
-                    </button>
+                    </span>
                     {!item.id.startsWith("preset-") && onDeleteSavedAddress && (
-                      <button
-                        type="button"
+                      <span
                         onClick={(e) => {
                           e.stopPropagation();
                           onDeleteSavedAddress(item.id);
@@ -1875,19 +1868,21 @@ function MapPickerModal({
                         className="p-1 text-white/40 hover:text-red-400 transition-colors"
                         title="Delete saved address">
                         <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                      </span>
                     )}
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
         )}
 
         <div className="space-y-2 border-t border-white/10 pt-4">
-          <label className="text-purple-400block">Search Location or Paste Google Maps Address</label>
+          <label htmlFor="search-location-input" className="text-purple-400 block">Search Location or Paste Google Maps Address</label>
           <div className="flex gap-2">
-            <input type="text"
+            <input
+              id="search-location-input"
+              type="text"
               value={addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
               placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
@@ -1917,14 +1912,16 @@ function MapPickerModal({
             </button>
           )}
           <div className="flex items-center gap-3 ml-auto">
-            <button aria-label="Cancel button"
+            <button
               type="button"
+              aria-label="Cancel location picker"
               onClick={onClose}
               className="px-4 py-2.5 bg-[#00000029] hover:bg-white/10 rounded-lg hover:text-white transition-colors">
               Cancel
             </button>
-            <button aria-label="Save button"
+            <button
               type="button"
+              aria-label="Save location to form"
               onClick={() => {
                 onSave(addressInput);
                 onClose();
@@ -1935,6 +1932,6 @@ function MapPickerModal({
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 }

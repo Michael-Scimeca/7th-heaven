@@ -250,7 +250,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       <div className="border-none overflow-hidden relative">
         <div className="w-full text-left">
           {/* Fixed Header Row */}
-          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 border-b border-white/10 select-none] font-bold">
+          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 border-b border-white/10 select-none]   ">
             <div>Name</div>
             <div>Email Address</div>
             <div>Role</div>
@@ -262,7 +262,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <CustomScrollbar height={480} direction="vertical">
             <div className="divide-y divide-white/10">
               {filteredUsers.length === 0 ? (
-                <div className="py-8 text-center text-white/40 opacity-60 font-semibold">
+                <div className="py-8 text-center text-white/40 opacity-60  ">
                   No recipients found matching your search.
                 </div>
               ) : (
@@ -292,10 +292,10 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <div className="select-all truncate">
                       {user.email}
                     </div>
-                    <div className="py-1 rouned-lg font-bold">
+                    <div className="py-1 rouned-lg   ">
                       {user.role}
                     </div>
-                    <div className="text-white/50 font-semibold truncate">
+                    <div className="text-white/50   truncate">
                       {user.phone || "—"}
                     </div>
                     <div className="text-right">

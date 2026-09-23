@@ -277,7 +277,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               {/* Left Column */}
               <div className="flex flex-col space-y-3 min-w-[110px]">
                 <div>
-                  <p className="text-amber-200/60 font-semibold mb-0.5">
+                  <p className="text-amber-200/60   mb-0.5">
                     Countries
                   </p>
                   <p className="text-amber-200">
@@ -286,7 +286,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60 font-semibold mb-0.5">
+                  <p className="text-amber-200/60   mb-0.5">
                     Impressions
                   </p>
                   <p className="text-amber-200">
@@ -298,7 +298,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               {/* Right Column */}
               <div className="flex flex-col space-y-3">
                 <div>
-                  <p className="text-amber-200/60 font-semibold mb-0.5">
+                  <p className="text-amber-200/60   mb-0.5">
                     Followers &amp; Fans
                   </p>
                   <p className="text-amber-200">
@@ -307,7 +307,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60 font-semibold mb-0.5">
+                  <p className="text-amber-200/60   mb-0.5">
                     Live Engagements
                   </p>
                   <p className="text-amber-200">

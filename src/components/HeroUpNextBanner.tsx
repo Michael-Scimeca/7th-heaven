@@ -185,7 +185,7 @@ export default function HeroUpNextBanner() {
         </h2>
 
         {/* Date, Location & Time */}
-        <div className="flex items-center gap-2 /90 text-xs sm:text-sm font-bold flex-wrap">
+        <div className="flex items-center gap-2 /90 text-xs sm:text-sm    flex-wrap">
           <span>{dateLabel}</span>
           {upNext.city && (
             <>
@@ -246,7 +246,7 @@ export default function HeroUpNextBanner() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsCalOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-2.5   hover:text-white hover:bg-purple-600/30 transition-colors text-left w-full text-xs font-bold"
+                  className="flex items-center gap-2.5 px-4 py-2.5   hover:text-white hover:bg-purple-600/30 transition-colors text-left w-full text-xs   "
                 >
                   Google Calendar
                 </a>
@@ -254,7 +254,7 @@ export default function HeroUpNextBanner() {
                   href={getICSFileUrl(upNext)}
                   download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`}
                   onClick={() => setIsCalOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-2.5   hover:text-white hover:bg-purple-600/30 transition-colors text-left w-full text-xs font-bold"
+                  className="flex items-center gap-2.5 px-4 py-2.5   hover:text-white hover:bg-purple-600/30 transition-colors text-left w-full text-xs   "
                 >
                   Apple / iCal
                 </a>
@@ -262,7 +262,7 @@ export default function HeroUpNextBanner() {
                   href={getICSFileUrl(upNext)}
                   download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`}
                   onClick={() => setIsCalOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-2.5   hover:text-white hover:bg-purple-600/30 transition-colors text-left w-full text-xs font-bold"
+                  className="flex items-center gap-2.5 px-4 py-2.5   hover:text-white hover:bg-purple-600/30 transition-colors text-left w-full text-xs   "
                 >
                   Outlook
                 </a>

@@ -123,7 +123,7 @@ export default function HeroLiveThumbs() {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
           <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-600" />
         </span>
-        <span className="  group-hover:text-white tracking-[0.18em]">
+        <span className="  group-hover:text-white  ">
           Show Live Streams
         </span>
       </button>
@@ -182,7 +182,7 @@ export default function HeroLiveThumbs() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-lg h-3 w-3 bg-red-600" />
             </span>
-            <span className="text-[var(--font-size-2xs)] tracking-[0.18em] whitespace-nowrap">
+            <span className="text-[var(--font-size-2xs)]   whitespace-nowrap">
               Crew Streaming
             </span>
             {mediaPosts.length > 2 && (

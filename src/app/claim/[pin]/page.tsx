@@ -187,8 +187,8 @@ export default function ClaimPage() {
 
       {/* Header */}
       <div className="w-full max-w-sm mb-8 text-center">
-        <p className="tracking-[0.3em] text-purple-500 mb-1">7th Heaven</p>
-        <p className="">Live Raffle · Claim Verification</p>
+        <p className="  text-purple-500 mb-1">7th Heaven</p>
+        <p >Live Raffle · Claim Verification</p>
       </div>
 
       {/* Card */}
@@ -303,14 +303,14 @@ export default function ClaimPage() {
                 )}
               </div>
 
-              <p className="">
+              <p >
                 Only visible to the winning account. One claim per raffle.
               </p>
             </div>
 
             {/* Footer */}
             <div className="bg-black/30 px-6 py-3 text-center border-t border-white/5">
-              <p className="">7th Heaven · Live Raffle</p>
+              <p >7th Heaven · Live Raffle</p>
             </div>
           </div>
         )}

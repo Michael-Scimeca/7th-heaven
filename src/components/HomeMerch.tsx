@@ -93,7 +93,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
           <div className="flex items-center justify-between mb-10">
             <div>
               <span className="text-[var(--color-accent)] mb-2 block">Specials</span>
-              <h2 className="">On Sale Now</h2>
+              <h2 >On Sale Now</h2>
             </div>
             <Link href="/merch" className="text-white/40 hover:text-white border border-white/10 px-4 py-2 transition-colors">
               Shop All →
@@ -149,7 +149,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
         <div className="flex items-center justify-between mb-10">
           <div>
             <span className="text-[var(--color-accent)] mb-2 block">{sanityContent?.merchBadge || "Specials"}</span>
-            <h2 className="">{sanityContent?.merchTitle || "On Sale Now"}</h2>
+            <h2 >{sanityContent?.merchTitle || "On Sale Now"}</h2>
           </div>
           <Link href="/merch" className="text-white/40 hover- border border-white/10 px-4 py-2 color-transition">
             {sanityContent?.merchCtaText || "Shop All →"}
@@ -164,7 +164,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
             const soldOut = product.quantityAvailable === 0;
 
             return (
-              <div key={product.id} className="bg-white/[0.02] border border-white/10 overflow-hidden border-white/10 color-transition group relative">
+              <article key={product.id} className="bg-white/[0.02] border border-white/10 overflow-hidden color-transition group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
                   <span className="bg-red-500 text-[var(--font-size-2xs)] px-2.5 py-1 rounded-lg shadow-red-500/20">
@@ -203,7 +203,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                     )}
                   </div>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>

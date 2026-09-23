@@ -96,7 +96,7 @@ export default function PushAlertsCard({
           <div className="flex items-center gap-3 mb-2">
 
             <div>
-              <h3 className="">
+              <h3 >
                 {title || defaultTitle}
               </h3>
             </div>

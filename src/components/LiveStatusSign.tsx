@@ -51,13 +51,13 @@ export default function LiveStatusSign() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-500" />
             </span>
-            <span className="">Live Now</span>
+            <span >Live Now</span>
           </div>
 
           <div className="h-4 w-px bg-white/10" />
 
           <div className="flex items-center gap-3">
-            <span className="">
+            <span >
               {liveCount} Active {liveCount === 1 ? 'Feed' : 'Feeds'}
             </span>
             <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#00000029] border border-white/10 group-hover:bg-red-500 group-hover:border-red-500 transition-colors duration-300">

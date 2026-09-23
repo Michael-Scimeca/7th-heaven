@@ -281,7 +281,7 @@ export default function PlannerDashboard() {
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+      <main id="planner-portal-auth" className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px] rounded-lg pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
@@ -321,15 +321,25 @@ export default function PlannerDashboard() {
                 </div>
 
                 {plannerMode === 'signup' && (
-                  <div className="flex items-center gap-2.5 my-1.5 select-none cursor-pointer" onClick={() => setPlannerAgeConfirmed(!plannerAgeConfirmed)}>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setPlannerAgeConfirmed(!plannerAgeConfirmed);
+                      }
+                    }}
+                    className="flex items-center gap-2.5 my-1.5 select-none cursor-pointer"
+                    onClick={() => setPlannerAgeConfirmed(!plannerAgeConfirmed)}>
                     <SquishyToggle
                       id="planner-age-confirm-toggle"
                       label="I confirm that I am 18 years of age or older"
                       checked={plannerAgeConfirmed}
                       onChange={setPlannerAgeConfirmed}
                     />
-                    <span className="text-[var(--font-size-2xs)] font-semibold text-white/70">
-                      I confirm that I am <span className="">18 years of age or older</span>
+                    <span className="text-[var(--font-size-2xs)]   text-white/70">
+                      I confirm that I am <span >18 years of age or older</span>
                     </span>
                   </div>
                 )}
@@ -355,7 +365,7 @@ export default function PlannerDashboard() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
@@ -394,35 +404,36 @@ export default function PlannerDashboard() {
 
       {/* Cancel Confirmation Modal */}
       {showCancelConfirm && (
-        <section>
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowCancelConfirm(false)}>
-            <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-lg shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
-              <div className="w-12 h-12 rounded-lg bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
-                <History className="w-5 h-5 text-rose-500" />
-              </div>
-              <h3 className="text-center mb-2">Cancel This Booking?</h3>
-              <p className="text-center mb-2">{booking.eventName}</p>
-              <p className="text-center mb-8">This will send a cancellation request to 7th Heaven. You can always rebook later.</p>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setShowCancelConfirm(false)}
-                  className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 transition-colors">
-                  Keep Booking
-                </button>
-                <button
-                  onClick={handleCancelRequest}
-                  className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 transition-colors">
-                  Yes, Cancel
-                </button>
-              </div>
+        <dialog open aria-labelledby="cancel-modal-heading" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent border-0 w-full h-full max-w-none max-h-none">
+          <button type="button" aria-label="Close dialog backdrop" onClick={() => setShowCancelConfirm(false)} className="fixed inset-0 bg-black/70 backdrop-blur-sm w-full h-full border-0 cursor-default" />
+          <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-lg shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left relative z-10 cursor-auto">
+            <div className="w-12 h-12 rounded-lg bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
+              <History className="w-5 h-5 text-rose-500" />
+            </div>
+            <h3 id="cancel-modal-heading" className="text-center mb-2">Cancel This Booking?</h3>
+            <p className="text-center mb-2">{booking.eventName}</p>
+            <p className="text-center mb-8">This will send a cancellation request to 7th Heaven. You can always rebook later.</p>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setShowCancelConfirm(false)}
+                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 transition-colors">
+                Keep Booking
+              </button>
+              <button
+                type="button"
+                onClick={handleCancelRequest}
+                className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 transition-colors">
+                Yes, Cancel
+              </button>
             </div>
           </div>
-        </section>
+        </dialog>
       )}
 
 
       {/* BOOKING CARDS */}
-      <section className="grid grid-cols-1 gap-6">
+      <section aria-label="Active Event Booking Details" className="grid grid-cols-1 gap-6">
         <div className={`bg-[var(--color-bg-surface)] border ${booking.status === 'cancelled' ? 'border-rose-500/10 opacity-60' : 'border-white/5'} p-6 md:p-8 rounded-lg flex flex-col lg:flex-row gap-8 relative overflow-hidden group transition-colors`}>
           <div className={`absolute top-0 left-0 w-1 h-full ${s.bar}`} />
 
@@ -440,19 +451,19 @@ export default function PlannerDashboard() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
-                    <p className="tracking-[0.1em] mb-1">Date</p>
+                    <p className="  mb-1">Date</p>
                     <p>{booking.date}</p>
                   </div>
                   <div>
-                    <p className="tracking-[0.1em] mb-1">Time Window</p>
+                    <p className="  mb-1">Time Window</p>
                     <p>{booking.startTime} - {booking.endTime}</p>
                   </div>
                   <div>
-                    <p className="tracking-[0.1em] mb-1">Venue</p>
+                    <p className="  mb-1">Venue</p>
                     <p className="truncate">{booking.venueName}</p>
                   </div>
                   <div>
-                    <p className="tracking-[0.1em] mb-1">City</p>
+                    <p className="  mb-1">City</p>
                     <p className="truncate">{booking.venueCity}, {booking.venueState}</p>
                   </div>
                 </div>
@@ -529,7 +540,7 @@ export default function PlannerDashboard() {
                     </a>
                     {reviveTimeLeft && (
                       <>
-                        <button aria-label="Previous" onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
+                        <button aria-label="Revive booking" onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
                           className="w-full py-3 bg-purple-500/10 hover:bg-purple-500 border border-purple-500/30 hover:border-transparent hover:text-white transition-colors">
                           Revive Booking
                         </button>
@@ -573,7 +584,7 @@ export default function PlannerDashboard() {
 
 
       {/* ── Band & Event Contacts Panel ── */}
-      <section>
+      <section aria-label="7th Heaven Band and Event Contacts">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
           <div>
             <h3>7th Heaven Band & Event Contacts</h3>
@@ -726,11 +737,11 @@ export default function PlannerDashboard() {
 
       {/* ── Booking History Timeline ── */}
       {allBookings.length > 1 && (
-        <section>
+        <section aria-label="Booking History Timeline">
           <div className="flex items-center mb-6">
 
             <div>
-              <h3 className="">Booking History</h3>
+              <h3 >Booking History</h3>
               <p className="mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
             </div>
           </div>

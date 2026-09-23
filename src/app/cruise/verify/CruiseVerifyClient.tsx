@@ -126,7 +126,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
           {sanityContent?.heroSubheading || sanityContent?.subtitle || (
             <>
               Enter the 6-digit access code sent to <br />
-              <span className="font-semibold text-purple-300">{email}</span>
+              <span className="  text-purple-300">{email}</span>
             </>
           )}
         </p>
@@ -136,7 +136,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
             <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-2xl mx-auto text-emerald-400">
               ✓
             </div>
-            <p className="font-bold text-lg text-emerald-300">Access Granted!</p>
+            <p className="   text-lg text-emerald-300">Access Granted!</p>
             <p className="text-xs text-white/50">Redirecting to your cruise dashboard…</p>
           </div>
         ) : (
@@ -155,7 +155,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
                     onChange={(e) => handleDigit(idx, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(idx, e)}
                     onPaste={handlePaste}
-                    className="w-11 h-13 text-center text-xl font-bold bg-white/[0.06] border border-white/15 rounded-xl focus:outline-none focus:border-purple-400 focus:bg-white/[0.1] transition-all shadow-sm"
+                    className="w-11 h-13 text-center text-xl    bg-white/[0.06] border border-white/15 rounded-xl focus:outline-none focus:border-purple-400 focus:bg-white/[0.1] transition-all shadow-sm"
                     aria-label={`Digit ${idx + 1}`}
                   />
                 ))}
@@ -170,7 +170,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
               <button
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 font-bold text-sm shadow-purple-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
+                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500    text-sm shadow-purple-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
                 {sanityContent?.submitButtonText || (status === "submitting" ? "Verifying…" : "Access My Dashboard →")}
               </button>
             </form>
@@ -179,7 +179,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
             <div className="mt-5 pt-4 border-t border-white/10 flex flex-col items-center gap-1.5 text-xs">
               <p className="text-white/60">Didn&apos;t receive the code?</p>
               {resendStatus === "sent" ? (
-                <p className="text-emerald-400 font-semibold">
+                <p className="text-emerald-400  ">
                   ✓ Code resent! Check your inbox.
                 </p>
               ) : (
@@ -195,7 +195,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
 
             {/* Back link */}
             <div className="mt-4 text-xs">
-              <Link href="/cruise" className="font-semibold text-white/40 hover:text-white transition-colors">
+              <Link href="/cruise" className="  text-white/40 hover:text-white transition-colors">
                 ← Back to Cruise Page
               </Link>
             </div>

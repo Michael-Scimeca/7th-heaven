@@ -556,7 +556,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           25+ Years Legacy Pathway
         </span>
         <h3
-          className="">
+        >
           Cruising <span className="accent-gradient-text">History & Milestones</span>
         </h3>
         <p className="mt-2">
@@ -689,9 +689,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           <div className="flex items-center gap-3">
             <div
               ref={startDotRef}
-              className="w-5 h-5 rounded-lg bg-cyan-400 border-4 border-[#06060c] z-10"
+              className="w-5 h-5 rounded-full bg-dark-purple border-2 border-transparent z-10"
             />
-            <span className="text-black bg-cyan-400 px-3.5 md:px-4 py-1.5 rounded-lg z-10">
+            <span className="   bg-dark-purple px-3.5 md:px-4 py-1.5 rounded-lg z-10">
               START · INAUGURAL 1998 VOYAGE
             </span>
           </div>
@@ -748,7 +748,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           style={{ width: 'clamp(200px, 24vw, 380px)' }}>
                           <div
                             data-year-badge
-                            className={`inline-blockn rounded-lg z-40 transition-colors duration-300 ${isReached ? 'bg-[#06060c] border-2 border-purple-400 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]' : 'bg-[#06060c] border border-white/10'}`}
+                            className={`inline-block rounded-lg z-40 transition-colors duration-300 ${isReached ? 'bg-[#240852] border-2 border-purple-400 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]' : 'bg-[#240852] border border-white/10'}`}
                             style={{ padding: 'clamp(0.25rem, 0.6vw, 0.5rem) clamp(0.75rem, 1.5vw, 1.5rem)' }}>
                             <h6
                               className={`transition-colors ${isReached ? ' ' : ' text-white/40'}`}
@@ -802,14 +802,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             style={{ padding: '0.5rem 0' }}>
                             <div className="flex items-center justify-between gap-2 mb-2 rounded-lg">
                               <span
-                                className={`rounded-lg transition-colors ${isReached ? ' bg-cyan-500/20 border border-purple-500/50' : ' text-white/40 bg-[#00000029] border border-white/10'}`}
+                                className={`rounded-lg transition-colors    ${isReached ? ' bg-cyan-500/20 border border-white/10' : ' text-white/40 bg-[#00000029] border border-white/10'}`}
                                 style={{ fontSize: 'clamp(0.55rem, 0.75vw, 0.65rem)', padding: '0.125rem 0.5rem' }}>
                                 VOYAGE #{voyageNum}
                               </span>
                             </div>
 
                             <h4
-                              className={`leading-snug transition-colors ${isReached ? ' ' : ' '}`}
+                              className={`  transition-colors ${isReached ? ' ' : ' '}`}
                               style={{ fontSize: 'clamp(0.75rem, 1.1vw, 1rem)' }}>
                               {hist.ship}
                             </h4>
@@ -846,7 +846,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div key={hist.year || idx} className="relative group">
                 {/* Node Circle Box */}
                 <div
-                  className={`absolute left-[-25px] top-2 w-4 h-4 rounded-lg border-2 border-[#06060c] z-10 transition-colors duration-300 ${isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'}`}
+                  className={`absolute left-[-25px] top-2 w-4 h-4 rounded-lg border-2 border-transparent z-10 transition-colors duration-300 ${isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'}`}
                 />
 
                 {/* Connecting Line Segment — Aligned at 25px Global Mobile Padding */}
@@ -866,8 +866,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       VOYAGE #{idx + 1}
                     </span>
                   </div>
-                  <h4 className="">{hist.ship}</h4>
-                  <p className="">{hist.details}</p>
+                  <h4 >{hist.ship}</h4>
+                  <p >{hist.details}</p>
                 </div>
               </div>
             );
@@ -883,7 +883,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             className="fixed bottom-16 left-6 w-[450px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#04040e]/30 border border-purple-400/40 rounded-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)] text-left transition-opacity duration-300 ease-out pointer-events-auto">
             <div className="flex items-center justify-between border-b border-purple-500/30 pb-3 mb-5">
               <div className="flex items-center gap-2">
-                <h3 className="">
+                <h3 >
                   History Timeline & 3D Ship Controls
                 </h3>
               </div>
@@ -909,7 +909,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, startScale: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="">Size at 1998 Inaugural Voyage (0.05x to 5.00x).</p>
+                <p >Size at 1998 Inaugural Voyage (0.05x to 5.00x).</p>
               </div>
 
               {/* 2. End Ship Scale */}
@@ -926,7 +926,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, endScale: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="">Size at 2028 Voyage #23 finish (0.05x to 8.00x).</p>
+                <p >Size at 2028 Voyage #23 finish (0.05x to 8.00x).</p>
               </div>
 
               {/* 3. Year Scaling Curve Mode */}
@@ -937,7 +937,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     <button
                       key={mode}
                       onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
-                      className={`py-1.5 px-2 transition-colors cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode ? 'bg-cyan-400 text-black border-purple-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]' : ' bg-[#00000029] text-white/70 border-white/10 hover:bg-white/10 hover:text-white '}`}>
+                      className={`py-1.5 px-2 transition-colors cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode ? 'bg-cyan-400   border-purple-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]' : ' bg-[#00000029] text-white/70 border-white/10 hover:bg-white/10 hover:text-white '}`}>
                       {mode === 'linear' ? 'Linear' : mode === 'exponential' ? 'Accel' : 'Stepped'}
                     </button>
                   ))}
@@ -966,7 +966,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     onChange={e => setTuning({ ...tuning, growthCurveExp: parseFloat(e.target.value) })}
                     className="w-full accent-cyan-400 cursor-pointer"
                   />
-                  <p className="">Lower = early growth, Higher = rapid late growth.</p>
+                  <p >Lower = early growth, Higher = rapid late growth.</p>
                 </div>
               )}
 
@@ -984,7 +984,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, shipOffsetX: parseInt(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="">Nudge ship left or right on the path (-200px to +200px).</p>
+                <p >Nudge ship left or right on the path (-200px to +200px).</p>
               </div>
 
               {/* 4. Ship Y Position Offset */}
@@ -1001,7 +1001,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, shipOffsetY: parseInt(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="">Nudge ship up or down on the path (-200px to +200px).</p>
+                <p >Nudge ship up or down on the path (-200px to +200px).</p>
               </div>
 
               {/* 5. Bow Offset / Ship Stop Position */}
@@ -1018,7 +1018,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, bowOffsetPx: parseInt(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="">Live tunes where the 3D ship and solid blue line stop on the timeline relative to 2026 (0px to 400px).</p>
+                <p >Live tunes where the 3D ship and solid blue line stop on the timeline relative to 2026 (0px to 400px).</p>
               </div>
 
               {/* 6. Scroll Start Target */}
@@ -1035,7 +1035,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, scrollStartMul: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="">Controls when the timeline scrub starts scrolling into view (10% to 95%).</p>
+                <p >Controls when the timeline scrub starts scrolling into view (10% to 95%).</p>
               </div>
 
               {/* 7. Scroll End Target */}
@@ -1052,7 +1052,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, scrollEndMul: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="">Controls vertically where row 2026 sits on screen when the timeline finishes (10% to 95%).</p>
+                <p >Controls vertically where row 2026 sits on screen when the timeline finishes (10% to 95%).</p>
               </div>
 
               {/* 8. Scrub Damping / Smoothness */}
@@ -1069,7 +1069,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   onChange={e => setTuning({ ...tuning, scrubDamping: parseFloat(e.target.value) })}
                   className="w-full accent-cyan-400 cursor-pointer"
                 />
-                <p className="">Adjusts how smoothly the 3D ship responds to your scroll wheel (0.1s snappy to 2.0s ultra-smooth).</p>
+                <p >Adjusts how smoothly the 3D ship responds to your scroll wheel (0.1s snappy to 2.0s ultra-smooth).</p>
               </div>
 
               {/* 6. Line Width */}
@@ -1119,7 +1119,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 )}
                 <button
                   onClick={handleSaveTuning}
-                  className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer">
+                  className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400   transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer">
                   💾 Save Settings
                 </button>
               </div>

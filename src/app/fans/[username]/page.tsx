@@ -445,7 +445,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               </button>
               <button
                 onClick={() => setDashboardView('cruise')}
-                className={`px-6 py-2 rounded-lg transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : ' text-white/40 '}`}>
+                className={`px-6 py-2 rounded-lg transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500   shadow-[0_0_15px_rgba(6,182,212,0.4)]' : ' text-white/40 '}`}>
                 Cruise Hub
               </button>
             </div>
@@ -459,8 +459,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div>
                 <div className="flex items-center gap-4 mb-6">
                   <div>
-                    <h2 className="text-2xl font-bold">Cruise Hub</h2>
-                    <p className="">Passenger Area</p>
+                    <h2 className="text-2xl   ">Cruise Hub</h2>
+                    <p >Passenger Area</p>
                   </div>
                 </div>
                 <p className="max-w-xl">Welcome aboard, <strong>{member?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
@@ -481,7 +481,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <span className="ml-auto text-cyan-500/60 border border-purple-500/20 px-2 py-1 rounded">Priority Update</span>
                   </div>
                   <div
-                    className="text-black/80 space-y-4 [&_a]: [&_a]: [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:"
+                    className="text-black/80 space-y-4 [&_a]: [&_a]: [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:  [&_strong]:"
                     dangerouslySetInnerHTML={{ __html: sanitizeHtml(cruiseAnnouncement) }}
                   />
                 </div>
@@ -509,7 +509,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-5">
                               <span className="px-2.5 py-1 rounded border" style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}>{day.dayLabel}</span>
-                              <span className="">{day.location}</span>
+                              <span >{day.location}</span>
                             </div>
                             <h3 className="mb-2">{day.theme}</h3>
                             <ul className="space-y-4 mt-5 border-t border-white/10 pt-5">
@@ -573,7 +573,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         ) : (
           <>
             {/* Backstage Feed — always visible */}
-            <section id="backstage-feed" className="mb-6">
+            <section id="backstage-feed" aria-label="Backstage Live Feed" className="mb-6">
               {isLive && liveFeeds.length > 0 ? (
                 <div className="space-y-3">
                   {liveFeeds.map((feed) => (
@@ -585,7 +585,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             <span className="relative inline-flex rounded-lg h-4 w-4 bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.8)]" />
                           </span>
                           <div>
-                            <p className="">{feed.host} is LIVE {feed.title ? `— ${feed.title}` : ''}</p>
+                            <p >{feed.host} is LIVE {feed.title ? `— ${feed.title}` : ''}</p>
                             <p className="text-red-300/80 mt-0.5">
                               {feed.viewers > 0 ? `${feed.viewers} watching · ` : ''}Watch the backstage feed before it ends
                             </p>
@@ -604,7 +604,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <span className="relative inline-flex rounded-lg h-4 w-4 bg-white/30" />
                       </span>
                       <div>
-                        <p className="">Backstage is Quiet</p>
+                        <p >Backstage is Quiet</p>
                         <p className="mt-0.5 text-sm sm:text-base">No crew feeds are live right now — check back during the next show</p>
                       </div>
                     </div>
@@ -616,7 +616,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
             {/* Rewards & Raffle Wins */}
             {inboxMessages.some(m => m.color === 'yellow' || m.title?.includes('Win')) && (
-              <section id="raffle-rewards" className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <section id="raffle-rewards" aria-label="Raffle Rewards & Wins" className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {(() => {
                   const claimedPinsSet = new Set(claimedPins);
                   return Array.from(inboxMessages, (win, i) => ({ win, i })).flatMap(({ win, i }) => {
@@ -668,13 +668,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                               </div>
                               <div className="text-center">
                                 <p className="mb-1">Claim PIN</p>
-                                <p className={`${isClaimed ? 'text-emerald-400 line-through' : 'text-yellow-500'} tracking-[0.3em]`}>{pin}</p>
+                                <p className={`${isClaimed ? 'text-emerald-400 line-through' : 'text-yellow-500'}  `}>{pin}</p>
                               </div>
                             </div>
                           )}
                         </div>
                         <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-between relative z-10">
-                          <p className="">
+                          <p >
                             {isClaimed ? 'Prize handed off successfully' : 'Show this at the merch table'}
                           </p>
                           <button className={`${isClaimed ? 'text-emerald-400' : 'text-yellow-500'} hover:text-white transition-colors`}>
@@ -693,7 +693,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               const isHappeningNow = nextShow && countdown.status === 'live';
               const isEnded = nextShow && countdown.status === 'ended';
               return (
-                <section id="next-show-countdown" className="relative mb-6">
+                <section id="next-show-countdown" aria-label="Next Show Countdown" className="relative mb-6">
                   <div className="relative z-10">
 
                     {nextShow ? (() => {
@@ -727,7 +727,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                     <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl   tabular-nums tracking-tight min-w-[1.4em] text-center flex items-center justify-center">
                                       {String(u.v).padStart(2, '0')}
                                     </span>
-                                    <span className="text-base sm:text-lg md:text-xl text-white/60 st mt-2">
+                                    <span className=" sm:text-lg md:text-xl text-white/60 st mt-2">
                                       {u.l}
                                     </span>
                                   </div>
@@ -740,7 +740,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       );
                     })() : (
                       <div>
-                        <p className="text-base sm:text-lg">Check back soon — new dates drop regularly</p>
+                        <p className=" sm:text-lg">Check back soon — new dates drop regularly</p>
                         <Link href="/#tour" className="mt-3 text-base sm:text-lg hover:text-white transition-colors">View Tour Page</Link>
                       </div>
                     )}
@@ -750,14 +750,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             })()}
 
             {/* Upcoming Shows */}
-            <section id="upcoming-shows" className="mb-6 max-w-6xl">
+            <section id="upcoming-shows" aria-label="Upcoming Shows" className="mb-6 max-w-6xl">
               <div className="flex items-center justify-between mb-6">
                 <Link href="/#tour" className="text-lg sm:text-xl md:text-2xl text-white/50 hover:text-[var(--color-accent)]   transition-colors">All Dates</Link>
               </div>
               {shows.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 lg:gap-8">
                   {Array.from(shows.slice(0, 3), (show: any, i: number) => ({ show, i })).map(({ show, i }) => (
-                    <div key={show.id || show.date || show.venue} className="flex items-start gap-5 sm:gap-7 md:gap-9 pb-6 sm:pb-8 group border-b border-white/10 last:border-b-0 md:border-b-0 pb-8 md:pb-6">
+                    <article key={show.id || show.date || show.venue} className="flex items-start gap-5 sm:gap-7 md:gap-9 pb-6 sm:pb-8 group border-b border-white/10 last:border-b-0 md:border-b-0 pb-8 md:pb-6">
                       <div className="flex flex-col items-center justify-center bg-[#00000029] px-6 py-3 border border-white/15 rounded-3xl shrink-0">
                         <span className="font-black text-base sm:text-lg md:text-xl lg:text-2xl text-purple-300 st mb-1">{show.date ? new Date(show.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }) : ''}</span>
                         <span className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
@@ -765,16 +765,16 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       <div className="flex-1 min-w-0">
                         <p className="font-black truncate mb-1">{show.venue}</p>
                         {(show.city || show.state) && (
-                          <p className="font-semibold   sm: .5">
+                          <p className="    sm: .5">
                             {show.city ? `${show.city}${show.state ? `, ${show.state}` : ''}` : show.state}
                           </p>
                         )}
                         {(show.doorsTime || show.playTime || show.time) && (
                           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2.5">
-                            {show.doorsTime && <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/50 font-semibold">Doors: {show.doorsTime}</span>}
+                            {show.doorsTime && <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/50  ">Doors: {show.doorsTime}</span>}
                             {show.playTime && <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-rose-400  ">Show: {show.playTime}</span>}
                             {show.time && (show.doorsTime || show.playTime)
-                              ? <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/50 font-semibold">Event: {show.time}</span>
+                              ? <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/50  ">Event: {show.time}</span>
                               : show.time && !show.doorsTime && !show.playTime
                                 ? <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl /90">{show.time}</span>
                                 : null}
@@ -857,24 +857,24 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           <span className="inline-block mt-2.5 text-xs text-red-400 bg-red-500/10 px-2.5 py-1 rounded-lg border border-red-500/20">Sold Out</span>
                         )}
                       </div>
-                    </div>
+                    </article>
                   ))}
                 </div>
               ) : (
                 <div className="py-6 flex flex-col items-center">
                   <p>No shows on the horizon yet.</p>
-                  <p className="">Follow us for announcements on new dates!</p>
+                  <p >Follow us for announcements on new dates!</p>
                 </div>
               )}
             </section>
 
             {/* Proximity Alerts & Show Alerts — 50/50 Grid */}
-            <section id="show-alerts" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <section id="show-alerts" aria-label="Show & Location Alerts" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <div>
                 <ProximityPanel />
               </div>
 
-              <div className="">
+              <div >
                 <div className="flex items-center justify-between mb-6">
                   <SectionBadge label="Subscribed Show Alerts" />
                   <span className="text-[var(--font-size-2xs)] text-white/40">Specific Tour Dates</span>
@@ -898,7 +898,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </div>
                         <button
                           onClick={() => handleUnsubscribeShow(sub.showId)}
-                          className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-[var(--font-size-2xs)] rounded-lg transition-colors cursor-pointer">
+                          className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:  border border-rose-500/20 text-[var(--font-size-2xs)] rounded-lg transition-colors cursor-pointer">
                           Cancel Alert
                         </button>
                       </div>
@@ -907,7 +907,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 ) : (
                   <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
                     <p>You aren&apos;t tracking any specific shows yet.</p>
-                    <p className="">Click the bell icon on the tour page to get date alerts.</p>
+                    <p >Click the bell icon on the tour page to get date alerts.</p>
                     <Link href="/#tour" className="mt-3 hover:text-white transition-colors">Find Shows</Link>
                   </div>
                 )}
@@ -939,7 +939,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
             {/* Live Alert SMS Opt-In */}
             {liveAlertsEnabled && (
-              <section id="live-alert-optin" className="mb-8 relative">
+              <section id="live-alert-optin" aria-label="Live Alert SMS Subscription" className="mb-8 relative">
                 <div className="relative z-10">
 
                   <h3 className="mb-1">Never Miss a Live Feed</h3>
@@ -949,7 +949,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="flex items-center gap-4 p-4 bg-emerald-500/10 border border-white/10 w-full">
                       <div>
                         <p>Live Alerts Active</p>
-                        <p>We&apos;ll text <span className="">({liveAlertPhone.slice(0, 3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
+                        <p>We&apos;ll text <span >({liveAlertPhone.slice(0, 3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
                       </div>
                       <button
                         onClick={() => { localStorage.removeItem('7h_live_alert_phone'); setLiveAlertSubscribed(false); setLiveAlertStatus('idle'); setLiveAlertPhone(''); }}
@@ -991,7 +991,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="lg:col-span-2 space-y-0">
 
                 {/* Tour Memories Gallery & Upload */}
-                <section id="tour-memories" className="space-y-6 border-t border-white/10">
+                <section id="tour-memories" aria-label="Tour Memories Gallery" className="space-y-6 border-t border-white/10">
 
 
                   {/* Photo Gallery Grid */}
@@ -1010,15 +1010,15 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             {/* Status Badge */}
                             <div className="absolute top-2 right-2 z-10">
                               {photo.approved ? (
-                                <span className="px-2 py-0.5 bg-emerald-500 text-black text-[0.9rem] rounded">
+                                <span className="px-2 py-0.5 bg-emerald-500   text-[0.9rem] rounded">
                                   Live
                                 </span>
                               ) : photo.rejected ? (
-                                <span className="px-2 py-0.5 bg-red-500 text-black text-[0.9rem] rounded">
+                                <span className="px-2 py-0.5 bg-red-500   text-[0.9rem] rounded">
                                   Declined
                                 </span>
                               ) : (
-                                <span className="px-2 py-0.5 bg-yellow-500 text-black text-[0.9rem] rounded">
+                                <span className="px-2 py-0.5 bg-yellow-500   text-[0.9rem] rounded">
                                   Review
                                 </span>
                               )}
@@ -1042,7 +1042,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             ) : (
                               /* Hover overlay for approved/pending */
                               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                                <p className="text-black truncate">{photo.venue || 'Live Event'}</p>
+                                <p className="  truncate">{photo.venue || 'Live Event'}</p>
                                 <p className={`mt-0.5 ${photo.approved ? 'text-emerald-400' : 'text-purple-300'}`}>
                                   {photo.approved ? 'Live on wall' : 'In Review'}
                                 </p>
@@ -1086,7 +1086,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           </div>
                           <div>
                             <p className={`transition-colors ${msg.color === 'yellow' ? 'group-hover:text-yellow-400' : 'group-hover:text-blue-400'}`}>{msg.title}</p>
-                            <p className="">{msg.desc}</p>
+                            <p >{msg.desc}</p>
                             <p className={`mt-2 ${msg.isNew ? ' text-[var(--color-accent)]' : ' text-white/40'}`}>{msg.time}</p>
                           </div>
                         </div>
@@ -1100,7 +1100,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         <p>No messages yet.</p>
-                        <p className="">Raffle wins, alerts & updates will appear here.</p>
+                        <p >Raffle wins, alerts & updates will appear here.</p>
                       </div>
                     )}
                   </div>
@@ -1113,14 +1113,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
             {/* 🛍️ Merch Quick Shop */}
             {merch.length > 0 && (
-              <section id="merch-quick-shop" className="mt-8">
+              <section id="merch-quick-shop" aria-label="Merch Quick Shop" className="mt-8">
                 <div className="flex items-center justify-between mb-5">
                   <span className="flex items-center gap-2 text-fuchsia-400">🛍️ Quick Shop</span>
                   <Link href="/merch" className="text-white/40 transition-colors">Full Store</Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {merch.map((item: any) => (
-                    <div key={item.id} className="bg-[#00000029] border border-white/10 overflow-hidden hover:border-fuchsia-500/30 transition-colors group">
+                    <article key={item.id} className="bg-[#00000029] border border-white/10 overflow-hidden hover:border-fuchsia-500/30 transition-colors group">
                       {item.image && (
                         <div className="aspect-square bg-black/40 overflow-hidden">
                           <Image width={200} height={200} unoptimized src={item.image} alt={item.title} className="w-full h-full object-cover" />
@@ -1130,10 +1130,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="truncate">{item.title}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-lg text-fuchsia-400">${parseFloat(item.price).toFixed(0)}</span>
-                          <Link href={`/merch`} className="text-white/70 bg-white/10 px-3 py-1.5 rounded border border-white/10 hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
+                          <Link href={`/merch`} className="text-white/70 bg-white/10 px-3 py-1.5 rounded border border-white/10 hover:bg-fuchsia-500 hover:  hover:border-fuchsia-500 transition-colors">Buy Now</Link>
                         </div>
                       </div>
-                    </div>
+                    </article>
                   ))}
                 </div>
               </section>

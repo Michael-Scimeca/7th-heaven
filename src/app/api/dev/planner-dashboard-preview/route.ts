@@ -71,19 +71,19 @@ export async function GET() {
 
             <div class="space-y-2">
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class=" /40 uppercase font-semibold">Event Date</span>
+                <span class=" /40 uppercase  ">Event Date</span>
                 <span class="  ">June 14, 2026</span>
               </div>
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class=" /40 uppercase font-semibold">Venue</span>
+                <span class=" /40 uppercase  ">Venue</span>
                 <span class="  ">The Chicago Theatre</span>
               </div>
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class=" /40 uppercase font-semibold">Location</span>
+                <span class=" /40 uppercase  ">Location</span>
                 <span class="  ">Chicago, IL</span>
               </div>
               <div class="flex justify-between py-1">
-                <span class=" /40 uppercase font-semibold">Performance Window</span>
+                <span class=" /40 uppercase  ">Performance Window</span>
                 <span class="text-purple-300 ">7:00 PM – 10:00 PM</span>
               </div>
             </div>
@@ -107,15 +107,15 @@ export async function GET() {
 
             <div class="space-y-2.5">
               <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/10 flex items-center justify-between">
-                <span class=" /80 font-medium">📥 Download Official Contract (.pdf)</span>
+                <span class=" /80  ">📥 Download Official Contract (.pdf)</span>
                 <span class="text-purple-400 text-[10px]">READY</span>
               </div>
               <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/10 flex items-center justify-between">
-                <span class=" /80 font-medium">📅 Export Schedule (.ics)</span>
+                <span class=" /80  ">📅 Export Schedule (.ics)</span>
                 <span class="text-purple-400 text-[10px]">EXPORT</span>
               </div>
               <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/10 flex items-center justify-between">
-                <span class=" /80 font-medium">💬 Band Management Direct Chat</span>
+                <span class=" /80  ">💬 Band Management Direct Chat</span>
                 <span class="text-emerald-400 text-[10px]">ONLINE</span>
               </div>
             </div>

@@ -93,7 +93,7 @@ export default function StudioDPage() {
               stagger={0.1}>
               Studio D
             </ExoTextReveal>
-            <p className="text-base sm:text-lg  ">
+            <p className=" sm:text-lg  ">
               Urban and Landscape Design
             </p>
           </div>
@@ -115,7 +115,7 @@ export default function StudioDPage() {
       <section className="site-container py-24 space-y-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-4 space-y-4">
-            <span className="text-xs tracking-[0.3em] text-purple-400">
+            <span className="text-xs   text-purple-400">
               Project Overview
             </span>
             <h2 className="text-3xl sm:text-4xl">
@@ -137,7 +137,7 @@ export default function StudioDPage() {
           <TransitionLink
             href="/rock-and-roll-kids"
             className="group block relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 border border-purple-500/20 p-10 sm:p-16 hover:border-purple-400/50 transition-all transform-gpu hover:scale-[1.01]">
-            <span className="text-xs tracking-[0.3em] block mb-3">
+            <span className="text-xs   block mb-3">
               Next Project
             </span>
             <h3 className="text-4xl sm:text-6xl font-black group-hover:text-purple-200 transition-colors flex items-center justify-center gap-4">

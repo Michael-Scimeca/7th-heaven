@@ -99,11 +99,11 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
               <p className="mb-2">
                 If you have any questions about returns, exchanges, or refunds, please reach out to us:
               </p>
-              <div className="space-y-1">
-                <p className="font-semibold  ">7th Heaven Support</p>
+              <address className="not-italic space-y-1">
+                <p className="font-semibold">7th Heaven Support</p>
                 <p>Email: <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a></p>
                 <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="a-btn">7thheavenband.com</a></p>
-              </div>
+              </address>
             </section>
           </>
         )}

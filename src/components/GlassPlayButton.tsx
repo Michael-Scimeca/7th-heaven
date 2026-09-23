@@ -79,19 +79,19 @@ export const GlassPlayButton = memo(
       <button
         type={type}
         disabled={disabled}
-        className={`seventh--btn w-15 h-15 group relative inline-flex items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-all duration-300 cursor-pointer select-none active:scale-95 ${varStyles.bg } ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? "ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50" : "" } ${pulse ? "animate-pulse" : ""} ${disabled ? "opacity-40 cursor-not-allowed pointer-events-none" : "hover:scale-105" } ${className}`}
+        className={`seventh--btn w-15 h-15 group relative inline-flex items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-[background-color,border-color,box-shadow,transform,opacity] duration-300 cursor-pointer select-none active:scale-95 ${varStyles.bg} ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? "ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50" : ""} ${pulse ? "animate-pulse" : ""} ${disabled ? "opacity-40 cursor-not-allowed pointer-events-none" : "hover:scale-105"} ${className}`}
         {...props}
       >
         {isPlaying ? (
           <Pause
-            className={`fill-white transition-transform group-hover:scale-110 ${sizeStyles.icon } ${iconClassName}`}
+            className={`fill-white transition-transform group-hover:scale-110 ${sizeStyles.icon} ${iconClassName}`}
           />
         ) : (
           <Play
-            className={`fill-white ml-0.5 transition-transform group-hover:scale-110 ${sizeStyles.icon } ${iconClassName}`}
+            className={`fill-white ml-0.5 transition-transform group-hover:scale-110 ${sizeStyles.icon} ${iconClassName}`}
           />
         )}
-        {children && <span className="ml-2 font-bold text-xs">{children}</span>}
+        {children && <span className="ml-2    text-xs">{children}</span>}
       </button>
     );
   }

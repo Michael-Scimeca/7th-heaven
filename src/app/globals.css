@@ -1,14 +1,20 @@
+@import "https://api.fontshare.com/v2/css?f[]=tanker@400&display=swap";
 @import "tailwindcss";
 @import "../styles/animations.css";
 
-@font-face {
-  font-family: 'Switzer';
-  font-display: swap;
+@theme {
+  --font-sans: 'Switzer', sans-serif;
+  --font-heading: 'Tanker', sans-serif;
+  --font-display: 'Tanker', sans-serif;
+  --color-dark-purple: lab(37 69.67 -89.26);
 }
 
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Tanker';
+  src: url('/fonts/Tanker-Regular.woff2') format('woff2');
+  font-weight: 100 900;
   font-display: swap;
+  font-style: normal;
 }
 
 html {
@@ -47,6 +53,8 @@ body {
   background-color: var(--bg-color, #05030a);
   color: var(--text-color, #ffffff);
   font-family: 'Switzer', var(--font-barlow-condensed), system-ui, sans-serif;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
   font-weight: 400;
   font-size: 1rem;
   line-height: var(--leading-body, 1.65);
@@ -72,19 +80,21 @@ a[href*="tel:"] {
   text-shadow: 3px 5px 6px rgba(0, 0, 0, 0.5);
 }
 
-p {
-  font-size: 1rem;
-  line-height: var(--leading-body, 1.65);
-  font-weight: 600;
-}
 
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
-  font-family: 'Switzer', var(--font-barlow-condensed), system-ui, sans-serif;
+h6,
+.font-heading,
+.font-display,
+.heading-font {
+  font-family: 'Tanker', var(--font-tanker), sans-serif !important;
+  font-weight: 400 !important;
+  font-style: normal;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
 }
 
 h1 {
@@ -140,6 +150,7 @@ h6 {
   --color-text-subtle: rgba(255, 255, 255, 0.5);
   --color-border-main: rgba(255, 255, 255, 0.1);
   --color-border-purple: rgba(147, 51, 234, 0.3);
+  --color-dark-purple: lab(37 69.67 -89.26);
   --bg-color: #000000;
   --text-color: #ffffff;
   --card-bg: #000000;
@@ -204,7 +215,7 @@ h6 {
   --checkbox-size: 18px;
   --checkbox-border-radius: 4px;
   --heading-color: #ffffff;
-  --text-p-color: rgba(255, 255, 255, 0.799);
+  --text-p-color: rgb(255, 255, 255);
   --link-color: #c084fc;
   --link-hover-color: #e879f9;
 
@@ -371,6 +382,19 @@ h6 {
 
 p {
   color: var(--text-p-color);
+  font-size: 1rem;
+  line-height: var(--leading-body, 1.65);
+  font-weight: 600;
+}
+
+span,
+time {
+  font-weight: bold;
+}
+
+/* Paragraph spacing in editorial contexts */
+p+p {
+  margin-top: 1em;
 }
 
 /* ── Unified Base Text Link Styling ── */
@@ -397,7 +421,6 @@ a:visited {
     opacity 250ms ease,
     text-decoration-color 250ms ease;
 }
-
 
 
 /* Phone number links — always white text & drop shadow */
@@ -696,8 +719,11 @@ textarea {
   padding: 0.625rem 0.875rem;
   outline: none;
   box-shadow: 0 24px 60px #0000008c;
+
   transition: all 0.2s ease-in-out;
 }
+
+
 
 /* Ensure all form inputs except search inputs (aria-label="Search") and native toggles have width 100% */
 .site-input:not([aria-label="Search"]),
@@ -1002,7 +1028,6 @@ header,
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
-  padding: 10px 0 16px 0;
   transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1010,7 +1035,6 @@ header,
 #tour-sort-bar.is-stuck {
   position: sticky !important;
   z-index: 90 !important;
-  padding: 10px 0 16px 0 !important;
 }
 
 #tour-sort-bar::before {
@@ -1717,17 +1741,9 @@ button,
   }
 
   /* Primary body paragraph — 16px with proper leading */
-  p {
-    font-size: 1rem;
-    line-height: var(--leading-body, 1.65);
-    font-weight: 600;
-    color: var(--color-text-primary);
-  }
 
-  /* Paragraph spacing in editorial contexts */
-  p+p {
-    margin-top: 1em;
-  }
+
+
 
   /* Dust overlay class */
   .c-dusted:before {
@@ -3600,32 +3616,9 @@ html.is-preloading body {
 }
 
 /* Top and Bottom Map Edge Gradient Fades over Map Tile Canvas Layer (below markers & popups) */
-.gm-style>div:first-child::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 9rem;
-  background: linear-gradient(to bottom, #090314 0%, rgba(9, 3, 20, 0.85) 50%, transparent 100%);
-  z-index: 2;
-  pointer-events: none;
-}
 
-.gm-style>div:first-child::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 9rem;
-  background: linear-gradient(to top, #090314 0%, rgba(9, 3, 20, 0.85) 50%, transparent 100%);
-  z-index: 2;
-  pointer-events: none;
-}
 
-/* Map Popups & InfoWindow High Z-Index Override */
-.custom-tooltip-card,
+Map Popups & InfoWindow High Z-Index Override .custom-tooltip-card,
 .gm-style-iw,
 .gm-style-iw-c,
 .gm-style-iw-t,
@@ -3701,11 +3694,23 @@ html.is-preloading body {
   padding-bottom: 7vw !important;
 
   @media (min-width: 768px) {
-    padding-bottom: 7.5vw !important;
+    padding-bottom: 3.5vw !important;
   }
 
   @media (min-width: 1667px) {
-    padding-bottom: 1vw !important;
+    padding-bottom: 3vw !important;
+  }
+}
+
+@utility pt-map-section-fluid {
+  padding-top: 7vw !important;
+
+  @media (min-width: 768px) {
+    padding-top: 3.5vw !important;
+  }
+
+  @media (min-width: 1667px) {
+    padding-top: 4vw !important;
   }
 }
 
@@ -4949,7 +4954,19 @@ body.fake-livestream-active {
 
 /* ── Reusable Hover & Transition Utility Classes ── */
 .btn-transition {
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.transition-interactive {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.transition-color-fast {
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.transition-transform-smooth {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .color-transition {
@@ -5489,7 +5506,7 @@ body.fake-livestream-active {
   text-align: center;
   padding: 10px 28px;
   box-sizing: border-box;
-  min-width: 124px;
+  /* min-width: 124px; */
   width: 100%;
   height: 100%;
   border-radius: inherit;
@@ -5797,4 +5814,9 @@ a.cursor-pointer,
 button.cursor-pointer,
 .custom-venue-marker {
   transition-duration: 250ms !important;
+}
+
+section,
+div {
+  border: 1px solid #fff;
 }

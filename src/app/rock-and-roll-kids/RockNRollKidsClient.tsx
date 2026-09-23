@@ -425,7 +425,7 @@ export default function RockNRollKidsClient({
   return (
     <main className="site-container min-h-screen w-full page-container overflow-x-hidden">
       {/* Hero Header */}
-      <header className="text-center space-y-6">
+      <header className="text-center">
         <h1 className="mb-3">
           {sanityContent?.heroHeading || ABOUT_DATA.headline}
         </h1>
@@ -435,7 +435,7 @@ export default function RockNRollKidsClient({
         </p>
 
         {/* Full Cast Lineup Image Banner */}
-        <div className="relative w-full rounded-lg overflow-hidden mt-4">
+        <div className="relative w-full rounded-lg overflow-hidden mt-6">
           <Image
             src={getMediaUrl(sanityContent?.heroBannerImage, "/images/comics/allc.png")}
             alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
@@ -447,42 +447,42 @@ export default function RockNRollKidsClient({
       </header>
 
       {/* ── STORY & CONCEPT SECTION (LAYOUT 1: SPLIT DUAL GLASS) ── */}
-      <section aria-labelledby="rrk-story-heading" className="w-full py-section-fluid border-b border-white/10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-start text-left w-full">
-          <div className="md:col-span-5 space-y-4">
+      <section aria-labelledby="rrk-story-heading" className="w-full pb-section-fluid border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-6 items-start text-left w-full">
+          <div className="md:col-span-5 ">
             <h2 id="rrk-story-heading">
               {titleText}
             </h2>
-            <p className="text-white/70 text-sm leading-relaxed">
+            <p className="text-white/70 text-sm leading-relaxed mb-6">
               An original animated series & multi-platform universe bringing positive rock and roll energy to kids worldwide.
             </p>
 
             {/* Quick Spec Pills */}
-            <div className="pt-2 flex flex-col gap-2">
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs font-semibold text-purple-200">
+            <ul className="pt-2 flex flex-col gap-2">
+              <li className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs text-purple-200">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
                 <span>Animated TV Series & Comic Books</span>
-              </div>
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs font-semibold text-purple-200">
+              </li>
+              <li className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs text-purple-200">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
                 <span>Original Songs, Mobile Apps & Games</span>
-              </div>
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs font-semibold text-purple-200">
+              </li>
+              <li className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs text-purple-200">
                 <span className="w-2 h-2 rounded-full bg-purple-400 shrink-0" />
                 <span>Positive Influence & Creative Inspiration</span>
-              </div>
-            </div>
+              </li>
+            </ul>
           </div>
 
-          <div className="md:col-span-7 p-6 rounded-3xl   border border-white/10 backdrop-blur-2xl relative overflow-hidden space-y-6">
+          <div className="md:col-span-7 relative overflow-hidden space-y-6">
             <div className="absolute -top-16 -right-16 w-56 h-56 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 space-y-5">
               <div className="flex items-center gap-2">
-                <span className="text-purple-400 font-bold text-xs  r">[ CONCEPT OVERVIEW ]</span>
+                <span className="text-purple-400    text-xs  r">[ CONCEPT OVERVIEW ]</span>
               </div>
-              <p className="text-lg sm:text-xl leading-relaxed font-semibold drop-shadow-md">
+              <p className="text-lg sm:text-xl leading-relaxed   drop-shadow-md">
                 &ldquo;{para1}&rdquo;
               </p>
               {para2 && (
@@ -519,7 +519,7 @@ export default function RockNRollKidsClient({
                   {char.icon ? <char.icon className="w-3.5 h-3.5" /> : null}
                   {char.role}
                 </SectionBadge>
-                <h3 className="mb-1 font-bold">{char.name}</h3>
+                <h3 className="mb-1   ">{char.name}</h3>
                 <p className="text-white/70 text-sm">{char.desc}</p>
               </div>
             </article>
@@ -531,18 +531,18 @@ export default function RockNRollKidsClient({
       <section aria-labelledby="rrk-videos-heading" className="py-section-fluid border-b border-white/10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="space-y-3">
-              <h2 id="rrk-videos-heading" className="text-xl sm:text-2xl font-bold   mb-1">
+          <div className="lg:col-span-5">
+            <div >
+              <h2 id="rrk-videos-heading" className="text-xl sm:text-2xl      mb-1">
                 Featured Animated Singles
               </h2>
-              <p className="text-white/70 text-sm">
+              <p className="text-white/70 mb-6">
                 Select a song below to switch the animated music video player.
               </p>
             </div>
 
             {/* Animated Singles Quick Select Buttons */}
-            <div className="pt-3 border-t border-white/10 space-y-3">
+            <div className="border-t border-white/10 space-y-3">
               <AddCmsButton
                 label="ADD KIDS SONG / VIDEO IN SANITY CMS"
                 onClick={() => window.open("/studio", "_blank")}
@@ -554,7 +554,7 @@ export default function RockNRollKidsClient({
                     key={single.id}
                     onClick={() => setSelectedVideo(single.id)}
                     isActive={selectedVideo === single.id}
-                    className="!w-auto text-xs [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+                    className="!w-auto text-xs [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0  "
                   >
                     {single.title}
                   </SeventhButton>
@@ -595,7 +595,7 @@ export default function RockNRollKidsClient({
       <section aria-labelledby="rrk-comics-heading" className="py-section-fluid border-b border-white/10">
         <div className="pb-4 mb-6">
           <div>
-            <h2 id="rrk-comics-heading" className="text-2xl sm:text-3xl font-bold mb-1">
+            <h2 id="rrk-comics-heading" className="text-2xl sm:text-3xl    mb-1">
               {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
             </h2>
             <p className="  text-sm sm:text-base leading-relaxed max-w-3xl">
@@ -620,10 +620,10 @@ export default function RockNRollKidsClient({
                     className="object-cover"
                   />
                 </div>
-                <span className="text-[11px] text-purple-400 font-bold block mb-1">
+                <span className="text-[11px] text-purple-400    block mb-1">
                   {prod.badge}
                 </span>
-                <h3 className="text-base font-bold mb-1.5 line-clamp-1">
+                <h3 className="    mb-1.5 line-clamp-1">
                   {prod.title}
                 </h3>
                 <p className="text-white/70 text-xs leading-relaxed mb-6 line-clamp-2">
@@ -636,7 +636,7 @@ export default function RockNRollKidsClient({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full block">
-                <SeventhButton className="w-full !text-center justify-center font-bold text-xs">
+                <SeventhButton className="w-full !text-center justify-center    text-xs">
                   <span>Amazon Link</span>
                 </SeventhButton>
               </a>
@@ -648,7 +648,7 @@ export default function RockNRollKidsClient({
       {/* ── SERIES FOUNDERS & CREATORS ── */}
       <section aria-labelledby="rrk-founders-heading" className="py-section-fluid">
         <div className="mb-6 text-left">
-          <h2 id="rrk-founders-heading" className="text-2xl sm:text-3xl font-bold mb-1">
+          <h2 id="rrk-founders-heading" className="text-2xl sm:text-3xl    mb-1">
             {foundersSection?.title || "Series Founders & Contact"}
           </h2>
           <p className="  text-sm sm:text-base leading-relaxed max-w-3xl">
@@ -656,7 +656,7 @@ export default function RockNRollKidsClient({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {foundersList.map((founder: any) => (
             <article key={founder.name} className="flex flex-col space-y-4 group">
               <div className="relative w-full aspect-[4/3] sm:aspect-[1.2/1] max-h-[460px] rounded-2xl overflow-hidden transition-all flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)]">
@@ -680,7 +680,7 @@ export default function RockNRollKidsClient({
                 <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 pointer-events-none z-10" />
               </div>
               <div className="flex flex-col items-center text-center space-y-2.5 w-full">
-                <h3 className="text-2xl sm:text-3xl font-bold   mb-2">
+                <h3 className="text-2xl sm:text-3xl      mb-2">
                   {founder.name}
                 </h3>
                 <div>
@@ -695,14 +695,14 @@ export default function RockNRollKidsClient({
                 {founder.phone ? (
                   <a
                     href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                    className="! font-bold text-sm sm:text-base block mb-0">
+                    className="!    text-sm sm:text-base block mb-0">
                     {founder.phone}
                   </a>
                 ) : null}
                 {founder.email ? (
                   <a
                     href={`mailto:${founder.email}`}
-                    className="font-bold text-sm sm:text-base a-btn block">
+                    className="   text-sm sm:text-base a-btn block">
                     {founder.email}
                   </a>
                 ) : null}

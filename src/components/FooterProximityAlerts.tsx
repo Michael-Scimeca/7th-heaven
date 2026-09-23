@@ -231,9 +231,9 @@ export default function FooterProximityAlerts() {
   const isBusy = status === "saving";
 
   return (
-    <div className="w-full relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-10">
+    <div className="w-full relative z-10 flex flex-col md:flex-row items-start md:items-start gap-6">
       {/* ── LEFT COLUMN: iPhone Mobile Preview Device Mockup (Hidden on mobile, shown on tablet/desktop) ── */}
-      <div className="hidden md:flex shrink-0 w-full md:w-auto justify-center items-center my-auto">
+      <div className="hidden md:flex shrink-0 w-full md:w-auto justify-start items-start my-auto">
         <div className="relative w-[190px] sm:w-[210px] lg:w-[230px] aspect-[9/19.5] select-none filter">
           <IphoneClipMask
             insetXPercent={0}
@@ -261,7 +261,7 @@ export default function FooterProximityAlerts() {
 
       {/* ── RIGHT COLUMN: Proximity Alert Filters Form ── */}
       <div className="flex-1 min-w-0 w-full">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10 relative z-10">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6  border-b border-white/10 relative z-10">
           <div className="flex items-center gap-3">
 
             <div>
@@ -326,7 +326,7 @@ export default function FooterProximityAlerts() {
                     type="button"
                     onClick={() => setRadius(opt.value)}
                     isActive={isSelected}
-                    className="!w-auto px-3.5 py-2 text-xs">
+                  >
                     {opt.label}
                   </SeventhButton>
                 );
@@ -372,14 +372,24 @@ export default function FooterProximityAlerts() {
           </div>
         </div>
 
-        <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
+        <div
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setAgreeTerms(!agreeTerms);
+            }
+          }}
+          className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10"
+          onClick={() => setAgreeTerms(!agreeTerms)}>
           <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
-          <span className="font-medium">
+          <span className=" ">
             I agree to the <Link href="/terms" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
           </span>
         </div>
 
-        <div className="pt-5 border-t border-white/10 flex flex-col items-start justify-start gap-3 relative z-10">
+        <div className="border-t border-white/10 flex flex-col items-start justify-start gap-3 relative z-10">
           {permission === "granted" ? (
             <div className="flex flex-wrap items-center gap-3 shrink-0">
               <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 whitespace-nowrap shrink-0">
@@ -406,7 +416,7 @@ export default function FooterProximityAlerts() {
               icon={false}
               onClick={handleEnableAlerts}
               disabled={isBusy || permission === "denied"}
-              className="!px-6 !py-3.5 !text-xs ! rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
+              className="shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
               <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                 {status === "saving" ? (
                   <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />

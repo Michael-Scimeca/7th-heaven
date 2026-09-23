@@ -152,7 +152,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <h3 className="text-black">
               Official Profile & Scheduling Photo
             </h3>
-            <p className="text-black/70 font-semibold">
+            <p className="text-black/70  ">
               Required photo used for site scheduling, roster displays, and member avatar.
             </p>
           </div>
@@ -215,7 +215,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
                 onChange={(e) => setUrlInput(e.target.value)}
                 placeholder="https://example.com/my-photo.jpg"
                 required
-                className="flex-1 px-3 py-2 bg-white border border-black/15 rounded-lg text-black font-semibold placeholder:text-black/40 outline-none focus:border-[var(--color-accent)]"
+                className="flex-1 px-3 py-2 bg-white border border-black/15 rounded-lg     placeholder:text-black/40 outline-none focus:border-[var(--color-accent)]"
               />
               <button
                 type="submit"
@@ -225,16 +225,16 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             </form>
           )}
 
-          <p className="text-black/60 font-semibold">
+          <p className="text-black/60  ">
             Supported formats: JPG, PNG, WebP (max 5MB). Photo syncs automatically across your scheduling profile and header avatar.
           </p>
         </div>
       </div>
 
       {message && (
-        <div className={`mt-3 px-4 py-2 rounded-lg flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800" }`}>
+        <div className={`mt-3 px-4 py-2 rounded-lg flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"}`}>
           <span>{message.text}</span>
-          <button onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer">×</button>
+          <button onClick={() => setMessage(null)} className="text-black/50 hover:  ml-2 cursor-pointer">×</button>
         </div>
       )}
     </div>

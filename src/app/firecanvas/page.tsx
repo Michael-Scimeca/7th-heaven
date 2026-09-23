@@ -45,7 +45,7 @@ function Slider({
   return (
     <div>
       <div className="flex justify-between mb-1">
-        <span className="text-white/70 text-sm font-medium">{label}</span>
+        <span className="text-white/70 text-sm  ">{label}</span>
         <span className="font-mono text-amber-400 text-sm">
           {format ? format(value) : value}
         </span>
@@ -182,7 +182,7 @@ export default function FireCanvasTunerPage() {
           colorCoreHex={colorCoreHex}
           colorSparkHex={colorSparkHex}
         />
-        <div className="pointer-events-none absolute top-4 left-4 text-xs tracking-[0.2em] text-white/40">
+        <div className="pointer-events-none absolute top-4 left-4 text-xs    text-white/40">
           Fire Canvas Tuner
         </div>
       </div>
@@ -190,7 +190,7 @@ export default function FireCanvasTunerPage() {
       {/* Controls */}
       <div className="mx-auto max-w-3xl px-4 py-8 space-y-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-semibold">Pixel Fireplace — Live Tuner</h1>
+          <h1 className="text-lg  ">Pixel Fireplace — Live Tuner</h1>
           <div className="flex gap-2">
             <button
               type="button"
@@ -202,7 +202,7 @@ export default function FireCanvasTunerPage() {
             <button
               type="button"
               onClick={copyProps}
-              className="rounded-md bg-amber-500 px-3 py-1.5 text-sm font-medium text-black hover:bg-amber-400 whitespace-nowrap"
+              className="rounded-md bg-amber-500 px-3 py-1.5 text-sm     hover:bg-amber-400 whitespace-nowrap"
             >
               {copied ? "Copied!" : "Copy JSX props"}
             </button>
@@ -264,7 +264,7 @@ export default function FireCanvasTunerPage() {
         </div>
 
         <div>
-          <div className="mb-2 text-sm font-medium text-white/70">Palette Theme</div>
+          <div className="mb-2 text-sm   text-white/70">Palette Theme</div>
           <div className="flex flex-wrap gap-2">
             {PALETTE_THEMES.map((theme) => (
               <button

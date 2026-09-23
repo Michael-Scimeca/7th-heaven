@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
+import SeventhButton from "@/components/SeventhButton";
 import { sanityClient } from "@/lib/sanity";
 import { ArrowLeft, ArrowRight, Calendar, Tag, Newspaper } from "lucide-react";
 
@@ -142,10 +144,10 @@ export default async function NewsArticlePage({
   return (
     <main className="min-h-screen page-container">
       {/* Top nav bar */}
-      <div className="site-container py-6">
+      <div className="site-container py-3">
         <Link
           href="/#news"
-          className="inline-flex items-center gap-2 text-purple-300 hover:text-white transition-colors text-sm font-semibold"
+          className="inline-flex items-center gap-2 text-purple-300 hover:text-white transition-colors text-sm  "
         >
           <ArrowLeft className="w-4 h-4" />
           Back to News
@@ -157,13 +159,13 @@ export default async function NewsArticlePage({
         {/* Meta row */}
         <div className="flex flex-wrap items-center gap-4 mb-6">
           {article.date && (
-            <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
+            <span className="inline-flex items-center gap-1.5 text-sm  ">
               <Calendar className="w-3.5 h-3.5" />
               {article.date}
             </span>
           )}
           {categoryLabel && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full bg-purple-500/15 border border-purple-400/30 text-purple-300">
+            <span className="inline-flex items-center gap-1.5 text-xs    px-3 py-1 rounded-full bg-purple-500/15 border border-purple-400/30 text-purple-300">
               <Tag className="w-3 h-3" />
               {categoryLabel}
             </span>
@@ -171,10 +173,7 @@ export default async function NewsArticlePage({
         </div>
 
         {/* Title */}
-        <h1 className="mb-8 max-w-3xl ">{article.title}</h1>
-
-        {/* Divider */}
-        <div className="w-16 h-1 rounded-full bg-gradient-to-r from-[var(--color-accent)] to-fuchsia-400 mb-10" />
+        <h1 className="max-w-3xl mb-4">{article.title}</h1>
 
         {/* Body */}
         <div className="max-w-2xl space-y-5">
@@ -188,28 +187,26 @@ export default async function NewsArticlePage({
         </div>
 
         {/* Footer CTA */}
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-wrap gap-4">
-          <Link
-            href="/#news"
-            className="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            All News
-          </Link>
-          <Link
-            href="/shows"
-            className="btn-secondary inline-flex items-center gap-2 px-6 py-3 rounded-full"
-          >
-            View Tour Dates
-          </Link>
+        <div className="mt-6 border-t border-white/10 pt-6 flex flex-wrap gap-4">
+          <TransitionLink href="/#news">
+            <SeventhButton className="flex items-center gap-2">
+              <ArrowLeft className="w-4 h-4" />
+              <span>ALL NEWS</span>
+            </SeventhButton>
+          </TransitionLink>
+          <TransitionLink href="/shows">
+            <SeventhButton className="flex items-center gap-2">
+              <span>VIEW TOUR DATES</span>
+            </SeventhButton>
+          </TransitionLink>
         </div>
 
         {/* Other Articles Section */}
         {otherArticles.length > 0 && (
-          <section className="mt-20 pt-12 border-t border-white/10">
+          <section className="mt-6 border-t border-white/10">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h2 className="text-2xl font-bold flex items-center gap-2">
+                <h2 className="text-2xl    flex items-center gap-2">
                   <Newspaper className="w-5 h-5 text-[var(--color-accent)]" />
                   Other Articles
                 </h2>
@@ -219,7 +216,7 @@ export default async function NewsArticlePage({
               </div>
               <Link
                 href="/#news"
-                className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-purple-300 hover:text-white transition-colors"
+                className="hidden sm:inline-flex items-center gap-1.5 text-sm   text-purple-300 hover:text-white transition-colors"
               >
                 View All <ArrowRight className="w-4 h-4" />
               </Link>
@@ -238,25 +235,25 @@ export default async function NewsArticlePage({
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-3">
                         {other.date && (
-                          <span className="text-xs font-semibold flex items-center gap-1">
+                          <span className="text-xs   flex items-center gap-1">
                             <Calendar className="w-3 h-3" />
                             {other.date}
                           </span>
                         )}
                         {category && (
-                          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-400/20">
+                          <span className="text-[10px]    px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-400/20">
                             {category}
                           </span>
                         )}
                       </div>
-                      <h3 className="text-lg font-bold group-hover:text-purple-300 transition-colors line-clamp-2 mb-2">
+                      <h3 className="text-lg    group-hover:text-purple-300 transition-colors line-clamp-2 mb-2">
                         {other.title}
                       </h3>
                       <p className="text-xs text-white/70 line-clamp-3 leading-relaxed mb-6">
                         {other.content}
                       </p>
                     </div>
-                    <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs font-semibold text-purple-300 group-hover:text-white transition-colors">
+                    <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs   text-purple-300 group-hover:text-white transition-colors">
                       <span>Read Article</span>
                       <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
                     </div>

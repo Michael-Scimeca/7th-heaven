@@ -203,7 +203,7 @@ function PassengersWidget() {
       <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 relative z-10 text-sm sm:text-base">
         {passengers.map((p, idx) => (
           <div key={`passenger-${p.id}`} className="inline-flex items-center">
-            <span className="font-semibold">
+            <span className=" ">
               {p.name}
               {p.extra > 0 && (
                 <span className="text-purple-300 ml-1 text-xs sm:text-sm">
@@ -569,7 +569,7 @@ export default function CruiseDashboard() {
         <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
           <div className="text-center mb-8">
             <h1>Cruise Hub</h1>
-            <p className="">Exclusive Passenger Community</p>
+            <p >Exclusive Passenger Community</p>
           </div>
 
           <div className="bg-white border border-black/10 overflow-hidden">
@@ -577,7 +577,7 @@ export default function CruiseDashboard() {
               <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
                 <div className="text-center mb-6">
                   <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
-                  <h3 className="text-black mb-2">Verify Your Email</h3>
+                  <h3 className="  mb-2">Verify Your Email</h3>
                   <p className="text-black/60">
                     We've sent a 6-digit verification PIN to <strong>{email}</strong>. Enter it below to activate your account.
                   </p>
@@ -593,7 +593,7 @@ export default function CruiseDashboard() {
                       maxLength={6}
                       value={pinInput}
                       onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
-                      className="w-full bg-white border border-black/15 px-4 py-3 text-center text-lg tracking-[0.3em] text-black focus:border-purple-500 outline-none transition-colors"
+                      className="w-full bg-white border border-black/15 px-4 py-3 text-center text-lg     focus:border-purple-500 outline-none transition-colors"
                     />
                   </div>
 
@@ -604,7 +604,7 @@ export default function CruiseDashboard() {
                   </button>
 
                   <div className="text-center mt-4">
-                    <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-black/40 hover:text-black text-[var(--font-size-2xs)] transition-colors cursor-pointer">
+                    <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-black/40 hover:  text-[var(--font-size-2xs)] transition-colors cursor-pointer">
                       ← Cancel and Back
                     </button>
                   </div>
@@ -613,11 +613,11 @@ export default function CruiseDashboard() {
             ) : regSuccess ? (
               <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
                 <span className="text-4xl block mb-6">📧</span>
-                <h3 className="text-black mb-2">Check Your Email</h3>
+                <h3 className="  mb-2">Check Your Email</h3>
                 <p className="text-black/60 mb-6">
                   We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
                 </p>
-                <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:text-black transition-colors cursor-pointer">
+                <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:  transition-colors cursor-pointer">
                   Go to Log In
                 </button>
               </div>
@@ -625,10 +625,10 @@ export default function CruiseDashboard() {
               <>
                 {/* Tabs */}
                 <div className="flex border-b border-black/10">
-                  <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-purple-500 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-purple-500   bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Log In
                   </button>
-                  <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-purple-500 text-black bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-purple-500   bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
                     Register
                   </button>
                 </div>
@@ -639,11 +639,11 @@ export default function CruiseDashboard() {
                       <p className="text-black/50 mb-6">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                       <div>
                         <label htmlFor="cruise-hub-login-email" className="block text-black/50 mb-1.5">Email Address</label>
-                        <input id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-purple-500 outline-none transition-colors" />
+                        <input id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-login-password" className="block text-black/50 mb-1.5">Password</label>
-                        <input id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-purple-500 outline-none transition-colors" />
+                        <input id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 mt-2">{authError}</p>}
@@ -657,19 +657,19 @@ export default function CruiseDashboard() {
                       <p className="text-black/50 mb-6">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                       <div>
                         <label htmlFor="cruise-hub-reg-name" className="block text-black/50 mb-1.5">Full Legal Name *</label>
-                        <input id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-purple-500 outline-none transition-colors" />
+                        <input id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-reg-email" className="block text-black/50 mb-1.5">Email Address *</label>
-                        <input id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-purple-500 outline-none transition-colors" />
+                        <input id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-reg-phone" className="block text-black/50 mb-1.5">Phone Number *</label>
-                        <input id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-purple-500 outline-none transition-colors" />
+                        <input id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
                       </div>
                       <div>
                         <label htmlFor="cruise-hub-reg-password" className="block text-black/50 mb-1.5">Choose Password *</label>
-                        <input id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-black focus:border-purple-500 outline-none transition-colors" />
+                        <input id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 mt-2">{authError}</p>}
@@ -685,7 +685,7 @@ export default function CruiseDashboard() {
           </div>
 
           <div className="text-center mt-6">
-            <Link href="/cruise" className="text-black/40 hover:text-black transition-colors">
+            <Link href="/cruise" className="text-black/40 hover:  transition-colors">
               ← Back to Cruise Information
             </Link>
           </div>
@@ -824,7 +824,7 @@ export default function CruiseDashboard() {
             <h2>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
-            <p className="mt-4 font-semibold">
+            <p className="mt-4  ">
               Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
             </p>
 
@@ -834,14 +834,14 @@ export default function CruiseDashboard() {
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
                 isActive={activeItinYear === 2027}
-                className="">
+              >
                 2027 Star of the Seas (7-Night)
               </SeventhButton>
               <SeventhButton
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
                 isActive={activeItinYear === 2028}
-                className="">
+              >
                 2028 Legend of the Seas (8-Night)
               </SeventhButton>
             </div>

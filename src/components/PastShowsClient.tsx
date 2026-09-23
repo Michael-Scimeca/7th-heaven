@@ -106,14 +106,14 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
     <>
 
       {/* ── BREADCRUMB & HEADER SECTION ── */}
-      <header className="">
+      <header >
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-0 md:pb-6">
           <div>
             <h1 className="mb-3">
               {sanityContent?.heroHeading || sanityContent?.title || "Past Shows Archive"}
             </h1>
-            <p className="max-w-2xl font-medium">
+            <p className="max-w-2xl  ">
               {sanityContent?.heroSubheading || sanityContent?.subtitle || "A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985."}
             </p>
           </div>
@@ -126,20 +126,20 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
       {/* ── STATS BAR ── */}
       <section aria-label="Archive Statistics" className="flex flex-wrap items-center justify-start gap-4 mb-6">
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-bold">{totalShowsCount}+</span>
-          <span className="font-bold">Concerts Cataloged</span>
+          <span className="text-3xl sm:text-4xl   ">{totalShowsCount}+</span>
+          <span className="  ">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-bold">40+</span>
-          <span className="font-bold">Years of Live Rock</span>
+          <span className="text-3xl sm:text-4xl   ">40+</span>
+          <span className="  ">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-bold">500+</span>
-          <span className="font-bold">Unique Venues</span>
+          <span className="text-3xl sm:text-4xl   ">500+</span>
+          <span className="  ">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl font-bold">5+</span>
-          <span className="font-bold">Countries Played</span>
+          <span className="text-3xl sm:text-4xl   ">5+</span>
+          <span className="  ">Countries Played</span>
         </div>
       </section>
 
@@ -157,12 +157,12 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
 
         {/* Years Pill List Stacked Below Search */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="shrink-0 mr-1 font-bold  ">
+          <span className="shrink-0 mr-1     ">
             {sanityContent?.jumpToYearLabel || "Jump to Year:"}
           </span>
           <button
             onClick={() => setSelectedYear("ALL")}
-            className={`px-3 py-1.5 rounded-lg color-transition cursor-pointer font-bold ${selectedYear === "ALL" || selectedYear === "All" ? "bg-[var(--color-accent)] " : "bg-[#00000029] text-white/70 hover- border-0"}`}>
+            className={`px-3 py-1.5 rounded-lg color-transition cursor-pointer     ${selectedYear === "ALL" || selectedYear === "All" ? "bg-[var(--color-accent)] " : "bg-[#00000029] text-white/70 hover- border-0"}`}>
             {sanityContent?.allYearsLabel || "All Years"}
           </button>
           {years.map((y) => (
@@ -172,14 +172,14 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                 setSelectedYear(y.year);
                 setOpenYears((prev) => ({ ...prev, [y.year]: true }));
               }}
-              className={`px-3 py-1.5 rounded-lg font-bold color-transition cursor-pointer ${selectedYear === y.year ? "bg-[var(--color-accent)] " : "bg-[#00000029] text-white/70 hover- border-0"}`}>
+              className={`px-3 py-1.5 rounded-lg     color-transition cursor-pointer ${selectedYear === y.year ? "bg-[var(--color-accent)] " : "bg-[#00000029] text-white/70 hover- border-0"}`}>
               {y.year}
             </button>
           ))}
         </div>
 
-        <div className="font-semibold text-white/60 text-sm my-6">
-          Showing <span className="font-bold">{displayedCount}</span> of {totalShowsCount} shows
+        <div className="  text-white/60 text-sm my-6  ">
+          Showing <span className="  ">{displayedCount}</span> of {totalShowsCount} shows
         </div>
       </nav>
 
@@ -212,13 +212,13 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                 {/* Year Header Accordion Bar */}
                 <button
                   onClick={() => toggleYear(yGroup.year)}
-                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left color-transition"
+                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left color-transition  "
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}>
-                  <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-[var(--color-accent)] rounded-lg font-bold">
+                  <div className="flex items-center gap-3  ">
+                    <span className="px-3 py-1 bg-[var(--color-accent)] rounded-lg   ">
                       {yGroup.year}
                     </span>
-                    <span className='font-bold'>
+                    <span className='  '>
                       {yGroup.shows.length} {yGroup.shows.length === 1 ? "Show" : "Shows"}
                     </span>
                   </div>
@@ -226,7 +226,7 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
 
                 {/* Shows Table / Grid */}
                 {isOpen && (
-                  <div className="divide-y divide-[var(--border-color)]">
+                  <ul className="divide-y divide-[var(--border-color)]">
                     {yGroup.shows.map((show, idx) => {
                       const isCancelled = show.venue.toLowerCase().includes("cancelled");
                       const isUnplugged = show.venue.toLowerCase().includes("unplugged");
@@ -234,20 +234,20 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                       const isCruise = show.venue.toLowerCase().includes("cruise") || show.venue.toLowerCase().includes("greece") || show.venue.toLowerCase().includes("london") || show.venue.toLowerCase().includes("amsterdam");
 
                       return (
-                        <div
+                        <li
                           key={`${yGroup.year}-${idx}`}
-                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:text-whitebg-purple-light color-transition group"
+                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:text-white color-transition group"
                           style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
                           {/* Date & Day */}
-                          <div className="w-full sm:w-48 shrink-0 font-semibold flex items-center gap-2">
+                          <time className="w-full sm:w-48 shrink-0 flex items-center gap-2 font-medium">
                             <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] color-transition"></span>
                             {show.date || yGroup.year}
-                          </div>
+                          </time>
 
                           {/* Venue Name */}
-                          <div className="flex-1 sm:text-base leading-snug">
+                          <span className="flex-1 sm:text-base font-medium">
                             {show.venue}
-                          </div>
+                          </span>
 
                           {/* Badges */}
                           <div className="flex items-center gap-1.5 shrink-0 pt-1 sm:pt-0">
@@ -272,10 +272,10 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                               </span>
                             )}
                           </div>
-                        </div>
+                        </li>
                       );
                     })}
-                  </div>
+                  </ul>
                 )}
               </article>
             );

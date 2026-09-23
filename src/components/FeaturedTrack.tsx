@@ -253,7 +253,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
         {/* Header */}
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1 h-1 rounded-lg bg-cyan-400 animate-pulse" />
-          <span className="">Now Playing</span>
+          <span >Now Playing</span>
         </div>
 
         {locked ? (
@@ -428,7 +428,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                     {track.title}
                   </h4>
                   {currentSong && (
-                    <p className="font-semibold .5 flex items-center gap-1.5 justify-center md:justify-start">
+                    <p className="  .5 flex items-center gap-1.5 justify-center md:justify-start">
                       <span className="w-1.5 h-1.5 rounded-lg bg-cyan-400 animate-ping" />
                       Now Playing: <span className=" ">{currentSong.title}</span>
                     </p>
@@ -489,7 +489,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   <button
                     type="button"
                     onClick={togglePlay}
-                    className="w-12 h-12 rounded-lg bg-white text-black flex items-center justify-center active:scale-95 transition-colors cursor-pointer">
+                    className="w-12 h-12 rounded-lg bg-white   flex items-center justify-center active:scale-95 transition-colors cursor-pointer">
                     {isPlaying ? (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                     ) : (

@@ -99,7 +99,7 @@ export default function PushSubscribeModal({
             <div className="flex items-center gap-3 mb-6">
 
               <div>
-                <h3 className="">
+                <h3 >
                   Live Stream Push Alerts
                 </h3>
                 <span className="text-purple-400">
@@ -113,7 +113,7 @@ export default function PushSubscribeModal({
             </p>
 
             {error && (
-              <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300 font-semibold">
+              <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300  ">
                 ⚠️ {error}
               </div>
             )}
@@ -124,7 +124,7 @@ export default function PushSubscribeModal({
                   Your Full Name
                 </label>
                 <div className="relative w-full">
-                  <div className="input-glow-border rounded-lg w-full">
+                  <div className="input-glow-border  w-full">
                     <input
                       type="text"
                       required
@@ -145,7 +145,7 @@ export default function PushSubscribeModal({
                   Your Email Address
                 </label>
                 <div className="relative w-full">
-                  <div className="input-glow-border rounded-lg w-full">
+                  <div className="input-glow-border  w-full">
                     <input
                       type="email"
                       required
@@ -205,7 +205,7 @@ export default function PushSubscribeModal({
             </div>
             <h3 className="mb-2">You&apos;re Subscribed! 🔔</h3>
             <p className="text-gray-300 max-w-sm mx-auto mb-6">
-              We sent a welcome confirmation email to <strong className="">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
+              We sent a welcome confirmation email to <strong >{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
             </p>
 
             <button

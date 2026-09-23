@@ -218,7 +218,7 @@ export default function BulkInvitePanel() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full border-white/10 ${isDragging ? "scale-[0.99]" : "border-black/20 ]" }`}>
+            className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full border-white/10 ${isDragging ? "scale-[0.99]" : "border-black/20 ]"}`}>
             <input type="file"
               ref={fileInputRef}
               onChange={handleFileUpload}
@@ -226,7 +226,7 @@ export default function BulkInvitePanel() {
               className="hidden"
             />
             <span className="text-3xl mb-3 block"></span>
-            <p className="text-black r">Drag & Drop CSV File</p>
+            <p className="  r">Drag & Drop CSV File</p>
             <p className="text-black/60 .5 max-w-xs">
               Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
             </p>
@@ -244,7 +244,7 @@ export default function BulkInvitePanel() {
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col gap-3">
             <label htmlFor="bulk-invite-text-input" className="text-white/70">Copy-Paste Contact List</label>
-            <div className="input-glow-border rounded-lg w-full">
+            <div className="input-glow-border  w-full">
               <textarea aria-label="Text input"
                 id="bulk-invite-text-input"
                 value={inputText}
@@ -272,7 +272,7 @@ export default function BulkInvitePanel() {
               <span className="text-2xl"></span>
               <div>
                 <p className="text-black">Parsed Invite Roster</p>
-                <p className="text-black/60 mt-0.5 font-semibold">Found {invites.length} prospective fans to invite.</p>
+                <p className="text-black/60 mt-0.5  ">Found {invites.length} prospective fans to invite.</p>
               </div>
             </div>
 
@@ -281,7 +281,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={clearList}
                 disabled={sending}
-                className="px-4 py-2 text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30">
+                className="px-4 py-2 text-black/70 hover:  bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30">
                 Clear List
               </button>
               <SeventhButton
@@ -296,9 +296,9 @@ export default function BulkInvitePanel() {
 
           {/* Results Toast */}
           {results && (
-            <div className={`p-4 border flex items-center gap-3 ${results.failed > 0 ? "bg-rose-50 border-rose-200 text-rose-800" : "bg-emerald-50 border-emerald-200 text-emerald-800" }`}>
+            <div className={`p-4 border flex items-center gap-3 ${results.failed > 0 ? "bg-rose-50 border-rose-200 text-rose-800" : "bg-emerald-50 border-emerald-200 text-emerald-800"}`}>
               <span className="text-lg">{results.failed > 0 ? "" : ""}</span>
-              <p className="">
+              <p >
                 Dispatched: {results.success} invites sent successfully{results.failed > 0 && `, ${results.failed} failed`}.
               </p>
             </div>
@@ -318,7 +318,7 @@ export default function BulkInvitePanel() {
                 {invites.map((inv) => (
                   <tr key={inv.email} className="hover:bg-black/[0.01] transition-colors">
                     <td className="py-3.5 px-4 text-black">{inv.email}</td>
-                    <td className="py-3.5 px-4 text-black/70 font-semibold">{inv.name || <span className="text-black/30">N/A</span>}</td>
+                    <td className="py-3.5 px-4 text-black/70  ">{inv.name || <span className="text-black/30">N/A</span>}</td>
                     <td className="py-3.5 px-4 text-right">
                       {inv.status === "pending" && (
                         <span className="px-2.5 py-1 bg-black/5 text-black/60 rounded-lg text-[0.55rem]">

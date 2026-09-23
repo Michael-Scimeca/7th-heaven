@@ -95,7 +95,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
         </div>
 
         <div className="px-2 py-1.5">
-          <p className={`font-semibold ${isSmall ? " text-[12px] " : "text-[10.5px]"} /85 group-hover:text-white truncate`}>
+          <p className={`  ${isSmall ? " text-[12px] " : "text-[10.5px]"} /85 group-hover:text-white truncate`}>
             {data.title}
           </p>
         </div>
@@ -1706,28 +1706,28 @@ export default function VisualSitemapClient() {
         <div className="flex items-center gap-2 bg-black/60 p-1.5 rounded-lg border border-white/10">
           <button
             onClick={() => setActiveTab("ARCH")}
-            className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${activeTab === "ARCH" ? "bg-purple-600 border border-purple-400/50" : " hover:text-white bg-[#00000029] " }`}>
+            className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${activeTab === "ARCH" ? "bg-purple-600 border border-purple-400/50" : " hover:text-white bg-[#00000029] "}`}>
             <Layers className="w-3.5 h-3.5 text-purple-300" />
             <span>Full Architecture</span>
           </button>
 
           <button
             onClick={() => setActiveTab("BOOKING")}
-            className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${activeTab === "BOOKING" ? "bg-purple-600 border border-purple-400/50" : " hover:text-white bg-[#00000029] " }`}>
+            className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${activeTab === "BOOKING" ? "bg-purple-600 border border-purple-400/50" : " hover:text-white bg-[#00000029] "}`}>
             <Calendar className="w-3.5 h-3.5" />
             <span>Booking Flow</span>
           </button>
 
           <button
             onClick={() => setActiveTab("CRUISE")}
-            className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${activeTab === "CRUISE" ? "bg-purple-600 border border-purple-400/50" : " hover:text-white bg-[#00000029] " }`}>
+            className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${activeTab === "CRUISE" ? "bg-purple-600 border border-purple-400/50" : " hover:text-white bg-[#00000029] "}`}>
             <Ship className="w-3.5 h-3.5 text-amber-300" />
             <span>Cruise Flow</span>
           </button>
 
           <button
             onClick={() => setActiveTab("FAN_SIGNUP")}
-            className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP" ? "bg-purple-600 border border-purple-400/50" : " hover:text-white bg-[#00000029] " }`}>
+            className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${activeTab === "FAN_SIGNUP" ? "bg-purple-600 border border-purple-400/50" : " hover:text-white bg-[#00000029] "}`}>
             <UserPlus className="w-3.5 h-3.5 text-pink-300" />
             <span>Fan Signup Flow</span>
           </button>

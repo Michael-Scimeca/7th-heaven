@@ -184,7 +184,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
-            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "cancellation" ? "bg-rose-600 border-rose-400/50 shadow-rose-900/30" : "bg-white/[0.03] border-white/10 hover:bg-white/10" }`}>
+            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "cancellation" ? "bg-rose-600 border-rose-400/50 shadow-rose-900/30" : "bg-white/[0.03] border-white/10 hover:bg-white/10"}`}>
             <span className="flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></svg>
               Show Cancelled
@@ -194,7 +194,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button
             type="button"
             onClick={() => handleApplyPreset("time_change")}
-            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "time_change" ? "bg-purple-700 border-purple-400/50 shadow-purple-900/30" : "bg-white/[0.03] border-white/10 hover:bg-white/10" }`}>
+            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "time_change" ? "bg-purple-700 border-purple-400/50 shadow-purple-900/30" : "bg-white/[0.03] border-white/10 hover:bg-white/10"}`}>
             <span className="flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
               Time Moved Up
@@ -204,7 +204,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
-            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "venue_change" ? "bg-[var(--color-accent)] border-purple-400/50 shadow-purple-900/30" : "bg-white/[0.03] border-white/10 hover:bg-white/10" }`}>
+            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "venue_change" ? "bg-[var(--color-accent)] border-purple-400/50 shadow-purple-900/30" : "bg-white/[0.03] border-white/10 hover:bg-white/10"}`}>
             <span className="flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
               Venue Changed
@@ -214,7 +214,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button
             type="button"
             onClick={() => handleApplyPreset("announcement")}
-            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "announcement" ? "bg-cyan-600 border-purple-400/50 shadow-cyan-900/30" : "bg-white/[0.03] border-white/10 hover:bg-white/10" }`}>
+            className={`px-3.5 py-2.5 rounded-lg text-left transition-all cursor-pointer border ${alertType === "announcement" ? "bg-cyan-600 border-purple-400/50 shadow-cyan-900/30" : "bg-white/[0.03] border-white/10 hover:bg-white/10"}`}>
             <span className="flex items-center gap-1.5">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
               VIP / Special Alert
@@ -350,7 +350,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
               value={customBody !== "" ? customBody : activeBody}
               onChange={(e) => setCustomBody(e.target.value)}
               placeholder="Write your emergency broadcast message text..."
-              className="w-full border border-[var(--border-color)] rounded-lg p-2.5 !text-xs font-semibold outline-none focus:border-purple-500 resize-none"
+              className="w-full border border-[var(--border-color)] rounded-lg p-2.5 !text-xs   outline-none focus:border-purple-500 resize-none"
             />
           </div>
         </div>
@@ -381,8 +381,8 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
 
       {/* Dispatch CTA Button */}
       <div className="pt-1.5 flex items-center justify-between gap-3 flex-wrap">
-        <div className="">
-          Ready to dispatch across <strong className="">{[sendSms && "SMS", sendEmail && "Email", sendPush && "Push", sendDashboardBanner && "Banner"].filter(Boolean).join(", ")}</strong> to <strong className="">{recipientCount.toLocaleString()}</strong> recipients.
+        <div >
+          Ready to dispatch across <strong >{[sendSms && "SMS", sendEmail && "Email", sendPush && "Push", sendDashboardBanner && "Banner"].filter(Boolean).join(", ")}</strong> to <strong >{recipientCount.toLocaleString()}</strong> recipients.
         </div>
 
         <button
@@ -406,7 +406,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
 
       {/* Dispatch Result Feedback */}
       {dispatchResult && (
-        <div className={`p-3 rounded-lg border flex items-center justify-between animate-[fadeIn_0.2s_ease-out] ${dispatchResult.success ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300" : "bg-rose-500/15 border-rose-500/30 text-rose-300" }`}>
+        <div className={`p-3 rounded-lg border flex items-center justify-between animate-[fadeIn_0.2s_ease-out] ${dispatchResult.success ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300" : "bg-rose-500/15 border-rose-500/30 text-rose-300"}`}>
           <div>
             <span className="block">
               {dispatchResult.success ? "Broadcast Dispatched Successfully!" : "Dispatch Failed"}

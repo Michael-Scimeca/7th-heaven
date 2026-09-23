@@ -37,15 +37,15 @@ function FansRedirectContent() {
   }, [hydrated, isDemo, isLoggedIn, member, router, openModal, login]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center" id="fans-page">
+    <main className="min-h-screen flex items-center justify-center" id="fans-page">
       <div className="text-center">
         <h1 className="sr-only">7th Heaven Fan Portal</h1>
         <div className="w-11 h-11 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin mx-auto mb-6" />
-        <p className="">
+        <p >
           {isDemo ? "Loading Demo..." : isLoggedIn ? "Redirecting to your dashboard..." : "Please sign in to continue"}
         </p>
       </div>
-    </div>
+    </main>
   );
 }
 

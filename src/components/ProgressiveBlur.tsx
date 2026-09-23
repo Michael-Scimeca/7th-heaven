@@ -11,7 +11,7 @@ export default function ProgressiveBlur({ position = "both", className = "" }: P
   return (
     <>
       {(position === "top" || position === "both") && (
-        <div className={`fixed top-0 left-0 right-0 h-[60px] md:h-[95px] w-full z-40 pointer-events-none isolate overflow-hidden ${className}`} aria-hidden="true">
+        <div className={`fixed top-0 left-0 right-0 h-[60px] md:h-[100px] w-full z-40 pointer-events-none isolate overflow-hidden ${className}`} aria-hidden="true">
           <div className="absolute inset-0 z-[1] pointer-events-none backdrop-blur-[1.5px] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0)_20%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0)_20%)]" />
           <div className="absolute inset-0 z-[2] pointer-events-none backdrop-blur-[3px] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_15%,rgba(0,0,0,0)_40%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_15%,rgba(0,0,0,0)_40%)]" />
           <div className="absolute inset-0 z-[3] pointer-events-none backdrop-blur-[6px] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_30%,rgba(0,0,0,0)_65%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_30%,rgba(0,0,0,0)_65%)]" />

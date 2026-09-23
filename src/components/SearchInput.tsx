@@ -61,7 +61,7 @@ export function SearchInput({
         placeholder={placeholder}
         autoFocus={autoFocus}
         glow={true}
-        inputClassName={`form-input no-bg-icon w-full font-semibold border-none outline-none py-2.5 !pl-11 !pr-8   placeholder: text-white/40 rounded-lg transition-colors ${className}`}
+        inputClassName={`form-input no-bg-icon w-full   border-none outline-none py-2.5 !pl-11 !pr-8   placeholder: text-white/40 rounded-lg transition-colors ${className}`}
       />
       <div className="!absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 z-20 flex items-center justify-center">
         <Search className="w-4 h-4" />

@@ -336,7 +336,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
   const [cardsVisible, setCardsVisible] = useState<number>(3);
   const [aspectRatio, setAspectRatio] = useState<string>("h-[300px] sm:h-[400px] md:h-[500px]");
   const [cardGap, setCardGap] = useState<string>("gap-6");
-  const [borderRadius, setBorderRadius] = useState<string>("rounded-lg");
+  const [borderRadius, setBorderRadius] = useState<string>("");
   const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
 
   // 2. Motion & Auto-Advance
@@ -614,7 +614,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
     setCardsVisible(3);
     setAspectRatio("h-[300px] sm:h-[400px] md:h-[500px]");
     setCardGap("gap-6");
-    setBorderRadius(" rounded-lg ");
+    setBorderRadius("");
     setBorderStyle("border border-white/10");
 
     setIsAutoPlayEnabled(false);
@@ -661,14 +661,14 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
       {/* Section Header inside site-container */}
       <div className="site-container relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-6">
           <div className="max-w-2xl">
             <h2 className="mb-2.5">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
-            <h3 className="text-purple-200/75 font-normal mb-5">
+            <p className="mb-5">
               {sanityContent?.videoShowcaseSubtitle || "Explore 7th Heaven's live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax."}
-            </h3>
+            </p>
           </div>
 
           <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
@@ -720,7 +720,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
             const end = start + previewDurationSec;
 
             return (
-              <div
+              <article
                 key={video.id + idx}
                 className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
                 style={{
@@ -786,10 +786,10 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                       {/* Gradient shadow overlay for legibility */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10 transition-opacity duration-300 group-hover:opacity-0" />
 
-                      {/* Interactive Play Button Overlay (Above Dark Overlay) */}
+                      {/* Interactive Play Button Overlay (Centered in Middle of Video Card) */}
                       {playButtonVisibility !== "hidden" && (
                         <div
-                          className={`media-hover:text-whiteoverlay z-20 group-hover:opacity-0 transition-opacity duration-300 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}>
+                          className={`media-hover-overlay z-20 group-hover:opacity-0 transition-opacity duration-300 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}>
                           <GlassPlayButton
                             size="lg"
                             aria-label={`Play full video for ${video.title}`}
@@ -823,7 +823,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
                 {/* Below Card Metadata */}
                 {showMetadata && (
-                  <div className="pt-2.5 flex items-center justify-between gap-2   font-semibold w-full px-0.5 pointer-events-none">
+                  <div className="pt-2.5 flex items-center justify-between gap-2     w-full px-0.5 pointer-events-none">
                     <span className="shrink-0">
                       Views <strong className="ml-1">{video.viewCount}</strong>
                     </span>
@@ -834,7 +834,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                   </div>
                 )}
 
-              </div>
+              </article>
             );
           })}
         </div>
@@ -844,7 +844,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[99999] bg-gradient-to-r from-purple-900/90 to-pink-900/90 border border-purple-400/50 px-6 py-3.5 rounded-xl shadow-2xl backdrop-blur-md flex items-center gap-3 animate-fade-in">
           <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
-          <span className="font-semibold text-sm">{toastMessage}</span>
+          <span className="  text-sm">{toastMessage}</span>
         </div>
       )}
 
@@ -864,7 +864,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 <VideoIcon className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-xl font-bold">Add Video to Sanity</h3>
+                <h3 className="text-xl   ">Add Video to Sanity</h3>
                 <p className="text-xs text-purple-300/70">Publish a new YouTube video directly to the Sanity database.</p>
               </div>
             </div>
@@ -877,7 +877,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
             <form onSubmit={handleAddVideoSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                <label className="block text-xs   text-purple-200/80 mb-1.5">
                   Video Title *
                 </label>
                 <input
@@ -891,7 +891,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                <label className="block text-xs   text-purple-200/80 mb-1.5">
                   YouTube URL or Video ID *
                 </label>
                 <input
@@ -907,7 +907,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-semibold text-purple-200/80">
+                    <label className="block text-xs   text-purple-200/80">
                       Category *
                     </label>
                     <button
@@ -918,7 +918,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                           setCustomCategoryInput("");
                         }
                       }}
-                      className="text-xs font-medium text-purple-400 hover:text-purple-300 transition-colors cursor-pointer"
+                      className="text-xs   text-purple-400 hover:text-purple-300 transition-colors cursor-pointer"
                     >
                       {isCustomCategory ? "← Select List" : "+ New Category"}
                     </button>
@@ -957,7 +957,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                  <label className="block text-xs   text-purple-200/80 mb-1.5">
                     Year
                   </label>
                   <input
@@ -969,7 +969,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                  <label className="block text-xs   text-purple-200/80 mb-1.5">
                     Duration
                   </label>
                   <input
@@ -983,7 +983,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                <label className="block text-xs   text-purple-200/80 mb-1.5">
                   Description
                 </label>
                 <textarea
@@ -999,14 +999,14 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm font-semibold transition-colors cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm   transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-bold text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500    text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
                 >
                   {submitting ? "Saving..." : "+ SAVE VIDEO TO SANITY"}
                 </button>

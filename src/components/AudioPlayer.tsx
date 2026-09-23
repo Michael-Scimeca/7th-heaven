@@ -512,7 +512,7 @@ export default function AudioPlayerSection() {
               <Music className="w-7 h-7 text-purple-300" />
             </div>
             <div>
-              <span className="text-[11px] tracking-[0.3em] text-purple-400 block mb-1">
+              <span className="text-[11px]   text-purple-400 block mb-1">
                 7th Heaven Music Vault
               </span>
               <h3 className="text-xl sm:text-2xl">
@@ -803,7 +803,7 @@ export default function AudioPlayerSection() {
                     {activeAlbum?.lineup?.length > 0 && (
                       <div className="mb-6">
                         <h3 className="/90 mb-1.5">Line-Up</h3>
-                        <ul className="flex flex-col gap-1 text-[12px]   leading-snug">
+                        <ul className="flex flex-col gap-1 text-[12px]    ">
                           {activeAlbum.lineup.map((line) => (
                             <li key={line}>{line}</li>
                           ))}
@@ -814,7 +814,7 @@ export default function AudioPlayerSection() {
                     {activeAlbum?.credits?.length > 0 && (
                       <div className="mb-6">
                         <h3 className="/90 mb-1.5">Credits</h3>
-                        <ul className="flex flex-col gap-1 text-[12px]   leading-snug">
+                        <ul className="flex flex-col gap-1 text-[12px]    ">
                           {activeAlbum.credits.map((line) => (
                             <li key={line}>{line}</li>
                           ))}
@@ -901,7 +901,7 @@ export default function AudioPlayerSection() {
               <div className="overlay-center-hover">
                 <div className="w-7 h-7 rounded-lg border border-white flex items-center justify-center bg-black/30 backdrop-blur-sm transform group-hover:scale-110 transition-transform">
                   {isPlaying ? (
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className=""><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" ><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
                   ) : (
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><path d="M8 5v14l11-7z" /></svg>
                   )}
@@ -1042,7 +1042,7 @@ export default function AudioPlayerSection() {
               <div className="flex items-center justify-between px-8 py-5 bg-[var(--color-bg-surface)] shrink-0">
                 <div className="min-w-0">
                   <h3 className="truncate">{trackTitle}</h3>
-                  <p className="">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}</p>
+                  <p >{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}</p>
                 </div>
                 <button onClick={() => setShowLyrics(false)} className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors shrink-0 ml-4">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>

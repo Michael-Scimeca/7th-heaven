@@ -179,7 +179,7 @@ export default function ProximitySubscriberAdminPanel() {
       {/* Search & Filter Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 mb-6">
         <div className="sm:col-span-7 relative flex items-center w-full">
-          <div className="input-glow-border rounded-lg w-full">
+          <div className="input-glow-border  w-full">
             <input
               type="text"
               value={search}
@@ -245,7 +245,7 @@ export default function ProximitySubscriberAdminPanel() {
                 return (
                   <tr key={sub.id} className="bg-[#00000029] transition-colors">
                     {/* Fan / Device */}
-                    <td className="py-4 px-4 font-medium">
+                    <td className="py-4 px-4  ">
                       {isEditing ? (
                         <input
                           type="text"

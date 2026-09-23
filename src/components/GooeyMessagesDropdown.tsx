@@ -153,7 +153,7 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`backdrop-blur-xl bg-[#00000029] border-[#ffffff1a] relative z-50 border border-white/10 min-h-[46px] shadow-[0_24px_60px_#0000008c] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"} ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"} rounded-lg ${open ? "font-bold bg-[#8d73d71c] rounded-t-lg rounded-b-none" : "bg-[#8d73d71c] font-bold border-white/10 /90 hover:bg-[#8d73d71c]"} ${noBorder ? "!border-none" : ""} flex items-center gap-3 cursor-pointer transition-[background-color,border-color,transform,box-shadow] duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_3px_9px_#0000008c]`}
+        className={`backdrop-blur-xl bg-[#00000029] border-[#ffffff1a] relative z-50 border border-white/10 min-h-[46px] shadow-[0_24px_60px_#0000008c] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"} ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"} rounded-lg ${open ? "   bg-[#8d73d71c] rounded-t-lg rounded-b-none" : "bg-[#8d73d71c]    border-white/10 /90 hover:bg-[#8d73d71c]"} ${noBorder ? "!border-none" : ""} flex items-center gap-3 cursor-pointer transition-[background-color,border-color,transform,box-shadow] duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_3px_9px_#0000008c]`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -161,7 +161,7 @@ export default function GooeyMessagesDropdown({
         id={elementId}
         name={name}>
         <span
-          className={`whitespace-normal break-words flex-1 font-bold ${triggerTextClassName}`}>
+          className={`whitespace-normal break-words flex-1    ${triggerTextClassName}`}>
           {triggerText}
         </span>
         <svg
@@ -182,7 +182,7 @@ export default function GooeyMessagesDropdown({
       {/* Gooey Options Menu Panel (Crisp Foreground Layer) */}
       {open && (
         <div
-          className="absolute !left-0 top-full min-w-full w-max max-w-md font-bold border border-white/10 border-t-0 rounded-lg bg-[#00000029] shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-[18px] z-[99999] overflow-hidden transition-[opacity,transform] duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)] rounded-b-lg rounded-t-none"
+          className="absolute !left-0 top-full min-w-full w-max max-w-md    border border-white/10 border-t-0 rounded-lg bg-[#00000029] shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-[18px] z-[99999] overflow-hidden transition-[opacity,transform] duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)] rounded-b-lg rounded-t-none"
           role="listbox">
           {(title || badge) && (
             <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/10 mb-1">
@@ -206,7 +206,7 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full !m-0 text-left px-4 py-2 !rounded-none transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? " bg-gradient-to-l from-purple-700 to-purple-900 font-semibold" : "   hover:text-white hover:bg-gradient-to-l from-purple-900 to-purple-500/90"}`}
+                    className={`w-full !m-0 text-left px-4 py-2 !rounded-none transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? " bg-gradient-to-l from-purple-700 to-purple-900  " : "   hover:text-white hover:bg-gradient-to-l from-purple-900 to-purple-500/90"}`}
                     onClick={() => {
                       setSelectedIdState(c.id);
                       onSelect?.(c);

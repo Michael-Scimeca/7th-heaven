@@ -497,7 +497,7 @@ export default function UserFlowMap() {
       <div className="absolute top-0 left-0 right-0 z-10 bg-black/90 backdrop-blur-[45px] border-b border-white/10 px-4 py-2.5 flex items-center justify-between pointer-events-none select-none">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-lg bg-pink-400 animate-pulse" />
-          <span className="">
+          <span >
             7th Heaven User Flow & Architecture Tree Map
           </span>
         </div>
@@ -568,7 +568,7 @@ export default function UserFlowMap() {
                 <span className="px-2 py-0.5 rounded bg- purple-white/20 text-purple-300 text-[12px] r">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
-                <h3 className="">
+                <h3 >
                   {selectedNode.data.label}
                 </h3>
                 <code className="block mt-0.5">

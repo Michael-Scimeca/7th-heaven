@@ -125,8 +125,8 @@ export function CalendarPicker({
     <div className="border-0 p-0 w-full  ">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
-          <p className="">{labels?.calendarSubtitle || "Select one or more dates to secure your slot"}</p>
+          <h3 >{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
+          <p >{labels?.calendarSubtitle || "Select one or more dates to secure your slot"}</p>
         </div>
       </div>
 
@@ -136,7 +136,7 @@ export function CalendarPicker({
         <span className="flex items-center gap-1.5 text-rose-400"><span className="w-3 h-3 rounded bg-rose-500/20 border border-rose-500/30 inline-block" /> Booked</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 min-[1500px]:grid-cols-[1.8fr_1.05fr_1.35fr] gap-x-4 gap-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 min-[1500px]:grid-cols-[1.8fr_1.05fr_1.35fr] gap-x-6 gap-y-6">
         {/* Row 1, Col 1: Calendar */}
         <div className="col-span-1 min-[1500px]:col-span-1">
           {/* Month & Year Selection Bar */}
@@ -251,7 +251,7 @@ export function CalendarPicker({
         </div>
 
         {/* Row 1, Col 2: Booking Window */}
-        <div className="col-span-1 min-[1500px]:col-span-1 border-t md:border-t-0 md:border-l min-[1500px]:border-l border-white/10 pt-6 md:pt-0 pl-3 md:pl-4">
+        <div className="col-span-1 min-[1500px]:col-span-1 border-t md:border-t-0 md:border-l min-[1500px]:border-l border-white/10 pt-6 md:pt-0 ">
           <h4 className="text-white/50 mb-6">
             {labels?.bookingWindowHeading || "Booking Window"}
           </h4>
@@ -321,11 +321,11 @@ export function CalendarPicker({
         </div>
 
         {/* Row 2: Event Format (spans full width on Row 2 below 1500px, moves to Col 3 at 1500px+) */}
-        <div className="col-span-1 md:col-span-2 min-[1500px]:col-span-1 pt-6 min-[1500px]:pt-0">
+        <div className="col-span-1 md:col-span-2 min-[1500px]:col-span-1 min-[1500px]:pt-0">
           <h4 className="text-white/50 mb-6">
             {labels?.eventFormatHeading || "Event Format"}
           </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 min-[1500px]:grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 min-[1500px]:grid-cols-1 gap-6">
             {[
               { id: "full_band", defaultLabel: "Full Band", Icon: Guitar, defaultDesc: "High energy, full 5-piece concert setup" },
               { id: "unplugged", defaultLabel: "Unplugged", Icon: Mic, defaultDesc: "Acoustic, intimate stripped-down set" },
@@ -347,7 +347,7 @@ export function CalendarPicker({
                       <TypeIcon className="w-5 h-5 shrink-0" />
                     </div>
                     <div className="min-w-0 flex-1 text-left gap-2 flex items-center">
-                      <span className={`text-sm sm:text-base font-bold block truncate ${isSelected ? "text-purple-300" : " "}`}>{displayLabel}</span>
+                      <span className={`text-sm sm:text-base    block truncate ${isSelected ? "text-purple-300" : " "}`}>{displayLabel}</span>
                       <span className="text-xs sm:text-sm   block line-clamp-1 sm:line-clamp-2">{displayDesc}</span>
                     </div>
                   </SeventhButton>

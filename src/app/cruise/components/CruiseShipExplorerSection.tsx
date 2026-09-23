@@ -18,18 +18,18 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
   const sectionSubtitle = sanityContent?.sections?.find((s: any) => s.sectionId === "ship")?.subtitle || "Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.";
 
   return (
-    <LazyMount as="section" id="ship-explorer" className="py-section-fluid border-b border-white/10 site-container" minHeight="800px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
+    <LazyMount as="section" id="ship-explorer" aria-label="Ship Specifications and Inclusions" className="py-section-fluid border-b border-white/10 site-container" minHeight="800px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <div className="text-left w-full mb-10">
-        <h2 className="">
+        <h2 >
           {sectionTitle}
         </h2>
-        <p className="mt-3 font-semibold max-w-2xl">
+        <p className="mt-3 max-w-2xl">
           {sectionSubtitle}
         </p>
       </div>
 
       {/* Specs & Dimensions */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 text-left font-bold">
+      <dl className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 text-left">
         {[
           { label: "Gross Tonnage", value: "248,663 GT" },
           { label: "Total Length", value: "1,196.9 Feet" },
@@ -37,24 +37,24 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
           { label: "Decks Tall", value: "20 Decks" },
         ].map((stat) => (
           <div key={stat.label} className="border-0 p-0 text-left">
-            <span className="block">{stat.label}</span>
-            <span className="text-lg md:text-xl block">{stat.value}</span>
+            <dt className="block text-white/50">{stat.label}</dt>
+            <dd className="text-lg md:text-xl block font-bold text-white/90">{stat.value}</dd>
           </div>
         ))}
-      </div>
+      </dl>
 
       {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
       <div>
         <div className="mb-6 text-left">
-          <h3 className="">
+          <h3 >
             Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
           </h3>
-          <p className="font-semibold">
+          <p >
             Authentic ship photography directly from Royal Caribbean's newest Icon-Class flagship launching August 2025.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {[
             { title: "Star of the Seas Sunset Aerial", img: "/images/cruise/ship/star-aerial-sunset.jpg", category: "Icon Class Ship" },
             { title: "Twilight Evening Aerial View", img: "/images/cruise/ship/star-aerial-evening.jpg", category: "Exterior Architecture" },
@@ -69,30 +69,32 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
             { title: "Dueling Pianos Music Hall", img: "/images/cruise/ship/duelingpianos.jpg", category: "Live Nightlife" },
             { title: "Ultimate Family Townhouse", img: "/images/cruise/ship/family-townhouse.jpg", category: "Suite Luxury" },
           ].map((item) => (
-            <div key={item.title} className="relative overflow-hidden group h-52 sm:h-60">
-              <Image
-                width={400}
-                height={300}
-                unoptimized
-                src={item.img}
-                alt={item.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                <SectionBadge label={item.category} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
-                <p className="leading-snug">{item.title}</p>
-              </div>
-            </div>
+            <li key={item.title}>
+              <article className="relative overflow-hidden group h-52 sm:h-60 rounded-lg">
+                <Image
+                  width={400}
+                  height={300}
+                  unoptimized
+                  src={item.img}
+                  alt={item.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
+                  <SectionBadge label={item.category} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
+                  <p >{item.title}</p>
+                </div>
+              </article>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
       {/* Dining Tab Section */}
       <div className="text-left pt-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-white/10">
           <div>
-            <h3 className="">Dining Explorer Guide</h3>
-            <p className="font-semibold">Discover included food spots and premium specialty restaurants.</p>
+            <h3 >Dining Explorer Guide</h3>
+            <p className=" ">Discover included food spots and premium specialty restaurants.</p>
           </div>
           {/* Dining Filter Tabs */}
           <div className="flex items-center gap-3">
@@ -158,7 +160,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
               <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
               <div className="absolute  inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                 <SectionBadge label={food.tag} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
-                <p className="leading-snug">{food.name}</p>
+                <p className=" ">{food.name}</p>
               </div>
             </div>
           ))}
@@ -169,8 +171,8 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
       <div className="pt-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 mb-6 border-b border-white/10 text-left">
           <div className="w-full lg:w-auto">
-            <h3 className="">Bars & Entertainment Explorer</h3>
-            <p className="font-semibold">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
+            <h3 >Bars & Entertainment Explorer</h3>
+            <p className=" ">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
           </div>
           <div className="flex shrink-0 self-start lg:self-center max-w-full gap-3">
             <SeventhButton
@@ -241,7 +243,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
               <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                 <SectionBadge label={item.tag} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
-                <p className="leading-snug">{item.name}</p>
+                <p className=" ">{item.name}</p>
               </div>
             </div>
           ))}

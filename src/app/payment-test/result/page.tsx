@@ -77,7 +77,7 @@ function NorthResultContent() {
               <div className="w-16 h-16 mx-auto mb-6 bg-rose-500/10 border-2 border-rose-500/30 rounded-lg flex items-center justify-center">
                 <span className="text-2xl">⚠️</span>
               </div>
-              <h2 className="text-xl font-bold mb-2">
+              <h2 className="text-xl    mb-2">
                 Couldn&apos;t Load Result
               </h2>
               <p>
@@ -90,7 +90,7 @@ function NorthResultContent() {
           {!loading && result && (
             <>
               <div
-                className={`w-16 h-16 mx-auto mb-6 rounded-lg flex items-center justify-center border-2 ${succeeded ? "bg-emerald-500/10 border-emerald-500/30" : "bg-rose-500/10 border-rose-500/30" }`}>
+                className={`w-16 h-16 mx-auto mb-6 rounded-lg flex items-center justify-center border-2 ${succeeded ? "bg-emerald-500/10 border-emerald-500/30" : "bg-rose-500/10 border-rose-500/30"}`}>
                 <span className="text-2xl">{succeeded ? "✅" : "❌"}</span>
               </div>
               <h1 className="mb-2">

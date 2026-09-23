@@ -476,7 +476,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 rounded">Crew HQ</span>
                 {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 rounded"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
               </div>
-              <span className="">{email}</span>
+              <span >{email}</span>
             </div>
           </div>
 
@@ -485,17 +485,17 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <div className="hidden md:flex items-center gap-6 px-6 py-2 bg-red-950/30 border border-red-500/20">
               <div className="text-center">
                 <p className="text-red-400">{viewerCount.toLocaleString()}</p>
-                <p className="">Viewers</p>
+                <p >Viewers</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
                 <p>{fmt(liveDuration)}</p>
-                <p className="">Duration</p>
+                <p >Duration</p>
               </div>
               <div className="w-px h-6 bg-white/10" />
               <div className="text-center">
                 <p className="text-yellow-400">{chatRate}/min</p>
-                <p className="">Chat Rate</p>
+                <p >Chat Rate</p>
               </div>
             </div>
           )}
@@ -517,7 +517,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             <Link
               href={studioPath}
-              className={`flex items-center gap-2 px-5 py-2 transition-colors ${isLive ? "bg-gradient-to-r from-red-500 to-rose-600 shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]" : "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"}`}>
+              className={`flex items-center gap-2 px-5 py-2 transition-colors ${isLive ? "bg-gradient-to-r from-red-500 to-rose-600 shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]" : "bg-white   hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"}`}>
               <span>{isLive ? "🔴" : "🎥"}</span>
               {isLive ? "Manage Stream" : "Create Live Feed"}
             </Link>
@@ -538,7 +538,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               </div>
               <div>
                 <p>{displayName}</p>
-                <p className="font-semibold">{member?.role || "Crew"}</p>
+                <p className=" ">{member?.role || "Crew"}</p>
                 <p className="mt-0.5">{email}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 rounded">7th Heaven</span>
@@ -624,7 +624,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="flex items-center gap-2 mt-3 flex-wrap">
                   <button
                     onClick={() => setRoomFilter("all")}
-                    className={`px-3 py-1 rounded-lg transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] /35 "}`}>
+                    className={`px-3 py-1 rounded-lg transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white   border-white" : "border-white/[0.1] /35 "}`}>
                     All Rooms ({msgs.length})
                   </button>
                   {KNOWN_ROOMS.map(room => (
@@ -729,15 +729,15 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
                   <div className="w-11 h-11 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                   <div>
-                    <h3 className="">Chat Moderation & Policies</h3>
-                    <p className="">Custom Flagged Keywords & Filters</p>
+                    <h3 >Chat Moderation & Policies</h3>
+                    <p >Custom Flagged Keywords & Filters</p>
                   </div>
                 </div>
 
                 <div className="p-4 space-y-4">
                   <div className="flex flex-col lg:flex-row gap-6 items-start">
                     <div className="flex-1 min-w-0 w-full space-y-2">
-                      <h4 className="">🔍 Custom Flagged Keywords</h4>
+                      <h4 >🔍 Custom Flagged Keywords</h4>
                       <p>
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>
@@ -751,14 +751,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                         />
                         <button
                           type="submit"
-                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black transition-colors cursor-pointer">
+                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)]   transition-colors cursor-pointer">
                           Add Keyword
                         </button>
                       </form>
                     </div>
 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                      <p className="">Active Custom Filters</p>
+                      <p >Active Custom Filters</p>
                       {customWords.length === 0 ? (
                         <div className="text-center py-6 border border-dashed border-white/10 bg-white/[0.01]">
                           <p>No custom keywords configured.</p>
@@ -794,7 +794,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <div className={`border overflow-hidden transition-colors ${isLive ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]" : "border-white/[0.07] "}`}>
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-6">
-                  <span className="text-base">🎥 Broadcast Studio</span>
+                  <span >🎥 Broadcast Studio</span>
                   {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-lg text-red-400"><span className="w-1 h-1 rounded-lg bg-red-500 animate-pulse" />LIVE</span>}
                 </div>
 
@@ -821,7 +821,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 <Link
                   href={studioPath}
-                  className={`w-full flex items-center justify-center gap-2 py-3 transition-colors ${isLive ? "bg-red-500 hover:bg-red-400 shadow-[0_0_16px_rgba(239,68,68,0.35)]" : "bg-white text-black hover:bg-white/90"}`}>
+                  className={`w-full flex items-center justify-center gap-2 py-3 transition-colors ${isLive ? "bg-red-500 hover:bg-red-400 shadow-[0_0_16px_rgba(239,68,68,0.35)]" : "bg-white   hover:bg-white/90"}`}>
                   {isLive ? "🔴 Manage Live Stream" : "🎥 Create Live Feed"}
                 </Link>
 

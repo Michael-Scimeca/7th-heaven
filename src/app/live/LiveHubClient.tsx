@@ -232,7 +232,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                       </div>
                       {/* Card info */}
                       <div className="p-3">
-                        <p className="">{room.title}</p>
+                        <p >{room.title}</p>
                         <p style={{ color: "rgba(255,255,255,0.3)" }}>{getElapsed(room.creationTime)}</p>
                         <div className="flex gap-1.5 mt-3">
                           <Link href={`/live/${room.name.replace(/^live_/, "")}`}
@@ -240,9 +240,11 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                             style={{ background: `rgba(${parseInt(room.color.slice(1, 3), 16)},${parseInt(room.color.slice(3, 5), 16)},${parseInt(room.color.slice(5, 7), 16)},0.15)`, color: room.color, border: `1px solid ${room.color}40` }}>
                             👁 Watch
                           </Link>
-                          <button aria-label="Previous"
+                          <button
+                            type="button"
+                            aria-label={`End ${room.title} stream`}
                             onClick={() => { setRooms(prev => prev.filter(r => r.name !== room.name)); addLog("🛑 Ended stream", room.title); }}
-                            className="py-1.5 px-3 rounded-lg transition-colors"
+                            className="py-1.5 px-3 rounded-lg transition-colors cursor-pointer"
                             style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
                             🛑 End
                           </button>
@@ -367,7 +369,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
         {rooms.map((room, i) => (
           <article
             key={room.name}
-            className="group  overflow-hidden"
+            className="group overflow-hidden"
             style={{ "--room-color": room.color } as React.CSSProperties}>
             <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
               {/* Thumbnail with video concert image */}
@@ -420,15 +422,15 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
               </div>
 
               <div className="min-w-0 flex-1 pr-2">
-                <h2 className="mb-1 truncate text-base md:text-lg font-bold">{room.title}</h2>
-                <p className="font-medium text-xs md:text-sm text-white/60">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
+                <h3 className="mb-1 truncate text-base md:text-lg font-bold">{room.title}</h3>
+                <p className="  text-xs md:text-sm text-white/60">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
               </div>
 
               <button
                 type="button"
                 aria-label="Copy stream link"
                 onClick={(e) => handleCopyLink(e, room.name.replace(/^live_/, ""))}
-                className={`ml-2 md:ml-4 shrink-0 px-3 md:px-4 py-2 text-xs font-bold rounded-lg transition-all border cursor-pointer whitespace-nowrap z-20 ${copiedSlug === room.name.replace(/^live_/, "") ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]" : "bg-white/10 hover:bg-white/20 border-white/10 active:scale-95"}`}>
+                className={`ml-2 md:ml-4 shrink-0 px-3 md:px-4 py-2 text-xs    rounded-lg transition-all border cursor-pointer whitespace-nowrap z-20 ${copiedSlug === room.name.replace(/^live_/, "") ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]" : "bg-white/10 hover:bg-white/20 border-white/10 active:scale-95"}`}>
                 {copiedSlug === room.name.replace(/^live_/, "") ? "✓ Copied!" : "Copy Link"}
               </button>
             </div>

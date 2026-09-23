@@ -8,7 +8,7 @@ export const TextAreaField = ({ label, required, id, ...props }: { label: string
   const textareaId = id || props.name || `book-textarea-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
-      <label htmlFor={textareaId} className="text-base block mb-2">{label}{required && " *"}</label>
+      <label htmlFor={textareaId} className=" block mb-2">{label}{required && " *"}</label>
       <div className="input-glow-border rounded-lg">
         <textarea id={textareaId} {...props} required={required}
           className="w-full bg-[#00000029] border-0 px-4 py-3 text-lg placeholder: text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[95px]"
@@ -22,7 +22,7 @@ export const SelectField = ({ label, options, required, id, value, onChange, nam
   const selectId = id || name || `book-select-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
-      <label htmlFor={selectId} className="text-base block mb-2">{label}{required && " *"}</label>
+      <label htmlFor={selectId} className=" block mb-2">{label}{required && " *"}</label>
       <GooeyMessagesDropdown
         placeholder="Select"
         defaultSelectedId={value ? String(value) : undefined}
@@ -38,10 +38,10 @@ export const SelectField = ({ label, options, required, id, value, onChange, nam
 };
 
 export const RadioPillField = ({ label, name, options, value, onChange, required }: { label: string; name: string, options: string[], value: string, onChange: any, required?: boolean }) => (
-  <div className="mb-2">
-    <label className="text-base block mb-3">{label}{required && " *"}</label>
+  <fieldset className="mb-2 border-0 p-0 m-0">
+    <legend className="block mb-3 text-white/90">{label}{required && " *"}</legend>
 
-    <div className="flex flex-wrap gap-2.5">
+    <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-2.5">
       {options.map(o => (
         <SectionBadge
           key={o}
@@ -51,5 +51,5 @@ export const RadioPillField = ({ label, name, options, value, onChange, required
         </SectionBadge>
       ))}
     </div>
-  </div>
+  </fieldset>
 );

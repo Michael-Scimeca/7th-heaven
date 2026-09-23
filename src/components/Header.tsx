@@ -560,7 +560,7 @@ export function Header() {
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold nav-header-link relative ${active ? "active" : ""}`}>
+                  className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link relative ${active ? "active" : ""}`}>
                   {link.label}
                 </TransitionLink>
               );
@@ -568,39 +568,39 @@ export function Header() {
             {showUserAuth && (
               <TransitionLink
                 href={studioHref}
-                className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold transition-all duration-200 relative inline-flex items-center pb-0.5 border-b-2 ${effectivePathname.startsWith("/studio") ? "text-[var(--color-purple-light)] border-[#c084fc] active cursor-default" : "text-[var(--color-purple-light)] hover:text-white border-[#c084fc]/70 hover:border-white cursor-pointer"}`}>
+                className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    transition-all duration-200 relative inline-flex items-center pb-0.5 border-b-2 ${effectivePathname.startsWith("/studio") ? "text-[var(--color-purple-light)] border-[#c084fc] active cursor-default" : "text-[var(--color-purple-light)] hover:text-white border-[#c084fc]/70 hover:border-white cursor-pointer"}`}>
                 STUDIO
               </TransitionLink>
             )}
           </nav>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 md:flex-1 ml-auto shrink-0 relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
+          <nav className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 md:flex-1 ml-auto shrink-0 relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold nav-header-link py-1 z-50 ${isNavActive("/live") ? "active" : ""}`}>
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link py-1 z-50 ${isNavActive("/live") ? "active" : ""}`}>
               LIVE
             </TransitionLink>
 
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold nav-header-link py-1 ${isNavActive("/cruise") ? "active" : ""}`}>
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link py-1 ${isNavActive("/cruise") ? "active" : ""}`}>
               CRUISE
             </TransitionLink>
 
             {/* Book Us link */}
             <TransitionLink
               href="/book"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold nav-header-link py-1 ${isNavActive("/book") ? "active" : ""}`}>
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link py-1 ${isNavActive("/book") ? "active" : ""}`}>
               BOOK US
             </TransitionLink>
 
             {/* Contact link */}
             <TransitionLink
               href="/contact"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap font-bold nav-header-link py-1 ${isNavActive("/contact") ? "active" : ""}`}>
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link py-1 ${isNavActive("/contact") ? "active" : ""}`}>
               CONTACT
             </TransitionLink>
 
@@ -647,14 +647,14 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px] text-white flex items-center justify-center border font-bold border-[#3c0366] ${badgeBg}`}
+                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px] text-white flex items-center justify-center border    border-[#3c0366] ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}>
                     {badgeText}
                   </span>
                 </div>
                 <button
                   onClick={() => { logout(); requestTransition('/'); }}
-                  className="flex items-center gap-1.5 text-[12px] font-bold text-[#9333ea] transition-colors cursor-pointer ml-1 sm:ml-2"
+                  className="flex items-center gap-1.5 text-[12px]    text-[#9333ea] transition-colors cursor-pointer ml-1 sm:ml-2"
                   title="Sign Out">
                   <span>SIGN OUT</span>
                   {mode !== "idle" && pendingHref === "/" && (
@@ -666,7 +666,7 @@ export function Header() {
               <SeventhButton
                 icon={false}
                 onClick={() => openModal("login")}
-                className="px-4 py-2 rounded-lg shrink-0 flex items-center gap-2 font-bold"
+                className="shrink-0 flex items-center   "
                 id="header-sign-in">
                 <span className="!text-[13px]">SIGN IN</span>
                 {isModalOpen && (
@@ -699,6 +699,7 @@ export function Header() {
                     y1={y}
                     x2="22.5"
                     y2={y}
+                    stroke="#ffffff"
                     style={{
                       strokeDasharray: ICON_LINE_LEN,
                       strokeDashoffset: mobileOpen ? ICON_LINE_LEN : 0,
@@ -717,6 +718,7 @@ export function Header() {
                   y1="5"
                   x2="19"
                   y2="19"
+                  stroke="#ffffff"
                   style={{
                     strokeDasharray: ICON_X_LINE_LEN,
                     strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
@@ -730,6 +732,7 @@ export function Header() {
                   y1="5"
                   x2="5"
                   y2="19"
+                  stroke="#ffffff"
                   style={{
                     strokeDasharray: ICON_X_LINE_LEN,
                     strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
@@ -740,7 +743,7 @@ export function Header() {
                 />
               </svg>
             </button>
-          </div>
+          </nav>
 
           {/* ── MOBILE OVERLAY DRAWER ──
               Restyled after exoape.com's fullscreen menu: logo top-left +
@@ -838,7 +841,7 @@ export function Header() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.02] transition-colors duration-300 ${link.href === studioHref ? " underline-offset-8 decoration-[#c084fc] decoration-4" : ""} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith("/studio")) ? "!text-[#c084fc] active cursor-default" : "! hover:!text-[#c084fc] cursor-pointer"}`}
+                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl    leading-[1.02] transition-colors duration-300 ${link.href === studioHref ? " underline-offset-8 decoration-[#c084fc] decoration-4" : ""} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith("/studio")) ? "!text-[#c084fc] active cursor-default" : "! hover:!text-[#c084fc] cursor-pointer"}`}
                         style={{
                           // exoape's own per-link reveal: rotate:7deg -> 0 and
                           // yPercent:100 -> 0 (a full line-height slide, not a

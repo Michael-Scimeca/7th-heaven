@@ -316,7 +316,7 @@ export default function ShowPageClient({
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] pt-[123px]" id="show-details-page">
+    <main className="min-h-screen bg-[#050505] pt-[123px]" id="show-details-page">
 
       {/* ── LIVE FEED BANNER ─────────────────────────────────────── */}
       {liveFeeds.length > 0 && (
@@ -329,7 +329,7 @@ export default function ShowPageClient({
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
                     <span className="relative inline-flex rounded-lg h-3 w-3 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                   </span>
-                  <span className="">
+                  <span >
                     🎥 {feed.host} is LIVE from the show
                     {feed.title && feed.title !== "Crew Broadcast" ? ` — ${feed.title}` : ""}
                   </span>
@@ -372,7 +372,7 @@ export default function ShowPageClient({
 
               <h1 className="mb-3">{show.venue_name}</h1>
               <p>{show.city}{show.state ? `, ${show.state}` : ""}</p>
-              <p className="">{dateStr}</p>
+              <p >{dateStr}</p>
 
               {/* Detail pills */}
               <div className="flex flex-wrap items-center gap-2 mt-4">
@@ -417,7 +417,7 @@ export default function ShowPageClient({
                       disabled={rsvpLoading}
                       icon={false}
                       id="rsvp-btn"
-                      className="px-8 py-4 disabled:opacity-50">
+                      className="disabled:opacity-50">
                       {rsvpLoading ? "…" : "🎸 I'm Going"}
                     </SeventhButton>
                   )}
@@ -462,14 +462,14 @@ export default function ShowPageClient({
                   </span>
                   <h3 className="mb-2">Notify Me Next Time</h3>
                   <p className="mb-6">
-                    Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong className="">{show.venue_name}</strong>.
+                    Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong >{show.venue_name}</strong>.
                   </p>
                 </div>
                 <div>
                   {notifySuccess ? (
                     <div className="p-4 bg-emerald-500/10 border border-white/10 text-center">
                       <p className="text-emerald-400">✓ Successfully subscribed!</p>
-                      <p className="">We will alert you when new dates are announced.</p>
+                      <p >We will alert you when new dates are announced.</p>
                     </div>
                   ) : (
                     <form onSubmit={handleNotifyMe} className="space-y-3">
@@ -567,7 +567,7 @@ export default function ShowPageClient({
                     <button
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`px-4 py-1.5 transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 " : " text-white/30 " }`}>
+                      className={`px-4 py-1.5 transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 " : " text-white/30 "}`}>
                       {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}
                     </button>
                   ))}
@@ -612,7 +612,7 @@ export default function ShowPageClient({
                     level="M"
                   />
                 </div>
-                <p className="">Scan to open the show page</p>
+                <p >Scan to open the show page</p>
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
@@ -632,6 +632,6 @@ export default function ShowPageClient({
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

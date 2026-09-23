@@ -887,23 +887,26 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         );
       }
 
-      // Section Headline Counter-Parallax for 3D depth effect
-      if (headerParallaxRef.current && tableRef.current) {
-        gsap.fromTo(
-          headerParallaxRef.current,
-          { y: 10, force3D: true },
-          {
-            y: -10,
-            force3D: true,
-            ease: "none",
-            scrollTrigger: {
-              trigger: tableRef.current,
-              start: "top bottom",
-              end: "center top",
-              scrub: 0.2,
-            },
-          }
-        );
+      // Section Headline Counter-Parallax synced exactly with Hero Section
+      if (headerParallaxRef.current) {
+        const heroEl = document.getElementById("hero") || tableRef.current;
+        if (heroEl) {
+          gsap.fromTo(
+            headerParallaxRef.current,
+            { yPercent: 7, force3D: true },
+            {
+              yPercent: -7,
+              force3D: true,
+              ease: "none",
+              scrollTrigger: {
+                trigger: heroEl,
+                start: "top top",
+                end: "bottom top",
+                scrub: 0.25,
+              },
+            }
+          );
+        }
       }
     });
 
@@ -921,7 +924,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       )}
       {/* Table */}
       <section
-        className="relative py-section-fluid"
+        className="relative "
         ref={tableRef}
         id="tour-table-container"
         style={{
@@ -930,25 +933,28 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           '--tour-row-height': tourRowHeight,
           '--tour-row-gap': tourRowGap,
         } as React.CSSProperties}>
+        {/* Section Headline & Paragraph */}
         <div className="w-full relative site-container">
-
-          {/* Section Headline & Paragraph */}
           <div
             ref={headerParallaxRef}
-            className="text-center mx-auto pb-9 absolute left-0 right-0 z-30 pointer-events-none pt-4"
+            className="text-center mx-auto z-30 pointer-events-none py-5"
           >
-            <h2 className="t mb-3">
+            <h2 className="mb-3">
               Upcoming Tour Dates
             </h2>
-            <h3 className="text-white/70 text-sm sm:text-base md:text-lg font-medium leading-relaxed">
+            <p className="text-white/70 text-sm sm:text-base md:text-lg   leading-relaxed">
               Catch 7th Heaven live on stage! Explore all upcoming show dates, venues, directions, and sync concerts directly to your calendar.
-            </h3>
+            </p>
           </div>
+        </div>
+        <div className="w-full relative site-container ">
+
+
 
           {!hideMap && (
             <div
               ref={mapParallaxRef}
-              className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] z-10 h-[400px] sm:h-[600px] lg:h-[900px]"
+              className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] z-10 "
               style={{
                 transform: 'translate3d(0, 0, 0)',
                 backfaceVisibility: 'hidden',
@@ -962,10 +968,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           <div className="flex items-center justify-end">
             <div className="flex items-center gap-3">
-              <AddCmsButton
-                label="ADD SHOW"
-                onClick={handleAddShowClick}
-              />
+              {isAdmin && (
+                <AddCmsButton
+                  label="ADD SHOW"
+                  onClick={handleAddShowClick}
+                />
+              )}
 
               {hasActiveFilters && (
                 <button
@@ -977,7 +985,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none", top: `${mobileHeaderOffset}px` }} className="relative sticky z-[40] flex flex-col gap-3.5 w-full border-0 transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none", top: `${mobileHeaderOffset}px` }} className="relative sticky z-[40] flex flex-col gap-6 w-full border-0 transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
             <div
               className="sort-bar-bg absolute -top-3 -bottom-3 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px] bg-black/20 pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
               style={{
@@ -989,10 +997,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             />
 
             {/* Search Bar ON TOP (Sticks cleanly above table header on scroll for desktop & mobile) */}
-            <div className="input-glow-border rounded-lg w-full max-w-[300px] shrink-0 mb-3">
+            <div className="input-glow-border  w-full max-w-[300px] shrink-0 mb-3">
               <div className="relative flex items-center w-full">
                 <Search className="w-4 h-4 text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
-                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full border-0 rounded-lg no-bg-icon pr-5 py-2 placeholder: text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full border-0 rounded-lg no-bg-icon pr-5 py-2 placeholder: text-white/50 focus:outline-none transition-all  " id="tour-search" />
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
@@ -1000,7 +1008,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
             <div className={`flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 w-full items-center`}>
               {/* Column 1: DAY */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold">Day</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)]   ">Day</span>
 
               {/* Column 2: MONTH Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1013,7 +1021,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Column 3: PLACE / VENUE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold">Place</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)]   ">Place</span>
 
               {/* Column 4: CITY Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1026,13 +1034,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Column 5: TIME */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold">Time</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)]   ">Time</span>
 
               {/* Column 6: MAP/CAL */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] text-center font-bold">Map/Cal</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] text-center   ">Map/Cal</span>
 
               {/* Column 7: WEBSITE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold text-right">Website</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)]    text-right">Website</span>
             </div>
           </div>
 
@@ -1055,16 +1063,16 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
               return (
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
-                <div key={`tour_row_${i}_${show.id || rowId}`} className="group overflow-visible pb-4">
+                <div key={`tour_row_${i}_${show.id || rowId}`} className="group overflow-visible">
                   {/* Desktop Row Layout */}
                   <div
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}>
-                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap font-bold">{show.day}</span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap font-bold">{show.date}</span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap font-bold">{show.venue}</span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap font-bold">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
-                    <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)] font-bold">
+                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap   ">{show.day}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap   ">{show.date}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap   ">{show.venue}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap   ">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)]   ">
                       {(() => {
                         const { doorsTime, playTime, time } = getShowDisplayTimes(show);
                         if (doorsTime || playTime || time) {
@@ -1093,7 +1101,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               onClick={() => handleToggleNotification(show)}
                               disabled={subscribingId === show._id}
                               title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                              className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)] hover:bg-[var(--color-accent)]" : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"}`}>
+                              className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)] hover:bg-[var(--color-accent)]" : "bg-gray-100 border-black/15   hover:bg-gray-200"}`}>
                               {subscribingId === show._id ? (
                                 <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-lg animate-spin" />
                               ) : subscribedShowIdsSet.has(show._id) ? (
@@ -1167,15 +1175,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                             </button>
                             {activeCalDropdownId === rowId && (
                               <div className="absolute right-0 mt-2 bg-[#0c0721]/95 border border-purple-400/30 py-1.5 z-50 min-w-[165px] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-[45px] whitespace-nowrap">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs  ">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs  ">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs  ">Outlook</a>
                                 <button
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs font-semibold cursor-pointer">
+                                  className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs   cursor-pointer">
                                   <MessageSquare className="w-3.5 h-3.5 text-purple-400 shrink-0" /> SMS / Text Alerts
                                 </button>
                               </div>
@@ -1191,7 +1199,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           target="_blank"
                           rel="noopener noreferrer"
                           title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
-                          className="a-btn inline-flex items-center justify-center whitespace-nowrap font-bold hover:opacity-80 transition-all cursor-pointer font-bold"
+                          className="a-btn inline-flex items-center justify-center whitespace-nowrap    hover:opacity-80 transition-all cursor-pointer   "
                           style={{ fontSize: websiteBtnFontSize }}>
                           Website
                         </a>
@@ -1225,7 +1233,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       </h4>
 
                       {(show.city || show.state) && (
-                        <p className="flex items-center gap-1.5 text-white/70 font-semibold truncate">
+                        <p className="flex items-center gap-1.5 text-white/70   truncate">
                           <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" />
                           <span>{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state}</span>
                         </p>
@@ -1233,7 +1241,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     </div>
 
                     {/* 2. Date & Time Pill Strip (SECOND / BELOW VENUE) */}
-                    <div className="flex items-center gap-2 flex-wrap font-bold text-purple-200">
+                    <div className="flex items-center gap-2 flex-wrap    text-purple-200">
                       <span className="font-mono font-black text-purple-300">
                         {show.day}
                       </span>
@@ -1247,7 +1255,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         return (
                           <>
                             <span className="text-white/40">•</span>
-                            <span className="text-purple-200 font-bold">
+                            <span className="text-purple-200   ">
                               {displayTime}
                             </span>
                           </>
@@ -1257,7 +1265,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                     {/* 3. Tags Row */}
                     {!isPrivate && (
-                      <div className="flex items-center gap-2 flex-wrap font-bold pb-2">
+                      <div className="flex items-center gap-2 flex-wrap    pb-2">
                         {show.info && <span className="text-white/70">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
                           <span className="text-purple-300">All Ages</span>
@@ -1294,7 +1302,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                             <SeventhButton
                               onClick={() => window.open(gUrl, '_blank', 'noopener,noreferrer')}
                               icon={<LocationPinIcon className="w-3.5 h-3.5 shrink-0" />}
-                              className="font-bold"
+                              className="  "
                               title="Get Directions">
                               Map
                             </SeventhButton>
@@ -1352,15 +1360,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
                               <div className="absolute right-0 mt-2 border border-purple-400/30 rounded-xl py-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.95)] z-50 min-w-[165px] bg-[#0c0721]/95 backdrop-blur-[45px] whitespace-nowrap">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs  ">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs  ">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs  ">Outlook</a>
                                 <button
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs font-semibold cursor-pointer">
+                                  className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs   cursor-pointer">
                                   <MessageSquare className="w-3.5 h-3.5 text-purple-400 shrink-0" /> SMS / Text Alerts
                                 </button>
                               </div>
@@ -1604,7 +1612,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       </svg>
                     </div>
                     <div>
-                      <h3 className="">Set Up Alerts</h3>
+                      <h3 >Set Up Alerts</h3>
                       <p className="r">{notifyPopupShow.venue}</p>
                     </div>
                   </div>
@@ -1615,7 +1623,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                 {/* Show info */}
                 <div className="bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 mb-6">
-                  <p className="font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
+                  <p className=" ">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
                   <p className="mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
                 </div>
 
@@ -1669,11 +1677,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 {/* Sending to email */}
                 {member?.email ? (
                   <p className="mt-3 text-center text-xs text-white/60">
-                    Notifications will be sent to <span className="font-semibold">{member.email}</span>
+                    Notifications will be sent to <span className=" ">{member.email}</span>
                   </p>
                 ) : (
                   <div className="mt-3">
-                    <label className="block text-xs text-white/70 mb-1 font-bold">Your Email Address</label>
+                    <label className="block text-xs text-white/70 mb-1   ">Your Email Address</label>
                     <input
                       type="email"
                       placeholder="fan@example.com"
@@ -1688,13 +1696,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 <div className="flex gap-2 mt-4">
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 rounded-lg transition-colors cursor-pointer font-bold">
+                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 rounded-lg transition-colors cursor-pointer   ">
                     Cancel
                   </button>
                   <button
                     onClick={handleNotifyConfirm}
                     disabled={(!member?.email && !notifyEmail.trim()) || (!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter)}
-                    className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5 font-bold">
+                    className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5   ">
                     {subscribingId ? 'Saving...' : <><Bell className="w-3.5 h-3.5" /> Enable Alerts</>}
                   </button>
                 </div>

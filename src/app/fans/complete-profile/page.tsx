@@ -118,7 +118,7 @@ export default function CompleteProfilePage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-11 h-11 border-4 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
-          <p className="">Loading your profile...</p>
+          <p >Loading your profile...</p>
         </div>
       </div>
     );
@@ -142,7 +142,7 @@ export default function CompleteProfilePage() {
                 Welcome to the Family
                 {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}!
               </h1>
-              <p className="">
+              <p >
                 Let&apos;s finish setting up your profile
               </p>
             </div>
@@ -176,7 +176,7 @@ export default function CompleteProfilePage() {
                     required
                   />
                 </div>
-                <p className="">This is your public handle. Letters, numbers &amp; underscores only.</p>
+                <p >This is your public handle. Letters, numbers &amp; underscores only.</p>
               </div>
 
               {/* Notification Preferences */}
@@ -188,7 +188,7 @@ export default function CompleteProfilePage() {
                 {/* Proximity alerts */}
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40' : 'bg-white/[0.02] border-white/10 border-white/10 ' }`}>
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40' : 'bg-white/[0.02] border-white/10 border-white/10 '}`}>
                   <SquishyToggle
                     id="complete-profile-notifications"
                     label="Email me when 7th Heaven books a show near me"
@@ -219,7 +219,7 @@ export default function CompleteProfilePage() {
                 {/* Newsletter */}
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40' : 'bg-white/[0.02] border-white/10 border-white/10 ' }`}>
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40' : 'bg-white/[0.02] border-white/10 border-white/10 '}`}>
                   <SquishyToggle
                     id="complete-profile-newsletter"
                     label="Send me news, show updates & exclusive drops"

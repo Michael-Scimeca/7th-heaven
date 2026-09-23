@@ -403,7 +403,7 @@ export default function AdminLegalPage() {
                       {sec.icon}
                     </div>
                     <div>
-                      <h3 className="">{sec.title}</h3>
+                      <h3 >{sec.title}</h3>
                       <p className="line-clamp-1">{sec.subtitle}</p>
                     </div>
                   </div>
@@ -484,7 +484,7 @@ export default function AdminLegalPage() {
                           <h4 className={`transition-colors ${isChecked ? ' ' : 'text-rose-200'}`}>
                             {req.title}
                           </h4>
-                          <p className="">{req.description}</p>
+                          <p >{req.description}</p>
                         </div>
                       </div>
 

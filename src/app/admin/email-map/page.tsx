@@ -41,7 +41,7 @@ function Node({
     <div className={`border transition-colors flex flex-col items-center justify-center text-center w-full ${COLORS[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}>
       <div className="flex items-center gap-1.5">
         <span className={`w-1.5 h-1.5 rounded-lg shrink-0 ${DOTS[color]}`} />
-        <span className="">
+        <span >
           {icon && <span className="mr-1">{icon}</span>}
           {label}
         </span>
@@ -197,7 +197,7 @@ export default function EmailMapPage() {
               The API Bridge
             </h3>
             <p className="mb-6">
-              To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code className="">/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
+              To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code >/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
             </p>
             <div className="bg-black/40 p-4 rounded text-blue-400">
               fetch(&apos;/api/email&apos;, &#123; method: &apos;POST&apos;, body: &#123; to, subject, html &#125; &#125;)

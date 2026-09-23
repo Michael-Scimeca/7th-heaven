@@ -75,7 +75,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
       <div className="mt-3">
         <h3 className="line-clamp-2 mb-1 group-hover:text-[var(--color-accent)] transition-colors">{video.title}</h3>
         <div className="flex flex-col gap-0.5">
-          <span className="text-white/40 font-medium">7th Heaven</span>
+          <span className="text-white/40  ">7th Heaven</span>
           <div className="flex items-center gap-1.5 text-white/40">
             {video.viewCount && <span>{video.viewCount} views</span>}
             <span className="text-white/10">•</span>
@@ -183,7 +183,7 @@ export default function VideoSection() {
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center">7H</div>
                     <div className="flex flex-col">
-                      <span className="">7th Heaven Official</span>
+                      <span >7th Heaven Official</span>
                       <div className="flex items-center gap-2 text-white/40">
                         {latest.viewCount && <span>{latest.viewCount} views</span>}
                         <span className="text-white/10">•</span>
@@ -216,7 +216,7 @@ export default function VideoSection() {
 
       {/* Sticky category nav — Pill Tabs */}
       <div
-        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ? "backdrop-blur-lg border-b border-white/10 " : "" }`}
+        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck ? "backdrop-blur-lg border-b border-white/10 " : ""}`}
         style={navStuck ? { backgroundColor: 'rgba(10, 10, 15, 0.95)' } : undefined}>
         <div className="px-8 overflow-x-auto scrollbar-hide">
           <nav className="flex items-center gap-2 py-5 min-w-max border-t border-white/5">
@@ -235,7 +235,7 @@ export default function VideoSection() {
                     setPendingFilter(null);
                   }, 250);
                 }}
-                className={`tracking-[0.1em] py-2 px-6 rounded-lg transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black" : "bg-white/[0.05] hover:bg-white/10 hover:text-white " }`}>
+                className={`  py-2 px-6 rounded-lg transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black" : "bg-white/[0.05] hover:bg-white/10 hover:text-white "}`}>
                 {cat.category}
               </button>
             ))}
@@ -318,7 +318,7 @@ export default function VideoSection() {
           <div className="flex justify-center 6">
             <button aria-label="Previous"
               onClick={() => setVisibleCount(prev => prev + 15)}
-              className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 tracking-[0.1em] py-3 px-8 transition-colors">
+              className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80   py-3 px-8 transition-colors">
               Load More <span className="text-white/50 font-normal">({filteredVideos.length - visibleCount} remaining)</span>
             </button>
           </div>

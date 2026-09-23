@@ -230,7 +230,7 @@ export default function FanUploadForm() {
       <div className="flex items-center gap-3 mb-6">
         <div>
           <h2>Submit to Fan Wall</h2>
-          <p className="">Share your concert moments</p>
+          <p >Share your concert moments</p>
         </div>
       </div>
 
@@ -268,7 +268,7 @@ export default function FanUploadForm() {
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
-                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 bg-[#00000029] " }`}>
+                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 bg-[#00000029] "}`}>
                 {previews.length > 0 ? (
                   <div className="absolute inset-0 p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 overflow-y-auto bg-black/90 z-20">
                     {Array.from(previews, (src, i) => ({ src, i })).map(({ src, i }) => {
@@ -307,14 +307,14 @@ export default function FanUploadForm() {
                         </svg>
                       </div>
                       <p className="mb-1 group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
-                      <p className="tracking-[0.1em]">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
+                      <p className=" ">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
                     </div>
                   </>
                 )}
                 {isScanning && (
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
                     <div className="w-11 h-11 border-2 border-white/10 border-t-emerald-500 rounded-lg animate-spin mb-3" />
-                    <p className="">Safety Scan</p>
+                    <p >Safety Scan</p>
                     <p className="text-emerald-400">{scanStatus}</p>
                   </div>
                 )}

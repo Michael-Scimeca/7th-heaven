@@ -1231,10 +1231,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
 
       {/* ── Main layout ── */}
-      <section className="fixed inset-0 top-[95px] z-[99999] flex flex-col overflow-hidden">
+      <main id="live-stream-room" className="fixed inset-0 top-[95px] z-[99999] flex flex-col overflow-hidden">
 
         {/* ── TOP BAR ── */}
-        <div
+        <header
           className="shrink-0 flex items-center justify-between gap-2 site-container pb-1"
           style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           {/* Left */}
@@ -1359,7 +1359,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
             </div>
           </div>
-        </div>
+        </header>
 
 
         {/* ── MAIN: video + chat ── */}
@@ -1398,14 +1398,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 {crewIsLive ? (
                   <>
                     <span
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-black animate-in fade-in"
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg   animate-in fade-in"
                       style={{ background: '#dc2626', boxShadow: '0 0 12px rgba(220,38,38,0.5)' }}>
                       <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
                       LIVE
                     </span>
 
                     <div
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold animate-in fade-in"
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg   animate-in fade-in"
                       style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.85)' }}>
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
@@ -1423,7 +1423,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                 <button
                   onClick={() => setReactionsVisible(v => !v)}
-                  className="hidden sm:flex items-center px-2.5 py-1 rounded-lg font-semibold transition-colors"
+                  className="hidden sm:flex items-center px-2.5 py-1 rounded-lg   transition-colors"
                   style={{
                     background: 'rgba(0,0,0,0.6)',
                     backdropFilter: 'blur(8px)',
@@ -1451,7 +1451,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 return (
                   <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 max-w-[calc(100%-2rem)] transition-opacity duration-300 ease-out">
                     <div
-                      className="flex items-center gap-2 px-3 py-1.5 text-black border border-white/10 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                      className="flex items-center gap-2 px-3 py-1.5   border border-white/10 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       style={{
                         background: 'linear-gradient(135deg, rgba(88,28,135,0.8), rgba(255,10,61,0.4))',
                         backdropFilter: 'blur(8px)',
@@ -1459,7 +1459,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       }}>
                       <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)] animate-ping shrink-0" />
                       <span className="text-[var(--color-accent)] shrink-0">Now Playing:</span>
-                      <span className="text-black truncate">{activeSong.title}</span>
+                      <span className="  truncate">{activeSong.title}</span>
                       <Music className="w-3.5 h-3.5 shrink-0" />
                     </div>
                   </div>
@@ -1472,11 +1472,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   raffleState.winners?.some((w: any) => (w?.name || w)?.toLowerCase().trim() === member!.name.toLowerCase().trim());
                 return (
                   <div className="absolute top-20 left-4 sm:left-auto sm:right-4 z-40 w-[calc(100%-2rem)] sm:w-full sm:max-w-xs transition-opacity duration-500 ease-out">
-                    <div className="bg-gray-50/95 backdrop-blur-xl border-2 border-yellow-500/50 overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)] text-black relative flex flex-col px-4 py-5 pointer-events-auto">
+                    <div className="bg-gray-50/95 backdrop-blur-xl border-2 border-yellow-500/50 overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)]   relative flex flex-col px-4 py-5 pointer-events-auto">
 
-                      <button aria-label="Close"
+                      <button aria-label="Close live raffle widget"
                         onClick={() => setRaffleWidgetClosed(true)}
-                        className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center bg-gray-50 hover:bg-white/15 text-black/40 hover:text-black rounded-lg transition-colors z-10">
+                        className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center bg-gray-50 hover:bg-white/15 text-black/40 hover:  rounded-lg transition-colors z-10">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                       </button>
 
@@ -1484,7 +1484,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <>
                           <div className="flex items-center gap-2 text-purple-300 mb-6 pr-6">
                             <Ticket className="w-5 h-5 text-yellow-400 animate-pulse" />
-                            <span className="">Live Raffle</span>
+                            <span >Live Raffle</span>
                             <span className="ml-auto px-2.5 py-1 bg- purple-white/20 text-purple-300 border border-purple-500/30 rounded animate-pulse">OPEN</span>
                           </div>
 
@@ -1503,7 +1503,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             <div className="mb-6 px-3 py-2.5 bg-purple-500/10 border border-white/20">
                               <p className="text-[var(--color-accent)]/60 mb-1">You could win</p>
                               <p className="text-yellow-300">
-                                {raffleState.prizes[0].qty > 1 ? <span className="text-black bg-yellow-500/30 px-1.5 py-0.5 rounded mr-2">{raffleState.prizes[0].qty}x</span> : null}
+                                {raffleState.prizes[0].qty > 1 ? <span className="  bg-yellow-500/30 px-1.5 py-0.5 rounded mr-2">{raffleState.prizes[0].qty}x</span> : null}
                                 {raffleState.prizes[0].name}
                               </p>
                               {raffleState.prizes.filter((p: any) => p.name).length > 1 && (
@@ -1513,7 +1513,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           )}
 
                           {!hasEnteredRaffle ? (
-                            <button aria-label="Close" onClick={() => {
+                            <button type="button" aria-label="Enter live raffle" onClick={() => {
                               if (!isLoggedIn) { openModal('login'); return; }
                               setHasEnteredRaffle(true);
                               setRaffleWidgetClosed(false);
@@ -1570,7 +1570,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <div className="py-2">
                           <div className="flex items-center gap-2 text-purple-300 mb-6 pr-6">
                             <Trophy className="w-5 h-5 text-yellow-400" />
-                            <span className="">Raffle Winner</span>
+                            <span >Raffle Winner</span>
                           </div>
                           <div className="space-y-2">
                             {Array.from(raffleState.winners, (wObj: any, i: number) => ({ wObj, i })).map(({ wObj, i }) => {
@@ -1596,7 +1596,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           </div>
 
                           <div className="mt-4 p-3 bg-gray-50 border border-black/10 text-center">
-                            <p className="text-black/70 font-semibold">
+                            <p className="text-black/70  ">
                               <span className="text-purple-300 block mb-1">How to Claim</span>
                               Winners: Check your <strong className="text-black">Email</strong> or your <strong className="text-black">Fan Profile Dashboard</strong> for your unique Verification PIN. Show your PIN to the crew at the merch table!
                             </p>
@@ -1658,7 +1658,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             {activeMerchDrop.product.badge}
                           </span>
                         </div>
-                        <p className="text-black truncate">{activeMerchDrop.product.name}</p>
+                        <p className="  truncate">{activeMerchDrop.product.name}</p>
                         <p style={{ color: activeMerchDrop.product.color }}>Only {activeMerchDrop.product.stock} left · shop.7thheavenband.com</p>
                       </div>
                       {/* Price + countdown + action button */}
@@ -1669,7 +1669,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             {String(Math.floor(merchTimeLeft / 60)).padStart(2, '0')}:{String(merchTimeLeft % 60).padStart(2, '0')}
                           </p>
                         </div>
-                        <button aria-label="Previous"
+                        <button aria-label="Buy merch drop now"
                           onClick={() => {
                             setCheckoutStep('form');
                             // Reset size/color based on product type
@@ -1688,7 +1688,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             background: activeMerchDrop.product.color,
                             boxShadow: `0 0 15px ${activeMerchDrop.product.color}88`
                           }}
-                          className="px-3.5 py-1.5 text-black active:scale-95 transition-colors cursor-pointer border-none shrink-0">
+                          className="px-3.5 py-1.5   active:scale-95 transition-colors cursor-pointer border-none shrink-0">
                           BUY NOW
                         </button>
                       </div>
@@ -1716,7 +1716,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     boxShadow: `0 0 24px ${spotlight.account.color}18`,
                   }}>
                   <div
-                    className="w-11 h-11 rounded-lg flex items-center justify-center text-black shrink-0"
+                    className="w-11 h-11 rounded-lg flex items-center justify-center   shrink-0"
                     style={{ background: spotlight.account.color }}>
                     {spotlight.account.avatar}
                   </div>
@@ -1726,7 +1726,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       {spotlight.account.tier && <span style={{ color: 'rgba(255,255,255,0.35)' }}>{spotlight.account.tier}</span>}
                       <span className="px-1.5 py-0.5 rounded-lg" style={{ background: 'rgba(255,10,61,0.2)', color: '#c084fc', fontSize: 9 }}>📌 SPOTLIGHT</span>
                     </div>
-                    <p className="text-black/80 leading-snug" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>&#8220;{spotlight.text}&#8221;</p>
+                    <p className="text-black/80  " style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>&#8220;{spotlight.text}&#8221;</p>
                   </div>
                   <button
                     onClick={() => setSpotlight(null)}
@@ -1837,7 +1837,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               ) : (
                                 <>
                                   <div
-                                    className="w-6 h-6 rounded-lg flex items-center justify-center text-black shrink-0 mt-0.5"
+                                    className="w-6 h-6 rounded-lg flex items-center justify-center   shrink-0 mt-0.5"
                                     style={{ background: msg.account?.color ?? '#555', fontSize: 9 }}>
                                     {msg.account?.avatar}
                                   </div>
@@ -1850,7 +1850,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                       {isMuted && <span className="px-1 rounded" style={{ background: 'rgba(156,163,175,0.15)', color: '#9ca3af', fontSize: 9 }}>MUTED</span>}
                                     </div>
                                     <div className="inline-block px-2.5 py-1.5 rounded-tl-sm" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                                      <p className="leading-snug" style={{ color: 'rgba(255,255,255,0.75)' }}>{msg.text}</p>
+                                      <p className=" " style={{ color: 'rgba(255,255,255,0.75)' }}>{msg.text}</p>
                                     </div>
                                   </div>
                                   {/* Quick-action buttons on hover */}
@@ -1891,7 +1891,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             <span style={{ color: msg.account?.color ?? '#888' }}>{msg.account?.displayName}</span>
                             {msg.account?.tier && <span className="opacity-40">{msg.account.tier}</span>}
                           </div>
-                          <p className="text-black/70 leading-snug italic">&ldquo;{msg.text}&rdquo;</p>
+                          <p className="text-black/70   italic">&ldquo;{msg.text}&rdquo;</p>
                           <span className=".5 inline-block px-2 py-0.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.15)', color: '#fca5a5', fontSize: 10 }}>
                             {reason}
                           </span>
@@ -1957,7 +1957,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           }}>
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2 min-w-0">
-                              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-black shrink-0" style={{ background: acc.color, fontSize: 10 }}>
+                              <div className="w-7 h-7 rounded-lg flex items-center justify-center   shrink-0" style={{ background: acc.color, fontSize: 10 }}>
                                 {acc.avatar}
                               </div>
                               <div className="min-w-0">
@@ -2003,7 +2003,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       </div>
                     ) : modLog.map(entry => (
                       <div key={entry.id} className="flex items-start gap-2 py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                        <span className="text-base shrink-0">{entry.action.split(' ')[0]}</span>
+                        <span className=" shrink-0">{entry.action.split(' ')[0]}</span>
                         <div className="min-w-0">
                           <p className="text-black/70">{entry.action} — <span style={{ color: '#c084fc' }}>{entry.user}</span></p>
                           {entry.reason && <p style={{ color: 'rgba(255,255,255,0.3)' }}>{entry.reason}</p>}
@@ -2052,7 +2052,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {/* CUSTOM FLAGGED WORDS MANAGER */}
                     <div className="pt-4 border-t border-black/10 space-y-3">
                       <div>
-                        <p className="">🔍 Custom Flagged Keywords</p>
+                        <p >🔍 Custom Flagged Keywords</p>
                         <p className="text-black/40 mt-0.5">
                           Add specific keywords or phrases. Any message containing these (case-insensitive) will be flagged for review.
                         </p>
@@ -2098,7 +2098,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="w-4 h-4 flex items-center justify-center rounded-lg hover:bg-gray-100 text-black/30 hover:text-black transition-colors">
+                                className="w-4 h-4 flex items-center justify-center rounded-lg hover:bg-gray-100 text-black/30 hover:  transition-colors">
                                 &times;
                               </button>
                             </span>
@@ -2133,11 +2133,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           </div>
                           <div className="grid grid-cols-2 gap-2 mb-2">
                             <div className="p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} className="">Peak</p>
+                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} >Peak</p>
                               <p style={{ color: s.color }}>{s.peakViewers.toLocaleString()}</p>
                             </div>
                             <div className="p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} className="">Avg</p>
+                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} >Avg</p>
                               <p className="text-black/70">{s.avgViewers.toLocaleString()}</p>
                             </div>
                           </div>
@@ -2344,7 +2344,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     { label: '📢 Spam', text: 'follow me @myhandle for giveaway' },
                     { label: '🚨 Threat', text: 'gonna shoot up this whole venue lol' },
                   ].map(({ label, text }) => (
-                    <button aria-label="Previous" key={label}
+                    <button aria-label={`Inject demo ${label} violation`} key={label}
                       onClick={() => {
                         const demoAcc = FAN_ACCOUNTS[Math.floor(Math.random() * FAN_ACCOUNTS.length)];
                         setMessages(prev => [...prev, {
@@ -2422,10 +2422,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   </div>
 
                   <div className="space-y-2 max-w-xs">
-                    <h3 className="">
+                    <h3 >
                       Join the Live Chat
                     </h3>
-                    <p className="font-medium">
+                    <p className=" ">
                       Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
                     </p>
                   </div>
@@ -2753,11 +2753,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
           return (
             <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm pointer-events-auto">
-              <div className="bg-white/98 backdrop-blur-xl border p-6 w-full max-w-sm relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto text-black text-left"
+              <div className="bg-white/98 backdrop-blur-xl border p-6 w-full max-w-sm relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto   text-left"
                 style={{ borderColor: `${activeMerchDrop.product.color}55`, boxShadow: `0 0 40px ${activeMerchDrop.product.color}15` }}>
 
                 {/* Close Button */}
-                <button onClick={() => setShowCheckoutModal(false)} className="absolute top-3 right-3 text-black/50 hover:text-black transition-colors p-1 bg-gray-50 hover:bg-gray-100 rounded-lg border-none cursor-pointer">
+                <button onClick={() => setShowCheckoutModal(false)} className="absolute top-3 right-3 text-black/50 hover:  transition-colors p-1 bg-gray-50 hover:bg-gray-100 rounded-lg border-none cursor-pointer">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                 </button>
 
@@ -2785,7 +2785,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         style={{ background: `${activeMerchDrop.product.color}22`, color: activeMerchDrop.product.color }}>
                         <ShoppingBag className="w-3.5 h-3.5 inline" /> LIVE DROP MERCH
                       </span>
-                      <h3 className="text-black mt-2">
+                      <h3 className="  mt-2">
                         {activeMerchDrop.product.name}
                       </h3>
                       {activeMerchDrop.product.description && (
@@ -2806,14 +2806,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <button
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('merch_table')}
-                            className={`py-2.5 px-3 border transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'merch_table' ? 'bg-white text-black border-white' : ' text-black/60 border-black/10 hover:border-black/15'}`}>
+                            className={`py-2.5 px-3 border transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'merch_table' ? 'bg-white   border-white' : ' text-black/60 border-black/10 hover:border-black/15'}`}>
                             <span className="flex items-center gap-1"><ShoppingBag className="w-3.5 h-3.5 text-purple-600" /> Pickup</span>
                             <span className="opacity-60 normal-case font-normal">Merch Table</span>
                           </button>
                           <button
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('shipping')}
-                            className={`py-2.5 px-3 border transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'shipping' ? 'bg-white text-black border-white' : ' text-black/60 border-black/10 hover:border-black/15'}`}>
+                            className={`py-2.5 px-3 border transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'shipping' ? 'bg-white   border-white' : ' text-black/60 border-black/10 hover:border-black/15'}`}>
                             <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5 text-purple-600" /> Ship Home</span>
                             <span className="opacity-60 normal-case font-normal">Standard Delivery</span>
                           </button>
@@ -2838,7 +2838,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   key={size}
                                   type="button"
                                   onClick={() => setCheckoutSelectedSize(size)}
-                                  className={`px-3 py-1.5 rounded-lg border transition-colors cursor-pointer ${checkoutSelectedSize === size ? 'bg-white text-black border-white' : ' text-black/60 border-black/10 hover:border-black/15'}`}>
+                                  className={`px-3 py-1.5 rounded-lg border transition-colors cursor-pointer ${checkoutSelectedSize === size ? 'bg-white   border-white' : ' text-black/60 border-black/10 hover:border-black/15'}`}>
                                   {size}
                                 </button>
                               ))}
@@ -2869,7 +2869,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   key={c.name}
                                   type="button"
                                   onClick={() => setCheckoutSelectedColor(c.name)}
-                                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border transition-colors cursor-pointer ${checkoutSelectedColor === c.name ? 'bg-gray-100 text-black border-white' : ' text-black/50 border-black/10 hover:border-black/15'}`}>
+                                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border transition-colors cursor-pointer ${checkoutSelectedColor === c.name ? 'bg-gray-100   border-white' : ' text-black/50 border-black/10 hover:border-black/15'}`}>
                                   <span
                                     className="w-3.5 h-3.5 rounded-lg shrink-0 border"
                                     style={{ background: c.hex, borderColor: c.name === 'White' ? '#d1d5db' : c.hex }}
@@ -2884,26 +2884,26 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                       <div>
                         <label htmlFor="live-checkout-name" className="text-black/40 block mb-1">Full Name</label>
-                        <input aria-label="Previous"
+                        <input
                           id="live-checkout-name"
                           type="text"
                           required
                           value={shippingDetails.name}
                           onChange={e => setShippingDetails(prev => ({ ...prev, name: e.target.value }))}
                           placeholder="John Doe"
-                          className="w-full bg-gray-50 border border-black/10 p-2.5 text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                          className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
                         />
                       </div>
                       <div>
                         <label htmlFor="live-checkout-email" className="text-black/40 block mb-1">Email Address</label>
-                        <input aria-label="Previous"
+                        <input
                           id="live-checkout-email"
                           type="email"
                           required
                           value={shippingDetails.email}
                           onChange={e => setShippingDetails(prev => ({ ...prev, email: e.target.value }))}
                           placeholder="john@example.com"
-                          className="w-full bg-gray-50 border border-black/10 p-2.5 text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                          className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
                         />
                       </div>
 
@@ -2911,39 +2911,39 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <>
                           <div>
                             <label htmlFor="live-checkout-address" className="text-black/40 block mb-1">Shipping Address</label>
-                            <input aria-label="Previous"
+                            <input
                               id="live-checkout-address"
                               type="text"
                               required
                               value={shippingDetails.address}
                               onChange={e => setShippingDetails(prev => ({ ...prev, address: e.target.value }))}
                               placeholder="123 Main St"
-                              className="w-full bg-gray-50 border border-black/10 p-2.5 text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                              className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
                             />
                           </div>
                           <div className="grid grid-cols-2 gap-2">
                             <div>
                               <label htmlFor="live-checkout-city" className="text-black/40 block mb-1">City</label>
-                              <input aria-label="Previous"
+                              <input
                                 id="live-checkout-city"
                                 type="text"
                                 required
                                 value={shippingDetails.city}
                                 onChange={e => setShippingDetails(prev => ({ ...prev, city: e.target.value }))}
                                 placeholder="Chicago"
-                                className="w-full bg-gray-50 border border-black/10 p-2.5 text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                                className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
                               />
                             </div>
                             <div>
                               <label htmlFor="live-checkout-zip" className="text-black/40 block mb-1">ZIP Code</label>
-                              <input aria-label="Previous"
+                              <input
                                 id="live-checkout-zip"
                                 type="text"
                                 required
                                 value={shippingDetails.zip}
                                 onChange={e => setShippingDetails(prev => ({ ...prev, zip: e.target.value }))}
                                 placeholder="60601"
-                                className="w-full bg-gray-50 border border-black/10 p-2.5 text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                                className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
                               />
                             </div>
                           </div>
@@ -2952,14 +2952,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                       <div>
                         <label htmlFor="live-checkout-card" className="text-black/40 block mb-1">Card Details (Mock)</label>
-                        <input aria-label="Previous"
+                        <input
                           id="live-checkout-card"
                           type="text"
                           required
                           value={shippingDetails.card}
                           onChange={e => setShippingDetails(prev => ({ ...prev, card: e.target.value }))}
                           placeholder="4242 4242 4242 4242"
-                          className="w-full bg-gray-50 border border-black/10 p-2.5 text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                          className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -2970,7 +2970,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         background: activeMerchDrop.product.color,
                         boxShadow: `0 0 15px ${activeMerchDrop.product.color}44`
                       }}
-                      className="w-full py-3 text-black hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none mt-2">
+                      className="w-full py-3   hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none mt-2">
                       Authorize Payment
                     </button>
                   </form>
@@ -3067,7 +3067,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         style={{
                           background: activeMerchDrop.product.color
                         }}
-                        className="w-full py-3 text-black hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none">
+                        className="w-full py-3   hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none">
                         Return to Stream
                       </button>
                     </div>
@@ -3085,7 +3085,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           group="fans"
           onSuccess={() => setNotifySuccess(true)}
         />
-      </section>
+      </main>
     </>
   );
 

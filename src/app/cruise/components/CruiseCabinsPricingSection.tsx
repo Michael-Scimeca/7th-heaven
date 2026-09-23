@@ -7,6 +7,20 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { Ship, Globe, Map, Video, FileText, Film, Flame, AlertTriangle, Check, HelpCircle, CreditCard, Calendar as CalendarIcon, Compass, X, Plus, Loader2, CheckCircle2 } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
+
+const FacebookIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+  </svg>
+);
+
+const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
 import SeventhButton from "@/components/SeventhButton";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
 import LazyMount from "@/components/LazyMount";
@@ -53,14 +67,14 @@ function RoomModalFooterButtons({
       <button
         type="button"
         onClick={onCancel}
-        className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm font-semibold transition-colors cursor-pointer"
+        className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm   transition-colors cursor-pointer"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={isSaving}
-        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-bold text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500    text-sm transition-[background-color,box-shadow] shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
       >
         {isSaving ? (
           <>
@@ -90,7 +104,7 @@ function ModalInputField({
 }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+      <label className="block text-xs   text-purple-200/80 mb-1.5">
         {label}
       </label>
       <input
@@ -208,7 +222,7 @@ function CruiseCabinsPricingSectionComponent({
           <h2>
             {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")?.title || "Staterooms & Cruise Rates"}
           </h2>
-          <p className="mt-4 font-semibold">
+          <p className="mt-4  ">
             {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")?.subtitle || "Browse group rate options, prevailing market rates, suite class inclusions, and booking cancellation terms."}
           </p>
 
@@ -218,14 +232,14 @@ function CruiseCabinsPricingSectionComponent({
               type="button"
               onClick={() => setActivePriceYear(2027)}
               isActive={activePriceYear === 2027}
-              className="">
+            >
               2027 Star of the Seas (7-Night)
             </SeventhButton>
             <SeventhButton
               type="button"
               onClick={() => setActivePriceYear(2028)}
               isActive={activePriceYear === 2028}
-              className="">
+            >
               2028 Legend of the Seas (8-Night)
             </SeventhButton>
           </div>
@@ -331,7 +345,8 @@ function CruiseCabinsPricingSectionComponent({
                     href="https://www.facebook.com/chicagomusiccruise/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="!rounded-full px-3.5 py-1.5 bg-blue-600/40 hover:bg-blue-600 ! flex items-center gap-1">
+                    className="flex items-center gap-2 text-left">
+                    <FacebookIcon className="w-4 h-4 text-blue-400 shrink-0" />
                     <span>Facebook</span>
                   </SeventhButton>
                 </li>
@@ -340,7 +355,8 @@ function CruiseCabinsPricingSectionComponent({
                     href="https://www.instagram.com/chicagomusiccruise"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="!rounded-full px-3.5 py-1.5 bg-pink-600/40 hover:bg-pink-600 ! flex items-center gap-1">
+                    className="flex items-center gap-2 text-left">
+                    <InstagramIcon className="w-4 h-4 text-pink-400 shrink-0" />
                     <span>Instagram</span>
                   </SeventhButton>
                 </li>
@@ -362,7 +378,7 @@ function CruiseCabinsPricingSectionComponent({
             </p>
             <p className="mb-6">
               {sanityContent?.cruiseInfo?.bookingPolicyBody || (
-                <>To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="">must</strong> be placed under our official group booking.</>
+                <>To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong >must</strong> be placed under our official group booking.</>
               )}
             </p>
             <ul className="space-y-2.5 mb-6">
@@ -391,7 +407,7 @@ function CruiseCabinsPricingSectionComponent({
           <div className="relative text-left rounded-2xl md:col-span-6 lg:col-span-4 min-[1600px]:col-span-3">
             <div className="flex items-center gap-3 mb-6">
               <Compass className="w-6 h-6 text-purple-400 shrink-0" />
-              <h3 className="">{sanityContent?.cruiseInfo?.passportTitle || "Passport Guidelines"}</h3>
+              <h3 >{sanityContent?.cruiseInfo?.passportTitle || "Passport Guidelines"}</h3>
             </div>
             <p className="text-purple-400 mb-6">{sanityContent?.cruiseInfo?.passportSubheading || "Essential travel document guidelines"}</p>
             <div className="space-y-4  ">
@@ -404,7 +420,7 @@ function CruiseCabinsPricingSectionComponent({
           <div className="relative text-left md:col-span-6 lg:col-span-12 min-[1600px]:col-span-3">
             <div className="flex items-center gap-3 mb-6">
               <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
-              <h3 className="">{sanityContent?.cruiseInfo?.cancellationTitle || "Cancellation Policy"}</h3>
+              <h3 >{sanityContent?.cruiseInfo?.cancellationTitle || "Cancellation Policy"}</h3>
             </div>
             <p className="mb-6">{sanityContent?.cruiseInfo?.cancellationSubheading || "Refund terms before booking"}</p>
             <div className="space-y-4  ">
@@ -433,7 +449,7 @@ function CruiseCabinsPricingSectionComponent({
           <div className="p-0 relative text-left">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-2">
               <div>
-                <h3 className="">Limited Group Rate Cabins ({activePriceYear})</h3>
+                <h3 >Limited Group Rate Cabins ({activePriceYear})</h3>
               </div>
               {isAdmin && (
                 <AddCmsButton
@@ -491,7 +507,7 @@ function CruiseCabinsPricingSectionComponent({
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
                           <SectionBadge label={room.badge} />
                         </div>
-                        <span className="block">{room.code} Category</span>
+                        <span className="block   ">{room.code} Category</span>
                         <h4 className="text-left">{room.title}</h4>
                       </div>
                     </div>
@@ -499,7 +515,7 @@ function CruiseCabinsPricingSectionComponent({
                     <div className="px-0 pt-0 text-left">
                       <div className="flex items-baseline gap-1.5">
                         <span className="text-xl">{room.price}</span>
-                        <span className="text-white/50 font-semibold">USD pp</span>
+                        <span className="text-white/50     ">USD pp</span>
                       </div>
                       {room.inclusions && (
                         <span className="text-purple-400 flex items-center gap-1">
@@ -532,13 +548,13 @@ function CruiseCabinsPricingSectionComponent({
         <div>
           <div className="text-center mb-8 border-b border-white/10 pb-6">
             <div className="flex items-center justify-center gap-3 flex-wrap mb-3">
-              <span className="inline-block text-xs font-bold  st px-3.5 py-1 rounded-full bg-purple-900/50 text-purple-300 border border-purple-500/30">
+              <span className="inline-block text-xs     st px-3.5 py-1 rounded-full bg-purple-900/50 text-purple-300 border border-purple-500/30">
                 Official Booking Form
               </span>
               <button
                 type="button"
                 onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
-                className="inline-flex items-center gap-2 text-xs font-bold px-4 py-1.5 rounded-full bg-rose-600/30 hover:bg-rose-600/50 text-rose-200 border border-rose-500/40 transition-all cursor-pointer">
+                className="inline-flex items-center gap-2 text-xs    px-4 py-1.5 rounded-full bg-rose-600/30 hover:bg-rose-600/50 text-rose-200 border border-rose-500/40 transition-colors cursor-pointer">
                 💳 {isPaymentDropdownOpen ? "Hide Payment Form" : "Make A Payment On Existing Booking"}
               </button>
             </div>
@@ -564,7 +580,7 @@ function CruiseCabinsPricingSectionComponent({
               <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto text-2xl">
                 <CheckCircle2 className="w-8 h-8 text-emerald-400" />
               </div>
-              <h3 className="text-2xl font-bold">Reservation Submitted!</h3>
+              <h3 className="text-2xl   ">Reservation Submitted!</h3>
               <p className="  text-sm max-w-md mx-auto leading-relaxed">
                 Thank you, <strong className="text-emerald-400">{formData.name}</strong>! Your cruise booking request for cabin <strong className="text-purple-300">{formData.cabinPreference || "selected stateroom"}</strong> has been received by NTD Vacations concierge.
               </p>
@@ -581,7 +597,7 @@ function CruiseCabinsPricingSectionComponent({
 
               {/* ROOM CATEGORY SELECTION */}
               <div>
-                <label htmlFor="cabinPreference" className="block font-bold text-purple-300 mb-2">
+                <label htmlFor="cabinPreference" className="block    text-purple-300 mb-2">
                   Room Category / Cabin Preference *
                 </label>
                 <div className="input-glow-border rounded-xl">
@@ -595,7 +611,7 @@ function CruiseCabinsPricingSectionComponent({
                     className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-3 text-base focus:outline-none"
                   />
                 </div>
-                <p className="text-[11px] text-white/50 mt-1.5 font-medium">
+                <p className="text-[11px] text-white/50 mt-1.5  ">
                   EVERY BOOKING NEEDS $500 DEPOSIT PER ROOM (OR $250 PER PERSON)
                 </p>
               </div>
@@ -603,13 +619,13 @@ function CruiseCabinsPricingSectionComponent({
               {/* GUEST 1 DETAILS & PAYMENT */}
               <div className="space-y-5">
                 <div className="border-b border-white/10 pb-3 flex items-center justify-between">
-                  <h3 className="text-lg font-bold">GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
-                  <span className="text-xs text-purple-400 font-semibold">Primary Guest</span>
+                  <h3 className="text-lg   ">GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
+                  <span className="text-xs text-purple-400  ">Primary Guest</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="">Full Legal Name *</label>
+                    <label >Full Legal Name *</label>
                     <div className="input-glow-border rounded-xl">
                       <input
                         type="text"
@@ -691,15 +707,15 @@ function CruiseCabinsPricingSectionComponent({
               <div className="space-y-5">
                 <div className="border-b border-white/10 pb-3 flex items-center justify-between flex-wrap gap-2">
                   <div>
-                    <h3 className="text-lg font-bold">GUEST 2 (IF NEEDED)</h3>
-                    <p className="text-[11px] text-white/50 mt-0.5">
+                    <h3 className="text-lg   ">GUEST 2 (IF NEEDED)</h3>
+                    <p className="text-[11px] mt-0.5">
                       YOU DO NOT NEED TO FILL OUT GUEST 2 CREDIT CARD INFO IF YOU ARE A COUPLE GOING TOGETHER ON ONE CREDIT CARD
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => toggleGuestActive(0, !guests[0]?.active)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer border ${guests[0]?.active ? "bg-purple-600 border-purple-400 " : "bg-white/10 border-white/20 text-white/70 hover:text-white "}`}
+                    className={`px-4 py-1.5 rounded-full text-xs    transition-[background-color,border-color,color] cursor-pointer border ${guests[0]?.active ? "bg-purple-600 border-purple-400 " : "bg-white/10 border-white/20 text-white/70 hover:text-white "}`}
                   >
                     {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
                   </button>
@@ -788,7 +804,7 @@ function CruiseCabinsPricingSectionComponent({
                           onChange={(e) => setFormData((prev: any) => ({ ...prev, splitPayment: e.target.checked }))}
                           className="rounded border-white/20 bg-black/50 text-purple-600 focus:ring-purple-500 cursor-pointer"
                         />
-                        <label htmlFor="splitPayment" className="text-xs font-semibold text-purple-200 cursor-pointer">
+                        <label htmlFor="splitPayment" className="text-xs   text-purple-200 cursor-pointer">
                           Split deposit onto 2 separate credit cards?
                         </label>
                       </div>
@@ -803,7 +819,7 @@ function CruiseCabinsPricingSectionComponent({
 
               {/* EXTRA / OPTIONS & NOTES */}
               <div className="space-y-4">
-                <h3 className="text-lg font-bold border-b border-white/10 pb-3">
+                <h3 className="text-lg    border-b border-white/10 pb-3">
                   EXTRA &amp; SPECIAL REQUESTS
                 </h3>
 
@@ -880,7 +896,7 @@ function CruiseCabinsPricingSectionComponent({
         <h2>
           Official Cruise Concierge &amp; Booking Team
         </h2>
-        <p className="text-white/70 max-w-2xl mx-auto mt-3 font-medium text-sm sm:text-base">
+        <p className="text-white/70 max-w-2xl mx-auto mt-3   text-sm sm:text-base">
           Have questions about your booking, cabin options, group travel, or excursions? Our dedicated 7th Heaven Cruise concierge team is here to assist you every step of the way.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-8 lg:gap-6 pt-6 md:pt-12 text-center">
@@ -941,7 +957,7 @@ function CruiseCabinsPricingSectionComponent({
                     }}
                   />
                 </div>
-                <h4 className="">{nameStr}</h4>
+                <h4 >{nameStr}</h4>
                 <div className="mt-2 flex flex-col items-center gap-1 w-full">
                   <SectionBadge label={roleStr} isActive />
                   {descStr && <p className="text-white/70 mt-0.5">{descStr}</p>}
@@ -953,7 +969,7 @@ function CruiseCabinsPricingSectionComponent({
                     </a>
                   )}
                   {emailStr && (
-                    <a href={`mailto:${emailStr}`} className="a-btn font-medium">
+                    <a href={`mailto:${emailStr}`} className="a-btn  ">
                       <span>{emailStr}</span>
                     </a>
                   )}
@@ -970,7 +986,7 @@ function CruiseCabinsPricingSectionComponent({
           <h2 className="mt-2">
             Featured <span className="accent-gradient-text">Artists</span>
           </h2>
-          <p className="text-white/70 mt-2.5 font-medium text-sm sm:text-base leading-relaxed">
+          <p className="text-white/70 mt-2.5   text-sm sm:text-base leading-relaxed">
             Get ready for non-stop live music! Join 7th Heaven along with an extraordinary lineup of world-class performers and special guest bands across multiple stages throughout the voyage.
           </p>
         </div>
@@ -1000,7 +1016,7 @@ function CruiseCabinsPricingSectionComponent({
                 </div>
               )}
               <div className="relative z-10 pt-3 pb-2 flex flex-col text-left">
-                <h3 className="">{band.name}</h3>
+                <h3 >{band.name}</h3>
                 {band.role && (
                   <div className="mt-2">
                     <SectionBadge label={band.role} />
@@ -1032,7 +1048,7 @@ function CruiseCabinsPricingSectionComponent({
                   <Ship className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold  ">Add Stateroom to Sanity CMS</h3>
+                  <h3 className="text-xl     ">Add Stateroom to Sanity CMS</h3>
                   <p className="text-xs text-purple-300/70">Create and publish a stateroom rate card directly to Sanity CMS.</p>
                 </div>
               </div>
@@ -1054,7 +1070,7 @@ function CruiseCabinsPricingSectionComponent({
               <form onSubmit={handleSaveRoom} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                    <label className="block text-xs   text-purple-200/80 mb-1.5">
                       Stateroom Title *
                     </label>
                     <input
@@ -1068,7 +1084,7 @@ function CruiseCabinsPricingSectionComponent({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                    <label className="block text-xs   text-purple-200/80 mb-1.5">
                       Category Code *
                     </label>
                     <input
@@ -1084,7 +1100,7 @@ function CruiseCabinsPricingSectionComponent({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                    <label className="block text-xs   text-purple-200/80 mb-1.5">
                       Cruise Year *
                     </label>
                     <select
@@ -1115,7 +1131,7 @@ function CruiseCabinsPricingSectionComponent({
                   />
 
                   <div>
-                    <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                    <label className="block text-xs   text-purple-200/80 mb-1.5">
                       Badge Status Color
                     </label>
                     <select

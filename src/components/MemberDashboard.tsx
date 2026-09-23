@@ -314,7 +314,7 @@ export default function MemberDashboard() {
                 return (
                   <div className="py-6 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
                     <p>Your wallet is currently empty.</p>
-                    <p className="">Keep participating in live streams for a chance to win</p>
+                    <p >Keep participating in live streams for a chance to win</p>
                   </div>
                 );
               }
@@ -331,11 +331,11 @@ export default function MemberDashboard() {
                           <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : ' bg-[#00000029] border border-white/10'}`}>{msg.icon}</div>
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              <h4 className="">{msg.title}</h4>
-                              {msg.isNew && <span className="text-[var(--font-size-2xs)] px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+                              <h4 >{msg.title}</h4>
+                              {msg.isNew && <span className="text-[var(--font-size-2xs)] px-2 py-0.5 bg-yellow-500   rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-                            <p className="">{msg.time}</p>
+                            <p >{msg.time}</p>
                           </div>
                         </div>
 
@@ -381,13 +381,13 @@ export default function MemberDashboard() {
             <h2>
               My Photo <span className="gradient-text">Submissions</span>
             </h2>
-            <span className="">Fan Wall Activity</span>
+            <span >Fan Wall Activity</span>
           </div>
 
           {myPhotos.length === 0 ? (
             <div className="py-8 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
               <p>No photo submissions found.</p>
-              <p className="">Upload a photo to join the fan wall!</p>
+              <p >Upload a photo to join the fan wall!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -413,7 +413,7 @@ export default function MemberDashboard() {
                           <AlertTriangle className="w-3 h-3" /> Declined
                         </span>
                       ) : (
-                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black text-[0.9rem] rounded border border-yellow-400/20 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-yellow-500/90   text-[0.9rem] rounded border border-yellow-400/20 flex items-center gap-1">
                           <Clock className="w-3 h-3" /> Pending
                         </span>
                       )}
@@ -433,7 +433,7 @@ export default function MemberDashboard() {
                         <p className="text-red-400 mb-1">
                           Reason for Decline
                         </p>
-                        <p className="text-red-200/80 leading-normal font-medium">
+                        <p className="text-red-200/80 leading-normal  ">
                           {photo.rejection_reason || "Content does not meet community guidelines."}
                         </p>
                       </div>
@@ -477,7 +477,7 @@ export default function MemberDashboard() {
             <h2>
               My <span className="gradient-text">Purchases</span>
             </h2>
-            <span className="">Order History</span>
+            <span >Order History</span>
           </div>
 
           {(() => {
@@ -511,8 +511,8 @@ export default function MemberDashboard() {
                           <div className="flex items-center gap-3">
                             <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-12 h-12 object-cover border border-white/10" />
                             <div>
-                              <p className="font-semibold">{item.name}</p>
-                              <p className="tracking-[0.1em]">{item.type}</p>
+                              <p className=" ">{item.name}</p>
+                              <p className=" ">{item.type}</p>
                             </div>
                           </div>
                           <span className="text-white/50">{item.price}</span>

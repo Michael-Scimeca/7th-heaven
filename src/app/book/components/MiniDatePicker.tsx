@@ -38,16 +38,16 @@ export function MiniDatePicker({ label, value, onChange }: MiniDatePickerProps) 
 
   return (
     <div className="relative">
-      <label htmlFor={inputId} className="text-base block mb-1.5 cursor-pointer">{label}</label>
+      <label htmlFor={inputId} className="block mb-1.5 cursor-pointer">{label}</label>
       <button
         id={inputId}
         aria-label={label || "Pick a date"}
         type="button"
         onClick={() => setShowCal(!showCal)}
 
-        className={`group w-full backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-2.5 py-2.5 text-xl text-left transition-colors cursor-pointer flex items-center justify-between rounded-lg ${value ? ' font-semibold' : ' /45'}`}
+        className={`group w-full backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-2.5 py-2.5 text-left transition-colors cursor-pointer flex items-center justify-between rounded-lg ${value ? ' ' : ' '}`}
         style={{ background: "transparent", border: "1px solid #ffffff1a" }}>
-        <span className={`transition-[color,opacity] duration-200 ${value ? ' font-semibold' : ' /45 group-hover:text-white group-hover:opacity-100'}`}>
+        <span className={`transition-[color,opacity] duration-200 ${value ? '  ' : ' /45 group-hover:text-white group-hover:opacity-100'}`}>
           {value ? new Date(value + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Pick a date…'}
         </span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 transition-opacity duration-200"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
@@ -70,7 +70,7 @@ export function MiniDatePicker({ label, value, onChange }: MiniDatePickerProps) 
             <div>
               <div className="flex items-center justify-between mb-2">
                 <button type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="hover:text-white text-base cursor-pointer">← {year - 1}</button>
-                <span className="">{year}</span>
+                <span >{year}</span>
                 <button type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="hover:text-white text-base cursor-pointer">{year + 1} →</button>
               </div>
               <div className="grid grid-cols-3 gap-1.5">

@@ -689,7 +689,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                 <div className="flex items-center justify-between">
                   <span className="text-[var(--font-size-2xs)] drop-">{shift.role || 'Shift'}</span>
                   {shift.isDraft && (
-                    <span className="text-[12px] bg-yellow-400 text-black px-1 rounded">DRAFT</span>
+                    <span className="text-[12px] bg-yellow-400   px-1 rounded">DRAFT</span>
                   )}
                 </div>
                 <div>
@@ -1094,13 +1094,13 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                               {renderRoleBadges(member.role)}
                             </div>
 
-                            <div className="text-[11px] space-y-0.5 font-medium">
+                            <div className="text-[11px] space-y-0.5  ">
                               {member.phone && <div className="truncate" title={member.phone}> {member.phone}</div>}
                               {member.email && <div className="truncate" title={member.email}> {member.email}</div>}
                             </div>
 
                             <div className="wiw-tooltip bg-[var(--card-bg)] p-3 rounded-lg text-left border border-[var(--border-color)] w-52">
-                              <div className="">{member.name}</div>
+                              <div >{member.name}</div>
                               <div className="text-[var(--color-accent)] text-[12px] mb-2">
                                 Role: {member.role || 'Crew Member'}
                               </div>
@@ -1259,7 +1259,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                 <div className="flex-1 flex flex-col gap-2">
                   {sortedShifts.length === 0 ? (
                     <div className="flex-1 flex items-center justify-center border border-dashed border-white/10 rounded-lg p-4 bg-black/20">
-                      <span className="text-white/30 italic font-medium">Empty</span>
+                      <span className="text-white/30 italic  ">Empty</span>
                     </div>
                   ) : (
                     sortedShifts.map(shift => renderShiftCard(shift, true))
@@ -1484,14 +1484,14 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                     </div>
                     <div>
-                      <h3 className="">Schedule Mix-Up Prevented!</h3>
-                      <p className="text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
+                      <h3 >Schedule Mix-Up Prevented!</h3>
+                      <p className="text-purple-300/80  ">Concurrent Edit Detected from Co-Editor</p>
                     </div>
                   </div>
 
                   <div className="bg-black/50 border border-white/10 p-4 space-y-2">
                     <div className="flex items-center justify-between text-white/50">
-                      <span>Editor: <strong className="">{coEditorConflictAlert.editorName}</strong></span>
+                      <span>Editor: <strong >{coEditorConflictAlert.editorName}</strong></span>
                       <span className="text-[10px] text-white/40">{coEditorConflictAlert.timestamp}</span>
                     </div>
                     <div className="text-pink-300">
@@ -1975,7 +1975,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     </div>
                     {activeFiltersCount > 0 && (
                       <div className="flex items-center gap-2">
-                        <span className="text-purple-300/80 font-semibold italic">Filters active</span>
+                        <span className="text-purple-300/80   italic">Filters active</span>
                         <button
                           type="button"
                           onClick={() => {
@@ -2015,7 +2015,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                   <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02] relative">
                     <div className="px-3 py-2.5 flex items-center justify-between bg-white/[0.02] shrink-0 border-b border-white/10 relative z-20">
                       <div className="flex items-center gap-1.5">
-                        <span className="">Tour Dates</span>
+                        <span >Tour Dates</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         {selectedTourDate && (
@@ -2092,7 +2092,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                           <h3 className="italic">
                             {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
                           </h3>
-                          <p className="">
+                          <p >
                             Assigning {(() => {
                               const found = crewMembers.find((c: any) => c.id === draggedCrewMemberId);
                               return found ? found.name : draggedCrewMemberId;
@@ -2310,7 +2310,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                 </span>
                               </div>
 
-                              <div className="flex items-center gap-2 text-[11px] font-semibold   border-t border-white/10 pt-1.5 overflow-x-auto no-scrollbar">
+                              <div className="flex items-center gap-2 text-[11px]     border-t border-white/10 pt-1.5 overflow-x-auto no-scrollbar">
                                 <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
                                   Fest: {festStart}
                                 </span>
@@ -2471,7 +2471,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
 
                                                   <div className="grid grid-cols-2 gap-3">
                                                     <div>
-                                                      <label className="text-[10px] text-white/50 mb-1 block font-semibold" style={{ fontSize: '10px' }}>Start Time</label>
+                                                      <label className="text-[10px] text-white/50 mb-1 block  " style={{ fontSize: '10px' }}>Start Time</label>
                                                       <GooeyMessagesDropdown
                                                         placeholder="Select Start Time"
                                                         showAllOption={false}
@@ -2493,7 +2493,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                                     </div>
 
                                                     <div>
-                                                      <label className="text-[10px] text-white/50 mb-1 block font-semibold" style={{ fontSize: '10px' }}>End Time</label>
+                                                      <label className="text-[10px] text-white/50 mb-1 block  " style={{ fontSize: '10px' }}>End Time</label>
                                                       <GooeyMessagesDropdown
                                                         placeholder="Select End Time"
                                                         showAllOption={false}
@@ -2516,8 +2516,8 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                                   </div>
 
                                                   <div className="space-y-1">
-                                                    <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] text-white/50 mb-1 block font-semibold" style={{ fontSize: '10px' }}>Role / Duty</label>
-                                                    <div className="input-glow-border rounded-lg w-full">
+                                                    <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] text-white/50 mb-1 block  " style={{ fontSize: '10px' }}>Role / Duty</label>
+                                                    <div className="input-glow-border  w-full">
                                                       <input
                                                         id={`admin-drawer-role-${index}`}
                                                         type="text"
@@ -2560,7 +2560,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                                                   </div>
 
                                                   <div className="space-y-1">
-                                                    <label className="text-[10px] text-white/50 mb-1 block font-semibold" style={{ fontSize: '10px' }}>Tags</label>
+                                                    <label className="text-[10px] text-white/50 mb-1 block  " style={{ fontSize: '10px' }}>Tags</label>
                                                     <GooeyMessagesDropdown
                                                       placeholder="Select tags..."
                                                       showAllOption={false}
@@ -2684,7 +2684,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       {alertModal.type === 'error' ? '' : alertModal.type === 'success' ? '' : alertModal.type === 'info' ? 'ℹ' : ''}
                     </div>
                     <div>
-                      <h3 className="italic font-bold">{alertModal.title || 'Schedule Notice'}</h3>
+                      <h3 className="italic   ">{alertModal.title || 'Schedule Notice'}</h3>
                       <p className="mt-2 whitespace-pre-line">{alertModal.message}</p>
                     </div>
                     <button
@@ -2719,7 +2719,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                       <div className="p-5 border-b border-white/10 flex items-start justify-between shrink-0">
                         <div className="min-w-0 flex-1 pr-2">
                           <h3 className="italic">Select Crew Group</h3>
-                          <p className="">Select saved group to apply to shift slots for {dateStr}</p>
+                          <p >Select saved group to apply to shift slots for {dateStr}</p>
                         </div>
                         <div className="flex items-center gap-3 shrink-0">
                           <span className="text-white/50 px-2.5 py-1 bg-[#00000029] rounded-full border border-white/10 whitespace-nowrap shrink-0">{crewGroups.length} saved</span>
@@ -2832,7 +2832,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                     <div className="p-5 border-b border-white/10 flex items-start justify-between shrink-0">
                       <div>
                         <h3 className="italic">Create New Crew Group</h3>
-                        <p className="">Select members and customize their shift slots</p>
+                        <p >Select members and customize their shift slots</p>
                       </div>
                       <button
                         aria-label="Close create group modal"
@@ -3155,7 +3155,7 @@ export const AdminSectionCrewSchedule = React.memo(function AdminSectionCrewSche
                         <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5">
                           <div>
                             <span className="text-white/40 block">Total Shift(s)</span>
-                            <span className="">{dayShifts.length}</span>
+                            <span >{dayShifts.length}</span>
                           </div>
                           <div>
                             <span className="text-white/40 block">Staff Scheduled</span>

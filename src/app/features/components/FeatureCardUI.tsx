@@ -94,14 +94,14 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div className="flex items-start justify-between gap-3">
           <span className="text-5xl">{f.icon}</span>
           {isPurple && (
-            <span className="text-base px-3 py-1 rounded-lg bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] shrink-0">✦ Flagship</span>
+            <span className=" px-3 py-1 rounded-lg bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] shrink-0">✦ Flagship</span>
           )}
         </div>
 
         {/* Titles */}
         <div>
           <h3 className="mb-1.5" style={{ fontStyle: "italic" }}>{f.title}</h3>
-          <p className={`font-semibold ${isPurple ? "text-[#c084fc]" : " text-white/40"}`}>{f.tagline}</p>
+          <p className={`  ${isPurple ? "text-[#c084fc]" : " text-white/40"}`}>{f.tagline}</p>
         </div>
 
         {/* Demo Preview */}

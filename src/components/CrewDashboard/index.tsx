@@ -48,7 +48,7 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
           </span>
         </div>
         <div>
-          <span className="">
+          <span >
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {FULL_DATE_FORMATTER.format(reqDate)}
           </span>
@@ -107,7 +107,7 @@ function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: str
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="">
+            <span >
               {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
               {SHORT_DAY_FORMATTER.format(itemDate)}
             </span>
@@ -143,7 +143,7 @@ function AvailabilityCardForm({
     <div className="flex-1">
       <div className="flex items-center gap-3 mb-6">
         <div>
-          <h3 className="">Your Availability & Blackouts</h3>
+          <h3 >Your Availability & Blackouts</h3>
           <p className="mt-0.5">Let admins know when you are available or unavailable</p>
         </div>
       </div>
@@ -235,7 +235,7 @@ function TimeOffCardForm({
     <div className="flex-1">
       <div className="flex items-center gap-3 mb-6">
         <div>
-          <h3 className="">Time-Off Requests</h3>
+          <h3 >Time-Off Requests</h3>
           <p className="mt-0.5">Submit time-off requests for administrator approval</p>
         </div>
       </div>
@@ -2674,7 +2674,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const pImageUrl = activeProduct?.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
 
   return (
-    <div className="site-container min-h-screen selection:bg-purple-600/30 pt-20">
+    <main id="crew-portal-page" className="site-container min-h-screen selection:bg-purple-600/30 pt-20">
       <h1 className="sr-only">7th Heaven Crew Portal & Dashboard</h1>
 
       {/* ─── EXACT HEADER LAYOUT ─── */}
@@ -2695,7 +2695,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       <div className="space-y-6">
 
         {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
-        <div className="transition-colors duration-300">
+        <section id="broadcast-center" aria-label="Live Broadcast & Feed Center" className="transition-colors duration-300">
           {/* Accordion Toggle Header */}
           <button
             type="button"
@@ -2704,7 +2704,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             <div className="flex items-center gap-3 min-w-0">
               <div className="flex flex-col lg:flex-row lg:items-center gap-3 min-w-0">
                 <div>
-                  <h3 className="">
+                  <h3 >
                     Live Broadcast & Feed Center
                   </h3>
                   <p>
@@ -2735,7 +2735,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               {/* Switch Feed and Fan page links moved from header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-6">
                 <div className="flex items-center gap-3 no-glow">
-                  <span className="">Switch Dashboard Feed:</span>
+                  <span >Switch Dashboard Feed:</span>
                   <CustomDropdown
                     ariaLabel="Switch Dashboard Feed"
                     value={`/crew-${defaultMemberId || memberSlug}`}
@@ -2819,7 +2819,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       </div>
                       <h3 className="  mb-1 text-sm sm:text-base">Camera Standby</h3>
                       <p className="text-center max-w-[250px] text-xs sm:text-sm text-white/60 mb-6">
-                        Click <span className="font-semibold">GO LIVE</span> below to start your camera and begin broadcasting.
+                        Click <span className=" ">GO LIVE</span> below to start your camera and begin broadcasting.
                       </p>
                       <SeventhButton
                         onClick={attemptEndStream}
@@ -2853,13 +2853,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="absolute top-4 left-4 flex gap-2 z-20">
                       <div className="px-3 py-1 bg-red-600 rounded-lg flex items-center gap-1.5 shadow-red-600/30">
                         <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
-                        <span className="">Live</span>
+                        <span >Live</span>
                       </div>
                       <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/10 rounded-lg flex items-center gap-1.5 /90">
-                        <span className="font-medium">{viewerCount} Viewers</span>
+                        <span className=" ">{viewerCount} Viewers</span>
                       </div>
                       <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/10 rounded-lg flex items-center gap-1.5 /90">
-                        <span className="font-medium">{formatTime(elapsed)}</span>
+                        <span className=" ">{formatTime(elapsed)}</span>
                       </div>
                     </div>
                   )}
@@ -2870,7 +2870,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         onClick={attemptEndStream}
                         disabled={toggling}
-                        className="shrink-0 px-8 py-3 rounded-lg transition-colors disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-black pointer-events-auto">
+                        className="shrink-0 px-8 py-3 rounded-lg transition-colors disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:  pointer-events-auto">
                         {toggling ? '...' : '● End Stream'}
                       </button>
                     </div>
@@ -2897,7 +2897,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="px-4 py-3 border-b border-white/[0.06] bg-gradient-to-r from-emerald-500/10 to-transparent shrink-0 relative group">
                       <div className="flex items-start gap-2.5 pr-6">
                         <div className="min-w-0 flex-1">
-                          <p className="text-black/90 leading-snug font-medium">
+                          <p className="text-black/90    ">
                             {activePinned.text}
                           </p>
                           <p className="text-emerald-400/80">
@@ -2966,7 +2966,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                       return (
                         <div key={p.id} className="flex gap-3 relative group">
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-black shrink-0 !rounded-full" style={{ backgroundColor: p.account?.color || getAvatarColor(username) }}>
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center   shrink-0 !rounded-full" style={{ backgroundColor: p.account?.color || getAvatarColor(username) }}>
                             {p.account?.avatar || 'C'}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -2988,7 +2988,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                 </span>
                               )}
                             </div>
-                            <p className="text-black/90 leading-snug break-words" style={{ textDecoration: isUserBanned ? 'line-through' : 'none', opacity: isUserBanned ? 0.5 : 1 }}>{p.text}</p>
+                            <p className="text-black/90   break-words" style={{ textDecoration: isUserBanned ? 'line-through' : 'none', opacity: isUserBanned ? 0.5 : 1 }}>{p.text}</p>
                           </div>
 
                           {/* Moderation Actions */}
@@ -3058,7 +3058,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
-              <div className="mt-6 bg-[#00000029] border border-white/10 p-6">
+              <section id="live-analytics" aria-label="Live Stream Performance & Analytics" className="mt-6 bg-[#00000029] border border-white/10 p-6">
                 <div className="mb-6 border-b border-white/10 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div>
@@ -3118,16 +3118,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                   </div>
                 </div>
-              </div>
+              </section>
 
               {/* ─── BOTTOM RIGHT CARDS (Merch & Raffle) ─── */}
               <div className="grid grid-cols-1 xl:grid-cols-2 w-full gap-6 mt-6">
 
                 {/* FLASH MERCH DROP */}
-                <div className="flex-1">
+                <section id="flash-merch-drop" aria-label="Flash Merch Drop Management" className="flex-1">
                   <div className="flex items-center gap-3">
                     <div>
-                      <h3 className="">Flash Merch Drop</h3>
+                      <h3 >Flash Merch Drop</h3>
                       <p>Limited time, limited stock</p>
                     </div>
                   </div>
@@ -3159,7 +3159,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         {/* Product List */}
                         <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                          <p className="">Active Products</p>
+                          <p >Active Products</p>
                           {activeDrop.products.map(p => (
                             <div key={p.id} className="flex gap-3 p-2.5 bg-[#00000029] border border-white/10 items-center justify-between">
                               <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-11 h-11 rounded object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
@@ -3273,7 +3273,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               className="w-full bg-[#00000029] h-[36px] border border-white/10 hover:border-purple-400/60 rounded-lg p-2 text-center transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                               title="Click to select products from the dropdown above">
                               <span className="text-purple-300  ">{selectedProducts.length}</span>
-                              <span className="text-[10px] font-semibold">
+                              <span className="text-[10px]  ">
                                 {selectedProducts.length === 1 ? "Selected" : "Selected"}
                               </span>
                             </button>
@@ -3327,14 +3327,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       </>
                     )}
                   </div>
-                </div>
+                </section>
 
                 {/* LIVE RAFFLE (Rebuilt as requested) */}
-                <div className="flex-1 flex flex-col">
+                <section id="live-raffle" aria-label="Live Event Raffle Management" className="flex-1 flex flex-col">
                   <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
                     <div className="flex items-center gap-3">
                       <div>
-                        <h3 className="">Live Event Raffle</h3>
+                        <h3 >Live Event Raffle</h3>
                         <p>{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
                       </div>
                     </div>
@@ -3513,14 +3513,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       )}
                     </div>
                   </div>
-                </div>
+                </section>
               </div>
 
               {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
-              <div className="mt-6">
+              <section id="chat-moderation" aria-label="Chat Moderation & Policies" className="mt-6">
                 <div className="mb-6 flex items-center gap-3">
                   <div>
-                    <h3 className="">Chat Moderation & Policies</h3>
+                    <h3 >Chat Moderation & Policies</h3>
                     <p>
                       Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                     </p>
@@ -3553,7 +3553,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </div>
 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                      <p className="">Active Custom Filters</p>
+                      <p >Active Custom Filters</p>
                       {customWords.length === 0 ? (
                         <div className="text-center rounded-lg py-6 border border-dashed border-white/10 bg-white/[0.01]">
                           <p>No custom keywords configured.</p>
@@ -3578,10 +3578,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </div>
                   </div>
                 </div>
-              </div>
+              </section>
             </div>
           )}
-        </div>
+        </section>
 
 
         {/* LIVE SETLIST & FAN LIKES */}
@@ -3593,7 +3593,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               className="flex items-center gap-3 border-none p-0 text-left flex-1 cursor-pointer">
 
               <div>
-                <h3 className="">Live Setlist & Fan Likes</h3>
+                <h3 >Live Setlist & Fan Likes</h3>
                 <p>
                   Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                 </p>
@@ -3631,7 +3631,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <p className={`truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : ' '}`}>
                           {song.title}
                         </p>
-                        <p className="font-semibold flex items-center gap-1 mt-0.5">
+                        <p className="  flex items-center gap-1 mt-0.5">
                           <Heart className="w-3 h-3 text-red-400 fill-current" /> {song.likes} likes
                         </p>
                       </div>
@@ -3735,7 +3735,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
                       className="flex items-center gap-3 border-none p-0 text-left cursor-pointer">
                       <div>
-                        <h3 className="">Your Work Schedule</h3>
+                        <h3 >Your Work Schedule</h3>
                         <p>Assigned shifts, locations & responsibilities</p>
                       </div>
                     </button>
@@ -3947,7 +3947,7 @@ I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${s
                                             <button
                                               type="button"
                                               onClick={() => setRequestingCoverageShift(shift)}
-                                              className="px-2 py-0.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[12px] rounded transition-colors cursor-pointer border-none">
+                                              className="px-2 py-0.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]   text-[12px] rounded transition-colors cursor-pointer border-none">
                                               🙋 Swap
                                             </button>
                                           </>
@@ -3961,7 +3961,7 @@ I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${s
                                         <button
                                           type="button"
                                           onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                          className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[12px] rounded transition-colors cursor-pointer border-none">
+                                          className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400   text-[12px] rounded transition-colors cursor-pointer border-none">
                                           Confirm
                                         </button>
                                         <button
@@ -3990,7 +3990,7 @@ Reason for decline: ${shift.declineReason || ''}
                                           <button
                                             type="button"
                                             onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                            className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black text-[12px] rounded transition-colors cursor-pointer border-none">
+                                            className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400   text-[12px] rounded transition-colors cursor-pointer border-none">
                                             Confirm
                                           </button>
                                           <button
@@ -4183,7 +4183,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                   showToast('Failed to save availability', 'error', 'Error');
                                                 }
                                               }}
-                                              className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[12px] rounded transition-colors cursor-pointer border border-white/10 hover:border-emerald-500/40">
+                                              className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:  text-white/70 text-[12px] rounded transition-colors cursor-pointer border border-white/10 hover:border-emerald-500/40">
                                               🟢 Available
                                             </button>
                                             <button
@@ -4256,7 +4256,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
                               <div className="w-11 h-11 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex flex-col items-center justify-center text-center shrink-0">
                                 <span className="text-[var(--color-accent)] r">{month}</span>
-                                <span className="text-base text-black mt-0.5">{dayNum}</span>
+                                <span className="   mt-0.5">{dayNum}</span>
                               </div>
                               <div className="flex flex-col">
                                 <span className="text-black/30">{weekday}</span>
@@ -4305,7 +4305,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                               <button
                                 type="button"
                                 onClick={() => handleAcceptCoverage(shift.id)}
-                                className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1">
+                                className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]   rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1">
                                 🙋 Accept Shift
                               </button>
                             </div>
@@ -4346,12 +4346,12 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <div className="flex flex-col gap-3 relative z-10">
                   <button
                     onClick={confirmEndDiscard}
-                    className="w-full py-4 bg-red-500 hover:bg-red-400 text-black transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg">
+                    className="w-full py-4 bg-red-500 hover:bg-red-400   transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg">
                     End Broadcast
                   </button>
                   <button
                     onClick={() => setShowEndModal(false)}
-                    className="w-full py-2 text-black/40 hover:text-black mt-2 transition-colors">
+                    className="w-full py-2 text-black/40 hover:  mt-2 transition-colors">
                     Cancel, Keep Streaming
                   </button>
                 </div>
@@ -4365,7 +4365,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
           isDeclineModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
               <div className="bg-gray-50 border border-black/10 max-w-md w-full p-6 space-y-4 relative">
-                <h3 className="text-black flex items-center gap-2">
+                <h3 className="  flex items-center gap-2">
                   <span className="text-rose-500">✗</span> Decline Work Shift
                 </h3>
                 <p className="text-black/50">
@@ -4376,7 +4376,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   value={declineReason}
                   onChange={(e) => setDeclineReason(e.target.value)}
                   placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
-                  className="w-full min-h-[100px] bg-black/40 border border-black/10 text-black placeholder-white/30 p-3 focus:border-purple-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-colors resize-none"
+                  className="w-full min-h-[100px] bg-black/40 border border-black/10   placeholder-white/30 p-3 focus:border-purple-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-colors resize-none"
                 />
                 <div className="flex items-center justify-end gap-2.5 pt-2">
                   <button
@@ -4386,7 +4386,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       decliningShiftIdRef.current = null;
                       setDeclineReason('');
                     }}
-                    className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg transition-colors">
+                    className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:  rounded-lg transition-colors">
                     Cancel
                   </button>
                   <button
@@ -4400,7 +4400,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       decliningShiftIdRef.current = null;
                       setDeclineReason('');
                     }}
-                    className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-black/30 text-black rounded-lg transition-colors border-none cursor-pointer disabled:cursor-not-allowed">
+                    className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-black/30   rounded-lg transition-colors border-none cursor-pointer disabled:cursor-not-allowed">
                     Submit Decline
                   </button>
                 </div>
@@ -4417,7 +4417,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
         isEmailModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
             <div className="bg-gray-50 border border-black/10 max-w-lg w-full p-6 space-y-4 relative">
-              <h3 className="text-black flex items-center gap-2">
+              <h3 className="  flex items-center gap-2">
                 <span className="text-[var(--color-accent)]">📧</span> Email Administrators
               </h3>
 
@@ -4437,7 +4437,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     value={emailSubject}
                     onChange={(e) => setEmailSubject(e.target.value)}
                     placeholder="Subject of your message..."
-                    className="w-full bg-black/40 border border-black/10 text-black placeholder-white/30 px-3.5 py-2 focus:border-purple-500/50 outline-none transition-colors"
+                    className="w-full bg-black/40 border border-black/10   placeholder-white/30 px-3.5 py-2 focus:border-purple-500/50 outline-none transition-colors"
                   />
                 </div>
 
@@ -4448,7 +4448,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     value={emailMessage}
                     onChange={(e) => setEmailMessage(e.target.value)}
                     placeholder="Type your message to the administrators here..."
-                    className="w-full min-h-[120px] bg-black/40 border border-black/10 text-black placeholder-white/30 p-3 focus:border-purple-500/50 outline-none transition-colors resize-none"
+                    className="w-full min-h-[120px] bg-black/40 border border-black/10   placeholder-white/30 p-3 focus:border-purple-500/50 outline-none transition-colors resize-none"
                   />
                 </div>
               </div>
@@ -4461,14 +4461,14 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     setEmailSubject('');
                     setEmailMessage('');
                   }}
-                  className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg transition-colors">
+                  className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:  rounded-lg transition-colors">
                   Cancel
                 </button>
                 <button
                   type="button"
                   disabled={isSendingEmail || !emailSubject.trim() || !emailMessage.trim()}
                   onClick={handleSendEmailToAdmins}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/30 disabled:text-black/30 text-black rounded-lg transition-colors border-none cursor-pointer disabled:cursor-not-allowed">
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/30 disabled:text-black/30   rounded-lg transition-colors border-none cursor-pointer disabled:cursor-not-allowed">
                   {isSendingEmail ? 'Sending...' : 'Send Message'}
                 </button>
               </div>
@@ -4487,7 +4487,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   {toast.title}
                 </h4>
               )}
-              <p className="text-black/70 font-semibold">
+              <p className="text-black/70  ">
                 {toast.message}
               </p>
             </div>
@@ -4495,7 +4495,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               type="button"
               aria-label="Close notification"
               onClick={() => setToast(prev => ({ ...prev, visible: false }))}
-              className="text-black/40 hover:text-black cursor-pointer border-none self-start">
+              className="text-black/40 hover:  cursor-pointer border-none self-start">
               ✕
             </button>
           </div>
@@ -4506,7 +4506,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
       {
         selectedVenuePopup && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative text-black flex flex-col">
+            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative   flex flex-col">
               {/* Header */}
               <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6">
                 <div className="flex items-center gap-2.5">
@@ -4524,7 +4524,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   type="button"
                   aria-label="Close venue details"
                   onClick={() => setSelectedVenuePopup(null)}
-                  className="text-black/40 hover:text-black transition-colors cursor-pointer border-none">
+                  className="text-black/40 hover:  transition-colors cursor-pointer border-none">
                   ✕
                 </button>
               </div>
@@ -4538,7 +4538,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     href={`https://maps.google.com/?q=${encodeURIComponent(selectedVenuePopup.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-purple-300 hover:text-white inline-block font-medium">
+                    className="text-purple-300 hover:text-white inline-block  ">
                     {selectedVenuePopup.address}
                   </a>
                 </div>
@@ -4548,7 +4548,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   <div className="p-3 bg-purple-950/15 border border-white/10 flex items-center justify-between gap-3">
                     <div className="min-w-0">
                       <span className="text-purple-300/70 block">📶 Backstage Wi-Fi</span>
-                      <span className="text-black select-all">{selectedVenuePopup.wifiPassword}</span>
+                      <span className="  select-all">{selectedVenuePopup.wifiPassword}</span>
                     </div>
                     <button
                       type="button"
@@ -4570,7 +4570,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   </div>
                   <div className="bg-white/[0.02] border border-black/10 p-3">
                     <span className="text-black/40 block mb-1">👤 Contact</span>
-                    <span className="text-black block truncate" title={selectedVenuePopup.contactPerson}>
+                    <span className="  block truncate" title={selectedVenuePopup.contactPerson}>
                       {selectedVenuePopup.contactPerson.split(' (')[0]}
                     </span>
                     {selectedVenuePopup.contactPhone && (
@@ -4586,7 +4586,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 {/* Stage Specs */}
                 <div className="bg-white/[0.02] border border-black/10 p-3">
                   <span className="text-black/40 block mb-1">🎸 Stage & Power Specs</span>
-                  <p className="text-black/80 font-medium">
+                  <p className="text-black/80  ">
                     {selectedVenuePopup.stageSpecs}
                   </p>
                 </div>
@@ -4594,7 +4594,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 {/* Parking & Load-In Notes */}
                 <div className="bg-white/[0.02] border border-black/10 p-3">
                   <span className="text-black/40 block mb-1">🚛 Parking & Load-In Notes</span>
-                  <p className="text-black/80 font-medium">
+                  <p className="text-black/80  ">
                     {selectedVenuePopup.parkingNotes}
                   </p>
                 </div>
@@ -4605,7 +4605,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSelectedVenuePopup(null)}
-                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100 text-black rounded-lg transition-colors border border-black/10 cursor-pointer">
+                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100   rounded-lg transition-colors border border-black/10 cursor-pointer">
                   Dismiss Details
                 </button>
               </div>
@@ -4618,7 +4618,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
       {
         activeDiscussionDate && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-            <div className="bg-white border border-black/10 w-full max-w-lg p-6 relative text-black flex flex-col max-h-[90vh]">
+            <div className="bg-white border border-black/10 w-full max-w-lg p-6 relative   flex flex-col max-h-[90vh]">
               {/* Header */}
               <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6 shrink-0">
                 <div className="flex items-center gap-2.5">
@@ -4636,7 +4636,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   type="button"
                   aria-label="Close lineup specs"
                   onClick={() => setActiveDiscussionDate(null)}
-                  className="text-black/40 hover:text-black transition-colors cursor-pointer border-none">
+                  className="text-black/40 hover:  transition-colors cursor-pointer border-none">
                   ✕
                 </button>
               </div>
@@ -4698,7 +4698,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             return (
                               <div key={c.id} className="space-y-2 border-b border-black/10 pb-2.5 last:border-none">
                                 <div className="flex items-start gap-2">
-                                  <div className="w-5 h-5 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 text-black mt-0.5">
+                                  <div className="w-5 h-5 rounded-lg bg-gray-100 flex items-center justify-center shrink-0   mt-0.5">
                                     {c.authorName[0]}
                                   </div>
                                   <div className="min-w-0 flex-1">
@@ -4710,7 +4710,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     <button
                                       type="button"
                                       onClick={() => setReplyingToCommentId(replyingToCommentId === c.id ? null : c.id)}
-                                      className="text-purple-300 hover:text-black border-none cursor-pointer">
+                                      className="text-purple-300 hover:  border-none cursor-pointer">
                                       {replyingToCommentId === c.id ? 'Cancel Reply' : 'Reply'}
                                     </button>
                                   </div>
@@ -4725,7 +4725,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       placeholder="Write a reply..."
                                       value={replyText}
                                       onChange={(e) => setReplyText(e.target.value)}
-                                      className="flex-1 px-2 py-1 bg-[#f0f2f5] border border-black/10 text-black rounded outline-none focus:border-purple-500/50"
+                                      className="flex-1 px-2 py-1 bg-[#f0f2f5] border border-black/10   rounded outline-none focus:border-purple-500/50"
                                     />
                                     <button
                                       type="button"
@@ -4782,7 +4782,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             placeholder="Post a gig note..."
                             value={newCommentText}
                             onChange={(e) => setNewCommentText(e.target.value)}
-                            className="flex-1 px-3 py-2 bg-[#f0f2f5] border border-black/10 text-black rounded-lg outline-none focus:border-purple-500/50"
+                            className="flex-1 px-3 py-2 bg-[#f0f2f5] border border-black/10   rounded-lg outline-none focus:border-purple-500/50"
                           />
                           <button
                             type="button"
@@ -4801,7 +4801,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                               ]);
                               setNewCommentText('');
                             }}
-                            className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-30 disabled:pointer-events-none text-black rounded-lg border-none cursor-pointer">
+                            className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-30 disabled:pointer-events-none   rounded-lg border-none cursor-pointer">
                             Post
                           </button>
                         </div>
@@ -4816,7 +4816,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setActiveDiscussionDate(null)}
-                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100 text-black rounded-lg transition-colors border border-black/10 cursor-pointer">
+                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100   rounded-lg transition-colors border border-black/10 cursor-pointer">
                   Close Specs
                 </button>
               </div>
@@ -4829,7 +4829,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
       {
         requestingCoverageShift && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative text-black flex flex-col">
+            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative   flex flex-col">
               {/* Header */}
               <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6 shrink-0">
                 <div className="flex items-center gap-2.5">
@@ -4850,7 +4850,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     setRequestingCoverageShift(null);
                     setSwapTargetColleagueId('');
                   }}
-                  className="text-black/40 hover:text-black transition-colors cursor-pointer border-none">
+                  className="text-black/40 hover:  transition-colors cursor-pointer border-none">
                   ✕
                 </button>
               </div>
@@ -4866,13 +4866,13 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   <button
                     type="button"
                     onClick={() => setSwapTargetColleagueId('')}
-                    className={`py-2 rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId ? 'bg-[var(--color-accent)] text-black ' : ' text-black/50 hover:text-black'}`}>
+                    className={`py-2 rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId ? 'bg-[var(--color-accent)]   ' : ' text-black/50 hover:text-black'}`}>
                     General Coverage
                   </button>
                   <button
                     type="button"
                     onClick={() => setSwapTargetColleagueId('openshifts')} // default target to enable dropdown
-                    className={`py-2 rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId ? 'bg-[var(--color-accent)] text-black ' : ' text-black/50 hover:text-black'}`}>
+                    className={`py-2 rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId ? 'bg-[var(--color-accent)]   ' : ' text-black/50 hover:text-black'}`}>
                     Propose Direct Swap
                   </button>
                 </div>
@@ -4909,7 +4909,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                         .map(m => ({ value: m.id, label: m.name }))}
                       onChange={(val) => setSwapTargetColleagueId(val)}
                       wrapperClassName="w-full"
-                      className="!py-2 !px-3 !text-sm text-black border-black/10 bg-white"
+                      className="!py-2 !px-3 !text-sm   border-black/10 bg-white"
                       chevronColor="#000000"
                     />
                   </div>
@@ -4924,7 +4924,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     setRequestingCoverageShift(null);
                     setSwapTargetColleagueId('');
                   }}
-                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100 text-black rounded-lg transition-colors border border-black/10 cursor-pointer">
+                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100   rounded-lg transition-colors border border-black/10 cursor-pointer">
                   Cancel
                 </button>
                 <button
@@ -4935,7 +4935,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     setRequestingCoverageShift(null);
                     setSwapTargetColleagueId('');
                   }}
-                  className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black rounded-lg transition-colors cursor-pointer border-none">
+                  className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]   rounded-lg transition-colors cursor-pointer border-none">
                   Submit Request
                 </button>
               </div>
@@ -4945,7 +4945,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
       }
 
 
-    </div>
+    </main>
   );
 }
 

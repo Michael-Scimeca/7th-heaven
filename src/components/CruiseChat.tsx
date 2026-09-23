@@ -79,7 +79,7 @@ const getAvatarGradient = (name: string) => {
     'bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700     ',
     'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600     ',
     'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600     ',
-    'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black        ',
+    'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500          ',
     'bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500     ',
     'bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700     ',
   ];
@@ -533,10 +533,10 @@ export default function CruiseChat({
           </div>
 
           <div className="space-y-2 max-w-xs">
-            <h3 className="">
+            <h3 >
               Join the Live Chat
             </h3>
-            <p className="font-medium">
+            <p className=" ">
               Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
             </p>
           </div>
@@ -567,7 +567,7 @@ export default function CruiseChat({
             <div className="bg-purple-600/15 border-b border-purple-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
               <span className="text-purple-300 shrink-0">⚠️</span>
               <div className="flex-1">
-                <h4 className="">Warning Alert</h4>
+                <h4 >Warning Alert</h4>
                 <p className="text-amber-100/90">
                   You have been warned by a moderator for inappropriate behavior. Please follow the PG-13 guidelines.
                 </p>
@@ -600,7 +600,7 @@ export default function CruiseChat({
               {messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-white/20">
                   <span className="text-3xl mb-2 opacity-50">👋</span>
-                  <p className="">Welcome to the lounge</p>
+                  <p >Welcome to the lounge</p>
                   <p className="text-center max-w-[200px]">Say hi to your fellow passengers or tag @admin to ask a question!</p>
                 </div>
               ) : (
@@ -680,7 +680,7 @@ export default function CruiseChat({
                                 : `var(--chat-bubble-override-bg, ${getUserBubbleBg(msg.sender_name, 0.8)})`,
                             fontSize: "var(--chat-bubble-font-size, 12px)",
                           }}
-                          className="w-fit max-w-[85%] break-words transition-all font-medium">
+                          className="w-fit max-w-[85%] break-words transition-all  ">
                           {formatMessageContent(msg.content)}
                         </div>
                       </div>

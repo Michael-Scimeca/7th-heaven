@@ -232,13 +232,7 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
 
   return (
     <section id="slide-up" className="su-bleed py-section-fluid border-b border-white/10">
-      <div className="su-rail-track">
-        <div className="su-rail">
-          {activeSlides.map((_, i) => (
-            <div key={i} className="su-dot" ref={(el) => { dotRefs.current[i] = el; }} />
-          ))}
-        </div>
-      </div>
+
 
       {showIntro && (
         <section className="su-intro">
@@ -252,13 +246,13 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
         {activeSlides.map((slide, i) => (
           <article
             key={slide.title}
-            className="su-card sticky top-[80px] h-auto min-h-0 w-full flex items-start justify-center overflow-visible rounded-t-[28px] transform-gpu bg-transparent pt-10 mb-5"
+            className="su-card sticky top-[80px] h-auto min-h-0 w-full flex items-start justify-center overflow-visible rounded-t-[28px] transform-gpu bg-transparent "
             ref={(el) => { cardRefs.current[i] = el; }}>
-            <div className="su-card-inner relative z-[2] w-full flex flex-col items-center text-center gap-4">
-              <div className="flex flex-col items-center text-center pb-[20px] gap-4">
-                <div className="su-headline flex items-center justify-center gap-4 flex-wrap text-[clamp(1.75rem,4.2vw,3.8rem)]   tracking-[-0.02em] leading-[1.05] max-w-[800px] w-full">
+            <div className="su-card-inner relative z-[2] w-full flex flex-col items-center text-center">
+              <div className="flex flex-col items-center text-center  gap-4 mb-6">
+                <h2 className="su-headline flex items-center justify-center gap-4 flex-wrap text-[clamp(1.75rem,4.2vw,3.8rem)]   tracking-[-0.02em]  max-w-[800px] w-full">
                   <span>{slide.title}</span>
-                </div>
+                </h2>
                 <p className="su-desc max-w-[600px] m-0">{slide.desc}</p>
               </div>
               <div className="su-thumbs flex gap-6 w-full max-w-full">
@@ -275,7 +269,7 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
                   return (
                     <div
                       key={`${t.label}-${ti}`}
-                      className={`su-thumb group flex-1 h-[clamp(230px,42vh,600px)] max-h-[600px] aspect-[16/10] rounded-[16px] relative overflow-hidden items-end justify-center px-5 pt-6 pb-[28px] ${visibilityClass}`}>
+                      className={`su-thumb group flex-1 h-[clamp(230px,42vh,600px)] max-h-[600px] aspect-[16/10] relative overflow-hidden items-end justify-center px-5 pt-6 pb-[28px] ${visibilityClass}`}>
                       {t.video && (
                         <AutoPlayVideo src={t.video} />
                       )}
@@ -289,9 +283,8 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
                           loading="lazy"
                         />
                       )}
-                      <div className="su-thumb-overlay absolute inset-0 z-[2] bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                       <div className="su-thumb-content relative z-[3] w-full flex flex-col items-center justify-end text-center pointer-events-none pb-[6px]">
-                        {t.badge && <span className="su-thumb-badge inline-block text-[0.75rem] font-bold tracking-[0.08em] bg-white/20 px-3 py-[5px] rounded-[6px] backdrop-blur-[12px] border border-white/30 mb-2">{t.badge}</span>}
+                        {t.badge && <span className="su-thumb-badge inline-block text-[0.75rem]    tracking-[0.08em] bg-white/20 px-3 py-[5px] rounded-[6px] backdrop-blur-[12px] border border-white/30 mb-2">{t.badge}</span>}
                         <h3 className="su-thumb-title text-[clamp(1.2rem,1.9vw,2.0rem)] font-black leading-[1.1] tracking-[-0.02em] m-0 [filter:drop-shadow(0_4px_16px_rgba(0,0,0,0.98))]">{t.label}</h3>
                       </div>
                     </div>

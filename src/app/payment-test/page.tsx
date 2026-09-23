@@ -64,7 +64,7 @@ function ProductCard({
           </span>
         )}
         {lowStock && (
-          <span className="absolute bottom-3 left-3 text-[10px] bg-yellow-500/90 text-black px-2.5 py-1 rounded-lg">
+          <span className="absolute bottom-3 left-3 text-[10px] bg-yellow-500/90   px-2.5 py-1 rounded-lg">
             Only {selectedStock} left
           </span>
         )}
@@ -72,8 +72,8 @@ function ProductCard({
 
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div>
-          <h3 className="">{product.title}</h3>
-          <p className="">{product.description}</p>
+          <h3 >{product.title}</h3>
+          <p >{product.description}</p>
         </div>
 
         <div>
@@ -89,7 +89,7 @@ function ProductCard({
                   type="button"
                   disabled={variantSoldOut}
                   onClick={() => setUserSelectedVariantId(variant.id)}
-                  className={`px-3 py-1.5 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)] " : " bg-[#00000029] border border-white/10 hover:text-white " }`}>
+                  className={`px-3 py-1.5 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)] " : " bg-[#00000029] border border-white/10 hover:text-white "}`}>
                   {variant.label}
                 </button>
               );
@@ -297,7 +297,7 @@ export default function PaymentTestShopPage() {
             <button
               type="button"
               onClick={() => setShowCreditGuide(!showCreditGuide)}
-              className="flex items-center gap-1.5 text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-2 rounded-lg border border-emerald-500/30 transition-colors font-medium">
+              className="flex items-center gap-1.5 text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-2 rounded-lg border border-emerald-500/30 transition-colors  ">
               💳 Credit System &amp; Processing Guide {showCreditGuide ? "▲" : "▼"}
             </button>
             <button
@@ -321,7 +321,7 @@ export default function PaymentTestShopPage() {
               <div className="flex items-center gap-3">
                 <span className="text-2xl">💳</span>
                 <div>
-                  <h2 className="font-bold text-lg">
+                  <h2 className="   text-lg">
                     Credit Processing &amp; Merchant System Setup
                   </h2>
                   <p className="text-xs text-emerald-400/90 mt-0.5">
@@ -332,7 +332,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCreditGuide(false)}
-                className="text-white/40 hover:text-white shrink-0 ml-4 text-xs font-semibold">
+                className="text-white/40 hover:text-white shrink-0 ml-4 text-xs  ">
                 ✕ Close
               </button>
             </div>
@@ -340,8 +340,8 @@ export default function PaymentTestShopPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs font-bold">1</span>
-                  <h4 className="font-semibold">Merchant Environment Setup</h4>
+                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs   ">1</span>
+                  <h4 className=" ">Merchant Environment Setup</h4>
                 </div>
                 <p className="text-white/70 text-xs leading-relaxed">
                   To accept live credit card transactions, configure server credentials in your <code className="text-emerald-300 bg-black/60 px-1.5 py-0.5 rounded">.env.local</code>:
@@ -355,8 +355,8 @@ export default function PaymentTestShopPage() {
 
               <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs font-bold">2</span>
-                  <h4 className="font-semibold">TAC Tokenization Flow</h4>
+                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs   ">2</span>
+                  <h4 className=" ">TAC Tokenization Flow</h4>
                 </div>
                 <p className="text-white/70 text-xs leading-relaxed">
                   Cart checkout triggers <code className="text-emerald-300 bg-black/60 px-1.5 py-0.5 rounded">/api/payment-test/north/tac</code> to request a temporary <strong>Transaction Access Code (TAC)</strong>. Card numbers are posted directly to North&apos;s SSL gateway endpoint so PCI compliance remains zero-overhead for our server.
@@ -365,8 +365,8 @@ export default function PaymentTestShopPage() {
 
               <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs font-bold">3</span>
-                  <h4 className="font-semibold">Verification &amp; Inventory Sync</h4>
+                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs   ">3</span>
+                  <h4 className=" ">Verification &amp; Inventory Sync</h4>
                 </div>
                 <p className="text-white/70 text-xs leading-relaxed">
                   Upon gateway approval, North redirects to <code className="text-emerald-300 bg-black/60 px-1.5 py-0.5 rounded">/api/payment-test/north/result</code>. The route verifies gateway signatures, decrements stock for each variant, and marks the order paid in Supabase.
@@ -375,8 +375,8 @@ export default function PaymentTestShopPage() {
 
               <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs font-bold">4</span>
-                  <h4 className="font-semibold">Fan Loyalty &amp; Store Credit</h4>
+                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs   ">4</span>
+                  <h4 className=" ">Fan Loyalty &amp; Store Credit</h4>
                 </div>
                 <p className="text-white/70 text-xs leading-relaxed">
                   Fans earn 5% back in store credits on every purchase. Credits automatically convert to discount tokens redeemable at checkout or applied towards VIP meet-and-greet passes.
@@ -391,10 +391,10 @@ export default function PaymentTestShopPage() {
           <div className="mb-8 bg-[#0e0e18] border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
               <div>
-                <h3 className="">
+                <h3 >
                   7th Heaven Direct Store Features &amp; Architecture
                 </h3>
-                <p className="">
+                <p >
                   Custom high-speed merchandise storefront with direct merchant payment routing and real-time inventory synchronization.
                 </p>
               </div>
@@ -481,7 +481,7 @@ export default function PaymentTestShopPage() {
           <div className="mb-8 bg-[#0e0e18] border border-emerald-500/30 rounded-2xl p-6 relative overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
               <div>
-                <h3 className="">
+                <h3 >
                   Roadmap: Closing the Gap With North&apos;s Real API Suite
                 </h3>
                 <p className="max-w-2xl">
@@ -506,7 +506,7 @@ export default function PaymentTestShopPage() {
                   🔁 Fan Club / Merch Subscriptions
                 </span>
                 <p>
-                  North&apos;s <strong className="">Recurring Billing API</strong>{" "}
+                  North&apos;s <strong >Recurring Billing API</strong>{" "}
                   supports weekly/bi-weekly/monthly charges with pause, resume, and cancel at any
                   time. Could power a &quot;merch box of the month&quot; or paid fan-club tier —
                   something Shopify needs a subscriptions app for.
@@ -530,7 +530,7 @@ export default function PaymentTestShopPage() {
                   🧾 Custom / VIP Order Invoicing
                 </span>
                 <p>
-                  North&apos;s <strong className="">Gateway Invoicing API</strong> is
+                  North&apos;s <strong >Gateway Invoicing API</strong> is
                   built for mail-order/telephone-order flows — send a fan a payment link for a
                   custom bundle, signed vinyl, or VIP package without them touching the storefront.
                 </p>
@@ -555,7 +555,7 @@ export default function PaymentTestShopPage() {
                   🖥️ Embedded Checkout Upgrade
                 </span>
                 <p>
-                  North offers a hosted <strong className="">Embedded Checkout</strong>{" "}
+                  North offers a hosted <strong >Embedded Checkout</strong>{" "}
                   widget as an alternative to a raw Browser Post form — same PCI-scope benefit,
                   nicer built-in card-entry UI, without hand-rolling every field.
                 </p>
@@ -596,7 +596,7 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-lg transition-colors shrink-0 ${activeCategory === cat ? "bg-cyan-500 text-black" : " bg-[#00000029] border border-white/10 hover:text-white " }`}>
+                className={`px-4 py-2 rounded-lg transition-colors shrink-0 ${activeCategory === cat ? "bg-cyan-500 text-black" : " bg-[#00000029] border border-white/10 hover:text-white "}`}>
                 {cat}
               </button>
             ))}
@@ -641,7 +641,7 @@ export default function PaymentTestShopPage() {
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4">
           <div className="bg-[#0e0e18] border border-white/[0.12] rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <h2 className="">My Cart</h2>
+              <h2 >My Cart</h2>
               <button
                 type="button"
                 onClick={() => setShowCart(false)}

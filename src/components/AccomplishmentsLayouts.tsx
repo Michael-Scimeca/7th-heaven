@@ -37,7 +37,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             <button
               key={l.id}
               onClick={() => setActiveLayout(l.id)}
-              className={`w-11 h-11 transition-colors cursor-pointer flex items-center justify-center ${activeLayout === l.id ? "bg-[var(--color-accent)] border border-[var(--color-accent)]/50 scale-110" : " bg-[#00000029] hover:text-white hover:bg-white/15 border border-transparent" }`}>
+              className={`w-11 h-11 transition-colors cursor-pointer flex items-center justify-center ${activeLayout === l.id ? "bg-[var(--color-accent)] border border-[var(--color-accent)]/50 scale-110" : " bg-[#00000029] hover:text-white hover:bg-white/15 border border-transparent"}`}>
               {l.name}
             </button>
           ))}
@@ -86,7 +86,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {stats.map((s, i) => (
             <div
               key={s.label}
-              className={`relative p-7 rounded-lg border border-purple-500/30 backdrop-blur-xl hover:border-purple-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-colors group overflow-hidden ${i === 0 || i === 3 ? "md:col-span-2" : "" }`}>
+              className={`relative p-7 rounded-lg border border-purple-500/30 backdrop-blur-xl hover:border-purple-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-colors group overflow-hidden ${i === 0 || i === 3 ? "md:col-span-2" : ""}`}>
               <div className="absolute top-0 right-0 w-24 h-24 rounded-lg blur-2xl group-hover:bg-cyan-500/20 transition-colors" />
               <div className="flex justify-between items-center mb-6">
                 <span className="text-4xl">
@@ -109,7 +109,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {stats.map((s, i) => (
             <div
               key={s.label}
-              className={`p-7 rounded-lg bg-gradient-to-b from-amber-950/30 via-black to-amber-950/10 border border-purple-500/30 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:border-purple-400 hover:shadow-[0_20px_45px_rgba(147, 51, 234,0.25)] transition-colors group ${i === 2 || i === 5 ? "md:col-span-2" : "" }`}>
+              className={`p-7 rounded-lg bg-gradient-to-b from-amber-950/30 via-black to-amber-950/10 border border-purple-500/30 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:border-purple-400 hover:shadow-[0_20px_45px_rgba(147, 51, 234,0.25)] transition-colors group ${i === 2 || i === 5 ? "md:col-span-2" : ""}`}>
               <div className="flex justify-between items-start mb-6">
                 <span className="text-5xl text-purple-200">
                   {s.number}
@@ -172,8 +172,8 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className={`p-8 rounded-lg bg-white/[0.04] border border-white/10 backdrop-blur-3xl hover:bg-white/[0.08] transition-colors group ${i === 0 ? "md:col-span-2" : "" }`}>
-              <span className="text-[var(--font-size-2xs)] font-semibold text-white/40 block mb-6">Achievement 0{i + 1}</span>
+              className={`p-8 rounded-lg bg-white/[0.04] border border-white/10 backdrop-blur-3xl hover:bg-white/[0.08] transition-colors group ${i === 0 ? "md:col-span-2" : ""}`}>
+              <span className="text-[var(--font-size-2xs)]   text-white/40 block mb-6">Achievement 0{i + 1}</span>
               <div className="text-5xl mb-3">{s.number}</div>
               <h4 className="mb-2">{s.label}</h4>
               <p>{s.text}</p>
@@ -225,7 +225,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className={`p-7 rounded-lg bg-[#00000029] border border-white/10backdrop-blur-[18px] hover:border-[var(--color-accent)]/20 transition-colors group ${i === 0 ? "md:col-span-2 md:row-span-2 justify-between flex flex-col" : i === 3 ? "md:col-span-2" : "" }`}>
+              className={`p-7 rounded-lg bg-[#00000029] border border-white/10backdrop-blur-[18px] hover:border-[var(--color-accent)]/20 transition-colors group ${i === 0 ? "md:col-span-2 md:row-span-2 justify-between flex flex-col" : i === 3 ? "md:col-span-2" : ""}`}>
               <div className="text-4xl md:text-5xl mb-3">{s.number}</div>
               <div>
                 <h4 className="mb-1">{s.label}</h4>
@@ -293,8 +293,8 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               <div className="flex items-center gap-6">
                 <span className="text-4xl md:text-5xl">{s.number}</span>
                 <div>
-                  <h4 className="">{s.label}</h4>
-                  <p className="">{s.text}</p>
+                  <h4 >{s.label}</h4>
+                  <p >{s.text}</p>
                 </div>
               </div>
               <span className="px-3 py-1 rounded-lg text-[var(--font-size-2xs)] bg-[#00000029] border border-white/10">
@@ -353,7 +353,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               <div className="flex items-center gap-6">
                 <span className="text-3xl text-[var(--color-accent)]">{s.number}</span>
                 <div>
-                  <h4 className="">{s.label}</h4>
+                  <h4 >{s.label}</h4>
                   <p className="mt-0.5">{s.text}</p>
                 </div>
               </div>
@@ -370,7 +370,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
             <div key={s.label} className="p-6 border border-white/10 hover:border-[var(--color-accent)] backdrop-blur-xl text-center group transition-colors">
               <div className="text-4xl mb-1">{s.number}</div>
               <h4 className="mb-2">{s.label}</h4>
-              <p className="leading-snug line-clamp-2">{s.text}</p>
+              <p className="  line-clamp-2">{s.text}</p>
             </div>
           ))}
         </div>

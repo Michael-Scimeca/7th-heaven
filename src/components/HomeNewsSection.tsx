@@ -149,14 +149,14 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
     <section id="news" className="site-container relative py-section-fluid">
       <>
         {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-6 gap-6">
           <div className="max-w-2xl text-left">
             <h2 className="font-[family-name:var(--font-rockstar)]">
               {sanityContent?.newsTitle || "Latest Band News"}
             </h2>
-            <h3 className="mt-2 text-sm md:text-base font-normal">
+            <p className="mt-2">
               {sanityContent?.newsSubtitle || "Stay updated with official announcements, tour updates, new music releases, and exclusive band stories."}
-            </h3>
+            </p>
           </div>
           <AddCmsButton
             label="ADD NEWS"
@@ -169,9 +169,9 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
-            <div className="lg:col-span-7 border-0 pb-4 md:pb-6 relative overflow-hidden group transition-colors">
+            <article className="lg:col-span-7 border-0 pb-4 md:pb-6 relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
-                <span className="text-[var(--color-accent)] font-bold">
+                <span className="text-[var(--color-accent)]   ">
                   {featured.date}
                 </span>
               </div>
@@ -186,7 +186,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
               <p className="font-normal">
                 {featured.content}
               </p>
-            </div>
+            </article>
           )}
 
           {/* Remaining Articles List (Right - 5 Cols) */}
@@ -200,10 +200,10 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                   className="block w-full text-left border-0 pb-3 md:pb-2 group font-normal hover:opacity-90 transition-opacity"
                 >
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-[var(--color-accent)] font-bold">
+                    <span className="text-[var(--color-accent)]   ">
                       {item.date}
                     </span>
-                    <span className="a-btn transition-colors text-sm font-semibold">
+                    <span className="a-btn transition-colors text-sm  ">
                       Read
                     </span>
                   </div>
@@ -256,7 +256,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[99999] bg-gradient-to-r from-purple-900/90 to-pink-900/90 border border-purple-400/50 px-6 py-3.5 rounded-xl shadow-2xl backdrop-blur-md flex items-center gap-3 animate-fade-in">
           <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
-          <span className="font-semibold text-sm">{toastMessage}</span>
+          <span className="  text-sm">{toastMessage}</span>
         </div>
       )}
 
@@ -276,7 +276,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 <Newspaper className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-xl font-bold">Add Band News to Sanity</h3>
+                <h3 className="text-xl   ">Add Band News to Sanity</h3>
                 <p className="text-xs text-purple-300/70">Publish a new band announcement or update to Sanity CMS.</p>
               </div>
             </div>
@@ -289,7 +289,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
 
             <form onSubmit={handleAddNewsSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                <label className="block text-xs   text-purple-200/80 mb-1.5">
                   Article Title *
                 </label>
                 <input
@@ -304,7 +304,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                  <label className="block text-xs   text-purple-200/80 mb-1.5">
                     Display Date *
                   </label>
                   <input
@@ -318,7 +318,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                  <label className="block text-xs   text-purple-200/80 mb-1.5">
                     Category
                   </label>
                   <select
@@ -335,7 +335,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
+                <label className="block text-xs   text-purple-200/80 mb-1.5">
                   Content / Article Body *
                 </label>
                 <textarea
@@ -352,14 +352,14 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm font-semibold transition-colors cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm   transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-bold text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500    text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
                 >
                   {submitting ? "Publishing..." : "+ PUBLISH NEWS TO SANITY"}
                 </button>

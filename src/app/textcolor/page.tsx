@@ -45,10 +45,10 @@ export default function TextColorTestPage() {
     <div className="min-h-screen w-full bg-black px-6 pt-16 pb-[65vh]">
       <div className="mx-auto flex max-w-4xl flex-col gap-16">
         <header className="flex flex-col gap-2">
-          <p className="">
+          <p >
             /textcolor test page
           </p>
-          <h1 className="text-2xl font-semibold  ">
+          <h1 className="text-2xl    ">
             Aurora Text playground
           </h1>
           <p className="max-w-xl">
@@ -77,7 +77,7 @@ export default function TextColorTestPage() {
 
         {/* Presets */}
         <section className="flex flex-col gap-6">
-          <h3 className="font-semibold text-white/40">
+          <h3 className="  text-white/40">
             Presets
           </h3>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -98,7 +98,7 @@ export default function TextColorTestPage() {
 
         {/* Playground */}
         <section className="flex flex-col gap-6">
-          <h3 className="font-semibold text-white/40">
+          <h3 className="  text-white/40">
             Playground
           </h3>
 

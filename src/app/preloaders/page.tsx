@@ -27,7 +27,7 @@ function DemoFrame({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">{label}</h2>
+        <h2 className="text-lg  ">{label}</h2>
         <button
           onClick={onPlay}
           disabled={playing}
@@ -40,7 +40,7 @@ function DemoFrame({
         style={{ aspectRatio: "16 / 11" }}>
         {/* fixed chrome -- never touched by any transition */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-4 py-2 backdrop-blur-sm">
-          <span className="text-[11px] tracking-[0.2em] text-white/70">
+          <span className="text-[11px]    text-white/70">
             7th Heaven Studio
           </span>
           <span className="flex gap-1.5">
@@ -236,7 +236,7 @@ function CurtainWipeDemo() {
 
       {/* Tuning panel -- speed / easing / slant, live-wired into play() above */}
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px] tracking-[0.2em]  ">New page reveal</p>
+        <p className="text-[11px]     ">New page reveal</p>
         <div className="flex items-center justify-between gap-3">
           <label className="text-white/60">
             Reveal speed <span className="/35">(exit + 0.25s, linked)</span>
@@ -280,7 +280,7 @@ function CurtainWipeDemo() {
           onChange={(e) => setRevealEase(e.target.value)}
           className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 /90">
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} className="">
+            <option key={o.value} value={o.value} >
               {o.label}
             </option>
           ))}
@@ -317,7 +317,7 @@ function CurtainWipeDemo() {
       {/* Old-page exit panel -- independent speed/easing/slant/flip, wired
           into the tl.fromTo(oldRef.current, ...) tween in play() above. */}
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px] tracking-[0.2em] text-fuchsia-400/80">Old page exit</p>
+        <p className="text-[11px]    text-fuchsia-400/80">Old page exit</p>
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="old-duration" className="text-white/60">
             Exit speed
@@ -378,7 +378,7 @@ function CurtainWipeDemo() {
           onChange={(e) => setOldEase(e.target.value)}
           className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 /90">
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} className="">
+            <option key={o.value} value={o.value} >
               {o.label}
             </option>
           ))}
@@ -460,7 +460,7 @@ export default function PreloadersTestPage() {
   return (
     <main className="min-h-screen bg-[#05030a] px-6 py-16 md:px-12">
       <div className="mx-auto max-w-6xl">
-        <p className="text-xs tracking-[0.3em] text-white/40">Internal test page</p>
+        <p className="text-xs   text-white/40">Internal test page</p>
         <h1 className="mt-2 text-4xl">Preloader / transition test bench</h1>
         <p className="mt-4 max-w-2xl text-white/60">
           Three self-contained transition demos, isolated from real routing so you can play each one back

@@ -51,7 +51,7 @@ export default function CruiseHeroSection({
   return (
     <section
       id="cruise-hero"
-      className="-mt-[100px] page-container relative flex flex-col justify-start overflow-hidden min-h-[710px] md:min-h-[70vw] site-container">
+      className="-mt-[100px] page-container relative flex flex-col justify-start overflow-hidden min-h-[710px] md:min-h-[800px] md:h-[800px] site-container">
       {/* Full-bleed background video & image mask wrapper */}
       <div
         className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
@@ -77,7 +77,7 @@ export default function CruiseHeroSection({
           muted
           playsInline
           preload="auto"
-          className="w-full h-full object-cover"
+          className="absolute -top-[200px] left-0 w-full h-[calc(100%+200px)] object-cover"
           style={{
             objectPosition: "center center",
             transform: "scale(1.02)",
@@ -130,7 +130,7 @@ export default function CruiseHeroSection({
               const el = document.getElementById("signup");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
-            className="btn-pill-glass backdrop-blur-[45px] flex items-center gap-2 text-rose-200 hover:text-white bg-rose-900/40 hover:bg-rose-800/60 border border-rose-500/40 transition-all cursor-pointer">
+            className="btn-pill-glass backdrop-blur-[45px] flex items-center gap-2 text-rose-200 hover:text-white bg-rose-900/40 hover:bg-rose-800/60 border border-rose-500/40 transition-[background-color,color,border-color] cursor-pointer">
             <span>💳 MAKE A PAYMENT - GROUP ID: 3325680</span>
           </button>
         </div>

@@ -732,7 +732,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
         <div key={order.id} className="bg-white/[0.03] border border-white/[0.08] rounded-lg p-4">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
-              <span className="">{order.tran_nbr}</span>
+              <span >{order.tran_nbr}</span>
               <span className={`px-2 py-0.5 rounded-lg text-[10px] border ${statusStyles[order.status]}`}>
                 {order.status}
               </span>
@@ -746,7 +746,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
               </span>
             </div>
           </div>
-          <div className="">
+          <div >
             {(order.line_items || []).map((item, i) => (
               <span key={`${item.title}-${item.variantLabel}-${i}`}>
                 {item.title} ({item.variantLabel}) × {item.quantity}

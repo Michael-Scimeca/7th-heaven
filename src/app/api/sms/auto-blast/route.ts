@@ -23,7 +23,8 @@ export async function POST(request: Request) {
     // Check auth (cron secret or admin)
     const { searchParams } = new URL(request.url);
     const secret = searchParams.get("secret");
-    if (secret !== process.env.CRON_SECRET && secret !== "dev") {
+    const isDev = process.env.NODE_ENV === "development";
+    if (secret !== process.env.CRON_SECRET && (!isDev || secret !== "dev")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

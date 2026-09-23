@@ -151,7 +151,7 @@ export default function CruiseDashboardGate() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-white/10 border-t-cyan-400 rounded-lg animate-spin mx-auto mb-6" />
-          <p className="">Redirecting to Dashboard...</p>
+          <p >Redirecting to Dashboard...</p>
         </div>
       </div>
     );
@@ -190,13 +190,13 @@ export default function CruiseDashboardGate() {
                     maxLength={6}
                     value={pinInput}
                     onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
-                    className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-center text-lg tracking-[0.3em] focus:border-purple-400/50 outline-none transition-colors"
+                    className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-center text-lg   focus:border-purple-400/50 outline-none transition-colors"
                   />
                 </div>
 
                 {authError && <p className="text-rose-400 mt-2 text-center">{authError}</p>}
 
-                <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400   transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                   {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-lg animate-spin" /> : "Verify PIN & Access Hub →"}
                 </button>
 
@@ -212,7 +212,7 @@ export default function CruiseDashboardGate() {
               <span className="text-4xl block mb-6">📧</span>
               <h3 className="mb-2">Check Your Email</h3>
               <p className="mb-6">
-                We've sent a verification link to <strong className="">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
+                We've sent a verification link to <strong >{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
               </p>
               <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-[#00000029] border border-white/10   hover:bg-white/10 hover:text-white transition-colors cursor-pointer">
                 Go to Log In
@@ -245,7 +245,7 @@ export default function CruiseDashboardGate() {
 
                     {authError && <p className="text-rose-400 mt-2">{authError}</p>}
 
-                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400   transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-lg animate-spin" /> : "Access Cruise Hub →"}
                     </button>
 

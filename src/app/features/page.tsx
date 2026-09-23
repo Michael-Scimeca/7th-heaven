@@ -32,7 +32,7 @@ function Counter({ end, label, sublabel }: { end: number; label: string; sublabe
       <div className="text-6xl md:text-7xl tabular-nums" style={{ fontStyle: "italic" }}>
         {count}<span style={{ color: "#851DEF" }}>+</span>
       </div>
-      <div className="text-base mt-2">{label}</div>
+      <div className=" mt-2">{label}</div>
       {sublabel && <div className="text-white/30 max-w-[180px] mx-auto">{sublabel}</div>}
     </div>
   );
@@ -71,20 +71,20 @@ export default function FeaturesPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
             {["Interactive Visual Sitemap", "WebRTC Live Streaming", "Web Push Notifications", "Direct Merchant E-Commerce", "Supabase Real-Time DB", "TensorFlow.js AI", "12 Email Templates", "Pick Collector Game", "1,200+ Shows Archive", "Sanity CMS"].map(p => (
-              <span key={p} className="px-3 py-1.5 rounded-lg bg-[#00000029] border border-white/10 text-white/40 font-semibold">{p}</span>
+              <span key={p} className="px-3 py-1.5 rounded-lg bg-[#00000029] border border-white/10 text-white/40  ">{p}</span>
             ))}
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/sitemap" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-base tracking-[0.12em] rounded-lg transition-colors hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/sitemap" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-base   rounded-lg transition-colors hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               Interactive Sitemap →
             </Link>
-            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-base tracking-[0.12em] rounded-lg transition-colors">
+            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-base   rounded-lg transition-colors">
               <span className="w-2 h-2 rounded-lg bg-white animate-pulse" />Watch Live
             </Link>
-            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-base tracking-[0.12em] rounded-lg transition-colors">Book The Band →</Link>
-            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-base tracking-[0.12em] rounded-lg transition-colors">Fan Dashboard →</Link>
-            <a href="#all-features" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-base tracking-[0.12em] rounded-lg transition-colors">View All Features ↓</a>
+            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-base   rounded-lg transition-colors">Book The Band →</Link>
+            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-base   rounded-lg transition-colors">Fan Dashboard →</Link>
+            <a href="#all-features" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-base   rounded-lg transition-colors">View All Features ↓</a>
           </div>
         </div>
       </section>
@@ -127,7 +127,7 @@ export default function FeaturesPage() {
               const count = cat.key === "all" ? FEATURES.length : FEATURES.filter(f => f.category.includes(cat.key as Category)).length;
               return (
                 <button key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg   border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
                   <span className={`ml-1 px-1.5 py-0.5 rounded-lg ${activeCategory === cat.key ? "bg-white/20 " : " bg-[#00000029] text-white/30"}`}>{count}</span>
                 </button>
@@ -154,7 +154,7 @@ export default function FeaturesPage() {
               <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] border-white/10 hover:bg-white/[0.04] transition-colors cursor-default">
                 <div className="w-11 h-11 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
-                  <div className="text-base" style={{ color: t.color }}>{t.name}</div>
+                  <div className="" style={{ color: t.color }}>{t.name}</div>
                   <p className="mt-0.5">{t.desc}</p>
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default function FeaturesPage() {
             <SeventhButton
               icon={false}
               onClick={() => window.location.href = "/fans"}
-              className="px-8 py-4 text-base rounded-lg">
+            >
               Join as a Fan →
             </SeventhButton>
             <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[#00000029] hover:bg-white/10 border border-white/10 hover:border-white/30 text-base rounded-lg transition-colors">Watch Live</Link>

@@ -709,7 +709,7 @@ function LoginModalBodyContent(props: any) {
           <h2 className="er">
             <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-">HEAVEN</span>
           </h2>
-          <div className="tracking-[0.18em] mt-2 flex items-center justify-center flex-wrap gap-1">
+          <div className="  mt-2 flex items-center justify-center flex-wrap gap-1">
             {modalMode === "forgot" ? (
               "Reset Your Password"
             ) : modalMode === "login" ? (
@@ -846,11 +846,11 @@ function LoginModalBodyContent(props: any) {
             </div>
             <h3 className="r">Check Your Email</h3>
             <p className="max-w-sm">
-              We sent a confirmation link to <strong className="">{email}</strong>. Please click the link in that email to confirm your account and sign in.
+              We sent a confirmation link to <strong >{email}</strong>. Please click the link in that email to confirm your account and sign in.
             </p>
             <button type="button"
               onClick={() => { setConfirmationRequired(false); setError(""); }}
-              className="w-full py-3 border border-black/10 text-black hover:bg-black/5 transition-colors cursor-pointer">
+              className="w-full py-3 border border-black/10   hover:bg-black/5 transition-colors cursor-pointer">
               Got it, thanks
             </button>
           </div>
@@ -889,7 +889,7 @@ function LoginModalBodyContent(props: any) {
                 {!forgotPinSent ? (
                   <div>
                     <label htmlFor="forgot-email-input" className="  mb-2 block">Email Address</label>
-                    <div className="input-glow-border rounded-lg w-full">
+                    <div className="input-glow-border  w-full">
                       <input
                         id="forgot-email-input"
                         type="email"
@@ -908,7 +908,7 @@ function LoginModalBodyContent(props: any) {
                     </div>
                     <div>
                       <label htmlFor="forgot-pin-input" className="  mb-2 block">Verification PIN</label>
-                      <div className="input-glow-border rounded-lg w-full">
+                      <div className="input-glow-border  w-full">
                         <input
                           id="forgot-pin-input"
                           type="text"
@@ -923,7 +923,7 @@ function LoginModalBodyContent(props: any) {
                     </div>
                     <div>
                       <label htmlFor="forgot-new-password-input" className="  mb-2 block">New Password</label>
-                      <div className="input-glow-border rounded-lg w-full">
+                      <div className="input-glow-border  w-full">
                         <input
                           id="forgot-new-password-input"
                           type="password"
@@ -946,7 +946,7 @@ function LoginModalBodyContent(props: any) {
                   <label htmlFor="login-email-input" className="  mb-2 block">
                     Email {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
                   </label>
-                  <div className="input-glow-border rounded-lg w-full">
+                  <div className="input-glow-border  w-full">
                     <input
                       id="login-email-input"
                       type="email"
@@ -963,7 +963,7 @@ function LoginModalBodyContent(props: any) {
                 </div>
                 <div>
                   <label htmlFor="login-password-input" className="  mb-2 block">Password</label>
-                  <div className="input-glow-border rounded-lg w-full">
+                  <div className="input-glow-border  w-full">
                     <input
                       id="login-password-input"
                       type="password"
@@ -995,7 +995,7 @@ function LoginModalBodyContent(props: any) {
                   checked={isAgeConfirmed}
                   onChange={(checked) => setIsAgeConfirmed(checked)}
                 />
-                <label htmlFor="modal-age-confirmed-toggle" className={`leading-snug cursor-pointer ${isAgeConfirmed ? ' ' : '  '}`}>
+                <label htmlFor="modal-age-confirmed-toggle" className={`  cursor-pointer ${isAgeConfirmed ? ' ' : '  '}`}>
                   I confirm that I am <span className="text-[#c27aff]">18 years of age or older</span>
                 </label>
               </div>
@@ -1182,14 +1182,14 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
           className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 transition-colors cursor-pointer rounded-lg"
           title="Sign in with Google">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
-          <span className="">Google</span>
+          <span >Google</span>
         </button>
         <button type="button"
           onClick={() => onOAuthLogin('facebook')}
           className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 transition-colors cursor-pointer rounded-lg"
           title="Sign in with Facebook">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-          <span className="">Facebook</span>
+          <span >Facebook</span>
         </button>
         <button type="button"
           onClick={() => onOAuthLogin('apple')}
@@ -1197,7 +1197,7 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
           className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none transition-colors cursor-pointer rounded-lg"
           title="Sign in with Apple">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
-          <span className="">Apple</span>
+          <span >Apple</span>
         </button>
       </div>
     </>
@@ -1314,7 +1314,7 @@ function SignUpExtraFields({
             <label htmlFor="signup-full-name" className="  mb-2 block">
               Full Name
             </label>
-            <div className="input-glow-border rounded-lg w-full">
+            <div className="input-glow-border  w-full">
               <input
                 id="signup-full-name"
                 type="text"
@@ -1329,7 +1329,7 @@ function SignUpExtraFields({
             <label htmlFor="signup-company-name" className="  mb-2 block">
               Company / Venue Name
             </label>
-            <div className="input-glow-border rounded-lg w-full">
+            <div className="input-glow-border  w-full">
               <input
                 id="signup-company-name"
                 type="text"
@@ -1345,7 +1345,7 @@ function SignUpExtraFields({
             <label htmlFor="signup-full-name" className="  mb-2 block">
               Full Name
             </label>
-            <div className="input-glow-border rounded-lg w-full">
+            <div className="input-glow-border  w-full">
               <input
                 id="signup-full-name"
                 type="text"
@@ -1360,7 +1360,7 @@ function SignUpExtraFields({
             <label htmlFor="signup-cabin-no" className="  mb-2 block">
               Stateroom / Cabin # <span className="text-white/40 normal-case">(optional)</span>
             </label>
-            <div className="input-glow-border rounded-lg w-full">
+            <div className="input-glow-border  w-full">
               <input
                 id="signup-cabin-no"
                 type="text"
@@ -1378,7 +1378,7 @@ function SignUpExtraFields({
               <label htmlFor="signup-full-name" className="  mb-2 block">
                 Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
               </label>
-              <div className="input-glow-border rounded-lg w-full">
+              <div className="input-glow-border  w-full">
                 <input
                   id="signup-full-name"
                   type="text"
@@ -1394,7 +1394,7 @@ function SignUpExtraFields({
               <label htmlFor="signup-username-input" className="  mb-2 block">
                 Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
               </label>
-              <div className="input-glow-border rounded-lg w-full">
+              <div className="input-glow-border  w-full">
                 <input
                   id="signup-username-input"
                   type="text"

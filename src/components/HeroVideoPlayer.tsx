@@ -494,8 +494,8 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
           <div
             className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
             style={{
-              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
-              maskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(black 0%, black 75%, transparent 94%)',
+              maskImage: 'linear-gradient(black 0%, black 75%, transparent 94%)',
             }}
           >
 
@@ -517,8 +517,8 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
           <div
             className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
             style={{
-              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
-              maskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 45%, transparent 97%)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black 45%, transparent 97%)',
             }}
           >
             <YTComp videoId={ytId || "UQBvl_wZ0ak"} start={20} end={29} />
@@ -527,8 +527,8 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
           <div
             className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
             style={{
-              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
-              maskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 97%)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 97%)',
             }}
           >
             <video
@@ -616,7 +616,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                     <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] text-[var(--color-accent)]">
                       Video Tint Tester
                     </span>
-                    <span className="text-white/40 font-semibold">
+                    <span className="text-white/40  ">
                       Customize background tint
                     </span>
                   </div>
@@ -655,7 +655,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                         onChange={(e) => updateColor(e.target.value)}
                         className="absolute -inset-1 w-[200%] h-[200%] cursor-pointer border-none p-0 opacity-0"
                       />
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className=""><path d="M12 5v14M5 12h14" /></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" ><path d="M12 5v14M5 12h14" /></svg>
                     </div>
                   </div>
                 </div>
@@ -693,15 +693,15 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
                 {/* Active Values HUD */}
                 <div className="bg-white/[0.02] border border-white/10 rounded-lg p-2 text-white/40 space-y-0.5">
-                  <div>Color: <span className="">{tintColor}</span></div>
-                  <div>Opacity: <span className="">{tintOpacity}</span></div>
-                  <div>Blend: <span className="">{mixBlendMode}</span></div>
+                  <div>Color: <span >{tintColor}</span></div>
+                  <div>Opacity: <span >{tintOpacity}</span></div>
+                  <div>Blend: <span >{mixBlendMode}</span></div>
                 </div>
 
                 {/* Copy CSS Button */}
                 <button
                   onClick={copyCSS}
-                  className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black text-[var(--font-size-2xs)] transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
+                  className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700   text-[var(--font-size-2xs)] transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
                   {copied ? (
                     <>
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scaleIn_0.15s_ease-out]"><polyline points="20 6 9 17 4 12" /></svg>
@@ -735,7 +735,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
               </h1>
 
               {/* Hero Subheading */}
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl font-medium /90 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl   /90 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] leading-relaxed">
                 {sanityContent?.heroSubheading || "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
               </p>
             </div>

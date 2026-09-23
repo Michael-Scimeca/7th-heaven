@@ -1133,7 +1133,7 @@ lerpSpeed: ${lerpSpeed}`;
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                 <div>
-                  <h4 className="text-sm font-bold text-amber-400 flex items-center gap-2">
+                  <h4 className="text-sm    text-amber-400 flex items-center gap-2">
                     <span>🔥</span> Canvas & Stage Control
                   </h4>
                   <p className="text-[11px] text-white/50">Tune WebGL Fireplace & Bio Parallax Slider</p>
@@ -1153,14 +1153,14 @@ lerpSpeed: ${lerpSpeed}`;
                 <button
                   type="button"
                   onClick={() => setActiveCustomizerTab("canvas")}
-                  className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${activeCustomizerTab === "canvas" ? "bg-amber-500 text-black shadow-md" : " text-white/70 hover:text-white hover:bg-white/5" }`}
+                  className={`flex-1 py-1.5 text-xs   rounded-md transition-all cursor-pointer ${activeCustomizerTab === "canvas" ? "bg-amber-500   shadow-md" : " text-white/70 hover:text-white hover:bg-white/5"}`}
                 >
                   🔥 Shader Canvas
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveCustomizerTab("stage")}
-                  className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${activeCustomizerTab === "stage" ? "bg-amber-500 text-black shadow-md" : " text-white/70 hover:text-white hover:bg-white/5" }`}
+                  className={`flex-1 py-1.5 text-xs   rounded-md transition-all cursor-pointer ${activeCustomizerTab === "stage" ? "bg-amber-500   shadow-md" : " text-white/70 hover:text-white hover:bg-white/5"}`}
                 >
                   📐 Bio Stage
                 </button>
@@ -1170,11 +1170,11 @@ lerpSpeed: ${lerpSpeed}`;
                 <div className="space-y-4 text-xs">
                   {/* Enable Shader Canvas Toggle */}
                   <div className="flex items-center justify-between p-2.5 bg-white/5 rounded-lg border border-white/10">
-                    <span className="font-medium /90">Enable Fireplace Shader</span>
+                    <span className="  /90">Enable Fireplace Shader</span>
                     <button
                       type="button"
                       onClick={() => setIsCanvasEnabled((prev) => !prev)}
-                      className={`px-3 py-1 rounded-full font-bold text-[11px] transition-colors cursor-pointer ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20 text-white/70" }`}
+                      className={`px-3 py-1 rounded-full    text-[11px] transition-colors cursor-pointer ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20 text-white/70"}`}
                     >
                       {isCanvasEnabled ? "ON" : "OFF"}
                     </button>
@@ -1182,7 +1182,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                   {/* Palette Theme Presets */}
                   <div>
-                    <span className="block text-white/70 font-medium mb-1.5">Fireplace Palette Preset</span>
+                    <span className="block text-white/70   mb-1.5">Fireplace Palette Preset</span>
                     <div className="grid grid-cols-2 gap-1.5">
                       {[
                         { id: 0, label: "💜 Deep Violet" },
@@ -1198,7 +1198,7 @@ lerpSpeed: ${lerpSpeed}`;
                             setPaletteTheme(theme.id);
                             setUseCustomColors(false);
                           }}
-                          className={`p-2 rounded-lg text-left text-[11px] font-semibold border transition-all cursor-pointer ${!useCustomColors && paletteTheme === theme.id ? "bg-amber-500 text-black border-amber-400 font-bold shadow-sm" : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10" }`}
+                          className={`p-2 rounded-lg text-left text-[11px]   border transition-all cursor-pointer ${!useCustomColors && paletteTheme === theme.id ? "bg-amber-500   border-amber-400    shadow-sm" : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10"}`}
                         >
                           {theme.label}
                         </button>
@@ -1209,13 +1209,13 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Custom Color Swatches & Toggle */}
                   <div className="p-3 bg-white/5 rounded-xl border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="/90 font-semibold text-xs flex items-center gap-1.5">
+                      <span className="/90   text-xs flex items-center gap-1.5">
                         <span>🎨</span> Custom Palette Swatches
                       </span>
                       <button
                         type="button"
                         onClick={() => setUseCustomColors((prev) => !prev)}
-                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold transition-colors cursor-pointer ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20 text-white/70" }`}
+                        className={`px-2.5 py-0.5 rounded-full text-[10px]    transition-colors cursor-pointer ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20 text-white/70"}`}
                       >
                         {useCustomColors ? "CUSTOM" : "PRESET"}
                       </button>
@@ -1223,7 +1223,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                     {/* Preset Swatch Shortcuts */}
                     <div className="pt-2 border-t border-white/10">
-                      <span className="block text-[10px] font-semibold text-white/50 mb-1.5">Quick Swatch Presets</span>
+                      <span className="block text-[10px]   text-white/50 mb-1.5">Quick Swatch Presets</span>
                       <div className="flex flex-wrap gap-1.5">
                         {[
                           { label: "💜 Violet", base: "#151150", mid: "#611EBD", core: "#FF7A29", spark: "#FF6124" },
@@ -1242,7 +1242,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setColorCoreHex(s.core);
                               setColorSparkHex(s.spark);
                             }}
-                            className="px-2 py-1 bg-white/10 hover:bg-white/20 border border-white/15 rounded text-[10px] font-semibold transition-all cursor-pointer"
+                            className="px-2 py-1 bg-white/10 hover:bg-white/20 border border-white/15 rounded text-[10px]   transition-all cursor-pointer"
                           >
                             {s.label}
                           </button>
@@ -1364,7 +1364,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Flame Animation Speed */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Flame Speed</span>
+                      <span className="text-white/70  ">Flame Speed</span>
                       <span className="font-mono text-amber-400">{flameSpeed.toFixed(1)}x</span>
                     </div>
                     <input
@@ -1382,7 +1382,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Flame Scale / Height */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Flame Height Scale</span>
+                      <span className="text-white/70  ">Flame Height Scale</span>
                       <span className="font-mono text-amber-400">{flameHeight.toFixed(1)}x</span>
                     </div>
                     <input
@@ -1400,7 +1400,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Ember / Spark Density */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Ember Density</span>
+                      <span className="text-white/70  ">Ember Density</span>
                       <span className="font-mono text-amber-400">{sparkDensity.toFixed(1)}x</span>
                     </div>
                     <input
@@ -1418,7 +1418,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Spark Particle Size */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Spark Size</span>
+                      <span className="text-white/70  ">Spark Size</span>
                       <span className="font-mono text-amber-400">{sparkScale.toFixed(2)}</span>
                     </div>
                     <input
@@ -1436,7 +1436,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Canvas Opacity */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Canvas Opacity</span>
+                      <span className="text-white/70  ">Canvas Opacity</span>
                       <span className="font-mono text-amber-400">{canvasOpacity}%</span>
                     </div>
                     <input
@@ -1454,7 +1454,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Backdrop Glow Opacity */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Image Glow Opacity</span>
+                      <span className="text-white/70  ">Image Glow Opacity</span>
                       <span className="font-mono text-amber-400">{glowOpacity}%</span>
                     </div>
                     <input
@@ -1476,7 +1476,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Card Width */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Card Width</span>
+                      <span className="text-white/70  ">Card Width</span>
                       <span className="font-mono text-amber-400">{cardWidth}px</span>
                     </div>
                     <input
@@ -1494,7 +1494,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Image Height */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Cutout Height</span>
+                      <span className="text-white/70  ">Cutout Height</span>
                       <span className="font-mono text-amber-400">{imageHeight}px</span>
                     </div>
                     <input
@@ -1512,7 +1512,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Image Scale */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Member Image Scale</span>
+                      <span className="text-white/70  ">Member Image Scale</span>
                       <span className="font-mono text-amber-400">{imageScale.toFixed(2)}</span>
                     </div>
                     <input
@@ -1530,7 +1530,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Image Y Offset */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Image Y Offset</span>
+                      <span className="text-white/70  ">Image Y Offset</span>
                       <span className="font-mono text-amber-400">{imageOffsetY}px</span>
                     </div>
                     <input
@@ -1548,7 +1548,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Gap */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Card Spacing Gap</span>
+                      <span className="text-white/70  ">Card Spacing Gap</span>
                       <span className="font-mono text-amber-400">{gap}px</span>
                     </div>
                     <input
@@ -1566,7 +1566,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Active Y Shift */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Active Card Y-Elevation</span>
+                      <span className="text-white/70  ">Active Card Y-Elevation</span>
                       <span className="font-mono text-amber-400">{activeYShift}px</span>
                     </div>
                     <input
@@ -1584,7 +1584,7 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Text Backdrop Opacity */}
                   <div>
                     <div className="flex justify-between mb-1">
-                      <span className="text-white/70 font-medium">Text Backdrop Opacity</span>
+                      <span className="text-white/70  ">Text Backdrop Opacity</span>
                       <span className="font-mono text-amber-400">{textBackdropOpacity}%</span>
                     </div>
                     <input
@@ -1608,14 +1608,14 @@ lerpSpeed: ${lerpSpeed}`;
                 <button
                   type="button"
                   onClick={handleResetCanvasDefaults}
-                  className="flex-1 py-2 bg-white/10 hover:bg-white/20 font-semibold rounded-lg text-xs transition-colors cursor-pointer"
+                  className="flex-1 py-2 bg-white/10 hover:bg-white/20   rounded-lg text-xs transition-colors cursor-pointer"
                 >
                   🔄 Reset Defaults
                 </button>
                 <button
                   type="button"
                   onClick={handleCopyConfig}
-                  className="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-black font-semibold rounded-lg text-xs transition-colors cursor-pointer"
+                  className="flex-1 py-2 bg-amber-500 hover:bg-amber-400     rounded-lg text-xs transition-colors cursor-pointer"
                 >
                   {copiedConfigNotification ? "✓ Copied!" : "📋 Copy Config"}
                 </button>
@@ -1641,7 +1641,7 @@ lerpSpeed: ${lerpSpeed}`;
                     key={idx}
                     type="button"
                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                    className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : "" }`}>
+                    className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""}`}>
                     {/* Member Card Thumbnail */}
                     <div
                       className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
@@ -1653,7 +1653,7 @@ lerpSpeed: ${lerpSpeed}`;
                     </div>
 
                     {/* Member Name & Role Display (Responsive text sizing) */}
-                    <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0" }`}>
+                    <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"}`}>
                       <p className="drop-">
                         {m?.name || "Band Member"}
                       </p>
@@ -1688,9 +1688,9 @@ lerpSpeed: ${lerpSpeed}`;
                       setSelectedMemberForSheet(m as BandMemberFactSheet);
                       setIsFactSheetOpen(true);
                     }}
-                    className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : "" }`}>
+                    className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""}`}>
                     {/* Member Name & Role Display (Responsive text sizing) */}
-                    <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0" }`}>
+                    <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"}`}>
                       <p className="drop-">
                         {m?.name || "Band Member"}
                       </p>
@@ -1774,7 +1774,7 @@ lerpSpeed: ${lerpSpeed}`;
                     marginRight: i < displayMembers.length - 1 ? `${gap}px` : "0px",
                     isolation: "isolate"
                   }}
-                  className="shrink-0 rounded-lg px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left">
+                  className="shrink-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left">
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible relative">
 
@@ -1788,7 +1788,7 @@ lerpSpeed: ${lerpSpeed}`;
                         {/* WebGL Pixel Fireplace Shader Canvas behind Active Band Member */}
                         {isCanvasEnabled && Math.abs(activeIndex - i) <= 1 && (
                           <div
-                            className="absolute inset-x-[-20%] bottom-[60px] md:bottom-[80px] top-[-10%] pointer-events-none z-[-1] overflow-hidden rounded-3xl transition-opacity duration-700 ease-out"
+                            className="absolute inset-x-[-20%] bottom-[60px] md:bottom-[80px] top-[-10%] pointer-events-none z-[-1] overflow-hidden transition-opacity duration-700 ease-out"
                             style={{ opacity: isActive ? canvasOpacity / 100 : 0 }}
                           >
                             <PixelFireplaceCanvas
@@ -1836,7 +1836,7 @@ lerpSpeed: ${lerpSpeed}`;
                           {/* Glare Masked strictly to Non-Transparent Pixels of the Member Photo Cutout */}
                           <div
                             key={`glare-${i}-${isActive ? "active" : "inactive"}`}
-                            className={`glarer-mask absolute inset-0 pointer-events-none z-20 overflow-hidden glarer ${isActive ? "active-glare" : "" }`}
+                            className={`glarer-mask absolute inset-0 pointer-events-none z-20 overflow-hidden glarer ${isActive ? "active-glare" : ""}`}
                             style={{
                               maskImage: `url(${imageSrc})`,
                               WebkitMaskImage: `url(${imageSrc})`,
@@ -1901,7 +1901,7 @@ lerpSpeed: ${lerpSpeed}`;
                           <h3 className="sm:bg-black/60 bg-black/40 pt-1 pr-2 pl-2" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
-                          <span className="sm:bg-black/60 bg-black/40 md:pb-1 pb-1 pt-1 pr-2 pl-2 text-[#c084fc] block font-bold" style={{ fontSize: computedRoleFontSize }}>
+                          <span className="sm:bg-black/60 bg-black/40 md:pb-1 pb-1 pt-1 pr-2 pl-2 text-[#c084fc] block   " style={{ fontSize: computedRoleFontSize }}>
                             {m?.role}
                           </span>
 

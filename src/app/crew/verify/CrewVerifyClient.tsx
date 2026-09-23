@@ -186,7 +186,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
             ) : (
               <div className="flex flex-col gap-3">
                 <div className="p-3 bg-red-500/10 border border-red-500/30 rounded text-red-300 text-xs">
-                  Logged in as <span className="font-semibold">{member?.email}</span> (Role: {member?.role}). This account does not have crew privileges.
+                  Logged in as <span className=" ">{member?.email}</span> (Role: {member?.role}). This account does not have crew privileges.
                 </div>
                 <Link
                   href="/"
@@ -251,7 +251,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
                   onKeyDown={(e) => handleKeyDown(idx, e)}
                   onPaste={handlePaste}
                   onFocus={() => setFocusedIndex(idx)}
-                  className={`w-11 h-14 bg-black/60 border text-center text-xl font-mono tabular-nums focus:outline-none transition-all ${focusedIndex === idx ? 'border-[var(--color-accent)] shadow-[0_0_15px_rgba(16,185,129,0.5)] bg-black/80' : digit ? 'border-white/40 bg-black/70' : 'border-white/15' }`}
+                  className={`w-11 h-14 bg-black/60 border text-center text-xl font-mono tabular-nums focus:outline-none transition-all ${focusedIndex === idx ? 'border-[var(--color-accent)] shadow-[0_0_15px_rgba(16,185,129,0.5)] bg-black/80' : digit ? 'border-white/40 bg-black/70' : 'border-white/15'}`}
                   aria-label={`PIN digit ${idx + 1}`}
                 />
               ))}
@@ -268,7 +268,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
                 type="button"
                 onClick={verifyPin}
                 disabled={fullPin.length !== 6}
-                className={`w-full py-3.5 transition-all duration-300 rounded-xl cursor-pointer ${fullPin.length === 6 ? 'bg-[var(--color-accent)] hover:bg-emerald-500 shadow-[0_0_25px_rgba(16,185,129,0.4)]' : 'bg-white/10 text-white/40 cursor-not-allowed border border-white/5' }`}>
+                className={`w-full py-3.5 transition-all duration-300 rounded-xl cursor-pointer ${fullPin.length === 6 ? 'bg-[var(--color-accent)] hover:bg-emerald-500 shadow-[0_0_25px_rgba(16,185,129,0.4)]' : 'bg-white/10 text-white/40 cursor-not-allowed border border-white/5'}`}>
                 Verify PIN Code
               </button>
             )}
@@ -293,12 +293,12 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
             <div className="p-4 bg-black/40 border border-white/10 rounded-lg text-left my-4 space-y-3">
               <div>
                 <p className="mb-1">Fan Name</p>
-                <p className="text-lg font-semibold">{winnerData.winner}</p>
+                <p className="text-lg  ">{winnerData.winner}</p>
               </div>
 
               <div className="pt-2 border-t border-white/10">
                 <p className="mb-1">Prize</p>
-                <p className="text-emerald-400 font-semibold">{winnerData.prize}</p>
+                <p className="text-emerald-400  ">{winnerData.prize}</p>
               </div>
             </div>
 
