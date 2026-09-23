@@ -56,12 +56,12 @@ import CruiseChat from "@/components/CruiseChat";
 function OpenShiftsCellHeader() {
   return (
     <div className="flex items-center gap-2 pl-1">
-      <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center  shrink-0">
+      <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center shrink-0">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
       </div>
       <div>
-        <span className="block text-white text-[11px]">OpenShifts</span>
-        <span className="text-[10px] uppercase text-purple-300">Positions</span>
+        <span className="block text-[11px]">OpenShifts</span>
+        <span className="text-[10px] text-purple-300">Positions</span>
       </div>
     </div>
   );
@@ -80,9 +80,9 @@ function CrewShiftTooltip({
   phone?: string;
 }) {
   return (
-    <div className="wiw-tooltip bg-[#1c1d22] text-white p-3 rounded-lg text-left border border-slate-700/50 w-52">
+    <div className="wiw-tooltip bg-[#1c1d22] p-3 rounded-lg text-left border border-slate-700/50 w-52">
       <div className="text-slate-200">{displayName}</div>
-      <div className="text-purple-300 uppercase mb-2">
+      <div className="text-purple-300 mb-2">
         Role: {role || 'Crew Member'}
       </div>
       <div className="text-slate-400 space-y-1 border-t border-slate-700/50 pt-1.5">
@@ -111,7 +111,7 @@ function ShiftCardHoverActions({
         type="button"
         aria-label="Edit shift"
         onClick={onEdit}
-        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover-bg-black-80 text-white/70 hover-text-white color-transition cursor-pointer border-none backdrop-blur-sm"
+        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:text-whitebg-black-80 text-white/70 hover- color-transition cursor-pointer border-none backdrop-blur-sm"
         title="Edit shift">
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -122,7 +122,7 @@ function ShiftCardHoverActions({
         type="button"
         aria-label="Delete shift"
         onClick={onDelete}
-        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover-bg-red-600 text-white/70 hover-text-white color-transition cursor-pointer border-none backdrop-blur-sm"
+        className="w-5 h-5 flex items-center justify-center rounded bg-black/50 hover:text-whitebg-red-600 text-white/70 hover- color-transition cursor-pointer border-none backdrop-blur-sm"
         title="Delete shift">
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="3 6 5 6 21 6" />
@@ -297,7 +297,7 @@ const CrewAvatar = React.memo(({ member }: { member: any }) => {
 
   return (
     <div
-      className="w-11 h-11 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center shrink-0 text-white select-none border border-white/10"
+      className="w-11 h-11 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 rounded-full flex items-center justify-center shrink-0 select-none border border-white/10"
       style={{ color: '#ffffff' }}>
       {initials}
     </div>
@@ -322,17 +322,13 @@ const SidebarDateButton = React.memo(({
     <button
       type="button"
       onClick={() => show.date && onClick(show.date)}
-      className={`w-full text-left px-2 py-1.5 flex items-center border-b border-white/10 gap-2 cursor-pointer transition-colors duration-150 group !rounded-none ${isSelected ? ' bg-[#00000029] !rounded-none'
-        : isActiveWeek
-          ? ' bg-[#00000029] '
-          : '  '
-        }`}>
+      className={`w-full text-left px-2 py-1.5 flex items-center border-b border-white/10 gap-2 cursor-pointer transition-colors duration-150 group !rounded-none ${isSelected ? ' bg-[#00000029] !rounded-none' : isActiveWeek ? ' bg-[#00000029] ' : ' '}`}>
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
-        <span className="text-[9px] text-white/40 uppercase">{show.dayLabel}</span>
-        <span className={` text-[11px] ${isSelected ? 'text-purple-300' : isActiveWeek ? 'text-white/70' : 'text-white/50'}`}>{show.dateLabel}</span>
+        <span className="text-[9px] text-white/40">{show.dayLabel}</span>
+        <span className={`text-[11px] ${isSelected ? 'text-purple-300' : isActiveWeek ? ' text-white/70' : ' text-white/50'}`}>{show.dateLabel}</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className={` truncate ${isSelected ? 'text-white' : isActiveWeek ? 'text-white/90' : 'text-white/70'}`}>
+        <p className={`truncate ${isSelected ? ' ' : isActiveWeek ? ' /90' : ' text-white/70'}`}>
           {show.venue || show.venue_name}
         </p>
         {show.city && (
@@ -413,12 +409,12 @@ function DutyRoleEditorPopover({
 
   return (
     <div
-      className={`absolute right-0 ${positionClasses} p-4 sm:p-5 bg-[#0f0720]/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3.5 w-[340px] sm:w-[380px] max-h-[85vh] overflow-y-auto custom-scrollbar text-white z-50 animate-[scaleIn_0.15s_ease-out]`}
+      className={`absolute right-0 ${positionClasses} p-4 sm:p-5 bg-[#0f0720]/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3.5 w-[340px] sm:w-[380px] max-h-[85vh] overflow-y-auto custom-scrollbar z-50 animate-[scaleIn_0.15s_ease-out]`}
       onClick={(e) => e.stopPropagation()}>
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
         <div className="truncate pr-2">
-          <span className="uppercase text-white block truncate">Edit Roles</span>
+          <span className="block truncate">Edit Roles</span>
           <span className="text-[10px] text-purple-300 block truncate">{memberName}</span>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
@@ -429,7 +425,7 @@ function DutyRoleEditorPopover({
               handleSaveDuty(memberId);
             }}
             disabled={savingDuty}
-            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 active:scale-95 text-white rounded-lg cursor-pointer border-none shadow-[0_0_12px_rgba(147,51,234,0.4)] uppercase transition-all">
+            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 active:scale-95 rounded-lg cursor-pointer border-none shadow-[0_0_12px_rgba(147,51,234,0.4)] transition-all">
             {savingDuty ? 'Saving...' : 'Save'}
           </button>
           <button
@@ -439,7 +435,7 @@ function DutyRoleEditorPopover({
               e.stopPropagation();
               setEditingDutyMemberId(null);
             }}
-            className="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/80 rounded-lg cursor-pointer border-none transition-all">
+            className="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 active:scale-95   rounded-lg cursor-pointer border-none transition-all">
             Cancel
           </button>
         </div>
@@ -447,7 +443,7 @@ function DutyRoleEditorPopover({
 
       {/* Quick-Select Chips (All Roles) */}
       <div>
-        <span className="text-[10px] uppercase block mb-1.5">Quick Toggle Presets:</span>
+        <span className="text-[10px] block mb-1.5">Quick Toggle Presets:</span>
         <div className="flex flex-wrap gap-1.5 max-h-[240px] min-h-[140px] overflow-y-auto custom-scrollbar p-2.5 bg-black/40 border border-white/10 rounded-lg shadow-inner">
           {Array.from(new Set([...(presetRoles || []), 'STAGE HAND', 'MERCH', 'MOVING EQUIPMENT', 'TEAR DOWN', 'VIP HOST', 'MC', 'BAND MEMBER', 'AUDIO MIX', 'EQUIPMENT SETUP', 'LIGHTS', 'SERVER', 'EVENT SUPPORT', 'SOUND ENGINEER', 'TOUR MANAGER', 'CHEF', 'DRIVER', 'SECURITY', 'PHOTOGRAPHER', 'CREW'])).map((chip) => {
             const currentList = editingDutyValue.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
@@ -465,9 +461,7 @@ function DutyRoleEditorPopover({
                   }
                   setEditingDutyValue(updated.join(', '));
                 }}
-                className={`px-2.5 py-1 rounded-lg text-[10px]    uppercase transition-all cursor-pointer border select-none ${isSelected ? 'bg-purple-600 border-purple-400 text-white scale-[1.02]'
-                  : 'bg-white/10 border-white/10 text-white/90 hover:bg-white/20 hover:border-purple-400/40 hover:text-white'
-                  }`}>
+                className={`px-2.5 py-1 rounded-lg text-[10px] transition-all cursor-pointer border select-none ${isSelected ? 'bg-purple-600 border-purple-400 scale-[1.02]' : 'bg-white/10 border-white/10 /90 hover:bg-white/20 hover:border-purple-400/40 hover:text-white '}`}>
                 {isSelected ? `✓ ${chip}` : `+ ${chip}`}
               </button>
             );
@@ -478,7 +472,7 @@ function DutyRoleEditorPopover({
       {/* Custom role input */}
       <div className="pt-2 border-t border-white/10 space-y-1.5">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] uppercase text-white">Custom / Edit Text:</span>
+          <span className="text-[10px]">Custom / Edit Text:</span>
           {editingDutyValue && (
             <button
               type="button"
@@ -494,7 +488,7 @@ function DutyRoleEditorPopover({
           value={editingDutyValue}
           onChange={(e) => setEditingDutyValue(e.target.value)}
           placeholder="e.g. STAGE HAND, MERCH..."
-          className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-purple-400 focus:bg-white/15 transition-all shadow-inner"
+          className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 font-semibold placeholder: text-white/40 focus:outline-none focus:border-purple-400 focus:bg-white/15 transition-all shadow-inner"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               handleSaveDuty(memberId);
@@ -3221,7 +3215,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div className="mx-6 mt-4 p-3.5 bg-purple-500/10 border border-purple-500/15 text-purple-200/90 flex items-start gap-2.5 animate-[fadeIn_0.2s_ease-out] shrink-0" onClick={(e) => e.stopPropagation()}>
         <span className="select-none">ℹ</span>
         <div>
-          <p className="uppercase text-purple-300">About {title}</p>
+          <p className="text-purple-300">About {title}</p>
           <p className="mt-0.5 leading-normal opacity-80">{description}</p>
         </div>
       </div>
@@ -3235,11 +3229,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div id="admin-sec-emergencybroadcast" className="overflow-visible">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emergencybroadcast'); } }} onClick={() => toggleSection('emergencybroadcast')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
-            <h3 className="text-white uppercase flex items-center gap-2 ">
+            <h3 className="flex items-center gap-2">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
               Emergency Show & Fan Alert Dispatcher
             </h3>
-            <p className="mt-0.5 ">Dispatch urgent show cancellations, time changes, or venue updates sitewide</p>
+            <p className="mt-0.5">Dispatch urgent show cancellations, time changes, or venue updates sitewide</p>
           </div>
           <div className="flex items-center gap-3">
 
@@ -3260,11 +3254,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div id="admin-sec-emaildirectory" className="overflow-hidden">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emaildirectory'); } }} onClick={() => toggleSection('emaildirectory')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
-            <h3 className="text-white uppercase flex items-center gap-2 ">
+            <h3 className="flex items-center gap-2">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 1-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               Role-Based Email Lists & Subscriber Directory
             </h3>
-            <p className="mt-0.5 ">Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins</p>
+            <p className="mt-0.5">Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emaildirectory') ? 'rotate-0' : '-rotate-90')}>
@@ -3284,11 +3278,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div id="admin-sec-pushsubscribers" className="overflow-hidden">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('pushsubscribers'); } }} onClick={() => toggleSection('pushsubscribers')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
-            <h3 className="text-white uppercase flex items-center gap-2 ">
+            <h3 className="flex items-center gap-2">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
               Proximity Push Subscriber Controls
             </h3>
-            <p className="mt-0.5 ">Manage fan notification preferences, distance radii & targeted broadcasts</p>
+            <p className="mt-0.5">Manage fan notification preferences, distance radii & targeted broadcasts</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('pushsubscribers') ? 'rotate-0' : '-rotate-90')}>
@@ -3306,11 +3300,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div id="admin-sec-announcements" className="overflow-hidden">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('announcements'); } }} onClick={() => toggleSection('announcements')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
-            <h3 className="text-white uppercase flex items-center gap-2 ">
+            <h3 className="flex items-center gap-2">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
               Band Announcements
             </h3>
-            <p className="mt-0.5 ">Post band updates, news, and urgent alerts across the public site</p>
+            <p className="mt-0.5">Post band updates, news, and urgent alerts across the public site</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('announcements') ? 'rotate-0' : '-rotate-90')}>
@@ -3325,11 +3319,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="relative z-10 flex flex-col group">
               <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection("globalalert"); } }} onClick={() => toggleSection("globalalert")} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors !rounded-none">
                 <div className="flex flex-col">
-                  <h3 className="text-white uppercase flex items-center gap-2 ">
+                  <h3 className="flex items-center gap-2">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
                     Global Alert Banner
                   </h3>
-                  <p className="mt-0.5 ">Pin a band announcement or urgent notice sitewide</p>
+                  <p className="mt-0.5">Pin a band announcement or urgent notice sitewide</p>
                 </div>
                 <div className="flex items-center gap-3">
                   {/* Main toggle — auto-saves */}
@@ -3341,9 +3335,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         await updateGlobalBanner({ isActive: newActive });
                       }}
                       disabled={bannerUpdating}
-                      className={`relative px-4 py-1.5 text-[0.9rem] rounded-lg    uppercase transition-colors duration-300 border cursor-pointer shrink-0 rounded-lg overflow-hidden ${bannerActive ? 'bg-purple-600 text-white border-purple-500 '
-                        : ' bg-[#00000029] text-white/50 border-white/10 hover:border-white/20'
-                        } disabled:opacity-50`}>
+                      className={`relative px-4 py-1.5 text-[0.9rem] rounded-lg transition-colors duration-300 border cursor-pointer shrink-0 rounded-lg overflow-hidden ${bannerActive ? 'bg-purple-600 border-purple-500 ' : ' bg-[#00000029] text-white/50 border-white/10 hover:border-white/20'} disabled:opacity-50`}>
                       <span className="relative z-10 flex items-center gap-2">
                         <span className={`w-1.5 h-1.5 rounded-full ${bannerActive ? 'bg-white animate-pulse shadow-[0_0_5px_white]' : 'bg-white/30'}`} />
                         {bannerActive ? 'LIVE ON SITE' : 'OFF'}
@@ -3364,17 +3356,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {isSectionOpen('globalalert') && (<>
                   {/* Save status toast */}
                   {bannerSaveStatus && (
-                    <div className={`flex items-center gap-2 px-4 py-2.5 text-[0.9rem] uppercase animate-[slideIn_0.3s_ease-out] backdrop-blur-[45px] ${bannerSaveStatus === 'saved'
-                      ? 'bg-emerald-500/10  border border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
-                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
-                      }`}>
+                    <div className={`flex items-center gap-2 px-4 py-2.5 text-[0.9rem] animate-[slideIn_0.3s_ease-out] backdrop-blur-[45px] ${bannerSaveStatus === 'saved' ? 'bg-emerald-500/10 border border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'}`}>
                       {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
                     </div>
                   )}
 
                   {/* Message input */}
                   <div className="flex flex-col gap-3 mt-auto">
-                    <div className="w-full text-white [&_.ql-editor]:min-h-[200px]">
+                    <div className="w-full [&_.ql-editor]:min-h-[200px]">
                       <ReactQuill
                         theme="snow"
                         value={bannerText}
@@ -3389,13 +3378,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <button
                         onClick={() => updateGlobalBanner()}
                         disabled={bannerUpdating}
-                        className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white uppercase rounded-lg border border-[var(--color-accent)]/50 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0">
+                        className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 rounded-lg border border-[var(--color-accent)]/50 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0">
                         {bannerUpdating ? 'Saving...' : 'Dispatch'}
                       </button>
 
                       {/* Auto-expire buttons */}
                       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
-                        <span className="text-white/30 uppercase shrink-0 mr-2">Expiry:</span>
+                        <span className="text-white/30 shrink-0 mr-2">Expiry:</span>
                         {[
                           { label: '1H', hours: 1 },
                           { label: '3H', hours: 3 },
@@ -3412,7 +3401,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 setBannerExpiresAt(expiry);
                                 await updateGlobalBanner({ expiresAt: expiry });
                               }}
-                              className="px-3 py-1.5 text-[0.65rem] uppercase cursor-pointer whitespace-nowrap">
+                              className="px-3 py-1.5 text-[0.65rem] cursor-pointer whitespace-nowrap">
                               {label}
                             </SeventhButton>
                           );
@@ -3423,7 +3412,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             setBannerExpiresAt(null);
                             await updateGlobalBanner({ expiresAt: null });
                           }}
-                          className="px-3 py-1.5 text-[0.65rem] uppercase cursor-pointer whitespace-nowrap">
+                          className="px-3 py-1.5 text-[0.65rem] cursor-pointer whitespace-nowrap">
                           OFF
                         </SeventhButton>
                       </div>
@@ -3432,10 +3421,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Expiry info */}
                     {bannerExpiresAt && (
                       <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded-lg bg-black/30 border border-white/10 w-fit">
-                        <span className="text-white/30 uppercase">Auto-off at:</span>
+                        <span className="text-white/30">Auto-off at:</span>
                         <span className="text-purple-300 r">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
                         {new Date(bannerExpiresAt) < new Date() && (
-                          <span className="text-rose-400 uppercase px-1.5 rounded bg-rose-500/20">Expired</span>
+                          <span className="text-rose-400 px-1.5 rounded bg-rose-500/20">Expired</span>
                         )}
                       </div>
                     )}
@@ -3450,22 +3439,22 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   );
 
   const renderAnalytics = () => (
-    <div id="admin-sec-analytics" className="overflow-hidden text-white">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 mb-5 px-0 border-b border-white/10 flex items-center justify-between text-white cursor-pointer select-none !rounded-none !rounded-none">
+    <div id="admin-sec-analytics" className="overflow-hidden">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 mb-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none !rounded-none">
         <div className="flex flex-col">
-          <h3 className="text-white uppercase flex items-center gap-2 ">
+          <h3 className="flex items-center gap-2">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
             Google Analytics GA4 Suite
           </h3>
-          <p className="mt-0.5 ">Monitor sitewide visitor traffic, engagement, and conversion metrics</p>
+          <p className="mt-0.5">Monitor sitewide visitor traffic, engagement, and conversion metrics</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 border border-emerald-400/40 rounded-full text-[0.9rem] text-emerald-300 uppercase animate-pulse select-none shrink-0" onClick={(e) => e.stopPropagation()}>
+          <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 border border-emerald-400/40 rounded-full text-[0.9rem] text-emerald-300 animate-pulse select-none shrink-0" onClick={(e) => e.stopPropagation()}>
             <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
             GA4 Live Signal
           </span>
           <div className={"w-7 h-7 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('analytics') ? 'rotate-0' : '-rotate-90')}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M2 4l4 4 4-4" /></svg>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className=""><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
       </div>
@@ -3477,39 +3466,39 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           {/* 1. Executive Top Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             <div className="bg-[var(--card-bg)]">
-              <span className="text-[0.55rem] uppercase block mb-1">Active Users</span>
+              <span className="text-[0.55rem] block mb-1">Active Users</span>
               <span className="text-2xl text-[#c27aff] block">{gaData.activeUsers}</span>
-              <span className="text-[0.55rem] text-[#c27aff] uppercase mt-1 block"> Live Right Now</span>
+              <span className="text-[0.55rem] text-[#c27aff] mt-1 block"> Live Right Now</span>
             </div>
 
             <div className="bg-[var(--card-bg)]">
-              <span className="text-[0.55rem] uppercase block mb-1">Total Sessions</span>
+              <span className="text-[0.55rem] block mb-1">Total Sessions</span>
               <span className="text-2xl block">{gaData.sessions.toLocaleString()}</span>
-              <span className="text-[0.55rem] uppercase mt-1 block">Last 30 Days</span>
+              <span className="text-[0.55rem] mt-1 block">Last 30 Days</span>
             </div>
 
             <div className="bg-[var(--card-bg)]">
-              <span className="text-[0.55rem] uppercase block mb-1">Page Views</span>
+              <span className="text-[0.55rem] block mb-1">Page Views</span>
               <span className="text-2xl block">{gaData.pageViews.toLocaleString()}</span>
-              <span className="text-[0.55rem] uppercase mt-1 block">Sitewide Traffic</span>
+              <span className="text-[0.55rem] mt-1 block">Sitewide Traffic</span>
             </div>
 
             <div className="bg-[var(--card-bg)]">
-              <span className="text-[0.55rem] uppercase block mb-1">Conversion Rate</span>
-              <span className="text-2xl  block">{gaData.conversionRate}</span>
-              <span className="text-[0.55rem]  uppercase mt-1 block">Traffic → Purchases</span>
+              <span className="text-[0.55rem] block mb-1">Conversion Rate</span>
+              <span className="text-2xl block">{gaData.conversionRate}</span>
+              <span className="text-[0.55rem] mt-1 block">Traffic → Purchases</span>
             </div>
 
             <div className="bg-[var(--card-bg)]">
-              <span className="text-[0.55rem] uppercase block mb-1">Rev / Session</span>
-              <span className="text-2xl  block">{gaData.revenuePerSession}</span>
-              <span className="text-[0.55rem]  uppercase mt-1 block">Avg Fan Value</span>
+              <span className="text-[0.55rem] block mb-1">Rev / Session</span>
+              <span className="text-2xl block">{gaData.revenuePerSession}</span>
+              <span className="text-[0.55rem] mt-1 block">Avg Fan Value</span>
             </div>
 
             <div className="bg-[var(--card-bg)]">
-              <span className="text-[0.55rem] uppercase block mb-1">Bounce Rate</span>
+              <span className="text-[0.55rem] block mb-1">Bounce Rate</span>
               <span className="text-2xl text-purple-300 block">{gaData.bounceRate}</span>
-              <span className="text-[0.55rem] text-purple-300 uppercase mt-1 block">High Engagement</span>
+              <span className="text-[0.55rem] text-purple-300 mt-1 block">High Engagement</span>
             </div>
           </div>
 
@@ -3518,7 +3507,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             {/* Acquisition Channels */}
             <div className="bg-[var(--card-bg)] py-6">
-              <h4 className="uppercase mb-6 flex items-center justify-between">
+              <h4 className="mb-6 flex items-center justify-between">
                 <span> Traffic Acquisition Channels</span>
                 <span>GA4 Attribution</span>
               </h4>
@@ -3579,7 +3568,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {/* Device & Browser Hardware */}
             <div className="bg-[var(--card-bg)] pt-5 pb-5 flex flex-col justify-between">
               <div>
-                <h4 className="uppercase mb-6 flex items-center justify-between">
+                <h4 className="mb-6 flex items-center justify-between">
                   <span> User Devices & Browsers</span>
                   <span>Device Category</span>
                 </h4>
@@ -3588,19 +3577,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div>
                     <span className="text-lg block"></span>
                     <span className="block mt-1">68%</span>
-                    <span className="text-[12px] uppercase block">Mobile</span>
+                    <span className="text-[12px] block">Mobile</span>
                   </div>
 
                   <div>
                     <span className="text-lg block"></span>
                     <span className="block mt-1">27%</span>
-                    <span className="text-[12px] uppercase block">Desktop</span>
+                    <span className="text-[12px] block">Desktop</span>
                   </div>
 
                   <div>
                     <span className="text-lg block"></span>
                     <span className="block mt-1">5%</span>
-                    <span className="text-[12px] uppercase block">Tablet</span>
+                    <span className="text-[12px] block">Tablet</span>
                   </div>
                 </div>
 
@@ -3628,7 +3617,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           {/* 3. Top Performing Sitewide Pages Table */}
           <div className="bg-[var(--card-bg)]">
-            <h4 className="uppercase mb-6 flex items-center justify-between">
+            <h4 className="mb-6 flex items-center justify-between">
               <span> Top Performing Site Pages (Screen Views)</span>
               <span>GA4 Event Metrics</span>
             </h4>
@@ -3636,7 +3625,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="uppercase border-b border-[var(--border-color)]">
+                  <tr className="border-b border-[var(--border-color)]">
                     <th className="pt-3 pb-3">Page Path</th>
                     <th className="p-3">Views</th>
                     <th className="p-3">Users</th>
@@ -3697,7 +3686,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
           <div className="bg-[var(--card-bg)] pt-5 pb-5">
-            <h4 className="uppercase mb-6 flex items-center justify-between">
+            <h4 className="mb-6 flex items-center justify-between">
               <span> Visitor Geo Demographics & Fan Density</span>
               <span>Top Cities</span>
             </h4>
@@ -3722,7 +3711,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="w-full h-48 bg-black/40 rounded-lg border border-[var(--border-color)] flex items-center justify-center relative overflow-hidden">
                   <AdminMap key={`admin-map-${sectionOrder.join(',')}`} locations={gaData.locations} />
                 </div>
-                <p className="uppercase r">
+                <p className="r">
                   Real-time geographic fan heatmaps for tour routing optimization.
                 </p>
               </div>
@@ -3735,7 +3724,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <span className="text-xl mt-1 sm:mt-0"></span>
               <div>
                 <p>Google Analytics GA4 Active</p>
-                <p className="uppercase">
+                <p className="">
                   Tracking Live Tag: <span className="text-emerald-400">G-HS8X0ZD66V</span>
                 </p>
               </div>
@@ -3745,7 +3734,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="flex items-start gap-2">
                 <span className="text-purple-300"></span>
                 <div>
-                  <p className="text-purple-300 uppercase">Shopify E-Commerce Link</p>
+                  <p className="text-purple-300">Shopify E-Commerce Link</p>
                   <p className="font-semibold leading-snug mt-1 max-w-[320px]">
                     To sync checkout conversion values to GA4: Open Shopify Admin → Online Store → Preferences. Paste Tag: <strong>G-HS8X0ZD66V</strong>.
                   </p>
@@ -3769,12 +3758,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('shopify'); } }}
         className="py-6 pr- pl-0 border-b border-white/10 flex items-center justify-between select-none hover:bg-white/[0.02] transition-colors cursor-pointer">
         <div className="flex flex-col">
-          <h3 className="text-left flex items-center gap-2 text-white cursor-pointer">
+          <h3 className="text-left flex items-center gap-2 cursor-pointer">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
             Shopify
             {renderInfoToggle("shopify")}
           </h3>
-          <p className="mt-0.5 ">Track real-time Shopify store order statistics, sales charts, and recent drop activity</p>
+          <p className="mt-0.5">Track real-time Shopify store order statistics, sales charts, and recent drop activity</p>
         </div>
         <div className="flex items-center gap-3">
           {/* Shopify vs Simulated Toggle */}
@@ -3782,13 +3771,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <SeventhButton
               isActive={shopifyTab === 'shopify'}
               onClick={() => setShopifyTab('shopify')}
-              className="px-4 py-2 text-xs uppercase cursor-pointer whitespace-nowrap">
+              className="px-4 py-2 text-xs cursor-pointer whitespace-nowrap">
               Shopify API
             </SeventhButton>
             <SeventhButton
               isActive={shopifyTab === 'simulated'}
               onClick={() => setShopifyTab('simulated')}
-              className="px-4 py-2 text-xs uppercase cursor-pointer whitespace-nowrap">
+              className="px-4 py-2 text-xs cursor-pointer whitespace-nowrap">
               Simulated Checkouts
             </SeventhButton>
           </div>
@@ -3808,7 +3797,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       } catch { }
                       setShopifyLoading(false);
                     }}
-                    className="px-3 py-1.5 text-[0.65rem] uppercase cursor-pointer whitespace-nowrap">
+                    className="px-3 py-1.5 text-[0.65rem] cursor-pointer whitespace-nowrap">
                     {d}D
                   </SeventhButton>
                 ))}
@@ -3822,7 +3811,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   } catch { }
                   setShopifyLoading(false);
                 }}
-                className="px-3 py-1.5 bg-[#00000029] border border-white/10 rounded text-[0.9rem] uppercase text-white/40 hover:text-white hover:bg-white/10 transition-colors">
+                className="px-3 py-1.5 bg-[#00000029] border border-white/10 rounded text-[0.9rem] text-white/40 hover:text-white hover:bg-white/10 transition-colors">
                 ↻ Refresh
               </button>
             </div>
@@ -3857,31 +3846,31 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 )}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                    <p className="uppercase    text-[#96bf48]/60 mb-2">Inventory Value</p>
+                    <p className="text-[#96bf48]/60 mb-2">Inventory Value</p>
                     <p>${shopifyData.summary.inventoryValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                    <p className="mt-1 uppercase">Retail value on hand</p>
+                    <p className="mt-1">Retail value on hand</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase    mb-2">Products</p>
+                    <p className="mb-2">Products</p>
                     <p>{shopifyData.summary.totalProducts}</p>
-                    <p className="mt-1 uppercase">{shopifyData.summary.totalVariants} variants</p>
+                    <p className="mt-1">{shopifyData.summary.totalVariants} variants</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase    mb-2">Total Units</p>
+                    <p className="mb-2">Total Units</p>
                     <p>{shopifyData.summary.totalInventory}</p>
-                    <p className="mt-1 uppercase">In stock</p>
+                    <p className="mt-1">In stock</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase    mb-2">Avg Price</p>
+                    <p className="mb-2">Avg Price</p>
                     <p>${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
-                    <p className="mt-1 uppercase">Per unit</p>
+                    <p className="mt-1">Per unit</p>
                   </div>
                 </div>
                 <div className="bg-black/20 border border-white/10 overflow-hidden">
                   <div className="p-4 border-b border-white/5"><h4 className="flex items-center gap-2"> Product Inventory</h4></div>
                   <div className="max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
                     <table className="w-full text-left">
-                      <thead><tr className="text-[0.55rem] uppercase text-white/25">
+                      <thead><tr className="text-[0.55rem]">
                         <th className="px-4 py-3 border-b border-white/5">Product</th>
                         <th className="px-4 py-3 border-b border-white/10 text-center">QR Code</th>
                         <th className="px-4 py-3 border-b border-white/10 text-right">Price</th>
@@ -3903,12 +3892,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 onClick={() => openQrModal(p)}
                                 className="inline-flex items-center justify-center p-1.5 bg-[#00000029] hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
                                 title="View & Print QR Code">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
                               </button>
                             </td>
-                            <td className="px-4 py-3 text-right text-white">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
+                            <td className="px-4 py-3 text-right">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
                             <td className="px-4 py-3 text-right">
-                              <span className={` ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
+                              <span className={`${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
                             </td>
                             <td className="px-4 py-3 text-right text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
                           </tr>
@@ -3923,27 +3912,27 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* Revenue Metrics Row */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                    <p className="uppercase    text-[#96bf48]/60 mb-2">Total Revenue</p>
+                    <p className="text-[#96bf48]/60 mb-2">Total Revenue</p>
                     <p>${shopifyData.summary.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                    <p className="mt-1 uppercase">Last {shopifyData.period}</p>
+                    <p className="mt-1">Last {shopifyData.period}</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase    mb-2">Orders</p>
+                    <p className="mb-2">Orders</p>
                     <p>{shopifyData.summary.totalOrders}</p>
-                    <p className="mt-1 uppercase">
+                    <p className="mt-1">
                       {shopifyData.statusBreakdown.fulfilled} fulfilled · {shopifyData.statusBreakdown.unfulfilled} pending
                     </p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase    mb-2">Avg Order Value</p>
+                    <p className="mb-2">Avg Order Value</p>
                     <p>${shopifyData.summary.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                    <p className="mt-1 uppercase">Per transaction</p>
+                    <p className="mt-1">Per transaction</p>
                   </div>
                   <div className="bg-black/30 border border-white/10 p-5">
-                    <p className="uppercase    mb-2">Net Revenue</p>
+                    <p className="mb-2">Net Revenue</p>
                     <p>${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                     {shopifyData.summary.totalRefunded > 0 && (
-                      <p className="text-rose-400 mt-1 uppercase">
+                      <p className="text-rose-400 mt-1">
                         -${shopifyData.summary.totalRefunded.toFixed(2)} refunded
                       </p>
                     )}
@@ -3965,7 +3954,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       ) : (
                         <table className="w-full text-left">
                           <thead>
-                            <tr className="text-[0.55rem] uppercase text-white/25">
+                            <tr className="text-[0.55rem]">
                               <th className="px-4 py-3 border-b border-white/5">Product</th>
                               <th className="px-4 py-3 border-b border-white/10 text-right">Qty</th>
                               <th className="px-4 py-3 border-b border-white/10 text-right">Revenue</th>
@@ -3976,15 +3965,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               <tr key={p.id || p.handle || p.title} className="border-b border-white/10 hover:bg-white/[0.02] transition-colors">
                                 <td className="px-4 py-3">
                                   <div className="flex items-center gap-3">
-                                    <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] shrink-0 ${i === 0 ? 'bg-white/20 text-purple-300 border border-purple-500/30' :
-                                      i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' :
-                                        i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' :
-                                          ' bg-[#00000029] text-white/30 border border-white/10'
-                                      }`}>{i + 1}</span>
+                                    <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] shrink-0 ${i === 0 ? 'bg-white/20 text-purple-300 border border-purple-500/30' : i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' : i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' : ' bg-[#00000029] text-white/30 border border-white/10'}`}>{i + 1}</span>
                                     <span className="truncate max-w-[180px]">{p.title}</span>
                                   </div>
                                 </td>
-                                <td className="px-4 py-3 text-right text-white">{p.qty}</td>
+                                <td className="px-4 py-3 text-right">{p.qty}</td>
                                 <td className="px-4 py-3 text-right text-[#96bf48]">${p.revenue.toFixed(2)}</td>
                               </tr>
                             ))}
@@ -4023,7 +4008,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       style={{ width: `${Math.max(pct, 2)}%` }}
                                     />
                                   </div>
-                                  <span className="text-[0.65rem] text-white w-16 text-right">${Number(amount).toFixed(0)}</span>
+                                  <span className="text-[0.65rem] w-16 text-right">${Number(amount).toFixed(0)}</span>
                                 </div>
                               );
                             })}
@@ -4039,7 +4024,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <h4 className="flex items-center gap-2">
                       Recent Orders
                     </h4>
-                    <span className="text-[0.55rem] text-white/30 uppercase">{shopifyData.orders.length} orders</span>
+                    <span className="text-[0.55rem] text-white/30">{shopifyData.orders.length} orders</span>
                   </div>
                   <div className="max-h-[350px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
                     {shopifyData.orders.length === 0 ? (
@@ -4047,7 +4032,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ) : (
                       <table className="w-full text-left">
                         <thead className="sticky top-0 z-10">
-                          <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase text-white/25">
+                          <tr className="bg-[var(--color-bg-surface)] text-[0.55rem]">
                             <th className="px-4 py-3 border-b border-white/5">Order</th>
                             <th className="px-4 py-3 border-b border-white/5">Customer</th>
                             <th className="px-4 py-3 border-b border-white/5">Items</th>
@@ -4067,22 +4052,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               <td className="px-4 py-3">
                                 <div className="truncate max-w-[120px]">{order.customer.name}</div>
                                 {order.customer.ordersCount > 1 && (
-                                  <span className="text-[0.5rem]  uppercase">Repeat ({order.customer.ordersCount}×)</span>
+                                  <span className="text-[0.5rem]">Repeat ({order.customer.ordersCount}×)</span>
                                 )}
                               </td>
                               <td className="px-4 py-3">
-                                <span className="text-white">{order.itemCount} item{order.itemCount !== 1 ? 's' : ''}</span>
+                                <span className="">{order.itemCount} item{order.itemCount !== 1 ? 's' : ''}</span>
                               </td>
                               <td className="px-4 py-3">
                                 <div className="flex flex-col gap-1">
-                                  <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.financialStatus === 'PAID' ? 'bg-emerald-500/15  border border-emerald-500/30'
-                                    : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                                      : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                    }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
+                                  <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] w-fit ${order.financialStatus === 'PAID' ? 'bg-emerald-500/15 border border-emerald-500/30' : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30' : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'}`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
                                   {order.fulfillmentStatus && (
-                                    <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.fulfillmentStatus === 'FULFILLED' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                                      : ' bg-[#00000029] text-white/30 border border-white/10'
-                                      }`}>{order.fulfillmentStatus?.toLowerCase()}</span>
+                                    <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] w-fit ${order.fulfillmentStatus === 'FULFILLED' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30' : ' bg-[#00000029] text-white/30 border border-white/10'}`}>{order.fulfillmentStatus?.toLowerCase()}</span>
                                   )}
                                 </div>
                               </td>
@@ -4103,13 +4083,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="p-4 border-b border-white/10 flex items-center justify-between">
                       <h4 className="flex items-center gap-2"> Product Inventory</h4>
                       {shopifyData.inventory && (
-                        <span className="text-[0.55rem] text-white/30 uppercase">
+                        <span className="text-[0.55rem] text-white/30">
                           {shopifyData.inventory.totalInventory} units · ${shopifyData.inventory.inventoryValue?.toLocaleString()} value
                         </span>
                       )}
                     </div>
                     <table className="w-full text-left">
-                      <thead><tr className="text-[0.55rem] uppercase text-white/25">
+                      <thead><tr className="text-[0.55rem]">
                         <th className="px-4 py-3 border-b border-white/5">Product</th>
                         <th className="px-4 py-3 border-b border-white/10 text-center">QR Code</th>
                         <th className="px-4 py-3 border-b border-white/10 text-right">Price</th>
@@ -4131,12 +4111,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 onClick={() => openQrModal(p)}
                                 className="inline-flex items-center justify-center p-1.5 bg-[#00000029] hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
                                 title="View & Print QR Code">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
                               </button>
                             </td>
-                            <td className="px-4 py-3 text-right text-white">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
+                            <td className="px-4 py-3 text-right">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
                             <td className="px-4 py-3 text-right">
-                              <span className={` ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
+                              <span className={`${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
                             </td>
                             <td className="px-4 py-3 text-right text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
                           </tr>
@@ -4151,32 +4131,32 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Simulated Metrics Grid */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div className="bg-black/30 border border-white/10 p-5 hover:border-purple-500/40 transition-colors">
-                  <p className="uppercase    mb-2">Simulated Revenue</p>
+                  <p className="mb-2">Simulated Revenue</p>
                   <p>
                     ${simulatedOrders.reduce((sum, o) => sum + parseFloat(o.price?.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
                   </p>
-                  <p className="mt-1 uppercase">Store + Flash Drop</p>
+                  <p className="mt-1">Store + Flash Drop</p>
                 </div>
                 <div className="bg-black/30 border border-white/10 p-5 border-white/10 transition-colors">
-                  <p className="uppercase    mb-2">Store Purchases</p>
+                  <p className="mb-2">Store Purchases</p>
                   <p>
                     {simulatedOrders.filter(o => o.source === 'Store').length}
                   </p>
-                  <p className="mt-1 uppercase">Normal store checkout</p>
+                  <p className="mt-1">Normal store checkout</p>
                 </div>
                 <div className="bg-black/30 border border-white/10 p-5 border-white/10 transition-colors">
-                  <p className="uppercase    mb-2">Flash Drops</p>
+                  <p className="mb-2">Flash Drops</p>
                   <p>
                     {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
                   </p>
-                  <p className="mt-1 uppercase">Live drop purchases</p>
+                  <p className="mt-1">Live drop purchases</p>
                 </div>
                 <div className="bg-black/30 border border-white/10 p-5 border-white/10 transition-colors">
-                  <p className="uppercase    mb-2">Raffle Claims</p>
+                  <p className="mb-2">Raffle Claims</p>
                   <p>
                     {simulatedOrders.filter(o => o.source === 'Raffle').length}
                   </p>
-                  <p className="mt-1 uppercase">Claims via winning PIN</p>
+                  <p className="mt-1">Claims via winning PIN</p>
                 </div>
               </div>
 
@@ -4186,7 +4166,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <h4 className="flex items-center gap-2">
                     Simulated Order Fulfillment & Package Tracking Queue
                   </h4>
-                  <span className="text-[0.55rem] text-white/30 uppercase">{simulatedOrders.length} total orders</span>
+                  <span className="text-[0.55rem] text-white/30">{simulatedOrders.length} total orders</span>
                 </div>
                 <div className="max-h-[500px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
                   {simulatedOrders.length === 0 ? (
@@ -4194,7 +4174,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   ) : (
                     <table className="w-full text-left">
                       <thead>
-                        <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase text-white/25 border-b border-white/5">
+                        <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] border-b border-white/5">
                           <th className="px-4 py-3">Order ID</th>
                           <th className="px-4 py-3">Customer</th>
                           <th className="px-4 py-3">Item Details</th>
@@ -4214,7 +4194,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               </div>
                             </td>
                             <td className="px-4 py-3">
-                              <div className="text-white/90">{order.customer}</div>
+                              <div className="/90">{order.customer}</div>
                               <div className="text-[0.9rem] text-white/40">{order.email || 'No email provided'}</div>
                               {order.address && (
                                 <div className="text-[0.55rem] text-white/30 mt-0.5 truncate max-w-[150px]" title={`${order.address}, ${order.city}, ${order.zip}`}>
@@ -4223,7 +4203,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               )}
                             </td>
                             <td className="px-4 py-3">
-                              <div className="text-white/80">{order.item}</div>
+                              <div>{order.item}</div>
                               {(order.size || order.color) && (
                                 <div className="text-[0.9rem] text-white/40 mt-0.5">
                                   {order.size && <span>Size: {order.size}</span>}
@@ -4232,23 +4212,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 </div>
                               )}
                               {order.method && (
-                                <div className="text-[0.55rem] text-[var(--color-accent)]/80 font-semibold uppercase mt-0.5">
+                                <div className="text-[0.55rem] text-[var(--color-accent)]/80 font-semibold mt-0.5">
                                   {order.method === 'merch_table' ? 'Merch Table Pickup' : 'Shipping'}
                                 </div>
                               )}
                             </td>
                             <td className="px-4 py-3">
-                              <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase ${order.source === 'Flash Drop' ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30'
-                                : order.source === 'Raffle' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                  : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                                }`}>{order.source}</span>
+                              <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] ${order.source === 'Flash Drop' ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30' : order.source === 'Raffle' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30' : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'}`}>{order.source}</span>
                             </td>
                             <td className="px-4 py-3">
                               <div className="flex flex-col gap-1">
-                                <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] uppercase w-fit ${order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15  border border-emerald-500/30'
-                                  : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                    : ' bg-[#00000029] text-white/40 border border-white/10'
-                                  }`}>{order.status}</span>
+                                <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] w-fit ${order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 border border-emerald-500/30' : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30' : ' bg-[#00000029] text-white/40 border border-white/10'}`}>{order.status}</span>
                                 {order.trackingNumber && (
                                   <div className="text-[0.55rem] text-[var(--color-accent)]/80 mt-0.5">
                                     {order.trackingNumber}
@@ -4260,19 +4234,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {order.status === 'Pending' && order.method === 'shipping' && (
                                 <button
                                   onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
-                                  className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] uppercase rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)] active:scale-95">
+                                  className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-[0.55rem] rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)] active:scale-95">
                                   Ship Package
                                 </button>
                               )}
                               {order.status === 'Ready for Pickup' && (
                                 <button
                                   onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
-                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[0.55rem] uppercase rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)] active:scale-95">
+                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-[0.55rem] rounded transition-colors cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)] active:scale-95">
                                   Claim Merch
                                 </button>
                               )}
                               {(order.status === 'Shipped' || order.status === 'Claimed') && (
-                                <span className="text-[0.55rem] text-[var(--color-accent)]/60 uppercase r">
+                                <span className="text-[0.55rem] text-[var(--color-accent)]/60 r">
                                   Complete
                                 </span>
                               )}
@@ -4325,7 +4299,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             ) : (
               <div className="w-full flex flex-col gap-0 select-none">
                 {/* Header Row */}
-                <div className="hidden md:grid grid-cols-12 gap-3 px-4 py-3 border-b border-[#ffffff1f] text-left uppercase font-bold">
+                <div className="hidden md:grid grid-cols-12 gap-3 px-4 py-3 border-b border-[#ffffff1f] text-left font-bold">
                   <div className="col-span-4">Client</div>
                   <div className="col-span-2">Event Type</div>
                   <div className="col-span-2">Date</div>
@@ -4358,7 +4332,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                           {editingInlineLoadInId === b.bookingId ? (
                             <div className="mt-2 p-2 border-none space-y-2 z-30 min-w-[250px] inline-loadin-popover animate-[scaleIn_0.15s_ease-out]" onClick={(e) => e.stopPropagation()}>
-                              <p className="text-purple-300 uppercase text-[11px]">Set Official Load-In / Out Time:</p>
+                              <p className="text-purple-300 text-[11px]">Set Official Load-In / Out Time:</p>
                               <div className="input-glow-border rounded-lg w-full">
                                 <input
                                   type="text"
@@ -4375,14 +4349,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     }
                                   }}
                                   placeholder="e.g. 5:00 PM Load-In / 11:30 PM Out"
-                                  className="w-full border border-white/10 rounded-lg px-2.5 py-1.5 text-white focus:outline-none placeholder:text-white/40"
+                                  className="w-full border border-white/10 rounded-lg px-2.5 py-1.5 focus:outline-none placeholder: text-white/40"
                                 />
                               </div>
                               <div className="flex items-center justify-between gap-1.5 pt-0.5">
                                 <button
                                   type="button"
                                   onClick={(e) => { e.stopPropagation(); setEditingInlineLoadInId(null); }}
-                                  className="px-2 py-1 text-[12px] uppercase text-white/50 hover:text-white transition-colors cursor-pointer">
+                                  className="px-2 py-1 text-[12px] text-white/50 hover:text-white transition-colors cursor-pointer">
                                   Cancel
                                 </button>
                                 <button
@@ -4393,7 +4367,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
                                     setEditingInlineLoadInId(null);
                                   }}
-                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[12px] uppercase rounded-lg transition-colors cursor-pointer border-none disabled:opacity-50">
+                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-[12px] rounded-lg transition-colors cursor-pointer border-none disabled:opacity-50">
                                   {loadInSaving[b.bookingId] ? "Saving..." : "Save & Email ✉️"}
                                 </button>
                               </div>
@@ -4403,10 +4377,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               type="button"
                               onClick={(e) => { e.stopPropagation(); setEditingInlineLoadInId(b.bookingId); }}
                               title="Click to set official load-in/out time and email planner"
-                              className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem]    uppercase px-2.5 py-1 rounded-full transition-all cursor-pointer active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime)
-                                ? "text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 animate-pulse"
-                                : " bg-cyan-500/15 hover:bg-cyan-500/25 border border-purple-500/30"
-                                }`}>
+                              className={`mt-1.5 inline-flex items-center gap-1 text-[0.55rem] px-2.5 py-1 rounded-full transition-all cursor-pointer active:scale-95 ${(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) ? "text-amber-300 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 animate-pulse" : " bg-cyan-500/15 hover:bg-cyan-500/25 border border-purple-500/30"}`}>
                               {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) ? (
                                 <>⚡ Load-In Unsure (Click to Set) ✍️</>
                               ) : (
@@ -4454,7 +4425,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   setUpdatingBookingId(null);
                                 }
                               }}
-                              className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black text-[0.55rem] uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50">
+                              className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-black text-[0.55rem] rounded-lg transition-colors cursor-pointer disabled:opacity-50">
                               {updatingBookingId === b.bookingId ? '...' : 'Approve'}
                             </button>
                             <button
@@ -4473,7 +4444,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   setUpdatingBookingId(null);
                                 }
                               }}
-                              className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white text-[0.55rem] uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50">
+                              className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-[0.55rem] rounded-lg transition-colors cursor-pointer disabled:opacity-50">
                               {updatingBookingId === b.bookingId ? '...' : 'Reject'}
                             </button>
                           </div>
@@ -4486,60 +4457,60 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="p-6 bg-black/5 dark:bg-[#060609] border-t border-b border-black/20 dark:border-white/10">
                         <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 text-left">
                           <div>
-                            <p className="uppercase text-black/50 dark:text-white/40 mb-1">Booking Ref ID</p>
+                            <p className="text-black/50 dark: text-white/40 mb-1">Booking Ref ID</p>
                             <p className="text-purple-400 text-sm">{b.bookingId}</p>
                           </div>
                           <div>
-                            <p className="uppercase text-black/50 dark:text-white/40 mb-1">Age Limit</p>
-                            <p className="font-semibold text-black dark:text-white">
+                            <p className="text-black/50 dark: text-white/40 mb-1">Age Limit</p>
+                            <p className="font-semibold text-black dark:">
                               {b.ageRestriction === "21_plus" ? " 21 & Over" : b.ageRestriction === "18_plus" ? " 18 & Over" : " All Ages"}
                             </p>
                           </div>
                           <div>
-                            <p className="uppercase text-black/50 dark:text-white/40 mb-1">Doors Time</p>
-                            <p className="font-semibold text-black dark:text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
+                            <p className="text-black/50 dark: text-white/40 mb-1">Doors Time</p>
+                            <p className="font-semibold text-black dark:">{b.doorsTime || b.startTime || 'TBD'}</p>
                           </div>
                           <div>
-                            <p className="uppercase text-black/50 dark:text-white/40 mb-1">Cover / Price</p>
-                            <p className="font-semibold text-black dark:text-white">{b.cover || 'Free / No Cover'}</p>
+                            <p className="text-black/50 dark: text-white/40 mb-1">Cover / Price</p>
+                            <p className="font-semibold text-black dark:">{b.cover || 'Free / No Cover'}</p>
                           </div>
                           <div>
-                            <p className="uppercase text-black/50 dark:text-white/40 mb-1">Load-In / Setup Time</p>
+                            <p className="text-black/50 dark: text-white/40 mb-1">Load-In / Setup Time</p>
                             <p className="font-semibold">
                               {b.loadInTime || b.load_in_time || 'Unsure — Admin to set & email'}
                             </p>
                           </div>
                           <div>
-                            <p className="uppercase text-black/50 dark:text-white/40 mb-1">Ticket Link</p>
+                            <p className="text-black/50 dark: text-white/40 mb-1">Ticket Link</p>
                             {b.ticketLink ? (
-                              <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="font-semibold hover:  truncate block max-w-[200px]" title={b.ticketLink}>
+                              <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-white truncate block max-w-[200px]" title={b.ticketLink}>
                                 {b.ticketLink}
                               </a>
                             ) : (
-                              <p className="text-black/30 dark:text-white/20">—</p>
+                              <p className="text-black/30 dark: text-white/20">—</p>
                             )}
                           </div>
                           {b.details && (
                             <div className="col-span-2 sm:col-span-4 mt-2">
-                              <p className="uppercase text-black/50 dark:text-white/40 mb-1">Public Notes (displayed to fans)</p>
-                              <p className="text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
+                              <p className="text-black/50 dark: text-white/40 mb-1">Public Notes (displayed to fans)</p>
+                              <p className="text-black/80 dark: text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
                             </div>
                           )}
                           {b.plannerNotes && (
                             <div className="col-span-2 sm:col-span-4 mt-2">
-                              <p className="uppercase text-black/50 dark:text-white/40 mb-1">Planner's Internal Notes</p>
-                              <p className="text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
+                              <p className="text-black/50 dark: text-white/40 mb-1">Planner's Internal Notes</p>
+                              <p className="text-black/80 dark: text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
                             </div>
                           )}
 
                           {/* Official Load-In Setup Manager Widget */}
                           <div className="col-span-2 sm:col-span-4 mt-3 p-4 bg-purple-950/30 border border-purple-500/30 rounded-lg space-y-3">
                             <div className="flex items-center justify-between gap-2 flex-wrap">
-                              <p className="uppercase text-purple-300 flex items-center gap-2">
+                              <p className="text-purple-300 flex items-center gap-2">
                                 <Clock className="w-4 h-4" /> Official Load-In Setup Manager
                               </p>
                               {(b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime) && (
-                                <span className="px-2.5 py-0.5 rounded-full text-[10px] uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                                <span className="px-2.5 py-0.5 rounded-full text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
                                   ⚡ Planner Unsure — Pending Admin Confirmation
                                 </span>
                               )}
@@ -4555,13 +4526,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
                                 onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
                                 placeholder="e.g. 5:00 PM (2 hours before show)"
-                                className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-3.5 py-2 text-white focus:border-purple-400 focus:outline-none placeholder:text-white/30"
+                                className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-3.5 py-2 focus:border-purple-400 focus:outline-none placeholder: text-white/30"
                               />
                               <button
                                 type="button"
                                 disabled={loadInSaving[b.bookingId]}
                                 onClick={() => handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email)}
-                                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white uppercase rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0">
+                                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0">
                                 {loadInSaving[b.bookingId] ? "Sending..." : "Save & Email Planner ✉️"}
                               </button>
                             </div>
@@ -4595,10 +4566,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             Event Planners Directory
             {renderInfoToggle('planners')}
           </h3>
-          <p className="mt-0.5 ">Browse the directory of event planners, view contact information, and review past and current booking requests</p>
+          <p className="mt-0.5">Browse the directory of event planners, view contact information, and review past and current booking requests</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="px-3 py-1 bg-[#00000029] border border-white/10 rounded-full text-[0.9rem] uppercase flex items-center gap-2 text-white/40">
+          <span className="px-3 py-1 bg-[#00000029] border border-white/10 rounded-full text-[0.9rem] flex items-center gap-2 text-white/40">
             {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).length} Planners
           </span>
           <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('planners') ? 'rotate-0' : '-rotate-90')}>
@@ -4615,7 +4586,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             ) : (
               <div className="pl-0 select-none">
                 {/* Header Sorter Row */}
-                <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-3 border-b border-white/15 text-left uppercase select-none font-bold">
+                <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-3 border-b border-white/15 text-left select-none font-bold">
                   <div className="col-span-3">Planner / Venue</div>
                   <div className="col-span-2">Category</div>
                   <div className="col-span-2">Phone Number</div>
@@ -4626,11 +4597,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).map((planner: any) => (
                   <div key={planner.email} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center border-b border-white/10 px-4 py-4 transition-colors bg-[#00000029]">
                     <div className="col-span-12 md:col-span-3 flex items-center gap-4 min-w-0">
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center  shrink-0 border border-[var(--color-accent)]/20">
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center shrink-0 border border-[var(--color-accent)]/20">
                         {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
                       </div>
                       <div className="overflow-hidden min-w-0">
-                        <span className="text-white truncate block">{planner.name || 'Unknown Planner'}</span>
+                        <span className="truncate block">{planner.name || 'Unknown Planner'}</span>
                         <p className="truncate text-white/50 text-xs">{planner.venueName || 'General Venue'}</p>
                       </div>
                     </div>
@@ -4658,15 +4629,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
 
                     <div className="col-span-12 md:col-span-2 flex items-center gap-2 shrink-0 md:justify-end">
-                      <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[0.9rem] uppercase !text-white hover:text-white transition-colors">
+                      <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[0.9rem] ! hover:text-white transition-colors">
                         Email
                       </a>
                       {planner.phone ? (
-                        <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[0.9rem] uppercase !text-white  hover:text-[var(--color-accent)] transition-colors">
+                        <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg text-[0.9rem] ! hover:text-[var(--color-accent)] transition-colors">
                           Text
                         </a>
                       ) : (
-                        <button disabled className="px-4 py-2 text-center bg-[#00000029] border border-white/10 rounded-lg text-[0.9rem] uppercase text-white/20 cursor-not-allowed">
+                        <button disabled className="px-4 py-2 text-center bg-[#00000029] border border-white/10 rounded-lg text-[0.9rem] text-white/20 cursor-not-allowed">
                           No Phone
                         </button>
                       )}
@@ -4685,11 +4656,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('photomod'); } }} onClick={() => toggleSection('photomod')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex flex-col">
-          <h3 className="text-white uppercase flex items-center gap-2 ">
+          <h3 className="flex items-center gap-2">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
             Fan Photo Moderation Queue
           </h3>
-          <p className="mt-0.5 ">Review fan-submitted concert and show photos, check compliance, and approve for public photo wall</p>
+          <p className="mt-0.5">Review fan-submitted concert and show photos, check compliance, and approve for public photo wall</p>
         </div>
         <div className="flex items-center gap-3">
           <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('photomod') ? 'rotate-0' : '-rotate-90')}>
@@ -4712,7 +4683,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden hover:border-[var(--color-accent)]/50 transition-colors">
                     <div className="aspect-[4/3] bg-[#00000029] relative overflow-hidden">
                       <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover" />
-                      <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-[45px] rounded-lg border border-white/10 text-white text-[0.9rem] uppercase">
+                      <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-[45px] rounded-lg border border-white/10 text-[0.9rem]">
                         {new Date(photo.submittedAt).toLocaleDateString()}
                       </div>
                     </div>
@@ -4721,14 +4692,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <span className="text-[var(--color-accent)]">@</span>
                         {photo.name}
                       </div>
-                      {photo.venue && <p className="uppercase truncate"> {photo.venue}</p>}
+                      {photo.venue && <p className="truncate"> {photo.venue}</p>}
                       {photo.caption && <p className="border-l-2 border-white/10 pl-3 mt-2">"{photo.caption}"</p>}
                     </div>
                     <div className="grid grid-cols-2 border-t border-white/10 divide-x divide-white/10">
-                      <button onClick={() => moderatePhoto(photo.id, 'reject')} className="py-3 text-[0.9rem] uppercase text-white bg-red-600 hover:bg-red-500 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer">
+                      <button onClick={() => moderatePhoto(photo.id, 'reject')} className="py-3 text-[0.9rem] bg-red-600 hover:bg-red-500 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer">
                         Reject & Delete
                       </button>
-                      <button onClick={() => moderatePhoto(photo.id, 'approve')} className="py-3 text-[0.9rem] uppercase text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors shadow-[0_0_15px_rgba(52,211,153,0.3)]">
+                      <button onClick={() => moderatePhoto(photo.id, 'approve')} className="py-3 text-[0.9rem] text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors shadow-[0_0_15px_rgba(52,211,153,0.3)]">
                         Safe & Approve
                       </button>
                     </div>
@@ -4747,15 +4718,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('memorymod'); } }} onClick={() => toggleSection('memorymod')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex flex-col">
 
-          <h3 className="flex items-center gap-2 cursor-pointer text-white">
+          <h3 className="flex items-center gap-2 cursor-pointer">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" /><path d="M12 8v4l3 3" /></svg>
             Memory Moderation Queue
             {renderInfoToggle('memorymod')}
           </h3>
-          <p className="mt-0.5 ">Review fan memories, stories, and concert anecdotes before they are published to the public website timeline</p>
+          <p className="mt-0.5">Review fan memories, stories, and concert anecdotes before they are published to the public website timeline</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="px-3 py-1 bg-white/20  border border-purple-500/30 rounded-full text-[0.9rem] uppercase flex items-center gap-2">
+          <span className="px-3 py-1 bg-white/20 border border-purple-500/30 rounded-full text-[0.9rem] flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
             {memoryQueue.length} Pending
           </span>
@@ -4776,15 +4747,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             ) : (
               <div className="space-y-4">
                 {memoryQueue.map((mem) => (
-                  <div key={mem.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-4 border-b border-white/10 ">
+                  <div key={mem.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-4 border-b border-white/10">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-white/80">{mem.fan_name || 'Anonymous Fan'}</span>
+                        <span className=" ">{mem.fan_name || 'Anonymous Fan'}</span>
                         <span className="text-[0.9rem] text-white/30">{new Date(mem.created_at || mem.submittedAt).toLocaleDateString()}</span>
                       </div>
                       <p className="mt-1">"{mem.text || mem.caption}"</p>
                       {mem.show_id && (
-                        <p className="mt-2 uppercase">Show ID: {mem.show_id}</p>
+                        <p className="mt-2">Show ID: {mem.show_id}</p>
                       )}
                       {mem.photo_url && (
                         <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden border border-white/10">
@@ -4795,12 +4766,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="flex gap-2 shrink-0">
                       <button
                         onClick={() => moderateMemory(mem.id, 'reject')}
-                        className="px-4 py-2 uppercase text-white bg-red-600 hover:bg-red-500 transition-colors rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer">
+                        className="px-4 py-2 bg-red-600 hover:bg-red-500 transition-colors rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer">
                         Reject
                       </button>
                       <button
                         onClick={() => moderateMemory(mem.id, 'approve')}
-                        className="px-4 py-2 uppercase text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.3)]">
+                        className="px-4 py-2 text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.3)]">
                         Approve
                       </button>
                     </div>
@@ -4824,7 +4795,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             Active Live Streams
             {renderInfoToggle('livealerts')}
           </h3>
-          <p className="mt-0.5 ">Monitor active video feeds and broadcast room channels in real time, view subscriber notifications, and manage stream controls</p>
+          <p className="mt-0.5">Monitor active video feeds and broadcast room channels in real time, view subscriber notifications, and manage stream controls</p>
         </div>
         <div className="flex items-center gap-3">
 
@@ -4844,7 +4815,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             ) : (
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-white/[0.02] text-white/30 text-[0.9rem] uppercase">
+                  <tr className="bg-white/[0.02] text-white/30 text-[0.9rem]">
                     <th className="p-4 border-b border-white/10 w-1/3">Stream Name</th>
                     <th className="p-4 border-b border-white/5">Host</th>
                     <th className="p-4 border-b border-white/5">Viewers</th>
@@ -4859,15 +4830,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <div className="flex items-center gap-2">
                           <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shrink-0" />
                           {feed.isSimulated && feed.route ? (
-                            <Link href={feed.route} className="truncate block  transition-colors">{feed.name}</Link>
+                            <Link href={feed.route} className="truncate block transition-colors">{feed.name}</Link>
                           ) : (
                             <span className="truncate block">{feed.name}</span>
                           )}
                           {feed.isSimulated && (
-                            <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] uppercase  shrink-0">Demo</span>
+                            <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] shrink-0">Demo</span>
                           )}
                         </div>
-                        <div className="text-white/40 text-[0.9rem] uppercase mt-1">Uptime: {feed.uptime}</div>
+                        <div className="text-white/40 text-[0.9rem] mt-1">Uptime: {feed.uptime}</div>
                       </td>
                       <td className="p-4 text-white/70">{feed.host}</td>
                       <td className="p-4">{feed.viewers.toLocaleString()}</td>
@@ -4878,12 +4849,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <div className="flex items-center justify-end gap-2">
                           <Link
                             href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
-                            className="px-4 py-2 bg-[#00000029] hover:bg-white/10 text-white hover:text-white border border-white/10 text-[0.9rem] uppercase rounded-lg transition-colors inline-block">
+                            className="px-4 py-2 bg-[#00000029] hover:bg-white/10 hover:text-white border border-white/10 text-[0.9rem] rounded-lg transition-colors inline-block">
                             View
                           </Link>
                           <button
                             onClick={() => killStream(feed)}
-                            className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.9rem] uppercase rounded-lg transition-colors">
+                            className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.9rem] rounded-lg transition-colors">
                             Shut Down
                           </button>
                         </div>
@@ -4908,12 +4879,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('smsblast'); } }}
         className="py-6 pl-0 border-b border-white/10 flex items-center justify-between select-none hover:bg-white/[0.02] !rounded-none cursor-pointer">
         <div className="flex flex-col">
-          <h3 className="text-white flex items-center gap-2">
+          <h3 className="flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
             SMS Proximity Blast
             {renderInfoToggle('smsblast')}
           </h3>
-          <p className="mt-0.5 ">Draft and dispatch geofenced text message updates and blast notifications to fans based on their proximity to upcoming concert venues</p>
+          <p className="mt-0.5">Draft and dispatch geofenced text message updates and blast notifications to fans based on their proximity to upcoming concert venues</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-4">
@@ -4922,7 +4893,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               className="flex items-center gap-2"
               onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}>
-              <span className="uppercase text-white/30">Auto-Blast</span>
+              <span className="text-white/30">Auto-Blast</span>
               <SquishyToggle
                 id="sms-auto-blast-toggle"
                 label="Toggle Auto-Blast"
@@ -4950,7 +4921,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div style={{ display: isSectionOpen('smsblast') ? undefined : 'none' }}>
         {isSectionOpen('smsblast') && (<>
           {/* Auto-blast info bar */}
-          <div className="py-3 pl-0 border-b border-white/10 flex items-center justify-between ">
+          <div className="py-3 pl-0 border-b border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className={`w-2 h-2 rounded-full ${smsAutoBlast ? 'bg-purple-500 animate-pulse' : 'bg-white/10'}`} />
               <span>
@@ -4961,7 +4932,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
             {smsAutoBlast && (
               <div className="flex items-center gap-2">
-                <span className="uppercase">Days before:</span>
+                <span className="">Days before:</span>
                 <GooeyMessagesDropdown
                   selected={String(smsAutoBlastDays)}
                   options={[1, 2, 3, 5, 7].map(d => ({ label: String(d), value: String(d) }))}
@@ -5055,28 +5026,28 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
 
               {/* Twilio Gateway & Cost Summary Bar */}
-              <div className=" border-none p-0 space-y-4">
+              <div className="border-none p-0 space-y-4">
                 <div className="flex items-center justify-between flex-wrap gap-3 border-b border-white/10 pb-3">
                   <div className="flex items-center gap-2">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-white">Twilio A2P 10DLC Gateway</span>
-                        <span className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/40  text-[10px] uppercase rounded-full flex items-center gap-1">
+                        <span className="">Twilio A2P 10DLC Gateway</span>
+                        <span className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/40 text-[10px] rounded-full flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Connected
                         </span>
                       </div>
                       <span className="text-[11px] text-white/50">
-                        Sender Number: <strong className="text-white/80">+1 (888) 7H-ROCKS</strong> (Toll-Free Verified) • SID: <code className="text-rose-300/80">AC89f2a...98e4</code>
+                        Sender Number: <strong className=" ">+1 (888) 7H-ROCKS</strong> (Toll-Free Verified) • SID: <code className="text-rose-300/80">AC89f2a...98e4</code>
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <div className="text-white/40 text-[10px] uppercase r">Twilio Credit Balance</div>
+                      <div className="text-white/40 text-[10px] r">Twilio Credit Balance</div>
                       <div className="text-emerald-400">${smsTwilioBalance.toFixed(2)}</div>
                     </div>
                     <div className="text-right pl-4 border-l border-white/10">
-                      <div className="text-white/40 text-[10px] uppercase r">Total Spent So Far</div>
+                      <div className="text-white/40 text-[10px] r">Total Spent So Far</div>
                       <div className="text-rose-400">${smsTotalSpentAllTime.toFixed(2)}</div>
                     </div>
                   </div>
@@ -5084,18 +5055,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                 {/* Quick Metric Cards */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className=" border-none p-0 text-start">
-                    <div className="text-[10px] text-white/40 uppercase r">Target Audience</div>
-                    <div className="text-base text-white">480 fans</div>
+                  <div className="border-none p-0 text-start">
+                    <div className="text-[10px] text-white/40 r">Target Audience</div>
+                    <div className="text-base">480 fans</div>
                     <div className="text-[12px] text-[var(--color-accent)]">Within 25mi radius</div>
                   </div>
-                  <div className=" border-none p-0 text-start">
-                    <div className="text-[10px] text-white/40 uppercase r">Twilio Rate</div>
+                  <div className="border-none p-0 text-start">
+                    <div className="text-[10px] text-white/40 r">Twilio Rate</div>
                     <div className="text-base text-purple-300">${smsCostPerSegment}/SMS</div>
                     <div className="text-[12px] text-white/40">US Standard Rate</div>
                   </div>
-                  <div className=" border-none p-0 text-start">
-                    <div className="text-[10px] text-white/40 uppercase r">Cost to Send This Blast</div>
+                  <div className="border-none p-0 text-start">
+                    <div className="text-[10px] text-white/40 r">Cost to Send This Blast</div>
                     <div className="text-base text-rose-400">
                       ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
                     </div>
@@ -5103,9 +5074,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1)} Segment per fan
                     </div>
                   </div>
-                  <div className=" border-none p-0 text-start">
-                    <div className="text-[10px] text-white/40 uppercase r">Total SMS Sent</div>
-                    <div className="text-base text-white">{smsTotalSpentAllTime.toLocaleString()}</div>
+                  <div className="border-none p-0 text-start">
+                    <div className="text-[10px] text-white/40 r">Total SMS Sent</div>
+                    <div className="text-base">{smsTotalSpentAllTime.toLocaleString()}</div>
                     <div className="text-[12px] text-purple-300">Across 4 blasts</div>
                   </div>
                 </div>
@@ -5115,7 +5086,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pt-2">
                 <div className="lg:col-span-6 space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-[0.65rem] uppercase text-rose-400 flex items-center gap-1.5">
+                    <span className="text-[0.65rem] text-rose-400 flex items-center gap-1.5">
                       <span></span> Live Twilio SMS Smartphone Preview
                     </span>
                     <span className="text-[10px] text-white/40">Renders exact recipient view</span>
@@ -5131,7 +5102,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Screen Content placed precisely inside the screen cutout */}
                     <div className="absolute top-[24px] left-[20px] right-[20px] bottom-[24px] rounded-[44px] overflow-hidden bg-[#07070b] flex flex-col justify-between pt-7">
                       {/* Status Bar */}
-                      <div className="px-6 pt-1 pb-1 flex items-center justify-between text-[11px] text-white/80 shrink-0 z-10">
+                      <div className="px-6 pt-1 pb-1 flex items-center justify-between text-[11px]   shrink-0 z-10">
                         <span>9:41</span>
                         <div className="flex items-center gap-1.5">
                           <span className="text-[10px]">5G</span>
@@ -5143,21 +5114,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                       {/* Messages App Header */}
                       <div className="bg-[#181824] px-4 py-2.5 border-b border-white/10 flex items-center gap-3 shrink-0">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-600 via-purple-600 to-amber-500 flex items-center justify-center text-white">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-600 via-purple-600 to-amber-500 flex items-center justify-center">
                           7H
                         </div>
                         <div>
-                          <div className="text-white">7th Heaven Band</div>
-                          <div className="text-[12px]  font-semibold mt-0.5">Verified Twilio SMS</div>
+                          <div className="">7th Heaven Band</div>
+                          <div className="text-[12px] font-semibold mt-0.5">Verified Twilio SMS</div>
                         </div>
                       </div>
 
                       {/* Message Body Screen */}
                       <div className="p-4 flex-1 overflow-y-auto bg-[#07070b] space-y-3 custom-scrollbar">
-                        <div className="text-center text-[12px] text-white/40 font-semibold uppercase">Today 9:41 AM</div>
+                        <div className="text-center text-[12px] text-white/40 font-semibold">Today 9:41 AM</div>
 
                         {/* SMS Bubble */}
-                        <div className="bg-[#242333] text-white/90 p-3.5 rounded-lg rounded-tl-xs border border-white/10 text-[11px] whitespace-pre-wrap">
+                        <div className="bg-[#242333] /90 p-3.5 rounded-lg rounded-tl-xs border border-white/10 text-[11px] whitespace-pre-wrap">
                           {smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview || (
                             <span className="text-white/40">Select an upcoming show above or type a custom message to preview the SMS...</span>
                           )}
@@ -5185,7 +5156,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="bg-black/30 border border-white/10 p-3 flex items-center justify-between">
                     <div>
                       <span className="text-white/40">Character Count: </span>
-                      <strong className="text-white">{(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length} chars</strong>
+                      <strong className="">{(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length} chars</strong>
                     </div>
                     <div>
                       <span className="text-white/40">Twilio Segments: </span>
@@ -5199,7 +5170,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="lg:col-span-6 space-y-4">
                   {/* Custom message override */}
                   <div>
-                    <span className="text-[0.9rem] uppercase text-white/40 mb-2 block">
+                    <span className="text-[0.9rem] text-white/40 mb-2 block">
                       Custom Message Override <span className="text-white/20 normal-case">(optional — replaces auto-message)</span>
                     </span>
                     <div className="w-full text-black [&_.ql-editor]:min-h-[110px] relative z-20">
@@ -5208,7 +5179,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         value={smsCustomMsg}
                         onChange={setSmsCustomMsg}
                         placeholder="Leave empty to use the auto-generated message above"
-                        className="text-white overflow-hidden"
+                        className="overflow-hidden"
                       />
                     </div>
                   </div>
@@ -5216,13 +5187,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/*  Cost Breakdown Calculator */}
                   <div className="bg-black/40 border border-white/10 p-4 space-y-3">
                     <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                      <span className="text-white flex items-center gap-1.5"> Blast Cost Breakdown</span>
+                      <span className="flex items-center gap-1.5"> Blast Cost Breakdown</span>
                       <span className="text-emerald-400">Twilio Pay-As-You-Go</span>
                     </div>
                     <div className="space-y-1.5 text-white/70">
                       <div className="flex items-center justify-between">
                         <span>Recipients (25mi Radius):</span>
-                        <span className="text-white">480 subscribers</span>
+                        <span className="">480 subscribers</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span>Segments per Message:</span>
@@ -5232,9 +5203,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
                       <div className="flex items-center justify-between">
                         <span>Twilio Carrier Fee:</span>
-                        <span className="text-white">$0.0079 / SMS</span>
+                        <span className="">$0.0079 / SMS</span>
                       </div>
-                      <div className="border-t border-white/10 pt-2 flex items-center justify-between text-white">
+                      <div className="border-t border-white/10 pt-2 flex items-center justify-between">
                         <span>Total Estimated Cost:</span>
                         <span className="text-rose-400">
                           ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
@@ -5247,7 +5218,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex items-center justify-between pt-2">
                     <div>
                       {smsResult && (
-                        <div className={` ${smsResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        <div className={`${smsResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                           {smsResult.success ? (
                             <>
                               {smsResult.sent !== undefined ? `Sent to ${smsResult.sent} fan${smsResult.sent !== 1 ? 's' : ''}` : smsResult.message}
@@ -5315,7 +5286,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         smsSendingRef.current = false;
                         setSmsSending(false);
                       }}
-                      className="px-6 py-3 bg-rose-500 hover:bg-rose-400 disabled:opacity-30 disabled:cursor-not-allowed text-white uppercase rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(244,63,94,0.3)] cursor-pointer">
+                      className="px-6 py-3 bg-rose-500 hover:bg-rose-400 disabled:opacity-30 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(244,63,94,0.3)] cursor-pointer">
                       {smsSending ? (
                         <><span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-full animate-spin" /> Sending Twilio Blast...</>
                       ) : (
@@ -5329,15 +5300,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/*  Cumulative Twilio Spending & History Log Table */}
               <div className="border-t border-white/10 pt-5 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h4 className="uppercase text-white flex items-center gap-2">
+                  <h4 className="flex items-center gap-2">
                     <span></span> Twilio Blast History & Spending Logs
                   </h4>
                   <span className="text-[11px] text-white/40">Total Spent: <strong className="text-rose-400">${smsTotalSpentAllTime.toFixed(2)}</strong></span>
                 </div>
 
-                <div className="overflow-x-auto border-none ">
-                  <table className="w-full text-left text-white/80 border-collapse">
-                    <thead className=" text-[10px] uppercase text-white/40 border-b border-white/20">
+                <div className="overflow-x-auto border-none">
+                  <table className="w-full text-left   border-collapse">
+                    <thead className="text-[10px] text-white/40 border-b border-white/20">
                       <tr>
                         <th className="py-2.5 pr-4 pl-0">Date</th>
                         <th className="py-2.5 px-4">Venue / Location</th>
@@ -5350,13 +5321,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <tbody className="divide-y divide-white/10">
                       {smsHistoryLogs.map(log => (
                         <tr key={log.id} className="hover:bg-white/[0.04] border-b border-white/10">
-                          <td className="py-2.5 pr-4 pl-0 text-white">{log.date}</td>
+                          <td className="py-2.5 pr-4 pl-0">{log.date}</td>
                           <td className="py-2.5 px-4">{log.venue} <span className="text-white/40">({log.city})</span></td>
                           <td className="py-2.5 px-4">{log.recipients} fans</td>
                           <td className="py-2.5 px-4">{log.segments} SMS</td>
                           <td className="py-2.5 px-4 text-rose-400">${log.cost.toFixed(2)}</td>
                           <td className="py-2.5 pl-4 pr-0 text-right">
-                            <span className="px-2 py-0.5 bg-emerald-500/10  border border-emerald-500/30 text-[10px] rounded-lg">
+                            <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[10px] rounded-lg">
                               {log.status}
                             </span>
                           </td>
@@ -5580,7 +5551,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               Crew SMS Alert & Group Setup
               {renderInfoToggle('crewsms')}
             </h3>
-            <p className="mt-0.5 ">Select target crew members or saved groups to broadcast emergency text messages or load-in notices</p>
+            <p className="mt-0.5">Select target crew members or saved groups to broadcast emergency text messages or load-in notices</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewsms') ? 'rotate-0' : '-rotate-90')}>
@@ -5597,7 +5568,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="lg:col-span-2 space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="uppercase text-black/60 dark:text-white/40 block">Choose Recipients</span>
+                      <span className="text-black/60 dark: text-white/40 block">Choose Recipients</span>
                       <button
                         type="button"
                         onClick={() => setIsManageRolesModalOpen(true)}
@@ -5610,7 +5581,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       Showing {recipients.length} Crew Member{recipients.length !== 1 ? 's' : ''}
                     </span>
                   </div>
-                  <CustomScrollbar height={650} className=" border-none p-0 py-2 pr-4">
+                  <CustomScrollbar height={650} className="border-none p-0 py-2 pr-4">
                     <ul className="flex flex-col gap-0 list-none p-0 m-0">
                       {(() => {
                         const selectedCrewPhonesSet = new Set(selectedCrewPhones);
@@ -5633,9 +5604,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             return (
                               <li key={r.id} className="border-b border-white/10 last:border-b-0 list-none bg-[#00000029] !mb-0">
                                 <div
-                                  className={`flex items-center justify-between gap-2.5 px-2.5 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked ? 'text-white'
-                                    : ''
-                                    }`}
+                                  className={`flex items-center justify-between gap-2.5 px-2.5 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked ? ' ' : ''}`}
                                   title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}>
                                   <div
                                     role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggleMember(r); } }}
@@ -5655,7 +5624,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         <img
                                           src={avatarSrc}
                                           alt={r.name}
-                                          className={` w-11 h-11 rounded-full object-cover shrink-0 border-2 border-white ${!r.phone ? 'opacity-40' : ''}`}
+                                          className={`w-11 h-11 rounded-full object-cover shrink-0 border-2 border-white ${!r.phone ? 'opacity-40' : ''}`}
                                           onError={(e) => {
                                             const fallback = resolveMemberAvatar(r.name, '');
                                             if (fallback && !e.currentTarget.src.endsWith(fallback)) {
@@ -5665,14 +5634,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         />
                                       ) : (
                                         <div
-                                          className={` w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 shrink-0 flex items-center justify-center text-white uppercase ${!r.phone ? 'opacity-40' : ''}`}>
+                                          className={`w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 shrink-0 flex items-center justify-center ${!r.phone ? 'opacity-40' : ''}`}>
                                           {getFirstAndLastInitials(r.name)}
                                         </div>
                                       );
                                     })()}
 
                                     {/* Name */}
-                                    <span className={` truncate ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
+                                    <span className={`truncate ${!r.phone ? 'text-black/40 dark: text-white/40' : 'text-black dark: '}`}>{r.name}</span>
                                   </div>
 
                                   {/* Role & Edit actions */}
@@ -5685,7 +5654,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           setEditingDutyMemberId(isEditingThis ? null : editKey);
                                           setEditingDutyValue(r.duty || '');
                                         }}
-                                        className="group relative inline-flex items-center gap-1.5 text-xs md:text-sm uppercase  dark:text-purple-300 bg-purple-500/10 hover:bg-white/20 border border-purple-500/30 px-3 py-1 rounded-lg shrink-0 cursor-pointer transition-colors"
+                                        className="group relative inline-flex items-center gap-1.5 text-xs md:text-sm dark:text-purple-300 bg-purple-500/10 hover:bg-white/20 border border-purple-500/30 px-3 py-1 rounded-lg shrink-0 cursor-pointer transition-colors"
                                         title={`Click to change or edit role(s): ${r.duty}`}>
                                         <span className="truncate max-w-[200px] md:max-w-[320px]">{r.duty}</span>
                                       </button>
@@ -5711,7 +5680,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         setEditingDutyMemberId(isEditingThis ? null : editKey);
                                         setEditingDutyValue(r.duty || '');
                                       }}
-                                      className="p-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
+                                      className="p-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 text-white/40 hover:text-white   transition-colors cursor-pointer flex items-center justify-center"
                                       title="Edit Role">
                                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
                                     </button>
@@ -5753,7 +5722,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             setShowSaveSmsGroup(true);
                           }}
                           icon={false}
-                          className="px-3 py-2 uppercase cursor-pointer">
+                          className="px-3 py-2 cursor-pointer">
                           Create Group
                         </SeventhButton>
                       </div>
@@ -5808,8 +5777,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       return (
                         <div className="p-3 bg-purple-500/10 border border-white/10 flex items-center justify-between animate-[fadeIn_0.2s_ease-out]">
                           <div>
-                            <span className="text-[0.65rem] text-purple-300 block uppercase">Active Show Target</span>
-                            <span className="text-white">{showVenue} ({smsSelectedShowDate})</span>
+                            <span className="text-[0.65rem] text-purple-300 block">Active Show Target</span>
+                            <span className="">{showVenue} ({smsSelectedShowDate})</span>
                           </div>
                           <button
                             type="button"
@@ -5834,7 +5803,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       return (
                         <div className="p-3 bg-black/20 border border-white/10 space-y-2 animate-[fadeIn_0.2s_ease-out]">
                           <div className="flex items-center justify-between">
-                            <span className="text-[0.65rem] text-white/40 uppercase">Group Members ({names.length})</span>
+                            <span className="text-[0.65rem] text-white/40">Group Members ({names.length})</span>
                             <button
                               type="button"
                               onClick={() => {
@@ -5850,7 +5819,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               Delete Group
                             </button>
                           </div>
-                          <div className="text-white/80">
+                          <div>
                             {names.join(', ')}
                           </div>
                         </div>
@@ -5861,7 +5830,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {showSaveSmsGroup ? (
                         <div className="flex flex-col gap-2.5 bg-black/20 border border-white/10 p-3 animate-[slideIn_0.2s_ease-out]">
                           <div className="flex flex-col gap-1">
-                            <label htmlFor="admin-new-sms-group-name" className="text-[0.55rem] uppercase text-white/40">New Group Name</label>
+                            <label htmlFor="admin-new-sms-group-name" className="text-[0.55rem] text-white/40">New Group Name</label>
                             <GlowInput
                               id="admin-new-sms-group-name"
                               type="text"
@@ -5871,13 +5840,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 if (newSmsGroupError) setNewSmsGroupError('');
                               }}
                               placeholder="Group name..."
-                              className="bg-black/50 text-white border border-white/10 px-3 py-2 font-semibold placeholder:text-white/40"
+                              className="bg-black/50 border border-white/10 px-3 py-2 font-semibold placeholder: text-white/40"
                             />
                           </div>
 
                           {/* Inline Checklist */}
                           <div className="flex flex-col gap-1">
-                            <span className="text-[0.55rem] uppercase text-white/40">Select Group Members</span>
+                            <span className="text-[0.55rem] text-white/40">Select Group Members</span>
                             <CustomScrollbar direction="vertical" height={450}>
                               <div className="border border-white/10 rounded-lg p-2.5 bg-black/40 space-y-1.5 pr-3">
                                 {(() => {
@@ -5891,7 +5860,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     return (
                                       <div
                                         key={r.id}
-                                        className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-2 px-1.5 hover:bg-white/10 relative">
+                                        className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)]   hover:text-white py-2 px-1.5 hover:bg-white/10 relative">
                                         <div
                                           className="flex items-center gap-2 cursor-pointer flex-1"
                                           onClick={() => {
@@ -5914,13 +5883,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                               />
                                             ) : (
                                               <div
-                                                className="w-7 h-7 rounded-full border border-purple-400/40 shrink-0 flex items-center justify-center text-[10px] text-white uppercase "
+                                                className="w-7 h-7 rounded-full border border-purple-400/40 shrink-0 flex items-center justify-center text-[10px]"
                                                 style={{ backgroundColor: getAvatarColor(r.name) }}>
                                                 {getFirstAndLastInitials(r.name)}
                                               </div>
                                             );
                                           })()}
-                                          <span className="font-semibold text-white">{r.name}</span>
+                                          <span className="font-semibold">{r.name}</span>
                                         </div>
 
                                         <div className="relative shrink-0">
@@ -5931,7 +5900,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                               setEditingDutyMemberId(isEditingThis ? null : editKey);
                                               setEditingDutyValue(r.duty || r.role || '');
                                             }}
-                                            className="text-[9px] uppercase text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded-lg shrink-0 hover:bg-white/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
+                                            className="text-[9px] text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded-lg shrink-0 hover:bg-white/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
                                             title={`Click to edit role(s): ${displayRole}`}>
                                             <span className="truncate">{displayRole}</span>
                                             {isEditingThis && (
@@ -5969,7 +5938,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               type="button"
                               onClick={handleSaveSmsGroup}
                               icon={false}
-                              className="px-4 py-2 uppercase cursor-pointer flex-1">
+                              className="px-4 py-2 cursor-pointer flex-1">
                               Save Group
                             </SeventhButton>
                             <button
@@ -5978,7 +5947,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 setNewSmsGroupError('');
                                 setShowSaveSmsGroup(false);
                               }}
-                              className="px-2.5 py-1.5 text-white/40 hover:text-white cursor-pointer border-none ">
+                              className="px-2.5 py-1.5 text-white/40 hover:text-white cursor-pointer border-none">
                               Cancel
                             </button>
                           </div>
@@ -5991,7 +5960,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             setShowSaveSmsGroup(true);
                           }}
                           icon={false}
-                          className="w-full py-3 uppercase cursor-pointer">
+                          className="w-full py-3 cursor-pointer">
                           CREATE NEW GROUP FROM SELECTION
                         </SeventhButton>
                       )}
@@ -6002,7 +5971,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/* Confirm / Send Button */}
                   <div className="pt-2">
                     {crewAlertResult && (
-                      <p className={` ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      <p className={`${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                         {crewAlertResult.success
                           ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
                           : ` ${crewAlertResult.error}`}
@@ -6078,7 +6047,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         crewAlertSendingRef.current = false;
                         setCrewAlertSending(false);
                       }}
-                      className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white uppercase rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none">
+                      className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled: text-white/30 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none">
                       {crewAlertSending ? (
                         <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
                       ) : (
@@ -6096,9 +6065,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div
                     role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendSmsAlert(prev => !prev); } }}
                     onClick={() => setSendSmsAlert(prev => !prev)}
-                    className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendSmsAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                      : 'bg-white/[0.01] text-white/40'
-                      }`}>
+                    className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendSmsAlert ? 'bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]' : 'bg-white/[0.01] text-white/40'}`}>
                     <div className="flex items-center gap-2">
                       <SquishyToggle
                         id="alert-sms-toggle"
@@ -6106,7 +6073,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         checked={sendSmsAlert}
                         onChange={(val) => setSendSmsAlert(val)}
                       />
-                      <span className="uppercase text-purple-300 font-bold">SMS TEXTS</span>
+                      <span className="text-purple-300 font-bold">SMS TEXTS</span>
                     </div>
                     <span className="text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
                   </div>
@@ -6114,9 +6081,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div
                     role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendEmailAlert(prev => !prev); } }}
                     onClick={() => setSendEmailAlert(prev => !prev)}
-                    className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendEmailAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                      : 'bg-white/[0.01] text-white/40'
-                      }`}>
+                    className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendEmailAlert ? 'bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]' : 'bg-white/[0.01] text-white/40'}`}>
                     <div className="flex items-center gap-2">
                       <SquishyToggle
                         id="alert-email-toggle"
@@ -6124,7 +6089,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         checked={sendEmailAlert}
                         onChange={(val) => setSendEmailAlert(val)}
                       />
-                      <span className="uppercase text-purple-300 font-bold">EMAIL ALERTS</span>
+                      <span className="text-purple-300 font-bold">EMAIL ALERTS</span>
                     </div>
                     <span className="text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
                   </div>
@@ -6133,9 +6098,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div
                       role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCrewSendAsGroup(prev => !prev); } }}
                       onClick={() => setCrewSendAsGroup(prev => !prev)}
-                      className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${crewSendAsGroup ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                        : 'bg-white/[0.01] text-white/40'
-                        }`}>
+                      className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${crewSendAsGroup ? 'bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]' : 'bg-white/[0.01] text-white/40'}`}>
                       <div className="flex items-center gap-2">
                         <SquishyToggle
                           id="alert-group-toggle"
@@ -6143,7 +6106,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           checked={crewSendAsGroup}
                           onChange={(val) => setCrewSendAsGroup(val)}
                         />
-                        <span className="uppercase text-purple-300 font-bold">SEND AS GROUP TEXT</span>
+                        <span className="text-purple-300 font-bold">SEND AS GROUP TEXT</span>
                       </div>
                       <span className="text-white/40 leading-normal">Appends list of recipients to SMS so everyone sees who is on alert</span>
                     </div>
@@ -6153,7 +6116,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* Confirm / Send Button */}
                 <div className="space-y-3 pt-2">
                   {crewAlertResult && (
-                    <p className={` ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    <p className={`${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                       {crewAlertResult.success
                         ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
                         : ` ${crewAlertResult.error}`}
@@ -6228,7 +6191,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       }
                       setCrewAlertSending(false);
                     }}
-                    className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white uppercase rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none">
+                    className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled: text-white/30 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none">
                     {crewAlertSending ? (
                       <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
                     ) : (
@@ -6245,7 +6208,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="bg-[var(--card-bg)] border !rounded-lg border-[var(--border-color)] p-5 space-y-4 flex flex-col justify-between">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
-                        <span className="uppercase">SMS TEXT MESSAGE PREVIEW</span>
+                        <span className="">SMS TEXT MESSAGE PREVIEW</span>
                         <span>Plain SMS Text</span>
                       </div>
 
@@ -6263,7 +6226,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="border border-white/10 p-5 space-y-4 !rounded-lg">
                     <div className="flex items-center justify-between border-b border-white/10 pb-3">
                       <div className="flex items-center gap-2">
-                        <span className="uppercase text-white"> EMAIL DISPATCH PREVIEW</span>
+                        <span className=""> EMAIL DISPATCH PREVIEW</span>
                         <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full">Full HTML Template</span>
                       </div>
                       <span className="text-white/50 truncate max-w-[180px]">Subject: {smsEmailSubject || '(No subject)'}</span>
@@ -6289,7 +6252,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     className="bg-[#0c0c0e]/85 backdrop-blur-xl border border-white/10 p-6 max-w-md w-full space-y-4 relative animate-[scaleIn_0.2s_ease-out] shadow-2xl"
                     onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                      <h3 className="uppercase text-white flex items-center gap-2">
+                      <h3 className="flex items-center gap-2">
                         <Plus className="w-4 h-4 text-purple-400" />
                         Manage Preset Roles
                       </h3>
@@ -6303,7 +6266,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Add New Preset Role */}
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="admin-new-preset-role" className="text-[0.9rem] uppercase text-white/40">Add New Preset Role</label>
+                      <label htmlFor="admin-new-preset-role" className="text-[0.9rem] text-white/40">Add New Preset Role</label>
                       <div className="flex gap-2">
                         <input
                           id="admin-new-preset-role"
@@ -6311,7 +6274,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           value={newPresetRoleInput}
                           onChange={(e) => setNewPresetRoleInput(e.target.value)}
                           placeholder="e.g. LIGHTING DESIGNER"
-                          className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white placeholder-white/30 outline-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 focus:shadow-[0_0_12px_rgba(168,85,247,0.4)] transition-all"
+                          className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 placeholder-white/30 outline-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 focus:shadow-[0_0_12px_rgba(168,85,247,0.4)] transition-all"
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                               handleAddPresetRole(newPresetRoleInput);
@@ -6325,7 +6288,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             handleAddPresetRole(newPresetRoleInput);
                             setNewPresetRoleInput('');
                           }}
-                          className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase rounded-lg transition-colors cursor-pointer border-none">
+                          className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors cursor-pointer border-none">
                           Add
                         </button>
                       </div>
@@ -6333,14 +6296,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Preset Roles List */}
                     <div className="space-y-1.5">
-                      <span className="text-[0.9rem] uppercase text-white/40 block">Current Preset Roles ({presetRoles.length})</span>
+                      <span className="text-[0.9rem] text-white/40 block">Current Preset Roles ({presetRoles.length})</span>
                       <div className="max-h-[220px] overflow-y-auto custom-scrollbar border border-white/10 bg-black/40 p-2 space-y-1.5">
                         {presetRoles.length === 0 ? (
                           <div className="text-white/30 text-center py-4">No preset roles defined.</div>
                         ) : (
                           presetRoles.map((role) => (
                             <div key={role} className="flex items-center justify-between gap-3 px-3 py-2 bg-white/[0.02] border border-white/10 rounded-lg hover:bg-white/[0.04]">
-                              <span className="text-white/90">{role}</span>
+                              <span className="/90">{role}</span>
                               <button
                                 type="button"
                                 onClick={() => handleDeletePresetRole(role)}
@@ -6396,12 +6359,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bandsms'); } }} onClick={() => toggleSection('bandsms')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex flex-col">
 
-            <h3 className="cursor-pointer flex items-center gap-2 text-white">
+            <h3 className="cursor-pointer flex items-center gap-2">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
               Band Member SMS Text
               {renderInfoToggle('bandsms')}
             </h3>
-            <p className="mt-0.5 ">Broadcast instant SMS alerts or show notices directly to the band members</p>
+            <p className="mt-0.5">Broadcast instant SMS alerts or show notices directly to the band members</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bandsms') ? 'rotate-0' : '-rotate-90')}>
@@ -6419,7 +6382,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* Left Column: Band List (Choose Recipients) */}
                 <div className="lg:col-span-2 space-y-4">
                   <div className="flex items-center justify-between flex-wrap gap-2">
-                    <span className="text-[0.65rem] uppercase text-white/40 block font-bold">Choose Recipients</span>
+                    <span className="text-[0.65rem] text-white/40 block font-bold">Choose Recipients</span>
                     <div className="flex items-center gap-2">
                       <SectionBadge
                         label={`Select All (${allBandCombined.length})`}
@@ -6443,7 +6406,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
                   </div>
 
-                  <div className=" border-none p-0 max-h-[460px]">
+                  <div className="border-none p-0 max-h-[460px]">
                     <div className="flex flex-col">
                       {(() => {
                         const selectedBandPhonesSet = new Set(selectedBandPhones);
@@ -6479,9 +6442,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 key={r.id}
                                 role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSelection(); } }}
                                 onClick={toggleSelection}
-                                className={`flex items-center justify-between !bg-[#00000029] gap-2.5 !px-2 border-b border-white/10 !rounded-none transition-colors duration-200 cursor-pointer select-none min-h-[48px] ${isChecked ? ' text-white'
-                                  : 'hover:bg-white/[0.04] text-white/80'
-                                  }`}
+                                className={`flex items-center justify-between !bg-[#00000029] gap-2.5 !px-2 border-b border-white/10 !rounded-none transition-colors duration-200 cursor-pointer select-none min-h-[48px] ${isChecked ? ' ' : 'hover:bg-white/[0.04]  '}`}
                                 title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}>
                                 <div className="flex items-center gap-3 flex-1 min-w-0">
                                   <SquishyToggle
@@ -6508,7 +6469,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       />
                                     ) : (
                                       <div
-                                        className="w-11 h-11 rounded-full border-2 border-purple-400/50 shrink-0 flex items-center justify-center text-white uppercase "
+                                        className="w-11 h-11 rounded-full border-2 border-purple-400/50 shrink-0 flex items-center justify-center"
                                         style={{ backgroundColor: getAvatarColor(r.name) }}>
                                         {getFirstAndLastInitials(r.name)}
                                       </div>
@@ -6516,12 +6477,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   })()}
 
                                   {/* Name */}
-                                  <span className="truncate text-white">{r.name}</span>
+                                  <span className="truncate">{r.name}</span>
                                 </div>
 
                                 {/* Role badge */}
                                 <div className="flex items-center gap-1.5 shrink-0">
-                                  <span className="inline-block text-[12px] uppercase text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1 rounded-lg shrink-0">
+                                  <span className="inline-block text-[12px] text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1 rounded-lg shrink-0">
                                     {r.role}
                                   </span>
                                 </div>
@@ -6576,9 +6537,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div
                         role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandSmsAlert(prev => !prev); } }}
                         onClick={() => setSendBandSmsAlert(prev => !prev)}
-                        className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandSmsAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                          : 'bg-white/[0.01] text-white/40'
-                          }`}>
+                        className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandSmsAlert ? 'bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]' : 'bg-white/[0.01] text-white/40'}`}>
                         <div className="flex items-center gap-2">
                           <SquishyToggle
                             id="band-alert-sms-toggle"
@@ -6586,7 +6545,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             checked={sendBandSmsAlert}
                             onChange={(val) => setSendBandSmsAlert(val)}
                           />
-                          <span className="uppercase text-purple-300 font-bold">SMS TEXTS</span>
+                          <span className="text-purple-300 font-bold">SMS TEXTS</span>
                         </div>
                         <span className="text-[11px] font-bold text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
                       </div>
@@ -6594,9 +6553,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div
                         role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSendBandEmailAlert(prev => !prev); } }}
                         onClick={() => setSendBandEmailAlert(prev => !prev)}
-                        className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandEmailAlert ? 'bg-purple-600/10 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                          : 'bg-white/[0.01] text-white/40'
-                          }`}>
+                        className={`p-3 md:p-3 rounded-lg border-none transition-colors cursor-pointer select-none flex flex-col gap-2 ${sendBandEmailAlert ? 'bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]' : 'bg-white/[0.01] text-white/40'}`}>
                         <div className="flex items-center gap-2">
                           <SquishyToggle
                             id="band-alert-email-toggle"
@@ -6604,16 +6561,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             checked={sendBandEmailAlert}
                             onChange={(val) => setSendBandEmailAlert(val)}
                           />
-                          <span className="uppercase text-purple-300 font-bold">EMAIL ALERTS</span>
+                          <span className="text-purple-300 font-bold">EMAIL ALERTS</span>
                         </div>
-                        <span className="text-[11px] text-white/40  font-bold leading-normal">Sends styled HTML alerts to registered emails</span>
+                        <span className="text-[11px] text-white/40 font-bold leading-normal">Sends styled HTML alerts to registered emails</span>
                       </div>
                     </div>
 
                     {/* Email Subject Line (Conditional) */}
                     {sendBandEmailAlert && (
                       <section className="flex flex-col gap-1 animate-[fadeIn_0.2s_ease-out]">
-                        <label htmlFor="admin-band-email-subject" className="text-[0.9rem] uppercase text-white/50 block">EMAIL SUBJECT LINE</label>
+                        <label htmlFor="admin-band-email-subject" className="text-[0.9rem] text-white/50 block">EMAIL SUBJECT LINE</label>
                         <div className="input-glow-border rounded-lg w-full">
                           <input
                             id="admin-band-email-subject"
@@ -6629,7 +6586,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Message Form */}
                     <div className="space-y-2">
-                      <label htmlFor="admin-band-broadcast-msg" className="text-[0.65rem] uppercase text-white/50 block">BROADCAST MESSAGE</label>
+                      <label htmlFor="admin-band-broadcast-msg" className="text-[0.65rem] text-white/50 block">BROADCAST MESSAGE</label>
                       <div className="input-glow-border rounded-lg w-full">
                         <textarea
                           id="admin-band-broadcast-msg"
@@ -6638,16 +6595,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           placeholder="Write message to send..."
                           rows={5}
                           style={{ backgroundColor: '#181924', color: '#ffffff' }}
-                          className="w-full text-white! border border-white/10 rounded-lg px-3.5 py-2.5 placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 resize-none transition-colors"
+                          className="w-full ! border border-white/10 rounded-lg px-3.5 py-2.5 placeholder: text-white/30 focus:outline-none focus:border-purple-500/50 resize-none transition-colors"
                         />
                       </div>
                     </div>
 
                     {/* Feedback Logs */}
                     {bandAlertResult && (
-                      <div className={`p-3 border flex flex-col gap-1 ${bandAlertResult.success ? 'bg-emerald-500/10 border-white/10 text-[var(--color-accent)]'
-                        : 'bg-red-500/10 border-red-500/20 text-red-400'
-                        }`}>
+                      <div className={`p-3 border flex flex-col gap-1 ${bandAlertResult.success ? 'bg-emerald-500/10 border-white/10 text-[var(--color-accent)]' : 'bg-red-500/10 border-red-500/20 text-red-400'}`}>
                         <span className="flex items-center gap-1">
                           {bandAlertResult.success ? ' Dispatch Successful' : ' Dispatch Failed'}
                         </span>
@@ -6665,7 +6620,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         type="button"
                         onClick={handleSendBandAlert}
                         disabled={bandAlertSending || !bandAlertMsg.trim() || selectedBandPhones.length === 0}
-                        className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white uppercase rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none">
+                        className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled: text-white/30 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none">
                         {bandAlertSending ? (
                           <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
                         ) : (
@@ -6682,7 +6637,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     if (checkedRecipients.length === 0) return null;
                     return (
                       <div className="space-y-2">
-                        <span className="text-[0.65rem] text-white/40 uppercase block">
+                        <span className="text-[0.65rem] text-white/40 block">
                           Recipients ({checkedRecipients.length})
                         </span>
                         <div className="flex flex-col gap-2 bg-black/20 border border-white/10 p-3 max-h-[220px] overflow-y-auto custom-scrollbar">
@@ -6704,8 +6659,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       <div className="w-6.5 h-6.5 rounded-full bg-purple-600/30 border border-purple-400/50 shrink-0" />
                                     )}
                                     <div className="truncate">
-                                      <span className="text-white block ">{r.name}</span>
-                                      <span className="text-[var(--color-accent)]/80 font-semibold uppercase block mt-1">{r.role || 'BAND MEMBER'}</span>
+                                      <span className="block">{r.name}</span>
+                                      <span className="text-[var(--color-accent)]/80 font-semibold block mt-1">{r.role || 'BAND MEMBER'}</span>
                                     </div>
                                   </div>
                                   <button
@@ -6749,7 +6704,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 space-y-4 flex flex-col justify-between rounded-lg">
                   <div className="space-y-3">
                     <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
-                      <span className="uppercase">SMS TEXT MESSAGE PREVIEW</span>
+                      <span className="">SMS TEXT MESSAGE PREVIEW</span>
                       <span>Plain SMS Text</span>
                     </div>
 
@@ -6767,7 +6722,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="border border-white/10 p-5 space-y-4 rounded-lg">
                   <div className="flex items-center justify-between border-b border-white/10 pb-3">
                     <div className="flex items-center gap-2">
-                      <span className="uppercase text-white"> EMAIL DISPATCH PREVIEW</span>
+                      <span className=""> EMAIL DISPATCH PREVIEW</span>
                       <span className="text-[10px] bg-purple-950/90 text-purple-200 border border-purple-500/60 px-3 py-1 rounded-full">Full HTML Template</span>
                     </div>
                     <span className="text-white/50">Subject: {bandEmailSubject || '(No subject)'}</span>
@@ -6799,7 +6754,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             Newsletter Blast
             {renderInfoToggle('newsletter')}
           </h3>
-          <p className="mt-0.5 ">Compose and broadcast marketing campaigns, newsletter updates, and band announcements to all email subscribers</p>
+          <p className="mt-0.5">Compose and broadcast marketing campaigns, newsletter updates, and band announcements to all email subscribers</p>
         </div>
         <div className="flex items-center gap-3">
 
@@ -6814,7 +6769,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="py-6 pl-0">
             <div className="space-y-4">
               <div>
-                <label htmlFor="admin-newsletter-blast-subject" className="text-[0.9rem] uppercase text-white/40 mb-2 block">Subject Line</label>
+                <label htmlFor="admin-newsletter-blast-subject" className="text-[0.9rem] text-white/40 mb-2 block">Subject Line</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-newsletter-blast-subject"
@@ -6822,12 +6777,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     value={blastSubject}
                     onChange={e => setBlastSubject(e.target.value)}
                     placeholder="e.g.  New Show Announced — Chicago June 15th!"
-                    className="w-full border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                    className="w-full border border-white/10 rounded-lg px-4 py-3 placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-newsletter-blast-body" className="text-[0.9rem] uppercase text-white/40 mb-2 block">Message Body</label>
+                <label htmlFor="admin-newsletter-blast-body" className="text-[0.9rem] text-white/40 mb-2 block">Message Body</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <textarea
                     id="admin-newsletter-blast-body"
@@ -6835,14 +6790,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     onChange={e => setBlastBody(e.target.value)}
                     placeholder="Write your announcement here..."
                     rows={6}
-                    className="w-full border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors resize-none"
+                    className="w-full border border-white/10 rounded-lg px-4 py-3 placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors resize-none"
                   />
                 </div>
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   {blastResult && (
-                    <p className={` ${blastResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    <p className={`${blastResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                       {blastResult.success ? ` Sent to ${blastResult.sent} fans` : ` ${blastResult.error}`}
                       {blastResult.failed > 0 && <span className="text-rose-400 ml-2">({blastResult.failed} failed)</span>}
                     </p>
@@ -6877,7 +6832,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     setBlastSending(false);
                   }}
                   icon={false}
-                  className="px-6 py-3 uppercase cursor-pointer flex items-center gap-2">
+                  className="px-6 py-3 cursor-pointer flex items-center gap-2">
                   {blastSending ? (
                     <><span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-full animate-spin" /> Sending...</>
                   ) : (
@@ -6895,15 +6850,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
 
   const renderRegistry = () => (
-    <div className=" overflow-hidden">
+    <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('registry'); } }} onClick={() => toggleSection('registry')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex flex-col">
-          <h3 className="cursor-pointer text-white flex items-center gap-2">
+          <h3 className="cursor-pointer flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             Community Registry
             {renderInfoToggle('registry')}
           </h3>
-          <p className="mt-0.5 ">Search and manage all user accounts registered in the database, view roles, and configure site settings</p>
+          <p className="mt-0.5">Search and manage all user accounts registered in the database, view roles, and configure site settings</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 p-1 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
@@ -6912,7 +6867,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 key={role}
                 isActive={filterRole === role}
                 onClick={() => setFilterRole(role as any)}
-                className="px-3 py-1.5 text-[0.65rem] uppercase cursor-pointer whitespace-nowrap">
+                className="px-3 py-1.5 text-[0.65rem] cursor-pointer whitespace-nowrap">
                 {role}
               </SeventhButton>
             ))}
@@ -6927,7 +6882,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {isSectionOpen('registry') && (<>
           <div className="w-full text-left">
             {/* Fixed Header Row */}
-            <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 py-3 px-4 uppercase border-b border-black/10 dark:border-white/10 select-none font-bold">
+            <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 py-3 px-4 border-b border-black/10 dark:border-white/10 select-none font-bold">
               <div>User</div>
               <div>Role</div>
               <div>Status</div>
@@ -6951,7 +6906,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ) as any;
                     return (
                       <div key={user.id} className="transition-colors">
-                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2  px-4 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors border-b border-black/10 dark:border-white/5">
+                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 px-4 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors border-b border-black/10 dark:border-white/5">
                           <div className="truncate max-w-[220px]">
                             <div className="flex items-center gap-2.5 truncate">
                               {(() => {
@@ -6967,7 +6922,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   />
                                 ) : (
                                   <div
-                                    className="w-11 h-11 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5"
+                                    className="w-11 h-11 rounded-full flex items-center justify-center text-[10px]   shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5"
                                     style={{ backgroundColor: getAvatarColor(user.name) }}>
                                     {user.name ? user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) : '?'}
                                   </div>
@@ -6977,17 +6932,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
                           </div>
                           <div>
-                            <span className={`py-0.5 rounded text-[0.9rem] uppercase font-bold ${user.role === 'crew' || user.role === 'admin' ? '  ' : ' text-white '}`}>
+                            <span className={`py-0.5 rounded text-[0.9rem] font-bold ${user.role === 'crew' || user.role === 'admin' ? ' ' : ' '}`}>
                               {user.role}
                             </span>
                           </div>
                           <div>
                             <div className="flex items-center gap-1.5">
-                              <span className={`w-2 h-2 rounded-full ${user.status === 'streaming' ? 'bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]'
-                                : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]'
-                                  : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
-                                }`} />
-                              <span className="text-[0.9rem] uppercase font-bold text-white/50">{user.status}</span>
+                              <span className={`w-2 h-2 rounded-full ${user.status === 'streaming' ? 'bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]' : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]' : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'}`} />
+                              <span className="text-[0.9rem] font-bold text-white/50">{user.status}</span>
                             </div>
                           </div>
                           <div className="text-right">
@@ -6995,17 +6947,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               <div className="flex items-center justify-end gap-2">
                                 <button
                                   onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
-                                  className="px-3 py-2 bg-[#00000029] border border-white/10 text-white bg-[#00000029] hover:text-white text-[0.9rem] uppercase rounded transition-colors">
+                                  className="px-3 py-2 bg-[#00000029] border border-white/10 bg-[#00000029] hover:text-white text-[0.9rem] rounded transition-colors">
                                   {viewingUser === user.id ? 'Hide' : 'View'}
                                 </button>
                                 <button
                                   onClick={() => banUser(user.id, user.name)}
-                                  className="px-3 py-2 bg-[#00000029] border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.9rem] uppercase rounded transition-colors">
+                                  className="px-3 py-2 bg-[#00000029] border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.9rem] rounded transition-colors">
                                   Remove
                                 </button>
                               </div>
                             ) : (
-                              <span className="px-4 py-2 inline-block text-[0.55rem] uppercase text-white/20">
+                              <span className="px-4 py-2 inline-block text-[0.55rem] text-white/20">
                                 Protected
                               </span>
                             )}
@@ -7015,11 +6967,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div className="bg-white/[0.02] px-6 py-3 border-b border-black/10 dark:border-white/5">
                             <div className="flex items-center gap-6 text-[0.7rem]">
                               <div>
-                                <span className="text-white/30 uppercase text-[0.55rem]">Email: </span>
-                                <span className="text-white">{acct?.email || user.email || 'N/A'}</span>
+                                <span className="text-white/30 text-[0.55rem]">Email: </span>
+                                <span className="">{acct?.email || user.email || 'N/A'}</span>
                               </div>
                               <div>
-                                <span className="text-white/30 uppercase text-[0.55rem]">Password: </span>
+                                <span className="text-white/30 text-[0.55rem]">Password: </span>
                                 <span className="text-purple-300">
                                   {acct?.password || (user.role === 'crew' ? '********' : 'N/A')}
                                 </span>
@@ -7044,7 +6996,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         alert(`Failed to reset password: ${res.error}`);
                                       }
                                     }}
-                                    className="ml-2 px-2 py-0.5 bg-white/20 text-purple-300 hover:bg-purple-500/30 text-[0.55rem] uppercase rounded border border-purple-500/30">
+                                    className="ml-2 px-2 py-0.5 bg-white/20 text-purple-300 hover:bg-purple-500/30 text-[0.55rem] rounded border border-purple-500/30">
                                     Reset Password
                                   </button>
                                 )}
@@ -7073,12 +7025,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewcreation'); } }} onClick={() => toggleSection('crewcreation')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex flex-col">
-          <h3 className="cursor-pointer text-white flex items-center gap-2">
+          <h3 className="cursor-pointer flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
             Create Crew Account
             {renderInfoToggle('crewcreation')}
           </h3>
-          <p className="mt-0.5 ">Create and register new crew members in the system, set contact information, and provision login credentials</p>
+          <p className="mt-0.5">Create and register new crew members in the system, set contact information, and provision login credentials</p>
         </div>
         <div className="flex items-center gap-3">
 
@@ -7093,7 +7045,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="py-6 pl-0">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
               <div>
-                <label htmlFor="admin-create-crew-name" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Full Name</label>
+                <label htmlFor="admin-create-crew-name" className="text-[0.9rem] text-white/40 mb-2 block">Full Name</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-name"
@@ -7101,12 +7053,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     placeholder="e.g. Alex Rivera"
                     value={newCrewName}
                     onChange={e => setNewCrewName(e.target.value)}
-                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-crew-username" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Username</label>
+                <label htmlFor="admin-create-crew-username" className="text-[0.9rem] text-white/40 mb-2 block">Username</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-username"
@@ -7115,12 +7067,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     value={newCrewUsername}
                     onChange={e => setNewCrewUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                     maxLength={24}
-                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-crew-email" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Email Address</label>
+                <label htmlFor="admin-create-crew-email" className="text-[0.9rem] text-white/40 mb-2 block">Email Address</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-email"
@@ -7128,12 +7080,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     placeholder="crew@7thheaven.com"
                     value={newCrewEmail}
                     onChange={e => setNewCrewEmail(e.target.value)}
-                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-crew-password" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Password</label>
+                <label htmlFor="admin-create-crew-password" className="text-[0.9rem] text-white/40 mb-2 block">Password</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-password"
@@ -7141,12 +7093,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     placeholder="Min 6 characters"
                     value={newCrewPassword}
                     onChange={e => setNewCrewPassword(e.target.value)}
-                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-crew-phone" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Phone Number <span className="text-purple-300">*</span></label>
+                <label htmlFor="admin-create-crew-phone" className="text-[0.9rem] text-white/40 mb-2 block">Phone Number <span className="text-purple-300">*</span></label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-crew-phone"
@@ -7159,14 +7111,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       else if (digits.length <= 6) setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3)}`);
                       else setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`);
                     }}
-                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
               </div>
               <SeventhButton
                 onClick={createCrew}
                 disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
-                className="px-6 py-3 text-[0.7rem] uppercase    rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
+                className="px-6 py-3 text-[0.7rem] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 Create Account
               </SeventhButton>
@@ -7186,14 +7138,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="w-11 h-11 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
                     <div>
                       <h4>Crew Account Created</h4>
-                      <p className="mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
+                      <p className="mt-1"><strong className="">{createdCrew.name}</strong> · {createdCrew.email}</p>
                       {createdCrew.phone && <p className="mt-0.5"> {createdCrew.phone}</p>}
                       <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
-                        <span className="text-[0.55rem] uppercase    text-white/30 shrink-0">Temp Password</span>
+                        <span className="text-[0.55rem] text-white/30 shrink-0">Temp Password</span>
                         <code className="text-purple-300 select-all">{createdCrew.password}</code>
                         <button
                           onClick={() => { navigator.clipboard.writeText(createdCrew.password); }}
-                          className="ml-auto text-[0.55rem] uppercase    text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
+                          className="ml-auto text-[0.55rem] text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
                       </div>
                     </div>
                   </div>
@@ -7201,7 +7153,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
                 <button
                   onClick={scrollToRegistry}
-                  className="mt-4 w-full py-2.5 bg-emerald-500/10 border border-white/10  text-[0.65rem] uppercase    hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2">
+                  className="mt-4 w-full py-2.5 bg-emerald-500/10 border border-white/10 text-[0.65rem] hover:bg-emerald-500/20 transition-colors rounded-lg flex items-center justify-center gap-2">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                   View in Registry ↓
                 </button>
@@ -7250,12 +7202,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('admincreation'); } }} onClick={() => toggleSection('admincreation')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex flex-col" onClick={(e) => e.stopPropagation()}>
-          <h3 className="text-white flex items-center gap-2">
+          <h3 className="flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             Create Admin Account
             {renderInfoToggle('admincreation')}
           </h3>
-          <p className="mt-0.5 ">Register new band administrator or planner accounts with full database access and management permissions</p>
+          <p className="mt-0.5">Register new band administrator or planner accounts with full database access and management permissions</p>
         </div>
         <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
           <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('admincreation') ? 'rotate-0' : '-rotate-90')}>
@@ -7269,7 +7221,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="py-6 pl-0">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <div>
-                <label htmlFor="admin-create-admin-name" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Full Name</label>
+                <label htmlFor="admin-create-admin-name" className="text-[0.9rem] text-white/40 mb-2 block">Full Name</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-admin-name"
@@ -7277,12 +7229,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     placeholder="e.g. Michael Scimeca"
                     value={newAdminName}
                     onChange={e => setNewAdminName(e.target.value)}
-                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-admin-email" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Email Address</label>
+                <label htmlFor="admin-create-admin-email" className="text-[0.9rem] text-white/40 mb-2 block">Email Address</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-admin-email"
@@ -7290,12 +7242,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     placeholder="admin@7thheaven.com"
                     value={newAdminEmail}
                     onChange={e => setNewAdminEmail(e.target.value)}
-                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="admin-create-admin-username" className="text-[0.9rem] uppercase    text-white/40 mb-2 block">Username</label>
+                <label htmlFor="admin-create-admin-username" className="text-[0.9rem] text-white/40 mb-2 block">Username</label>
                 <div className="input-glow-border rounded-lg w-full">
                   <input
                     id="admin-create-admin-username"
@@ -7303,14 +7255,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     placeholder="e.g. mikeys"
                     value={newAdminUsername}
                     onChange={e => setNewAdminUsername(e.target.value)}
-                    className="w-full px-4 py-3 bg-black/40 border border-white/10 text-white placeholder-white/20 outline-none transition-colors rounded-lg"
+                    className="w-full px-4 py-3 bg-black/40 border border-white/10 placeholder-white/20 outline-none transition-colors rounded-lg"
                   />
                 </div>
               </div>
               <SeventhButton
                 onClick={createAdmin}
                 disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
-                className="px-6 py-3 text-[0.7rem] uppercase    rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
+                className="px-6 py-3 text-[0.7rem] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
                 {adminCreateLoading ? 'Creating…' : 'Create Admin'}
               </SeventhButton>
@@ -7330,14 +7282,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex items-start gap-3">
                     <div className="w-11 h-11 rounded-full bg-white/20 border border-purple-500/30 flex items-center justify-center text-lg shrink-0"></div>
                     <div>
-                      <h4 className="text-purple-300">Admin Account Created</h4>
-                      <p className="mt-1"><strong className="text-white">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
+                      <h4>Admin Account Created</h4>
+                      <p className="mt-1"><strong className="">{createdAdmin.name}</strong> · {createdAdmin.email}</p>
                       <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
-                        <span className="text-[0.55rem] uppercase    text-white/30 shrink-0">Temp Password</span>
+                        <span className="text-[0.55rem] text-white/30 shrink-0">Temp Password</span>
                         <code className="text-purple-300 select-all">{createdAdmin.password}</code>
                         <button
                           onClick={() => { navigator.clipboard.writeText(createdAdmin.password); }}
-                          className="ml-auto text-[0.55rem] uppercase    text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
+                          className="ml-auto text-[0.55rem] text-white/30 hover:text-white transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded">Copy</button>
                       </div>
                       <p className="mt-2"> Welcome email sent to {createdAdmin.email}</p>
                     </div>
@@ -7359,7 +7311,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="mt-8 pt-6 border-t border-white/10">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h4 className="text-white flex items-center gap-2">
+                  <h4 className="flex items-center gap-2">
                     Sub-Admin Role Permissions
                     {savePermStatus === 'saving' && <span className="text-[0.65rem] text-purple-300 animate-pulse">Saving changes...</span>}
                     {savePermStatus === 'saved' && <span className="text-[0.65rem] text-[var(--color-accent)]"> Saved to database</span>}
@@ -7373,7 +7325,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div key={email} className="p-4 bg-white/[0.03] border border-white/10">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-purple-300">{email}</span>
-                      <span className="text-[0.9rem] uppercase text-white/30">Sub-Admin</span>
+                      <span className="text-[0.9rem] text-white/30">Sub-Admin</span>
                     </div>
 
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -7400,11 +7352,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               };
                               savePermissionsToBackend(updated);
                             }}
-                            className={`flex items-center justify-between p-2.5 rounded-lg border text-left   transition-colors cursor-pointer ${enabled ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
-                              : 'bg-black/40 border-white/10 text-white/40 hover:border-white/20'
-                              }`}>
+                            className={`flex items-center justify-between p-2.5 rounded-lg border text-left transition-colors cursor-pointer ${enabled ? 'bg-purple-500/10 border-purple-500/40 text-purple-300' : 'bg-black/40 border-white/10 text-white/40 hover:border-white/20'}`}>
                             <span>{label}</span>
-                            <span className={`w-4 h-4 rounded-full flex items-center justify-center ${enabled ? 'bg-purple-500 text-white' : 'bg-white/10 text-white/30'}`}>
+                            <span className={`w-4 h-4 rounded-full flex items-center justify-center ${enabled ? 'bg-purple-500 ' : 'bg-white/10 text-white/30'}`}>
                               {enabled ? '' : ''}
                             </span>
                           </button>
@@ -7426,12 +7376,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     <div className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bulkinvites'); } }} onClick={() => toggleSection('bulkinvites')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
         <div className="flex flex-col">
-          <h3 className="text-white flex items-center gap-2 cursor-pointer">
+          <h3 className="flex items-center gap-2 cursor-pointer">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             Bulk Invites
             {renderInfoToggle('bulkinvites')}
           </h3>
-          <p className="mt-0.5 ">Upload CSV lists of emails or phone numbers to bulk-invite members to the crew directory</p>
+          <p className="mt-0.5">Upload CSV lists of emails or phone numbers to bulk-invite members to the crew directory</p>
         </div>
         <div className="flex items-center gap-3">
           <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bulkinvites') ? 'rotate-0' : '-rotate-90')}>
@@ -7528,14 +7478,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       <div className="overflow-hidden">
         <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('cruisesignups'); } }} onClick={() => toggleSection('cruisesignups')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none !rounded-none">
           <div className="flex items-center">
-            <h3 className="text-white flex items-center gap-2 cursor-pointer">
+            <h3 className="flex items-center gap-2 cursor-pointer">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="3"></circle><line x1="12" y1="22" x2="12" y2="8"></line><path d="M5 12H2a10 10 0 0 0 20 0h-3"></path></svg>
               Cruise Signups
               {renderInfoToggle('cruisesignups')}
             </h3>
           </div>
           <div className="flex items-center gap-3">
-            <span className="uppercase">
+            <span className="">
               {signups.length} registered
             </span>
             <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('cruisesignups') ? 'rotate-0' : '-rotate-90')}>
@@ -7551,19 +7501,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="grid grid-cols-4 gap-3 mb-6">
                 <div className="bg-black/30 p-3 border border-white/10 text-center">
                   <p>{signups.length}</p>
-                  <p className="uppercase mt-0.5">Bookings</p>
+                  <p className="mt-0.5">Bookings</p>
                 </div>
                 <div className="bg-black/30 p-3 border border-white/10 text-center">
                   <p>{cruiseStats.total}</p>
-                  <p className="uppercase mt-0.5">Total Pax</p>
+                  <p className="mt-0.5">Total Pax</p>
                 </div>
                 <div className="bg-black/30 p-3 border border-white/10 text-center">
                   <p>{signups.filter((s: any) => s.depositPaid).length}</p>
-                  <p className="uppercase mt-0.5">Deposits</p>
+                  <p className="mt-0.5">Deposits</p>
                 </div>
                 <div className="bg-black/30 p-3 border border-white/10 text-center">
                   <p className="text-purple-300">{signups.filter((s: any) => s.fullPaid).length}</p>
-                  <p className="uppercase mt-0.5">Paid Full</p>
+                  <p className="mt-0.5">Paid Full</p>
                 </div>
               </div>
 
@@ -7574,14 +7524,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button aria-label="Select all passenger emails" onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-purple-500/40 ' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/25'}`}>
                       {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                     </button>
-                    <span className="text-[0.9rem] text-white/40 uppercase">
+                    <span className="text-[0.9rem] text-white/40">
                       {cruiseSelectedEmails.length > 0 ? `${cruiseSelectedEmails.length} selected` : 'Select passengers'}
                     </span>
                   </div>
                   <button
                     onClick={() => { setCruiseEmailOpen(!cruiseEmailOpen); setCruiseEmailResult(null); }}
                     disabled={cruiseSelectedEmails.length === 0}
-                    className="px-4 py-2 bg-purple-600/15 hover:bg-purple-600/25 border border-purple-500/30 text-purple-300 text-[0.9rem] uppercase rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer">
+                    className="px-4 py-2 bg-purple-600/15 hover:bg-purple-600/25 border border-purple-500/30 text-purple-300 text-[0.9rem] rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
                     Email {cruiseSelectedEmails.length > 0 ? `(${cruiseSelectedEmails.length})` : ''}
                   </button>
@@ -7592,8 +7542,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
                 <div className="mb-5 bg-cyan-500/5 border border-purple-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
                   <div className="flex items-center justify-between">
-                    <p className="uppercase /60">Compose Cruise Email</p>
-                    <button aria-label="Close email compose panel" onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer">✕</button>
+                    <p className="text-white/60">Compose Cruise Email</p>
+                    <button aria-label="Close email compose panel" onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white text-white/50 transition-colors cursor-pointer">✕</button>
                   </div>
                   {/* Selected recipients preview */}
                   <div className="flex flex-wrap gap-1.5 max-h-[60px] overflow-y-auto scrollbar-hide">
@@ -7605,7 +7555,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     ))}
                   </div>
                   <div>
-                    <label htmlFor="admin-cruise-email-subject" className="text-[0.55rem] uppercase text-white/30 mb-1.5 block">Subject</label>
+                    <label htmlFor="admin-cruise-email-subject" className="text-[0.55rem] text-white/30 mb-1.5 block">Subject</label>
                     <div className="input-glow-border rounded-lg w-full">
                       <input
                         id="admin-cruise-email-subject"
@@ -7613,12 +7563,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         value={cruiseEmailSubject}
                         onChange={e => setCruiseEmailSubject(e.target.value)}
                         placeholder="e.g. Important Cruise Update — Departure Details"
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-purple-500/50 transition-colors"
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 placeholder-white/20 focus:outline-none focus:border-purple-500/50 transition-colors"
                       />
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="admin-cruise-email-body" className="text-[0.55rem] uppercase text-white/30 mb-1.5 block">Message</label>
+                    <label htmlFor="admin-cruise-email-body" className="text-[0.55rem] text-white/30 mb-1.5 block">Message</label>
                     <div className="input-glow-border rounded-lg w-full">
                       <textarea
                         id="admin-cruise-email-body"
@@ -7626,14 +7576,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         onChange={e => setCruiseEmailBody(e.target.value)}
                         placeholder="Write your message to cruise passengers..."
                         rows={5}
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-purple-500/50 transition-colors resize-none"
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 placeholder-white/20 focus:outline-none focus:border-purple-500/50 transition-colors resize-none"
                       />
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
                       {cruiseEmailResult && (
-                        <p className={` ${cruiseEmailResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        <p className={`${cruiseEmailResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
                           {cruiseEmailResult.success ? ` Sent to ${cruiseEmailResult.sent} passenger${cruiseEmailResult.sent !== 1 ? 's' : ''}` : ` ${cruiseEmailResult.error}`}
                           {cruiseEmailResult.failed > 0 && <span className="text-rose-400 ml-2">({cruiseEmailResult.failed} failed)</span>}
                         </p>
@@ -7642,7 +7592,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       disabled={cruiseEmailSending || !cruiseEmailSubject.trim() || !cruiseEmailBody.trim()}
                       onClick={sendCruiseEmail}
-                      className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed text-white text-[0.65rem] uppercase rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] cursor-pointer">
+                      className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed text-[0.65rem] rounded-lg transition-colors flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] cursor-pointer">
                       {cruiseEmailSending ? (
                         <><span className="w-3.5 h-3.5 border-2 border-white/10 border-t-white rounded-full animate-spin" /> Sending...</>
                       ) : (
@@ -7660,7 +7610,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               ) : (
                 <div className="space-y-2 max-h-[750px] min-h-[450px] overflow-y-auto custom-admin-scrollbar pr-1">
                   {/* Table header */}
-                  <div className="sticky top-0 z-20 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 px-4 py-3 text-[0.65rem] mb-0 uppercase border-b border-white/10">
+                  <div className="sticky top-0 z-20 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 px-4 py-3 text-[0.65rem] mb-0 border-b border-white/10">
                     <span></span>
                     <span>#</span>
                     <span>Name / Email</span>
@@ -7688,14 +7638,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <span className="text-xs font-mono text-white/30">{i + 1}</span>
                         {/* Name + Email */}
                         <div className="min-w-0">
-                          <p className="text-white text-sm truncate">{s.name}</p>
+                          <p className="text-sm truncate">{s.name}</p>
                           <p className="text-xs text-white/50 truncate">{s.email}</p>
                         </div>
                         {/* Phone */}
                         <p className="text-xs text-white/70 font-mono truncate">{s.phone || '—'}</p>
                         {/* Party size + date */}
                         <div>
-                          <p className="text-xs font-semibold text-white/90">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                          <p className="text-xs font-semibold /90">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
                           <p className="text-[11px] text-white/40">{s.date}</p>
                         </div>
                         {/* Checked off */}
@@ -7730,7 +7680,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
               {/* Bottom actions */}
               <div className="flex gap-3 mt-4">
-                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] uppercase transition-colors cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-purple-400/30 flex items-center justify-center gap-2">
+                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-[0.65rem] transition-colors cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-purple-400/30 flex items-center justify-center gap-2">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
                   Export CSV
                 </button>
@@ -8421,7 +8371,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               handleEditShiftClick(shift);
             }}
             className="wiw-card select-none cursor-pointer rounded-lg bg-[#252530] border border-white/10 py-3 px-3 flex items-center justify-center text-center w-full min-h-[60px]">
-            <span className="text-white/40 uppercase r">
+            <span className="text-white/40 r">
               Time Off All Day
             </span>
           </button>
@@ -8461,10 +8411,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             backgroundColor: roleStyle.bg,
             opacity: isBeingDragged ? 0.3 : 1
           }}
-          className={`wiw-card group relative select-none rounded-lg p-1.5 flex flex-col justify-between text-white ${showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'
-            } ${shift.isDraft ? 'wiw-striped' : ''
-            } ${activeLockingEditor ? 'ring-2 ring-pink-500/80 shadow-[0_0_12px_rgba(236,72,153,0.5)] animate-pulse' : ''
-            }`}
+          className={`wiw-card group relative select-none rounded-lg p-1.5 flex flex-col justify-between ${showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'} ${shift.isDraft ? 'wiw-striped' : ''} ${activeLockingEditor ? 'ring-2 ring-pink-500/80 shadow-[0_0_12px_rgba(236,72,153,0.5)] animate-pulse' : ''}`}
           title={shift.crewId !== 'openshifts' ? (() => {
             const member = crewMembers.find(c => c.id === shift.crewId);
             const name = member?.name || shift.crewName || shift.crewId || '?';
@@ -8472,7 +8419,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           })() : 'Open Shift'}>
           {activeLockingEditor && (
             <div className="absolute inset-x-0 -top-2 z-20 flex justify-center pointer-events-none">
-              <span className="bg-pink-600 text-white text-[12px] uppercase px-2 py-0.5 rounded-full border border-pink-400 flex items-center gap-1 animate-pulse">
+              <span className="bg-pink-600 text-[12px] px-2 py-0.5 rounded-full border border-pink-400 flex items-center gap-1 animate-pulse">
                 {activeLockingEditor.name.split(' ')[0]} editing
               </span>
             </div>
@@ -8533,18 +8480,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           className="w-8 h-8 rounded-full object-cover border border-white/30 shrink-0"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-full text-white flex items-center justify-center shrink-0">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0">
                           {memberName[0]?.toUpperCase()}
                         </div>
                       )}
-                      <span className="text-[12px] text-white truncate">
+                      <span className="text-[12px] truncate">
                         {memberName}
                       </span>
                     </div>
                   );
                 })()}
                 <div className="flex items-center justify-between gap-1 w-full min-h-0">
-                  <span className="text-white whitespace-nowrap">
+                  <span className="whitespace-nowrap">
                     {timeLabel}
                   </span>
                 </div>
@@ -8553,7 +8500,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string) => (
                       <span
                         key={singleRole}
-                        className="px-1.5 py-0.5 rounded text-[12.5px] uppercase select-none truncate max-w-full">
+                        className="px-1.5 py-0.5 rounded text-[12.5px] select-none truncate max-w-full">
                         {singleRole}
                       </span>
                     ))
@@ -8563,7 +8510,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     return [(
                       <span
                         key={tag}
-                        className="px-1.5 py-0.5 rounded text-[8.5px] uppercase bg-black/40 text-white/80 border border-white/10 select-none">
+                        className="px-1.5 py-0.5 rounded text-[8.5px] bg-black/40   border border-white/10 select-none">
                         {tag}
                       </span>
                     )];
@@ -8573,17 +8520,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             ) : (
               /* Expanded style for Timeline / List / Detail views */
               <div className={`flex flex-col gap-1 w-full ${showOverlapAvatar ? 'pl-3' : ''}`}>
-                <div className="flex items-center justify-between ">
-                  <span className="text-[var(--font-size-2xs)] uppercase text-white drop- ">{shift.role || 'Shift'}</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-[var(--font-size-2xs)] drop-">{shift.role || 'Shift'}</span>
                   {shift.isDraft && (
-                    <span className="text-[12px] bg-yellow-400 text-black px-1 rounded ">DRAFT</span>
+                    <span className="text-[12px] bg-yellow-400 text-black px-1 rounded">DRAFT</span>
                   )}
                 </div>
-                <div className="text-white/80 line-clamp-1 ">
+                <div>
                   {shift.location || 'Venue'}
                 </div>
                 {shift.notes && (
-                  <div className="text-white/70 line-clamp-1 ">
+                  <div className="text-white/70 line-clamp-1">
                     "{shift.notes}"
                   </div>
                 )}
@@ -8591,17 +8538,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             )}
 
             {/* Bottom metadata row */}
-            <div className="flex items-center justify-between pt-1 border-t border-white/10 mt-1 ">
-              <span className="text-white/90">{timeLabel}</span>
+            <div className="flex items-center justify-between pt-1 border-t border-white/10 mt-1">
+              <span className="/90">{timeLabel}</span>
               <div className="flex items-center gap-1">
                 {showOverlapAvatar && shift.crewId && shift.crewId !== 'openshifts' && (
-                  <div className="w-4 h-4 rounded-full bg-white/20 border border-white/10 flex items-center justify-center text-[var(--font-size-5xs)] uppercase text-white " title={shift.crewName}>
+                  <div className="w-4 h-4 rounded-full bg-white/20 border border-white/10 flex items-center justify-center text-[var(--font-size-5xs)]" title={shift.crewName}>
                     {(shift.crewName || shift.crewId).slice(0, 2).toUpperCase()}
                   </div>
                 )}
-                {shift.approvalStatus === 'approved' && <span className="text-[10px] text-emerald-400 " title="Approved">✓</span>}
-                {shift.approvalStatus === 'declined' && <span className="text-[10px] text-red-400 " title="Declined">✕</span>}
-                {shift.approvalStatus === 'pending' && <span className="text-[10px] text-amber-400 " title="Pending">⏳</span>}
+                {shift.approvalStatus === 'approved' && <span className="text-[10px] text-emerald-400" title="Approved">✓</span>}
+                {shift.approvalStatus === 'declined' && <span className="text-[10px] text-red-400" title="Declined">✕</span>}
+                {shift.approvalStatus === 'pending' && <span className="text-[10px] text-amber-400" title="Pending">⏳</span>}
               </div>
             </div>
           </div>
@@ -8611,7 +8558,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {(() => {
                 if (shift.crewId === 'openshifts') {
                   return (
-                    <div className="w-full h-full flex items-center justify-center  bg-[#102a1e] rounded-full overflow-hidden">
+                    <div className="w-full h-full flex items-center justify-center bg-[#102a1e] rounded-full overflow-hidden">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5">
                         <circle cx="12" cy="12" r="10" />
                         <circle cx="12" cy="12" r="4" />
@@ -8636,7 +8583,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 const color = member?.color || getAvatarColor(displayName);
                 return (
                   <div
-                    className="w-full h-full flex items-center justify-center text-white rounded-full overflow-hidden"
+                    className="w-full h-full flex items-center justify-center rounded-full overflow-hidden"
                     style={{ backgroundColor: color }}>
                     {initials}
                   </div>
@@ -8663,10 +8610,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="flex items-center gap-1.5 mt-1.5 pt-1.5 border-t border-white/10 w-full">
               {shift.crewId === 'openshifts' ? (
                 <>
-                  <div className="w-4 h-4 rounded-full border border-purple-500 bg-purple-500/10 flex items-center justify-center  shrink-0 text-[var(--font-size-5xs)]">
+                  <div className="w-4 h-4 rounded-full border border-purple-500 bg-purple-500/10 flex items-center justify-center shrink-0 text-[var(--font-size-5xs)]">
 
                   </div>
-                  <span className="uppercase  truncate">
+                  <span className="truncate">
                     OpenShifts
                   </span>
                 </>
@@ -8691,14 +8638,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     const color = member?.color || getAvatarColor(displayName);
                     return (
                       <div
-                        className="w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-5xs)] shrink-0 text-white"
+                        className="w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-5xs)] shrink-0"
                         style={{ backgroundColor: color }}>
                         {initials}
                       </div>
                     );
                   })()}
 
-                  <span className="uppercase text-white/85 truncate">
+                  <span className="/85 truncate">
                     {shift.crewName || (() => {
                       const member = crewMembers.find(c => c.id === shift.crewId);
                       return member ? member.name : shift.crewId;
@@ -8710,7 +8657,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           )}
 
           {shift.crewId === 'openshifts' && shift.openSlots && (
-            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white w-4 h-4 rounded-full flex items-center justify-center border border-white animate-pulse">
+            <span className="absolute -top-1.5 -right-1.5 bg-red-500 w-4 h-4 rounded-full flex items-center justify-center border border-white animate-pulse">
               {shift.openSlots}
             </span>
           )}
@@ -8723,7 +8670,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         const roles = (roleStr || 'Crew').split(/[,|/]/).flatMap(r => { const t = r.trim(); return t ? [t] : []; });
         return roles.map((r, idx) => {
           const upper = r.toUpperCase();
-          let colorClass = "text-white/45  bg-[#00000029]    border-white/10";
+          let colorClass = " /45  bg-[#00000029]    border-white/10";
           if (upper.includes("AUDIO") || upper.includes("MIX")) {
             colorClass = "text-violet-400 bg-violet-500/10 border-violet-500/25";
           } else if (upper.includes("SERVER") || upper.includes("HOST")) {
@@ -8738,7 +8685,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           return (
             <span
               key={r}
-              className={`inline-block px-1.5 py-0.5 text-[12px] uppercase rounded-lg border shrink-0`}>
+              className={`inline-block px-1.5 py-0.5 text-[12px] rounded-lg border shrink-0`}>
               {r}
             </span>
           );
@@ -8749,8 +8696,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         <CustomScrollbar className="w-full flex-1 min-h-0" topOffset={42} direction="both">
           <div
             style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${240 + filteredDays.length * 144}px` }}
-            className="w-full flex flex-col text-left select-none ">
-            <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/55 backdrop-blur-xl border-b border-white/10 ">
+            className="w-full flex flex-col text-left select-none">
+            <div className="flex flex-col sticky top-0 z-30 bg-[#0f0720]/55 backdrop-blur-xl border-b border-white/10">
               <div className="flex w-full border-r border-[var(--border-color)] text-[10px] r">
                 <div className="p-1.5 w-60 shrink-0 border-r border-[var(--border-color)] border-b border-[var(--border-color)] flex items-center bg-[var(--color-bg-card)]">
                   <OpenShiftsCellHeader />
@@ -8768,18 +8715,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
                       }}
-                      className={`p-2 flex-1 min-w-[130px] border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-colors duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr) ? ' text-purple-300    '
-                        : isNextShow
-                          ? ' text-purple-300    border-x border-white/10'
-                          : ' '
-                        }`}
+                      className={`p-2 flex-1 min-w-[130px] border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-colors duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr) ? ' text-purple-300 ' : isNextShow ? ' text-purple-300 border-x border-white/10' : ' '}`}
                       title="Click to select date & stack working crew at top">
                       <div className="flex flex-col gap-1 w-full">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
                             <span className="text-[12px]">{getDayLabelOverride(day.dateStr, idx)}</span>
                             {isNextShow && (
-                              <span className="text-[12px] bg-purple-600 text-white px-1 py-0.5 rounded uppercase scale-[0.85] origin-left select-none">
+                              <span className="text-[12px] bg-purple-600 px-1 py-0.5 rounded scale-[0.85] origin-left select-none">
                                 NEXT
                               </span>
                             )}
@@ -8791,7 +8734,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
-                              className="p-0.5 hover:bg-purple-500/10 rounded  hover:text-purple-300 border-none cursor-pointer"
+                              className="p-0.5 hover:bg-purple-500/10 rounded hover:text-purple-300 border-none cursor-pointer"
                               title="Alert assigned crew for this show">
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -8803,9 +8746,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 e.stopPropagation();
                                 setScheduleSortByDate(prev => prev === day.dateStr ? null : day.dateStr);
                               }}
-                              className={`p-0.5 rounded border-none    cursor-pointer transition-colors ${scheduleSortByDate === day.dateStr ? 'bg-white/20 text-purple-300 font-extrabold'
-                                : '   '
-                                }`}
+                              className={`p-0.5 rounded border-none cursor-pointer transition-colors ${scheduleSortByDate === day.dateStr ? 'bg-white/20 text-purple-300  ' : ' '}`}
                               title={scheduleSortByDate === day.dateStr ? "Reset crew sorting" : "Sort working crew to the top"}>
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 19V5" /><polyline points="5 12 12 5 19 12" /></svg>
                             </button>
@@ -8818,7 +8759,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="mt-1 w-full text-[12px] uppercase text-purple-300 hover:text-white truncate select-none transition-colors cursor-pointer flex items-center justify-center gap-1"
+                            className="mt-1 w-full text-[12px] text-purple-300 hover:text-white truncate select-none transition-colors cursor-pointer flex items-center justify-center gap-1"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}>
                             {dayShow.venue || dayShow.venue_name}
                           </button>
@@ -8830,10 +8771,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
               {/* Row 1: OpenShifts */}
               {!scheduleCrewFilter && !schedulePersonSearch.trim() && (
-                <div className="flex w-full border-b border-[var(--border-color)] transition-colors ">
-                  <div className="p-1 w-60 shrink-0 border-r border-[var(--border-color)] flex items-center wiw-sticky-col ">
+                <div className="flex w-full border-b border-[var(--border-color)] transition-colors">
+                  <div className="p-1 w-60 shrink-0 border-r border-[var(--border-color)] flex items-center wiw-sticky-col">
                     <div className="flex items-center gap-2 pl-2">
-                      <span className="text-[10px] uppercase r">Open Shifts</span>
+                      <span className="text-[10px] r">Open Shifts</span>
                     </div>
                   </div>
                   {filteredDays.map(day => {
@@ -8842,11 +8783,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     return (
                       <div
                         key={day.dateStr}
-                        className={`p-1 flex-1 min-w-[130px] border-r border-[var(--border-color)] transition-colors cursor-pointer ${isSelectedDay ? 'bg-purple-500/10 border-x border-purple-500/30'
-                          : isNextShow
-                            ? 'bg-purple-500/10 border-x border-white/20'
-                            : ' '
-                          }`}
+                        className={`p-1 flex-1 min-w-[130px] border-r border-[var(--border-color)] transition-colors cursor-pointer ${isSelectedDay ? 'bg-purple-500/10 border-x border-purple-500/30' : isNextShow ? 'bg-purple-500/10 border-x border-white/20' : ' '}`}
                         onDragOver={(e) => {
                           e.preventDefault();
                           if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
@@ -8862,7 +8799,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             }}
                             className="w-full py-1 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                             <span className="text-[12px] text-purple-400 group-hover:text-purple-300 transition-colors">+</span>
-                            <span className="text-[10px] uppercase text-purple-400 group-hover:text-purple-300 transition-colors mt-0.5">
+                            <span className="text-[10px] text-purple-400 group-hover:text-purple-300 transition-colors mt-0.5">
                               Add Crew Member
                             </span>
                           </div>
@@ -8883,7 +8820,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               }}
                               className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                               <span className="text-[12px] text-purple-400 group-hover:text-purple-300 transition-colors">+</span>
-                              <span className="text-[10px] uppercase text-purple-400 group-hover:text-purple-300 transition-colors mt-0.5 text-center">
+                              <span className="text-[10px] text-purple-400 group-hover:text-purple-300 transition-colors mt-0.5 text-center">
                                 Add Crew Group
                               </span>
                             </div>
@@ -8910,7 +8847,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               }}
                               className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                               <span className="text-[12px] text-purple-400 group-hover:text-purple-300 transition-colors">+</span>
-                              <span className="text-[10px] uppercase text-purple-400 group-hover:text-purple-300 transition-colors mt-0.5 text-center">
+                              <span className="text-[10px] text-purple-400 group-hover:text-purple-300 transition-colors mt-0.5 text-center">
                                 Create Group
                               </span>
                             </div>
@@ -8939,7 +8876,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   return (
                     <div key={member.id} className={`flex w-full border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-white/[0.02]'}`}>
-                      <div className={` w-60 shrink-0 border-r border-[var(--border-color)] relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : ' '}`}>
+                      <div className={`w-60 shrink-0 border-r border-[var(--border-color)] relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : ' '}`}>
                         <div className="flex items-center gap-2.5">
                           {hasExclamation && (
                             <div className="absolute left-1 top-1/2 -translate-y-1/2 text-[var(--color-accent)]" title="Warning: Schedule issues">
@@ -8951,7 +8888,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <div className="flex items-center justify-between gap-1">
                               <p className="truncate">{member.name}</p>
                               {isWorkingOnActiveDate && (
-                                <span className="text-[9px] uppercase px-1 py-0.5 rounded bg-emerald-500/20  border border-emerald-500/30 shrink-0 shadow-2xs">
+                                <span className="text-[9px] px-1 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/30 shrink-0 shadow-2xs">
                                   Working
                                 </span>
                               )}
@@ -8962,7 +8899,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   <span>{totalHours}h</span>
                                 </span>
                               ) : (
-                                <span className="text-[12px] ">
+                                <span className="text-[12px]">
                                   {totalHours}h
                                 </span>
                               )}
@@ -8975,8 +8912,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
 
                             <div className="wiw-tooltip bg-[var(--card-bg)] p-3 rounded-lg text-left border border-[var(--border-color)] w-52">
-                              <div className="font-semibold text-white">{member.name}</div>
-                              <div className="text-[var(--color-accent)] text-[12px] uppercase mb-2">
+                              <div className="font-semibold">{member.name}</div>
+                              <div className="text-[var(--color-accent)] text-[12px] mb-2">
                                 Role: {member.role || 'Crew Member'}
                               </div>
                               <div className="text-[12px] space-y-1 border-t border-[var(--border-color)] pt-1.5">
@@ -9011,11 +8948,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
                               }
                             }}
-                            className={`p-1 flex-1 min-w-[130px] border-r border-[var(--border-color)] relative transition-colors cursor-pointer group ${isSelectedDay ? 'bg-purple-500/10 border-x border-purple-500/30'
-                              : isNextShow
-                                ? 'bg-purple-500/10 border-x border-white/20'
-                                : 'bg-[var(--card-bg)]'
-                              }`}
+                            className={`p-1 flex-1 min-w-[130px] border-r border-[var(--border-color)] relative transition-colors cursor-pointer group ${isSelectedDay ? 'bg-purple-500/10 border-x border-purple-500/30' : isNextShow ? 'bg-purple-500/10 border-x border-white/20' : 'bg-[var(--card-bg)]'}`}
                             onDragOver={(e) => {
                               e.preventDefault();
                               if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
@@ -9062,8 +8995,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             return (
               <div
                 key={day.dateStr}
-                className={`border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-colors ${isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'
-                  }`}
+                className={`border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-colors ${isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'}`}
                 onDragOver={(e) => {
                   e.preventDefault();
                   if (e.dataTransfer) {
@@ -9110,7 +9042,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   }
                 }}>
                 <div className="text-center pb-2 border-b border-white/10 mb-2 flex flex-col items-center">
-                  <span className="uppercase text-white/30 block">{day.dayName}</span>
+                  <span className="text-white/30 block">{day.dayName}</span>
                   <span className="text-white/70 block mt-0.5">{day.monthName} {day.dayOfMonth}</span>
                   {(() => {
                     const dayShow = getDayShow(day.dateStr);
@@ -9122,7 +9054,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           e.stopPropagation();
                           setSelectedShowCrewDate(day.dateStr);
                         }}
-                        className="mt-1 w-full text-[8.5px] uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-white/10 hover:border-purple-500/40 px-1.5 py-0.5 rounded truncate max-w-full cursor-pointer transition-colors flex items-center justify-center gap-1"
+                        className="mt-1 w-full text-[8.5px] text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-white/10 hover:border-purple-500/40 px-1.5 py-0.5 rounded truncate max-w-full cursor-pointer transition-colors flex items-center justify-center gap-1"
                         title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}>
                         {dayShow.venue || dayShow.venue_name}
                       </button>
@@ -9157,7 +9089,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 const count = (schedulesByDate[day.dateStr] || []).length;
                 return (
                   <div key={day.dateStr} className="min-w-0 flex flex-col items-center justify-start">
-                    <p className="uppercase r">{day.dayName}</p>
+                    <p className="r">{day.dayName}</p>
                     <p className="mt-0.5">{day.monthName} {day.dayOfMonth}</p>
                     {(() => {
                       const dayShow = getDayShow(day.dateStr);
@@ -9169,7 +9101,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             e.stopPropagation();
                             setSelectedShowCrewDate(day.dateStr);
                           }}
-                          className="mt-1 w-full text-[9px] uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-white/10 hover:border-purple-500/40 px-1 py-0.2 rounded truncate max-w-full cursor-pointer transition-colors flex items-center justify-center gap-1 text-center"
+                          className="mt-1 w-full text-[9px] text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-white/10 hover:border-purple-500/40 px-1 py-0.2 rounded truncate max-w-full cursor-pointer transition-colors flex items-center justify-center gap-1 text-center"
                           title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}>
                           {dayShow.venue || dayShow.venue_name}
                         </button>
@@ -9184,7 +9116,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="flex relative">
             <div className="w-14 shrink-0 h-[480px] relative flex flex-col justify-between pr-2 pt-0.5 select-none z-10 pointer-events-none">
               {hoursAxis.map((h) => (
-                <div key={h} className="h-0 flex items-center justify-end ">
+                <div key={h} className="h-0 flex items-center justify-end">
                   {formatHour(h)}
                 </div>
               ))}
@@ -9195,9 +9127,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {Array.from({ length: 17 }).map((_, idx) => (
                   <div
                     key={idx}
-                    className={`w-full h-0 border-b ${idx % 2 === 0 ? ' border-white/10 border-solid'
-                      : ' border-white/10 border-dashed'
-                      }`}
+                    className={`w-full h-0 border-b ${idx % 2 === 0 ? ' border-white/10 border-solid' : ' border-white/10 border-dashed'}`}
                   />
                 ))}
               </div>
@@ -9267,10 +9197,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             left: '4px',
                             right: '4px',
                           }}
-                          className={`wiw-card text-white p-1 rounded-lg    overflow-hidden cursor-pointer ${shift.isDraft ? 'wiw-striped' : ''
-                            }`}>
+                          className={`wiw-card p-1 rounded-lg overflow-hidden cursor-pointer ${shift.isDraft ? 'wiw-striped' : ''}`}>
                           <div className="truncate">{shift.crewName}</div>
-                          <div className="text-purple-300 text-[var(--font-size-5xs)] uppercase truncate">{shift.role || 'Crew'}</div>
+                          <div className="text-purple-300 text-[var(--font-size-5xs)] truncate">{shift.role || 'Crew'}</div>
                           <div className="opacity-80 text-[var(--font-size-4xs)]">{formatTimeStringWIW(shift.startHour, shift.endHour)}</div>
                         </div>
                       );
@@ -9289,13 +9218,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
 
         {/* Section Header */}
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white !rounded-none">
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors !rounded-none">
           <div className="flex flex-col">
-            <h3 className="text-white uppercase flex items-center gap-2 ">
+            <h3 className="flex items-center gap-2">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               Crew Work Schedule Calendar
             </h3>
-            <p className="mt-0.5 ">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
+            <p className="mt-0.5">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
@@ -9319,7 +9248,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </span>
                 <span className="text-white/30 font-light">|</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-white text-[11px]">Active Editors:</span>
+                  <span className="text-[11px]">Active Editors:</span>
                   {coEditors.map(ed => (
                     <span key={ed.id} className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] border transition-colors ${ed.isEditing ? 'bg-pink-500/15 border-pink-500/40 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]' : 'bg-blue-500/15 border-blue-500/30 text-blue-300'}`}>
                       <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
@@ -9362,14 +9291,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     </div>
                     <div>
-                      <h3 className="text-white">Schedule Mix-Up Prevented!</h3>
+                      <h3 className="">Schedule Mix-Up Prevented!</h3>
                       <p className="text-purple-300/80 font-medium">Concurrent Edit Detected from Co-Editor</p>
                     </div>
                   </div>
 
                   <div className="bg-black/50 border border-white/10 p-4 space-y-2">
                     <div className="flex items-center justify-between text-white/50">
-                      <span>Editor: <strong className="text-white">{coEditorConflictAlert.editorName}</strong></span>
+                      <span>Editor: <strong className="">{coEditorConflictAlert.editorName}</strong></span>
                       <span className="text-[10px] text-white/40">{coEditorConflictAlert.timestamp}</span>
                     </div>
                     <div className="text-pink-300">
@@ -9388,7 +9317,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       type="button"
                       onClick={() => setCoEditorConflictAlert(null)}
-                      className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase rounded-lg transition-colors cursor-pointer">
+                      className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors cursor-pointer">
                       Accept Remote Sync
                     </button>
                   </div>
@@ -9401,7 +9330,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4 animate-fadeIn">
                 <div className="bg-[#181820] border border-white/10 p-6 max-w-md w-full space-y-5">
                   <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                    <h3 className="text-white flex items-center gap-2">
+                    <h3 className="flex items-center gap-2">
                       <span></span> Active Co-Editors & Lock Status
                     </h3>
                     <button aria-label="Close co-editor modal" onClick={() => setShowCoEditorModal(false)} className="text-white/40 hover:text-white text-lg">✕</button>
@@ -9415,14 +9344,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             {ed.avatar}
                           </div>
                           <div>
-                            <div className="text-white flex items-center gap-1.5">
+                            <div className="flex items-center gap-1.5">
                               {ed.name}
                               <span className="text-[10px] text-white/40">({ed.role})</span>
                             </div>
                             <div className="text-[10px] text-white/50">{ed.lastAction}</div>
                           </div>
                         </div>
-                        <span className={`px-2 py-0.5 text-[12px] rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20  border border-emerald-500/40'}`}>
+                        <span className={`px-2 py-0.5 text-[12px] rounded ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 border border-emerald-500/40'}`}>
                           {ed.isEditing ? ' Shift Locked' : '🟢 Viewing'}
                         </span>
                       </div>
@@ -9442,7 +9371,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex items-center justify-end">
                     <button
                       onClick={() => setShowCoEditorModal(false)}
-                      className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors">
+                      className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors">
                       Close
                     </button>
                   </div>
@@ -9453,17 +9382,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container h-[850px] max-h-[90vh] flex flex-col min-h-0">
 
               {/* Header controls (Date range, prev/next, today, action icons) */}
-              <div className="pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0 relative z-[60]">
+              <div className="pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none shrink-0 relative z-[60]">
                 {/* Left: Date Range & Nav */}
                 <div className="flex items-center gap-3 flex-wrap">
-                  <h3 className="text-white mr-2 min-w-[180px]">
+                  <h3 className="mr-2 min-w-[180px]">
                     {getWeekRangeLabel(currentWeekStart)}
                   </h3>
                   <div className="flex items-center border border-white/10 bg-black/40 rounded-lg overflow-hidden">
                     <button
                       type="button"
                       onClick={handlePrevWeek}
-                      className="p-2 bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none "
+                      className="p-2 bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none"
                       title="Previous Week">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
                     </button>
@@ -9472,7 +9401,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       onClick={() => {
                         document.getElementById('wiw-date-picker')?.click();
                       }}
-                      className="p-2 bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none "
+                      className="p-2 bg-[#00000029] transition-colors border-r border-white/10 text-white/40 hover:text-white cursor-pointer border-none"
                       title="Choose Date">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
                     </button>
@@ -9493,7 +9422,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       type="button"
                       onClick={handleNextWeek}
-                      className="p-2 bg-[#00000029] transition-colors text-white/40 hover:text-white cursor-pointer border-none "
+                      className="p-2 bg-[#00000029] transition-colors text-white/40 hover:text-white cursor-pointer border-none"
                       title="Next Week">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
                     </button>
@@ -9509,10 +9438,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button
                     type="button"
                     onClick={handleGoToMonth}
-                    className={`px-3 py-1.5 border rounded-lg transition-colors cursor-pointer border-solid ${calendarRange === 'month'
-                      ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-white/20'
-                      : ' border-white/10 bg-black/40 bg-[#00000029] text-white/70 hover:text-white'
-                      }`}>
+                    className={`px-3 py-1.5 border rounded-lg transition-colors cursor-pointer border-solid ${calendarRange === 'month' ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-white/20' : ' border-white/10 bg-black/40 bg-[#00000029] text-white/70 hover:text-white '}`}>
                     MONTH
                   </button>
 
@@ -9546,9 +9472,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       type="button"
                       onClick={() => setShowTourDropdown(prev => !prev)}
-                      className={`px-3 py-1.5 border    rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
-                        : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
-                        }`}>
+                      className={`px-3 py-1.5 border rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown ? 'border-purple-500/40 bg-purple-500/10 text-purple-300' : ' border-white/10 bg-black/40 bg-[#00000029] text-white/70 hover:text-white '}`}>
                       SHOWS
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`transition-transform ${showTourDropdown ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9" /></svg>
                     </button>
@@ -9581,7 +9505,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     setShowTourDropdown(false);
                                   }}
                                   className="w-full text-left px-4 py-2.5 bg-[#00000029] flex items-center gap-3 border-none cursor-pointer transition-colors group">
-                                  <span className="text-purple-300/70 group-hover:text-purple-300 uppercase min-w-[80px]">{dateLabel}</span>
+                                  <span className="text-purple-300/70 group-hover:text-purple-300 min-w-[80px]">{dateLabel}</span>
                                   <span className="text-white/70 group-hover:text-white truncate">{show.venue || show.venue_name}</span>
                                   {show.city && <span className="text-white/30 ml-auto shrink-0">{show.city}</span>}
                                 </button>
@@ -9596,9 +9520,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button
                     type="button"
                     onClick={() => setShowTourDatesOnly(prev => !prev)}
-                    className={`px-3 py-1.5 border    rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
-                      : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
-                      }`}
+                    className={`px-3 py-1.5 border rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly ? 'border-purple-500/40 bg-purple-500/15 text-purple-300' : ' border-white/10 bg-black/40 bg-[#00000029] text-white/70 hover:text-white '}`}
                     title="Show only days with tour shows">
                     {showTourDatesOnly ? ' SHOWS ONLY' : 'ALL DAYS'}
                   </button>
@@ -9622,13 +9544,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <button
                     type="button"
                     onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
-                    className={`px-3 py-1.5 border    rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? 'border-purple-500/40 bg-purple-500/15 text-purple-300    shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
-                      : ' border-white/10 bg-black/40   bg-[#00000029] text-white/70 hover:text-white'
-                      }`}
+                    className={`px-3 py-1.5 border rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 shadow-[0_0_8px_rgba(147, 51, 234,0.1)]' : ' border-white/10 bg-black/40 bg-[#00000029] text-white/70 hover:text-white '}`}
                     title="Search & advanced filters by person, venue, date range, and event type">
                     <span></span> {isFiltersPanelExpanded ? 'HIDE FILTERS' : 'FILTERS'}
                     {activeFiltersCount > 0 && (
-                      <span className="px-1.5 py-0.5 bg-purple-600 text-white rounded-full ">
+                      <span className="px-1.5 py-0.5 bg-purple-600 rounded-full">
                         {activeFiltersCount}
                       </span>
                     )}
@@ -9748,7 +9668,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     {/* Search by Person */}
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="admin-sched-person-search" className="uppercase text-white/50 r">Search Person / Role</label>
+                      <label htmlFor="admin-sched-person-search" className="text-white/50 r">Search Person / Role</label>
                       <div className="relative w-full input-glow-border rounded-lg">
                         <input
                           id="admin-sched-person-search"
@@ -9756,7 +9676,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           value={schedulePersonSearch}
                           onChange={(e) => setSchedulePersonSearch(e.target.value)}
                           placeholder="Name, role, e.g. Dave, Audio..."
-                          className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white placeholder-white/20 outline-none transition-colors"
+                          className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 placeholder-white/20 outline-none transition-colors"
                         />
                         {schedulePersonSearch && (
                           <button
@@ -9770,7 +9690,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Search by Venue */}
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="admin-sched-venue-search" className="uppercase text-white/50 r">Search Venue Name</label>
+                      <label htmlFor="admin-sched-venue-search" className="text-white/50 r">Search Venue Name</label>
                       <div className="relative w-full input-glow-border rounded-lg">
                         <input
                           id="admin-sched-venue-search"
@@ -9778,7 +9698,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           value={scheduleVenueSearch}
                           onChange={(e) => setScheduleVenueSearch(e.target.value)}
                           placeholder="Venue, e.g. Blarney, Cruise..."
-                          className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-white placeholder-white/20 outline-none transition-colors"
+                          className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 placeholder-white/20 outline-none transition-colors"
                         />
                         {scheduleVenueSearch && (
                           <button
@@ -9792,7 +9712,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Event Type Filter */}
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="admin-sched-event-type" className="uppercase text-white/50 r">Show / Event Type</label>
+                      <label htmlFor="admin-sched-event-type" className="text-white/50 r">Show / Event Type</label>
                       <Dropdown
                         id="admin-sched-event-type"
                         fullWidth={true}
@@ -9812,7 +9732,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {/* Date Range Selection */}
                     <div className="flex flex-col gap-1.5 col-span-1">
-                      <span className="uppercase text-white/50 r">Custom Date Range</span>
+                      <span className="text-white/50 r">Custom Date Range</span>
                       <div className="flex items-center gap-2">
                         <div className="w-full input-glow-border rounded-lg">
                           <input
@@ -9821,10 +9741,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             value={scheduleStartDate}
                             onChange={(e) => setScheduleStartDate(e.target.value)}
                             onClick={(e) => e.currentTarget.showPicker?.()}
-                            className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
+                            className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 outline-none transition-colors cursor-pointer [color-scheme:dark]"
                           />
                         </div>
-                        <span className="text-white/35">TO</span>
+                        <span className="/35">TO</span>
                         <div className="w-full input-glow-border rounded-lg">
                           <input
                             type="date"
@@ -9832,7 +9752,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             value={scheduleEndDate}
                             onChange={(e) => setScheduleEndDate(e.target.value)}
                             onClick={(e) => e.currentTarget.showPicker?.()}
-                            className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
+                            className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 outline-none transition-colors cursor-pointer [color-scheme:dark]"
                           />
                         </div>
                         {(scheduleStartDate || scheduleEndDate) && (
@@ -9855,10 +9775,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex items-center justify-between text-[var(--font-size-2xs)] text-white/40 border-t border-white/10 pt-2">
                     <div className="flex items-center gap-4">
                       <span>
-                        Displaying <strong className="text-purple-300 font-extrabold">{filteredDays.length}</strong> date columns
+                        Displaying <strong className="text-purple-300  ">{filteredDays.length}</strong> date columns
                       </span>
                       <span>
-                        Showing <strong className="text-purple-300 font-extrabold">{filteredCrewMembers.length}</strong> crew rows
+                        Showing <strong className="text-purple-300  ">{filteredCrewMembers.length}</strong> crew rows
                       </span>
                     </div>
                     {activeFiltersCount > 0 && (
@@ -9903,7 +9823,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02] relative">
                     <div className="px-3 py-2.5 flex items-center justify-between bg-[#0a00653b] shrink-0 border-b border-white/10 relative z-20">
                       <div className="flex items-center gap-1.5">
-                        <span className="uppercase r">Tour Dates</span>
+                        <span className="r">Tour Dates</span>
                       </div>
                       <div className="flex items-center gap-1.5">
 
@@ -9970,7 +9890,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {/* Modal Header */}
                       <div className="p-5 border-b border-white/10 flex items-start justify-between shrink-0">
                         <div>
-                          <h3 className="text-white">
+                          <h3 className="">
                             {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
                           </h3>
                           <p className="mt-1">
@@ -9987,7 +9907,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             setDraggedCrewMemberId(null);
                             setEditingShiftId(null);
                           }}
-                          className="text-white/40 hover:text-white transition-colors cursor-pointer border-none ">✕
+                          className="text-white/40 hover:text-white transition-colors cursor-pointer border-none">✕
 
                         </button>
                       </div>
@@ -10016,7 +9936,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       return updated;
                                     });
                                   }}
-                                  className="w-full py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 hover:text-red-300 uppercase transition-colors cursor-pointer flex items-center justify-center gap-1.5">
+                                  className="w-full py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-colors cursor-pointer flex items-center justify-center gap-1.5">
                                   <span></span> Request Coverage
                                 </button>
                               </div>
@@ -10030,7 +9950,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 <div className="flex items-center gap-2">
                                   <span></span>
                                   <div>
-                                    <p className="uppercase r">Coverage Requested</p>
+                                    <p className="r">Coverage Requested</p>
                                     <p className="mt-0.5">
                                       <strong>{editingShift.crewName}</strong> has requested coverage for this shift.
                                     </p>
@@ -10046,31 +9966,27 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       return s;
                                     }));
                                   }}
-                                  className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 uppercase rounded border border-red-500/30 transition-colors">
+                                  className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 rounded border border-red-500/30 transition-colors">
                                   Clear
                                 </button>
                               </div>
 
                               <div className="border-t border-white/10 pt-3 space-y-2.5">
                                 <div className="flex items-center justify-between">
-                                  <span className="uppercase text-white/50">Assign Coverage:</span>
+                                  <span className="text-white/50">Assign Coverage:</span>
 
                                   {/* Tab/Toggle for Fit Role vs Override */}
                                   <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/20">
                                     <button
                                       type="button"
                                       onClick={() => setOnlyShowFitRole(true)}
-                                      className={`px-2 py-0.5    uppercase rounded transition-colors cursor-pointer ${onlyShowFitRole ? 'bg-purple-600 text-white    '
-                                        : ' text-white hover:text-white'
-                                        }`}>
+                                      className={`px-2 py-0.5 rounded transition-colors cursor-pointer ${onlyShowFitRole ? 'bg-purple-600 ' : ' hover:text-white '}`}>
                                       Fit Role ({editingShift.role})
                                     </button>
                                     <button
                                       type="button"
                                       onClick={() => setOnlyShowFitRole(false)}
-                                      className={`px-2 py-0.5    uppercase rounded transition-colors cursor-pointer ${!onlyShowFitRole ? 'bg-red-500/20 text-red-300 border border-red-500/30    '
-                                        : ' text-white hover:text-white'
-                                        }`}>
+                                      className={`px-2 py-0.5 rounded transition-colors cursor-pointer ${!onlyShowFitRole ? 'bg-red-500/20 text-red-300 border border-red-500/30 ' : ' hover:text-white '}`}>
                                       Override (All)
                                     </button>
                                   </div>
@@ -10121,18 +10037,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                 />
                                               ) : (
                                                 <div
-                                                  className="w-5 h-5 rounded-full flex items-center justify-center text-4xs text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
+                                                  className="w-5 h-5 rounded-full flex items-center justify-center text-4xs shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20"
                                                   style={member.color ? { backgroundColor: member.color } : undefined}>
                                                   {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                                 </div>
                                               );
                                             })()}
                                             <div>
-                                              <span className="text-white block">{member.name}</span>
+                                              <span className="block">{member.name}</span>
                                               <div className="flex items-center gap-1.5 mt-0.5">
-                                                <span className="text-white/40 uppercase block">{member.role || 'Crew'}</span>
+                                                <span className="text-white/40 block">{member.role || 'Crew'}</span>
                                                 {isOverlapping && (
-                                                  <span className="px-1 py-0.2 rounded text-[var(--font-size-5xs)] uppercase bg-red-500/20 border border-red-500/35 text-red-400">
+                                                  <span className="px-1 py-0.2 rounded text-[var(--font-size-5xs)] bg-red-500/20 border border-red-500/35 text-red-400">
                                                     Overlaps {overlaps[0].time}
                                                   </span>
                                                 )}
@@ -10161,9 +10077,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                               setDraggedCrewMemberId(null);
                                               setEditingShiftId(null);
                                             }}
-                                            className={`px-2 py-1    uppercase rounded transition-colors border-none ${isOverlapping ? ' bg-[#00000029] text-white/20 cursor-not-allowed'
-                                              : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer'
-                                              }`}>
+                                            className={`px-2 py-1 rounded transition-colors border-none ${isOverlapping ? ' bg-[#00000029] text-white/20 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-500 cursor-pointer'}`}>
                                             Assign
                                           </button>
                                         </div>
@@ -10187,10 +10101,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           const bandTime = activeShow.time || activeShow.bandTime || activeShow.showTime || '8:00 PM';
 
                           return (
-                            <div className="shrink-0 bg-purple-500/10 border border-white/10 rounded-lg px-3 py-2 space-y-1.5 ">
+                            <div className="shrink-0 bg-purple-500/10 border border-white/10 rounded-lg px-3 py-2 space-y-1.5">
                               <div className="flex items-center justify-between gap-2 min-w-0">
                                 <div className="flex items-center gap-1.5 min-w-0 truncate">
-                                  <span className="text-[14px] text-white truncate">{activeShow.venue}</span>
+                                  <span className="text-[14px] truncate">{activeShow.venue}</span>
                                   <span className="text-[13px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
                                 </div>
                                 <span className="text-[12px] text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded-lg border border-white/20">
@@ -10198,7 +10112,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 </span>
                               </div>
 
-                              <div className="flex items-center gap-2 text-[11px] font-semibold text-white/80 border-t border-white/10 pt-1.5 overflow-x-auto no-scrollbar">
+                              <div className="flex items-center gap-2 text-[11px] font-semibold   border-t border-white/10 pt-1.5 overflow-x-auto no-scrollbar">
                                 <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 px-2 py-0.5 rounded-lg text-[11px] whitespace-nowrap shrink-0">
                                   Fest: {festStart}
                                 </span>
@@ -10219,7 +10133,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
                         {!(editingShift && editingShift.isCoverageRequested) && (
                           <div className="flex flex-col flex-1 min-h-0">
-                            <span className="text-[0.85rem] uppercase r mb-2 block shrink-0 whitespace-nowrap overflow-hidden text-ellipsis">Select Crew Members Working That Day</span>
+                            <span className="text-[0.85rem] r mb-2 block shrink-0 whitespace-nowrap overflow-hidden text-ellipsis">Select Crew Members Working That Day</span>
 
                             {/* Search and Grouping Controls */}
                             <div className="shrink-0 mb-3 w-full admin-crew-search-wrapper">
@@ -10260,9 +10174,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       return (
                                         <div
                                           key={member.id}
-                                          className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active ? ' border border-purple-500/40 shadow-purple-900/20'
-                                            : 'border border-transparent'
-                                            }`}>
+                                          className={`p-3.5 rounded-lg transition-all duration-200 ${assignment.active ? ' border border-purple-500/40 shadow-purple-900/20' : 'border border-transparent'}`}>
                                           <div className="flex items-center justify-between">
                                             <label className="flex items-center gap-3 select-none cursor-pointer w-full">
                                               <SquishyToggle
@@ -10297,16 +10209,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                     />
                                                   ) : (
                                                     <div
-                                                      className="w-11 h-11 rounded-full flex items-center justify-center text-[10px] text-white uppercase shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20">
+                                                      className="w-11 h-11 rounded-full flex items-center justify-center text-[10px] shrink-0 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20">
                                                       {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                                     </div>
                                                   );
                                                 })()}
                                                 <div className="flex-1 min-w-0">
                                                   <div className="flex items-center justify-between gap-2">
-                                                    <span className="text-white/95 block">{member.name}</span>
+                                                    <span className="/95 block">{member.name}</span>
                                                     {assignment.active && (
-                                                      <span className="bg-purple-500 text-white text-[12px] uppercase px-2 py-0.5 rounded-full shrink-0">
+                                                      <span className="bg-purple-500 text-[12px] px-2 py-0.5 rounded-full shrink-0">
                                                         Selected
                                                       </span>
                                                     )}
@@ -10322,7 +10234,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                         {memberShifts.map((s, idx) => (
                                                           <span
                                                             key={idx}
-                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 uppercase text-4xs px-1.5 py-0.5 rounded select-none">
+                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 text-4xs px-1.5 py-0.5 rounded select-none">
                                                             {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
                                                           </span>
                                                         ))}
@@ -10345,14 +10257,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                               {dropTimeFrames.map((tf, index) => (
                                                 <div key={tf.id || `tf-${tf.role || 'role'}-${tf.startHour ?? 'start'}-${tf.endHour ?? 'end'}`} className="p-3.5 border border-white/10 space-y-3 relative rounded-lg animate-[fadeIn_0.2s_ease]">
                                                   <div className="flex items-center justify-between">
-                                                    <span className="uppercase text-purple-300 " style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
+                                                    <span className="text-purple-300" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
                                                     {dropTimeFrames.length > 1 && (
                                                       <button
                                                         type="button"
                                                         onClick={() => {
                                                           setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
                                                         }}
-                                                        className="text-white/40 hover:text-red-400 text-[10px] border-none cursor-pointer uppercase "
+                                                        className="text-white/40 hover:text-red-400 text-[10px] border-none cursor-pointer"
                                                         style={{ fontSize: '10px' }}>
                                                         Remove
                                                       </button>
@@ -10361,7 +10273,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                                   <div className="grid grid-cols-2 gap-3">
                                                     <div>
-                                                      <label className="text-[10px] uppercase text-white/50 mb-1 block font-semibold " style={{ fontSize: '10px' }}>Start Time</label>
+                                                      <label className="text-[10px] text-white/50 mb-1 block font-semibold" style={{ fontSize: '10px' }}>Start Time</label>
                                                       <GooeyMessagesDropdown
                                                         placeholder="Select Start Time"
                                                         selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "12 PM"}
@@ -10385,7 +10297,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                     </div>
 
                                                     <div>
-                                                      <label className="text-[10px] uppercase text-white/50 mb-1 block font-semibold " style={{ fontSize: '10px' }}>End Time</label>
+                                                      <label className="text-[10px] text-white/50 mb-1 block font-semibold" style={{ fontSize: '10px' }}>End Time</label>
                                                       <GooeyMessagesDropdown
                                                         placeholder="Select End Time"
                                                         selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "5 PM"}
@@ -10410,7 +10322,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                   </div>
 
                                                   <div className="space-y-1">
-                                                    <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase text-white/50 mb-1 block font-semibold " style={{ fontSize: '10px' }}>Role / Duty</label>
+                                                    <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] text-white/50 mb-1 block font-semibold" style={{ fontSize: '10px' }}>Role / Duty</label>
                                                     <div className="input-glow-border rounded-lg w-full">
                                                       <input
                                                         id={`admin-drawer-role-${index}`}
@@ -10421,7 +10333,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                           setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
                                                         }}
                                                         placeholder="e.g. Audio Mix"
-                                                        className="w-full px-3 py-2 border border-white/10 text-white rounded-lg outline-none transition-all uppercase "
+                                                        className="w-full px-3 py-2 border border-white/10 rounded-lg outline-none transition-all"
                                                       />
                                                     </div>
                                                     <div className="flex flex-wrap gap-1 mt-1.5">
@@ -10454,7 +10366,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                   </div>
 
                                                   <div className="space-y-1">
-                                                    <label className="text-[10px] uppercase text-white/50 mb-1 block font-semibold " style={{ fontSize: '10px' }}>Tags</label>
+                                                    <label className="text-[10px] text-white/50 mb-1 block font-semibold" style={{ fontSize: '10px' }}>Tags</label>
                                                     <GooeyMessagesDropdown
                                                       placeholder="Select tags..."
                                                       showAllOption={false}
@@ -10478,7 +10390,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                         {tf.tags.map(tag => (
                                                           <span
                                                             key={tag}
-                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 uppercase text-4xs px-2 py-0.5 rounded ">
+                                                            className="inline-flex items-center gap-1 bg-purple-500/10 border border-white/10 text-purple-300 text-4xs px-2 py-0.5 rounded">
                                                             {tag}
                                                             <button
                                                               type="button"
@@ -10491,7 +10403,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                                   return item;
                                                                 }));
                                                               }}
-                                                              className="hover:text-white border-none p-0 cursor-pointer text-4xs ">
+                                                              className="hover:text-white border-none p-0 cursor-pointer text-4xs">
                                                               ✕
                                                             </button>
                                                           </span>
@@ -10508,7 +10420,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                   onClick={() => {
                                                     setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
                                                   }}
-                                                  className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-white/20 text-purple-300 rounded-lg uppercase transition-colors cursor-pointer flex items-center justify-center gap-1.5 "
+                                                  className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-white/20 text-purple-300 rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                                                   style={{ fontSize: '11px' }}>
                                                   Add Time Frame ({dropTimeFrames.length}/3)
                                                 </button>
@@ -10532,7 +10444,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <button
                           type="button"
                           onClick={addScheduleItem}
-                          className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white text-[11px] uppercase rounded-lg transition-colors cursor-pointer border-none">
+                          className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-[11px] rounded-lg transition-colors cursor-pointer border-none">
                           {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
                         </button>
 
@@ -10545,7 +10457,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               setDraggedCrewMemberId(null);
                               setEditingShiftId(null);
                             }}
-                            className="w-full py-1.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white text-[10.5px] uppercase rounded-lg transition-colors cursor-pointer">
+                            className="w-full py-1.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white text-[10.5px] rounded-lg transition-colors cursor-pointer">
                             Delete Shift
                           </button>
                         )}
@@ -10579,13 +10491,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {alertModal.type === 'error' ? '' : alertModal.type === 'success' ? '' : alertModal.type === 'info' ? 'ℹ' : ''}
                     </div>
                     <div>
-                      <h3 className="text-white uppercase ">{alertModal.title || 'Schedule Notice'}</h3>
+                      <h3 className="">{alertModal.title || 'Schedule Notice'}</h3>
                       <p className="mt-2 whitespace-pre-line">{alertModal.message}</p>
                     </div>
                     <button
                       type="button"
                       onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
-                      className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer border-none mt-2">
+                      className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 transition-colors cursor-pointer border-none mt-2">
                       Got It
                     </button>
                   </div>
@@ -10608,12 +10520,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Full Height Right-Side Drawer Panel */}
                     <div
                       data-group-popover-cell
-                      className="relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between bg-[#0a00653b] backdrop-blur-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10 "
+                      className="relative border-l border-white/15 w-full max-w-md h-full h-[100vh] h-[100dvh] flex flex-col justify-between bg-[#0a00653b] backdrop-blur-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
                       onClick={(e) => e.stopPropagation()}>
                       {/* Drawer Header */}
                       <div className="p-5 border-b border-white/10 flex items-start justify-between shrink-0">
                         <div className="min-w-0 flex-1 pr-2">
-                          <h3 className="text-white uppercase">Select Crew Group</h3>
+                          <h3 className="">Select Crew Group</h3>
                           <p className="mt-1">Select saved group to apply to shift slots for {dateStr}</p>
                         </div>
                         <div className="flex items-center gap-3 shrink-0">
@@ -10621,7 +10533,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <button
                             aria-label="Close select group drawer"
                             onClick={() => setCellGroupPopover(null)}
-                            className="text-white/40 hover:text-white transition-colors cursor-pointer border-none ">
+                            className="text-white/40 hover:text-white transition-colors cursor-pointer border-none">
                             ✕
                           </button>
                         </div>
@@ -10646,13 +10558,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 setNewGroupNameInput('');
                                 setIsCreateGroupModalOpen(true);
                               }}
-                              className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
+                              className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
                               + Create First Crew Group
                             </button>
                           </div>
                         ) : (
                           <div className="space-y-2.5">
-                            <span className="uppercase text-white/50 block">Saved Groups</span>
+                            <span className="text-white/50 block">Saved Groups</span>
                             {crewGroups.map((g, gIdx) => (
                               <button
                                 key={gIdx}
@@ -10661,13 +10573,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   handleAddGroupToDay(dateStr, g);
                                   setCellGroupPopover(null);
                                 }}
-                                className="w-full text-left px-4 py-3.5 rounded-lg hover:bg-white/10 text-white transition-all cursor-pointer border border-white/10 border-white/10 flex items-center justify-between gap-3 bg-[#00000029] shadow-2xs group"
+                                className="w-full text-left px-4 py-3.5 rounded-lg hover:bg-white/10 transition-all cursor-pointer border border-white/10 border-white/10 flex items-center justify-between gap-3 bg-[#00000029] shadow-2xs group"
                                 title={`Apply Group: ${g.name}`}>
                                 <div className="flex items-center gap-3 min-w-0">
                                   <span className="w-8 h-8 rounded-lg bg-white/20 border border-purple-500/30 text-purple-300 flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform">+</span>
-                                  <span className="truncate text-white">{g.name}</span>
+                                  <span className="truncate">{g.name}</span>
                                 </div>
-                                <span className="text-purple-400 group-hover:text-purple-300 uppercase shrink-0">Apply</span>
+                                <span className="text-purple-400 group-hover:text-purple-300 shrink-0">Apply</span>
                               </button>
                             ))}
                           </div>
@@ -10679,7 +10591,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <button
                           type="button"
                           onClick={() => setCellGroupPopover(null)}
-                          className="px-4 py-2 border border-white/10 bg-[#00000029] text-white/70 hover:text-white uppercase rounded-lg transition-colors cursor-pointer">
+                          className="px-4 py-2 border border-white/10 bg-[#00000029] text-white/70 hover:text-white rounded-lg transition-colors cursor-pointer">
                           Cancel
                         </button>
 
@@ -10697,7 +10609,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             setNewGroupNameInput('');
                             setIsCreateGroupModalOpen(true);
                           }}
-                          className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
+                          className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
                           + Create New Group
                         </button>
                       </div>
@@ -10727,7 +10639,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Modal Header */}
                     <div className="p-5 border-b border-white/10 flex items-start justify-between shrink-0">
                       <div>
-                        <h3 className="text-white">Create New Crew Group</h3>
+                        <h3 className="">Create New Crew Group</h3>
                         <p className="mt-1">Select members and customize their shift slots</p>
                       </div>
                       <button
@@ -10736,7 +10648,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
                         }}
-                        className="text-white/40 hover:text-white transition-colors cursor-pointer border-none ">✕
+                        className="text-white/40 hover:text-white transition-colors cursor-pointer border-none">✕
 
                       </button>
                     </div>
@@ -10746,22 +10658,22 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                       {/* Group Name input */}
                       <div className="mt-2 space-y-1.5">
-                        <label htmlFor="admin-new-group-name" className="uppercase text-white/50 font-extrabold">Group Name</label>
+                        <label htmlFor="admin-new-group-name" className="text-white/50  ">Group Name</label>
                         <GlowInput
                           id="admin-new-group-name"
                           type="text"
                           value={newGroupNameInput}
                           onChange={(e) => setNewGroupNameInput(e.target.value)}
                           placeholder="e.g. Weekend Tech Crew"
-                          className="w-full px-3.5 py-2.5 border border-white/10 text-white transition-all"
+                          className="w-full px-3.5 py-2.5 border border-white/10 transition-all"
                         />
                       </div>
 
                       {/* Member Pick list */}
                       <div className="space-y-2">
-                        <span className="uppercase text-white/50 block mb-0">Select Crew Members</span>
+                        <span className="text-white/50 block mb-0">Select Crew Members</span>
 
-                        <div className=" overflow-hidden">
+                        <div className="overflow-hidden">
                           {crewMembers.flatMap((m) => {
                             if (m.id === 'openshifts') return [];
                             const setting = newGroupMemberSettings[m.id] || { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
@@ -10789,19 +10701,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     />
                                     <CrewAvatar member={m} />
                                     <div className="min-w-0">
-                                      <p className="text-white text-sm truncate ">{m.name}</p>
+                                      <p className="text-sm truncate">{m.name}</p>
                                       <span className="text-white/50 block mt-0.5 font-normal truncate">
                                         <a
                                           href={`tel:${(m.phone || '(555) 123-4567').replace(/[^\d+]/g, '')}`}
                                           onClick={(e) => e.stopPropagation()}
-                                          className="hover:  transition-colors">
+                                          className="hover:text-white transition-colors">
                                           {m.phone || '(555) 123-4567'}
                                         </a>
                                         <span className="mx-1 text-white/30">|</span>
                                         <a
                                           href={`mailto:${m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}`}
                                           onClick={(e) => e.stopPropagation()}
-                                          className="hover:  transition-colors">
+                                          className="hover:text-white transition-colors">
                                           {m.email || `${(m.name || 'crew').toLowerCase().replace(/\s+/g, '')}@7thheavenband.com`}
                                         </a>
                                       </span>
@@ -10811,11 +10723,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                 {/* Multiple time frames and role pill selector when active */}
                                 {setting.active && (
-                                  <div className="w-full mt-2.5 pt-2.5 border-t border-white/10 space-y-3 animate-[fadeIn_0.15s_ease] ">
+                                  <div className="w-full mt-2.5 pt-2.5 border-t border-white/10 space-y-3 animate-[fadeIn_0.15s_ease]">
                                     {(setting.timeFrames || [{ startHour: setting.startHour || 17, endHour: setting.endHour || 22, role: setting.role || 'STAGE HAND' }]).map((tf, tfIdx) => (
                                       <div key={tfIdx} className="p-2.5 border border-white/10 space-y-2 relative">
                                         <div className="flex items-center justify-between">
-                                          <span className="uppercase text-purple-300 font-extrabold" style={{ fontSize: '9.5px' }}>
+                                          <span className="text-purple-300  " style={{ fontSize: '9.5px' }}>
                                             Time Frame {tfIdx + 1}
                                           </span>
                                           {(setting.timeFrames || []).length > 1 && (
@@ -10832,7 +10744,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                   }
                                                 }));
                                               }}
-                                              className="text-red-400 hover:text-red-300 uppercase cursor-pointer border-none "
+                                              className="text-red-400 hover:text-red-300 cursor-pointer border-none"
                                               style={{ fontSize: '8px' }}>
                                               Remove
                                             </button>
@@ -10842,7 +10754,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         {/* Start / End selects */}
                                         <div className="grid grid-cols-2 gap-2">
                                           <div>
-                                            <label className="uppercase text-white/50 block" style={{ fontSize: '7.5px' }}>Start Time</label>
+                                            <label className="text-white/50 block" style={{ fontSize: '7.5px' }}>Start Time</label>
                                             <GooeyMessagesDropdown
                                               placeholder="Select Start Time"
                                               selected={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "5 PM"}
@@ -10866,7 +10778,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           </div>
 
                                           <div>
-                                            <label className="uppercase text-white/50 block" style={{ fontSize: '7.5px' }}>End Time</label>
+                                            <label className="text-white/50 block" style={{ fontSize: '7.5px' }}>End Time</label>
                                             <GooeyMessagesDropdown
                                               placeholder="Select End Time"
                                               selected={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "10 PM"}
@@ -10891,7 +10803,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                                         {/* Multi-role selection pills */}
                                         <div>
-                                          <span className="uppercase text-white/50 mb-1 block">Roles / Duties</span>
+                                          <span className="text-white/50 mb-1 block">Roles / Duties</span>
                                           <div className="flex flex-wrap gap-1">
                                             {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
                                               const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
@@ -10943,7 +10855,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           }
                                         }));
                                       }}
-                                      className="w-full py-1.5 bg-purple-500/10 hover:bg-white/20 border border-purple-500/30 text-purple-300 uppercase rounded-lg transition-colors cursor-pointer text-center"
+                                      className="w-full py-1.5 bg-purple-500/10 hover:bg-white/20 border border-purple-500/30 text-purple-300 rounded-lg transition-colors cursor-pointer text-center"
                                       style={{ fontSize: '8.5px' }}>
                                       + Add Time Frame
                                     </button>
@@ -10964,7 +10876,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
                         }}
-                        className="px-4 py-2 border border-white/10 bg-[#00000029] text-white/70 hover:text-white uppercase rounded-lg transition-colors cursor-pointer">
+                        className="px-4 py-2 border border-white/10 bg-[#00000029] text-white/70 hover:text-white rounded-lg transition-colors cursor-pointer">
                         Cancel
                       </button>
 
@@ -11000,7 +10912,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
                         }}
-                        className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/20 disabled:text-white/30 text-white uppercase rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
+                        className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/20 disabled: text-white/30 rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
                         Save Group
                       </button>
                     </div>
@@ -11032,17 +10944,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       {/* Header */}
                       <div className="p-5 border-b border-white/10 flex items-start justify-between shrink-0">
                         <div>
-                          <h3 className="text-white">
+                          <h3 className="">
                             Show Crew Roster
                           </h3>
-                          <p className="text-purple-300 uppercase mt-1">
+                          <p className="text-purple-300 mt-1">
                             {new Date(selectedShowCrewDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — {show.venue || show.venue_name}
                           </p>
                         </div>
                         <button
                           aria-label="Close selected show crew date modal"
                           onClick={() => setSelectedShowCrewDate(null)}
-                          className="text-white/45 hover:text-white transition-colors cursor-pointer border-none ">✕</button>
+                          className="/45 hover:text-white transition-colors cursor-pointer border-none">✕</button>
                       </div>
 
                       {/* Content */}
@@ -11051,7 +10963,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <div className="grid grid-cols-3 gap-2 text-center bg-black/20 p-3 border border-white/5">
                           <div>
                             <span className="text-white/40 block">Total Shift(s)</span>
-                            <span className="text-white">{dayShifts.length}</span>
+                            <span className="">{dayShifts.length}</span>
                           </div>
                           <div>
                             <span className="text-white/40 block">Staff Scheduled</span>
@@ -11065,7 +10977,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                         {/* Scheduled Crew Section */}
                         <div>
-                          <h4 className="uppercase text-white/40 mb-2.5">Scheduled Crew</h4>
+                          <h4 className="text-white/40 mb-2.5">Scheduled Crew</h4>
                           {filledShifts.length === 0 ? (
                             <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/10 text-white/30">
                               No crew members scheduled yet
@@ -11083,27 +10995,27 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       {member?.avatar ? (
                                         <img src={member.avatar} alt="7th Heaven Media" className="w-8 h-8 rounded-full object-cover shrink-0" />
                                       ) : (
-                                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0" style={{ backgroundColor: color }}>
+                                        <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: color }}>
                                           {initials}
                                         </div>
                                       )}
                                       <div className="min-w-0">
-                                        <span className="text-white block truncate">{shift.crewName}</span>
-                                        <span className="text-white/45 bg-[#00000029] px-1.5 py-0.5 rounded uppercase mt-1 inline-block">
+                                        <span className="block truncate">{shift.crewName}</span>
+                                        <span className="/45 bg-[#00000029] px-1.5 py-0.5 rounded mt-1 inline-block">
                                           {shift.role}
                                         </span>
                                       </div>
                                     </div>
 
                                     <div className="text-right shrink-0">
-                                      <span className="text-white/85 block">{shift.time}</span>
+                                      <span className="/85 block">{shift.time}</span>
                                       <button
                                         type="button"
                                         onClick={() => {
                                           setSelectedShowCrewDate(null);
                                           handleEditShiftClick(shift);
                                         }}
-                                        className="text-[8.5px] uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-white/20 px-2 py-0.5 rounded border border-white/10 hover:border-purple-500/40 transition-colors cursor-pointer mt-1 inline-block">
+                                        className="text-[8.5px] text-purple-300 hover:text-white bg-purple-500/10 hover:bg-white/20 px-2 py-0.5 rounded border border-white/10 hover:border-purple-500/40 transition-colors cursor-pointer mt-1 inline-block">
                                         Edit
                                       </button>
                                     </div>
@@ -11116,7 +11028,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                         {/* Open Positions Section */}
                         <div>
-                          <h4 className="uppercase text-white/40 mb-2.5">Open Positions</h4>
+                          <h4 className="text-white/40 mb-2.5">Open Positions</h4>
                           {openShifts.length === 0 ? (
                             <div className="text-center py-4 bg-white/[0.01] border border-dashed border-white/10 text-white/30">
                               No open positions
@@ -11134,7 +11046,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       setSelectedShowCrewDate(null);
                                       handleEditShiftClick(shift);
                                     }}
-                                    className="uppercase text-white bg-purple-600 hover:bg-purple-500 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors">
+                                    className="bg-purple-600 hover:bg-purple-500 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors">
                                     Fill Slot
                                   </button>
                                 </div>
@@ -11157,7 +11069,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   }
 
   return (
-    <main id="admin-dashboard-root" className="site-container min-h-screen page-container selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
+    <main id="admin-dashboard-root" className="site-container min-h-screen page-container selection:bg-[var(--color-accent)] selection: relative overflow-x-clip">
 
 
       {/* === EXECUTIVE ADMIN HERO HEADER === */}
@@ -11193,18 +11105,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               type="button"
               onClick={() => adminPhotoInputRef.current?.click()}
               title="Click to upload crew photo"
-              className="w-full h-full bg-gradient-to-br from-purple-500/30 to-purple-800/20 flex items-center justify-center text-xl text-white !rounded-full overflow-hidden cursor-pointer group transition-colors border border-white/10">
+              className="w-full h-full bg-gradient-to-br from-purple-500/30 to-purple-800/20 flex items-center justify-center text-xl !rounded-full overflow-hidden cursor-pointer group transition-colors border border-white/10">
               {isAvatarUrl ? (
                 <img src={activeAdminAvatar} alt={effectiveAdmin.name} className="w-full h-full object-cover" />
               ) : (
                 <span>{(effectiveAdmin.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}</span>
               )}
               {/* Hover overlay with camera icon */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white text-[12px] uppercase transition-opacity">
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-[12px] transition-opacity">
                 <span>{adminAvatarUploading ? "..." : "Upload"}</span>
               </div>
             </button>
-            <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] uppercase text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full backdrop-blur-sm pointer-events-none z-10">
+            <span className="absolute -bottom-1 -right-1 px-2 py-0.5 text-[9px] text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full backdrop-blur-sm pointer-events-none z-10">
               {(member?.role || effectiveAdmin.role) === 'crew' ? 'CREW' : 'ADMIN'}
             </span>
           </div>
@@ -11213,7 +11125,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <h1>
                 {effectiveAdmin.name ? effectiveAdmin.name.toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase()) : ''}
               </h1>
-              <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300 text-[0.9rem] uppercase animate-pulse">
+              <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300 text-[0.9rem] animate-pulse">
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
                 God Mode
               </span>
@@ -11234,17 +11146,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <SeventhButton
               isActive={adminTab === 'band'}
               onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
-              className="px-5 py-2 text-[10px] uppercase cursor-pointer whitespace-nowrap">
+              className="px-5 py-2 text-[10px] cursor-pointer whitespace-nowrap">
               Band &amp; Site
             </SeventhButton>
 
             <SeventhButton
               isActive={adminTab === 'cruise'}
               onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
-              className="px-5 py-2 text-[10px] uppercase cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap">
+              className="px-5 py-2 text-[10px] cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap">
               <span>Cruise</span>
               {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
-                <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-600 text-white text-[0.55rem] px-1 border border-white shrink-0 ml-0.5">
+                <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-600 text-[0.55rem] px-1 border border-white shrink-0 ml-0.5">
                   {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
                 </span>
               )}
@@ -11254,7 +11166,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           {/* Exit Link */}
           <Link
             href="/"
-            className="uppercase text-black/70 hover:text-black transition-colors flex items-center gap-1.5 py-2 px-1 cursor-pointer">
+            className="text-black/70 hover:text-black transition-colors flex items-center gap-1.5 py-2 px-1 cursor-pointer">
             Exit to Site
           </Link>
         </div>
@@ -11268,10 +11180,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {METRICS.map((metric) => (
               <div key={metric.label} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); } }} onClick={() => { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); }} className={`p-4 rounded-lg transition-colors ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
-                <p className="uppercase mb-2">{metric.label}</p>
+                <p className="mb-2">{metric.label}</p>
                 <div className="flex items-end justify-between">
-                  <span className="text-3xl text-white font-bold">{metric.value}</span>
-                  <span className={`text-[0.9rem] uppercase px-2 py-0.5 rounded font-bold ${metric.color}`}>
+                  <span className="text-3xl font-bold">{metric.value}</span>
+                  <span className={`text-[0.9rem] px-2 py-0.5 rounded font-bold ${metric.color}`}>
                     {metric.trend}
                   </span>
                 </div>
@@ -11315,13 +11227,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
 
           <section className="flex flex-col gap-4 w-full mt-4">
-            <div className=" overflow-hidden h-full flex flex-col">
+            <div className="overflow-hidden h-full flex flex-col">
               <div className="admin-section-header py-6 pr-6 pl-0 flex items-center justify-between shrink-0">
-                <h3 className="flex items-center gap-2 text-white">
+                <h3 className="flex items-center gap-2">
                   Audit Log
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 </h3>
-                <span className="text-[0.9rem] text-white/30 uppercase">{auditLog.length} Events</span>
+                <span className="text-[0.9rem] text-white/30">{auditLog.length} Events</span>
               </div>
               <div className="py-6 pl-0 flex flex-col gap-5 flex-1 overflow-y-auto max-h-[500px]">
                 {auditLog.map((entry, i) => (
@@ -11340,20 +11252,20 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <button
                             type="button"
                             onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
-                            className="a-btn inline-flex items-center gap-1 text-white hover:text-white transition-colors cursor-pointer">
+                            className="a-btn inline-flex items-center gap-1 hover:text-white transition-colors cursor-pointer">
                             {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
                           </button>
 
                           {expandedAuditId === entry.id && (
-                            <div className="mt-2 p-3 border border-white/10 space-y-3 text-white/80 animate-[slideDown_0.2s_ease-out] max-w-full md:max-w-[650px] overflow-hidden">
+                            <div className="mt-2 p-3 border border-white/10 space-y-3   animate-[slideDown_0.2s_ease-out] max-w-full md:max-w-[650px] overflow-hidden">
                               {entry.details.type === 'signin' && (
-                                <div className="space-y-1.5 ">
+                                <div className="space-y-1.5">
                                   <div className="flex justify-between border-b border-white/10 pb-1">
-                                    <span className="text-white/40 uppercase r">User</span>
+                                    <span className="text-white/40 r">User</span>
                                     <span className="text-[var(--color-accent)]">{entry.details.username}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span className="text-white/40 uppercase r">IP Address</span>
+                                    <span className="text-white/40 r">IP Address</span>
                                     <span className="text-white/70">{entry.details.ipAddress}</span>
                                   </div>
                                 </div>
@@ -11361,8 +11273,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                               {entry.details.smsText && (
                                 <div className="space-y-1.5">
-                                  <span className="text-white/40 uppercase block"> SMS Message Body</span>
-                                  <div className=" border border-white/10 rounded-lg p-2.5 whitespace-pre-wrap text-purple-300">
+                                  <span className="text-white/40 block"> SMS Message Body</span>
+                                  <div className="border border-white/10 rounded-lg p-2.5 whitespace-pre-wrap text-purple-300">
                                     {entry.details.smsText}
                                   </div>
                                 </div>
@@ -11371,12 +11283,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {entry.details.emailHtml && (
                                 <div className="space-y-2">
                                   <div className="border-b border-white/10 pb-1">
-                                    <span className="text-white/40 uppercase block mb-1"> Email Template</span>
-                                    <span className="text-white/90">Subject: {entry.details.emailSubject}</span>
+                                    <span className="text-white/40 block mb-1"> Email Template</span>
+                                    <span className="/90">Subject: {entry.details.emailSubject}</span>
                                   </div>
 
                                   <div className="space-y-1.5">
-                                    <span className="text-white/40 uppercase block">Visual Template Render</span>
+                                    <span className="text-white/40 block">Visual Template Render</span>
                                     <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-lg overflow-hidden p-0.5">
                                       <iframe
                                         srcDoc={`
@@ -11414,7 +11326,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                       )}
 
-                      <span className="uppercase text-[11px]">{entry.time}</span>
+                      <span className="text-[11px]">{entry.time}</span>
                     </div>
                   </div>
                 ))}
@@ -11439,7 +11351,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/10 flex-wrap gap-3">
                   <div className="flex items-center gap-3">
                     <div>
-                      <h3 className="text-white">Cruise Information & Guidelines</h3>
+                      <h3 className="">Cruise Information & Guidelines</h3>
                       <p className="mt-0.5">Welcome Pack content rendered on passenger hub</p>
                     </div>
                   </div>
@@ -11458,18 +11370,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="admin-guidelines-title" className="text-white/70 uppercase r block mb-2 ">Section Title</label>
+                      <label htmlFor="admin-guidelines-title" className="text-white/70 r block mb-2">Section Title</label>
                       <input
                         id="admin-guidelines-title"
                         type="text"
                         value={adminGuidelinesTitle}
                         onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
                         placeholder="Cruise Information & Guidelines"
-                        className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all text-sm shadow-inner"
+                        className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 placeholder: text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all text-sm shadow-inner"
                       />
                     </div>
                     <div>
-                      <label htmlFor="admin-guidelines-subtitle" className="text-white/70 uppercase r block mb-2 ">Subtitle Badge</label>
+                      <label htmlFor="admin-guidelines-subtitle" className="text-white/70 r block mb-2">Subtitle Badge</label>
                       <div className="relative">
                         <input
                           id="admin-guidelines-subtitle"
@@ -11477,22 +11389,22 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           value={adminGuidelinesSubtitle}
                           onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
                           placeholder="Cruiser Welcome Pack"
-                          className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 pr-12 placeholder: /40 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all text-sm shadow-inner"
+                          className="w-full bg-[#18072b]/90 border border-purple-500/30 rounded-xl px-4 py-3 pr-12 placeholder: text-white/40 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all text-sm shadow-inner"
                         />
                         <button
                           type="button"
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-lg bg-gradient-to-r from-purple-500/40 to-pink-500/40 border border-purple-400/30 text-white hover:brightness-125 transition-all text-xs"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-lg bg-gradient-to-r from-purple-500/40 to-pink-500/40 border border-purple-400/30 hover:brightness-125 transition-all text-xs"
                           title="Badge options">
-                          <span className=" er">•••</span>
+                          <span className="er">•••</span>
                         </button>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <span className="block mb-1.5 ">Guidelines Content (WYSIWYG)</span>
-                    <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px] !rounded-lg">
-                      <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="rouned-lg border border-white/10 text-white overflow-hidden" />
+                    <span className="block mb-1.5">Guidelines Content (WYSIWYG)</span>
+                    <div className="w-full guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px] !rounded-lg">
+                      <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="rouned-lg border border-white/10 overflow-hidden" />
                     </div>
                   </div>
 
@@ -11548,7 +11460,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   <div className="flex items-start justify-between gap-4 pb-4 border-b border-white/10">
                     <div className="flex items-center gap-4">
                       <div>
-                        <h3 className="text-white">Passenger Notice & Email Broadcast</h3>
+                        <h3 className="">Passenger Notice & Email Broadcast</h3>
                         <p className="mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
                       </div>
                     </div>
@@ -11556,7 +11468,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   {cruiseSaveStatus && (
-                    <div className={`flex items-center gap-2 px-4 py-2.5 text-[0.9rem] uppercase animate-[slideIn_0.3s_ease-out]${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10  border border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                    <div className={`flex items-center gap-2 px-4 py-2.5 text-[0.9rem] animate-[slideIn_0.3s_ease-out]${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 border border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
                       {cruiseSaveStatus === 'saved' ? ' Update dispatched to cruise dashboard & passenger inboxes!' : ' Failed to update — try again'}
                     </div>
                   )}
@@ -11566,21 +11478,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {/* Left Column: Form Inputs & Target Controls */}
                     <div className="flex flex-col gap-3 rounded-lg h-full">
                       <div>
-                        <label htmlFor="admin-cruise-blast-subject" className="text-white/70 uppercase r block mb-2 ">Notice Title / Email Subject Line</label>
+                        <label htmlFor="admin-cruise-blast-subject" className="text-white/70 r block mb-2">Notice Title / Email Subject Line</label>
                         <input
                           id="admin-cruise-blast-subject"
                           type="text"
                           value={cruiseBlastSubject}
                           onChange={(e) => setCruiseBlastSubject(e.target.value)}
                           placeholder="e.g. TEST, CAPTAIN'S LOG, or Cruise Update..."
-                          className="w-full bg-[#18072b]/90 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all text-sm shadow-inner"
+                          className="w-full bg-[#18072b]/90 border border-white/10 rounded-lg px-4 py-3 placeholder: text-white/30 outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition-all text-sm shadow-inner"
                         />
                       </div>
 
                       <div>
-                        <span className="text-[0.9rem] text-white/40 uppercase block mb-1.5 ">Notice & Email Content</span>
-                        <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
-                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="text-white overflow-hidden" />
+                        <span className="text-[0.9rem] text-white/40 block mb-1.5">Notice & Email Content</span>
+                        <div className="w-full guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
+                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="overflow-hidden" />
                         </div>
                       </div>
 
@@ -11593,7 +11505,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             checked={postNoticeToDashboard}
                             onChange={setPostNoticeToDashboard}
                           />
-                          <span className="text-white/80"> Live Banner on Dashboard</span>
+                          <span className=" "> Live Banner on Dashboard</span>
                         </div>
                         <div className="flex items-center gap-2 cursor-pointer select-none" onClick={() => setSendEmailToPassengers(!sendEmailToPassengers)}>
                           <SquishyToggle
@@ -11602,7 +11514,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             checked={sendEmailToPassengers}
                             onChange={setSendEmailToPassengers}
                           />
-                          <span className="text-white/80"> Email Passenger Signups</span>
+                          <span className=" "> Email Passenger Signups</span>
                         </div>
                       </div>
 
@@ -11638,7 +11550,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             }
                           }}
                           disabled={cruiseUpdating || (!postNoticeToDashboard && !sendEmailToPassengers)}
-                          className="px-6 py-2.5 text-[0.65rem] uppercase cursor-pointer flex items-center justify-center">
+                          className="px-6 py-2.5 text-[0.65rem] cursor-pointer flex items-center justify-center">
                           {cruiseUpdating ? 'Dispatching...' : 'Dispatch Notice & Email'}
                         </SeventhButton>
                         <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-11 h-11 flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-colors disabled:opacity-50 group/trash">
@@ -11652,20 +11564,20 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex flex-wrap items-center justify-between gap-3 mb-6 border-b border-white/10 pb-3">
                         <div className="flex items-center gap-2">
                           <span className="text-base"></span>
-                          <h4 className="uppercase">Live Dispatch Preview</h4>
+                          <h4 className="">Live Dispatch Preview</h4>
                         </div>
                         {/* Live Preview Tab Switcher */}
                         <div className="flex items-center gap-2 select-none">
                           <SeventhButton
                             isActive={livePreviewTab === 'dashboard'}
                             onClick={() => setLivePreviewTab('dashboard')}
-                            className="px-4 py-2 text-xs uppercase r cursor-pointer whitespace-nowrap">
+                            className="px-4 py-2 text-xs r cursor-pointer whitespace-nowrap">
                             CRUISE DASHBOARD BANNER
                           </SeventhButton>
                           <SeventhButton
                             isActive={livePreviewTab === 'email'}
                             onClick={() => setLivePreviewTab('email')}
-                            className="px-4 py-2 text-xs uppercase r cursor-pointer whitespace-nowrap">
+                            className="px-4 py-2 text-xs r cursor-pointer whitespace-nowrap">
                             EMAIL BROADCAST
                           </SeventhButton>
                         </div>
@@ -11698,7 +11610,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="flex items-center gap-4">
                   <div>
-                    <h3 className="text-white">Cruise Roster</h3>
+                    <h3 className="">Cruise Roster</h3>
                     <p className="mt-0.5">Signups & Passenger Manifest</p>
                   </div>
                 </div>
@@ -11707,26 +11619,26 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="grid grid-cols-3 gap-2">
                   <div className="bg-black/30 p-3 border border-white/10 text-center">
                     <p>{cruiseStats.signups || 0}</p>
-                    <p className="uppercase mt-0.5">Bookings</p>
+                    <p className="mt-0.5">Bookings</p>
                   </div>
                   <div className="bg-black/30 p-3 border border-white/10 text-center">
                     <p>{cruiseStats.total}</p>
-                    <p className="uppercase mt-0.5">Total Pax</p>
+                    <p className="mt-0.5">Total Pax</p>
                   </div>
                   <div className="bg-black/30 p-3 border border-white/10 text-center">
                     <p>{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
-                    <p className="uppercase mt-0.5">Adult / Child</p>
+                    <p className="mt-0.5">Adult / Child</p>
                   </div>
                 </div>
 
                 {/* Recent Signups */}
                 {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
                   <div>
-                    <p className="uppercase mb-2">Recent Signups</p>
+                    <p className="mb-2">Recent Signups</p>
                     <div className="max-h-[550px] min-h-[320px] overflow-y-auto custom-admin-scrollbar space-y-1.5 pr-1">
                       {(cruiseStats.recentSignups || []).map((s) => (
                         <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 border-b border-white/10 transition-colors group/row mb-0">
-                          <div className="w-7 h-7 rounded-full bg-emerald-500/10 border border-white/10 flex items-center justify-center text-[0.5rem]  shrink-0">
+                          <div className="w-7 h-7 rounded-full bg-emerald-500/10 border border-white/10 flex items-center justify-center text-[0.5rem] shrink-0">
                             {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -11744,7 +11656,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 )}
 
                 {/* Download CSV */}
-                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] uppercase transition-colors cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border border-white/10 flex items-center justify-center gap-2 mt-auto">
+                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-[0.65rem] transition-colors cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border border-white/10 flex items-center justify-center gap-2 mt-auto">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
                   Download Full CSV
                 </button>
@@ -11769,7 +11681,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-[scaleIn_0.2s_ease-out]">
             <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
               <div>
-                <h3 className="text-white flex items-center gap-2">
+                <h3 className="flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
                   Print Merchandise QR Code
                 </h3>
@@ -11778,7 +11690,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 aria-label="Close QR product label modal"
                 onClick={() => setSelectedQrProduct(null)}
-                className="w-8 h-8 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center text-white hover:text-white hover:bg-white/10 transition-colors cursor-pointer">✕
+                className="w-8 h-8 rounded-lg bg-[#00000029] border border-white/10 flex items-center justify-center hover:text-white hover:bg-white/10 transition-colors cursor-pointer">✕
 
               </button>
             </div>
@@ -11786,28 +11698,22 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 custom-scrollbar">
               <div className="space-y-6">
                 <div>
-                  <h4 className="uppercase mb-6">1. Select Target Destination</h4>
+                  <h4 className="mb-6">1. Select Target Destination</h4>
                   <div className="space-y-3">
                     <div>
-                      <span className="block text-[0.65rem] text-white uppercase mb-1.5">Link Destination Type</span>
+                      <span className="block text-[0.65rem] mb-1.5">Link Destination Type</span>
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           type="button"
                           onClick={() => setQrLinkType('product')}
-                          className={`px-3 py-2    uppercase border rounded-lg transition-colors cursor-pointer ${qrLinkType === 'product'
-                            ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
-                            : 'bg-black/20 border-white/10 text-white/40   text-white hover:border-white/20'
-                            }`}>
+                          className={`px-3 py-2 border rounded-lg transition-colors cursor-pointer ${qrLinkType === 'product' ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/40 hover:border-white/20'}`}>
                           Product Detail Page
                         </button>
                         <button
                           type="button"
                           onClick={() => setQrLinkType('checkout')}
                           disabled={!selectedQrProduct.variants || selectedQrProduct.variants.length === 0}
-                          className={`px-3 py-2    uppercase border rounded-lg transition-colors cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${qrLinkType === 'checkout'
-                            ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
-                            : 'bg-black/20 border-white/10 text-white/40   text-white hover:border-white/20'
-                            }`}>
+                          className={`px-3 py-2 border rounded-lg transition-colors cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${qrLinkType === 'checkout' ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/40 hover:border-white/20'}`}>
                           Direct Add to Cart
                         </button>
                       </div>
@@ -11815,7 +11721,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                     {selectedQrProduct.variants && selectedQrProduct.variants.length > 0 && (
                       <div>
-                        <label htmlFor="admin-qr-variant-select" className="block text-[0.65rem] text-white uppercase mb-1.5">
+                        <label htmlFor="admin-qr-variant-select" className="block text-[0.65rem] mb-1.5">
                           {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}
                         </label>
                         <select
@@ -11825,7 +11731,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             const val = parseInt(e.target.value);
                             setSelectedQrVariant(val === -1 ? null : selectedQrProduct.variants[val]);
                           }}
-                          className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white outline-none focus:border-[var(--color-accent)]/50">
+                          className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 outline-none focus:border-[var(--color-accent)]/50">
                           {qrLinkType === 'product' && <option value="-1">All Variants (Standard Detail Page)</option>}
                           {selectedQrProduct.variants.map((v: any, vIdx: number) => (
                             <option key={v.id || v.title} value={vIdx}>
@@ -11839,17 +11745,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
 
                 <div>
-                  <h4 className="uppercase mb-6">2. Customize Tag Label</h4>
+                  <h4 className="mb-6">2. Customize Tag Label</h4>
                   <div className="space-y-4">
                     <div>
-                      <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] text-white uppercase mb-1.5">Sub-label Text</label>
+                      <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] mb-1.5">Sub-label Text</label>
                       <input
                         id="admin-qr-subtitle-input"
                         type="text"
                         value={qrSubtitle}
                         onChange={(e) => setQrSubtitle(e.target.value)}
                         placeholder="Official Merchandise"
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white outline-none focus:border-[var(--color-accent)]/50"
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 outline-none focus:border-[var(--color-accent)]/50"
                       />
                     </div>
 
@@ -11869,26 +11775,26 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
                 </div>
 
-                <div className="p-4 bg-purple-500/10 border border-white/10 text-[0.65rem] text-white">
+                <div className="p-4 bg-purple-500/10 border border-white/10 text-[0.65rem]">
                   <span className="text-purple-300 block mb-1"> Pro-Tip for Merch Tables</span>
                   Generate a **Direct Add to Cart** QR code for each specific size (e.g. Medium vs. Large). When fans scan it, the item is instantly added to their Shopify cart for immediate checkout, keeping the queue moving fast!
                 </div>
               </div>
 
               <div className="flex flex-col items-center justify-center bg-black/30 border border-white/10 p-6 md:p-8">
-                <p className="uppercase mb-6">Live Tag Print Preview (4&quot; × 6&quot;)</p>
+                <p className="mb-6">Live Tag Print Preview (4&quot; × 6&quot;)</p>
 
                 <div className="print-tag-container">
                   <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px]">
                     <div className="text-center">
-                      <div className="text-[0.9rem] uppercase tracking-[0.3em] text-black/60 ">7th Heaven</div>
-                      <div className="text-[0.5rem] uppercase text-black/40">{qrSubtitle || 'Official Merchandise'}</div>
+                      <div className="text-[0.9rem] tracking-[0.3em] text-black/60">7th Heaven</div>
+                      <div className="text-[0.5rem] text-black/40">{qrSubtitle || 'Official Merchandise'}</div>
                     </div>
 
                     <div className="text-center my-2">
-                      <div className="uppercase max-w-[200px] truncate">{selectedQrProduct.title}</div>
+                      <div className="max-w-[200px] truncate">{selectedQrProduct.title}</div>
                       {selectedQrVariant && (
-                        <div className="text-[0.55rem] text-black/50 uppercase mt-0.5">Size / Type: {selectedQrVariant.title}</div>
+                        <div className="text-[0.55rem] text-black/50 mt-0.5">Size / Type: {selectedQrVariant.title}</div>
                       )}
                     </div>
 
@@ -11906,7 +11812,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
 
                     <div className="text-center w-full">
-                      <p className="uppercase text-black/40 mb-2">Scan to Buy Now</p>
+                      <p className="text-black/40 mb-2">Scan to Buy Now</p>
                       {qrIncludePrice && (
                         <div className="text-lg border-t border-black/10 pt-2 text-black">
                           ${(selectedQrVariant ? selectedQrVariant.price : selectedQrProduct.minPrice).toFixed(2)}
@@ -11921,12 +11827,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="p-6 border-t border-white/10 bg-black/20 flex items-center justify-end gap-3">
               <button
                 onClick={() => setSelectedQrProduct(null)}
-                className="px-4 py-2 text-white hover:text-white uppercase rounded-lg transition-colors cursor-pointer">
+                className="px-4 py-2 hover:text-white rounded-lg transition-colors cursor-pointer">
                 Cancel
               </button>
               <button
                 onClick={() => window.print()}
-                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] uppercase transition-colors shadow-[0_4px_15px_rgba(255,10,61,0.3)] border border-white/10 flex items-center gap-2 cursor-pointer">
+                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-[0.65rem] transition-colors shadow-[0_4px_15px_rgba(255,10,61,0.3)] border border-white/10 flex items-center gap-2 cursor-pointer">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9" /><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /><rect x="6" y="14" width="12" height="8" /></svg>
                 Print Label
               </button>
@@ -11935,10 +11841,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       )}
       {activeToast && (
-        <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 flex items-start gap-3 transition-opacity duration-300 ease-out">
+        <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 px-5 py-4 flex items-start gap-3 transition-opacity duration-300 ease-out">
           <div className="text-xl"></div>
           <div>
-            <p className="uppercase">{activeToast.title}</p>
+            <p className="">{activeToast.title}</p>
             <p className="mt-0.5">{activeToast.message}</p>
           </div>
         </div>

@@ -333,14 +333,14 @@ export default function AdminLegalPage() {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-16 text-white selection:bg-purple-600 selection:text-white">
+    <div className="min-h-screen pt-28 pb-16 selection:bg-purple-600 selection:">
       <div className="site-container py-8">
 
         {/* Header Bar with Live Compliance Audit Badge */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-12 pb-8 border-b border-white/10">
           <div>
             <div className="flex items-center gap-3 mb-3 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 uppercase text-emerald-300 px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/10 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+              <span className="inline-flex items-center gap-1.5 text-emerald-300 px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/10 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                 <span className="w-2 h-2 rounded-lg bg-emerald-400 animate-pulse" />
                 100% Passed Legal Audit
               </span>
@@ -349,7 +349,7 @@ export default function AdminLegalPage() {
             <h1>
               Legal & Compliance <span className="gradient-text">Inspection Hub</span>
             </h1>
-            <p className="mt-2 max-w-3xl ">
+            <p className="mt-2 max-w-3xl">
               Comprehensive regulatory audit panel covering TCPA SMS mandates, DMCA copyright safe harbor, ADA accessibility (WCAG 2.1 AA), GDPR/CCPA privacy rights, PCI-DSS e-commerce security, COPPA minor protections, and database RLS safeguards.
             </p>
           </div>
@@ -361,7 +361,7 @@ export default function AdminLegalPage() {
                 {passPercentage}%
               </div>
               <div>
-                <div className="text-[10px] uppercase text-purple-300">Compliance Status</div>
+                <div className="text-[10px] text-purple-300">Compliance Status</div>
                 <div className="text-emerald-400 flex items-center gap-1 mt-0.5">
                   <span>✓</span> {completedChecksCount} of {totalChecks} Inspections Passed
                 </div>
@@ -370,18 +370,18 @@ export default function AdminLegalPage() {
 
             <Link
               href="/admin/admin"
-              className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg uppercase text-white/80 hover:text-white transition-colors text-center">
+              className="px-5 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg   hover:text-white transition-colors text-center">
               ← Back to Admin
             </Link>
           </div>
         </div>
 
         {/* Sidebar & Detail Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 ">
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8">
 
           {/* Left Menu Tabs */}
           <div className="space-y-3">
-            <div className="text-[10px] uppercase text-white/40 mb-2 px-1">
+            <div className="text-[10px] text-white/40 mb-2 px-1">
               Regulatory Audit Categories
             </div>
             {SECTIONS.map((sec) => {
@@ -395,16 +395,16 @@ export default function AdminLegalPage() {
                   key={sec.id}
                   onClick={() => setSelectedSection(sec.id)}
                   className={`w-full flex items-center justify-between p-4 rounded-lg  border text-left transition-[border-color,background-color,color,box-shadow] duration-200 cursor-pointer ${isSelected
-                    ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)] text-white`
-                    : ` border-white/10  bg-white/[0.02]    border-white/10     bg-[#00000029]    text-white/70`
+                    ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)]  `
+                    : ` border-white/10  bg-white/[0.02]    border-white/10     bg-[#00000029] text-white/70`
                     }`}>
                   <div className="flex items-center gap-3.5">
                     <div className={`p-2.5 rounded-lg bg-[#00000029] ${sec.color} shrink-0`}>
                       {sec.icon}
                     </div>
                     <div>
-                      <h3 className="text-white">{sec.title}</h3>
-                      <p className=" line-clamp-1">{sec.subtitle}</p>
+                      <h3 className="">{sec.title}</h3>
+                      <p className="line-clamp-1">{sec.subtitle}</p>
                     </div>
                   </div>
                   {categoryPassed && (
@@ -418,7 +418,7 @@ export default function AdminLegalPage() {
 
             {/* Legal Disclaimer Box */}
             <div className="mt-8 p-5 bg-white/[0.02] border border-white/10 rounded-lg">
-              <span className="text-[0.9rem] uppercase text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
+              <span className="text-[0.9rem] text-purple-300 block mb-1.5">⚖️ Legal Inspection Note</span>
               <p>
                 This dashboard verifies technical and regulatory rules across 7thheavenband.com. All backend webhooks, cookie policies, terms of service, and accessibility features have been configured to adhere to current federal and state web standards.
               </p>
@@ -435,21 +435,21 @@ export default function AdminLegalPage() {
                   {active.icon}
                 </div>
                 <div>
-                  <h2 className="uppercase text-white">
+                  <h2>
                     {active.title}
                   </h2>
-                  <p className=" ">{active.subtitle}</p>
+                  <p>{active.subtitle}</p>
                 </div>
               </div>
 
-              <span className="px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 uppercase rounded-lg flex items-center gap-1.5">
+              <span className="px-3.5 py-1.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 rounded-lg flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-lg bg-emerald-400 animate-pulse" /> Verified Compliant
               </span>
             </div>
 
             {/* Compliance Context & Legal Rationale Box */}
             <div className="bg-purple-950/20 border border-purple-500/30 rounded-lg p-5 mb-8">
-              <span className="uppercase text-purple-300 block mb-2">
+              <span className="text-purple-300 block mb-2">
                 📜 Regulatory Context & Legal Mandate
               </span>
               <p>{active.explanation}</p>
@@ -458,7 +458,7 @@ export default function AdminLegalPage() {
             {/* Requirement Checklist Items */}
             <div className="space-y-4">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="uppercase text-purple-300">
+                <h3>
                   Inspections & Technical Verification Items
                 </h3>
                 <span className="text-[10px] text-white/40">Click checkbox to toggle verification</span>
@@ -469,9 +469,7 @@ export default function AdminLegalPage() {
                 return (
                   <div
                     key={req.id}
-                    className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02] border-white/10 '
-                      : 'bg-rose-950/10 border-rose-500/30'
-                      }`}>
+                    className={`border rounded-lg p-5 transition-[background-color,border-color] duration-200 ${isChecked ? 'bg-white/[0.02] border-white/10 ' : 'bg-rose-950/10 border-rose-500/30'}`}>
                     <div className="flex items-start justify-between gap-4 mb-2">
                       <div className="flex items-start gap-3">
                         <div className="mt-0.5 shrink-0">
@@ -483,15 +481,15 @@ export default function AdminLegalPage() {
                           />
                         </div>
                         <div>
-                          <h4 className={` transition-colors ${isChecked ? 'text-white' : 'text-rose-200'}`}>
+                          <h4 className={`transition-colors ${isChecked ? ' ' : 'text-rose-200'}`}>
                             {req.title}
                           </h4>
-                          <p className=" ">{req.description}</p>
+                          <p className="">{req.description}</p>
                         </div>
                       </div>
 
                       {req.isCritical && (
-                        <span className="text-[0.55rem] uppercase bg-rose-500/20 text-rose-300 px-3 py-1 border border-rose-500/30 rounded-lg shrink-0">
+                        <span className="text-[0.55rem] bg-rose-500/20 text-rose-300 px-3 py-1 border border-rose-500/30 rounded-lg shrink-0">
                           Critical Rule
                         </span>
                       )}

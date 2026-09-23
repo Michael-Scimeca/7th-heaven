@@ -159,7 +159,7 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
         ) : (
           <form onSubmit={handleSubmit}>
             {/* New Password */}
-            <label htmlFor="crew-set-new-password" style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            <label htmlFor="crew-set-new-password" style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "", letterSpacing: 1, marginBottom: 6 }}>
               New Password
             </label>
             <input id="crew-set-new-password"
@@ -182,7 +182,7 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
             />
 
             {/* Confirm Password */}
-            <label htmlFor="crew-set-confirm-password" style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            <label htmlFor="crew-set-confirm-password" style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "", letterSpacing: 1, marginBottom: 6 }}>
               Confirm Password
             </label>
             <input id="crew-set-confirm-password"
@@ -226,7 +226,7 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
  : "linear-gradient(135deg, var(--color-purple-primary), var(--color-purple-hover))",
  border: "none", borderRadius: 12, padding: "14px",
  color: "var(--color-text-main)", fontWeight: 800, fontSize: "var(--font-size-md)",
- textTransform: "uppercase",
+ textTransform: "",
  cursor: loading ? "not-allowed" : "pointer",
  transition: "background 0.2s, box-shadow 0.2s",
  boxShadow: loading ? "none" : "0 0 20px var(--color-purple-glow)",

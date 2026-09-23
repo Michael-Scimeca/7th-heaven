@@ -181,9 +181,9 @@ export default function LiveShowFeed() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-500" />
             </span>
-            <span className="uppercase    text-red-400">Live</span>
+            <span className="text-red-400">Live</span>
           </div>
-          <span className="text-white/30 uppercase   ">
+          <span className="text-white/30">
             From the Show
           </span>
         </div>
@@ -221,10 +221,10 @@ export default function LiveShowFeed() {
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <div className="flex items-center gap-2 mb-2">
                 <div
-                  className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)]  bg-[var(--color-accent)]/15">
+                  className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)] bg-[var(--color-accent)]/15">
                   {selectedMedia.member_avatar}
                 </div>
-                <span className="font-semibold text-white/80">{selectedMedia.member_name}</span>
+                <span className="font-semibold  ">{selectedMedia.member_name}</span>
                 <span className="text-white/30">{timeAgo(selectedMedia.created_at)}</span>
               </div>
               <p>{selectedMedia.content}</p>
@@ -252,11 +252,7 @@ export default function LiveShowFeed() {
               <button
                 key={post.id}
                 onClick={() => setSelectedMedia(post)}
-                className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
-                  : isNew
-                    ? "border-red-500/50"
-                    : "border-white/[0.06]   border-white/10 "
-                  }`}
+                className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : isNew ? "border-red-500/50" : "border-white/[0.06] border-white/10 "}`}
                 style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
                 {thumbSrc && (
                   <Image width={200} height={200} unoptimized
@@ -275,7 +271,7 @@ export default function LiveShowFeed() {
                 )}
                 {/* Type badge */}
                 <div className="absolute top-1 left-1">
-                  <span className="text-[var(--font-size-2xs)] uppercase bg-black/60 text-white/70 px-1.5 py-0.5">
+                  <span className="text-[var(--font-size-2xs)] bg-black/60 text-white/70 px-1.5 py-0.5">
                     {isVideo ? "🎬" : "📸"} {timeAgo(post.created_at)}
                   </span>
                 </div>
@@ -300,11 +296,11 @@ export default function LiveShowFeed() {
                 key={post.id}
                 className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-colors hover:bg-white/[0.04]">
                 <div
-                  className="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)]/40  bg-[var(--color-accent)]/10">
+                  className="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10">
                   {post.member_avatar}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 ">
+                  <div className="flex items-center gap-2">
                     <span className="font-semibold text-white/70">{post.member_name}</span>
                     <span className="text-white/20">{timeAgo(post.created_at)}</span>
                   </div>

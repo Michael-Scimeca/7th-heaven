@@ -140,13 +140,13 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
       <div className="px-5 py-3 bg-white/[0.02] border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div>
-            <span className="text-white/80">Show Crew — {bookingId}</span>
+            <span className=" ">Show Crew — {bookingId}</span>
             <span className="text-white/30 ml-2">{eventDate} · {venueName}</span>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-[var(--font-size-2xs)] text-white/20 uppercase">Headcount:</span>
-          <span className={` ${confirmedCount > 0 ? 'text-emerald-400' : 'text-white/30'}`}>{confirmedCount}</span>
+          <span className="text-[var(--font-size-2xs)] text-white/20">Headcount:</span>
+          <span className={`${confirmedCount > 0 ? 'text-emerald-400' : ' text-white/30'}`}>{confirmedCount}</span>
         </div>
       </div>
 
@@ -158,9 +158,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             <button
               key={tab.id}
               onClick={() => setActiveSection(tab.id)}
-              className={`flex-1 px-4 py-2.5    uppercase transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${activeSection === tab.id ? '  bg-[var(--color-accent)]/5 border-b-2 border-[var(--color-accent)]'
-                : 'text-white/25 hover:text-white/50 hover:bg-white/[0.02]'
-                }`}>
+              className={`flex-1 px-4 py-2.5 transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${activeSection === tab.id ? ' bg-[var(--color-accent)]/5 border-b-2 border-[var(--color-accent)]' : ' hover:text-white text-white/50 hover:bg-white/[0.02]'}`}>
               <TabIcon className="w-3.5 h-3.5" />
               {tab.label}
               <span className={`ml-1 px-1.5 py-0.5 rounded text-[var(--font-size-2xs)] ${activeSection === tab.id ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)]' : ' bg-[#00000029] text-white/30'}`}>{tab.count}</span>
@@ -178,7 +176,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             {data.crew.length === 0 && !addingCrew ? (
               <div className="text-center py-8">
                 <p className="mb-3">No crew assigned yet</p>
-                <button onClick={() => setAddingCrew(true)} className="uppercase  text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
+                <button onClick={() => setAddingCrew(true)} className="text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
               </div>
             ) : (
               <>
@@ -186,12 +184,12 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   {Array.from(data.crew, (c, i) => ({ c, i })).map(({ c, i }) => (
                     <div key={c.name || i} className={`flex items-center gap-3 px-3 py-2 rounded-lg border transition-colors ${c.confirmed ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.01] border-white/5'}`}>
                       <button onClick={() => toggleConfirm(i)} className="cursor-pointer shrink-0" title={c.confirmed ? 'Confirmed' : 'Click to confirm'}>
-                        {c.confirmed ? <Check className="w-4 h-4 text-emerald-400" /> : <Square className="w-4 h-4 text-white/15" />}
+                        {c.confirmed ? <Check className="w-4 h-4 text-emerald-400" /> : <Square className="w-4 h-4 /15" />}
                       </button>
                       <div className="flex-1 min-w-0">
-                        <span className={` ${c.confirmed ? 'text-white/70' : 'text-white/40'}`}>{c.name}</span>
+                        <span className={`${c.confirmed ? ' text-white/70' : ' text-white/40'}`}>{c.name}</span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] uppercase shrink-0 ${c.confirmed ? 'bg-emerald-500/15  border border-[var(--color-accent)]/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
+                      <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] shrink-0 ${c.confirmed ? 'bg-emerald-500/15 border border-[var(--color-accent)]/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
                       <button onClick={() => removeCrew(i)} className="text-white/10 hover:text-rose-400 cursor-pointer transition-colors shrink-0"><X className="w-3.5 h-3.5" /></button>
                     </div>
                   ))}
@@ -200,20 +198,20 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 {addingCrew ? (
                   <div className="flex gap-2 items-end bg-white/[0.02] p-3 rounded-lg border border-white/5">
                     <div className="flex-1">
-                      <label htmlFor="show-crew-new-name" className="text-[var(--font-size-2xs)] uppercase text-white/30 block mb-1">Name</label>
-                      <input id="show-crew-new-name" value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full border border-white/10 px-3 py-2 rounded-lg text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
+                      <label htmlFor="show-crew-new-name" className="text-[var(--font-size-2xs)] text-white/30 block mb-1">Name</label>
+                      <input id="show-crew-new-name" value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full border border-white/10 px-3 py-2 rounded-lg placeholder: /15 outline-none focus:border-[var(--color-accent)]" />
                     </div>
                     <div>
-                      <label htmlFor="show-crew-new-role" className="text-[var(--font-size-2xs)] uppercase text-white/30 block mb-1">Role</label>
-                      <select id="show-crew-new-role" value={newRole} onChange={e => setNewRole(e.target.value)} className="border border-white/10 px-3 py-2 rounded-lg text-white outline-none focus:border-[var(--color-accent)] [color-scheme:dark]">
+                      <label htmlFor="show-crew-new-role" className="text-[var(--font-size-2xs)] text-white/30 block mb-1">Role</label>
+                      <select id="show-crew-new-role" value={newRole} onChange={e => setNewRole(e.target.value)} className="border border-white/10 px-3 py-2 rounded-lg outline-none focus:border-[var(--color-accent)] [color-scheme:dark]">
                         {CREW_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
                       </select>
                     </div>
-                    <button onClick={addCrew} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white uppercase rounded-lg cursor-pointer transition-colors shrink-0">Add</button>
-                    <button onClick={() => setAddingCrew(false)} className="text-white/30 hover:text-white/50 cursor-pointer shrink-0 py-2"><X className="w-4 h-4" /></button>
+                    <button onClick={addCrew} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] rounded-lg cursor-pointer transition-colors shrink-0">Add</button>
+                    <button onClick={() => setAddingCrew(false)} className="text-white/30 hover:text-white text-white/50 cursor-pointer shrink-0 py-2"><X className="w-4 h-4" /></button>
                   </div>
                 ) : (
-                  <button onClick={() => setAddingCrew(true)} className="uppercase text-[var(--color-accent)]/60  cursor-pointer transition-colors">+ Add Crew</button>
+                  <button onClick={() => setAddingCrew(true)} className="text-[var(--color-accent)]/60 cursor-pointer transition-colors">+ Add Crew</button>
                 )}
               </>
             )}
@@ -234,7 +232,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   value={event.time}
                   onChange={e => updateTimeline(i, e.target.value)}
                   placeholder="e.g. 3:00 PM"
-                  className="flex-1 border-b border-white/10 focus:border-[var(--color-accent)]/50 text-white px-1 py-1 outline-none placeholder:text-white/10 transition-colors"
+                  className="flex-1 border-b border-white/10 focus:border-[var(--color-accent)]/50 px-1 py-1 outline-none placeholder: text-white/10 transition-colors"
                 />
               </div>
             ))}
@@ -249,15 +247,15 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               <div className="flex-1 h-1.5 bg-[#00000029] rounded-lg overflow-hidden">
                 <div className={`h-full rounded-lg transition-colors ${gearPct === 100 ? 'bg-emerald-500' : gearPct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
               </div>
-              <span className={` ${gearPct === 100 ? 'text-emerald-400' : 'text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>
+              <span className={`${gearPct === 100 ? 'text-emerald-400' : ' text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>
             </div>
             <div className="grid grid-cols-2 gap-1.5">
               {Array.from(data.gear, (item, i) => ({ item, i })).map(({ item, i }) => (
                 <div key={item.name} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border transition-colors ${item.loaded ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-white/[0.01] border-white/5'}`}>
                   <button onClick={() => toggleGear(i)} className="cursor-pointer shrink-0">
-                    {item.loaded ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Square className="w-3.5 h-3.5 text-white/15" />}
+                    {item.loaded ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Square className="w-3.5 h-3.5 /15" />}
                   </button>
-                  <span className={`flex-1 truncate ${item.loaded ? 'text-white/50 line-through' : ' text-white '}`}>{item.name}</span>
+                  <span className={`flex-1 truncate ${item.loaded ? ' text-white/50 line-through' : ' '}`}>{item.name}</span>
                   <button onClick={() => removeGear(i)} className="text-white/10 hover:text-rose-400 text-[var(--font-size-2xs)] cursor-pointer transition-colors shrink-0"><X className="w-3.5 h-3.5" /></button>
                 </div>
               ))}
@@ -265,12 +263,12 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             <div className="mt-3">
               {addingGear ? (
                 <div className="flex gap-2">
-                  <input value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 border border-white/10 px-3 py-1.5 rounded-lg text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
-                  <button onClick={addGearItem} className="text-[var(--color-accent)] uppercase cursor-pointer px-2">Add</button>
+                  <input value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 border border-white/10 px-3 py-1.5 rounded-lg placeholder: /15 outline-none focus:border-[var(--color-accent)]" />
+                  <button onClick={addGearItem} className="text-[var(--color-accent)] cursor-pointer px-2">Add</button>
                   <button onClick={() => setAddingGear(false)} className="text-white/30 cursor-pointer px-1"><X className="w-3.5 h-3.5" /></button>
                 </div>
               ) : (
-                <button onClick={() => setAddingGear(true)} className="uppercase text-[var(--color-accent)]/60  cursor-pointer transition-colors">+ Add Gear</button>
+                <button onClick={() => setAddingGear(true)} className="text-[var(--color-accent)]/60 cursor-pointer transition-colors">+ Add Gear</button>
               )}
             </div>
           </div>
@@ -284,12 +282,12 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 onChange={e => setNewNote(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
-                className="flex-1 border border-white/10 px-3 py-2 rounded-lg text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]"
+                className="flex-1 border border-white/10 px-3 py-2 rounded-lg placeholder: /15 outline-none focus:border-[var(--color-accent)]"
               />
-              <button onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white uppercase rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
+              <button onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
             </div>
             {data.notes.length === 0 ? (
-              <div className="text-center py-6 text-white/15">No notes yet — add logistics info for the crew</div>
+              <div className="text-center py-6 /15">No notes yet — add logistics info for the crew</div>
             ) : (
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {data.notes.map((note) => (
@@ -297,7 +295,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                     <p>{note.text}</p>
                     <div className="flex items-center gap-2 .5">
                       <span className="text-[var(--font-size-2xs)] text-[var(--color-accent)]/50">{note.author}</span>
-                      <span className="text-[var(--font-size-2xs)] text-white/15">·</span>
+                      <span className="text-[var(--font-size-2xs)] /15">·</span>
                       <span className="text-[var(--font-size-2xs)] text-white/20">{note.time}</span>
                     </div>
                   </div>

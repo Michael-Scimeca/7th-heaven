@@ -706,10 +706,10 @@ function LoginModalBodyContent(props: any) {
         className="p-6 sm:p-8 max-h-[85vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {/* Logo */}
         <div className="text-center mb-5">
-          <h2 className="er uppercase">
+          <h2 className="er">
             <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-">HEAVEN</span>
           </h2>
-          <div className="uppercase tracking-[0.18em]  mt-2 flex items-center justify-center flex-wrap gap-1">
+          <div className="tracking-[0.18em] mt-2 flex items-center justify-center flex-wrap gap-1">
             {modalMode === "forgot" ? (
               "Reset Your Password"
             ) : modalMode === "login" ? (
@@ -719,7 +719,7 @@ function LoginModalBodyContent(props: any) {
             ) : (
               <span>
                 SIGN UP FOR FREE{" "}
-                <span className="inline-block text-base sm:text-lg text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg mx-1 border border-[var(--color-accent)]/40">
+                <span className="inline-block text-base sm:text-lg bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg mx-1 border border-[var(--color-accent)]/40">
                   FAN
                 </span>{" "}
                 MEMBERSHIP
@@ -740,10 +740,7 @@ function LoginModalBodyContent(props: any) {
             <button
               type="button"
               onClick={() => setModalMode("login")}
-              className={`relative z-10 py-2.5 px-4    uppercase transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
-                ? "text-white font-extrabold"
-                : " text-white hover:text-white"
-                }`}>
+              className={`relative z-10 py-2.5 px-4 transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login" ? "  " : " hover:text-white "}`}>
               Sign In
             </button>
             <button
@@ -752,10 +749,7 @@ function LoginModalBodyContent(props: any) {
                 setModalMode("signup");
                 if (loginRole === "crew" || loginRole === "cruise") setLoginRole("fan");
               }}
-              className={`relative z-10 py-2.5 px-4    uppercase transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
-                ? "text-white font-extrabold"
-                : " text-white hover:text-white"
-                }`}>
+              className={`relative z-10 py-2.5 px-4 transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup" ? "  " : " hover:text-white "}`}>
               Sign Up
             </button>
           </div>
@@ -765,7 +759,7 @@ function LoginModalBodyContent(props: any) {
         {modalMode !== "forgot" && (
           <div className="my-3 space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase    text-white/70 block">ACCOUNT TYPE:</span>
+              <span className="text-[10px] text-white/70 block">ACCOUNT TYPE:</span>
             </div>
             <div className={`grid p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
               {[
@@ -785,10 +779,7 @@ function LoginModalBodyContent(props: any) {
                       setAdminMode(false);
                     }
                   }}
-                  className={`py-1.5 px-1.5 text-[10px]    uppercase rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode)
-                    ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
-                    : "text-white/50 hover:text-white/90   bg-[#00000029] "
-                    }`}>
+                  className={`py-1.5 px-1.5 text-[10px] rounded-lg transition-all cursor-pointer text-center ${loginRole === role.id || (role.id === 'admin' && adminMode) ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40" : " text-white/50 hover:text-white /90 bg-[#00000029] "}`}>
                   {role.label}
                 </button>
               ))}
@@ -802,7 +793,7 @@ function LoginModalBodyContent(props: any) {
           <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 mb-6 flex items-start gap-2">
             <Mail className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <span className="text-white uppercase block">Invited Member Signup</span>
+              <span className="block">Invited Member Signup</span>
               Your details have been pre-filled from your invitation. Just set a password to activate your account.
             </div>
           </div>
@@ -811,12 +802,12 @@ function LoginModalBodyContent(props: any) {
         {/* PIN Verification Step */}
         {pinSent ? (
           <div className="flex flex-col gap-4 my-4">
-            <div className="text-center  bg-emerald-500/10 px-3 py-2 border border-white/10 rounded-lg">
+            <div className="text-center bg-emerald-500/10 px-3 py-2 border border-white/10 rounded-lg">
               A 6-digit verification code has been sent to <strong>{signUpPayload?.email || email}</strong>
             </div>
 
             <div>
-              <label htmlFor="login-pin-input" className="uppercase    text-white/80 mb-2 block text-center">
+              <label htmlFor="login-pin-input" className="  mb-2 block text-center">
                 Enter 6-Digit Verification PIN
               </label>
               <input
@@ -826,7 +817,7 @@ function LoginModalBodyContent(props: any) {
                 value={pinCode}
                 onChange={(e) => setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="123456"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] text-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base placeholder: text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] text-xl"
                 required
               />
             </div>
@@ -838,13 +829,13 @@ function LoginModalBodyContent(props: any) {
             <button type="button"
               onClick={handleVerifyPin}
               disabled={loading || pinCode.length !== 6}
-              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white uppercase    hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]">
+              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]">
               {loading ? "Verifying..." : "Verify & Complete Registration"}
             </button>
 
             <button type="button"
               onClick={() => { setPinSent(false); setPinCode(""); setError(""); }}
-              className="text-white hover:text-white text-center transition-colors cursor-pointer">
+              className="hover:text-white text-center transition-colors cursor-pointer">
               ← Back to details
             </button>
           </div>
@@ -853,13 +844,13 @@ function LoginModalBodyContent(props: any) {
             <div className="w-12 h-12 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
               <Mail className="w-6 h-6" />
             </div>
-            <h3 className="uppercase text-white r">Check Your Email</h3>
+            <h3 className="r">Check Your Email</h3>
             <p className="max-w-sm">
-              We sent a confirmation link to <strong className="text-white">{email}</strong>. Please click the link in that email to confirm your account and sign in.
+              We sent a confirmation link to <strong className="">{email}</strong>. Please click the link in that email to confirm your account and sign in.
             </p>
             <button type="button"
               onClick={() => { setConfirmationRequired(false); setError(""); }}
-              className="w-full py-3 border border-black/10 text-black uppercase hover:bg-black/5 transition-colors cursor-pointer">
+              className="w-full py-3 border border-black/10 text-black hover:bg-black/5 transition-colors cursor-pointer">
               Got it, thanks
             </button>
           </div>
@@ -897,7 +888,7 @@ function LoginModalBodyContent(props: any) {
               <div className="flex flex-col gap-4 my-4">
                 {!forgotPinSent ? (
                   <div>
-                    <label htmlFor="forgot-email-input" className="uppercase    text-white/80 mb-2 block">Email Address</label>
+                    <label htmlFor="forgot-email-input" className="  mb-2 block">Email Address</label>
                     <div className="input-glow-border rounded-lg w-full">
                       <input
                         id="forgot-email-input"
@@ -905,18 +896,18 @@ function LoginModalBodyContent(props: any) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
-                        className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                        className="w-full px-4 py-3 bg-black/60 border border-white/10 placeholder: text-white/30 outline-none transition-colors rounded-xl"
                         required
                       />
                     </div>
                   </div>
                 ) : (
                   <>
-                    <div className="text-center  bg-emerald-500/10 px-3 py-2 border border-white/10 rounded-lg">
+                    <div className="text-center bg-emerald-500/10 px-3 py-2 border border-white/10 rounded-lg">
                       A verification code has been sent to <strong>{email}</strong>
                     </div>
                     <div>
-                      <label htmlFor="forgot-pin-input" className="uppercase    text-white/80 mb-2 block">Verification PIN</label>
+                      <label htmlFor="forgot-pin-input" className="  mb-2 block">Verification PIN</label>
                       <div className="input-glow-border rounded-lg w-full">
                         <input
                           id="forgot-pin-input"
@@ -925,13 +916,13 @@ function LoginModalBodyContent(props: any) {
                           value={forgotPinCode}
                           onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                           placeholder="123456"
-                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em] rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/10 placeholder: text-white/30 outline-none transition-colors text-center tracking-[0.5em] rounded-xl"
                           required
                         />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="forgot-new-password-input" className="uppercase    text-white/80 mb-2 block">New Password</label>
+                      <label htmlFor="forgot-new-password-input" className="  mb-2 block">New Password</label>
                       <div className="input-glow-border rounded-lg w-full">
                         <input
                           id="forgot-new-password-input"
@@ -939,7 +930,7 @@ function LoginModalBodyContent(props: any) {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/10 placeholder: text-white/30 outline-none transition-colors rounded-xl"
                           required
                         />
                       </div>
@@ -952,7 +943,7 @@ function LoginModalBodyContent(props: any) {
             {modalMode !== "forgot" && (
               <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 my-4' : 'flex flex-col gap-4 my-4'}>
                 <div>
-                  <label htmlFor="login-email-input" className="uppercase    text-white/80 mb-2 block">
+                  <label htmlFor="login-email-input" className="  mb-2 block">
                     Email {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
                   </label>
                   <div className="input-glow-border rounded-lg w-full">
@@ -966,12 +957,12 @@ function LoginModalBodyContent(props: any) {
                       readOnly={isInviteFlow}
                       data-lpignore="true"
                       data-form-type="other"
-                      className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base placeholder: text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="login-password-input" className="uppercase    text-white/80 mb-2 block">Password</label>
+                  <label htmlFor="login-password-input" className="  mb-2 block">Password</label>
                   <div className="input-glow-border rounded-lg w-full">
                     <input
                       id="login-password-input"
@@ -982,7 +973,7 @@ function LoginModalBodyContent(props: any) {
                       autoComplete="new-password"
                       data-lpignore="true"
                       data-form-type="other"
-                      className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base placeholder: text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   {modalMode === "login" && (
@@ -1004,7 +995,7 @@ function LoginModalBodyContent(props: any) {
                   checked={isAgeConfirmed}
                   onChange={(checked) => setIsAgeConfirmed(checked)}
                 />
-                <label htmlFor="modal-age-confirmed-toggle" className={` leading-snug cursor-pointer ${isAgeConfirmed ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="modal-age-confirmed-toggle" className={`leading-snug cursor-pointer ${isAgeConfirmed ? ' ' : '  '}`}>
                   I confirm that I am <span className="text-[#c27aff]">18 years of age or older</span>
                 </label>
               </div>
@@ -1018,7 +1009,7 @@ function LoginModalBodyContent(props: any) {
               type="submit"
               icon={false}
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-lg text-white disabled:opacity-50 flex items-center justify-center gap-2">
+              className="w-full py-3.5 px-6 rounded-lg disabled:opacity-50 flex items-center justify-center gap-2">
               {loading ? (
                 <span className="inline-flex items-center gap-2 justify-center">
                   <span className="w-4.5 h-4.5 rounded-full border-[3.5px] border-white border-t-transparent animate-spin shrink-0" />
@@ -1038,7 +1029,7 @@ function LoginModalBodyContent(props: any) {
             {modalMode === "forgot" && (
               <button type="button"
                 onClick={() => { setModalMode("login"); setError(""); setForgotPinSent(false); }}
-                className="text-white hover:text-white text-center transition-colors mt-2 cursor-pointer">
+                className="hover:text-white text-center transition-colors mt-2 cursor-pointer">
                 ← Back to Sign In
               </button>
             )}
@@ -1052,8 +1043,8 @@ function LoginModalBodyContent(props: any) {
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-white/10"></div>
               </div>
-              <div className="relative flex justify-center uppercase">
-                <span className="bg-[#0f0b18] px-3 text-white r">Or continue with</span>
+              <div className="relative flex justify-center">
+                <span className="bg-[#0f0b18] px-3 r">Or continue with</span>
               </div>
             </div>
 
@@ -1061,14 +1052,14 @@ function LoginModalBodyContent(props: any) {
               <button type="button"
                 onClick={() => handleOAuthLogin('google')}
                 disabled={loading}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg">
+                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 transition-colors cursor-pointer disabled:opacity-50 rounded-lg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
                 <span>Google</span>
               </button>
               <button type="button"
                 onClick={() => handleOAuthLogin('facebook')}
                 disabled={loading}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg">
+                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 transition-colors cursor-pointer disabled:opacity-50 rounded-lg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                 <span>Facebook</span>
               </button>
@@ -1076,7 +1067,7 @@ function LoginModalBodyContent(props: any) {
                 onClick={() => handleOAuthLogin('apple')}
                 disabled={loading}
                 style={{ backgroundColor: "#000000" }}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg">
+                className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none transition-colors cursor-pointer disabled:opacity-50 rounded-lg">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
                 <span>Apple</span>
               </button>
@@ -1087,7 +1078,7 @@ function LoginModalBodyContent(props: any) {
         {/* Quick Demo Login Bar for Testing */}
         <div className="mt-4 pt-3 border-t border-white/10">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] uppercase text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
+            <span className="text-[10px] text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
             <button type="button"
               onClick={() => {
                 if (!adminMode) {
@@ -1102,7 +1093,7 @@ function LoginModalBodyContent(props: any) {
                   setLoginRole("fan");
                 }
               }}
-              className="text-[10px] text-white/40 hover:text-white  cursor-pointer">
+              className="text-[10px] text-white/40 hover:text-white cursor-pointer">
               {adminMode ? "Exit Admin Mode" : "Admin Quick Mode"}
             </button>
           </div>
@@ -1117,7 +1108,7 @@ function LoginModalBodyContent(props: any) {
                 await login("admin@7thheaven.com", "password123");
                 window.location.href = "/admin";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] uppercase  hover:text-white transition-colors text-center cursor-pointer">
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] hover:text-white transition-colors text-center cursor-pointer">
               Admin
             </button>
             <button type="button"
@@ -1129,7 +1120,7 @@ function LoginModalBodyContent(props: any) {
                 await login("crew@7thheaven.com", "password123");
                 window.location.href = "/crew";
               }}
-              className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[11px] uppercase text-emerald-200 hover:text-white transition-colors text-center cursor-pointer">
+              className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[11px] text-emerald-200 hover:text-white transition-colors text-center cursor-pointer">
               Crew
             </button>
             <button type="button"
@@ -1141,7 +1132,7 @@ function LoginModalBodyContent(props: any) {
                 await login("planner@7thheaven.com", "password123");
                 window.location.href = "/planner";
               }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] uppercase  hover:text-white transition-colors text-center cursor-pointer">
+              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] hover:text-white transition-colors text-center cursor-pointer">
               Planner
             </button>
             <button type="button"
@@ -1153,7 +1144,7 @@ function LoginModalBodyContent(props: any) {
                 await login("cruise@7thheaven.com", "password123");
                 window.location.href = "/cruise/cruise_guest";
               }}
-              className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[11px] uppercase text-sky-200 hover:text-white transition-colors text-center cursor-pointer">
+              className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[11px] text-sky-200 hover:text-white transition-colors text-center cursor-pointer">
               Cruise
             </button>
             <button type="button"
@@ -1165,7 +1156,7 @@ function LoginModalBodyContent(props: any) {
                 await login("fan@7thheaven.com", "password123");
                 window.location.href = "/fans/super_fan";
               }}
-              className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[11px] uppercase text-blue-200 hover:text-white transition-colors text-center cursor-pointer">
+              className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[11px] text-blue-200 hover:text-white transition-colors text-center cursor-pointer">
               Fan
             </button>
           </div>
@@ -1181,32 +1172,32 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
     <>
       <div className="flex items-center gap-3 my-4">
         <div className="flex-1 h-px bg-white/20" />
-        <span className="uppercase text-white/70 px-1">Or continue with</span>
+        <span className="text-white/70 px-1">Or continue with</span>
         <div className="flex-1 h-px bg-white/20" />
       </div>
 
       <div className="grid grid-cols-3 gap-2.5">
         <button type="button"
           onClick={() => onOAuthLogin('google')}
-          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 transition-colors cursor-pointer text-white rounded-lg"
+          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 transition-colors cursor-pointer rounded-lg"
           title="Sign in with Google">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
-          <span className="text-white">Google</span>
+          <span className="">Google</span>
         </button>
         <button type="button"
           onClick={() => onOAuthLogin('facebook')}
-          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 transition-colors cursor-pointer text-white rounded-lg"
+          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 transition-colors cursor-pointer rounded-lg"
           title="Sign in with Facebook">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-          <span className="text-white">Facebook</span>
+          <span className="">Facebook</span>
         </button>
         <button type="button"
           onClick={() => onOAuthLogin('apple')}
           style={{ backgroundColor: "#000000" }}
-          className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none transition-colors cursor-pointer text-white rounded-lg"
+          className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none transition-colors cursor-pointer rounded-lg"
           title="Sign in with Apple">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
-          <span className="text-white">Apple</span>
+          <span className="">Apple</span>
         </button>
       </div>
     </>
@@ -1227,7 +1218,7 @@ function QuickLoginDemoButtons({
 }) {
   return (
     <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
-      <p className="uppercase text-purple-400 text-center">1-Click Quick Demo Login (Instant Live Access)</p>
+      <p className="text-purple-400 text-center">1-Click Quick Demo Login (Instant Live Access)</p>
       <div className="grid grid-cols-5 gap-1.5">
         <button type="button"
           onClick={async () => {
@@ -1239,7 +1230,7 @@ function QuickLoginDemoButtons({
             await login("admin@7thheaven.com", "password123");
             window.location.href = "/admin";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] uppercase  hover:text-white transition-colors text-center cursor-pointer">
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] hover:text-white transition-colors text-center cursor-pointer">
           Admin
         </button>
         <button type="button"
@@ -1251,7 +1242,7 @@ function QuickLoginDemoButtons({
             await login("crew@7thheaven.com", "password123");
             window.location.href = "/crew";
           }}
-          className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[11px] uppercase text-emerald-200 hover:text-white transition-colors text-center cursor-pointer">
+          className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[11px] text-emerald-200 hover:text-white transition-colors text-center cursor-pointer">
           Crew
         </button>
         <button type="button"
@@ -1263,7 +1254,7 @@ function QuickLoginDemoButtons({
             await login("planner@7thheaven.com", "password123");
             window.location.href = "/planner";
           }}
-          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] uppercase  hover:text-white transition-colors text-center cursor-pointer">
+          className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-white/10 rounded-lg text-[11px] hover:text-white transition-colors text-center cursor-pointer">
           Planner
         </button>
         <button type="button"
@@ -1275,7 +1266,7 @@ function QuickLoginDemoButtons({
             await login("cruise@7thheaven.com", "password123");
             window.location.href = "/cruise/cruise_guest";
           }}
-          className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[11px] uppercase text-sky-200 hover:text-white transition-colors text-center cursor-pointer">
+          className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[11px] text-sky-200 hover:text-white transition-colors text-center cursor-pointer">
           Cruise
         </button>
         <button type="button"
@@ -1287,7 +1278,7 @@ function QuickLoginDemoButtons({
             await login("fan@7thheaven.com", "password123");
             window.location.href = "/fans/super_fan";
           }}
-          className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[11px] uppercase text-blue-200 hover:text-white transition-colors text-center cursor-pointer">
+          className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[11px] text-blue-200 hover:text-white transition-colors text-center cursor-pointer">
           Fan
         </button>
       </div>
@@ -1320,7 +1311,7 @@ function SignUpExtraFields({
       {loginRole === 'planner' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="signup-full-name" className="uppercase    text-white/80 mb-2 block">
+            <label htmlFor="signup-full-name" className="  mb-2 block">
               Full Name
             </label>
             <div className="input-glow-border rounded-lg w-full">
@@ -1330,12 +1321,12 @@ function SignUpExtraFields({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 placeholder: text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
           <div>
-            <label htmlFor="signup-company-name" className="uppercase    text-white/80 mb-2 block">
+            <label htmlFor="signup-company-name" className="  mb-2 block">
               Company / Venue Name
             </label>
             <div className="input-glow-border rounded-lg w-full">
@@ -1343,7 +1334,7 @@ function SignUpExtraFields({
                 id="signup-company-name"
                 type="text"
                 placeholder="e.g. Dream Events / Venue"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 placeholder: text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1351,7 +1342,7 @@ function SignUpExtraFields({
       ) : loginRole === 'cruise' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="signup-full-name" className="uppercase    text-white/80 mb-2 block">
+            <label htmlFor="signup-full-name" className="  mb-2 block">
               Full Name
             </label>
             <div className="input-glow-border rounded-lg w-full">
@@ -1361,12 +1352,12 @@ function SignUpExtraFields({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 placeholder: text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
           <div>
-            <label htmlFor="signup-cabin-no" className="uppercase    text-white/80 mb-2 block">
+            <label htmlFor="signup-cabin-no" className="  mb-2 block">
               Stateroom / Cabin # <span className="text-white/40 normal-case">(optional)</span>
             </label>
             <div className="input-glow-border rounded-lg w-full">
@@ -1374,7 +1365,7 @@ function SignUpExtraFields({
                 id="signup-cabin-no"
                 type="text"
                 placeholder="e.g. Stateroom 7102"
-                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 placeholder: text-white/30 outline-none transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -1384,7 +1375,7 @@ function SignUpExtraFields({
           {/* Name + Username — side by side */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="signup-full-name" className="uppercase    text-white/80 mb-2 block">
+              <label htmlFor="signup-full-name" className="  mb-2 block">
                 Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
               </label>
               <div className="input-glow-border rounded-lg w-full">
@@ -1395,12 +1386,12 @@ function SignUpExtraFields({
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   readOnly={isInviteFlow && !!name}
-                  className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  className={`w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base placeholder: text-white/30 outline-none transition-colors rounded-lg ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
                 />
               </div>
             </div>
             <div>
-              <label htmlFor="signup-username-input" className="uppercase    text-white/80 mb-2 block">
+              <label htmlFor="signup-username-input" className="  mb-2 block">
                 Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
               </label>
               <div className="input-glow-border rounded-lg w-full">
@@ -1411,7 +1402,7 @@ function SignUpExtraFields({
                   onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                   placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
                   maxLength={24}
-                  className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                  className="w-full px-4 py-3 bg-black/60 border border-white/10 sm:text-base placeholder: text-white/30 outline-none transition-colors rounded-xl"
                 />
               </div>
             </div>
@@ -1427,7 +1418,7 @@ function SignUpExtraFields({
                   checked={wantNotifications}
                   onChange={(checked) => setWantNotifications(checked)}
                 />
-                <label htmlFor="signup-want-notifications-toggle" className={` text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-notifications-toggle" className={`text-left cursor-pointer ${wantNotifications ? ' ' : '  '}`}>
                   Show alerts near me
                 </label>
               </div>
@@ -1438,7 +1429,7 @@ function SignUpExtraFields({
                   checked={wantNewsletter}
                   onChange={(checked) => setWantNewsletter(checked)}
                 />
-                <label htmlFor="signup-want-newsletter-toggle" className={` text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
+                <label htmlFor="signup-want-newsletter-toggle" className={`text-left cursor-pointer ${wantNewsletter ? ' ' : '  '}`}>
                   News & updates
                 </label>
               </div>
@@ -1447,7 +1438,7 @@ function SignUpExtraFields({
             {/* Zip code & radius — only if opted in */}
             {wantNotifications && (
               <div className="pt-1">
-                <label htmlFor="signup-zip-code" className="uppercase    text-white/80 mb-2 block">Zip Code & Radius</label>
+                <label htmlFor="signup-zip-code" className="  mb-2 block">Zip Code & Radius</label>
                 <div className="flex items-center gap-2">
                   <div className="input-glow-border rounded-lg flex-1">
                     <input
@@ -1457,7 +1448,7 @@ function SignUpExtraFields({
                       onChange={(e) => setZipCode(e.target.value)}
                       placeholder="Zip code"
                       maxLength={10}
-                      className="w-full px-4 py-3 bg-black/60 border border-white/10 text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                      className="w-full px-4 py-3 bg-black/60 border border-white/10 placeholder: text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
                   <div className="shrink-0 relative z-30">

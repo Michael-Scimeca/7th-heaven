@@ -230,18 +230,18 @@ export default function CrewFeed() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
                     <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-red-500" />
                   </span>
-                  <span className="uppercase    text-red-400">
+                  <span className="text-red-400">
                     Live Now{liveStatus.venue ? ` — ${liveStatus.venue}` : ""}
                   </span>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-lg animate-pulse" />
-                  <span className="uppercase    text-green-500">Crew Feed</span>
+                  <span className="text-green-500">Crew Feed</span>
                 </div>
               )}
               <span className="text-white/20">·</span>
-              <span className="uppercase    text-white/30">{posts.length} posts</span>
+              <span className="text-white/30">{posts.length} posts</span>
             </div>
             <h2>
               {liveStatus.live ? (
@@ -272,8 +272,7 @@ export default function CrewFeed() {
               return (
                 <article
                   key={post.id}
-                  className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""
-                    }`}
+                  className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : "" }`}
                   id={`crew-feed-${post.id}`}
                   style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
                   {/* Timeline dot */}
@@ -295,8 +294,7 @@ export default function CrewFeed() {
 
                   {/* Post Card */}
                   <div
-                    className={`border bg-white/[0.02] p-6 transition-colors duration-300 border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"
-                      }`}>
+                    className={`border bg-white/[0.02] p-6 transition-colors duration-300 border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]" }`}>
                     {/* Header: Avatar + Name + Time */}
                     <div className="flex items-start justify-between mb-6">
                       <div className="flex items-center gap-3">
@@ -311,9 +309,9 @@ export default function CrewFeed() {
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="text-base font-semibold text-white">{post.member_name}</span>
+                            <span className="text-base font-semibold">{post.member_name}</span>
                             {post.post_type === "announcement" && (
-                              <span className="text-[var(--font-size-2xs)] uppercase    px-2 py-0.5 bg-purple-600/20 text-purple-300 border border-purple-500/30">
+                              <span className="text-[var(--font-size-2xs)] px-2 py-0.5 bg-purple-600/20 text-purple-300 border border-purple-500/30">
                                 Official
                               </span>
                             )}
@@ -325,7 +323,7 @@ export default function CrewFeed() {
                       <div className="flex flex-col items-end gap-1">
                         <span className="text-white/30">{timeAgo(post.created_at)}</span>
                         <span
-                          className="text-[var(--font-size-2xs)] uppercase    px-2 py-0.5"
+                          className="text-[var(--font-size-2xs)] px-2 py-0.5"
                           style={{
                             color: config.color,
                             background: `${config.color}15`,
@@ -350,7 +348,7 @@ export default function CrewFeed() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         {Object.entries(reactions).map(([emoji, count], ri) => (
-                          <span key={ri} className="flex items-center gap-1 text-white/40 hover:text-white/70 transition-colors cursor-pointer">
+                          <span key={ri} className="flex items-center gap-1 transition-colors cursor-pointer">
                             <span>{emoji}</span>
                             <span className="tabular-nums">{count as number}</span>
                           </span>

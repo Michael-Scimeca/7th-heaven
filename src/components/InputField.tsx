@@ -46,10 +46,10 @@ export const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Inp
     return (
       <div className={`flex flex-col justify-start w-full ${containerClassName} ${className}`}>
         {label && (
-          <div className=" min-h-[24px]">
+          <div className="min-h-[24px]">
             <label
               htmlFor={inputId}
-              className={`text-white block ${labelClassName}`}>
+              className={`  block ${labelClassName}`}>
               {label}
               {required && " *"}
             </label>

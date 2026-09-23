@@ -140,12 +140,12 @@ export default async function NewsArticlePage({
   const categoryLabel = CATEGORY_LABELS[article.category ?? ""] ?? article.category ?? "";
 
   return (
-    <main className="min-h-screen page-container text-white">
+    <main className="min-h-screen page-container">
       {/* Top nav bar */}
       <div className="site-container py-6">
         <Link
           href="/#news"
-          className="inline-flex items-center gap-2 text-purple-300 hover:text-white transition-colors text-sm font-semibold uppercase   "
+          className="inline-flex items-center gap-2 text-purple-300 hover:text-white transition-colors text-sm font-semibold"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to News
@@ -157,13 +157,13 @@ export default async function NewsArticlePage({
         {/* Meta row */}
         <div className="flex flex-wrap items-center gap-4 mb-6">
           {article.date && (
-            <span className="inline-flex items-center gap-1.5  text-sm font-semibold">
+            <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
               <Calendar className="w-3.5 h-3.5" />
               {article.date}
             </span>
           )}
           {categoryLabel && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase    px-3 py-1 rounded-full bg-purple-500/15 border border-purple-400/30 text-purple-300">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full bg-purple-500/15 border border-purple-400/30 text-purple-300">
               <Tag className="w-3 h-3" />
               {categoryLabel}
             </span>
@@ -171,7 +171,7 @@ export default async function NewsArticlePage({
         </div>
 
         {/* Title */}
-        <h1 className="mb-8 max-w-3xl leading-tight">{article.title}</h1>
+        <h1 className="mb-8 max-w-3xl ">{article.title}</h1>
 
         {/* Divider */}
         <div className="w-16 h-1 rounded-full bg-gradient-to-r from-[var(--color-accent)] to-fuchsia-400 mb-10" />
@@ -180,7 +180,7 @@ export default async function NewsArticlePage({
         <div className="max-w-2xl space-y-5">
           {article.content.split("\n").map((paragraph) =>
             paragraph.trim() ? (
-              <p key={`para-${paragraph.slice(0, 24)}`} className="text-white/80 leading-relaxed">
+              <p key={`para-${paragraph.slice(0, 24)}`} className="  leading-relaxed">
                 {paragraph}
               </p>
             ) : null
@@ -209,7 +209,7 @@ export default async function NewsArticlePage({
           <section className="mt-20 pt-12 border-t border-white/10">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h2 className="text-2xl font-bold uppercase    text-white flex items-center gap-2">
+                <h2 className="text-2xl font-bold flex items-center gap-2">
                   <Newspaper className="w-5 h-5 text-[var(--color-accent)]" />
                   Other Articles
                 </h2>
@@ -238,18 +238,18 @@ export default async function NewsArticlePage({
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-3">
                         {other.date && (
-                          <span className="text-xs font-semibold  flex items-center gap-1">
+                          <span className="text-xs font-semibold flex items-center gap-1">
                             <Calendar className="w-3 h-3" />
                             {other.date}
                           </span>
                         )}
                         {category && (
-                          <span className="text-[10px] font-bold uppercase    px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-400/20">
+                          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-400/20">
                             {category}
                           </span>
                         )}
                       </div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors line-clamp-2 mb-2">
+                      <h3 className="text-lg font-bold group-hover:text-purple-300 transition-colors line-clamp-2 mb-2">
                         {other.title}
                       </h3>
                       <p className="text-xs text-white/70 line-clamp-3 leading-relaxed mb-6">

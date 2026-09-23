@@ -59,6 +59,19 @@ body {
 
 }
 
+p,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a[href^="tel:"],
+a[href*="tel:"] {
+  text-shadow: 3px 5px 6px rgba(0, 0, 0, 0.5);
+}
+
 p {
   font-size: 1rem;
   line-height: var(--leading-body, 1.65);
@@ -107,22 +120,95 @@ h6 {
 /* =============================================
    GLOBAL UNBOXED THEME
    ============================================= */
+/* =============================================
+   GLOBAL UNBOXED THEME & CENTRALIZED DESIGN TOKENS
+   ============================================= */
 :root {
+  /* --- Brand Accent & Core Surface Theme --- */
   --color-accent: #9333ea;
-  --color-accent-hover: #9a87c0;
+  --color-accent-hover: #ab86f6;
   --color-accent-soft: rgba(147, 51, 234, 0.15);
   --color-accent-glow: rgba(147, 51, 234, 0.4);
-  --color-bg-primary: #05030a;
-  --color-bg-deep: #05030a;
-  --color-bg-surface: rgba(9, 3, 20, 0.85);
-  --color-bg-glass: rgba(12, 7, 33, 0.75);
-  --color-bg-card: rgba(255, 255, 255, 0.04);
+  --color-bg-primary: #000000;
+  --color-bg-deep: #030006;
+  --color-bg-surface: rgba(15, 5, 29, 0.55);
+  --color-bg-glass: rgba(18, 18, 24, 0.45);
+  --color-bg-card: rgba(255, 255, 255, 0.03);
   --color-text-main: #ffffff;
-  --color-text-secondary: rgba(255, 255, 255, 0.8);
-  --color-text-muted: rgba(255, 255, 255, 0.6);
-  --color-text-subtle: rgba(255, 255, 255, 0.4);
+  --color-text-secondary: rgba(255, 255, 255, 0.5);
+  --color-text-muted: rgba(255, 255, 255, 0.5);
+  --color-text-subtle: rgba(255, 255, 255, 0.5);
   --color-border-main: rgba(255, 255, 255, 0.1);
   --color-border-purple: rgba(147, 51, 234, 0.3);
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --card-bg: #000000;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --muted-text: rgba(255, 255, 255, 0.55);
+  --placeholder-color: rgba(255, 255, 255, 0.4);
+  --accent-color: #9333ea;
+  --surface-base: #000000;
+  --surface-raised: #000000;
+  --surface-overlay: rgba(0, 0, 0, 0.92);
+
+  /* --- Typography & Fluid Scales --- */
+  --font-family-sans: 'Switzer', sans-serif;
+  --font-family-heading: 'Switzer', sans-serif;
+  --font-family-display: 'Switzer', sans-serif;
+  --font-size-2xs: 1rem;
+  --font-size-xs: 1rem;
+  --font-size-sm: 1rem;
+  --font-size-md: 1rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2.25rem;
+  --font-size-3xl: 3rem;
+  --font-size-display: 4.5rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.15;
+  --line-height-snug: 1.33;
+  --line-height-normal: 1.50;
+  --line-height-relaxed: 1.75;
+
+  /* --- Spacing & Radii --- */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --radius-none: 0px;
+  --radius-full: 9999px;
+  --page-padding-x: 20px;
+
+  /* --- Input & Form Control Tokens --- */
+  --input-bg-red: 192;
+  --input-bg-green: 132;
+  --input-bg-blue: 252;
+  --input-bg-opacity: 0.03;
+  --input-blur: 24px;
+  --input-border-color: rgba(192, 132, 252, 0.4);
+  --input-border-width: 0px;
+  --input-border-radius: 8px;
+  --input-text-color: #ffffff;
+  --input-placeholder-color: rgba(255, 255, 255, 0.4);
+  --input-focus-border: #a855f7;
+  --input-focus-glow: rgba(168, 85, 247, 0.5);
+  --input-padding-y: 12px;
+  --input-padding-x: 18px;
+  --checkbox-accent-color: #c084fc;
+  --checkbox-size: 18px;
+  --checkbox-border-radius: 4px;
+  --heading-color: #ffffff;
+  --text-p-color: rgba(255, 255, 255, 0.799);
+  --link-color: #c084fc;
+  --link-hover-color: #e879f9;
+
+  /* --- Chat & Status Colors --- */
   --chat-border-color: #a855f7;
   --chat-glow-color: rgba(168, 85, 247, 0.35);
   --chat-bubble-self-bg: #7e22ce;
@@ -137,49 +223,52 @@ h6 {
   --color-input-bg: rgba(12, 8, 23, 0.8);
   --color-input-border: rgba(255, 255, 255, 0.15);
   --color-nav-font: #9333ea;
-  --font-family-sans: 'Switzer', sans-serif;
-  --font-family-heading: 'Switzer', sans-serif;
-  --font-family-display: 'Switzer', sans-serif;
-  --font-size-base: 1rem;
-  --font-size-2xs: 0.7rem;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.75rem;
-  --font-size-3xl: 2.25rem;
-  --font-size-display: 3.5rem;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --line-height-tight: 1.15;
-  --line-height-snug: 1.33;
-  --line-height-normal: 1.50;
-  --line-height-relaxed: 1.75;
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --radius-none: 0px;
-  --radius-full: 9999px;
+  --chat-bubble-padding-y: 5px;
+  --chat-bubble-padding-x: 13px;
+  --chat-message-spacing: 13px;
+  --glow-color: 168, 85, 247;
+
+  /* --- Page Transitions & Motion Tokens --- */
+  --color-bg1: #030006;
+  --color-bg2: #090314;
+  --color1: 147, 51, 234;
+  --color2: 192, 38, 211;
+  --color3: 124, 58, 237;
+  --color4: 232, 121, 249;
+  --color5: 99, 102, 241;
+  --circle-size: 80%;
+
+  /* --- Additional Component Variables --- */
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
-  --card-bg: transparent !important;
-  --surface-base: transparent !important;
-  --surface-raised: transparent !important;
-  --surface-overlay: transparent !important;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --chat-bubble-padding-y: 5px;
-  --chat-bubble-padding-x: 13px;
-  --chat-message-spacing: 13px;
-  --glow-color: 168, 85, 247;
+  --color-purple-primary: var(--color-accent);
+  --color-purple-hover: var(--color-accent-hover);
+  --color-purple-light: #c084fc;
+  --color-purple-glow: var(--color-accent-glow);
+  --color-success-light: #4ade80;
+  --color-error-light: #f87171;
+  --font-size-5xs: clamp(0.5rem, 0.46rem + 0.19vw, 0.53rem);
+  --font-size-4xs: clamp(0.56rem, 0.49rem + 0.33vw, 0.62rem);
+  --font-size-3xs: clamp(0.65rem, 0.58rem + 0.33vw, 0.72rem);
+  --font-size-4xl: clamp(2rem, 0.56rem + 5.86vw, 3.5rem);
+  --font-size-5xl: clamp(2.25rem, 0.56rem + 6.84vw, 4rem);
+  --font-size-6xl: clamp(2.5rem, 0.57rem + 7.81vw, 4.5rem);
+  --space-0-5: 0.25rem;
+  --space-1: 0.5rem;
+  --space-1-5: 0.75rem;
+  --space-2: 1rem;
+  --space-2-5: 1.25rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 2.5rem;
+  --space-6: 3rem;
+  --space-10: 5rem;
+  --page-transition-duration: 0ms;
+  --color-interactive: 168, 85, 247;
+  --blending: hard-light;
 }
 
 @utility py-section-3 {
@@ -196,33 +285,6 @@ main,
 /* =============================================
    INPUT FIELD DESIGN SYSTEM & LIVE CUSTOMIZATION
    ============================================= */
-:root {
-  --input-bg-red: 192;
-  --input-bg-green: 132;
-  --input-bg-blue: 252;
-  --input-bg-opacity: 0.03;
-  --input-blur: 24px;
-  --input-border-color: rgba(192, 132, 252, 0.4);
-  --input-border-width: 0px;
-  --input-border-radius: 8px;
-  --input-text-color: #ffffff;
-  --input-placeholder-color: rgba(255, 255, 255, 0.4);
-  --input-focus-border: #a855f7;
-  --input-focus-glow: rgba(168, 85, 247, 0.5);
-  --input-padding-y: 12px;
-  --input-padding-x: 18px;
-
-  /* Checkbox & Toggle Controls */
-  --checkbox-accent-color: #c084fc;
-  --checkbox-size: 18px;
-  --checkbox-border-radius: 4px;
-
-  /* Typography & Element Tags */
-  --heading-color: #ffffff;
-  --text-p-color: rgba(255, 255, 255, 0.799);
-  --link-color: #c084fc;
-  --link-hover-color: #e879f9;
-}
 
 /* Checkbox & Radio Button Controls (Purple Box + White Checkmark) */
 input[type="checkbox"] {
@@ -314,12 +376,35 @@ p {
 /* ── Unified Base Text Link Styling ── */
 a,
 a:link,
-a:visited,
-.a-btn {
+a:visited {
   letter-spacing: 1px;
   position: relative;
   color: var(--link-color, #c084fc);
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, text-decoration-color 0.2s ease;
+  transition: color 250ms ease,
+    background-color 250ms ease,
+    border-color 250ms ease,
+    opacity 250ms ease,
+    text-decoration-color 250ms ease;
+}
+
+.a-btn {
+  letter-spacing: 1px;
+  position: relative;
+  color: white;
+  transition: color 250ms ease,
+    background-color 250ms ease,
+    border-color 250ms ease,
+    opacity 250ms ease,
+    text-decoration-color 250ms ease;
+}
+
+
+
+/* Phone number links — always white text & drop shadow */
+a[href^="tel:"],
+a[href*="tel:"] {
+  color: #ffffff !important;
+  text-shadow: 3px 5px 6px rgba(0, 0, 0, 0.5) !important;
 }
 
 a:hover,
@@ -336,7 +421,9 @@ a:focus-visible {
 }
 
 .a-btn::before,
-.a-btn::after {
+.a-btn::after,
+a:not(.seventh--btn):not(.btn):not(.btn-primary):not(.btn-outline):not(.btn-neat):not([role="button"]):not([class*="rounded"])::after,
+a:not(.seventh--btn):not(.btn):not(.btn-primary):not(.btn-outline):not(.btn-neat):not([role="button"]):not([class*="rounded"])::before {
   content: "";
   position: absolute;
   bottom: -2px;
@@ -345,10 +432,28 @@ a:focus-visible {
   z-index: 20;
 }
 
-.a-btn::after {
+/* Explicitly suppress pseudo-element text underlines for all button components */
+button::before,
+button::after,
+.seventh--btn::before,
+.seventh--btn::after,
+.btn::before,
+.btn::after,
+.btn-primary::before,
+.btn-primary::after,
+.btn-outline::before,
+.btn-outline::after,
+.btn-neat::before,
+.btn-neat::after {
+  content: none !important;
+  display: none !important;
+}
+
+.a-btn::after,
+a:not(.seventh--btn):not(.btn):not(.btn-primary):not(.btn-outline):not(.btn-neat):not([role="button"]):not([class*="rounded"])::after {
   width: 0;
   background-color: #e301ee;
-  transition: all 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .a-btn::before {
@@ -358,15 +463,8 @@ a:focus-visible {
   transition: width 350ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-a:hover::after,
 .a-btn:hover::after,
-a:hover .a-btn::after {
-  width: 100%;
-}
-
-a:hover::before,
-.a-btn:hover::before,
-a:hover .a-btn::before {
+a:not(.seventh--btn):not(.btn):not(.btn-primary):not(.btn-outline):not(.btn-neat):not([role="button"]):not([class*="rounded"]):hover::after {
   width: 100%;
 }
 
@@ -731,7 +829,6 @@ textarea:focus-visible,
   outline: none !important;
 }
 
-
 /* =============================================
    ANIMATED SPINNING GRADIENT BORDER
    Wrap any input/element in .input-glow-border to give it a
@@ -838,7 +935,6 @@ div:has(> textarea:hover):not(:has(> label)):not(.no-glow):not([class*="glow-bor
   }
 }
 
-
 select option {
   background-color: #0c0d12 !important;
   color: #ffffff !important;
@@ -856,7 +952,6 @@ footer#footer {
   position: relative !important;
   z-index: 10;
 }
-
 
 /* Sticky Tour Sort Bar — Transparent, 24px horizontal padding, z-index 100 (sits above header backdrop blur layer) */
 #tour-sort-bar {
@@ -942,169 +1037,6 @@ header,
 /* =============================================
  7TH HEAVEN — Tailwind v4 Theme Configuration
  ============================================= */
-:root {
-  /* ── Dark Ocean Theme Base Colors ── */
-  --bg-color: #05030a;
-  --text-color: #ffffff;
-  --card-bg: rgba(15, 15, 24, 0.95);
-  --border-color: rgba(0, 0, 0, 0.12);
-  --muted-text: rgba(0, 0, 0, 0.65);
-  --placeholder-color: rgba(0, 0, 0, 0.45);
-
-  /* Day accent — #9333ea (Preserved per request) */
-  --accent-color: #9333ea;
-
-  /* 3-level surface system — day */
-  --surface-base: #ffffff;
-  --surface-raised: #f8fafc;
-  --surface-overlay: rgba(255, 255, 255, 0.94);
-
-  /* Approved Design System Tokens */
-  --color-accent: #9333ea;
-  --color-accent-hover: #ab86f6;
-  --color-accent-soft: rgba(147, 51, 234, 0.15);
-  --color-accent-glow: rgba(147, 51, 234, 0.4);
-
-  --color-bg-primary: #000000;
-  --color-bg-deep: #030006;
-  --color-bg-surface: rgba(15, 5, 29, 0.55);
-  --color-bg-glass: rgba(18, 18, 24, 0.45);
-  --color-bg-card: rgba(255, 255, 255, 0.03);
-
-  --color-border-main: rgba(255, 255, 255, 0.1);
-  --color-border-purple: rgba(147, 51, 234, 0.3);
-
-  --color-purple-primary: var(--color-accent);
-  --color-purple-hover: var(--color-accent-hover);
-  --color-purple-light: #c084fc;
-  --color-purple-glow: var(--color-accent-glow);
-
-  --color-success: #22c55e;
-  --color-success-light: #4ade80;
-  --color-warning: #f59e0b;
-  --color-info: #38bdf8;
-  --color-error: #ef4444;
-  --color-error-light: #f87171;
-
-  --color-text-main: #ffffff;
-  --color-text-secondary: rgba(255, 255, 255, 0.5);
-  --color-text-muted: rgba(255, 255, 255, 0.5);
-  --color-text-subtle: rgba(255, 255, 255, 0.5);
-
-  /* Approved Font Families */
-  --font-family-sans: 'Switzer', sans-serif;
-  --font-family-heading: 'Switzer', sans-serif;
-  --font-family-display: 'Switzer', sans-serif;
-
-  /* ═══════════════════════════════════════════════════════════════════════
-     FLUID RESPONSIVE TYPOGRAPHY SCALE
-     ─────────────────────────────────────────────────────────────────────
-     All sizes use clamp(MIN, PREFERRED, MAX) so text scales fluidly
-     between breakpoints with NO hard jumps.
-
-     Viewport reference points:
-       Mobile  ≤ 480px
-       Tablet  ≈ 768px
-       Desktop ≥ 1280px
-
-     ┌─────────────────┬──────────┬──────────┬──────────┐
-     │ Token           │ Mobile   │ Tablet   │ Desktop  │
-     ├─────────────────┼──────────┼──────────┼──────────┤
-     │ --font-size-5xs │ 0.5rem   │ 0.5rem   │ 0.53rem  │
-     │ --font-size-4xs │ 0.56rem  │ 0.59rem  │ 0.62rem  │
-     │ --font-size-3xs │ 0.65rem  │ 0.68rem  │ 0.72rem  │
-     │ --font-size-2xs │ 0.75rem  │ 0.85rem  │ 1rem     │
-     │ --font-size-xs  │ 0.8rem   │ 0.88rem  │ 1rem     │
-     │ --font-size-sm  │ 0.8rem   │ 0.9rem   │ 1rem     │
-     │ --font-size-md  │ 0.85rem  │ 0.92rem  │ 1rem     │
-     │ --font-size-base│ 0.875rem │ 0.94rem  │ 1rem     │
-     │ --font-size-lg  │ 1rem     │ 1.12rem  │ 1.25rem  │
-     │ --font-size-xl  │ 1.125rem │ 1.3rem   │ 1.5rem   │
-     │ --font-size-2xl │ 1.5rem   │ 1.85rem  │ 2.25rem  │
-     │ --font-size-3xl │ 1.75rem  │ 2.35rem  │ 3rem     │
-     │ --font-size-4xl │ 2rem     │ 2.75rem  │ 3.5rem   │
-     │ --font-size-5xl │ 2.25rem  │ 3rem     │ 4rem     │
-     │ --font-size-6xl │ 2.5rem   │ 3.5rem   │ 4.5rem   │
-     │ --font-size-disp│ 2.75rem  │ 3.75rem  │ 4.5rem   │
-     └─────────────────┴──────────┴──────────┴──────────┘
-     ═══════════════════════════════════════════════════════════════════════ */
-
-  /* Micro Sizes — badges, metadata, tiny labels */
-  --font-size-5xs: clamp(0.5rem, 0.46rem + 0.19vw, 0.53rem);
-  /*  8px →  8.5px */
-  --font-size-4xs: clamp(0.56rem, 0.49rem + 0.33vw, 0.62rem);
-  /*  9px → 10px   */
-  --font-size-3xs: clamp(0.65rem, 0.58rem + 0.33vw, 0.72rem);
-  /* 10.4px → 11.5px */
-
-  /* Body Sizes — readable text, UI elements, form labels */
-  --font-size-2xs: 1rem;
-  /* 12px → 16px */
-  --font-size-xs: 1rem;
-  /* 12.8px → 16px */
-  --font-size-sm: 1rem;
-  /* 12.8px → 16px */
-  --font-size-md: 1rem;
-  /* 13.6px → 16px */
-  --font-size-base: 1rem;
-  /* 14px → 16px */
-
-  /* Heading Sizes — section titles, card headers */
-  --font-size-lg: 1.25rem;
-  /* 16px → 20px */
-  --font-size-xl: 1.5rem;
-  /* 18px → 24px */
-  --font-size-2xl: 2.25rem;
-  /* 24px → 36px */
-  --font-size-3xl: 3rem;
-  /* 28px → 48px */
-  --font-size-4xl: clamp(2rem, 0.56rem + 5.86vw, 3.5rem);
-  /* 32px → 56px */
-  --font-size-5xl: clamp(2.25rem, 0.56rem + 6.84vw, 4rem);
-  /* 36px → 64px */
-  --font-size-6xl: clamp(2.5rem, 0.57rem + 7.81vw, 4.5rem);
-  /* 40px → 72px */
-
-  /* Display — hero banners, splash text */
-  --font-size-display: 4.5rem;
-  /* 44px → 72px */
-
-  /* Proportional Vertical Rhythm Line-Heights */
-  --line-height-tight: 1.15;
-  /* 1.15 */
-  --line-height-snug: 1.33;
-  /* 1.33 */
-  --line-height-normal: 1.50;
-  /* 1.50 */
-  --line-height-relaxed: 1.75;
-  /* 1.75 */
-
-  /* Approved 8px Rhythm & Spacing Grid Tokens */
-  --space-0-5: 0.25rem;
-  /* 4px */
-  --space-1: 0.5rem;
-  /* 8px */
-  --space-1-5: 0.75rem;
-  /* 12px */
-  --space-2: 1rem;
-  /* 16px */
-  --space-2-5: 1.25rem;
-  /* 20px */
-  --space-3: 1.5rem;
-  /* 24px */
-  --space-4: 2rem;
-  /* 32px */
-  --space-5: 2.5rem;
-  /* 40px */
-  --space-6: 3rem;
-  /* 48px */
-  --space-10: 5rem;
-  /* 80px */
-
-  /* Consolidated Border-Radius Tokens (0px or 9999px) */
-  --radius-none: 0px;
-  --radius-full: 9999px;
-}
 
 /* Standardized Button Size Classes */
 .btn-sm {
@@ -1159,7 +1091,7 @@ button,
   font-weight: 900;
   letter-spacing: 0.1em;
   color: #ffffff;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
 }
 
@@ -1175,25 +1107,6 @@ button,
 .btn-primary:active {
   transform: scale(0.98);
 }
-
-:root {
-  /* ── Permanent Dark / Night Mode Defaults ── */
-  --bg-color: #000000;
-  --text-color: #ffffff;
-  --card-bg: #000000;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --muted-text: rgba(255, 255, 255, 0.55);
-  --placeholder-color: rgba(255, 255, 255, 0.4);
-
-  /* Accent — #9333ea */
-  --accent-color: #9333ea;
-
-  /* 3-level surface system */
-  --surface-base: #000000;
-  --surface-raised: #000000;
-  --surface-overlay: rgba(0, 0, 0, 0.92);
-}
-
 
 @theme {
   /* ═══════════════════════════════════════════════════════
@@ -1803,7 +1716,6 @@ button,
     -moz-osx-font-smoothing: grayscale;
   }
 
-
   /* Primary body paragraph — 16px with proper leading */
   p {
     font-size: 1rem;
@@ -1854,7 +1766,6 @@ button,
     font-weight: 900;
     line-height: var(--leading-display, 0.95);
     letter-spacing: var(--tracking-display, -0.04em);
-    text-transform: uppercase;
   }
 
   /* H2 — Headline: strong but clearly subordinate to H1 */
@@ -1863,7 +1774,6 @@ button,
     font-weight: 800;
     line-height: var(--leading-headline, 1.1);
     letter-spacing: var(--tracking-headline, -0.02em);
-    text-transform: uppercase;
   }
 
   /* H3 — Section header: prominent but readable */
@@ -1872,7 +1782,6 @@ button,
     font-weight: 700;
     line-height: var(--leading-heading, 1.2);
     letter-spacing: var(--tracking-heading, -0.01em);
-    text-transform: uppercase;
   }
 
   /* H4 — Subsection: clearly smaller, still authoritative */
@@ -2019,7 +1928,7 @@ button,
   background: var(--color-accent);
   color: var(--color-text-on-accent, #ffffff);
   border-radius: 6px;
-  transition: all 300ms var(--ease-out-expo);
+  transition: all 250ms var(--ease-out-expo);
   white-space: nowrap;
   text-transform: uppercase;
 }
@@ -2037,10 +1946,9 @@ button,
   color: var(--color-text-primary);
   background: transparent;
   border-radius: 6px;
-  transition: all 300ms var(--ease-out-expo);
+  transition: all 250ms var(--ease-out-expo);
   white-space: nowrap;
 }
-
 
 /* ── Glass surface ── */
 @utility glass {
@@ -2064,10 +1972,6 @@ button,
     background: rgba(128, 128, 128, 0.2);
     border-radius: 9999px;
   }
-}
-
-:root {
-  --page-padding-x: 20px;
 }
 
 @media (min-width: 768px) {
@@ -2094,7 +1998,6 @@ button,
 .site-container-left {
   padding-left: var(--page-padding-x) !important;
 }
-
 
 @utility pt-page {
   padding-top: var(--page-top-offset, 120px) !important;
@@ -2142,7 +2045,6 @@ html.tour-sort-stuck #tour-sort-bar {
   border-radius: 0.75rem !important;
 }
 
-
 /* ReactQuill WYSIWYG editor min height */
 .ql-editor {
   min-height: 200px;
@@ -2184,7 +2086,6 @@ html.tour-sort-stuck #tour-sort-bar {
 .guidelines-wysiwyg-editor .ql-fill {
   fill: #126ff2 !important;
 }
-
 
 .ql-snow .ql-picker {
   color: #fff !important;
@@ -2426,7 +2327,6 @@ html.tour-sort-stuck #tour-sort-bar {
   overflow: visible;
 }
 
-
 /* Slides that are outside the center pass BEHIND the sleeve card (z-10).
    Only the centered active slide sits above everything (z-20). */
 .vinyl-slider-wrap .swiper-slide {
@@ -2449,7 +2349,6 @@ html.tour-sort-stuck #tour-sort-bar {
   visibility: hidden !important;
   pointer-events: none !important;
 }
-
 
 @keyframes filmGrainJitter {
   0% {
@@ -2537,10 +2436,6 @@ html.tour-sort-stuck #tour-sort-bar {
   }
 }
 
-
-
-
-
 /* =============================================
    PAGE TRANSITION: native View Transition "push"
    ============================================= */
@@ -2599,22 +2494,6 @@ html.tour-sort-stuck #tour-sort-bar {
  * so our own transform-only keyframes are the entire effect — no fading,
  * just movement, matching what was actually observed.
  */
-:root {
-  /* Single source of truth for the transition length. PageTransition.tsx
-   * reads this at runtime via getComputedStyle instead of hardcoding its own
-   * copy, so the JS that clears transition state can never drift out of sync
-   * with the CSS that actually does the animating. Change it here only.
-   *
-   * Was 380ms — far shorter than the ~1033ms full settle this file's own
-   * frame-by-frame measurement documents just above (rotation/scale done at
-   * 667ms, vertical settle finishing at ~1033ms). That mismatch is why the
-   * transition read as "wrong": the correct SHAPE was baked into the
-   * keyframe stops, but squeezing it into 380ms played the whole thing back
-   * ~2.7x too fast. Corroborated independently by inspecting exoape.com's
-   * live GSAP: their own page-push timeline tweens run duration:1 (1000ms)
-   * with a custom easeInOut. 1030ms matches both. */
-  --page-transition-duration: 0ms;
-}
 
 .preloader {
   position: fixed;
@@ -2626,18 +2505,6 @@ html.tour-sort-stuck #tour-sort-bar {
 }
 
 /* ─── baunov/gradients-bg liquid moving gradient background ─── */
-:root {
-  --color-bg1: #030006;
-  --color-bg2: #090314;
-  --color1: 147, 51, 234;
-  --color2: 192, 38, 211;
-  --color3: 124, 58, 237;
-  --color4: 232, 121, 249;
-  --color5: 99, 102, 241;
-  --color-interactive: 168, 85, 247;
-  --circle-size: 80%;
-  --blending: hard-light;
-}
 
 @keyframes moveInCircle {
   0% {
@@ -3558,7 +3425,6 @@ html.is-preloading body {
   touch-action: none;
 }
 
-
 /* ── Preloader overlay + PageTransition heading reveal (original impl,
    own timings/easing -- not reusing the old .preloader-mark* rules above,
    which are dead code left over from the previous (removed) preloader). ── */
@@ -3611,10 +3477,7 @@ html.is-preloading body {
 .snazzy-map-227862,
 .gm-style,
 .gm-style>div,
-.gm-style iframe {
-  background-color: #160533 !important;
-  background: #160533 !important;
-}
+.gm-style iframe {}
 
 /* ── Multi-Radial Morphing Cosmic Button ── */
 @property --r1-x {
@@ -3725,8 +3588,6 @@ html.is-preloading body {
   initial-value: #920092F5;
 }
 
-
-
 /* Active / Up-Next Show Map Marker Bounce Animation */
 .next-show-bounce,
 .map-pin-jump {
@@ -3765,7 +3626,6 @@ html.is-preloading body {
 
 /* Map Popups & InfoWindow High Z-Index Override */
 .custom-tooltip-card,
-.custom-venue-marker,
 .gm-style-iw,
 .gm-style-iw-c,
 .gm-style-iw-t,
@@ -3773,12 +3633,6 @@ html.is-preloading body {
 .gm-style .gm-style-iw-c,
 .gm-style .gm-style-iw-t,
 .gm-style .gm-style-iw-tc {
-  z-index: 9999999 !important;
-}
-
-.custom-venue-marker:hover,
-.custom-venue-marker:focus-within,
-.custom-venue-marker:active {
   z-index: 9999999 !important;
 }
 
@@ -3792,7 +3646,6 @@ html.is-preloading body {
   }
 }
 
-
 @keyframes su-pulse {
 
   0%,
@@ -3804,9 +3657,6 @@ html.is-preloading body {
     opacity: 1;
   }
 }
-
-
-
 
 @utility pt-stage-fluid {
   padding-top: 8vh !important;
@@ -3858,8 +3708,6 @@ html.is-preloading body {
     padding-bottom: 1vw !important;
   }
 }
-
-
 
 /* Ensure active navigation items or logos never display click pointer */
 a.active,
@@ -3926,8 +3774,6 @@ button.active,
   }
 }
 
-
-
 :focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px #ffffff00, 0 0 0 4px #4e46e500;
@@ -3981,7 +3827,6 @@ button.active,
   border: 2px solid #ef4444 !important;
   z-index: 50 !important;
 }
-
 
 /* ── Custom Cursor & Cursor Follower Styles ── */
 
@@ -4135,7 +3980,6 @@ body:has(textarea:focus) .cursor-tail-circle {
   background: #1a065569;
 }
 
-
 /* ── Page Curtain Transition Animation ── */
 .hvn-page-curtain__mark {
   animation: hvnPageCurtainPulse 1.5s ease-in-out infinite;
@@ -4167,10 +4011,6 @@ body:has(textarea:focus) .cursor-tail-circle {
     opacity: 1;
   }
 }
-
-/* [style]:not([style*="font-size: 16px;"]) {
-  color: red;
-} */
 
 /* =============================================
    WIW Scheduler Container Styles
@@ -4718,18 +4558,6 @@ html.is-preloading .preloader {
   }
 }
 
-/* --- Settings Panel Cursor Controls --- */
-[data-settings-panel],
-[data-settings-panel] * {
-  cursor: default !important;
-}
-
-[data-settings-panel] input[type="range"],
-[data-settings-panel] button,
-[data-settings-panel] a {
-  cursor: pointer !important;
-}
-
 /* --- Fake Live Stream --- */
 body.fake-livestream-active footer,
 body.fake-livestream-active .page-nav {
@@ -4863,19 +4691,19 @@ body.fake-livestream-active {
   background: rgba(255, 255, 255, 0.3);
 }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+/* --- Tour Map Venue Markers & Tooltips --- */
+.map-masked-tiles .gm-style,
+.map-masked-tiles .gm-style-bg,
+.map-masked-tiles .gm-style>div {
+  background-color: transparent !important;
+  background: transparent !important;
 }
 
-/* --- Tour Map Venue Markers & Tooltips --- */
+.map-masked-tiles .gm-style>div:first-child {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%);
+}
+
 .custom-venue-marker {
   background: transparent !important;
   border: none !important;
@@ -4893,10 +4721,6 @@ body.fake-livestream-active {
   background: transparent;
   pointer-events: auto;
   z-index: 1;
-}
-
-.custom-venue-marker:hover {
-  z-index: 99999 !important;
 }
 
 .gm-style-iw-c {
@@ -4977,7 +4801,7 @@ body.fake-livestream-active {
   border: 1px solid rgba(255, 255, 255, 0.1);
   white-space: nowrap;
   pointer-events: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 9px #00000033;
   z-index: 10;
   opacity: 1;
   visibility: visible;
@@ -5001,7 +4825,7 @@ body.fake-livestream-active {
   border-color: rgba(255, 255, 255, 0.25) !important;
   color: #ffffff !important;
   font-weight: 800 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8) !important;
+  box-shadow: 0 3px 9px #00000033 !important;
   transform: translateX(-50%) !important;
   z-index: 9999 !important;
 }
@@ -5624,13 +5448,13 @@ body.fake-livestream-active {
   background: linear-gradient(to left, #581ed0, #8b5cf6);
   background-size: 200% 100%;
   font-weight: bold;
-  color: white;
+  color: white !important;
+  ;
   /* 3. Position it on the right side initially */
   background-position: right center;
 
-  /* 4. Smoothly transition the background movement over 0.5 seconds */
-  transition: background-position 0.5s ease;
-
+  /* 4. Smoothly transition the background movement over 250ms */
+  transition: background-position 250ms ease;
 
 }
 
@@ -5653,15 +5477,6 @@ body.fake-livestream-active {
   box-shadow: none;
 }
 
-.seventh--gradient {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  padding: 1.5px;
-  pointer-events: none;
-  border-radius: 100px;
-  background-color: red;
-}
 
 
 .seventh--btn>span {
@@ -5898,8 +5713,6 @@ body.fake-livestream-active {
   }
 }
 
-
-
 .btn-wrapper:hover .orb-btn {
   transform: scale(1.06);
   box-shadow:
@@ -5931,4 +5744,57 @@ body.fake-livestream-active {
 
 .btn-wrapper:hover .btn-violet svg {
   transform: scale(1.15) rotate(180deg);
+}
+
+/* ── Map Preloader Progress Filler Animations ── */
+@keyframes mapPreloaderProgress {
+  0% {
+    width: 0%;
+    opacity: 0.4;
+  }
+
+  50% {
+    width: 70%;
+    opacity: 1;
+  }
+
+  90% {
+    width: 98%;
+    opacity: 1;
+  }
+
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes mapPreloaderShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+
+
+/* ═══════════════════════════════════════════════════════
+   GLOBAL BUTTON & HOVER TRANSITION DURATION (250ms)
+   ═══════════════════════════════════════════════════════ */
+button,
+[role="button"],
+.btn,
+.btn-neat,
+.btn-primary,
+.btn-outline,
+.seventh--btn,
+.seventh--btn>span,
+.a-btn,
+a.cursor-pointer,
+button.cursor-pointer,
+.custom-venue-marker {
+  transition-duration: 250ms !important;
 }

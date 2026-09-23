@@ -106,19 +106,19 @@ export const CosmicTrackCard = React.forwardRef<
         <span className="!p-4 sm:!p-5 !min-w-0 !w-full !block text-left">
           <div className="flex items-center justify-between gap-2 mb-2">
             {tag ? (
-              <span className="text-[11px] font-bold uppercase    text-purple-300/90 truncate">
+              <span className="text-[11px] font-bold text-purple-300/90 truncate">
                 {tag}
               </span>
             ) : <span />}
-            <span className="text-xs font-semibold text-white/80 flex items-center gap-1.5 shrink-0 ml-auto">
-              <Play className="w-3 h-3 fill-current text-white/90" /> Play
+            <span className="text-xs font-semibold   flex items-center gap-1.5 shrink-0 ml-auto">
+              <Play className="w-3 h-3 fill-current /90" /> Play
             </span>
           </div>
-          <h4 className="text-white text-base sm:text-lg font-bold uppercase tracking-wide truncate leading-snug">
+          <h4 className="text-base sm:text-lg font-bold   truncate leading-snug">
             {title}
           </h4>
           {subtitle && (
-            <p className="text-white/65 text-xs sm:text-sm truncate mt-1 font-normal">
+            <p className="/65 text-xs sm:text-sm truncate mt-1 font-normal">
               {subtitle}
             </p>
           )}

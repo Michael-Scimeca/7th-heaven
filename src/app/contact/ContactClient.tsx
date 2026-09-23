@@ -137,7 +137,7 @@ export default function ContactClient({
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10 flex-1">
 
         {/* Left Column: Contact Cards (Full Width on Mobile, Smaller on Tablet md:col-span-5) */}
-        <section aria-label="Contact Directory" className="w-full min-h-screen max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left h-full flex-1">
+        <section aria-label="Contact Directory" className="w-full min-h-full max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left h-full flex-1">
 
           {/* Contact Cards List (1 Column Stacked, Distributed to fill section height) */}
           <div className="flex-1 flex flex-col justify-between w-full h-full pb-6">
@@ -161,7 +161,7 @@ export default function ContactClient({
 
                   {/* Name & Title / Note */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <h3 className="text-white leading-snug">
+                    <h3 className="  leading-snug">
                       {contact.name || "7th Heaven Representative"}
                     </h3>
                   </div>
@@ -172,7 +172,7 @@ export default function ContactClient({
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-flex a-btn items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] text-white/80 hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
+                        className="inline-flex a-btn items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)]   hover:text-purple-300 transition-colors group/link w-fit whitespace-nowrap">
                         <span className="  underline-offset-4 decoration-white/20 group-hover/link:decoration-purple-300 whitespace-nowrap">
                           {contact.email}
                         </span>
@@ -183,7 +183,7 @@ export default function ContactClient({
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/-/g, "")}`}
-                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !text-white hover:text-[var(--color-accent)] transition-colors duration-150 group/link w-fit whitespace-nowrap">
+                        className="inline-flex items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] !  hover:text-[var(--color-accent)] transition-colors duration-150 group/link w-fit whitespace-nowrap">
                         <span className="whitespace-nowrap">{contact.phone}</span>
                       </a>
                     )}

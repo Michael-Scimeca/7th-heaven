@@ -39,9 +39,9 @@ function Node({
 }) {
   return (
     <div className={`border transition-colors flex flex-col items-center justify-center text-center w-full ${COLORS[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}>
-      <div className="flex items-center gap-1.5 ">
+      <div className="flex items-center gap-1.5">
         <span className={`w-1.5 h-1.5 rounded-lg shrink-0 ${DOTS[color]}`} />
-        <span className="uppercase">
+        <span className="">
           {icon && <span className="mr-1">{icon}</span>}
           {label}
         </span>
@@ -81,12 +81,12 @@ function Branch({ cols }: { cols: number }) {
 
 export default function EmailMapPage() {
   return (
-    <main className="min-h-screen bg-[#050505] text-white pt-24 pb-40 px-6">
+    <main className="min-h-screen bg-[#050505] pt-24 pb-40 px-6">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
         <div className="mb-16">
-          <span className="inline-block uppercase  border border-white/10 px-3 py-1 mb-6">
+          <span className="inline-block border border-white/10 px-3 py-1 mb-6">
             System Architecture
           </span>
           <h1 className="mb-6">
@@ -98,7 +98,7 @@ export default function EmailMapPage() {
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap items-center gap-6 mb-12 uppercase border-b border-white/[0.06] pb-8">
+        <div className="flex flex-wrap items-center gap-6 mb-12 border-b border-white/[0.06] pb-8">
           <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-lg bg-purple-500 inline-block" /> Fan Transactional</span>
           <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-lg bg-cyan-500 inline-block" /> Cruise System</span>
           <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-lg bg-emerald-500 inline-block" /> Event Planner</span>
@@ -171,7 +171,7 @@ export default function EmailMapPage() {
 
             {/* Integration Points */}
             <div className="my-16 border-t border-white/[0.06] relative">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] px-4 uppercase text-white/20 italic">External Services</span>
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] px-4 text-white/20 italic">External Services</span>
             </div>
 
             <div className="grid grid-cols-3 gap-8">
@@ -192,19 +192,19 @@ export default function EmailMapPage() {
         {/* Logic Cards */}
         <div className="grid md:grid-cols-2 gap-4 mt-20">
           <div className="p-6 bg-white/[0.02] border border-white/[0.06]">
-            <h3 className="uppercase mb-6 flex items-center gap-2">
+            <h3 className="mb-6 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-lg bg-blue-500" />
               The API Bridge
             </h3>
             <p className="mb-6">
-              To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code className="text-white">/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
+              To keep server-side logic fast, heavy email rendering is often offloaded or handled via internal fetch calls to <code className="">/api/email</code>. This ensures that a database timeout doesn't block the user's confirmation screen.
             </p>
             <div className="bg-black/40 p-4 rounded text-blue-400">
               fetch(&apos;/api/email&apos;, &#123; method: &apos;POST&apos;, body: &#123; to, subject, html &#125; &#125;)
             </div>
           </div>
           <div className="p-6 bg-white/[0.02] border border-white/[0.06]">
-            <h3 className="uppercase mb-6 flex items-center gap-2">
+            <h3 className="mb-6 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-lg bg-cyan-500" />
               Token Security
             </h3>

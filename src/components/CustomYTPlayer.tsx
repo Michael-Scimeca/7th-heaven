@@ -248,7 +248,7 @@ export default function CustomYTPlayer({
             onClose();
           }
         }}
-        className="absolute inset-0 cursor-pointer border-none "
+        className="absolute inset-0 cursor-pointer border-none"
       />
       <div
         ref={containerRef}
@@ -263,7 +263,7 @@ export default function CustomYTPlayer({
           {/* Click overlay to toggle play */}
           <button type="button"
             aria-label="Toggle video playback"
-            className="absolute inset-0 z-0 cursor-pointer border-0 "
+            className="absolute inset-0 z-0 cursor-pointer border-0"
             onClick={togglePlay}
           />
 
@@ -276,8 +276,7 @@ export default function CustomYTPlayer({
 
           {/* Center Play/Pause Indicator */}
           <div
-            className={`absolute inset-0 flex items-center justify-center z-10 transition-opacity duration-300 pointer-events-none ${showControls && !isPlaying ? "opacity-100" : "opacity-0"
-              }`}>
+            className={`absolute inset-0 flex items-center justify-center z-10 transition-opacity duration-300 pointer-events-none ${showControls && !isPlaying ? "opacity-100" : "opacity-0" }`}>
             <SeventhButton
               icon={false}
               className="w-20 h-20 ! rounded-lg !p-0 flex items-center justify-center border border-purple-300/40 shadow-2xl">
@@ -289,25 +288,23 @@ export default function CustomYTPlayer({
 
           {/* Top Gradient */}
           <div
-            className={`absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-black/70 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0"
-              }`}
+            className={`absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-black/70 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0" }`}
           />
 
           {/* Top Bar — Title & Close */}
           <div
-            className={`absolute top-0 inset-x-0 z-20 flex items-center justify-between px-5 py-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
-              }`}>
+            className={`absolute top-0 inset-x-0 z-20 flex items-center justify-between px-5 py-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0" }`}>
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-1 h-6 bg-[var(--color-accent)] rounded-lg shrink-0" />
               <div className="min-w-0">
-                <h3 className="text-white truncate">{title}</h3>
+                <h3 className="truncate">{title}</h3>
                 <p>7th Heaven • {year}</p>
               </div>
             </div>
             <button aria-label="Close"
               onClick={(e) => { e.stopPropagation(); onClose(); }}
               className="flex items-center gap-1.5 text-white/50 hover:text-white transition-colors cursor-pointer shrink-0 ml-4">
-              <span className="uppercase hidden sm:inline">ESC</span>
+              <span className="hidden sm:inline">ESC</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -316,14 +313,12 @@ export default function CustomYTPlayer({
 
           {/* Bottom Gradient */}
           <div
-            className={`absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0"
-              }`}
+            className={`absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0" }`}
           />
 
           {/* Bottom Controls */}
           <div
-            className={`absolute bottom-0 inset-x-0 z-20 px-5 pb-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
-              }`}
+            className={`absolute bottom-0 inset-x-0 z-20 px-5 pb-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0" }`}
             onClick={(e) => e.stopPropagation()}>
             {/* Progress Bar */}
             <div
@@ -368,7 +363,7 @@ export default function CustomYTPlayer({
                 {/* Prev */}
                 {hasPrev && (
                   <button onClick={() => onPrev?.()}
-                    className="text-white hover:text-white transition-colors cursor-pointer"
+                    className="hover:text-white transition-colors cursor-pointer"
                     aria-label="Previous">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
@@ -395,7 +390,7 @@ export default function CustomYTPlayer({
                 {/* Next */}
                 {hasNext && (
                   <button onClick={() => onNext?.()}
-                    className="text-white hover:text-white transition-colors cursor-pointer"
+                    className="hover:text-white transition-colors cursor-pointer"
                     aria-label="Next">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
@@ -409,7 +404,7 @@ export default function CustomYTPlayer({
                   onMouseEnter={() => setShowVolume(true)}
                   onMouseLeave={() => setShowVolume(false)}>
                   <button onClick={toggleMute}
-                    className="text-white hover:text-white transition-colors cursor-pointer"
+                    className="hover:text-white transition-colors cursor-pointer"
                     aria-label={isMuted ? "Unmute" : "Mute"}>
                     {isMuted || volume === 0 ? (
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -465,7 +460,7 @@ export default function CustomYTPlayer({
 
                 {/* Fullscreen */}
                 <button onClick={toggleFullscreen}
-                  className="text-white hover:text-white transition-colors cursor-pointer"
+                  className="hover:text-white transition-colors cursor-pointer"
                   aria-label="Fullscreen">
                   {isFullscreen ? (
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -51,7 +51,7 @@ function SuccessContent() {
 
           {bookingId && (
             <div className="inline-block bg-[var(--color-accent)]/10 border border-white/10 px-4 py-2 mb-6">
-              <span className="uppercase text-white/40 block">Booking ID</span>
+              <span className="text-white/40 block">Booking ID</span>
               <span className="text-lg text-[var(--color-accent)]">{bookingId}</span>
             </div>
           )}
@@ -74,18 +74,18 @@ function SuccessContent() {
             {isLoggedIn && member?.role === "event_planner" && (
               <Link
                 href="/planner"
-                className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase text-base py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
+                className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-base py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
                 View in My Dashboard →
               </Link>
             )}
             <Link
               href="/book"
-              className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white/80 uppercase text-base py-4 px-8 transition-colors border border-white/5">
+              className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1]   text-base py-4 px-8 transition-colors border border-white/5">
               Book Another Show
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white uppercase text-base py-3 px-8 transition-colors">
+              className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-base py-3 px-8 transition-colors">
               Return to Homepage
             </Link>
           </div>

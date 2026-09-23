@@ -67,7 +67,7 @@ function NorthResultContent() {
   const succeeded = result?.authResp === "00";
 
   return (
-    <div className="min-h-screen text-white pt-32 pb-24 flex items-center justify-center px-6">
+    <div className="min-h-screen pt-32 pb-24 flex items-center justify-center px-6">
       <div className="max-w-md w-full">
         <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           {loading && <p>Loading payment result…</p>}
@@ -77,7 +77,7 @@ function NorthResultContent() {
               <div className="w-16 h-16 mx-auto mb-6 bg-rose-500/10 border-2 border-rose-500/30 rounded-lg flex items-center justify-center">
                 <span className="text-2xl">⚠️</span>
               </div>
-              <h2 className="text-xl font-bold uppercase mb-2">
+              <h2 className="text-xl font-bold mb-2">
                 Couldn&apos;t Load Result
               </h2>
               <p>
@@ -90,16 +90,14 @@ function NorthResultContent() {
           {!loading && result && (
             <>
               <div
-                className={`w-16 h-16 mx-auto mb-6 rounded-lg flex items-center justify-center border-2 ${succeeded ? "bg-emerald-500/10 border-emerald-500/30"
-                  : "bg-rose-500/10 border-rose-500/30"
-                  }`}>
+                className={`w-16 h-16 mx-auto mb-6 rounded-lg flex items-center justify-center border-2 ${succeeded ? "bg-emerald-500/10 border-emerald-500/30" : "bg-rose-500/10 border-rose-500/30" }`}>
                 <span className="text-2xl">{succeeded ? "✅" : "❌"}</span>
               </div>
               <h1 className="mb-2">
                 {succeeded ? "Payment Succeeded" : "Payment Failed"}
               </h1>
               {succeeded ? (
-                <div className="text-white space-y-1">
+                <div className="space-y-1">
                   <p>Amount paid: ${result.amount}</p>
                   {result.maskedAccountNbr && <p>Account: {result.maskedAccountNbr}</p>}
                 </div>
@@ -113,7 +111,7 @@ function NorthResultContent() {
 
           <Link
             href="/payment-test"
-            className="inline-block mt-6 px-5 py-2.5 bg-[var(--color-accent)] text-white uppercase rounded-lg">
+            className="inline-block mt-6 px-5 py-2.5 bg-[var(--color-accent)] rounded-lg">
             {succeeded ? "Back to Shop" : "Try Again"}
           </Link>
         </div>

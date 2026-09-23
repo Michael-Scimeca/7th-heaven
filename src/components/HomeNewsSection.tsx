@@ -151,7 +151,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
           <div className="max-w-2xl text-left">
-            <h2 className="uppercase font-[family-name:var(--font-rockstar)]">
+            <h2 className="font-[family-name:var(--font-rockstar)]">
               {sanityContent?.newsTitle || "Latest Band News"}
             </h2>
             <p className="mt-2 text-sm md:text-base">
@@ -203,14 +203,14 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                     <span className="text-[var(--color-accent)] font-bold">
                       {item.date}
                     </span>
-                    <span className="a-btn  transition-colors text-sm font-semibold">
+                    <span className="a-btn transition-colors text-sm font-semibold">
                       Read
                     </span>
                   </div>
                   <h4 className="transition-colors line-clamp-1">
                     {item.title}
                   </h4>
-                  <p className="line-clamp-2 ">
+                  <p className="line-clamp-2">
                     {item.content}
                   </p>
                 </Link>
@@ -231,7 +231,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-6">
-              <span className="text-[var(--color-accent)] uppercase">
+              <span className="text-[var(--color-accent)]">
                 {selectedArticle.date}
               </span>
               <button
@@ -254,7 +254,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[99999] bg-gradient-to-r from-purple-900/90 to-pink-900/90 border border-purple-400/50 text-white px-6 py-3.5 rounded-xl shadow-2xl backdrop-blur-md flex items-center gap-3 animate-fade-in">
+        <div className="fixed bottom-6 right-6 z-[99999] bg-gradient-to-r from-purple-900/90 to-pink-900/90 border border-purple-400/50 px-6 py-3.5 rounded-xl shadow-2xl backdrop-blur-md flex items-center gap-3 animate-fade-in">
           <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
           <span className="font-semibold text-sm">{toastMessage}</span>
         </div>
@@ -263,7 +263,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
       {/* Add News Modal */}
       {isAddModalOpen && typeof window !== "undefined" && createPortal(
         <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-xl bg-neutral-900 border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl text-white max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full max-w-xl bg-neutral-900 border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsAddModalOpen(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
@@ -276,7 +276,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 <Newspaper className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white">Add Band News to Sanity</h3>
+                <h3 className="text-xl font-bold">Add Band News to Sanity</h3>
                 <p className="text-xs text-purple-300/70">Publish a new band announcement or update to Sanity CMS.</p>
               </div>
             </div>
@@ -289,7 +289,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
 
             <form onSubmit={handleAddNewsSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                   Article Title *
                 </label>
                 <input
@@ -298,13 +298,13 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. New Single Released or Summer 2026 Tour Announcement"
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                  <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                     Display Date *
                   </label>
                   <input
@@ -313,18 +313,18 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                     value={newDate}
                     onChange={(e) => setNewDate(e.target.value)}
                     placeholder="e.g. September 2026"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                  <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                     Category
                   </label>
                   <select
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
                   >
                     <option value="announcement">Announcement</option>
                     <option value="update">Update</option>
@@ -335,7 +335,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                   Content / Article Body *
                 </label>
                 <textarea
@@ -344,7 +344,7 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                   value={newContent}
                   onChange={(e) => setNewContent(e.target.value)}
                   placeholder="Write the news update content here..."
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                 />
               </div>
 
@@ -352,14 +352,14 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm font-semibold transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm    uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-bold text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
                 >
                   {submitting ? "Publishing..." : "+ PUBLISH NEWS TO SANITY"}
                 </button>

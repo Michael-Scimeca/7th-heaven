@@ -201,16 +201,16 @@ export default function CruiseHeroMaskEditor() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-3 rounded-lg shadow-[0_0_25px_rgba(6,182,212,0.6)] border border-purple-300/40 flex items-center gap-2 transition-all">
+          className="fixed bottom-6 right-6 z-50 bg-cyan-600 hover:bg-cyan-500 px-4 py-3 rounded-lg shadow-[0_0_25px_rgba(6,182,212,0.6)] border border-purple-300/40 flex items-center gap-2 transition-all">
           <Sliders className="w-5 h-5" />
-          <span className="uppercase r">PAGE & ITINERARY CSS STUDIO</span>
+          <span className="r">PAGE & ITINERARY CSS STUDIO</span>
         </button>
       )}
 
       {/* Main Drawer Panel */}
       {isOpen && (
         <div
-          className="fixed top-[88px] right-4 w-96 max-w-[calc(100vw-2rem)] z-50 bg-[#0c101d]/95 backdrop-blur-xl border border-purple-500/40 rounded-lg shadow-[0_10px_50px_rgba(0,0,0,0.9)] text-white flex flex-col"
+          className="fixed top-[88px] right-4 w-96 max-w-[calc(100vw-2rem)] z-50 bg-[#0c101d]/95 backdrop-blur-xl border border-purple-500/40 rounded-lg shadow-[0_10px_50px_rgba(0,0,0,0.9)] flex flex-col"
           style={{ height: 'calc(100vh - 110px)' }}>
           {/* Header */}
           <div className="p-4 border-b border-purple-500/20 flex items-center justify-between bg-black/40 rounded-t-2xl shrink-0">
@@ -219,7 +219,7 @@ export default function CruiseHeroMaskEditor() {
                 <Sliders className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="uppercase">HERO & ITINERARY STUDIO</h3>
+                <h3 className="">HERO & ITINERARY STUDIO</h3>
                 <p className="text-gray-400">Controls for Hero Video & Official Itinerary</p>
               </div>
             </div>
@@ -248,7 +248,7 @@ export default function CruiseHeroMaskEditor() {
             {/* 📍 1. OFFICIAL ITINERARY & CRUISING HISTORY SECTION MASK & BG */}
             <div className="bg-purple-950/30 p-3.5 rounded-lg border border-purple-500/30 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="uppercase text-purple-300 flex items-center gap-1.5">
+                <span className="text-purple-300 flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-purple-400" /> OFFICIAL ITINERARY & CRUISING HISTORY
                 </span>
                 <span className="text-[10px] text-purple-300/70">#itinerary & .history</span>
@@ -354,10 +354,10 @@ export default function CruiseHeroMaskEditor() {
             {/* 📜 2. CRUISING HISTORY SECTION MASK & BG */}
             <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-purple-500/30 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="uppercase flex items-center gap-1.5">
+                <span className="flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5" /> CRUISING HISTORY CONTAINER
                 </span>
-                <span className="text-[10px] /70">.history-timeline</span>
+                <span className="text-[10px] text-white/70">.history-timeline</span>
               </div>
 
               {/* History Top Fade Start */}
@@ -460,7 +460,7 @@ export default function CruiseHeroMaskEditor() {
             {/* 🎬 2. HERO TOP MASK GRADIENT */}
             <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-purple-500/20 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="uppercase flex items-center gap-1.5">
+                <span className="flex items-center gap-1.5">
                   HERO TOP MASK GRADIENT
                 </span>
               </div>
@@ -533,7 +533,7 @@ export default function CruiseHeroMaskEditor() {
             {/* 🎬 3. HERO BOTTOM MASK GRADIENT */}
             <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-purple-500/20 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="uppercase flex items-center gap-1.5">
+                <span className="flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" /> HERO BOTTOM MASK GRADIENT
                 </span>
               </div>
@@ -573,7 +573,7 @@ export default function CruiseHeroMaskEditor() {
 
             {/* 🎥 4. VIDEO FILTERS */}
             <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-purple-500/20 space-y-3">
-              <span className="uppercase flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5">
                 <Eye className="w-3.5 h-3.5" /> HERO VIDEO FILTERS
               </span>
 
@@ -644,7 +644,7 @@ export default function CruiseHeroMaskEditor() {
 
             {/* 🥞 5. ::BEFORE BLUR OVERLAY STRIP */}
             <div className="bg-cyan-950/30 p-3.5 rounded-lg border border-purple-500/20 space-y-3">
-              <span className="uppercase flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5" /> ::BEFORE BLUR OVERLAY STRIP
               </span>
 
@@ -718,12 +718,12 @@ export default function CruiseHeroMaskEditor() {
           <div className="p-3 border-t border-purple-500/20 bg-black/50 rounded-b-2xl flex items-center gap-2 shrink-0">
             <button
               onClick={handleSave}
-              className="flex-1 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white uppercase shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all">
+              className="flex-1 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all">
               Save Changes
             </button>
             <button
               onClick={copyCSS}
-              className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white uppercase flex items-center gap-1.5 transition-all">
+              className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 flex items-center gap-1.5 transition-all">
               {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied!' : 'Copy CSS'}
             </button>

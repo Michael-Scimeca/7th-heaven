@@ -51,10 +51,10 @@ export default function CruiseHeroSection({
   return (
     <section
       id="cruise-hero"
-      className="-mt-[100px] page-container relative flex flex-col justify-start overflow-hidden  text-white min-h-[710px] md:min-h-[70vw] site-container">
+      className="-mt-[100px] page-container relative flex flex-col justify-start overflow-hidden min-h-[710px] md:min-h-[70vw] site-container">
       {/* Full-bleed background video & image mask wrapper */}
       <div
-        className="absolute inset-0 z-0 pointer-events-none overflow-hidden "
+        className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
         style={{
           marginLeft: "calc(-1 * var(--page-padding-x))",
           marginRight: "calc(-1 * var(--page-padding-x))",
@@ -77,7 +77,7 @@ export default function CruiseHeroSection({
           muted
           playsInline
           preload="auto"
-          className="w-full h-full object-cover "
+          className="w-full h-full object-cover"
           style={{
             objectPosition: "center 0%",
             transform: "translateY(-17vw) scale(1)",
@@ -116,7 +116,7 @@ export default function CruiseHeroSection({
         </h1>
 
         {/* Cruise Ship Names Subtitle & Payment Action */}
-        <div className="mt-4 sm:mt-4 flex flex-wrap items-center justify-start gap-3 uppercase text-white">
+        <div className="mt-4 sm:mt-4 flex flex-wrap items-center justify-start gap-3">
           <span className="btn-pill-glass backdrop-blur-[45px] flex items-center gap-2.5">
             {ship1Title} <span className="text-purple-200 bg-purple-600/40 px-2.5 py-1 rounded-full border border-purple-400/40">{ship1Year}</span>
           </span>

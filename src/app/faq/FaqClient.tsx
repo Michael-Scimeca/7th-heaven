@@ -200,8 +200,8 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
               type="button"
               onClick={() => setActiveTab(cat.id)}
               isActive={isActive}
-              className="!w-auto px-5 py-2.5 uppercase text-xs flex items-center gap-2">
-              <span className={isActive ? "text-white" : cat.color}>
+              className="!w-auto px-5 py-2.5 text-xs flex items-center gap-2">
+              <span className={isActive ? " " : cat.color}>
                 <Icon />
               </span>
               <span>{cat.label}</span>
@@ -225,21 +225,19 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                 <button
                   onClick={() => toggleExpand(faq.id)}
                   className="w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer">
-                  <span className="text-white transition duration-200">
+                  <span className="transition duration-200">
                     {faq.question}
                   </span>
-                  <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-90 text-purple-400" : ""
-                    }`}>
+                  <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-90 text-purple-400" : ""}`}>
                     <ChevronRightIcon />
                   </div>
                 </button>
 
                 {/* Expanded Answer with smooth grid-rows height transition */}
                 <div
-                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                    }`}>
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
                   <div className="overflow-hidden">
-                    <div className="pb-6 md:text-base text-white/80 ">
+                    <div className="pb-6 md:text-base  ">
                       {faq.answer}
                     </div>
                   </div>
@@ -252,7 +250,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             <span className="text-white/20 inline-block mb-6 scale-150">
               <HelpIcon />
             </span>
-            <h3 className="text-white mb-1">No matches found</h3>
+            <h3 className="mb-1">No matches found</h3>
             <p className="max-w-xs mx-auto">
               We couldn&apos;t find any FAQs matching &quot;{searchQuery}&quot;. Try using different terms or browse standard categories.
             </p>
@@ -263,13 +261,13 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
       {/* Live Support Banner */}
       <aside className="bg-[#00000029] backdrop-blur-xl mt-6 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
         <div>
-          <h4 className="text-white mb-1">{sanityContent?.supportTitle || "Still need help?"}</h4>
+          <h4 className="mb-1">{sanityContent?.supportTitle || "Still need help?"}</h4>
           <p className="font-medium">
             {sanityContent?.supportBody || "Can't find the answer you are looking for? Reach out to our direct support."}
           </p>
         </div>
         <TransitionLink href="/contact">
-          <SeventhButton className="px-6 py-3 uppercase whitespace-nowrap">
+          <SeventhButton className="px-6 py-3 whitespace-nowrap">
             {sanityContent?.supportCtaText || "Contact Us"}
           </SeventhButton>
         </TransitionLink>

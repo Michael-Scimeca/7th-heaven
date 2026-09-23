@@ -321,7 +321,7 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
   };
 
   return (
-    <main className="min-h-screen text-white page-container" id="cruise-page">
+    <main className="min-h-screen page-container" id="cruise-page">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
         heroForegroundRef={heroForegroundRef}
@@ -385,44 +385,44 @@ export default function CruiseClient({ sanityContent }: { sanityContent?: any })
 function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormData: (fd: any) => void }) {
   return (
     <div className="py-4 border-b border-white/10">
-      <span className="text-white uppercase block font-bold">Card 1 - Deposit Details</span>
+      <span className="block font-bold">Card 1 - Deposit Details</span>
       <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="booking-cell pb-4 pt-4">
-          <label htmlFor="cruise-card-name-1" className="booking-label block text-white uppercase mb-1.5">Your Full Name on the Card *</label>
+          <label htmlFor="cruise-card-name-1" className="booking-label block mb-1.5">Your Full Name on the Card *</label>
           <div className="input-glow-border rounded-xl">
-            <input id="cruise-card-name-1" type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({ ...formData, cardName1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input id="cruise-card-name-1" type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({ ...formData, cardName1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell pb-4 pt-4">
-          <label htmlFor="cruise-card-number-1" className="booking-label block text-white uppercase mb-1.5">Credit Card Number *</label>
+          <label htmlFor="cruise-card-number-1" className="booking-label block mb-1.5">Credit Card Number *</label>
           <div className="input-glow-border rounded-xl">
-            <input id="cruise-card-number-1" type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({ ...formData, cardNumber1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input id="cruise-card-number-1" type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({ ...formData, cardNumber1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell pb-4 pt-4">
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <label htmlFor="cruise-card-exp-1" className="booking-label block text-white uppercase mb-1.5">Exp. Date *</label>
+              <label htmlFor="cruise-card-exp-1" className="booking-label block mb-1.5">Exp. Date *</label>
               <div className="input-glow-border rounded-xl">
-                <input id="cruise-card-exp-1" type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({ ...formData, cardExpiry1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input id="cruise-card-exp-1" type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({ ...formData, cardExpiry1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-center placeholder: text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
-              <label htmlFor="cruise-card-cvv-1" className="booking-label block text-white uppercase mb-1.5">3 Digit CVC *</label>
+              <label htmlFor="cruise-card-cvv-1" className="booking-label block mb-1.5">3 Digit CVC *</label>
               <div className="input-glow-border rounded-xl">
-                <input id="cruise-card-cvv-1" type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({ ...formData, cardCvv1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input id="cruise-card-cvv-1" type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({ ...formData, cardCvv1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-center placeholder: text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
-              <label htmlFor="cruise-card-zip-1" className="booking-label block text-white uppercase mb-1.5">Billing Zip *</label>
+              <label htmlFor="cruise-card-zip-1" className="booking-label block mb-1.5">Billing Zip *</label>
               <div className="input-glow-border rounded-xl">
-                <input id="cruise-card-zip-1" type="text" required placeholder="Zip" value={formData.cardZip1} onChange={e => setFormData({ ...formData, cardZip1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input id="cruise-card-zip-1" type="text" required placeholder="Zip" value={formData.cardZip1} onChange={e => setFormData({ ...formData, cardZip1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-center placeholder: text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
           </div>
         </div>
         <div className="booking-cell pb-4 pt-4">
-          <label htmlFor="cruise-card-amount-1" className="booking-label block text-white uppercase mb-1.5">Amount to Charge ($ USD)</label>
+          <label htmlFor="cruise-card-amount-1" className="booking-label block mb-1.5">Amount to Charge ($ USD)</label>
           <div className="input-glow-border rounded-xl">
             <input id="cruise-card-amount-1" type="text" required value={formData.cardAmount1} onChange={e => setFormData({ ...formData, cardAmount1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base text-purple-300 focus:outline-none rounded-lg" />
           </div>
@@ -435,44 +435,44 @@ function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormD
 function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormData: (fd: any) => void }) {
   return (
     <div className="p-4 border-b border-white/10">
-      <span className="text-white uppercase block font-bold">Card 2 - Split Details</span>
+      <span className="block font-bold">Card 2 - Split Details</span>
       <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="booking-cell p-4">
-          <label htmlFor="cruise-card-name-2" className="booking-label block text-white uppercase mb-1.5">Your Full Name on the Card *</label>
+          <label htmlFor="cruise-card-name-2" className="booking-label block mb-1.5">Your Full Name on the Card *</label>
           <div className="input-glow-border rounded-xl">
-            <input id="cruise-card-name-2" type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({ ...formData, cardName2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input id="cruise-card-name-2" type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({ ...formData, cardName2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell p-4">
-          <label htmlFor="cruise-card-number-2" className="booking-label block text-white uppercase mb-1.5">Credit Card Number *</label>
+          <label htmlFor="cruise-card-number-2" className="booking-label block mb-1.5">Credit Card Number *</label>
           <div className="input-glow-border rounded-xl">
-            <input id="cruise-card-number-2" type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({ ...formData, cardNumber2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+            <input id="cruise-card-number-2" type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({ ...formData, cardNumber2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
           </div>
         </div>
         <div className="booking-cell p-4">
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <label htmlFor="cruise-card-exp-2" className="booking-label block text-white uppercase mb-1.5">Exp. Date *</label>
+              <label htmlFor="cruise-card-exp-2" className="booking-label block mb-1.5">Exp. Date *</label>
               <div className="input-glow-border rounded-xl">
-                <input id="cruise-card-exp-2" type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({ ...formData, cardExpiry2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input id="cruise-card-exp-2" type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({ ...formData, cardExpiry2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-center placeholder: text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
-              <label htmlFor="cruise-card-cvv-2" className="booking-label block text-white uppercase mb-1.5">3 Digit CVC *</label>
+              <label htmlFor="cruise-card-cvv-2" className="booking-label block mb-1.5">3 Digit CVC *</label>
               <div className="input-glow-border rounded-xl">
-                <input id="cruise-card-cvv-2" type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({ ...formData, cardCvv2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input id="cruise-card-cvv-2" type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({ ...formData, cardCvv2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-center placeholder: text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
             <div>
-              <label htmlFor="cruise-card-zip-2" className="booking-label block text-white uppercase mb-1.5">Billing Zip *</label>
+              <label htmlFor="cruise-card-zip-2" className="booking-label block mb-1.5">Billing Zip *</label>
               <div className="input-glow-border rounded-xl">
-                <input id="cruise-card-zip-2" type="text" required placeholder="Zip" value={formData.cardZip2} onChange={e => setFormData({ ...formData, cardZip2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-white text-center placeholder:text-white/40 focus:outline-none rounded-lg" />
+                <input id="cruise-card-zip-2" type="text" required placeholder="Zip" value={formData.cardZip2} onChange={e => setFormData({ ...formData, cardZip2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3 py-2.5 text-base font-semibold text-center placeholder: text-white/40 focus:outline-none rounded-lg" />
               </div>
             </div>
           </div>
         </div>
         <div className="booking-cell p-4">
-          <label htmlFor="cruise-card-amount-2" className="booking-label block text-white uppercase mb-1.5">Amount to Charge ($ USD)</label>
+          <label htmlFor="cruise-card-amount-2" className="booking-label block mb-1.5">Amount to Charge ($ USD)</label>
           <div className="input-glow-border rounded-xl">
             <input id="cruise-card-amount-2" type="text" required value={formData.cardAmount2} onChange={e => setFormData({ ...formData, cardAmount2: e.target.value })} className="booking-input w-full bg-black/50 border border-white/10 px-3.5 py-2.5 text-base text-purple-300 focus:outline-none rounded-lg" />
           </div>
@@ -498,21 +498,21 @@ function CruiseNotesAndSignatureSection({
   return (
     <div className="booking-section-container border-0 p-0 mt-4">
       <div className="booking-section-header px-0 py-2 border-0">
-        <span className="uppercase text-white font-bold">ADDITIONAL NOTES &amp; DIGITAL SIGNATURE</span>
+        <span className="font-bold">ADDITIONAL NOTES &amp; DIGITAL SIGNATURE</span>
       </div>
 
       <div className="py-3 border-0">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           <div className="flex flex-col justify-start">
-            <label htmlFor="cruise-how-heard" className="booking-label block text-white uppercase mb-1.5">How Did You Hear About Us? (Which Band?)</label>
+            <label htmlFor="cruise-how-heard" className="booking-label block mb-1.5">How Did You Hear About Us? (Which Band?)</label>
             <div className="input-glow-border rounded-xl">
-              <input id="cruise-how-heard" type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({ ...f, howHeard: e.target.value }))} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+              <input id="cruise-how-heard" type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({ ...f, howHeard: e.target.value }))} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
             </div>
           </div>
           <div className="flex flex-col justify-start">
-            <label htmlFor="cruise-dining-requests" className="booking-label block text-white uppercase mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
+            <label htmlFor="cruise-dining-requests" className="booking-label block mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
             <div className="input-glow-border rounded-xl">
-              <textarea id="cruise-dining-requests" placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({ ...f, notes: e.target.value }))} rows={2} className="booking-input w-full  border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none resize-none rounded-lg" />
+              <textarea id="cruise-dining-requests" placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({ ...f, notes: e.target.value }))} rows={2} className="booking-input w-full border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none resize-none rounded-lg" />
             </div>
           </div>
         </div>
@@ -520,7 +520,7 @@ function CruiseNotesAndSignatureSection({
 
       <div className="booking-grid grid grid-cols-1 md:grid-cols-2 border-0 items-start gap-6 mt-2">
         <div className="booking-cell border-0 py-3 px-0 flex flex-col justify-start">
-          <label htmlFor="cruise-e-signature" className="booking-label block text-white uppercase mb-1.5">Date &amp; E-Signature (Type full name to sign) *</label>
+          <label htmlFor="cruise-e-signature" className="booking-label block mb-1.5">Date &amp; E-Signature (Type full name to sign) *</label>
           <div className="input-glow-border rounded-xl">
             <input
               id="cruise-e-signature"
@@ -529,14 +529,14 @@ function CruiseNotesAndSignatureSection({
               placeholder="Type legal name to sign"
               value={signature}
               onChange={e => setSignature(e.target.value)}
-              className="booking-signature-input signature-font w-full bg-black/50 border-0 px-3.5 py-2.5 text-lg text-purple-300 placeholder:text-white/30 focus:outline-none rounded-lg"
+              className="booking-signature-input signature-font w-full bg-black/50 border-0 px-3.5 py-2.5 text-lg text-purple-300 placeholder: text-white/30 focus:outline-none rounded-lg"
             />
           </div>
         </div>
         <div className="booking-cell border-0 py-3 px-0 flex flex-col justify-start">
-          <span className="booking-label block text-white uppercase mb-1.5">Date Signed</span>
+          <span className="booking-label block mb-1.5">Date Signed</span>
           <div className="input-glow-border rounded-xl">
-            <input type="text" readOnly value={signatureDate} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white/80 focus:outline-none cursor-not-allowed rounded-lg" />
+            <input type="text" readOnly value={signatureDate} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold   focus:outline-none cursor-not-allowed rounded-lg" />
           </div>
         </div>
       </div>
@@ -568,10 +568,10 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
   };
 
   return (
-    <div className="mt-4 w-full text-left text-white animate-fade-in">
+    <div className="mt-4 w-full text-left animate-fade-in">
       <div className="flex items-start justify-between gap-4 mb-5 border-b border-white/10 pb-3">
         <div>
-          <h3 className="uppercase text-white">MAKE A PAYMENT</h3>
+          <h3 className="">MAKE A PAYMENT</h3>
           <p className="text-white/60 mt-0.5">Group ID: 3325680 · Official Travel Agency: NTD Vacations</p>
         </div>
       </div>
@@ -581,8 +581,8 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
           <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto text-xl">
             <CheckMarkIcon className="w-6 h-6 text-emerald-400" />
           </div>
-          <h3 className="text-xl text-white">Payment Authorized!</h3>
-          <p className="text-white/80 text-xs max-w-xs mx-auto">
+          <h3 className="text-xl">Payment Authorized!</h3>
+          <p className="  text-xs max-w-xs mx-auto">
             Your payment of <strong className="text-emerald-400">${payForm.cardAmount}</strong> has been successfully processed under Royal Caribbean Group ID <strong className="text-purple-300">3325680</strong>.
           </p>
           <div className="bg-purple-950/40 border border-purple-500/30 p-2.5 rounded-xl font-mono text-xs text-purple-200 inline-block">
@@ -595,7 +595,7 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
                 setSubmittedRef(null);
                 onClose();
               }}
-              className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white uppercase text-xs r transition-colors cursor-pointer">
+              className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs r transition-colors cursor-pointer">
               Close Panel
             </button>
           </div>
@@ -701,7 +701,7 @@ function PaymentPortalDropdownPanel({ isOpen, onClose }: { isOpen: boolean; onCl
             <SeventhButton
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 text-white uppercase cursor-pointer disabled:opacity-50 font-extrabold">
+              className="w-full py-3 cursor-pointer disabled:opacity-50  ">
               {isSubmitting ? "PROCESSING PAYMENT..." : "SUBMIT PAYMENT"}
             </SeventhButton>
           </div>

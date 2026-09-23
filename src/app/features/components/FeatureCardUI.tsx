@@ -19,9 +19,7 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
     <>
       <button
         onClick={() => setExpanded(true)}
-        className={`relative w-full aspect-video overflow-hidden border-2 transition-colors duration-300 cursor-pointer group ${isPurple ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
-          : " border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
-          }`}>
+        className={`relative w-full aspect-video overflow-hidden border-2 transition-colors duration-300 cursor-pointer group ${isPurple ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]" : " border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image width={200} height={200} unoptimized
           src={src}
@@ -33,9 +31,7 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-50 transition-opacity" />
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className={`w-14 h-14 rounded-lg flex items-center justify-center transition-colors duration-300 group-hover:scale-110 ${isPurple ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
-            : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
-            }`}>
+          <div className={`w-14 h-14 rounded-lg flex items-center justify-center transition-colors duration-300 group-hover:scale-110 ${isPurple ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]" : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"}`}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -43,9 +39,7 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
         </div>
         {/* Label */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
-          <span className={` uppercase    px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
-            : "bg-black/50 border-white/10 text-white/80"
-            }`}>
+          <span className={`px-2.5 py-1 rounded-lg border backdrop-blur-sm ${isPurple ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 " : "bg-black/50 border-white/10  "}`}>
             ▶ Live Preview
           </span>
         </div>
@@ -60,17 +54,17 @@ export function DemoPreview({ src, title, isPurple }: { src: string; title: stri
             {/* Close Button */}
             <button
               onClick={() => setExpanded(false)}
-              className="absolute -top-12 right-0 text-white hover:text-white uppercase flex items-center gap-2 transition-colors cursor-pointer">
+              className="absolute -top-12 right-0 hover:text-white flex items-center gap-2 transition-colors cursor-pointer">
               Close <span className="text-lg">✕</span>
             </button>
             {/* Title */}
             <div className="mb-6">
-              <h3 className="text-white uppercase" style={{ fontStyle: "italic" }}>
+              <h3 className="" style={{ fontStyle: "italic" }}>
                 {title} <span style={{ color: "#851DEF" }}>Demo</span>
               </h3>
             </div>
             {/* Image */}
-            <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : " border-white/10 "}`}>
+            <div className={`overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : " border-white/10 "}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image width={200} height={200} unoptimized
                 src={src}
@@ -98,16 +92,16 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
-          <span className="text-5xl ">{f.icon}</span>
+          <span className="text-5xl">{f.icon}</span>
           {isPurple && (
-            <span className="text-base px-3 py-1 rounded-lg bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] uppercase shrink-0">✦ Flagship</span>
+            <span className="text-base px-3 py-1 rounded-lg bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc] shrink-0">✦ Flagship</span>
           )}
         </div>
 
         {/* Titles */}
         <div>
-          <h3 className="text-white uppercase mb-1.5" style={{ fontStyle: "italic" }}>{f.title}</h3>
-          <p className={`font-semibold ${isPurple ? "text-[#c084fc]" : "text-white/40"}`}>{f.tagline}</p>
+          <h3 className="mb-1.5" style={{ fontStyle: "italic" }}>{f.title}</h3>
+          <p className={`font-semibold ${isPurple ? "text-[#c084fc]" : " text-white/40"}`}>{f.tagline}</p>
         </div>
 
         {/* Demo Preview */}
@@ -118,16 +112,16 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Why it matters */}
         <div className={`p-4 rounded-lg border text-base ${isPurple ? "bg-[var(--color-accent)]/10 border-[#851DEF]/20 text-[#c084fc]/80" : "bg-white/[0.03] border-white/[0.07] text-white/40"}`}>
-          <span className="uppercase text-white/50 block mb-1.5">Why it matters</span>
+          <span className="text-white/50 block mb-1.5">Why it matters</span>
           {f.whyItMatters}
         </div>
 
         {/* Bullets */}
         <div>
-          <p className="uppercase mb-3">What it does</p>
+          <p className="mb-3">What it does</p>
           <ul className="space-y-2">
             {f.bullets.map((b) => (
-              <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg text-white">
+              <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg">
                 <span className={`mt-2 w-1.5 h-1.5 rounded-lg shrink-0 ${isPurple ? "bg-[var(--color-accent)]" : "bg-white/25"}`} />
                 {b}
               </li>
@@ -139,7 +133,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div>
           <button
             onClick={() => setExpanded(v => !v)}
-            className={`flex items-center gap-2 text-base    uppercase transition-colors cursor-pointer ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white/70"}`}>
+            className={`flex items-center gap-2 text-base transition-colors cursor-pointer ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white " : " text-white/30 hover:text-white text-white/70"}`}>
             <span className={`transition-transform duration-200 ${expanded ? "rotate-90" : "rotate-0"}`}>▶</span>
             How It Works
           </button>
@@ -167,7 +161,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
 
       {/* Footer link */}
       {f.link && (
-        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base uppercase transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : " border-white/10 text-white/25 hover:text-white bg-[#00000029] "}`}>
+        <Link href={f.link} className={`flex items-center justify-between px-6 py-4 border-t text-base transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:text-white hover:bg-[var(--color-accent)]/10" : " border-white/10 hover:text-white bg-[#00000029] "}`}>
           Explore live →
         </Link>
       )}

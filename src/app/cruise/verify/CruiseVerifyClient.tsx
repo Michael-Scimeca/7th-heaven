@@ -107,7 +107,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
 
   return (
     <div
-      className={`${outfit.className} min-h-screen bg-[#020818] text-white flex flex-col items-center justify-center p-4 relative overflow-hidden`}>
+      className={`${outfit.className} min-h-screen bg-[#020818] flex flex-col items-center justify-center p-4 relative overflow-hidden`}>
       {/* Background Glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-2/3 left-1/3 w-[300px] h-[300px] bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none" />
@@ -119,7 +119,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
           🚢
         </div>
 
-        <h1 className="text-2xl font-black tracking-tight mb-1 text-white">
+        <h1 className="text-2xl  mb-1">
           {sanityContent?.heroHeading || sanityContent?.title || "Verify Cruise Access"}
         </h1>
         <p className="text-sm text-white/60 mb-6">
@@ -155,7 +155,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
                     onChange={(e) => handleDigit(idx, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(idx, e)}
                     onPaste={handlePaste}
-                    className="w-11 h-13 text-center text-xl font-bold bg-white/[0.06] border border-white/15 rounded-xl focus:outline-none focus:border-purple-400 focus:bg-white/[0.1] text-white transition-all shadow-sm"
+                    className="w-11 h-13 text-center text-xl font-bold bg-white/[0.06] border border-white/15 rounded-xl focus:outline-none focus:border-purple-400 focus:bg-white/[0.1] transition-all shadow-sm"
                     aria-label={`Digit ${idx + 1}`}
                   />
                 ))}
@@ -170,7 +170,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
               <button
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-purple-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
+                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 font-bold text-sm shadow-purple-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
                 {sanityContent?.submitButtonText || (status === "submitting" ? "Verifying…" : "Access My Dashboard →")}
               </button>
             </form>
@@ -187,7 +187,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
                   type="button"
                   onClick={handleResend}
                   disabled={resendStatus === "sending"}
-                  className="text-purple-300 hover:text-white  transition-colors disabled:opacity-50 cursor-pointer">
+                  className="text-purple-300 hover:text-white transition-colors disabled:opacity-50 cursor-pointer">
                   {resendStatus === "sending" ? "Sending…" : "Resend Code"}
                 </button>
               )}
@@ -203,7 +203,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
             {/* Brand footer */}
             <div className="mt-5 flex items-center justify-center gap-3">
               <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/10" />
-              <span className="text-[10px] uppercase text-white/30">7th Heaven · Caribbean Cruise 2025</span>
+              <span className="text-[10px] text-white/30">7th Heaven · Caribbean Cruise 2025</span>
               <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/10" />
             </div>
           </>

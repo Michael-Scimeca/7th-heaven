@@ -197,7 +197,7 @@ export default function CruiseVideoGallery() {
       <div className="text-center max-w-3xl mx-auto mb-9">
 
         <h2
-          className="md:text-6xl uppercase text-white ">
+          className="md:text-6xl">
           Explore <span className="accent-gradient-text">Ship Videos</span>
         </h2>
         <p className="mt-4">
@@ -212,7 +212,7 @@ export default function CruiseVideoGallery() {
                 key={cat}
                 isActive={selectedCategory === cat}
                 onClick={() => setSelectedCategory(cat)}
-                className="px-5 py-2 uppercase">
+                className="px-5 py-2">
                 {cat}
               </SeventhButton>
             ))}
@@ -228,7 +228,7 @@ export default function CruiseVideoGallery() {
           ))}
         </div>
       ) : filteredVideos.length === 0 ? (
-        <div className="text-center py-16 bg-white/5 rounded-lg border border-white/10 text-white/50 uppercase r">
+        <div className="text-center py-16 bg-white/5 rounded-lg border border-white/10 text-white/50 r">
           No videos found in this category.
         </div>
       ) : (
@@ -257,7 +257,7 @@ export default function CruiseVideoGallery() {
               {/* Title & Info */}
               <div className="pt-6 flex-1 flex flex-col space-y-3">
                 <div>
-                  <h3 className="text-white uppercase group- transition-colors">
+                  <h3 className="group- transition-colors">
                     {vid.title}
                   </h3>
                   {vid.description && (
@@ -283,8 +283,8 @@ export default function CruiseVideoGallery() {
             type="button"
             aria-label="Close video modal"
             onClick={() => setActiveVideo(null)}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[9999999] p-3 !rounded-full bg-white/15 border border-white/10 text-white transition-[background-color,border-color,transform] duration-200 cursor-pointer flex items-center justify-center group">
-            <X className="w-6 h-6 text-white" />
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[9999999] p-3 !rounded-full bg-white/15 border border-white/10 transition-[background-color,border-color,transform] duration-200 cursor-pointer flex items-center justify-center group">
+            <X className="w-6 h-6" />
           </button>
 
           <div
@@ -292,10 +292,10 @@ export default function CruiseVideoGallery() {
             className="relative w-full max-w-5xl rounded-lg p-4 md:p-6 overflow-hidden bg-[#0c071e]">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6 gap-4">
               <div className="min-w-0 flex-1">
-                <span className="uppercase text-purple-400 block mb-1">
+                <span className="text-purple-400 block mb-1">
                   {activeVideo.category}
                 </span>
-                <h3 className="text-white uppercase truncate">
+                <h3 className="truncate">
                   {activeVideo.title}
                 </h3>
               </div>

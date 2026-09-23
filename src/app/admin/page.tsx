@@ -212,10 +212,10 @@ export default function AdminGatewayPage() {
   // If logged in as admin with 2FA verified, show loading while redirect takes place
   if (isLoggedIn && member?.role === 'admin' && is2FAVerified) {
     return (
-      <div className="fixed inset-0 h-screen w-screen text-white flex items-center justify-center">
+      <div className="fixed inset-0 h-screen w-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 rounded-lg border-4 border-purple-500 border-t-transparent animate-spin mx-auto mb-6" />
-          <p className="uppercase">Redirecting to dashboard...</p>
+          <p className="">Redirecting to dashboard...</p>
         </div>
       </div>
     );
@@ -225,7 +225,7 @@ export default function AdminGatewayPage() {
   const fullPin = pin.join("");
 
   return (
-    <div className="fixed inset-0 h-screen w-screen text-white flex items-center justify-center px-6 overflow-hidden lock-scroll-fullscreen" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="fixed inset-0 h-screen w-screen flex items-center justify-center px-6 overflow-hidden lock-scroll-fullscreen" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Blurred Hero Background Overlay */}
       <div
@@ -252,13 +252,13 @@ export default function AdminGatewayPage() {
             style={MODAL_GLASS_STYLE}>
             <div className="p-8 sm:p-10">
               <div className="text-center mb-8">
-                <div className="w-14 h-14 mx-auto mb-6 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center  shadow-[0_0_24px_rgba(147,51,234,0.4)]">
+                <div className="w-14 h-14 mx-auto mb-6 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center shadow-[0_0_24px_rgba(147,51,234,0.4)]">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                 </div>
                 <h1>
                   Admin <span className="text-[var(--color-accent)]">Access</span>
                 </h1>
-                <p className="uppercase mt-2">
+                <p className="mt-2">
                   Restricted — Authorized personnel only
                 </p>
               </div>
@@ -268,17 +268,17 @@ export default function AdminGatewayPage() {
                   <div className="p-5 bg-purple-600/10 border border-purple-500/30 mb-6">
                     <p className="mb-1">Access Denied</p>
                     <p className="font-semibold">
-                      You&apos;re logged in as <strong className="text-white font-extrabold">{member?.name}</strong> ({member?.role}).
+                      You&apos;re logged in as <strong className=" ">{member?.name}</strong> ({member?.role}).
                       Admin privileges are required to access this dashboard.
                     </p>
                   </div>
                   <div className="flex flex-col gap-3">
-                    <Link href="/fans" className="text-[0.65rem]  hover:text-purple-300 uppercase    transition-colors">
+                    <Link href="/fans" className="text-[0.65rem] hover:text-purple-300 transition-colors">
                       ← Back to Fan Dashboard
                     </Link>
                     <button
                       onClick={() => logout()}
-                      className="text-[0.65rem] text-rose-400 hover:text-rose-300 uppercase    transition-colors cursor-pointer">
+                      className="text-[0.65rem] text-rose-400 hover:text-rose-300 transition-colors cursor-pointer">
                       Sign Out & Switch Account
                     </button>
                   </div>
@@ -286,7 +286,7 @@ export default function AdminGatewayPage() {
               ) : (
                 <form onSubmit={handleAdminLogin} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
                   <div>
-                    <label htmlFor="root-admin-login-email" className="text-[0.65rem] uppercase    text-white/50 mb-1.5 block">Email</label>
+                    <label htmlFor="root-admin-login-email" className="text-[0.65rem] text-white/50 mb-1.5 block">Email</label>
                     <input id="root-admin-login-email"
                       type="email"
                       value={adminEmail}
@@ -294,12 +294,12 @@ export default function AdminGatewayPage() {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold placeholder: text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>
                   <div>
-                    <label htmlFor="root-admin-login-password" className="text-[0.65rem] uppercase    text-white/50 mb-1.5 block">Password</label>
+                    <label htmlFor="root-admin-login-password" className="text-[0.65rem] text-white/50 mb-1.5 block">Password</label>
                     <input id="root-admin-login-password"
                       type="password"
                       value={adminPassword}
@@ -307,7 +307,7 @@ export default function AdminGatewayPage() {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
+                      className="w-full px-4 py-3 bg-black/50 border border-white/10 font-semibold placeholder: text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                       required
                     />
                   </div>
@@ -333,14 +333,14 @@ export default function AdminGatewayPage() {
                           router.replace("/admin/admin");
                         }
                       }}
-                      className="btn-action-purple w-full py-3 rounded-lg uppercase    cursor-pointer flex items-center justify-center gap-2">
+                      className="btn-action-purple w-full py-3 rounded-lg cursor-pointer flex items-center justify-center gap-2">
                       <span>⚡</span> Instant Dev Access (Bypass Login)
                     </button>
                   )}
                 </form>
               )}
 
-              <p className="mt-8 text-center uppercase">
+              <p className="mt-8 text-center">
                 7th Heaven · System Administration
               </p>
             </div>
@@ -351,9 +351,9 @@ export default function AdminGatewayPage() {
         {step === "verify" && (
           <>
             <div className="text-center mb-8 relative z-10">
-              <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
-              <h2 className="text-xl font-bold uppercase mb-2">Admin 2FA Verification</h2>
-              <p className=" ">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
+              <p className="tracking-[0.3em] mb-1">7th Heaven · Admin</p>
+              <h2 className="text-xl mb-2">Admin 2FA Verification</h2>
+              <p className="">We sent a 6-digit code to <strong className="text-purple-400">{member?.email || adminEmail}</strong></p>
             </div>
 
             <div
@@ -366,7 +366,7 @@ export default function AdminGatewayPage() {
                 borderRadius: 24,
                 boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
               }}>
-              <p className="uppercase text-center mb-5">Enter 6-Digit PIN</p>
+              <p className="text-center mb-5">Enter 6-Digit PIN</p>
 
               <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
                 {[
@@ -391,11 +391,7 @@ export default function AdminGatewayPage() {
                         onBlur={() => setFocusedIndex(null)}
                         onChange={e => handleDigit(i, e.target.value)}
                         onKeyDown={e => handleKeyDown(i, e)}
-                        className={`w-full h-full text-center text-xl    rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums ${focusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
-                          : digit
-                            ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
-                            : ' border-white/10 text-white/40 hover:border-white/40'
-                          }`}
+                        className={`w-full h-full text-center text-xl rounded-lg border-2 bg-black/70 !p-0 outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 tabular-nums ${focusedIndex === i ? 'border-purple-400 shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative' : digit ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]' : ' border-white/10 text-white/40 hover:border-white/40'}`}
                       />
                     </div>
                   );
@@ -421,7 +417,7 @@ export default function AdminGatewayPage() {
                   boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
                   transition: "all 0.25s ease",
                 }}
-                className="w-full py-3.5 uppercase cursor-pointer rounded-lg mb-6 disabled:cursor-not-allowed">
+                className="w-full py-3.5 cursor-pointer rounded-lg mb-6 disabled:cursor-not-allowed">
                 {verifyStatus === 'checking' ? 'Verifying...' : 'Access My Dashboard →'}
               </button>
 
@@ -466,7 +462,7 @@ export default function AdminGatewayPage() {
               {/* Brand footer */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 16 }}>
                 <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
-                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "", color: "rgba(255,255,255,0.25)" }}>
                   7TH HEAVEN · ADMIN ACCESS
                 </span>
                 <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />

@@ -157,13 +157,13 @@ export default function ProximityPanel() {
   };
 
   return (
-    <div className="space-y-6 text-white">
+    <div className="space-y-6">
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-6">
 
         </div>
-        <h3 className="text-white mb-1">Shows Near You</h3>
+        <h3 className="mb-1">Shows Near You</h3>
         <p className="mb-6 max-w-md">
           Get notified when 7th Heaven is performing within your chosen radius. See who else is going!
         </p>
@@ -185,7 +185,7 @@ export default function ProximityPanel() {
         {/* Zip + Radius */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <div>
-            <label htmlFor="proximity-zip-input" className="uppercase text-white mb-2 block">Your Zip Code</label>
+            <label htmlFor="proximity-zip-input" className="mb-2 block">Your Zip Code</label>
             <GlowInput
               id="proximity-zip-input"
               aria-label="Your zip code"
@@ -198,7 +198,7 @@ export default function ProximityPanel() {
             />
           </div>
           <div>
-            <label htmlFor="proximity-radius-select" className="uppercase text-white mb-2 block">Radius</label>
+            <label htmlFor="proximity-radius-select" className="mb-2 block">Radius</label>
             <CustomDropdown
               id="proximity-radius-select"
               ariaLabel="Radius"
@@ -213,21 +213,21 @@ export default function ProximityPanel() {
           onClick={saveSettings}
           disabled={saving || !zip || zip.length < 5}
           icon={false}
-          className="w-full py-3 uppercase text-white cursor-pointer">
+          className="w-full py-3 cursor-pointer">
           {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
         </SeventhButton>
       </div>
 
       {/* Nearby Shows */}
       {notificationsEnabled && (
-        <div className="pt-2 text-white">
+        <div className="pt-2">
           <div className="flex items-center justify-between mb-6">
-            <span className="uppercase text-[var(--color-accent)]">
+            <span className="text-[var(--color-accent)]">
               Shows Within {radius} Miles
             </span>
             <button
               onClick={fetchNearbyShows}
-              className="uppercase text-white/40 hover:text-white transition-colors">
+              className="text-white/40 hover:text-white transition-colors">
               Refresh
             </button>
           </div>
@@ -253,10 +253,10 @@ export default function ProximityPanel() {
                       onClick={() => loadAttendees(show)}
                       className="flex items-center gap-4 text-left cursor-pointer flex-1">
                       <div className="flex flex-col items-center justify-center w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-lg shrink-0">
-                        <span className="text-blue-400 uppercase">
+                        <span className="text-blue-400">
                           {new Date(show.date + "T12:00:00").toLocaleDateString("en-US", { month: "short" })}
                         </span>
-                        <span className="text-lg text-white ">
+                        <span className="text-lg">
                           {new Date(show.date + "T12:00:00").getDate()}
                         </span>
                       </div>
@@ -271,9 +271,7 @@ export default function ProximityPanel() {
                     <button
                       type="button"
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
-                      className={`px-4 py-2    uppercase rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ? "bg-blue-600 text-white border-blue-600"
-                        : "bg-white/10 text-white border-white/10 hover:bg-blue-500 hover:text-black hover:border-blue-500"
-                        }`}>
+                      className={`px-4 py-2 rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ? "bg-blue-600 border-blue-600" : "bg-white/10 border-white/10 hover:bg-blue-500 hover:text-black hover:border-blue-500" }`}>
                       {myStatus && selectedShow?.id === show.id ? "Going" : "I'm Going"}
                     </button>
                   </div>
@@ -282,19 +280,19 @@ export default function ProximityPanel() {
                   {selectedShow?.id === show.id && (
                     <div className="mt-4 pt-4 border-t border-white/10">
                       <div className="flex items-center justify-between mb-3">
-                        <p className="uppercase">
+                        <p className="">
                           {attendees.length} fan{attendees.length !== 1 ? "s" : ""} going
                         </p>
                         <div className="flex items-center gap-2">
                           <a
                             href={show.showPageUrl || `/shows/${show.id}`}
-                            className="uppercase text-blue-400 hover:text-white transition-colors">
+                            className="text-blue-400 hover:text-white transition-colors">
                             View Show Page →
                           </a>
                           <span className="text-white/20">·</span>
                           <a
                             href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
-                            className="uppercase text-white/40 hover:text-white transition-colors">
+                            className="text-white/40 hover:text-white transition-colors">
                             Share
                           </a>
                         </div>
@@ -312,7 +310,7 @@ export default function ProximityPanel() {
                               </div>
                               <span className="text-black/70 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>
                               {a.profiles?.tier && a.profiles.tier !== "Bronze" && (
-                                <span className={`text-[var(--font-size-2xs)] uppercase ${tierColors[a.profiles.tier]}`}>
+                                <span className={`text-[var(--font-size-2xs)] ${tierColors[a.profiles.tier]}`}>
                                   {a.profiles.tier}
                                 </span>
                               )}

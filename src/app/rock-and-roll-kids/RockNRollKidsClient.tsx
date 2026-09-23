@@ -423,13 +423,13 @@ export default function RockNRollKidsClient({
   const para2 = aboutSection?.body || ABOUT_DATA.paragraph2;
 
   return (
-    <main className="site-container min-h-screen w-full text-white page-container overflow-x-hidden">
+    <main className="site-container min-h-screen w-full page-container overflow-x-hidden">
       {/* Hero Header */}
       <header className="text-center space-y-6">
         <h1 className="mb-3">
           {sanityContent?.heroHeading || ABOUT_DATA.headline}
         </h1>
-        <p className="max-w-2xl mx-auto text-white/80">
+        <p className="max-w-2xl mx-auto  ">
           {sanityContent?.heroSubheading ||
             "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."}
         </p>
@@ -450,10 +450,10 @@ export default function RockNRollKidsClient({
       <section aria-labelledby="rrk-story-heading" className="w-full py-section-fluid border-b border-white/10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-start text-left w-full">
           <div className="md:col-span-5 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/20 border border-purple-400/40 text-purple-300 font-bold text-xs uppercase shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/20 border border-purple-400/40 text-purple-300 font-bold text-xs shadow-[0_0_15px_rgba(168,85,247,0.2)]">
               <span>✨</span> {badgeText}
             </div>
-            <h2 id="rrk-story-heading" className="text-white text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase tracking-tight leading-tight">
+            <h2 id="rrk-story-heading">
               {titleText}
             </h2>
             <p className="text-white/70 text-sm leading-relaxed">
@@ -483,13 +483,13 @@ export default function RockNRollKidsClient({
 
             <div className="relative z-10 space-y-5">
               <div className="flex items-center gap-2">
-                <span className="text-purple-400 font-bold uppercase text-xs tracking-wider">[ CONCEPT OVERVIEW ]</span>
+                <span className="text-purple-400 font-bold text-xs  r">[ CONCEPT OVERVIEW ]</span>
               </div>
-              <p className="text-white text-lg sm:text-xl leading-relaxed font-semibold drop-shadow-md">
+              <p className="text-lg sm:text-xl leading-relaxed font-semibold drop-shadow-md">
                 &ldquo;{para1}&rdquo;
               </p>
               {para2 && (
-                <p className="text-white/80 text-sm sm:text-base leading-relaxed border-t border-purple-500/20 pt-5 font-normal">
+                <p className="  text-sm sm:text-base leading-relaxed border-t border-purple-500/20 pt-5 font-normal">
                   {para2}
                 </p>
               )}
@@ -522,7 +522,7 @@ export default function RockNRollKidsClient({
                   {char.icon ? <char.icon className="w-3.5 h-3.5" /> : null}
                   {char.role}
                 </SectionBadge>
-                <h3 className="text-white mb-1 font-bold">{char.name}</h3>
+                <h3 className="mb-1 font-bold">{char.name}</h3>
                 <p className="text-white/70 text-sm">{char.desc}</p>
               </div>
             </article>
@@ -536,7 +536,7 @@ export default function RockNRollKidsClient({
           {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
           <div className="lg:col-span-5 space-y-6">
             <div className="space-y-3">
-              <h2 id="rrk-videos-heading" className="text-white text-xl sm:text-2xl font-bold uppercase tracking-wide mb-1">
+              <h2 id="rrk-videos-heading" className="text-xl sm:text-2xl font-bold   mb-1">
                 Featured Animated Singles
               </h2>
               <p className="text-white/70 text-sm">
@@ -557,7 +557,7 @@ export default function RockNRollKidsClient({
                     key={single.id}
                     onClick={() => setSelectedVideo(single.id)}
                     isActive={selectedVideo === single.id}
-                    className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+                    className="!w-auto text-xs [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
                   >
                     {single.title}
                   </SeventhButton>
@@ -598,10 +598,10 @@ export default function RockNRollKidsClient({
       <section aria-labelledby="rrk-comics-heading" className="py-section-fluid border-b border-white/10">
         <div className="pb-4 mb-6">
           <div>
-            <h2 id="rrk-comics-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
+            <h2 id="rrk-comics-heading" className="text-2xl sm:text-3xl font-bold mb-1">
               {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
             </h2>
-            <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
+            <p className="  text-sm sm:text-base leading-relaxed max-w-3xl">
               {comicsSection?.subtitle || "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
             </p>
           </div>
@@ -623,10 +623,10 @@ export default function RockNRollKidsClient({
                     className="object-cover"
                   />
                 </div>
-                <span className="text-[11px] text-purple-400 font-bold uppercase    block mb-1">
+                <span className="text-[11px] text-purple-400 font-bold block mb-1">
                   {prod.badge}
                 </span>
-                <h3 className="text-white text-base font-bold mb-1.5 line-clamp-1">
+                <h3 className="text-base font-bold mb-1.5 line-clamp-1">
                   {prod.title}
                 </h3>
                 <p className="text-white/70 text-xs leading-relaxed mb-6 line-clamp-2">
@@ -639,7 +639,7 @@ export default function RockNRollKidsClient({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full block">
-                <SeventhButton className="w-full !text-center justify-center font-bold text-xs ">
+                <SeventhButton className="w-full !text-center justify-center font-bold text-xs">
                   <span>Amazon Link</span>
                 </SeventhButton>
               </a>
@@ -651,10 +651,10 @@ export default function RockNRollKidsClient({
       {/* ── SERIES FOUNDERS & CREATORS ── */}
       <section aria-labelledby="rrk-founders-heading" className="py-section-fluid">
         <div className="mb-6 text-left">
-          <h2 id="rrk-founders-heading" className="text-white text-2xl sm:text-3xl font-bold uppercase mb-1">
+          <h2 id="rrk-founders-heading" className="text-2xl sm:text-3xl font-bold mb-1">
             {foundersSection?.title || "Series Founders & Contact"}
           </h2>
-          <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-3xl">
+          <p className="  text-sm sm:text-base leading-relaxed max-w-3xl">
             {foundersSection?.subtitle || "Meet the creators and co-founders behind 7th Heaven and the Rock 'n' Roll Kids franchise, bringing animated music adventures, comic books, and live rock performances to life."}
           </p>
         </div>
@@ -683,7 +683,7 @@ export default function RockNRollKidsClient({
                 <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 pointer-events-none z-10" />
               </div>
               <div className="flex flex-col items-center text-center space-y-2.5 w-full">
-                <h3 className="text-2xl sm:text-3xl font-bold text-white uppercase tracking-wide mb-2">
+                <h3 className="text-2xl sm:text-3xl font-bold   mb-2">
                   {founder.name}
                 </h3>
                 <div>
@@ -692,20 +692,20 @@ export default function RockNRollKidsClient({
                     isActive
                   />
                 </div>
-                <p className="text-white/80 text-sm leading-relaxed max-w-md mx-auto mb-1">
+                <p className="  text-sm leading-relaxed max-w-md mx-auto mb-1">
                   {founder.desc}
                 </p>
                 {founder.phone ? (
                   <a
                     href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                    className="!text-white font-bold text-sm sm:text-base  block mb-0">
+                    className="! font-bold text-sm sm:text-base block mb-0">
                     {founder.phone}
                   </a>
                 ) : null}
                 {founder.email ? (
                   <a
                     href={`mailto:${founder.email}`}
-                    className=" font-bold text-sm sm:text-base a-btn block">
+                    className="font-bold text-sm sm:text-base a-btn block">
                     {founder.email}
                   </a>
                 ) : null}

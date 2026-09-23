@@ -236,7 +236,7 @@ export default function FooterProximityAlerts() {
         <div className="w-full relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-6">
             {/* ── LEFT COLUMN: iPhone Mobile Preview Device Mockup (Hidden on mobile, shown on tablet/desktop) ── */}
             <div className="hidden md:flex shrink-0 w-full md:w-auto justify-center items-center my-auto">
-                <div className="relative w-[190px] sm:w-[210px] lg:w-[230px] aspect-[9/19.5] select-none filter ">
+                <div className="relative w-[190px] sm:w-[210px] lg:w-[230px] aspect-[9/19.5] select-none filter">
                     <IphoneClipMask
                         insetXPercent={0}
                         insetTopPercent={0}
@@ -298,7 +298,7 @@ export default function FooterProximityAlerts() {
                     </div>
 
                     <div>
-                        <label className="block uppercase mb-2 flex items-center gap-1.5">
+                        <label className="block mb-2 flex items-center gap-1.5">
                             Your Zip Code / City
                         </label>
                         <GlowInput type="text" value={zip} onChange={(e) => setZip(e.target.value)} placeholder="e.g. 60056 or Chicago" wrapperClassName="w-full" />
@@ -315,7 +315,7 @@ export default function FooterProximityAlerts() {
                 {/* Stacked Rows: Maximum Distance Radius on Top, Notification Types Below */}
                 <div className="flex flex-col gap-6 mb-6 relative z-10">
                     <div>
-                        <label className="block text-[11px] uppercase mb-2 flex items-center gap-1.5">
+                        <label className="block text-[11px] mb-2 flex items-center gap-1.5">
                             <Sliders className="w-3.5 h-3.5" /> Maximum Distance Radius
                         </label>
                         <div className="inline-flex flex-wrap gap-1.5 w-fit max-w-full">
@@ -336,7 +336,7 @@ export default function FooterProximityAlerts() {
                     </div>
 
                     <div>
-                        <label className="block text-[11px] uppercase mb-2 flex items-center gap-1.5">
+                        <label className="block text-[11px] mb-2 flex items-center gap-1.5">
                             <Music className="w-3.5 h-3.5" /> Which Types of Show Notifications?
                         </label>
                         <div className="flex flex-wrap gap-2">
@@ -365,22 +365,22 @@ export default function FooterProximityAlerts() {
 
                 <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
                     <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
-                    <span className="text-white font-medium">
-                        I agree to the <Link href="/terms" className="  hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="  hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
+                    <span className="font-medium">
+                        I agree to the <Link href="/terms" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
                     </span>
                 </div>
 
                 <div className="pt-5 border-t border-white/10 flex flex-col items-start justify-start gap-3 relative z-10">
                     {permission === "granted" ? (
                         <div className="flex flex-wrap items-center gap-3 shrink-0">
-                            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 uppercase whitespace-nowrap shrink-0">
+                            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 whitespace-nowrap shrink-0">
                                 <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
                             </span>
                             <SeventhButton
                                 icon={false}
                                 onClick={handleSavePrefs}
                                 disabled={isBusy}
-                                className="!px-6 !py-3 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
+                                className="!px-6 !py-3 !text-xs ! rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
                                 <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                                     {status === "saving" ? (
                                         <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
@@ -397,7 +397,7 @@ export default function FooterProximityAlerts() {
                             icon={false}
                             onClick={handleEnableAlerts}
                             disabled={isBusy || permission === "denied"}
-                            className="!px-6 !py-3.5 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
+                            className="!px-6 !py-3.5 !text-xs ! rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
                             <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                                 {status === "saving" ? (
                                     <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
@@ -413,7 +413,7 @@ export default function FooterProximityAlerts() {
                         </SeventhButton>
                     )}
 
-                    <p className="uppercase text-xs text-white/70 tracking-wide ">
+                    <p className="text-xs text-white/70  ">
                         {permission === "granted"
                             ? "Your notifications are enabled. Update filters above and save anytime."
                             : "Click to enable instant browser & proximity alerts for nearby shows."}

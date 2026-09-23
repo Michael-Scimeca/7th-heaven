@@ -16,10 +16,13 @@ export interface SeventhButtonProps
   shineRight?: string;
   glowStart?: string;
   glowEnd?: string;
+  href?: string;
+  target?: string;
+  rel?: string;
 }
 
 export const SeventhButton = React.forwardRef<
-  HTMLButtonElement,
+  HTMLButtonElement | HTMLAnchorElement,
   SeventhButtonProps
 >(
   (
@@ -37,6 +40,9 @@ export const SeventhButton = React.forwardRef<
       glowStart,
       glowEnd,
       style,
+      href,
+      target,
+      rel,
       ...props
     },
     ref
@@ -59,20 +65,38 @@ export const SeventhButton = React.forwardRef<
     if (glowEnd) cssVars["--button-glow-end"] = glowEnd;
 
     const renderIcon = typeof icon === "boolean" ? null : icon;
+    const content = (
+      <span>
+        {renderIcon}
+        {children}
+      </span>
+    );
+
+    if (href) {
+      return (
+        <a
+          ref={ref as React.Ref<HTMLAnchorElement>}
+          href={href}
+          target={target}
+          rel={rel}
+          className={combinedClassName}
+          style={{ ...(cssVars as React.CSSProperties), ...style }}
+          {...(props as unknown as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        >
+          {content}
+        </a>
+      );
+    }
 
     return (
       <button
-        ref={ref}
+        ref={ref as React.Ref<HTMLButtonElement>}
         type={type}
         className={combinedClassName}
         style={{ ...(cssVars as React.CSSProperties), ...style }}
         {...props}
       >
-
-        <span>
-          {renderIcon}
-          {children}
-        </span>
+        {content}
       </button>
     );
   }

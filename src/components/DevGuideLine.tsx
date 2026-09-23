@@ -39,12 +39,12 @@ export default function DevGuideLine() {
           <span>DEV GUIDE: {topPos}PX</span>
           <button aria-label="Previous"
             onClick={(e) => { e.stopPropagation(); setTopPos((prev) => (prev === 122 ? 120 : 122)); }}
-            className="ml-1 px-2 py-0.5 bg-cyan-500/20 hover:bg-cyan-500/40 border border-purple-400/40 rounded text-[10px] uppercase transition-colors cursor-pointer">
+            className="ml-1 px-2 py-0.5 bg-cyan-500/20 hover:bg-cyan-500/40 border border-purple-400/40 rounded text-[10px] transition-colors cursor-pointer">
             Toggle {topPos === 122 ? "120px" : "122px"}
           </button>
           <button aria-label="Previous"
             onClick={(e) => { e.stopPropagation(); setShowVerticalGuides((prev) => !prev); }}
-            className="ml-1 px-2 py-0.5 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40  border border-[var(--color-accent)]/40 rounded text-[10px] uppercase transition-colors cursor-pointer">
+            className="ml-1 px-2 py-0.5 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/40 rounded text-[10px] transition-colors cursor-pointer">
             Guides: {showVerticalGuides ? "ON" : "OFF"}
           </button>
           <button aria-label="Previous"

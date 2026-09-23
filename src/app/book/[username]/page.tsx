@@ -91,10 +91,10 @@ export default function PlannerDashboardPage() {
   };
 
   return (
-    <main className="site-container text-white page-container selection:bg-[var(--color-accent)] selection:text-white">
+    <main className="site-container page-container selection:bg-[var(--color-accent)] selection:">
 
       {/* Planner Profile Header */}
-      <header className="mb-6 pb-6 border-b border-white/10  flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <header className="mb-6 pb-6 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <MemberHeaderBadge
           name={displayName}
           email={effectiveMember?.email || ''}
@@ -107,9 +107,9 @@ export default function PlannerDashboardPage() {
         {/* Plus Sign Create New Event Button */}
         <div className="flex items-center self-start md:self-auto">
           <SeventhButton
-            icon={<Plus className="w-4 h-4 text-white" />}
+            icon={<Plus className="w-4 h-4" />}
             onClick={handleCreateNewEvent}
-            className="px-5 py-2.5 rounded-lg uppercase flex items-center gap-2 cursor-pointer">
+            className="px-5 py-2.5 rounded-lg flex items-center gap-2 cursor-pointer">
             Create New Event
           </SeventhButton>
         </div>

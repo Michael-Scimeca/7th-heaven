@@ -256,7 +256,7 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
             ref={(el) => { cardRefs.current[i] = el; }}>
             <div className="su-card-inner relative z-[2] w-full flex flex-col items-center text-center gap-4">
               <div className="flex flex-col items-center text-center pb-[20px] gap-4">
-                <div className="su-headline flex items-center justify-center gap-4 flex-wrap text-[clamp(1.75rem,4.2vw,3.8rem)] font-extrabold tracking-[-0.02em] leading-[1.05] max-w-[800px] w-full uppercase">
+                <div className="su-headline flex items-center justify-center gap-4 flex-wrap text-[clamp(1.75rem,4.2vw,3.8rem)]   tracking-[-0.02em] leading-[1.05] max-w-[800px] w-full">
                   <span>{slide.title}</span>
                 </div>
                 <p className="su-desc max-w-[600px] m-0">{slide.desc}</p>
@@ -267,10 +267,10 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
                     ti === 3
                       ? "hidden min-[1201px]:flex"
                       : ti === 2
-                      ? "hidden lg:flex"
-                      : ti === 1
-                      ? "hidden sm:flex"
-                      : "flex";
+                        ? "hidden lg:flex"
+                        : ti === 1
+                          ? "hidden sm:flex"
+                          : "flex";
 
                   return (
                     <div
@@ -291,8 +291,8 @@ export default function SlideupSection({ showIntro = false, sanityContent }: { s
                       )}
                       <div className="su-thumb-overlay absolute inset-0 z-[2] bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                       <div className="su-thumb-content relative z-[3] w-full flex flex-col items-center justify-end text-center pointer-events-none pb-[6px]">
-                        {t.badge && <span className="su-thumb-badge inline-block text-[0.75rem] font-bold tracking-[0.08em] uppercase text-white bg-white/20 px-3 py-[5px] rounded-[6px] backdrop-blur-[12px] border border-white/30 mb-2">{t.badge}</span>}
-                        <h3 className="su-thumb-title text-[clamp(1.2rem,1.9vw,2.0rem)] font-black leading-[1.1] uppercase tracking-[-0.02em] text-white m-0 [filter:drop-shadow(0_4px_16px_rgba(0,0,0,0.98))]">{t.label}</h3>
+                        {t.badge && <span className="su-thumb-badge inline-block text-[0.75rem] font-bold tracking-[0.08em] bg-white/20 px-3 py-[5px] rounded-[6px] backdrop-blur-[12px] border border-white/30 mb-2">{t.badge}</span>}
+                        <h3 className="su-thumb-title text-[clamp(1.2rem,1.9vw,2.0rem)] font-black leading-[1.1] tracking-[-0.02em] m-0 [filter:drop-shadow(0_4px_16px_rgba(0,0,0,0.98))]">{t.label}</h3>
                       </div>
                     </div>
                   );

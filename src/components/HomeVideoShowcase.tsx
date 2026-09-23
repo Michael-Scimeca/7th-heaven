@@ -657,13 +657,13 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
   const gapPx = getGapPx();
 
   return (
-    <section ref={sectionRef} id="video-slider" className={`py-section-fluid border-b border-white/10  relative overflow-hidden w-full select-none`}>
+    <section ref={sectionRef} id="video-slider" className={`py-section-fluid border-b border-white/10 relative overflow-hidden w-full select-none`}>
 
       {/* Section Header inside site-container */}
       <div className="site-container relative z-10">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
-            <h2 className="mb-2.5 text-white">
+            <h2 className="mb-2.5">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
             <p className="text-purple-200/75 font-normal mb-5">
@@ -691,7 +691,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
           type="button"
           onClick={handlePrev}
           aria-label="Previous Video Slide"
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/70 hover:bg-purple-600 border border-white/20 text-white flex items-center justify-center opacity-0 group-hover/track:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 backdrop-blur-md shadow-2xl cursor-pointer"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/70 hover:bg-purple-600 border border-white/20 flex items-center justify-center opacity-0 group-hover/track:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 backdrop-blur-md shadow-2xl cursor-pointer"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
@@ -699,7 +699,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
           type="button"
           onClick={handleNext}
           aria-label="Next Video Slide"
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/70 hover:bg-purple-600 border border-white/20 text-white flex items-center justify-center opacity-0 group-hover/track:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 backdrop-blur-md shadow-2xl cursor-pointer"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/70 hover:bg-purple-600 border border-white/20 flex items-center justify-center opacity-0 group-hover/track:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 backdrop-blur-md shadow-2xl cursor-pointer"
         >
           <ChevronRight className="w-6 h-6" />
         </button>
@@ -708,8 +708,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
           ref={trackRef}
           data-slider="true"
           data-vertical={smooothyVertical}
-          className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"
-            }`}
+          className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"}`}
           style={{
             touchAction: "pan-y",
             ...(smooothyVertical
@@ -761,9 +760,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                       setPlayingVideoId(video.id);
                     }
                   }}
-                  className={`relative w-full h-[300px] sm:h-[400px] md:h-[500px] ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]"
-                    : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
-                    }`}>
+                  className={`relative w-full h-[300px] sm:h-[400px] md:h-[500px] ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]" : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"}`}>
                   {playingVideoId === video.id ? (
                     <div className="relative w-full h-full bg-black z-30">
                       <InlineYTPlayer
@@ -775,7 +772,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                   ) : (
                     <>
                       {/* Transparent Drag Capture Layer */}
-                      <div className="absolute inset-0 z-10 " />
+                      <div className="absolute inset-0 z-10" />
 
                       {/* YouTube On-Demand Autoplay Preview Frame */}
                       <ShowcaseMedia
@@ -792,7 +789,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                       {/* Interactive Play Button Overlay (Above Dark Overlay) */}
                       {playButtonVisibility !== "hidden" && (
                         <div
-                          className={`media-hover-overlay z-20 group-hover:opacity-0 transition-opacity duration-300 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}>
+                          className={`media-hover:text-whiteoverlay z-20 group-hover:opacity-0 transition-opacity duration-300 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}>
                           <GlassPlayButton
                             size="lg"
                             aria-label={`Play full video for ${video.title}`}
@@ -816,7 +813,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                           </div>
                         )}
 
-                        <h3 className="font-black uppercase text-white line-clamp-2 text-base sm:text-lg md:text-xl transition-colors">
+                        <h3 className="font-black line-clamp-2 text-base sm:text-lg md:text-xl transition-colors">
                           {video.title}
                         </h3>
                       </div>
@@ -826,13 +823,13 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
                 {/* Below Card Metadata */}
                 {showMetadata && (
-                  <div className="pt-2.5 flex items-center justify-between gap-2 text-white/80 font-semibold w-full px-0.5 pointer-events-none">
+                  <div className="pt-2.5 flex items-center justify-between gap-2   font-semibold w-full px-0.5 pointer-events-none">
                     <span className="shrink-0">
-                      Views <strong className="text-white ml-1">{video.viewCount}</strong>
+                      Views <strong className="ml-1">{video.viewCount}</strong>
                     </span>
 
                     <span className="shrink-0">
-                      Year <strong className="text-white ml-1">{video.year}</strong>
+                      Year <strong className="ml-1">{video.year}</strong>
                     </span>
                   </div>
                 )}
@@ -845,7 +842,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[99999] bg-gradient-to-r from-purple-900/90 to-pink-900/90 border border-purple-400/50 text-white px-6 py-3.5 rounded-xl shadow-2xl backdrop-blur-md flex items-center gap-3 animate-fade-in">
+        <div className="fixed bottom-6 right-6 z-[99999] bg-gradient-to-r from-purple-900/90 to-pink-900/90 border border-purple-400/50 px-6 py-3.5 rounded-xl shadow-2xl backdrop-blur-md flex items-center gap-3 animate-fade-in">
           <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
           <span className="font-semibold text-sm">{toastMessage}</span>
         </div>
@@ -854,7 +851,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
       {/* Add Video Modal */}
       {isAddModalOpen && typeof window !== "undefined" && createPortal(
         <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-xl bg-neutral-900 border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl text-white max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full max-w-xl bg-neutral-900 border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsAddModalOpen(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
@@ -867,7 +864,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 <VideoIcon className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white">Add Video to Sanity</h3>
+                <h3 className="text-xl font-bold">Add Video to Sanity</h3>
                 <p className="text-xs text-purple-300/70">Publish a new YouTube video directly to the Sanity database.</p>
               </div>
             </div>
@@ -880,7 +877,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
             <form onSubmit={handleAddVideoSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                   Video Title *
                 </label>
                 <input
@@ -889,12 +886,12 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. 7th Heaven - Live at Summerfest"
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                   YouTube URL or Video ID *
                 </label>
                 <input
@@ -903,14 +900,14 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
                   placeholder="e.g. https://www.youtube.com/watch?v=BzHUNTZ66zY or BzHUNTZ66zY"
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-semibold uppercase    text-purple-200/80">
+                    <label className="block text-xs font-semibold text-purple-200/80">
                       Category *
                     </label>
                     <button
@@ -934,7 +931,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                       value={customCategoryInput}
                       onChange={(e) => setCustomCategoryInput(e.target.value)}
                       placeholder="e.g. Acoustic Sessions"
-                      className="w-full bg-black/50 border border-purple-500/50 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 text-sm"
+                      className="w-full bg-black/50 border border-purple-500/50 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-400 text-sm"
                     />
                   ) : (
                     <select
@@ -947,7 +944,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                           setNewCategory(e.target.value);
                         }
                       }}
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
                     >
                       {availableCategories.map((cat) => (
                         <option key={cat} value={cat}>
@@ -960,19 +957,19 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                  <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                     Year
                   </label>
                   <input
                     type="number"
                     value={newYear}
                     onChange={(e) => setNewYear(e.target.value)}
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 focus:outline-none focus:border-purple-500 text-sm"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                  <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                     Duration
                   </label>
                   <input
@@ -980,13 +977,13 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                     value={newDuration}
                     onChange={(e) => setNewDuration(e.target.value)}
                     placeholder="3:30"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm"
+                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 focus:outline-none focus:border-purple-500 text-sm"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                   Description
                 </label>
                 <textarea
@@ -994,7 +991,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                   placeholder="Optional description or concert highlights..."
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                 />
               </div>
 
@@ -1002,14 +999,14 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm font-semibold transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm    uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-bold text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
                 >
                   {submitting ? "Saving..." : "+ SAVE VIDEO TO SANITY"}
                 </button>

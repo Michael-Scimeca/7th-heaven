@@ -160,7 +160,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
               <ShieldAlert className="w-8 h-8" />
             </div>
 
-            <h2 className="text-xl text-white uppercase mb-2">
+            <h2 className="text-xl mb-2">
               {sanityContent?.heroHeading || sanityContent?.title || "Crew Portal Restricted"}
             </h2>
 
@@ -173,7 +173,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
                 <button
                   type="button"
                   onClick={() => openModal()}
-                  className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-all duration-300 cursor-pointer shadow-[0_0_25px_rgba(16,185,129,0.3)] rounded-xl">
+                  className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-emerald-500 transition-all duration-300 cursor-pointer shadow-[0_0_25px_rgba(16,185,129,0.3)] rounded-xl">
 
                   Sign In to Access
                 </button>
@@ -186,11 +186,11 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
             ) : (
               <div className="flex flex-col gap-3">
                 <div className="p-3 bg-red-500/10 border border-red-500/30 rounded text-red-300 text-xs">
-                  Logged in as <span className="font-semibold text-white">{member?.email}</span> (Role: {member?.role}). This account does not have crew privileges.
+                  Logged in as <span className="font-semibold">{member?.email}</span> (Role: {member?.role}). This account does not have crew privileges.
                 </div>
                 <Link
                   href="/"
-                  className="py-3 bg-white/10 hover:bg-white/20 text-white uppercase transition-colors text-center">
+                  className="py-3 bg-white/10 hover:bg-white/20 transition-colors text-center">
                   Return to Home
                 </Link>
               </div>
@@ -225,11 +225,11 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
           <div
             className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
             style={MODAL_GLASS_STYLE}>
-            <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center  shadow-[0_0_25px_rgba(16,185,129,0.3)]">
+            <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center shadow-[0_0_25px_rgba(16,185,129,0.3)]">
               <Trophy className="w-8 h-8" />
             </div>
 
-            <h1 className="text-xl text-white uppercase mb-2">
+            <h1 className="text-xl mb-2">
               {sanityContent?.heroHeading || sanityContent?.title || "Verify Winner PIN"}
             </h1>
             <p className="mb-6">
@@ -251,12 +251,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
                   onKeyDown={(e) => handleKeyDown(idx, e)}
                   onPaste={handlePaste}
                   onFocus={() => setFocusedIndex(idx)}
-                  className={`w-11 h-14 bg-black/60 border text-center text-xl text-white font-mono tabular-nums focus:outline-none transition-all ${focusedIndex === idx
-                    ? 'border-[var(--color-accent)] shadow-[0_0_15px_rgba(16,185,129,0.5)] bg-black/80'
-                    : digit
-                      ? 'border-white/40 bg-black/70'
-                      : 'border-white/15'
-                    }`}
+                  className={`w-11 h-14 bg-black/60 border text-center text-xl font-mono tabular-nums focus:outline-none transition-all ${focusedIndex === idx ? 'border-[var(--color-accent)] shadow-[0_0_15px_rgba(16,185,129,0.5)] bg-black/80' : digit ? 'border-white/40 bg-black/70' : 'border-white/15' }`}
                   aria-label={`PIN digit ${idx + 1}`}
                 />
               ))}
@@ -273,10 +268,7 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
                 type="button"
                 onClick={verifyPin}
                 disabled={fullPin.length !== 6}
-                className={`w-full py-3.5 uppercase transition-all duration-300 rounded-xl cursor-pointer ${fullPin.length === 6
-                  ? 'bg-[var(--color-accent)] hover:bg-emerald-500 text-white shadow-[0_0_25px_rgba(16,185,129,0.4)]'
-                  : 'bg-white/10 text-white/40 cursor-not-allowed border border-white/5'
-                  }`}>
+                className={`w-full py-3.5 transition-all duration-300 rounded-xl cursor-pointer ${fullPin.length === 6 ? 'bg-[var(--color-accent)] hover:bg-emerald-500 shadow-[0_0_25px_rgba(16,185,129,0.4)]' : 'bg-white/10 text-white/40 cursor-not-allowed border border-white/5' }`}>
                 Verify PIN Code
               </button>
             )}
@@ -292,20 +284,20 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
               <Trophy className="w-9 h-9" />
             </div>
 
-            <div className="inline-block px-3 py-1 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 uppercase font-mono mb-3 rounded-full">
+            <div className="inline-block px-3 py-1 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-mono mb-3 rounded-full">
               ✓ Verified Match
             </div>
 
-            <h2 className="text-white uppercase mb-1">Official Winner</h2>
+            <h2 className="mb-1">Official Winner</h2>
 
             <div className="p-4 bg-black/40 border border-white/10 rounded-lg text-left my-4 space-y-3">
               <div>
-                <p className="uppercase mb-1">Fan Name</p>
-                <p className="text-white text-lg font-semibold">{winnerData.winner}</p>
+                <p className="mb-1">Fan Name</p>
+                <p className="text-lg font-semibold">{winnerData.winner}</p>
               </div>
 
               <div className="pt-2 border-t border-white/10">
-                <p className="uppercase mb-1">Prize</p>
+                <p className="mb-1">Prize</p>
                 <p className="text-emerald-400 font-semibold">{winnerData.prize}</p>
               </div>
             </div>
@@ -320,11 +312,11 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
 
             <p className="text-emerald-400/90 mb-6">Award the prize to this fan ✓</p>
 
-            <Link href="/crew" className="w-full block py-3.5 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
+            <Link href="/crew" className="w-full block py-3.5 bg-[var(--color-accent)] hover:bg-emerald-500 transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
               Access My Dashboard →
             </Link>
 
-            <button type="button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition-colors cursor-pointer rounded-xl">
+            <button type="button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 transition-colors cursor-pointer rounded-xl">
               Verify Another PIN
             </button>
           </div>
@@ -338,11 +330,11 @@ export default function CrewVerifyClient({ sanityContent }: CrewVerifyClientProp
             <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
               <XCircle className="w-8 h-8" />
             </div>
-            <h2 className="text-white uppercase mb-2">Invalid PIN</h2>
+            <h2 className="mb-2">Invalid PIN</h2>
             <p className="mb-5">
               This PIN doesn't match any crew access code. Please check your PIN and try again.
             </p>
-            <button type="button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition-colors cursor-pointer">
+            <button type="button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 transition-colors cursor-pointer">
               Try Again
             </button>
           </div>

@@ -27,7 +27,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
     <LazyMount as="section" id="ports" className="site-container py-section-fluid border-b border-white/10" minHeight="700px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "700px" }}>
       <div>
         <div className="text-center md:text-left mb-10 max-w-3xl">
-          <h2 className="uppercase mt-0.5">
+          <h2>
             {sectionTitle}
           </h2>
           <p className="text-white/70 mt-2.5 font-medium text-sm sm:text-base leading-relaxed">
@@ -41,7 +41,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
             {portsList.map((port: any, idx: number) => {
               const currentImg = activePortImages[port.name] || port.image;
               return (
-                <div key={`grid-${port.name}`} className="flex flex-col justify-between group rounded-2xl ">
+                <div key={`grid-${port.name}`} className="flex flex-col justify-between group rounded-2xl">
                   <div className="h-48 sm:h-56 w-full relative overflow-hidden rounded-lg bg-black">
                     {currentImg && (
                       <Image
@@ -55,19 +55,19 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                       />
                     )}
                     <div className="absolute top-3 left-3 z-20">
-                      <SectionBadge label={`Port Call #${idx + 1}`} className="!bg-black/90 backdrop-blur-md border-white/20 text-white shadow-lg" />
+                      <SectionBadge label={`Port Call #${idx + 1}`} className="!bg-black/90 backdrop-blur-md border-white/20 shadow-lg" />
                     </div>
                   </div>
                   <div className="pt-4 flex-1 flex flex-col justify-between">
                     <div>
-                      <h4 className="uppercase text-white mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
+                      <h4 className="mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
                       <p className="font-semibold">{port.desc}</p>
 
                       {/* Port Highlights */}
                       {port.highlights && (
                         <div className="flex flex-wrap gap-1.5 mt-3">
                           {port.highlights.map((h: string) => (
-                            <span key={h} className="px-2 py-0.5 rounded-lg text-white border border-white/10 bg-[#00000029] font-bold">
+                            <span key={h} className="px-2 py-0.5 rounded-lg border border-white/10 bg-[#00000029] font-bold">
                               {h}
                             </span>
                           ))}
@@ -86,10 +86,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                               type="button"
                               onMouseEnter={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
                               onClick={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
-                              className={`w-14 h-11 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive
-                                ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10    shadow-purple-500/20"
-                                : "border-white/20 "
-                                }`}
+                              className={`w-14 h-11 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10 shadow-purple-500/20" : "border-white/20 "}`}
                               title={`View photo ${gIdx + 1}`}>
                               <Image width={56} height={44} unoptimized src={gImg} alt={`${port.name} thumb ${gIdx}`} className="w-full h-full object-cover" />
                             </button>
@@ -123,11 +120,11 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                   />
                 )}
                 <div className="absolute top-6 left-6 z-20">
-                  <SectionBadge label={`PORT CALL #${activeSpotlightPort + 1}`} isActive className="bg-black/90 backdrop-blur-md border-white/20 text-white shadow-lg" />
+                  <SectionBadge label={`PORT CALL #${activeSpotlightPort + 1}`} isActive className="bg-black/90 backdrop-blur-md border-white/20 shadow-lg" />
                 </div>
               </div>
               <div className="p-8 relative z-20 - 6">
-                <h3 className="uppercase text-white mb-3">
+                <h3 className="mb-3">
                   {PORTS_DATA[activeSpotlightPort].name}
                 </h3>
                 <p className="mb-6">
@@ -138,7 +135,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 {PORTS_DATA[activeSpotlightPort].highlights && (
                   <div className="flex flex-wrap gap-2 mb-6">
                     {PORTS_DATA[activeSpotlightPort].highlights.map(h => (
-                      <span key={h} className="uppercase text-purple-300 bg-purple-900/60 px-3 py-1 rounded-lg border border-purple-500/40 inline-flex items-center gap-1.5">
+                      <span key={h} className="text-purple-300 bg-purple-900/60 px-3 py-1 rounded-lg border border-purple-500/40 inline-flex items-center gap-1.5">
                         <CheckMarkIcon className="w-3.5 h-3.5 shrink-0" />
                         <span>{h}</span>
                       </span>
@@ -149,7 +146,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 {/* Gallery Thumbnails */}
                 {PORTS_DATA[activeSpotlightPort].gallery && (
                   <div className="mb-6 pt-4 border-t border-white/10">
-                    <span className="text-[10px] uppercase text-purple-300 block mb-2">Destination Photo Gallery</span>
+                    <span className="text-[10px] text-purple-300 block mb-2">Destination Photo Gallery</span>
                     <div className="flex flex-wrap gap-2.5 pb-2 pt-1">
                       {PORTS_DATA[activeSpotlightPort].gallery.map((gImg, gIdx) => {
                         const currentSpotlightImg = spotlightHoveredImage || PORTS_DATA[activeSpotlightPort].image;
@@ -160,10 +157,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                             type="button"
                             onMouseEnter={() => setSpotlightHoveredImage(gImg)}
                             onClick={() => setSpotlightHoveredImage(gImg)}
-                            className={`w-24 h-16 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive
-                              ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10    shadow-purple-500/30"
-                              : "border-white/10"
-                              }`}
+                            className={`w-24 h-16 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10 shadow-purple-500/30" : "border-white/10"}`}
                             title={`View gallery image ${gIdx + 1}`}>
                             <Image width={96} height={64} unoptimized src={gImg} alt="Gallery Still" className="w-full h-full object-cover" />
                           </button>
@@ -177,7 +171,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                   <button
                     type="button"
                     onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                    className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors cursor-pointer border-none rounded-lg ">
+                    className="px-6 py-3 bg-purple-600 hover:bg-purple-500 transition-colors cursor-pointer border-none rounded-lg">
                     Book Cruise &amp; Visit {PORTS_DATA[activeSpotlightPort].name.split(',')[0]}
                   </button>
                 </div>
@@ -186,7 +180,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
 
             {/* Sidebar Selectors */}
             <div className="space-y-3">
-              <span className="text-[var(--font-size-2xs)] text-white/40 uppercase block mb-2">Select Destination to Preview:</span>
+              <span className="text-[var(--font-size-2xs)] text-white/40 block mb-2">Select Destination to Preview:</span>
               {PORTS_DATA.map((port, idx) => (
                 <button
                   key={`spotlight-${port.name}`}
@@ -200,10 +194,10 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                     {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover" />}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className={` uppercase truncate ${activeSpotlightPort === idx ? "text-purple-300" : "text-white"}`}>
+                    <h4 className={`truncate ${activeSpotlightPort === idx ? "text-purple-300" : " "}`}>
                       {port.name}
                     </h4>
-                    <span className="text-white/35">Port #{idx + 1}</span>
+                    <span className="/35">Port #{idx + 1}</span>
                   </div>
                 </button>
               ))}
@@ -221,7 +215,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 onClick={() => {
                   if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
                 }}
-                className="w-11 h-11 rounded-lg bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors">
+                className="w-11 h-11 rounded-lg bg-[#00000029] border-white/10 backdrop-blur-[16px] flex items-center justify-center cursor-pointer transition-colors">
                 ◀
               </button>
               <button
@@ -229,7 +223,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 onClick={() => {
                   if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
                 }}
-                className="w-11 h-11 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] text-white flex items-center justify-center cursor-pointer transition-colors">
+                className="w-11 h-11 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] flex items-center justify-center cursor-pointer transition-colors">
                 ▶
               </button>
             </div>
@@ -257,19 +251,19 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                           className="w-full h-full object-cover"
                         />
                       )}
-                      <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-[45px] border border-white/10 rounded-lg uppercase text-purple-300">
+                      <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-[45px] border border-white/10 rounded-lg text-purple-300">
                         {idx + 1} / {PORTS_DATA.length}
                       </span>
                     </div>
                     <div className="p-6 relative z-20 -mt-8">
-                      <h4 className="text-white uppercase mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
+                      <h4 className="mb-2 group-hover:text-purple-300 transition-colors">{port.name}</h4>
                       <p>{port.desc}</p>
 
                       {/* Highlights */}
                       {port.highlights && (
                         <div className="flex flex-wrap gap-1.5 mt-3">
                           {port.highlights.map(h => (
-                            <span key={h} className="text-[10px] uppercase text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-lg border border-purple-500/30">
+                            <span key={h} className="text-[10px] text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-lg border border-purple-500/30">
                               {h}
                             </span>
                           ))}
@@ -287,10 +281,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                                 type="button"
                                 onMouseEnter={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
                                 onClick={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
-                                className={`w-12 h-10 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive
-                                  ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10    shadow-purple-500/20"
-                                  : "border-white/10"
-                                  }`}>
+                                className={`w-12 h-10 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10 shadow-purple-500/20" : "border-white/10"}`}>
                                 <Image width={48} height={40} unoptimized src={gImg} alt={`${port.name} thumb ${gIdx}`} className="w-full h-full object-cover" />
                               </button>
                             );
@@ -312,13 +303,13 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
               <div key={`list-${port.name}`} className="bg-[#00000029] border-white/10 backdrop-blur-[16px] rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.08]">
                 <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden rounded-lg relative shrink-0">
                   {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover transition-transform" />}
-                  <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-purple-300 uppercase border border-white/10">
+                  <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-purple-300 border border-white/10">
                     Port #{idx + 1}
                   </span>
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
-                    <h4 className="uppercase text-white">{port.name}</h4>
+                    <h4 className="">{port.name}</h4>
                   </div>
                   <p>{port.desc}</p>
 
@@ -326,7 +317,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                   {port.highlights && (
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {port.highlights.map(h => (
-                        <span key={h} className="text-[10px] uppercase text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-lg border border-purple-500/30">
+                        <span key={h} className="text-[10px] text-purple-300 bg-purple-900/40 px-2 py-0.5 rounded-lg border border-purple-500/30">
                           {h}
                         </span>
                       ))}
@@ -336,7 +327,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                 <button
                   type="button"
                   onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                  className="shrink-0 px-4 py-2 bg-[#00000029] border-white/10 backdrop-blur-[16px] text-white uppercase transition-colors cursor-pointer rounded-xl">
+                  className="shrink-0 px-4 py-2 bg-[#00000029] border-white/10 backdrop-blur-[16px] transition-colors cursor-pointer rounded-xl">
                   Book →
                 </button>
               </div>

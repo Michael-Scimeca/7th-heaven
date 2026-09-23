@@ -75,7 +75,7 @@ function ColorField({
 }) {
   return (
     <div>
-      <label className="block text-[11px] uppercase tracking-wide text-white/50 mb-1">
+      <label className="block text-[11px]   text-white/50 mb-1">
         {label}
       </label>
       <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ function ColorField({
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-amber-400"
+          className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono focus:outline-none focus:border-amber-400"
         />
       </div>
     </div>
@@ -165,7 +165,7 @@ export default function FireCanvasTunerPage() {
   ]);
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black">
       {/* Live canvas preview */}
       <div className="relative h-[60vh] min-h-[380px] w-full overflow-hidden border-b border-white/10 bg-[#050308]">
         <PixelFireplaceCanvas
@@ -182,7 +182,7 @@ export default function FireCanvasTunerPage() {
           colorCoreHex={colorCoreHex}
           colorSparkHex={colorSparkHex}
         />
-        <div className="pointer-events-none absolute top-4 left-4 text-xs uppercase tracking-[0.2em] text-white/40">
+        <div className="pointer-events-none absolute top-4 left-4 text-xs tracking-[0.2em] text-white/40">
           Fire Canvas Tuner
         </div>
       </div>
@@ -274,11 +274,7 @@ export default function FireCanvasTunerPage() {
                   setPaletteTheme(theme.id);
                   setUseCustomColors(false);
                 }}
-                className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                  !useCustomColors && paletteTheme === theme.id
-                    ? "border-amber-400 bg-amber-400/10 text-amber-300"
-                    : "border-white/15 text-white/60 hover:bg-white/5"
-                }`}
+                className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
               >
                 {theme.label}
               </button>
@@ -286,11 +282,7 @@ export default function FireCanvasTunerPage() {
             <button
               type="button"
               onClick={() => setUseCustomColors(true)}
-              className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                useCustomColors
-                  ? "border-amber-400 bg-amber-400/10 text-amber-300"
-                  : "border-white/15 text-white/60 hover:bg-white/5"
-              }`}
+              className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${useCustomColors ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
             >
               Custom Colors
             </button>

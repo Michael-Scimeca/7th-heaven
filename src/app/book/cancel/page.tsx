@@ -45,9 +45,9 @@ function CancelContent() {
           <div className="w-16 h-16 mx-auto mb-6 bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
             <span className="text-2xl">⚠️</span>
           </div>
-          <h2 className="text-xl font-bold uppercase mb-2">Invalid Link</h2>
+          <h2 className="text-xl  mb-2">Invalid Link</h2>
           <p className="mb-8">This cancellation link is missing required information. Please use the link from your confirmation email.</p>
-          <Link href="/" className="inline-flex items-center justify-center bg-white/[0.05] hover:bg-white/[0.1] text-white uppercase py-3 px-8 transition-colors border border-white/10">
+          <Link href="/" className="inline-flex items-center justify-center bg-white/[0.05] hover:bg-white/[0.1] py-3 px-8 transition-colors border border-white/10">
             Return to Homepage
           </Link>
         </div>
@@ -64,18 +64,18 @@ function CancelContent() {
             <div className="w-16 h-16 mx-auto mb-6 bg-purple-600/10 border border-white/10 flex items-center justify-center">
               <span className="text-2xl">🗓️</span>
             </div>
-            <h1 className=" mb-3">Cancel Booking?</h1>
+            <h1 className="mb-3">Cancel Booking?</h1>
             <p className="mb-2">
               You&apos;re about to cancel booking <span className="text-[var(--color-accent)]">{bookingId}</span>.
             </p>
             <p className="mb-8">This action cannot be undone. Our team will be notified.</p>
             <div className="flex flex-col gap-3">
               <button
- onClick={handleCancel}
- className="w-full bg-rose-600 hover:bg-rose-500 text-white uppercase py-4 px-8 transition-colors shadow-[0_0_20px_rgba(225,29,72,0.2)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] cursor-pointer">
+                onClick={handleCancel}
+                className="w-full bg-rose-600 hover:bg-rose-500 py-4 px-8 transition-colors shadow-[0_0_20px_rgba(225,29,72,0.2)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] cursor-pointer">
                 Yes, Cancel My Booking
               </button>
-              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 uppercase py-4 px-8 transition-colors border border-white/5">
+              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08]   py-4 px-8 transition-colors border border-white/5">
                 Never Mind — Go Back
               </Link>
             </div>
@@ -87,7 +87,7 @@ function CancelContent() {
             <div className="w-16 h-16 mx-auto mb-6 bg-[#00000029] border border-white/10 flex items-center justify-center animate-pulse">
               <span className="text-2xl">⏳</span>
             </div>
-            <h2 className="text-xl font-bold uppercase mb-2">Cancelling your booking...</h2>
+            <h2 className="text-xl  mb-2">Cancelling your booking...</h2>
           </>
         )}
 
@@ -96,16 +96,16 @@ function CancelContent() {
             <div className="w-16 h-16 mx-auto mb-6 bg-emerald-500/10 border border-white/10 flex items-center justify-center">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
             </div>
-            <h2 className="text-2xl text-white mb-3">Booking Cancelled</h2>
+            <h2 className="text-2xl mb-3">Booking Cancelled</h2>
             <p className="mb-2">
               Booking <span className="text-[var(--color-accent)]">{bookingId}</span> has been cancelled.
             </p>
             <p className="mb-8">Our team has been notified. If you change your mind, you can submit a new booking request anytime.</p>
             <div className="flex flex-col gap-3">
-              <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)]">
+              <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)]">
                 Book a New Show
               </Link>
-              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 uppercase py-4 px-8 transition-colors border border-white/5">
+              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08]   py-4 px-8 transition-colors border border-white/5">
                 Return to Homepage
               </Link>
             </div>
@@ -117,13 +117,13 @@ function CancelContent() {
             <div className="w-16 h-16 mx-auto mb-6 bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
               <span className="text-2xl">❌</span>
             </div>
-            <h2 className="text-2xl text-white mb-3">Cancellation Failed</h2>
+            <h2 className="text-2xl mb-3">Cancellation Failed</h2>
             <p className="text-rose-400/70 mb-8">{errorMsg}</p>
             <div className="flex flex-col gap-3">
-              <button onClick={() => setStatus("confirm")} className="w-full bg-white/[0.05] hover:bg-white/[0.1] text-white uppercase py-4 px-8 transition-colors border border-white/10 cursor-pointer">
+              <button onClick={() => setStatus("confirm")} className="w-full bg-white/[0.05] hover:bg-white/[0.1] py-4 px-8 transition-colors border border-white/10 cursor-pointer">
                 Try Again
               </button>
-              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 uppercase py-4 px-8 transition-colors border border-white/5">
+              <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08]   py-4 px-8 transition-colors border border-white/5">
                 Return to Homepage
               </Link>
             </div>

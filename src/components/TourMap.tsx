@@ -176,6 +176,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   const [googleReady, setGoogleReady] = useState(false);
   const [mapLoadError, setMapLoadError] = useState<string | null>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [loadProgress, setLoadProgress] = useState(25);
 
   // ── Date Range Zoom & Filter state ──
   const [dateRange, setDateRange] = useState<[number, number] | null>(null);
@@ -337,84 +338,51 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   // estimate ballooned to ~12s because of this contention. Deferring to idle keeps tiles
   // Defer loading Google Maps API until the tour map element approaches viewport threshold.
   // This prevents maps.googleapis.com (main.js + util.js ~153KB) from loading on initial page render,
-  // saving ~1.26s of unused JS execution time and eliminating content Contention with Hero LCP.
+  // Load the Google Maps API eagerly on component mount so the map is fully ready on page load.
   useEffect(() => {
     let active = true;
-    let idleHandle: number | undefined;
-    let timerHandle: ReturnType<typeof setTimeout> | undefined;
-    const container = mapRef.current;
 
-    const loadMaps = () => {
-      if (!active) return;
-
-      const executeLoad = () => {
-        if (!active) return;
-
-        if (typeof window !== "undefined" && (window as any).google?.maps) {
-          setGoogleReady(true);
-          return;
-        }
-
-        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-        if (!apiKey) {
-          setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
-          console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
-          return;
-        }
-
-        if (!googleMapsOptionsSet && typeof window !== "undefined" && !(window as any).__googleMapsOptionsSet) {
-          try {
-            setOptions({ key: apiKey, v: "weekly" });
-          } catch { }
-          googleMapsOptionsSet = true;
-          (window as any).__googleMapsOptionsSet = true;
-        }
-
-        importLibrary("maps")
-          .then(() => { if (active) setGoogleReady(true); })
-          .catch((e: unknown) => {
-            console.warn("[TourMap] Failed to load Google Maps:", e);
-            if (active) setMapLoadError("Failed to load Google Maps");
-          });
-      };
-
-      if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-        idleHandle = (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(executeLoad, { timeout: 1500 });
-      } else {
-        timerHandle = setTimeout(executeLoad, 200);
-      }
-    };
-
-    const cleanupHandles = () => {
-      active = false;
-      if (idleHandle !== undefined && typeof window !== "undefined" && "cancelIdleCallback" in window) {
-        (window as Window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleHandle);
-      }
-      if (timerHandle !== undefined) {
-        clearTimeout(timerHandle);
-      }
-    };
-
-    if (!container || typeof IntersectionObserver === "undefined") {
-      loadMaps();
-      return cleanupHandles;
+    if (typeof window !== "undefined" && typeof (window as any).google?.maps?.Map === "function") {
+      setLoadProgress(70);
+      setGoogleReady(true);
+      return;
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          loadMaps();
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "100px 0px" }
-    );
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    if (!apiKey) {
+      setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
+      console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
+      return;
+    }
 
-    observer.observe(container);
+    if (!googleMapsOptionsSet && typeof window !== "undefined" && !(window as any).__googleMapsOptionsSet) {
+      try {
+        setOptions({ key: apiKey, v: "weekly" });
+      } catch { }
+      googleMapsOptionsSet = true;
+      (window as any).__googleMapsOptionsSet = true;
+    }
+
+    setLoadProgress(45);
+    importLibrary("maps")
+      .then((mapsLib) => {
+        if (!active) return;
+        setLoadProgress(80);
+        if (typeof (window as any).google?.maps?.Map === "function" || (mapsLib && (mapsLib as any).Map)) {
+          setGoogleReady(true);
+        } else {
+          setTimeout(() => {
+            if (active) setGoogleReady(true);
+          }, 50);
+        }
+      })
+      .catch((e: unknown) => {
+        console.warn("[TourMap] Failed to load Google Maps:", e);
+        if (active) setMapLoadError("Failed to load Google Maps");
+      });
 
     return () => {
-      cleanupHandles();
-      observer.disconnect();
+      active = false;
     };
   }, []);
 
@@ -429,16 +397,21 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     rafId = requestAnimationFrame(() => {
       if (!container || mapInstanceRef.current) return;
 
+      const MapClass = (window as any).google?.maps?.Map;
+      if (!MapClass || typeof MapClass !== "function") {
+        setGoogleReady(false);
+        setTimeout(() => setGoogleReady(true), 50);
+        return;
+      }
+
       const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
       const deviceKey = screenW < 768 ? "mobile" : screenW < 1024 ? "tablet" : "desktop";
       const initialZoom = zoomConfigRef.current[deviceKey]?.initial ?? DEFAULT_ZOOM_CONFIG[deviceKey].initial;
 
-      // Center on Chicagoland — most shows are in the IL suburbs
-      const mapInstance = new google.maps.Map(container, {
+      const mapInstance = new MapClass(container, {
         center: { lat: 42.0, lng: -88.0 },
         zoom: initialZoom,
-        // IMPORTANT: no mapId here — a Map ID switches the map to Google's cloud-based
-        // styling and silently ignores the `styles` JSON array below.
+        backgroundColor: "transparent",
         styles: SNAZZY_MAPS_227862_STYLE,
         disableDefaultUI: true,
         zoomControl: false,
@@ -448,18 +421,25 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         keyboardShortcuts: false,
       });
 
-      const fallbackTimer = setTimeout(() => {
-        setIsLoaded(true);
-      }, 2000);
+      setLoadProgress(90);
 
-      tilesListener = google.maps.event.addListenerOnce(mapInstance, "tilesloaded", () => {
+      const finishLoading = () => {
+        setLoadProgress(100);
         setIsLoaded(true);
-        clearTimeout(fallbackTimer);
-        if (typeof window !== "undefined") {
-          (window as any).__7hMapLoaded = true;
-          window.dispatchEvent(new CustomEvent("7h-map-ready"));
-        }
-      });
+      };
+
+      const fallbackTimer = setTimeout(finishLoading, 800);
+
+      if ((window as any).google?.maps?.event) {
+        tilesListener = (window as any).google.maps.event.addListenerOnce(mapInstance, "tilesloaded", () => {
+          clearTimeout(fallbackTimer);
+          finishLoading();
+          if (typeof window !== "undefined") {
+            (window as any).__7hMapLoaded = true;
+            window.dispatchEvent(new CustomEvent("7h-map-ready"));
+          }
+        });
+      }
 
       setMap(mapInstance);
       mapInstanceRef.current = mapInstance;
@@ -468,8 +448,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       if (mapInstanceRef.current) {
-        if (tilesListener) google.maps.event.removeListener(tilesListener);
-        google.maps.event.clearInstanceListeners(mapInstanceRef.current);
+        if (tilesListener && (window as any).google?.maps?.event) {
+          (window as any).google.maps.event.removeListener(tilesListener);
+        }
+        if ((window as any).google?.maps?.event) {
+          (window as any).google.maps.event.clearInstanceListeners(mapInstanceRef.current);
+        }
         mapInstanceRef.current = null;
         setMap(null);
       }
@@ -536,14 +520,21 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         div.className = "custom-venue-marker";
         div.style.position = "absolute";
         div.style.transform = "translate(-50%, -100%)";
-        div.style.zIndex = this.html.includes("next-show-bounce") ? "9999" : String(this.initialZIndex);
+        const baseZIndex = this.html.includes("next-show-bounce") ? 9999 : this.initialZIndex;
+        div.style.zIndex = String(baseZIndex);
 
         const doc = new DOMParser().parseFromString(this.html, "text/html");
         Array.from(doc.body.childNodes).forEach((node) => {
           div.appendChild(document.importNode(node, true));
         });
 
+        let demoteTimer: ReturnType<typeof setTimeout> | null = null;
+
         div.addEventListener("mouseenter", () => {
+          if (demoteTimer) {
+            clearTimeout(demoteTimer);
+            demoteTimer = null;
+          }
           div.style.zIndex = "9999999";
           if (this.tooltipHtml && !div.querySelector(".custom-tooltip-card")) {
             const tDoc = new DOMParser().parseFromString(this.tooltipHtml, "text/html");
@@ -554,10 +545,21 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           }
         });
 
-        div.addEventListener("mouseleave", () => {
-          if (!div.querySelector(".custom-tooltip-card:hover")) {
-            div.style.zIndex = String(this.initialZIndex);
+        div.addEventListener("mouseleave", (e: MouseEvent) => {
+          if (e.relatedTarget && div.contains(e.relatedTarget as Node)) {
+            return;
           }
+
+          if (demoteTimer) clearTimeout(demoteTimer);
+          demoteTimer = setTimeout(() => {
+            if (!div.matches(":hover") && !div.querySelector(".custom-tooltip-card:hover")) {
+              div.style.zIndex = String(baseZIndex);
+              const card = div.querySelector(".custom-tooltip-card");
+              if (card && card.parentNode) {
+                card.parentNode.removeChild(card);
+              }
+            }
+          }, 180);
         });
 
         div.addEventListener("click", (e) => {
@@ -700,14 +702,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         : firstShow.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${v.venue} ${v.city} ${v.state}`)}`;
 
       const directionsHtml = hasExplicitMap
-        ? `<a href="${rawDirectionsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:${cfg.color}; color:#000000 !important; font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 12px; border-radius:6px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:opacity 0.2s;">📍 Google Location</a>`
-        : `<span style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.2) !important; font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; padding:7px 12px; border-radius:6px; text-align:center; opacity:0.25; pointer-events:none;">📍 No Map Link</span>`;
+        ? `<a href="${rawDirectionsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:${cfg.color}; color:#000000 !important; font-weight:800; font-size:11px; text-transform:; letter-spacing:0.5px; text-decoration:none; padding:7px 12px; border-radius:6px; text-align:center; box-shadow:0 3px 9px #00000033; transition:opacity 0.2s;">📍 Google Location</a>`
+        : `<span style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.2) !important; font-weight:800; font-size:11px; text-transform:; letter-spacing:0.5px; padding:7px 12px; border-radius:6px; text-align:center; opacity:0.25; pointer-events:none;">📍 No Map Link</span>`;
 
       const rawParkingUrl = firstShow.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${v.venue} ${v.city} ${v.state}`)}`;
 
       const parkingHtml = hasExplicitParking
-        ? `<a href="${rawParkingUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap;">🅿️ Parking</a>`
-        : `<span style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); color:rgba(255,255,255,0.2) !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap; opacity:0.25; pointer-events:none;">🅿️ Parking</span>`;
+        ? `<a href="${rawParkingUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap;">🅿️ Parking</a>`
+        : `<span style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); color:rgba(255,255,255,0.2) !important; font-weight:700; font-size:10px; text-transform:; letter-spacing:0.5px; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap; opacity:0.25; pointer-events:none;">🅿️ Parking</span>`;
 
       const gcalUrl = buildGCalUrl({ venue: v.venue, city: v.city, state: v.state, date: firstShow.date, time: firstShow.time, info: firstShow.info });
 
@@ -715,9 +717,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       const is21Plus = firstShow.allAges === false || firstShow.info?.toLowerCase().includes("21 &") || firstShow.info?.toLowerCase().includes("21+");
 
       const ageBadge = isAllAges
-        ? `<span style="font-size:10px; font-weight:800; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3); padding:2px 6px; border-radius:4px; text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:2px; height:18px;">👶 All Ages</span>`
+        ? `<span style="font-size:10px; font-weight:800; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3); padding:2px 6px; border-radius:4px; text-transform:; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:2px; height:18px;">👶 All Ages</span>`
         : is21Plus
-          ? `<span style="font-size:10px; font-weight:800; background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3); padding:2px 6px; border-radius:4px; text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:2px; height:18px;">🔞 21+</span>`
+          ? `<span style="font-size:10px; font-weight:800; background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3); padding:2px 6px; border-radius:4px; text-transform:; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:2px; height:18px;">🔞 21+</span>`
           : '';
 
       const tooltipShowText = v.shows.length > 1
@@ -739,7 +741,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       </div>`;
 
       const tooltipCardHtml = `<div class="custom-tooltip-card">
-        <div style="background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:230px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.9); position:relative; text-align:left;">
+        <div style="background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:230px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 3px 9px #00000033; position:relative; text-align:left;">
           <div style="font-weight:800; font-size:15px; margin-bottom:4px; color:white; line-height:1.2;">${v.venue}</div>
           <div style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">📍 ${v.city}, ${v.state}</div>
           <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
@@ -748,15 +750,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           </div>
           ${firstShow.parkingInfo ? `<div style="font-size:10px; color:#38bdf8; margin-bottom:6px; font-weight:700; display:flex; align-items:center; gap:4px;">🅿️ ${firstShow.parkingInfo}</div>` : ''}
           ${isHappening
-          ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
+          ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
           : isNext
-            ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">⚡ Up Next</div>'
+            ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:; letter-spacing:1.5px;">⚡ Up Next</div>'
             : ""}
 
           <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.12); padding-top:8px; display:flex; flex-direction:column; gap:6px;">
             ${directionsHtml}
             <div style="display:flex; gap:6px;">
-              <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap;">
+              <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff !important; font-weight:700; font-size:10px; text-transform:; letter-spacing:0.5px; text-decoration:none; padding:6px 6px; border-radius:6px; text-align:center; white-space:nowrap;">
                 📅 Add to Cal
               </a>
               ${parkingHtml}
@@ -776,16 +778,16 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         const sIsAllAges = s.allAges === true || s.info?.toLowerCase().includes("all age") || s.info?.toLowerCase().includes("all-age");
         const sIs21Plus = s.allAges === false || s.info?.toLowerCase().includes("21 &") || s.info?.toLowerCase().includes("21+");
         const sAgeBadge = sIsAllAges
-          ? `<span style="font-size:9px; font-weight:800; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.2); padding:1px 4px; border-radius:3px; text-transform:uppercase; margin-left:6px; display:inline-block; vertical-align:middle; line-height:1;">All Ages</span>`
+          ? `<span style="font-size:9px; font-weight:800; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.2); padding:1px 4px; border-radius:3px; text-transform:; margin-left:6px; display:inline-block; vertical-align:middle; line-height:1;">All Ages</span>`
           : sIs21Plus
-            ? `<span style="font-size:9px; font-weight:800; background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.2); padding:1px 4px; border-radius:3px; text-transform:uppercase; margin-left:6px; display:inline-block; vertical-align:middle; line-height:1;">21+</span>`
+            ? `<span style="font-size:9px; font-weight:800; background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.2); padding:1px 4px; border-radius:3px; text-transform:; margin-left:6px; display:inline-block; vertical-align:middle; line-height:1;">21+</span>`
             : '';
         const timeText = s.playTime
           ? `Plays: ${s.playTime}${s.time ? ` (Event: ${s.time})` : ""}`
           : (s.time ? s.time : "");
         return `
           <div style="margin-bottom:8px; padding-bottom:8px; border-bottom: ${idx === v.shows.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.08)'};">
-            <div style="font-size:11px; font-weight:700; color:${cfg.color}; text-transform:uppercase; letter-spacing:0.5px; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">
+            <div style="font-size:11px; font-weight:700; color:${cfg.color}; text-transform:; letter-spacing:0.5px; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">
               <span>${s.date} ${timeText ? `· ${timeText}` : ""}</span>
               ${sAgeBadge}
             </div>
@@ -811,11 +813,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             ${showsListHtml}
           </div>
 
-          ${isNext ? '<div style="font-size:9px; margin-bottom:10px; color:#a855f7; font-weight:700; text-transform:uppercase; letter-spacing:2px;">⚡ Up Next</div>' : ""}
+          ${isNext ? '<div style="font-size:9px; margin-bottom:10px; color:#a855f7; font-weight:700; text-transform:; letter-spacing:2px;">⚡ Up Next</div>' : ""}
           <div style="display:flex; flex-direction:column; gap:8px;">
             ${directionsHtml}
             <div style="display:flex; gap:6px;">
-              <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 8px; border-radius:6px; text-align:center; white-space:nowrap;">
+              <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#ffffff; font-weight:700; font-size:10px; text-transform:; letter-spacing:0.5px; text-decoration:none; padding:7px 8px; border-radius:6px; text-align:center; white-space:nowrap;">
                 📅 Add to Cal
               </a>
               ${parkingHtml}
@@ -922,16 +924,18 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative z-10 w-full h-[60vh] sm:h-auto sm:aspect-[2/1] overflow-hidden pb-px bg-[#160533]" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '500px' }}>
-      <div ref={mapRef} className="absolute inset-0 w-full h-full snazzy-map-227862 bg-[#160533]" />
+    <div className="relative z-10 w-full h-[400px] sm:h-[600px] lg:h-[900px] pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none' }}>
+      <div
+        ref={mapRef}
+        className={`absolute inset-0 w-full h-full transition-opacity duration-300 ease-out map-masked-tiles ${isLoaded ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      />
 
       {/* ── Google Maps Preloader Intro Animation Overlay ── */}
       <div
-        className={`absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#160533] backdrop-blur-xl transition-all duration-700 ease-out pointer-events-none ${isLoaded ? "opacity-0 scale-105" : "opacity-100 scale-100"
-          }`}
+        className={`absolute inset-0 z-20 flex flex-col items-center justify-center transition-all duration-300 ease-out ${!isLoaded ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-105 pointer-events-none"}`}
       >
         {/* Radial Purple Glow Background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/30 via-transparent to-[#160533] pointer-events-none" />
+        <div className="absolute inset-0 pointer-events-none" />
 
         <div className="relative z-10 flex flex-col items-center gap-5 select-none">
           {/* Google Pin & Pulsing Radar Ring */}
@@ -950,7 +954,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
             {/* Center Bouncing Google Maps Pin Icon */}
             <div className="relative z-10 flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-900 border border-purple-400/50 shadow-[0_0_30px_rgba(168,85,247,0.6)] animate-bounce">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]">
                 <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0Z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
@@ -959,36 +963,38 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
           {/* Intro Text */}
           <div className="flex flex-col items-center gap-1.5 text-center px-4">
-            <span className="font-mono text-xs uppercase tracking-widest text-purple-300 font-bold animate-pulse">
+            <span className="font-mono text-xs  st text-purple-300 font-bold animate-pulse">
               Initializing Google Maps
             </span>
-            <span className="text-[11px] text-white/50 uppercase    font-semibold">
+            <span className="text-[11px] text-white/50 font-semibold">
               7th Heaven Live Tour Locations
             </span>
           </div>
 
           {/* Animated 4-Color Google Shimmer Progress Bar */}
-          <div className="w-48 h-1 rounded-full bg-white/10 overflow-hidden relative">
-            <div className="absolute inset-y-0 w-2/3 bg-gradient-to-r from-[#4285F4] via-[#EA4335] via-[#FBBC05] to-[#34A853] rounded-full animate-pulse" />
+          <div className="w-56 h-1.5 rounded-full bg-white/10 overflow-hidden relative p-0.5 border border-white/5">
+            <div
+              className="h-full bg-gradient-to-r from-[#4285F4] via-[#EA4335] via-[#FBBC05] to-[#34A853] rounded-full transition-all duration-300 ease-out shadow-[0_0_12px_rgba(66,133,244,0.7)]"
+              style={{ width: `${isLoaded ? 100 : loadProgress}%` }}
+            />
           </div>
         </div>
       </div>
 
-
       {/* ── Map Overlay Controls aligned precisely to .site-container ── */}
-      <div className="absolute inset-x-0 bottom-[16px] sm:bottom-[36px] z-[10] pointer-events-none">
+      <div className={`absolute inset-x-0 bottom-[16px] sm:bottom-[36px] z-[10] transition-opacity duration-300 ease-out ${isLoaded ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
         <div className="site-container flex items-end justify-between gap-2 sm:gap-4">
           {/* Left Map Controls: Show Types & Date Range Zoom */}
           <div className="pointer-events-auto flex items-end gap-2 sm:gap-3 flex-wrap max-w-[calc(100%-60px)] sm:max-w-[calc(100%-100px)] lg:max-w-none">
             {/* Legend / Show Types - Always Visible Box on Desktop, Hidden on Mobile/Tablet */}
-            <div className="hidden lg:block bg-[#0c0621]/95 border border-purple-500/40 rounded-2xl p-3 sm:p-4.5 backdrop-blur-[18px] shadow-[0_20px_60px_rgba(0,0,0,0.9)] text-left select-none text-white max-w-full">
+            <div className="hidden lg:block bg-[#0c0621]/95 border border-purple-500/40 rounded-2xl p-3 sm:p-4.5 backdrop-blur-[18px] shadow-[0_20px_60px_rgba(0,0,0,0.9)] text-left select-none max-w-full">
               <div className="flex items-center justify-between gap-2 sm:gap-3 mb-2 sm:mb-3.5 pb-1.5 sm:pb-2.5 border-b border-white/10">
                 <div className="flex items-center gap-2 sm:gap-2.5">
                   <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-base sm:text-lg shrink-0">
                     🎭
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-purple-300 font-extrabold uppercase text-[11px] sm:text-xs md:text-sm   ">
+                    <span className="text-purple-300   text-[11px] sm:text-xs md:text-sm">
                       SHOW TYPES
                     </span>
                     <span className="text-[9px] sm:text-[10px] text-white/50">Filter map markers by category</span>
@@ -999,7 +1005,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <button
                       type="button"
                       onClick={() => setSelectedTypes(new Set())}
-                      className="text-[10px] sm:text-[11px] font-bold text-purple-300 hover:text-white uppercase    transition-colors cursor-pointer px-1.5 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
+                      className="text-[10px] sm:text-[11px] font-bold text-purple-300 hover:text-white transition-colors cursor-pointer px-1.5 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
                     >
                       CLEAR
                     </button>
@@ -1030,15 +1036,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                           return next;
                         });
                       }}
-                      className={`flex items-center gap-1.5 sm:gap-2 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded-lg sm:rounded-xl border transition-all cursor-pointer text-left ${isActive
-                        ? "bg-white/5 border-white/15 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20"
-                        : "bg-transparent border-transparent opacity-40 hover:opacity-80"
-                        }`}
+                      className={`flex items-center gap-1.5 sm:gap-2 px-1.5 py-1 sm:px-2 sm:py-1.5 rounded-lg sm:rounded-xl border transition-all cursor-pointer text-left ${isActive ? "bg-white/5 border-white/15 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20" : "bg-transparent border-transparent opacity-40 hover:opacity-80"}`}
                     >
                       <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full shrink-0 flex items-center justify-center text-[9px] sm:text-[10px] font-bold shadow-sm" style={{ backgroundColor: cfg.color, color: textColor }}>
                         {showLetter}
                       </div>
-                      <span className="text-[10px] sm:text-xs font-bold text-white/90 uppercase tracking-wide truncate">{cfg.label}</span>
+                      <span className="text-[10px] sm:text-xs font-bold /90   truncate">{cfg.label}</span>
                     </button>
                   );
                 })}
@@ -1054,7 +1057,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 className="lg:hidden !text-[11px] sm:!text-xs md:!text-sm !font-bold flex">
                 <span className='relative pr-1'>🎭</span><span> SHOW TYPES</span>
                 {selectedTypes.size > 0 && (
-                  <span className="ml-1 text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
+                  <span className="ml-1 text-[10px] bg-purple-600 px-2 py-0.5 rounded-full border border-purple-400/50">
                     ({selectedTypes.size})
                   </span>
                 )}
@@ -1066,7 +1069,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 className="!text-[11px] sm:!text-xs md:!text-sm !font-bold flex">
                 <span className='relative pr-1'>📅</span>{isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "DATE RANGE ZOOM"}
                 {isDateFiltered && (
-                  <span className="ml-1 text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
+                  <span className="ml-1 text-[10px] bg-purple-600 px-2 py-0.5 rounded-full border border-purple-400/50">
                     ({markerCount})
                   </span>
                 )}
@@ -1087,7 +1090,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom In"
               title="Zoom In"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center  backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center border border-white/10 hover:border-white/40 rounded-full /90 hover:text-white   transition-colors cursor-pointer active:scale-95 select-none bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[position:100%] bg-[size:200%_100%]">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -1097,7 +1100,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom Out"
               title="Zoom Out"
-              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center backdrop-blur-[45px] border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none">
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center border border-white/10 hover:border-white/40 rounded-full /90 hover:text-white   cursor-pointer active:scale-95 select-none bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[position:100%] bg-[size:200%_100%]">
               <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
@@ -1106,16 +1109,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         </div>
       </div>
 
-      {(!isLoaded || mapLoadError) && (
-        <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black">
-          {mapLoadError ? (
-            <div className="text-center px-6">
-              <p className="font-semibold mb-1">Map couldn't load</p>
-              <p>{mapLoadError === "Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY" ? "Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.local" : "Check your Google Maps API key and quota."}</p>
-            </div>
-          ) : (
-            <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
-          )}
+      {mapLoadError && (
+        <div className="absolute inset-0 z-[2] flex items-center justify-center bg-purple-950/80 backdrop-blur-md">
+          <div className="text-center px-6">
+            <p className="font-semibold mb-1">Map couldn't load</p>
+            <p>{mapLoadError === "Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY" ? "Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.local" : "Check your Google Maps API key and quota."}</p>
+          </div>
         </div>
       )}
 
@@ -1123,11 +1122,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       {mounted && isDateUiOpen && createPortal(
         <div
           onClick={() => setIsDateUiOpen(false)}
-          className="fixed inset-0 z-[99999] flex items-center justify-end  animate-fadeIn"
+          className="fixed inset-0 z-[99999] flex items-center justify-end animate-fadeIn"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-[360px] max-w-[90vw] max-h-[85vh] overflow-y-auto bg-[#0c0621]/95 backdrop-blur-[18px] border border-purple-500/40 p-4.5 sm:p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none text-left text-white"
+            className="w-[360px] max-w-[90vw] max-h-[85vh] overflow-y-auto bg-[#0c0621]/95 backdrop-blur-[18px] border border-purple-500/40 p-4.5 sm:p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none text-left"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
@@ -1136,14 +1135,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   📅
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-purple-300 font-extrabold uppercase text-xs sm:text-sm   ">DATE RANGE ZOOM</span>
+                  <span className="text-purple-300   text-xs sm:text-sm">DATE RANGE ZOOM</span>
                   <span className="text-[10px] sm:text-xs text-white/50">Filter map markers by timeframe</span>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setIsDateUiOpen(false)}
-                className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer">
+                className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 transition-colors cursor-pointer">
                 ✕
               </button>
             </div>
@@ -1151,7 +1150,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             {/* Dual Date Sliders */}
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <div className="flex justify-between text-[11px] font-bold text-white/70 uppercase   ">
+                <div className="flex justify-between text-[11px] font-bold text-white/70">
                   <span>START DATE (FROM)</span>
                   <span className="text-purple-300">{formatDateShort(activeStart)}</span>
                 </div>
@@ -1170,7 +1169,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               </div>
 
               <div className="space-y-1.5">
-                <div className="flex justify-between text-[11px] font-bold text-white/70 uppercase   ">
+                <div className="flex justify-between text-[11px] font-bold text-white/70">
                   <span>END DATE (TO)</span>
                   <span className="text-purple-300">{formatDateShort(activeEnd)}</span>
                 </div>
@@ -1191,7 +1190,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
             {/* Quick Preset Buttons */}
             <div className="space-y-2">
-              <span className="text-[11px] font-bold text-white/50 uppercase    block">QUICK PRESETS</span>
+              <span className="text-[11px] font-bold text-white/50 block">QUICK PRESETS</span>
               <div className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
@@ -1200,7 +1199,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     const target = now + 30 * 24 * 60 * 60 * 1000;
                     setDateRange([now, Math.min(target, maxShowTime)]);
                   }}
-                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold uppercase rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white transition-all text-center cursor-pointer">
+                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 transition-all text-center cursor-pointer">
                   NEXT 30 DAYS
                 </button>
                 <button
@@ -1210,13 +1209,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     const target = now + 90 * 24 * 60 * 60 * 1000;
                     setDateRange([now, Math.min(target, maxShowTime)]);
                   }}
-                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold uppercase rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white transition-all text-center cursor-pointer">
+                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 transition-all text-center cursor-pointer">
                   NEXT 90 DAYS
                 </button>
                 <button
                   type="button"
                   onClick={() => setDateRange([minShowTime, maxShowTime])}
-                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold uppercase rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white transition-all text-center cursor-pointer">
+                  className="px-2 py-2 text-[10px] sm:text-[11px] font-bold rounded-xl border border-white/15 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 transition-all text-center cursor-pointer">
                   ALL DATES
                 </button>
               </div>
@@ -1227,14 +1226,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <button
                 type="button"
                 onClick={() => setDateRange(null)}
-                className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-[11px] font-bold uppercase    transition-all rounded-xl shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5">
+                className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-[11px] font-bold transition-all rounded-xl shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5">
                 <span>✕ REMOVE DATE FILTER</span>
               </button>
             ) : (
               <button
                 type="button"
                 onClick={() => setIsDateUiOpen(false)}
-                className="w-full py-2.5 bg-white/10 hover:bg-white/15 border border-white/10 text-white text-[11px] font-bold uppercase    rounded-xl transition-colors cursor-pointer text-center">
+                className="w-full py-2.5 bg-white/10 hover:bg-white/15 border border-white/10 text-[11px] font-bold rounded-xl transition-colors cursor-pointer text-center">
                 CLOSE CONTROLS
               </button>
             )}
@@ -1251,7 +1250,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-[360px] max-w-[90vw] max-h-[85vh] overflow-y-auto bg-[#0c0621]/95 backdrop-blur-[18px] border border-purple-500/40 p-4.5 sm:p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none text-left text-white"
+            className="w-[360px] max-w-[90vw] max-h-[85vh] overflow-y-auto bg-[#0c0621]/95 backdrop-blur-[18px] border border-purple-500/40 p-4.5 sm:p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none text-left"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
@@ -1260,14 +1259,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   ⚙️
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-purple-300 font-extrabold uppercase text-xs sm:text-sm   ">MAP ZOOM SETTINGS</span>
+                  <span className="text-purple-300   text-xs sm:text-sm">MAP ZOOM SETTINGS</span>
                   <span className="text-[10px] sm:text-xs text-white/50">Customize zoom levels per device</span>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setIsZoomUiOpen(false)}
-                className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+                className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
                 aria-label="Close"
               >
                 ✕
@@ -1290,18 +1289,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 return (
                   <div
                     key={device}
-                    className={`p-3 rounded-xl border transition-all ${isCurrentDevice
-                      ? "bg-[#160a36] border-2 border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                      : "bg-[#130d2d]/80 border-white/10"
-                      }`}
+                    className={`p-3 rounded-xl border transition-all ${isCurrentDevice ? "bg-[#160a36] border-2 border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.3)]" : "bg-[#130d2d]/80 border-white/10"}`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2 font-extrabold text-[11px] text-purple-300   ">
+                      <div className="flex items-center gap-2   text-[11px] text-purple-300">
                         <span>{icon}</span>
-                        <span className="uppercase">{label}</span>
+                        <span className="">{label}</span>
                       </div>
                       {isCurrentDevice && (
-                        <span className="text-[9px] uppercase font-black px-2 py-0.5 rounded-full bg-purple-600 text-white   ">
+                        <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-purple-600">
                           ACTIVE SCREEN
                         </span>
                       )}
@@ -1310,7 +1306,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[11px]">
                       {/* Initial Map Zoom Slider */}
                       <div className="space-y-1">
-                        <div className="flex justify-between items-center text-white/80 font-semibold">
+                        <div className="flex justify-between items-center   font-semibold">
                           <span>Initial:</span>
                           <span className="font-mono font-bold text-purple-300 text-xs">{cfg.initial}</span>
                         </div>
@@ -1336,7 +1332,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
                       {/* Venue Focus Zoom Slider */}
                       <div className="space-y-1">
-                        <div className="flex justify-between items-center text-white/80 font-semibold">
+                        <div className="flex justify-between items-center   font-semibold">
                           <span>Focus:</span>
                           <span className="font-mono font-bold text-purple-300 text-xs">{cfg.active}</span>
                         </div>
@@ -1370,7 +1366,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <button
                 type="button"
                 onClick={handleResetZoomConfig}
-                className="px-3 py-2 text-[11px] font-bold uppercase    text-white/80 hover:text-white bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl transition-colors cursor-pointer"
+                className="px-3 py-2 text-[11px] font-bold   hover:text-white bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl transition-colors cursor-pointer"
               >
                 RESET DEFAULTS
               </button>
@@ -1384,7 +1380,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 <button
                   type="button"
                   onClick={() => setIsZoomUiOpen(false)}
-                  className="px-4 py-2 text-[11px] uppercase font-black    text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl transition-all shadow-lg shadow-purple-600/30 cursor-pointer"
+                  className="px-4 py-2 text-[11px] font-black bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl transition-all shadow-lg shadow-purple-600/30 cursor-pointer"
                 >
                   DONE
                 </button>
@@ -1399,11 +1395,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       {mounted && isShowTypesUiOpen && createPortal(
         <div
           onClick={() => setIsShowTypesUiOpen(false)}
-          className="fixed inset-0 z-[99999] flex items-center justify-end  animate-fadeIn"
+          className="fixed inset-0 z-[99999] flex items-center justify-end animate-fadeIn"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-[360px] max-w-[90vw] max-h-[85vh] overflow-y-auto bg-[#0c0621]/95 backdrop-blur-[18px] border border-purple-500/40 p-4.5 sm:p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none text-left text-white"
+            className="w-[360px] max-w-[90vw] max-h-[85vh] overflow-y-auto bg-[#0c0621]/95 backdrop-blur-[18px] border border-purple-500/40 p-4.5 sm:p-5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none text-left"
           >
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2.5">
@@ -1411,7 +1407,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   🎭
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-purple-300 font-extrabold uppercase text-xs   ">
+                  <span className="text-purple-300   text-xs">
                     SHOW TYPES
                   </span>
                   <span className="text-[10px] text-white/50">Filter map markers by category</span>
@@ -1422,7 +1418,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   <button
                     type="button"
                     onClick={() => setSelectedTypes(new Set())}
-                    className="text-[11px] font-bold text-purple-300 hover:text-white uppercase    transition-colors cursor-pointer px-2 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
+                    className="text-[11px] font-bold text-purple-300 hover:text-white transition-colors cursor-pointer px-2 py-0.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30"
                   >
                     CLEAR
                   </button>
@@ -1457,15 +1453,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         return next;
                       });
                     }}
-                    className={`flex items-center gap-2 px-2 py-1.5 rounded-xl border transition-all cursor-pointer text-left ${isActive
-                      ? "bg-white/5 border-white/15 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20"
-                      : "bg-transparent border-transparent opacity-40 hover:opacity-80"
-                      }`}
+                    className={`flex items-center gap-2 px-2 py-1.5 rounded-xl border transition-all cursor-pointer text-left ${isActive ? "bg-white/5 border-white/15 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20" : "bg-transparent border-transparent opacity-40 hover:opacity-80"}`}
                   >
                     <div className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center text-[10px] font-bold shadow-sm" style={{ backgroundColor: cfg.color, color: textColor }}>
                       {showLetter}
                     </div>
-                    <span className="text-xs font-bold text-white/90 uppercase tracking-wide truncate">{cfg.label}</span>
+                    <span className="text-xs font-bold /90   truncate">{cfg.label}</span>
                   </button>
                 );
               })}

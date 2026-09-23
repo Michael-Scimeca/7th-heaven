@@ -86,7 +86,7 @@ function VideoCardVisual({
         <div className="w-20 h-20 flex items-center justify-center mb-6">
           <GlassPlayButton size="lg" />
         </div>
-        <h4 className="text-white/90 uppercase line-clamp-2 px-2 drop-shadow-md">
+        <h4 className="/90 line-clamp-2 px-2 drop-shadow-md">
           {title}
         </h4>
       </div>
@@ -410,8 +410,8 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
   };
 
   return (
-    <main className="min-h-screen text-white page-container relative overflow-hidden" id="media-page">
-      <div className="site-container relative z-10 ">
+    <main className="min-h-screen page-container relative overflow-hidden" id="media-page">
+      <div className="site-container relative z-10">
         {/* ── CENTERED PAGE TITLE ── */}
         <header className="text-center mb-6">
           <h1>
@@ -448,7 +448,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
               type="button"
               onClick={() => handleFilterChange("ALL")}
               isActive={activeFilter === "ALL"}
-              className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+              className="!w-auto text-xs [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
             >
               ALL
             </SeventhButton>
@@ -463,7 +463,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                   type="button"
                   onClick={() => handleFilterChange(catUpper)}
                   isActive={isActive}
-                  className="!w-auto text-xs uppercase [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
+                  className="!w-auto text-xs [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0 font-semibold"
                 >
                   {catUpper}
                 </SeventhButton>
@@ -489,8 +489,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 onMouseEnter={() => setHoveredVideoId(video.id)}
                 onMouseLeave={() => setHoveredVideoId(null)}
                 onClick={() => setPlayingVideo(video)}
-                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] overflow-hidden transition-all duration-500 bg-[#0c071a] cursor-pointer animate-[fade-in_0.35s_ease-out_both] rounded-[40px] ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"
-                  }`}
+                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] overflow-hidden transition-all duration-500 bg-[#0c071a] cursor-pointer animate-[fade-in_0.35s_ease-out_both] rounded-[40px] ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"}`}
                 style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}>
                 {/* Full Bleed Visual Media Player Preview */}
                 <div className="absolute inset-0 w-full h-full">
@@ -508,20 +507,20 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
                 <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none group-hover:opacity-0 transition-opacity duration-300">
                   {/* Category Pill Tag */}
-                  <span className="inline-flex items-center justify-center text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md text-white uppercase border border-white/10 shrink-0 font-bold mb-2">
+                  <span className="inline-flex items-center justify-center text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md border border-white/10 shrink-0 font-bold mb-2">
                     {video.category || "7TH HEAVEN"}
                   </span>
 
                   {/* Poster Title Container with Responsive Height */}
                   <div className="h-10 sm:h-14 flex items-center justify-center">
                     <h3
-                      className="uppercase text-white drop-shadow-md line-clamp-2">
+                      className="drop-shadow-md line-clamp-2">
                       {video.title}
                     </h3>
                   </div>
 
                   {/* Year / Duration Metadata */}
-                  <span className="font-semibold uppercase shrink-0">
+                  <span className="font-semibold shrink-0">
                     {video.year || "2026"} {video.duration ? `• ${video.duration}` : ""}
                   </span>
                 </div>
@@ -568,17 +567,17 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             {/* Modal Header Bar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-black/60">
               <div className="flex items-center gap-3">
-                <span className="text-xs font-bold uppercase    px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30">
                   {playingVideo.category || "7TH HEAVEN"}
                 </span>
-                <h3 className="text-base sm:text-lg font-bold text-white uppercase line-clamp-1">
+                <h3 className="text-base sm:text-lg font-bold line-clamp-1">
                   {playingVideo.title}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setPlayingVideo(null)}
-                className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors cursor-pointer shrink-0"
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20   hover:text-white transition-colors cursor-pointer shrink-0"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -599,7 +598,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 text-white px-5 py-3.5 rounded-lg flex items-center gap-3 shadow-2xl">
+        <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 px-5 py-3.5 rounded-lg flex items-center gap-3 shadow-2xl">
           <span>{toastMessage}</span>
         </div>
       )}
@@ -614,8 +613,8 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                   <VideoIcon className="w-4 h-4 text-purple-300" />
                 </div>
                 <div>
-                  <h3 className="uppercase text-white font-bold">{sanityContent?.modalTitle || "Add Video to Media Vault"}</h3>
-                  <p className="uppercase text-xs text-purple-300/70">{sanityContent?.modalSubtitle || "Syncs to Sanity CMS & Media Hub"}</p>
+                  <h3 className="font-bold">{sanityContent?.modalTitle || "Add Video to Media Vault"}</h3>
+                  <p className="text-xs text-purple-300/70">{sanityContent?.modalSubtitle || "Syncs to Sanity CMS & Media Hub"}</p>
                 </div>
               </div>
               <button
@@ -628,7 +627,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
             <form onSubmit={handleAddVideoSubmit} className="space-y-4">
               <div>
-                <label className="block text-[10px] uppercase text-purple-300">
+                <label className="block text-[10px] text-purple-300">
                   Video URL or ID <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -670,7 +669,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
               })()}
 
               <div>
-                <label className="block text-[10px] uppercase text-purple-300">
+                <label className="block text-[10px] text-purple-300">
                   Video Title <span className="text-pink-400">*</span>
                 </label>
                 <input
@@ -679,14 +678,14 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. Ain't That Just Beautiful (Official Video)"
-                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 placeholder: text-white/30 focus:outline-none focus:border-purple-400"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="block text-[10px] uppercase text-purple-300">
+                    <label className="block text-[10px] text-purple-300">
                       Category <span className="text-pink-400">*</span>
                     </label>
                     <button
@@ -710,7 +709,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                       value={customCategoryInput}
                       onChange={(e) => setCustomCategoryInput(e.target.value)}
                       placeholder="e.g. Acoustic Sessions"
-                      className="w-full bg-black/60 border border-purple-500/50 rounded-lg px-3 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 text-sm"
+                      className="w-full bg-black/60 border border-purple-500/50 rounded-lg px-3 py-2.5 placeholder: text-white/30 focus:outline-none focus:border-purple-400 text-sm"
                     />
                   ) : (
                     <select
@@ -723,7 +722,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                           setNewCategory(e.target.value);
                         }
                       }}
-                      className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-purple-400 cursor-pointer text-sm"
+                      className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2.5 focus:outline-none focus:border-purple-400 cursor-pointer text-sm"
                     >
                       {availableCategories.map((cat) => (
                         <option key={cat} value={cat}>
@@ -736,7 +735,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase text-purple-300">
+                  <label className="block text-[10px] text-purple-300">
                     Release Year
                   </label>
                   <input
@@ -744,13 +743,13 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                     value={newYear}
                     onChange={(e) => setNewYear(e.target.value)}
                     placeholder="2026"
-                    className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                    className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 placeholder: text-white/30 focus:outline-none focus:border-purple-400"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] uppercase text-purple-300">
+                <label className="block text-[10px] text-purple-300">
                   Description / Notes (Optional)
                 </label>
                 <textarea
@@ -758,7 +757,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                   placeholder="e.g. Filmed live at Frontier Days..."
-                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400"
+                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2 placeholder: text-white/30 focus:outline-none focus:border-purple-400"
                 />
               </div>
 
@@ -772,7 +771,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 text-white uppercase rounded-lg font-bold text-xs    transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] cursor-pointer disabled:opacity-50 flex items-center gap-2">
+                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 rounded-lg font-bold text-xs transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] cursor-pointer disabled:opacity-50 flex items-center gap-2">
                   {submitting
                     ? (sanityContent?.modalSavingText || "Saving to Sanity...")
                     : (sanityContent?.modalSubmitText || "+ PUBLISH VIDEO TO SANITY")}

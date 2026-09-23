@@ -100,23 +100,23 @@ export default function NotificationsPage() {
     <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden" id="notifications-page">
       {/* Page Header */}
       <div className="text-center mb-12 max-w-2xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-6 text-purple-700 uppercase r">
+        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-4 py-1.5 mb-6 text-purple-700 r">
           <BellIcon />
           Free &middot; No Phone Number &middot; No Signup
         </div>
-        <h1 className="text-4xl sm:text-5xl uppercase mb-6">
+        <h1 className="text-4xl sm:text-5xl mb-6">
           Get Notified <span className="text-purple-600">Instantly</span>
         </h1>
         <p className="font-medium">
           7th Heaven can push an alert straight to your phone the moment we post one &mdash;
           new shows, ticket drops, cruise news, whatever the group needs. It doesn&apos;t
           use text messages or carrier fees; it rides on{" "}
-          <a href="https://ntfy.sh" target="_blank" rel="noopener noreferrer" className="  hover:text-white transition-colors">
+          <a href="https://ntfy.sh" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
             ntfy
           </a>
           , a free, open push network, so there&apos;s no cost to you and none to us.
           Prefer old-fashioned alerts? Check out our live stream alerts on{" "}
-          <Link href="/live" className="  hover:text-white transition-colors">
+          <Link href="/live" className="hover:text-white transition-colors">
             the live page
           </Link>{" "}
           too.
@@ -133,9 +133,7 @@ export default function NotificationsPage() {
               aria-label={`Show ${tab.label} alerts`}
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`px-5 py-2.5 rounded-lg    uppercase transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 text-white "
-                : " bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:border-white/30"
-                }`}>
+              className={`px-5 py-2.5 rounded-lg transition duration-200 border cursor-pointer ${isActive ? "bg-purple-600 border-purple-600 " : " bg-[#00000029] border-white/10 text-white/70 hover:text-white hover:border-white/30" }`}>
               {tab.label}
             </button>
           );
@@ -152,7 +150,7 @@ export default function NotificationsPage() {
             <p>
               This alert channel hasn&apos;t been configured on the server yet. Check back soon,
               or reach out on the{" "}
-              <Link href="/contact" className="  hover:text-white transition-colors">
+              <Link href="/contact" className="hover:text-white transition-colors">
                 Contact
               </Link>{" "}
               page.
@@ -162,10 +160,10 @@ export default function NotificationsPage() {
           <div className="flex flex-col md:flex-row items-center gap-10">
             {/* QR Code */}
             <div className="shrink-0 flex flex-col items-center gap-3">
-              <div className="bg-white p-3 rounded-2xl ">
+              <div className="bg-white p-3 rounded-2xl">
                 <QRCode value={appDeepLink} size={148} fgColor="#0c0817" bgColor="#ffffff" />
               </div>
-              <p className="uppercase text-center max-w-[160px]">
+              <p className="text-center max-w-[160px]">
                 Scan from inside the ntfy app&apos;s &ldquo;+&rdquo; button
               </p>
             </div>
@@ -173,7 +171,7 @@ export default function NotificationsPage() {
             {/* Steps */}
             <div className="flex-1 w-full space-y-5">
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center">1</span>
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 flex items-center justify-center">1</span>
                 <div>
                   <p className="mb-2">Get the free ntfy app (or skip it and use your browser)</p>
                   <div className="flex flex-wrap gap-2">
@@ -196,7 +194,7 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center">2</span>
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 flex items-center justify-center">2</span>
                 <div className="flex-1">
                   <p className="mb-2">Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel</p>
                   <div className="flex flex-wrap items-center gap-2">
@@ -210,7 +208,7 @@ export default function NotificationsPage() {
                       href={browserUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white hover:text-white  transition-colors">
+                      className="hover:text-white transition-colors">
                       Or subscribe in your browser instead
                     </a>
                   </div>
@@ -218,7 +216,7 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center">3</span>
+                <span className="shrink-0 w-6 h-6 rounded-lg bg-purple-600 flex items-center justify-center">3</span>
                 <div>
                   <p>
                     Done. You&apos;ll get a push notification the moment we send one to this channel &mdash;
@@ -230,7 +228,7 @@ export default function NotificationsPage() {
               <button
                 type="button"
                 onClick={handleCopy}
-                className="inline-flex items-center gap-1.5 text-[11px] uppercase text-white/40 hover:text-white/70 transition-colors cursor-pointer pt-1">
+                className="inline-flex items-center gap-1.5 text-[11px] transition-colors cursor-pointer pt-1">
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 {copied ? "Copied channel name" : "Copy channel name manually"}
               </button>

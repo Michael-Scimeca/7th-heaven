@@ -29,18 +29,18 @@ function DemoFrame({
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">{label}</h2>
         <button
- onClick={onPlay}
- disabled={playing}
- className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40">
+          onClick={onPlay}
+          disabled={playing}
+          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40">
           {playing ? "Playing…" : "Replay"}
         </button>
       </div>
       <div
- className="relative w-full overflow-hidden rounded-xl border border-white/10 bg-black"
- style={{ aspectRatio: "16 / 11" }}>
+        className="relative w-full overflow-hidden rounded-xl border border-white/10 bg-black"
+        style={{ aspectRatio: "16 / 11" }}>
         {/* fixed chrome -- never touched by any transition */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-4 py-2 backdrop-blur-sm">
-          <span className="text-[11px] uppercase tracking-[0.2em] text-white/70">
+          <span className="text-[11px] tracking-[0.2em] text-white/70">
             7th Heaven Studio
           </span>
           <span className="flex gap-1.5">
@@ -219,14 +219,14 @@ function CurtainWipeDemo() {
         <div className="relative h-full w-full bg-black overflow-hidden">
           <div ref={oldRef} className="absolute inset-0 z-0">
             <Image src="/preloader-demo/cruise-v2.jpg" alt="" fill sizes="100vw" unoptimized className="h-full w-full object-cover object-top" />
-            <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs uppercase r text-white/90">
+            <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs r /90">
               Cruise (old)
             </span>
           </div>
           <div ref={outerRef} className="absolute inset-0 z-10 overflow-hidden" style={{ clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }}>
             <div ref={contentRef} className="relative h-full w-full">
               <Image src="/preloader-demo/book.jpg" alt="" fill sizes="100vw" unoptimized className="h-full w-full object-cover object-top" />
-              <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs uppercase r text-white/90">
+              <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs r /90">
                 Book (new)
               </span>
             </div>
@@ -236,38 +236,38 @@ function CurtainWipeDemo() {
 
       {/* Tuning panel -- speed / easing / slant, live-wired into play() above */}
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px] uppercase tracking-[0.2em] /80">New page reveal</p>
+        <p className="text-[11px] tracking-[0.2em]  ">New page reveal</p>
         <div className="flex items-center justify-between gap-3">
           <label className="text-white/60">
-            Reveal speed <span className="text-white/35">(exit + 0.25s, linked)</span>
+            Reveal speed <span className="/35">(exit + 0.25s, linked)</span>
           </label>
-          <span className="font-mono text-white/80">{revealDuration.toFixed(2)}s</span>
+          <span className="font-mono  ">{revealDuration.toFixed(2)}s</span>
         </div>
         <input
- type="range"
- min={0.2}
- max={1.5}
- step={0.05}
- value={revealDuration}
- disabled
- readOnly
- className="w-full accent-cyan-400 opacity-50 cursor-not-allowed"
- />
+          type="range"
+          min={0.2}
+          max={1.5}
+          step={0.05}
+          value={revealDuration}
+          disabled
+          readOnly
+          className="w-full accent-cyan-400 opacity-50 cursor-not-allowed"
+        />
 
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="reveal-scale" className="text-white/60">
             Reveal scale
           </label>
-          <span className="font-mono text-white/80">{revealScale.toFixed(2)}x</span>
+          <span className="font-mono  ">{revealScale.toFixed(2)}x</span>
         </div>
         <input
- id="reveal-scale"
- type="range"
- min={1}
- max={2}
- step={0.05}
- value={revealScale}
- onChange={(e) => setRevealScale(parseFloat(e.target.value))}
+          id="reveal-scale"
+          type="range"
+          min={1}
+          max={2}
+          step={0.05}
+          value={revealScale}
+          onChange={(e) => setRevealScale(parseFloat(e.target.value))}
           className="w-full accent-cyan-400"
         />
 
@@ -275,12 +275,12 @@ function CurtainWipeDemo() {
           Reveal easing
         </label>
         <select
- id="reveal-ease"
- value={revealEase}
- onChange={(e) => setRevealEase(e.target.value)}
-          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 text-white/90">
+          id="reveal-ease"
+          value={revealEase}
+          onChange={(e) => setRevealEase(e.target.value)}
+          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 /90">
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} className="text-white">
+            <option key={o.value} value={o.value} className="">
               {o.label}
             </option>
           ))}
@@ -290,24 +290,24 @@ function CurtainWipeDemo() {
           <label htmlFor="slant-ratio" className="text-white/60">
             Slant ratio
           </label>
-          <span className="font-mono text-white/80">{slantRatio.toFixed(3)}</span>
+          <span className="font-mono  ">{slantRatio.toFixed(3)}</span>
         </div>
         <input
- id="slant-ratio"
- type="range"
- min={0}
- max={0.3}
- step={0.005}
- value={slantRatio}
- onChange={(e) => setSlantRatio(parseFloat(e.target.value))}
+          id="slant-ratio"
+          type="range"
+          min={0}
+          max={0.3}
+          step={0.005}
+          value={slantRatio}
+          onChange={(e) => setSlantRatio(parseFloat(e.target.value))}
           className="w-full accent-cyan-400"
         />
 
         <label className="flex items-center gap-2 text-white/60">
           <input
- type="checkbox"
- checked={flipSlant}
- onChange={(e) => setFlipSlant(e.target.checked)}
+            type="checkbox"
+            checked={flipSlant}
+            onChange={(e) => setFlipSlant(e.target.checked)}
             className="accent-cyan-400"
           />
           Flip slant direction {flipSlant ? "(left leads)" : "(right leads -- matches reference)"}
@@ -317,21 +317,21 @@ function CurtainWipeDemo() {
       {/* Old-page exit panel -- independent speed/easing/slant/flip, wired
           into the tl.fromTo(oldRef.current, ...) tween in play() above. */}
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-fuchsia-400/80">Old page exit</p>
+        <p className="text-[11px] tracking-[0.2em] text-fuchsia-400/80">Old page exit</p>
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="old-duration" className="text-white/60">
             Exit speed
           </label>
-          <span className="font-mono text-white/80">{oldDuration.toFixed(2)}s</span>
+          <span className="font-mono  ">{oldDuration.toFixed(2)}s</span>
         </div>
         <input
- id="old-duration"
- type="range"
- min={0.2}
- max={1.5}
- step={0.05}
- value={oldDuration}
- onChange={(e) => setOldDuration(parseFloat(e.target.value))}
+          id="old-duration"
+          type="range"
+          min={0.2}
+          max={1.5}
+          step={0.05}
+          value={oldDuration}
+          onChange={(e) => setOldDuration(parseFloat(e.target.value))}
           className="w-full accent-fuchsia-400"
         />
 
@@ -339,16 +339,16 @@ function CurtainWipeDemo() {
           <label htmlFor="old-scale" className="text-white/60">
             Exit scale
           </label>
-          <span className="font-mono text-white/80">{oldScale.toFixed(2)}x</span>
+          <span className="font-mono  ">{oldScale.toFixed(2)}x</span>
         </div>
         <input
- id="old-scale"
- type="range"
- min={1}
- max={2}
- step={0.05}
- value={oldScale}
- onChange={(e) => setOldScale(parseFloat(e.target.value))}
+          id="old-scale"
+          type="range"
+          min={1}
+          max={2}
+          step={0.05}
+          value={oldScale}
+          onChange={(e) => setOldScale(parseFloat(e.target.value))}
           className="w-full accent-fuchsia-400"
         />
 
@@ -356,16 +356,16 @@ function CurtainWipeDemo() {
           <label htmlFor="old-rotation" className="text-white/60">
             Exit rotation
           </label>
-          <span className="font-mono text-white/80">{oldRotation}°</span>
+          <span className="font-mono  ">{oldRotation}°</span>
         </div>
         <input
- id="old-rotation"
- type="range"
- min={-45}
- max={45}
- step={1}
- value={oldRotation}
- onChange={(e) => setOldRotation(parseFloat(e.target.value))}
+          id="old-rotation"
+          type="range"
+          min={-45}
+          max={45}
+          step={1}
+          value={oldRotation}
+          onChange={(e) => setOldRotation(parseFloat(e.target.value))}
           className="w-full accent-fuchsia-400"
         />
 
@@ -373,12 +373,12 @@ function CurtainWipeDemo() {
           Exit easing
         </label>
         <select
- id="old-ease"
- value={oldEase}
- onChange={(e) => setOldEase(e.target.value)}
-          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 text-white/90">
+          id="old-ease"
+          value={oldEase}
+          onChange={(e) => setOldEase(e.target.value)}
+          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 /90">
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} className="text-white">
+            <option key={o.value} value={o.value} className="">
               {o.label}
             </option>
           ))}
@@ -388,24 +388,24 @@ function CurtainWipeDemo() {
           <label htmlFor="old-slant-ratio" className="text-white/60">
             Slant ratio
           </label>
-          <span className="font-mono text-white/80">{oldSlantRatio.toFixed(3)}</span>
+          <span className="font-mono  ">{oldSlantRatio.toFixed(3)}</span>
         </div>
         <input
- id="old-slant-ratio"
- type="range"
- min={0}
- max={0.3}
- step={0.005}
- value={oldSlantRatio}
- onChange={(e) => setOldSlantRatio(parseFloat(e.target.value))}
+          id="old-slant-ratio"
+          type="range"
+          min={0}
+          max={0.3}
+          step={0.005}
+          value={oldSlantRatio}
+          onChange={(e) => setOldSlantRatio(parseFloat(e.target.value))}
           className="w-full accent-fuchsia-400"
         />
 
         <label className="flex items-center gap-2 text-white/60">
           <input
- type="checkbox"
- checked={oldFlipSlant}
- onChange={(e) => setOldFlipSlant(e.target.checked)}
+            type="checkbox"
+            checked={oldFlipSlant}
+            onChange={(e) => setOldFlipSlant(e.target.checked)}
             className="accent-fuchsia-400"
           />
           Flip slant direction {oldFlipSlant ? "(left leads)" : "(right leads -- matches reference)"}
@@ -445,7 +445,7 @@ function FadeThenRiseDemo() {
           <span className="text-2xl font-black">OLD PAGE</span>
         </div>
         {/* title stays pinned/visible through the whole fade, like the reference */}
-        <span className="absolute bottom-3 left-4 z-10 text-sm font-black uppercase st text-white">
+        <span className="absolute bottom-3 left-4 z-10 text-sm font-black st">
           old page
         </span>
         <div ref={newRef} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-800 to-slate-950">
@@ -458,17 +458,17 @@ function FadeThenRiseDemo() {
 
 export default function PreloadersTestPage() {
   return (
-    <main className="min-h-screen bg-[#05030a] px-6 py-16 text-white md:px-12">
+    <main className="min-h-screen bg-[#05030a] px-6 py-16 md:px-12">
       <div className="mx-auto max-w-6xl">
-        <p className="text-xs uppercase tracking-[0.3em] text-white/40">Internal test page</p>
-        <h1 className="mt-2 text-4xl font-black md:text-5xl">Preloader / transition test bench</h1>
+        <p className="text-xs tracking-[0.3em] text-white/40">Internal test page</p>
+        <h1 className="mt-2 text-4xl">Preloader / transition test bench</h1>
         <p className="mt-4 max-w-2xl text-white/60">
           Three self-contained transition demos, isolated from real routing so you can play each one back
           to back and compare. The curtain wipe is what&apos;s currently wired into the real site&apos;s
           page navigation; the other two are the effects pulled from the Stratal Scenography reference video.
         </p>
 
-        <div className=" 2 grid grid-cols-1 gap-10 lg:grid-cols-2">
+        <div className="2 grid grid-cols-1 gap-10 lg:grid-cols-2">
           <CurtainWipeDemo />
           <FadeThenRiseDemo />
         </div>

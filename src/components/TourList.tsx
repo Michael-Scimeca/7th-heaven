@@ -7,6 +7,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Plus, X, MessageSquare, Edit, Mic, MapPin, CalendarDays, Bell, Mail, ParkingCircle, ParkingSquare, Search } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CarIcon from "./CarIcon";
 import LocationPinIcon from "./LocationPinIcon";
 import { SanityTourDate } from "@/lib/sanity";
@@ -28,9 +30,7 @@ import { VENUE_LINKS } from "@/lib/venue-links";
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
   return (
     <div
-      className={`w-full h-[1px] transition-colors duration-300 ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent"
-        : "bg-white/10 "
-        }`}
+      className={`w-full h-[1px] transition-colors duration-300 ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent" : "bg-white/10 "}`}
       aria-hidden="true"
     />
   );
@@ -150,7 +150,7 @@ function getShowDisplayTimes(show: any) {
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
-const selectClass = "appearance-none    border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.5rem]    uppercase  text-white cursor-pointer transition-all duration-200 focus:outline-none";
+const selectClass = "appearance-none    border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.5rem]        cursor-pointer transition-all duration-200 focus:outline-none";
 const activeSelect = "!border-[var(--color-accent)] ! text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
@@ -858,6 +858,58 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   const gridClass = "grid-cols-1 lg:grid-cols-[60px_165px_2.5fr_1.4fr_1fr_130px_minmax(120px,1fr)]";
 
+  const headerParallaxRef = useRef<HTMLDivElement | null>(null);
+  const mapParallaxRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      // Map Parallax: Smooth vertical drift as user scrolls down the page
+      if (mapParallaxRef.current && tableRef.current) {
+        gsap.fromTo(
+          mapParallaxRef.current,
+          { yPercent: -3, force3D: true },
+          {
+            yPercent: 3,
+            force3D: true,
+            ease: "none",
+            scrollTrigger: {
+              trigger: tableRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.2,
+            },
+          }
+        );
+      }
+
+      // Section Headline Counter-Parallax for 3D depth effect
+      if (headerParallaxRef.current && tableRef.current) {
+        gsap.fromTo(
+          headerParallaxRef.current,
+          { y: 10, force3D: true },
+          {
+            y: -10,
+            force3D: true,
+            ease: "none",
+            scrollTrigger: {
+              trigger: tableRef.current,
+              start: "top bottom",
+              end: "center top",
+              scrub: 0.2,
+            },
+          }
+        );
+      }
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <>
       {eventSchema && (
@@ -869,7 +921,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       )}
       {/* Table */}
       <section
-        className="py-0 relative"
+        className="relative py-section-fluid"
         ref={tableRef}
         id="tour-table-container"
         style={{
@@ -881,8 +933,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         <div className="w-full relative site-container">
 
           {/* Section Headline & Paragraph */}
-          <div className="text-center mx-auto pt-8 pb-9 absolute left-0 right-0 z-[5] pointer-events-none">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase text-white tracking-tight mb-3">
+          <div
+            ref={headerParallaxRef}
+            className="text-center mx-auto pb-9 absolute left-0 right-0 z-30 pointer-events-none pt-4"
+          >
+            <h2 className="t mb-3">
               Upcoming Tour Dates
             </h2>
             <p className="text-white/70 text-sm sm:text-base md:text-lg font-medium leading-relaxed">
@@ -892,121 +947,18 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
           {!hideMap && (
             <div
-              className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden z-10"
+              ref={mapParallaxRef}
+              className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] z-10 h-[400px] sm:h-[600px] lg:h-[900px]"
               style={{
-                transform: 'translateZ(0)',
+                transform: 'translate3d(0, 0, 0)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
               }}>
-              <LazySection fallbackHeight="400px">
-                <TourMap shows={hasActiveFilters ? filtered : displayShows} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
-              </LazySection>
+              <TourMap shows={hasActiveFilters ? filtered : displayShows} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
             </div>
           )}
 
-          {/* Up Next — Neon Glow / Festival */}
-          {upNext && (
-            <div className="my-6 relative z-10">
-              <div className="relative">
-                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 w-full">
-                  {/* Left Column: Info */}
-                  <div className="relative flex flex-col justify-between gap-3 w-full md:w-auto flex-1">
-                    {/* UP NEXT label */}
-                    <div className="flex items-center gap-2">
-                      <SectionBadge className="gap-2 border-purple-500/40 text-purple-300">
-                        <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-emerald-400 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
-                        <span>{daysLabel === "Happening Now" ? "HAPPENING NOW" : "UP NEXT"}</span>
-                      </SectionBadge>
-                    </div>
 
-                    {/* Venue name */}
-                    <h2 className="text-white uppercase">
-                      {upNext.venue}
-                    </h2>
-
-                    {/* Date + Location + Time */}
-                    <div className="flex items-center gap-2 text-white/90 flex-wrap font-bold">
-                      <span>
-                        {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
-                      </span>
-                      {upNext.city && (
-                        <>
-                          <span className="text-white/40">·</span>
-                          <span>{upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
-                        </>
-                      )}
-                      {upNext.playTime ? (
-                        <>
-                          <span className="text-white/40">·</span>
-                          <span className="text-rose-400 font-extrabold">Plays: {upNext.playTime}</span>
-                          {upNext.time && (
-                            <>
-                              <span className="text-white/40">·</span>
-                              <span className="text-white/70">Event: {upNext.time}</span>
-                            </>
-                          )}
-                        </>
-                      ) : (
-                        upNext.time && (
-                          <>
-                            <span className="text-white/40">·</span>
-                            <span className="text-white/80">{upNext.time}</span>
-                          </>
-                        )
-                      )}
-                    </div>
-                    {upNext.info && (
-                      <p className="uppercase">
-                        {upNext.info}
-                      </p>
-                    )}
-
-                    {/* Action buttons (Directions, Website, Add to Calendar) */}
-                    <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full">
-                      {upNext.mapUrl && (
-                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="a-btn flex items-center gap-1 text-[11px] md:text-[13px] uppercase font-bold whitespace-nowrap hover:opacity-80 transition-colors p-0 border-none cursor-pointer" id="upnext-map">
-                          <span>Directions</span>
-                        </a>
-                      )}
-                      {upNext.websiteUrl && (
-                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="a-btn flex items-center gap-1 text-[11px] md:text-[13px] uppercase  font-bold whitespace-nowrap hover:opacity-80 transition-colors p-0 border-none cursor-pointer" id="upnext-website">
-                          Website
-                        </a>
-                      )}
-                      <div className="relative calendar-dropdown-container">
-                        <button aria-label="Next"
-                          onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                          className="a-btn flex items-center gap-1 text-[11px] md:text-[13px] uppercase  font-bold whitespace-nowrap
-  hover:opacity-80 transition-colors p-0 border-none cursor-pointer"
-                          id="upnext-calendar-btn">
-                          Add to Calendar
-                        </button>
-                        {activeCalDropdownId === 'upnext' && (
-                          <div className="absolute right-0 md:left-0 bottom-full mb-2 bg-[#0c0721]/95 border border-purple-400/30 py-2 z-50 min-w-[170px] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-[45px] whitespace-nowrap">
-                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Calendar</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Apple / iCal</a>
-                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
-                            <button
-                              onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
-                              className="flex items-center gap-2.5 px-4 py-2.5 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2.5 text-xs font-semibold cursor-pointer"><MessageSquare className="w-3.5 h-3.5 text-purple-400 shrink-0" /> SMS / Text Alerts</button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Column: Countdown Timer */}
-                  <div className="relative shrink-0 flex items-center justify-start md:justify-end">
-                    <CountdownTimer
-                      targetDate={upNext.startDate || upNext.date}
-                      targetTime={upNext.playTime || upNext.time}
-                      className="justify-start md:justify-end gap-4 md:gap-5"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
 
           <div className="flex items-center justify-end">
             <div className="flex items-center gap-3">
@@ -1018,19 +970,21 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               {hasActiveFilters && (
                 <button
                   onClick={clearAll}
-                  className="text-[0.9rem] uppercase  hover:text-white border border-[var(--color-accent)re] hover:border-[rgba(255,10,61,0.6)] rounded-lg px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]">Clear</button>
+                  className="text-[0.9rem] hover:text-white border border-[var(--color-accent)re] hover:border-[rgba(255,10,61,0.6)] rounded-lg px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]">Clear</button>
               )}
             </div>
           </div>
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none", top: `${mobileHeaderOffset}px` }} className="relative sticky z-[40] flex flex-col gap-3.5 w-full border-0 text-white transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none", top: `${mobileHeaderOffset}px` }} className="relative sticky z-[40] flex flex-col gap-3.5 w-full border-0 transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100">
             <div
-              className="sort-bar-bg absolute -top-3 -bottom-3 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px]   pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
+              className="sort-bar-bg absolute -top-3 -bottom-3 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-[24px] bg-black/20 pointer-events-none -z-10 opacity-0 transition-opacity duration-300 ease-out"
               style={{
-                maskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)',
+                WebkitBackdropFilter: 'blur(24px)',
+                backdropFilter: 'blur(24px)',
+                maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
               }}
             />
 
@@ -1038,7 +992,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             <div className="input-glow-border rounded-lg w-full max-w-[300px] shrink-0 mb-3">
               <div className="relative flex items-center w-full">
                 <Search className="w-4 h-4 text-white/50 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10" />
-                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full border-0 rounded-lg no-bg-icon pr-5 py-2 text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full border-0 rounded-lg no-bg-icon pr-5 py-2 placeholder: text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
@@ -1046,7 +1000,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
             <div className={`flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 w-full items-center`}>
               {/* Column 1: DAY */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] uppercase font-bold">Day</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold">Day</span>
 
               {/* Column 2: MONTH Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1059,7 +1013,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Column 3: PLACE / VENUE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] uppercase font-bold">Place</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-bold">Place</span>
 
               {/* Column 4: CITY Filter */}
               <div className="relative flex items-center shrink-0">
@@ -1072,13 +1026,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Column 5: TIME */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase font-bold">Time</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold">Time</span>
 
               {/* Column 6: MAP/CAL */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase text-center font-bold">Map/Cal</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] text-center font-bold">Map/Cal</span>
 
               {/* Column 7: WEBSITE */}
-              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] uppercase font-bold text-right">Website</span>
+              <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-bold text-right">Website</span>
             </div>
           </div>
 
@@ -1104,29 +1058,29 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 <div key={`tour_row_${i}_${show.id || rowId}`} className="group overflow-visible pb-4">
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}>
-                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase  whitespace-nowrap font-bold">{show.day}</span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase  whitespace-nowrap font-bold">{show.date}</span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase  whitespace-nowrap font-bold">{show.venue}</span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] uppercase  whitespace-nowrap font-bold">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap font-bold">{show.day}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap font-bold">{show.date}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap font-bold">{show.venue}</span>
+                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap font-bold">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
                     <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)] font-bold">
                       {(() => {
                         const { doorsTime, playTime, time } = getShowDisplayTimes(show);
                         if (doorsTime || playTime || time) {
                           return (
                             <div className="flex flex-col gap-0.5">
-                              {doorsTime && <span className="text-white whitespace-nowrap">Doors: {doorsTime}</span>}
+                              {doorsTime && <span className="whitespace-nowrap">Doors: {doorsTime}</span>}
                               {playTime && <span className="text-rose-400 text-[0.92rem] whitespace-nowrap">Show: {playTime}</span>}
                               {time && (doorsTime || playTime) && <span className="text-white/70 whitespace-nowrap">Event: {time}</span>}
-                              {!doorsTime && !playTime && time && <span className="text-white text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">{time}</span>}
+                              {!doorsTime && !playTime && time && <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">{time}</span>}
                             </div>
                           );
                         }
                         return <span className="text-white/40 text-[clamp(13px,1.1vw,18px)] italic whitespace-nowrap">TBA</span>;
                       })()}
                       {isShowToday(show) && (
-                        <span className="uppercase text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
+                        <span className="text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
                           {getCountdownString(show)}
                         </span>
                       )}
@@ -1139,9 +1093,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                               onClick={() => handleToggleNotification(show)}
                               disabled={subscribingId === show._id}
                               title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                              className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)]  hover:bg-[var(--color-accent)]"
-                                : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
-                                }`}>
+                              className={`w-6 h-6 flex items-center justify-center rounded-lg transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id) ? "bg-[var(--color-accent)] border-[var(--color-accent)] hover:bg-[var(--color-accent)]" : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"}`}>
                               {subscribingId === show._id ? (
                                 <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-lg animate-spin" />
                               ) : subscribedShowIdsSet.has(show._id) ? (
@@ -1203,27 +1155,27 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                                   rel="noopener noreferrer"
                                   title={show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions"}
                                   style={{ color: cfg.color }}
-                                  className=" flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity seventh--btn">
+                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity seventh--btn">
                                   <CarIcon className="w-5.5 h-5.5 shrink-0" />
                                 </a>
                               );
                             })()}
                           </div>
                           <div className="w-7 h-7 flex items-center justify-center relative calendar-dropdown-container shrink-0">
-                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-white/80 hover:text-white transition-colors cursor-pointer border-none">
+                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1   hover:text-white transition-colors cursor-pointer border-none">
                               <CalendarDays className="w-5.5 h-5.5" />
                             </button>
                             {activeCalDropdownId === rowId && (
-                              <div className="absolute right-0 mt-2 bg-[#0c0721]/95 border border-purple-400/30 py-1.5 z-50 min-w-[165px] text-white rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-[45px] whitespace-nowrap">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
+                              <div className="absolute right-0 mt-2 bg-[#0c0721]/95 border border-purple-400/30 py-1.5 z-50 min-w-[165px] rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-[45px] whitespace-nowrap">
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
                                 <button
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs font-semibold cursor-pointer">
+                                  className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs font-semibold cursor-pointer">
                                   <MessageSquare className="w-3.5 h-3.5 text-purple-400 shrink-0" /> SMS / Text Alerts
                                 </button>
                               </div>
@@ -1239,7 +1191,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           target="_blank"
                           rel="noopener noreferrer"
                           title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
-                          className="a-btn inline-flex items-center justify-center whitespace-nowrap uppercase  font-bold  hover:opacity-80 transition-all cursor-pointer font-bold "
+                          className="a-btn inline-flex items-center justify-center whitespace-nowrap font-bold hover:opacity-80 transition-all cursor-pointer font-bold"
                           style={{ fontSize: websiteBtnFontSize }}>
                           Website
                         </a>
@@ -1248,12 +1200,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         <div className="flex items-center gap-1 shrink-0 ml-1">
                           <button
                             onClick={() => handleEditClick(show)}
-                            className="px-2 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] uppercase rounded transition-colors cursor-pointer ">
+                            className="px-2 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] rounded transition-colors cursor-pointer">
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteShow(show._id)}
-                            className="px-2 py-1 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] uppercase rounded transition-colors cursor-pointer ">
+                            className="px-2 py-1 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] rounded transition-colors cursor-pointer">
                             Del
                           </button>
                         </div>
@@ -1263,17 +1215,17 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                   {/* Mobile/Tablet Card Layout — Stacked Venue-First */}
                   <div
-                    className={`tour-row-item relative lg:hidden flex flex-col gap-1 mb-3 text-white transition-all ${isHighlighted ? "ring-2 ring-purple-500/80 animate-pulse" : isUpNext ? "border-purple-500/40 " : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-1 mb-3 transition-all ${isHighlighted ? "ring-2 ring-purple-500/80 animate-pulse" : isUpNext ? "border-purple-500/40 " : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}>
 
                     {/* 1. Venue & City (FIRST) */}
                     <div className="space-y-1">
-                      <h4 className=" font-black text-white uppercase">
+                      <h4 className="font-black">
                         {show.venue}
                       </h4>
 
                       {(show.city || show.state) && (
-                        <p className="flex items-center gap-1.5 text-white/70 font-semibold truncate ">
+                        <p className="flex items-center gap-1.5 text-white/70 font-semibold truncate">
                           <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" />
                           <span>{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state}</span>
                         </p>
@@ -1282,11 +1234,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                     {/* 2. Date & Time Pill Strip (SECOND / BELOW VENUE) */}
                     <div className="flex items-center gap-2 flex-wrap font-bold text-purple-200">
-                      <span className="font-mono font-black uppercase text-purple-300">
+                      <span className="font-mono font-black text-purple-300">
                         {show.day}
                       </span>
                       <span className="text-white/40">•</span>
-                      <span className="font-black text-white uppercase">
+                      <span className="font-black">
                         {show.date}
                       </span>
                       {(() => {
@@ -1295,7 +1247,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         return (
                           <>
                             <span className="text-white/40">•</span>
-                            <span className="text-purple-200 uppercase font-bold">
+                            <span className="text-purple-200 font-bold">
                               {displayTime}
                             </span>
                           </>
@@ -1308,12 +1260,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       <div className="flex items-center gap-2 flex-wrap font-bold pb-2">
                         {show.info && <span className="text-white/70">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                          <span className="text-purple-300 uppercase">All Ages</span>
+                          <span className="text-purple-300">All Ages</span>
                         )}
                         {getShowTags(show).map(tag => {
                           if (tag === "All Ages" || tag === "21+") return null;
                           return (
-                            <span key={tag} className="text-[var(--color-accent)] uppercase">{tag}</span>
+                            <span key={tag} className="text-[var(--color-accent)]">{tag}</span>
                           );
                         })}
                       </div>
@@ -1341,7 +1293,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                           return (
                             <SeventhButton
                               onClick={() => window.open(gUrl, '_blank', 'noopener,noreferrer')}
-                              icon={<LocationPinIcon className="w-3.5 h-3.5 text-white shrink-0" />}
+                              icon={<LocationPinIcon className="w-3.5 h-3.5 shrink-0" />}
                               className="font-bold"
                               title="Get Directions">
                               Map
@@ -1387,7 +1339,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                             {subscribingId === show._id ? (
                               <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-lg animate-spin" />
                             ) : (
-                              <Bell className="w-4 h-4 text-white" />
+                              <Bell className="w-4 h-4" />
                             )}
                           </button>
                         )}
@@ -1396,19 +1348,19 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
                             <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="btn-action-purple btn-icon-square cursor-pointer">
-                              <CalendarDays className="w-4 h-4 text-white" />
+                              <CalendarDays className="w-4 h-4" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
                               <div className="absolute right-0 mt-2 border border-purple-400/30 rounded-xl py-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.95)] z-50 min-w-[165px] bg-[#0c0721]/95 backdrop-blur-[45px] whitespace-nowrap">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full text-xs font-semibold">Outlook</a>
                                 <button
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 uppercase text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs font-semibold cursor-pointer">
+                                  className="flex items-center gap-2 px-4 py-2   hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/10 pt-2 text-xs font-semibold cursor-pointer">
                                   <MessageSquare className="w-3.5 h-3.5 text-purple-400 shrink-0" /> SMS / Text Alerts
                                 </button>
                               </div>
@@ -1421,8 +1373,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     {/* Admin Actions */}
                     {isAdmin && show._id && (
                       <div className="flex items-center gap-1.5 shrink-0 mt-3">
-                        <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 uppercase rounded transition-colors cursor-pointer"><Edit className="w-3.5 h-3.5 inline mr-1" /> Edit</button>
-                        <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 uppercase rounded transition-colors cursor-pointer"><X className="w-3.5 h-3.5 inline mr-1" /> Delete</button>
+                        <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 rounded transition-colors cursor-pointer"><Edit className="w-3.5 h-3.5 inline mr-1" /> Edit</button>
+                        <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 rounded transition-colors cursor-pointer"><X className="w-3.5 h-3.5 inline mr-1" /> Delete</button>
                       </div>
                     )}
                   </div>
@@ -1437,7 +1389,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
           {filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--color-text-muted)]">
               <p>No shows match your filters.</p>
-              <button onClick={clearAll} className="mt-4  hover:text-white transition-colors cursor-pointer">
+              <button onClick={clearAll} className="mt-4 hover:text-white transition-colors cursor-pointer">
                 Clear all filters
               </button>
             </div>
@@ -1448,12 +1400,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       {/* Show Edit/Add Modal */}
       {
         isModalOpen && typeof window !== "undefined" && createPortal(
-          <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto ">
+          <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
             <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-lg w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
               <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
               <div className="p-6 md:p-8 text-left">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-white flex items-center gap-2">
+                  <h3 className="flex items-center gap-2">
                     <span className="flex items-center gap-1.5">{editingShow ? <><Edit className="w-5 h-5" /> Edit Show Date</> : <><Plus className="w-5 h-5" /> Add New Show Date</>}</span>
                   </h3>
                   <button
@@ -1472,87 +1424,87 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 <form onSubmit={handleSaveShow} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="tour-form-venue" className="uppercase    text-white/30 block mb-1.5">Venue Name *</label>
+                      <label htmlFor="tour-form-venue" className="text-white/30 block mb-1.5">Venue Name *</label>
                       <input id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
-                        placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-date" className="uppercase    text-white/30 block mb-1.5">Event Date *</label>
+                      <label htmlFor="tour-form-date" className="text-white/30 block mb-1.5">Event Date *</label>
                       <input id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
-                        className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     <div className="sm:col-span-2">
-                      <label htmlFor="tour-form-city" className="uppercase    text-white/30 block mb-1.5">City *</label>
+                      <label htmlFor="tour-form-city" className="text-white/30 block mb-1.5">City *</label>
                       <input id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
-                        placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-state" className="uppercase    text-white/30 block mb-1.5">State *</label>
+                      <label htmlFor="tour-form-state" className="text-white/30 block mb-1.5">State *</label>
                       <input id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
-                        placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                     <div>
-                      <label htmlFor="tour-form-time" className="uppercase    text-white/30 block mb-1.5">Show Time</label>
+                      <label htmlFor="tour-form-time" className="text-white/30 block mb-1.5">Show Time</label>
                       <input id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
-                        placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-doors-time" className="uppercase    text-white/30 block mb-1.5">Doors Open</label>
+                      <label htmlFor="tour-form-doors-time" className="text-white/30 block mb-1.5">Doors Open</label>
                       <input id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
-                        placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-play-time" className="uppercase    text-white/30 block mb-1.5">Band Plays</label>
+                      <label htmlFor="tour-form-play-time" className="text-white/30 block mb-1.5">Band Plays</label>
                       <input id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
-                        placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-cover" className="uppercase    text-white/30 block mb-1.5">Cover / Admission</label>
+                      <label htmlFor="tour-form-cover" className="text-white/30 block mb-1.5">Cover / Admission</label>
                       <input id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
-                        placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="tour-form-ticket-link" className="uppercase    text-white/30 block mb-1.5">Ticket Link (URL)</label>
+                      <label htmlFor="tour-form-ticket-link" className="text-white/30 block mb-1.5">Ticket Link (URL)</label>
                       <input id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
-                        placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-directions-link" className="uppercase    text-white/30 block mb-1.5">Directions / Google Maps (URL)</label>
+                      <label htmlFor="tour-form-directions-link" className="text-white/30 block mb-1.5">Directions / Google Maps (URL)</label>
                       <input id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
-                        placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="tour-form-parking-url" className="uppercase    text-white/30 block mb-1.5">Parking Directions Link (URL)</label>
+                      <label htmlFor="tour-form-parking-url" className="text-white/30 block mb-1.5">Parking Directions Link (URL)</label>
                       <input id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
-                        placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                     <div>
-                      <label htmlFor="tour-form-parking-info" className="uppercase    text-white/30 block mb-1.5">Parking Info / Notes</label>
+                      <label htmlFor="tour-form-parking-info" className="text-white/30 block mb-1.5">Parking Info / Notes</label>
                       <input id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
-                        placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                        placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="tour-form-notes" className="uppercase    text-white/30 block mb-1.5">Notes / Description</label>
+                    <label htmlFor="tour-form-notes" className="text-white/30 block mb-1.5">Notes / Description</label>
                     <textarea aria-label="Text input" id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
-                      placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
+                      placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 placeholder: text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/10 my-2">
-                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                    <div className="flex items-center gap-2   cursor-pointer select-none">
                       <SquishyToggle
                         id="tour-all-ages-toggle"
                         label="All Ages Show"
@@ -1561,7 +1513,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       />
                       <span>All Ages Show</span>
                     </div>
-                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                    <div className="flex items-center gap-2   cursor-pointer select-none">
                       <SquishyToggle
                         id="tour-is-festival-toggle"
                         label="Is Festival"
@@ -1570,7 +1522,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       />
                       <span>Is Festival</span>
                     </div>
-                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                    <div className="flex items-center gap-2   cursor-pointer select-none">
                       <SquishyToggle
                         id="tour-is-private-toggle"
                         label="Private Event"
@@ -1579,7 +1531,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       />
                       <span>Private Event</span>
                     </div>
-                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                    <div className="flex items-center gap-2   cursor-pointer select-none">
                       <SquishyToggle
                         id="tour-is-unplugged-toggle"
                         label="Unplugged Show"
@@ -1588,7 +1540,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       />
                       <span>Unplugged Show</span>
                     </div>
-                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                    <div className="flex items-center gap-2   cursor-pointer select-none">
                       <SquishyToggle
                         id="tour-is-outdoor-toggle"
                         label="Outdoor Show"
@@ -1597,7 +1549,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       />
                       <span>Outdoor Show</span>
                     </div>
-                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                    <div className="flex items-center gap-2   cursor-pointer select-none">
                       <SquishyToggle
                         id="tour-is-casino-toggle"
                         label="Casino Show"
@@ -1606,7 +1558,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       />
                       <span>Casino Show</span>
                     </div>
-                    <div className="flex items-center gap-2 uppercase text-white/80 cursor-pointer select-none">
+                    <div className="flex items-center gap-2   cursor-pointer select-none">
                       <SquishyToggle
                         id="tour-is-special-event-toggle"
                         label="Special Event"
@@ -1619,11 +1571,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
                   <div className="flex gap-3 pt-4 border-t border-white/5">
                     <button type="button" onClick={() => setIsModalOpen(false)}
-                      className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 text-white uppercase transition-colors cursor-pointer">
+                      className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 transition-colors cursor-pointer">
                       Cancel
                     </button>
                     <button type="submit" disabled={submitting}
-                      className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 text-white uppercase transition-colors disabled:opacity-50 cursor-pointer">
+                      className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-emerald-500 transition-colors disabled:opacity-50 cursor-pointer">
                       {submitting ? "Saving..." : "Save Show"}
                     </button>
                   </div>
@@ -1638,7 +1590,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       {
         notifyPopupShow && typeof window !== "undefined" && createPortal(
           <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-default" onClick={() => setNotifyPopupShow(null)}>
-            <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4  animate-[fadeIn_0.2s_ease] text-left cursor-auto relative" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 animate-[fadeIn_0.2s_ease] text-left cursor-auto relative" onClick={(e) => e.stopPropagation()}>
               {/* Accent bar */}
               <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
 
@@ -1652,8 +1604,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-white">Set Up Alerts</h3>
-                      <p className="uppercase r">{notifyPopupShow.venue}</p>
+                      <h3 className="">Set Up Alerts</h3>
+                      <p className="r">{notifyPopupShow.venue}</p>
                     </div>
                   </div>
                   <button onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-lg bg-[#00000029] hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
@@ -1668,20 +1620,16 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 </div>
 
                 {/* What would you like? */}
-                <p className="uppercase    mb-2">What would you like to be notified about?</p>
+                <p className="mb-2">What would you like to be notified about?</p>
 
                 <div className="flex flex-col gap-2">
                   {/* This show */}
                   <button
                     type="button"
                     onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
-                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                      : 'bg-white/[0.02] border-white/10   border-white/10 '
-                      }`}>
-                    <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                      }`}>
-                      <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
-                        }`} />
+                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40' : 'bg-white/[0.02] border-white/10 border-white/10 '}`}>
+                    <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'}`}>
+                      <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'}`} />
                     </span>
                     <div className="text-left">
                       <p className="flex items-center gap-1.5"><Mic className="w-3.5 h-3.5" /> This specific show</p>
@@ -1693,16 +1641,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <button
                     type="button"
                     onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
-                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                      : 'bg-white/[0.02] border-white/10   border-white/10 '
-                      }`}>
-                    <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                      }`}>
-                      <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
-                        }`} />
+                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40' : 'bg-white/[0.02] border-white/10 border-white/10 '}`}>
+                    <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'}`}>
+                      <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'}`} />
                     </span>
                     <div className="text-left">
-                      <p className="flex items-center gap-1.5 "><MapPin className="w-3.5 h-3.5" /> Shows near me</p>
+                      <p className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Shows near me</p>
                       <p className="mt-0">Get emailed when we book near your area</p>
                     </div>
                   </button>
@@ -1711,13 +1655,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                   <button
                     type="button"
                     onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
-                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                      : 'bg-white/[0.02] border-white/10   border-white/10 '
-                      }`}>
-                    <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                      }`}>
-                      <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
-                        }`} />
+                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40' : 'bg-white/[0.02] border-white/10 border-white/10 '}`}>
+                    <span className={`w-8 h-4 rounded-lg relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'}`}>
+                      <span className={`absolute top-0.5 w-3 h-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'}`} />
                     </span>
                     <div className="text-left">
                       <p className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Newsletter & exclusives</p>
@@ -1729,17 +1669,17 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 {/* Sending to email */}
                 {member?.email ? (
                   <p className="mt-3 text-center text-xs text-white/60">
-                    Notifications will be sent to <span className="text-white font-semibold">{member.email}</span>
+                    Notifications will be sent to <span className="font-semibold">{member.email}</span>
                   </p>
                 ) : (
                   <div className="mt-3">
-                    <label className="block text-xs uppercase text-white/70 mb-1 font-bold">Your Email Address</label>
+                    <label className="block text-xs text-white/70 mb-1 font-bold">Your Email Address</label>
                     <input
                       type="email"
                       placeholder="fan@example.com"
                       value={notifyEmail}
                       onChange={(e) => setNotifyEmail(e.target.value)}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/15 rounded-lg text-white text-sm focus:outline-none focus:border-[var(--color-accent)]"
+                      className="w-full px-3 py-2 bg-white/5 border border-white/15 rounded-lg text-sm focus:outline-none focus:border-[var(--color-accent)]"
                     />
                   </div>
                 )}
@@ -1748,13 +1688,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                 <div className="flex gap-2 mt-4">
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 text-white uppercase rounded-lg transition-colors cursor-pointer font-bold">
+                    className="flex-1 py-2.5 bg-[#00000029] hover:bg-white/10 rounded-lg transition-colors cursor-pointer font-bold">
                     Cancel
                   </button>
                   <button
                     onClick={handleNotifyConfirm}
                     disabled={(!member?.email && !notifyEmail.trim()) || (!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter)}
-                    className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5 font-bold">
+                    className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5 font-bold">
                     {subscribingId ? 'Saving...' : <><Bell className="w-3.5 h-3.5" /> Enable Alerts</>}
                   </button>
                 </div>
@@ -1772,7 +1712,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
               {/* Header */}
               <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-                <h3 className="text-white uppercase r">Font Tester</h3>
+                <h3 className="r">Font Tester</h3>
                 <button
                   onClick={() => setIsFontCustomizerOpen(false)}
                   className="text-white/40 hover:text-white cursor-pointer bg-[#00000029] hover:bg-white/10 rounded-lg w-6 h-6 flex items-center justify-center transition-colors">
@@ -1782,26 +1722,26 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
               {/* Font Family */}
               <div className="mb-5">
-                <label htmlFor="tour-font-style" className="block text-white/50 uppercase mb-2">Font Style</label>
+                <label htmlFor="tour-font-style" className="block text-white/50 mb-2">Font Style</label>
                 <select id="tour-font-style"
                   value={tourFontFamily}
                   onChange={(e) => setTourFontFamily(e.target.value)}
                   className="form-input cursor-pointer">
-                  <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Switzer (Default)</option>
-                  <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
-                  <option value="Inter" className="bg-[var(--color-bg-surface)] text-white">Inter</option>
-                  <option value="Montserrat" className="bg-[var(--color-bg-surface)] text-white">Montserrat</option>
-                  <option value="Outfit" className="bg-[var(--color-bg-surface)] text-white">Outfit</option>
-                  <option value="Syne" className="bg-[var(--color-bg-surface)] text-white">Syne</option>
-                  <option value="Playfair Display" className="bg-[var(--color-bg-surface)] text-white">Playfair Display</option>
-                  <option value="Courier New" className="bg-[var(--color-bg-surface)] text-white">Monospace</option>
+                  <option value="var(--font-body)" className="bg-[var(--color-bg-surface)]">Switzer (Default)</option>
+                  <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)]">Rockstar (Heading)</option>
+                  <option value="Inter" className="bg-[var(--color-bg-surface)]">Inter</option>
+                  <option value="Montserrat" className="bg-[var(--color-bg-surface)]">Montserrat</option>
+                  <option value="Outfit" className="bg-[var(--color-bg-surface)]">Outfit</option>
+                  <option value="Syne" className="bg-[var(--color-bg-surface)]">Syne</option>
+                  <option value="Playfair Display" className="bg-[var(--color-bg-surface)]">Playfair Display</option>
+                  <option value="Courier New" className="bg-[var(--color-bg-surface)]">Monospace</option>
                 </select>
               </div>
 
               {/* Font Size */}
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-1.5">
-                  <label htmlFor="tour-font-size-slider" className="text-white/50 uppercase r">Font Size</label>
+                  <label htmlFor="tour-font-size-slider" className="text-white/50 r">Font Size</label>
                   <span className="text-[var(--color-accent)]">{tourFontSize}</span>
                 </div>
                 <input id="tour-font-size-slider"
@@ -1822,7 +1762,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               {/* Website Button Font Size */}
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-1.5">
-                  <label htmlFor="tour-website-btn-size-slider" className="text-white/50 uppercase r">Website Button Size</label>
+                  <label htmlFor="tour-website-btn-size-slider" className="text-white/50 r">Website Button Size</label>
                   <span className="text-[var(--color-accent)]">{websiteBtnFontSize}</span>
                 </div>
                 <input id="tour-website-btn-size-slider"
@@ -1847,7 +1787,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               {/* Row Padding */}
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-1.5">
-                  <label htmlFor="tour-row-padding-slider" className="text-white/50 uppercase r">Row Padding</label>
+                  <label htmlFor="tour-row-padding-slider" className="text-white/50 r">Row Padding</label>
                   <span className="text-[var(--color-accent)]">{tourRowPadding}</span>
                 </div>
                 <input id="tour-row-padding-slider"
@@ -1868,7 +1808,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               {/* Row Spacing */}
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-1.5">
-                  <label htmlFor="tour-row-spacing-slider" className="text-white/50 uppercase r">Row Spacing (Margin)</label>
+                  <label htmlFor="tour-row-spacing-slider" className="text-white/50 r">Row Spacing (Margin)</label>
                   <span className="text-[var(--color-accent)]">{tourRowGap}</span>
                 </div>
                 <input id="tour-row-spacing-slider"
@@ -1889,7 +1829,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               {/* Row Height */}
               <div className="mb-5">
                 <div className="flex justify-between items-center mb-1.5">
-                  <label htmlFor="tour-row-height-slider" className="text-white/50 uppercase r">Row Height</label>
+                  <label htmlFor="tour-row-height-slider" className="text-white/50 r">Row Height</label>
                   <span className="text-[var(--color-accent)]">{tourRowHeight}</span>
                 </div>
                 <input id="tour-row-height-slider"
@@ -1910,7 +1850,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               {/* Map Fade Mask Controls */}
               <div className="mb-5 pt-4 border-t border-white/10">
                 <div className="flex items-center justify-between mb-3">
-                  <label className="text-white uppercase r">Map Fade Mask</label>
+                  <label className="r">Map Fade Mask</label>
                   <SquishyToggle
                     id="map-fade-mask-toggle"
                     label="Map Fade Mask"
@@ -1927,7 +1867,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     {/* Map Top Fade Distance */}
                     <div className="mb-3">
                       <div className="flex justify-between items-center mb-1">
-                        <label htmlFor="map-mask-top-slider" className="text-white/50 uppercase r">Top Fade Clip</label>
+                        <label htmlFor="map-mask-top-slider" className="text-white/50 r">Top Fade Clip</label>
                         <span className="text-[var(--color-accent)]">{mapMaskTop}px</span>
                       </div>
                       <input id="map-mask-top-slider"
@@ -1952,7 +1892,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     {/* Map Bottom Fade Distance */}
                     <div className="mb-3">
                       <div className="flex justify-between items-center mb-1">
-                        <label htmlFor="map-mask-bottom-slider" className="text-white/50 uppercase r">Bottom Fade Clip</label>
+                        <label htmlFor="map-mask-bottom-slider" className="text-white/50 r">Bottom Fade Clip</label>
                         <span className="text-[var(--color-accent)]">{mapMaskBottom}px</span>
                       </div>
                       <input id="map-mask-bottom-slider"
@@ -1977,7 +1917,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     {/* Map Left Fade Distance */}
                     <div className="mb-3">
                       <div className="flex justify-between items-center mb-1">
-                        <label htmlFor="map-mask-left-slider" className="text-white/50 uppercase r">Left Fade Clip</label>
+                        <label htmlFor="map-mask-left-slider" className="text-white/50 r">Left Fade Clip</label>
                         <span className="text-[var(--color-accent)]">{mapMaskLeft}px</span>
                       </div>
                       <input id="map-mask-left-slider"
@@ -2002,7 +1942,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     {/* Map Right Fade Distance */}
                     <div className="mb-3">
                       <div className="flex justify-between items-center mb-1">
-                        <label htmlFor="map-mask-right-slider" className="text-white/50 uppercase r">Right Fade Clip</label>
+                        <label htmlFor="map-mask-right-slider" className="text-white/50 r">Right Fade Clip</label>
                         <span className="text-[var(--color-accent)]">{mapMaskRight}px</span>
                       </div>
                       <input id="map-mask-right-slider"
@@ -2028,7 +1968,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
               </div>
 
               {/* Code telemetry */}
-              <div className="bg-black/40 border border-white/10 rounded-lg p-3.5 mb-5 text-white select-all whitespace-pre-wrap">
+              <div className="bg-black/40 border border-white/10 rounded-lg p-3.5 mb-5 select-all whitespace-pre-wrap">
                 {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
               </div>
 
@@ -2040,7 +1980,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     setCopied(true);
                     setTimeout(() => setCopied(false), 2000);
                   }}
-                  className="py-2.5 bg-[#00000029] border border-white/10 hover:bg-white/10 rounded-lg text-white uppercase cursor-pointer transition-colors animate-all">
+                  className="py-2.5 bg-[#00000029] border border-white/10 hover:bg-white/10 rounded-lg cursor-pointer transition-colors animate-all">
                   {copied ? "Copied! ✓" : "Copy CSS"}
                 </button>
                 <button
@@ -2052,7 +1992,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
                     localStorage.setItem("7h_tour_row_height", tourRowHeight);
                     setIsFontCustomizerOpen(false);
                   }}
-                  className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(255,10,61,0.9)] rounded-lg text-white uppercase cursor-pointer transition-colors">
+                  className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(255,10,61,0.9)] rounded-lg cursor-pointer transition-colors">
                   Apply & Save
                 </button>
               </div>

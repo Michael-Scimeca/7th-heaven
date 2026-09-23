@@ -70,11 +70,11 @@ function BioScrollRevealComponent({
     <section ref={containerRef} className="relative w-full py-20 px-6 site-container">
       {/* Header */}
       <div className="mb-16 max-w-2xl">
-        <span className="uppercase tracking-[0.3em]  mb-2 flex items-center gap-2">
+        <span className="tracking-[0.3em] mb-2 flex items-center gap-2">
           {subtitle}
         </span>
         <h2
-          className="md:text-6xl uppercase er text-white">
+          className="md:text-6xl er">
           {title}
         </h2>
       </div>
@@ -96,22 +96,19 @@ function BioScrollRevealComponent({
                   <span className="text-purple-400 opacity-60">
                     0{index + 1}
                   </span>
-                  <span className="uppercase text-white/50 group-hover:text-white transition-colors">
+                  <span className="text-white/50 group-hover:text-white transition-colors">
                     {member.role}
                   </span>
                 </div>
 
                 <h3
-                  className={`md:text-7xl uppercase transition-all duration-300 ${isActive ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
-                    : "text-white/30 group-hover:text-white/70"
-                    }`}>
+                  className={`md:text-7xl transition-all duration-300 ${isActive ? " scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]" : " text-white/30 group-hover:text-white text-white/70"}`}>
                   {member.name}
                 </h3>
 
                 {member.description && (
                   <p
-                    className={`mt-3 max-w-lg transition-opacity duration-300 font-bold ${isActive ? "text-white/80 opacity-100" : "text-white/30 opacity-40"
-                      }`}>
+                    className={`mt-3 max-w-lg transition-opacity duration-300 font-bold ${isActive ? "   opacity-100" : " text-white/30 opacity-40"}`}>
                     {member.description}
                   </p>
                 )}
@@ -120,8 +117,7 @@ function BioScrollRevealComponent({
                   <Link
                     href={member.linkHref}
                     onClick={(e) => e.stopPropagation()}
-                    className={`inline-flex items-center gap-2 mt-4  font-bold  uppercase  hover:  transition-opacity ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"
-                      }`}>
+                    className={`inline-flex items-center gap-2 mt-4 font-bold hover:text-white transition-opacity ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
                     <span>View Full Bio</span>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M5 12h14M12 5l7 7-7 7" />
@@ -141,9 +137,7 @@ function BioScrollRevealComponent({
               return (
                 <div
                   key={member.id}
-                  className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive ? "opacity-100 scale-100 pointer-events-auto"
-                    : "opacity-0 scale-105 pointer-events-none"
-                    }`}>
+                  className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-105 pointer-events-none"}`}>
                   <Image
                     src={member.imageUrl}
                     alt={member.name}
@@ -157,10 +151,10 @@ function BioScrollRevealComponent({
 
                   {/* Portrait Caption Overlay */}
                   <div className="absolute bottom-6 left-6 right-6">
-                    <span className="uppercase  bg-black/60 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10">
+                    <span className="bg-black/60 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10">
                       {member.role}
                     </span>
-                    <h4 className="uppercase text-white mt-2 drop-">
+                    <h4 className="mt-2 drop-">
                       {member.name}
                     </h4>
                   </div>

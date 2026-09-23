@@ -218,20 +218,20 @@ export default function MemberDashboard() {
               </div>
 
               <div className="flex flex-col gap-4">
-                <button onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white uppercase    rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+                <button onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
                   Create Fan Account
                 </button>
 
                 <div className="relative py-4 flex items-center justify-center">
                   <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
-                  <span className="relative bg-[var(--color-bg-surface)] px-4 text-white/30 uppercase">Already a fan?</span>
+                  <span className="relative bg-[var(--color-bg-surface)] px-4 text-white/30">Already a fan?</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 text-white flex items-center justify-center gap-2 uppercase    rounded hover:border-[var(--color-accent)]  transition-colors cursor-pointer bg-white/[0.02]">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 flex items-center justify-center gap-2 rounded hover:border-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10  flex items-center justify-center gap-2 uppercase    rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/10 flex items-center justify-center gap-2 rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
                     Crew Portal
                   </button>
                 </div>
@@ -269,7 +269,7 @@ export default function MemberDashboard() {
                   const role = member?.role ?? 'fan';
                   const cfg = { fan: { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, crew: { label: 'CREW', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, admin: { label: 'ADMIN', cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' };
                   return (
-                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)] uppercase    border rounded-lg ${cfg.cls}`}>
+                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)] border rounded-lg ${cfg.cls}`}>
                       {cfg.label}
                     </span>
                   );
@@ -280,7 +280,7 @@ export default function MemberDashboard() {
           </div>
           <div className="flex items-center gap-2">
             {(member?.role === 'crew' || member?.role === 'admin') && (
-              <Link href="/crew" className="px-4 py-2 uppercase     hover:text-white bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
+              <Link href="/crew" className="px-4 py-2 hover:text-white bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
                 Crew Dashboard
               </Link>
@@ -305,7 +305,7 @@ export default function MemberDashboard() {
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
             </div>
-            <span className="uppercase text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Claim PINs</span>
+            <span className="text-[var(--color-accent)]/80 bg-[var(--color-accent)]/10 px-3 py-1 rounded-lg border border-[var(--color-accent)]/20">Claim PINs</span>
           </div>
 
           <div className="relative z-10">
@@ -314,7 +314,7 @@ export default function MemberDashboard() {
                 return (
                   <div className="py-6 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
                     <p>Your wallet is currently empty.</p>
-                    <p className=" uppercase">Keep participating in live streams for a chance to win</p>
+                    <p className="">Keep participating in live streams for a chance to win</p>
                   </div>
                 );
               }
@@ -331,11 +331,11 @@ export default function MemberDashboard() {
                           <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === 'yellow' ? 'bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500 border border-yellow-400/30' : ' bg-[#00000029] border border-white/10'}`}>{msg.icon}</div>
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              <h4 className="text-white">{msg.title}</h4>
-                              {msg.isNew && <span className="text-[var(--font-size-2xs)] uppercase px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
+                              <h4 className="">{msg.title}</h4>
+                              {msg.isNew && <span className="text-[var(--font-size-2xs)] px-2 py-0.5 bg-yellow-500 text-black rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.5)]">New</span>}
                             </div>
                             <p className="max-w-sm">{msg.desc.replace(/Your PIN: \d+\.\s*/, '')}</p>
-                            <p className="uppercase ">{msg.time}</p>
+                            <p className="">{msg.time}</p>
                           </div>
                         </div>
 
@@ -343,19 +343,19 @@ export default function MemberDashboard() {
                           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
                             {msg.isClaimed ? (
                               <div className="px-5 py-2 border border-white/10 bg-[#00000029] opacity-50 grayscale">
-                                <span className="text-[var(--font-size-2xs)] uppercase text-white/40 block text-center mb-1">Claimed</span>
+                                <span className="text-[var(--font-size-2xs)] text-white/40 block text-center mb-1">Claimed</span>
                                 <span className="text-xl text-white/30 line-through">{pin}</span>
                               </div>
                             ) : claimConfirmId === msg.id ? (
                               <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
-                                <p className="text-red-400 uppercase animate-pulse">Show this to merch crew.</p>
-                                <button onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white uppercase rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                                <p className="text-red-400 animate-pulse">Show this to merch crew.</p>
+                                <button onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                                   CLICK TO FLASH & CLAIM
                                 </button>
-                                <button onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white uppercase cursor-pointer">Cancel</button>
+                                <button onClick={() => setClaimConfirmId(null)} className="text-white/40 hover:text-white cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 uppercase transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] cursor-pointer">
+                              <button onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}
@@ -381,24 +381,20 @@ export default function MemberDashboard() {
             <h2>
               My Photo <span className="gradient-text">Submissions</span>
             </h2>
-            <span className="uppercase    text-white/25">Fan Wall Activity</span>
+            <span className="">Fan Wall Activity</span>
           </div>
 
           {myPhotos.length === 0 ? (
             <div className="py-8 flex flex-col items-center border border-white/10 bg-[#00000029] border-dashed">
               <p>No photo submissions found.</p>
-              <p className=" uppercase">Upload a photo to join the fan wall!</p>
+              <p className="">Upload a photo to join the fan wall!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {myPhotos.map((photo: any) => (
                 <div
                   key={photo.id}
-                  className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
-                    : photo.approved
-                      ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]"
-                      : "border-white/10"
-                    }`}>
+                  className={`group relative bg-black/40 border overflow-hidden backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]" : photo.approved ? " border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]" : "border-white/10"}`}>
                   <div className="aspect-[4/3] bg-[#00000029] relative overflow-hidden">
                     <Image width={200} height={200} unoptimized
                       src={photo.src}
@@ -409,15 +405,15 @@ export default function MemberDashboard() {
                     {/* Status Overlay Badge */}
                     <div className="absolute top-2 right-2">
                       {photo.approved ? (
-                        <span className="px-2.5 py-1 bg-emerald-500/90 text-white text-[0.9rem] uppercase rounded border border-emerald-400/20 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-emerald-500/90 text-[0.9rem] rounded border border-emerald-400/20 flex items-center gap-1">
                           <Check className="w-3 h-3" /> Published
                         </span>
                       ) : photo.rejected ? (
-                        <span className="px-2.5 py-1 bg-red-500/95 text-white text-[0.9rem] uppercase rounded border border-red-400/30 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-red-500/95 text-[0.9rem] rounded border border-red-400/30 flex items-center gap-1">
                           <AlertTriangle className="w-3 h-3" /> Declined
                         </span>
                       ) : (
-                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black text-[0.9rem] uppercase rounded border border-yellow-400/20 flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black text-[0.9rem] rounded border border-yellow-400/20 flex items-center gap-1">
                           <Clock className="w-3 h-3" /> Pending
                         </span>
                       )}
@@ -434,7 +430,7 @@ export default function MemberDashboard() {
                     {/* Declined Details block */}
                     {photo.rejected && (
                       <div className="mt-2 p-2.5 bg-red-500/5 border border-red-500/15 rounded-lg text-left">
-                        <p className="text-red-400 uppercase mb-1">
+                        <p className="text-red-400 mb-1">
                           Reason for Decline
                         </p>
                         <p className="text-red-200/80 leading-normal font-medium">
@@ -461,8 +457,8 @@ export default function MemberDashboard() {
             { label: "Fan Since", value: new Date(member!.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "America/Chicago" }) },
           ].map((s) => (
             <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
-              <p className="uppercase mb-1">{s.label}</p>
-              <p className={` ${s.accent ? " text-[var(--color-accent)]" : ""}`}>
+              <p className="mb-1">{s.label}</p>
+              <p className={`${s.accent ? " text-[var(--color-accent)]" : ""}`}>
                 {s.value}
               </p>
             </div>
@@ -481,7 +477,7 @@ export default function MemberDashboard() {
             <h2>
               My <span className="gradient-text">Purchases</span>
             </h2>
-            <span className="uppercase    text-white/25">Order History</span>
+            <span className="">Order History</span>
           </div>
 
           {(() => {
@@ -491,7 +487,7 @@ export default function MemberDashboard() {
               { id: "7H-2026-0401", date: "Apr 1, 2026", items: [{ name: "VIP Ticket — Durty Nellies", type: "Ticket", price: "$75.00", img: "/images/merch/ticket-vip.png" }, { name: "Meet & Greet Add-On", type: "Upgrade", price: "$25.00", img: "/images/merch/ticket-vip.png" }], status: "Completed", statusColor: "text-emerald-400" },
               { id: "7H-2026-0315", date: "Mar 15, 2026", items: [{ name: "Signed Vinyl — Greatest Hits", type: "Merch", price: "$44.99", img: "/images/merch/vinyl.png" }], status: "Shipped", statusColor: "text-purple-300" },
               { id: "7H-2026-0228", date: "Feb 28, 2026", items: [{ name: "7th Heaven Hoodie (Black)", type: "Merch", price: "$54.99", img: "/images/merch/hoodie.png" }], status: "Delivered", statusColor: "text-emerald-400" },
-              { id: "7H-2026-0210", date: "Feb 10, 2026", items: [{ name: "GA Ticket — Des Plaines Theater", type: "Ticket", price: "$35.00", img: "/images/merch/ticket-ga.png" }], status: "Used", statusColor: "text-white/40" },
+              { id: "7H-2026-0210", date: "Feb 10, 2026", items: [{ name: "GA Ticket — Des Plaines Theater", type: "Ticket", price: "$35.00", img: "/images/merch/ticket-ga.png" }], status: "Used", statusColor: " text-white/40" },
             ];
 
             return (
@@ -504,7 +500,7 @@ export default function MemberDashboard() {
                         <span className="text-white/30">{order.id}</span>
                         <span className="text-white/20">{order.date}</span>
                       </div>
-                      <span className={`uppercase    ${order.statusColor}`}>
+                      <span className={`${order.statusColor}`}>
                         {order.status}
                       </span>
                     </div>
@@ -516,7 +512,7 @@ export default function MemberDashboard() {
                             <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-12 h-12 object-cover border border-white/10" />
                             <div>
                               <p className="font-semibold">{item.name}</p>
-                              <p className="uppercase tracking-[0.1em]">{item.type}</p>
+                              <p className="tracking-[0.1em]">{item.type}</p>
                             </div>
                           </div>
                           <span className="text-white/50">{item.price}</span>
@@ -538,8 +534,8 @@ export default function MemberDashboard() {
         <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none" style={{ animation: 'strobe 0.15s ease-in-out infinite' }}>
 
           <div className="p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
-            <h1 className="t">WINNER</h1>
-            <p className="mt-4 uppercase">CLAIMING PRIZE</p>
+            <h1>WINNER</h1>
+            <p className="mt-4">CLAIMING PRIZE</p>
           </div>
         </div>
       )}

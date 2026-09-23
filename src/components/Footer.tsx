@@ -127,8 +127,7 @@ export function Footer() {
   return (
 
     <footer
-      className={`relative overflow-hidden ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"
-        }`}
+      className={`relative overflow-hidden ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"}`}
       id="footer"
       suppressHydrationWarning>
 
@@ -142,7 +141,7 @@ export function Footer() {
 
         {/* Endorsements */}
         <div className="py-8 text-left">
-          <p className="uppercase tracking-[0.3em] mb-6 sm:mb-8">Official Gear Endorsements</p>
+          <p className="tracking-[0.3em] mb-6 sm:mb-8">Official Gear Endorsements</p>
           <div className="flex flex-wrap justify-start items-center gap-x-4 sm:gap-x-6 gap-y-4 sm:gap-y-6">
             {endorsements.map((brand) => (
               <Image width={200} height={200} unoptimized
@@ -195,7 +194,7 @@ export function Footer() {
             href="https://michaelscimeca.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="tracking-wide !text-white hover:text-white transition-colors">
+            className="  ! hover:text-white transition-colors">
             Hey Mom Look I Built This Thing
           </a>
         </div>

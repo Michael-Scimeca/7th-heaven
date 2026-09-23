@@ -27,15 +27,15 @@ export function CruiseLivePreview({
             7H
           </div>
           <div>
-            <div className="text-white flex items-center gap-2">
+            <div className="flex items-center gap-2">
               7th Heaven Official
-              <span className="text-[12px] bg- purple-white/20 text-purple-300 px-1.5 py-0.5 rounded uppercase">Admin Post</span>
+              <span className="text-[12px] bg- purple-white/20 text-purple-300 px-1.5 py-0.5 rounded">Admin Post</span>
             </div>
             <div className="text-[10px] text-white/40">Just now • Cruise Wall Feed</div>
           </div>
         </div>
         <div
-          className="prose prose-invert max-w-none text-white/90 "
+          className="prose prose-invert max-w-none /90"
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(cleanedContent || '<p class="">Start typing above to see live preview...</p>') }}
         />
       </div>
@@ -43,16 +43,16 @@ export function CruiseLivePreview({
   }
 
   return (
-    <div className="bg-[#0f0a1c] text-white rounded-lg overflow-hidden border border-white/10 min-h-[300px]">
-      <div className="bg-[#180e2b] text-white px-4 py-2.5 flex items-center justify-between border-b border-white/10">
-        <span className="text-[11px] uppercase text-purple-300">📧 Email Dispatch Mockup</span>
+    <div className="bg-[#0f0a1c] rounded-lg overflow-hidden border border-white/10 min-h-[300px]">
+      <div className="bg-[#180e2b] px-4 py-2.5 flex items-center justify-between border-b border-white/10">
+        <span className="text-[11px] text-purple-300">📧 Email Dispatch Mockup</span>
         <span className="text-[10px] text-white/50">To: All Cruise Guests</span>
       </div>
       <div className="p-4 bg-[#140b24] border-b border-white/10 text-purple-200 text-[11px]">
         <strong>Subject:</strong> {cruiseBlastSubject || '7th Heaven Cruise Update'}
       </div>
       <div
-        className="p-6 bg-[#090412] prose prose-invert max-w-none text-white/90"
+        className="p-6 bg-[#090412] prose prose-invert max-w-none /90"
         dangerouslySetInnerHTML={{
           __html: sanitizeHtml(
             cruiseCommunityBlast({

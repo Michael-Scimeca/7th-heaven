@@ -20,7 +20,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
   return (
     <LazyMount as="section" id="ship-explorer" className="py-section-fluid border-b border-white/10 site-container" minHeight="800px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}>
       <div className="text-left w-full mb-10">
-        <h2 className="uppercase text-white ">
+        <h2 className="">
           {sectionTitle}
         </h2>
         <p className="mt-3 font-semibold max-w-2xl">
@@ -36,9 +36,9 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
           { label: "Total Width", value: "159.1 Feet" },
           { label: "Decks Tall", value: "20 Decks" },
         ].map((stat) => (
-          <div key={stat.label} className=" border-0 p-0 text-left">
-            <span className="text-white uppercase block">{stat.label}</span>
-            <span className="text-lg md:text-xl text-white block">{stat.value}</span>
+          <div key={stat.label} className="border-0 p-0 text-left">
+            <span className="block">{stat.label}</span>
+            <span className="text-lg md:text-xl block">{stat.value}</span>
           </div>
         ))}
       </div>
@@ -46,10 +46,10 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
       {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
       <div>
         <div className="mb-6 text-left">
-          <h3 className="uppercase text-white">
+          <h3 className="">
             Star of the Seas <span className="accent-gradient-text">Official Photo Gallery</span>
           </h3>
-          <p className="font-semibold ">
+          <p className="font-semibold">
             Authentic ship photography directly from Royal Caribbean's newest Icon-Class flagship launching August 2025.
           </p>
         </div>
@@ -91,8 +91,8 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
       <div className="text-left pt-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-white/10">
           <div>
-            <h3 className="uppercase text-white">Dining Explorer Guide</h3>
-            <p className="font-semibold ">Discover included food spots and premium specialty restaurants.</p>
+            <h3 className="">Dining Explorer Guide</h3>
+            <p className="font-semibold">Discover included food spots and premium specialty restaurants.</p>
           </div>
           {/* Dining Filter Tabs */}
           <div className="flex items-center gap-3">
@@ -112,7 +112,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
         </div>
 
         {/* Bento Box Food Grid */}
-        <div key={foodTypeTab} className="grid grid-cols-2 md:grid-cols-4 gap-6 text-white/80 animate-[fade-in_0.35s_ease-out_both]">
+        <div key={foodTypeTab} className="grid grid-cols-2 md:grid-cols-4 gap-6   animate-[fade-in_0.35s_ease-out_both]">
           {(foodTypeTab === "included"
             ? [
               { name: "Windjammer Buffet", img: "/images/cruise/ship/windjammer.jpg", tag: "Buffet" },
@@ -167,30 +167,30 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
 
       {/* ── BARS & ENTERTAINMENT SEGMENTED TABS SECTION ── */}
       <div className="pt-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 mb-6  border-b border-white/10 text-left">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 mb-6 border-b border-white/10 text-left">
           <div className="w-full lg:w-auto">
-            <h3 className="uppercase text-white">Bars & Entertainment Explorer</h3>
-            <p className="font-semibold ">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
+            <h3 className="">Bars & Entertainment Explorer</h3>
+            <p className="font-semibold">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
           </div>
           <div className="flex shrink-0 self-start lg:self-center max-w-full gap-3">
             <SeventhButton
               onClick={() => setBarTab("bars")}
               isActive={barTab === "bars"}
-              className=" flex items-center gap-2">
+              className="flex items-center gap-2">
               <span>Bars & Clubs</span>
-              <span className={`text-[10px] px-2 py-0.5 rounded-lg ${barTab === "bars" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
+              <span className={`text-[10px] px-2 py-0.5 rounded-lg ${barTab === "bars" ? "bg-white/20 " : "bg-white/10 text-purple-300"}`}>20</span>
             </SeventhButton>
             <SeventhButton
               onClick={() => setBarTab("entertainment")}
               isActive={barTab === "entertainment"}
               className="flex items-center gap-2">
               <span>Entertainment</span>
-              <span className={`text-[10px] px-2 py-0.5 rounded-lg ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-white/10 text-purple-300"}`}>20</span>
+              <span className={`text-[10px] px-2 py-0.5 rounded-lg ${barTab === "entertainment" ? "bg-white/20 " : "bg-white/10 text-purple-300"}`}>20</span>
             </SeventhButton>
           </div>
         </div>
 
-        <div key={barTab} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-white/80 animate-[fade-in_0.35s_ease-out_both]">
+        <div key={barTab} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6   animate-[fade-in_0.35s_ease-out_both]">
           {(barTab === "bars"
             ? [
               { name: "Lime & Coconut Bar", img: "/images/cruise/ship/limecoconut.jpg", tag: "Poolside" },

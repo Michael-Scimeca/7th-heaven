@@ -171,13 +171,13 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => openModal("login", "planner")}
-                  className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-purple-500 text-white uppercase tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)] rounded-lg cursor-pointer">
+                  className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-purple-500 tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)] rounded-lg cursor-pointer">
                   Sign In to Planner Portal
                 </button>
                 <button
                   type="button"
                   onClick={() => openModal("signup", "planner")}
-                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase tracking-[0.18em] transition-colors rounded-lg cursor-pointer">
+                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 tracking-[0.18em] transition-colors rounded-lg cursor-pointer">
                   Create Account
                 </button>
               </div>
@@ -193,7 +193,7 @@ export default function PlannerClient() {
             ].map((item) => (
               <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-lg">
                 <div className="w-11 h-11 mx-auto mb-3 rounded-lg bg- purple-white/20 border border-purple-500/30 flex items-center justify-center text-[#c27aff]">{item.step}</div>
-                <h4 className="mb-1 text-white">{item.title}</h4>
+                <h4 className="mb-1">{item.title}</h4>
                 <p>{item.desc}</p>
               </div>
             ))}
@@ -238,7 +238,7 @@ export default function PlannerClient() {
           {/* LEFT SIDEBAR */}
           <div className="w-[220px] shrink-0 hidden lg:block">
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 sticky top-24 rounded-lg">
-              <h3 className="uppercase text-white/50 mb-8">Booking Status</h3>
+              <h3 className="text-white/50 mb-8">Booking Status</h3>
               <div className="relative pl-5">
                 <div className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/30 to-white/5" />
                 <div className="flex flex-col gap-10">
@@ -247,20 +247,20 @@ export default function PlannerClient() {
                       <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white/10 border-white/10 '}`}>
                         {step.active && <div className="w-2 h-2 rounded-lg bg-white" />}
                       </div>
-                      <span className={`font-semibold ${step.active ? 'text-white' : 'text-white/40'}`}>{step.label}</span>
+                      <span className={`font-semibold ${step.active ? ' ' : ' text-white/40'}`}>{step.label}</span>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className=" 0 pt-6 border-t border-white/10">
-                <p className="uppercase mb-2">Booking ID</p>
+              <div className="0 pt-6 border-t border-white/10">
+                <p className="mb-2">Booking ID</p>
                 <p>{booking.id}</p>
               </div>
               <div className="mt-6">
-                <p className="uppercase mb-2">Planner</p>
+                <p className="mb-2">Planner</p>
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center text-white">{initials}</div>
-                  <span className="text-white/80">{member?.name || 'Planner'}</span>
+                  <div className="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center">{initials}</div>
+                  <span className=" ">{member?.name || 'Planner'}</span>
                 </div>
               </div>
             </div>
@@ -274,16 +274,16 @@ export default function PlannerClient() {
               <div className="relative">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <span className={` uppercase px-3 py-1 rounded-lg border ${statusColor}`}>{statusLabel}</span>
+                    <span className={`px-3 py-1 rounded-lg border ${statusColor}`}>{statusLabel}</span>
                     <span className="text-white/40">{booking.id}</span>
                   </div>
-                  <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white uppercase transition-colors rounded-lg">+ New Booking</Link>
+                  <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 transition-colors rounded-lg">+ New Booking</Link>
                 </div>
                 <div className="flex items-center gap-3 mb-1">
                   <h1>{booking.eventName}</h1>
                 </div>
                 <p className="font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
-                <p className="mb-6">Booked by <span className="text-white/80 font-semibold">{member?.name}</span></p>
+                <p className="mb-6">Booked by <span className="  font-semibold">{member?.name}</span></p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {[
                     { label: "Date", value: booking.date },
@@ -292,7 +292,7 @@ export default function PlannerClient() {
                     { label: "City", value: `${booking.venueCity}, ${booking.venueState}` },
                   ].map((item, i) => (
                     <div key={item.label}>
-                      <p className="uppercase mb-1">{item.label}</p>
+                      <p className="mb-1">{item.label}</p>
                       <p>{item.value}</p>
                     </div>
                   ))}
@@ -305,7 +305,7 @@ export default function PlannerClient() {
               {/* Notes */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg">
                 <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-white">Event Notes</h3></div>
+                  <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="">Event Notes</h3></div>
                   {notesSaved && <span className="text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/30">✓ Saved</span>}
                 </div>
                 <div className="input-glow-border rounded-xl">
@@ -313,7 +313,7 @@ export default function PlannerClient() {
                     className="form-input resize-none" />
                 </div>
                 <button onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
-                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  hover:text-white uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-50">
+                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent hover:text-white rounded-lg transition-colors cursor-pointer disabled:opacity-50">
                   {notesSaving ? 'Saving...' : 'Save Notes'}
                 </button>
               </div>
@@ -321,8 +321,8 @@ export default function PlannerClient() {
               {/* Checklist — editable */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg">
                 <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-white">Readiness</h3></div>
-                  <span className={` ${pct === 100 ? 'text-emerald-400' : 'text-white/50'}`}>{done}/{checklist.length}</span>
+                  <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="">Readiness</h3></div>
+                  <span className={`${pct === 100 ? 'text-emerald-400' : ' text-white/50'}`}>{done}/{checklist.length}</span>
                 </div>
                 <div className="w-full h-2 bg-[#00000029] rounded-lg overflow-hidden mb-6">
                   <div className={`h-full rounded-lg transition-colors ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
@@ -340,17 +340,17 @@ export default function PlannerClient() {
                       <div key={item.label} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done ? 'bg-emerald-500/5 border-emerald-500/10' : ' bg-[#00000029] border-white/10'}`}>
                         <span className="shrink-0">{item.done ? '✅' : '⬜'}</span>
                         <div className="flex-1 min-w-0">
-                          <span className={`font-semibold ${item.done ? 'text-white/80' : 'text-white/40'}`}>{item.label}</span>
+                          <span className={`font-semibold ${item.done ? '  ' : ' text-white/40'}`}>{item.label}</span>
                           {isEditing ? (
-                            <div className="flex gap-1.5 ">
+                            <div className="flex gap-1.5">
                               <input type="text"
                                 defaultValue={item.val || ''}
                                 autoFocus
                                 onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({ ...booking, [fieldKey]: v } as Booking); setEditField(null); } } }}
-                                className="flex-1 bg-white/10 border border-white/10 px-2 py-1 rounded text-white focus:border-purple-500 outline-none"
+                                className="flex-1 bg-white/10 border border-white/10 px-2 py-1 rounded focus:border-purple-500 outline-none"
                               />
-                              <button aria-label="Previous" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)]  uppercase cursor-pointer px-1.5">Save</button>
-                              <button type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-white/40 uppercase cursor-pointer px-1">✕</button>
+                              <button aria-label="Previous" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] cursor-pointer px-1.5">Save</button>
+                              <button type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-white/40 cursor-pointer px-1">✕</button>
                             </div>
                           ) : (
                             item.done && item.val && <p className="text-[var(--color-accent)]/60 truncate">{item.val}</p>
@@ -358,7 +358,7 @@ export default function PlannerClient() {
                         </div>
                         {!isEditing && (
                           item.done ? (
-                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] text-white/40  uppercase cursor-pointer transition-colors shrink-0">Edit</button>
+                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] text-white/40 cursor-pointer transition-colors shrink-0">Edit</button>
                           ) : (
                             <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-colors">NEEDED</button>
                           )
@@ -368,7 +368,7 @@ export default function PlannerClient() {
                   })}
                   {done < checklist.length && (
                     <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}`}
-                      className="mt-2 text-center py-2 bg-purple-600/5 hover:bg-purple-600/10 border border-purple-500/15 text-purple-300/70 hover:text-purple-300 uppercase rounded-lg transition-colors">
+                      className="mt-2 text-center py-2 bg-purple-600/5 hover:bg-purple-600/10 border border-purple-500/15 text-purple-300/70 hover:text-purple-300 rounded-lg transition-colors">
                       Fill Missing Details →
                     </Link>
                   )}
@@ -377,22 +377,22 @@ export default function PlannerClient() {
 
               {/* Quick Actions */}
               <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-lg">
-                <div className="flex items-center gap-2 mb-6"><span className="text-base">⚡</span><h3 className="text-white">Quick Actions</h3></div>
+                <div className="flex items-center gap-2 mb-6"><span className="text-base">⚡</span><h3 className="">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20  hover:bg-purple-600 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20 hover:bg-purple-600 hover:text-white rounded-lg">
                     <span>🔄</span> Rebook This Event
                   </Link>
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border transition-colors cursor-pointer bg-[#00000029] border-white/10   hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✏️</span> Edit Logistics
                   </Link>
                   <a href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking ${booking.id}] Question about ${booking.eventName}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nRe: ${booking.eventName}\nBooking ID: ${booking.id}\nDate: ${booking.date}\nVenue: ${booking.venueName}\n\nMy question:\n\n`)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-[#00000029] border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border transition-colors cursor-pointer bg-[#00000029] border-white/10   hover:bg-white/10 hover:text-white rounded-lg">
                     <span>✉️</span> Contact 7th Heaven
                   </a>
                   <button aria-label="Cancel request" onClick={handleCancelBooking} disabled={isCancelling}
-                    className="w-full py-3 px-4 flex items-center gap-3 border uppercase transition-colors cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white disabled:opacity-50 rounded-lg">
+                    className="w-full py-3 px-4 flex items-center gap-3 border transition-colors cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white disabled:opacity-50 rounded-lg">
                     <span>✕</span> {isCancelling ? 'Cancelling...' : 'Cancel Request'}
                   </button>
                 </div>
@@ -404,7 +404,7 @@ export default function PlannerClient() {
               <div className="mt-8">
                 <div className="flex items-center gap-3 mb-6">
                   <span className="text-base">📜</span>
-                  <h3 className="text-white">Past Events</h3>
+                  <h3 className="">Past Events</h3>
                   <span className="text-white/50 bg-[#00000029] px-2 py-0.5 rounded">{pastBookings.length} events</span>
                 </div>
                 <div className="flex flex-col gap-3">
@@ -418,14 +418,14 @@ export default function PlannerClient() {
                       <div key={pb.id || pb.eventName || pb.date} className="bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-purple-500/30 p-4 flex items-center gap-4 transition-colors group rounded-lg">
                         <div className={`w-2.5 h-2.5 rounded-lg ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-white truncate">{pb.eventName}</h4>
+                          <h4 className="truncate">{pb.eventName}</h4>
                           <div className="flex items-center gap-3 text-white/50 mt-0.5">
                             <span>📅 {pb.date}</span><span>📍 {pb.venueName}</span><span>{pb.id}</span>
                           </div>
                         </div>
-                        <span className={`text-[var(--font-size-2xs)] uppercase ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
+                        <span className={`text-[var(--font-size-2xs)] ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
                         <Link href={`/book?from=rebook&eventType=${encodeURIComponent(pb.eventType)}&venueName=${encodeURIComponent(pb.venueName)}&venueCity=${encodeURIComponent(pb.venueCity)}&venueState=${encodeURIComponent(pb.venueState)}&indoorOutdoor=${encodeURIComponent(pb.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(pb.expectedAttendance)}&organization=${encodeURIComponent(pb.organization)}`}
-                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  hover:text-white uppercase rounded-lg transition-colors cursor-pointer shrink-0">
+                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent hover:text-white rounded-lg transition-colors cursor-pointer shrink-0">
                           Rebook →
                         </Link>
                       </div>

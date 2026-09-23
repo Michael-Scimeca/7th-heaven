@@ -530,7 +530,7 @@ export default function VinylHeroPlayer({
         className="absolute right-[-11px] bottom-0 select-none"
         style={{
           width: `${unscaledWidth}px`,
-          height: `${unscaledHeight}px`,
+
           transform: scale < 1 ? `scale(${scale})` : undefined,
           transformOrigin: "bottom right",
         }}>
@@ -575,9 +575,7 @@ export default function VinylHeroPlayer({
 
             {/* LAYER 2 & 3: Vinyl disc track & Controls overlay — REVEALED SMOOTHLY ONCE READY */}
             <div
-              className={`transition-all duration-700 ease-out ${isPlayerReady ? "opacity-100 scale-100 blur-0 pointer-events-auto"
-                : "opacity-0 scale-95 blur-xs pointer-events-none"
-                }`}>
+              className={`transition-all duration-700 ease-out ${isPlayerReady ? "opacity-100 scale-100 blur-0 pointer-events-auto" : "opacity-0 scale-95 blur-xs pointer-events-none"}`}>
               {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
               <div style={{
                 WebkitMaskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)',
@@ -606,9 +604,7 @@ export default function VinylHeroPlayer({
                         return (
                           <button
                             type="button"
-                            className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 ${isActive && !isDragging ? "opacity-100 scale-110 z-10 "
-                              : "opacity-90 scale-90 z-0"
-                              } ${isActive ? "vinyl-spinning" : ""}`}
+                            className={`relative rounded-full flex items-center justify-center mx-auto transition-opacity duration-0 overflow-hidden cursor-pointer border-0 p-0 ${isActive && !isDragging ? "opacity-100 scale-110 z-10 " : "opacity-90 scale-90 z-0"} ${isActive ? "vinyl-spinning" : ""}`}
                             style={{
                               width: "165px",
                               height: "165px",
@@ -641,7 +637,7 @@ export default function VinylHeroPlayer({
                                 style={{ backgroundColor: album.centerLabelColor }}>
                                 <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105 rounded-full" />
                                 <div className="absolute inset-0 bg-gradient-to-t via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center !rounded-full">
-                                  <span className="text-[var(--font-size-5xs)] text-white uppercase   ">{album.title}</span>
+                                  <span className="text-[var(--font-size-5xs)]">{album.title}</span>
                                   <span className="w-2 h-2 rounded-lg bg-white border border-black/60 mt-0.5" />
                                 </div>
                               </div>
@@ -666,7 +662,7 @@ export default function VinylHeroPlayer({
                         type="button"
                         onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
                         className="text-left border-0 bg-white text-black rounded-lg px-3 py-1 min-w-[130px] cursor-pointer">
-                        <div className="text-[12px] uppercase flex items-center gap-1">
+                        <div className="text-[12px] flex items-center gap-1">
                           <span className="truncate">{currentAlbum.title}</span>
                           {isBuffering ? (
                             <span className="text-[12px] text-[#d946ef] bg-[#d946ef]/15 border border-[#d946ef]/30 px-1.5 py-0.5 rounded-lg animate-pulse shrink-0 flex items-center gap-1">
@@ -674,10 +670,10 @@ export default function VinylHeroPlayer({
                               LOADING {bufferPercent > 0 ? `${bufferPercent}%` : "SONG"}
                             </span>
                           ) : (
-                            <span className="text-[10px] font-extrabold  bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
+                            <span className="text-[10px]   bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST</span>
                           )}
                         </div>
-                        <div className="text-[10px] font-extrabold uppercase text-black/70 truncate mt-0.5">
+                        <div className="text-[10px]   text-black/70 truncate mt-0.5">
                           {currentTrack.title}
                         </div>
                       </button>
@@ -685,10 +681,10 @@ export default function VinylHeroPlayer({
                       <Link
                         href={currentAlbum.storeUrl}
                         onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1.5 bg-purple-600 hover:bg-purple-500 text-white !text-white text-[10px] font-black uppercase px-3.5 py-1.5 rounded-lg shadow-[0_0_14px_rgba(147,51,234,0.8)] transition-all shrink-0 z-10"
+                        className="flex items-center gap-1.5 bg-purple-600 hover:bg-purple-500 ! text-[10px] font-black px-3.5 py-1.5 rounded-lg shadow-[0_0_14px_rgba(147,51,234,0.8)] transition-all shrink-0 z-10"
                         style={{ color: "#ffffff", fill: "#ffffff" }}>
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="#ffffff" style={{ color: "#ffffff", fill: "#ffffff" }} className="shrink-0"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
-                        <span style={{ color: "#ffffff" }} className="text-white !text-white font-black">BUY CD</span>
+                        <span style={{ color: "#ffffff" }} className="! font-black">BUY CD</span>
                       </Link>
                     </div>
                     <SoundWaveCanvas isPlaying={isPlaying} />
@@ -722,7 +718,7 @@ export default function VinylHeroPlayer({
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
                       />
                     </div>
-                    <div className="flex justify-between text-white mt-0.5">
+                    <div className="flex justify-between mt-0.5">
                       <span>{currentTime}</span>
                       <span>{duration}</span>
                     </div>
@@ -732,9 +728,7 @@ export default function VinylHeroPlayer({
             </div>
             {/* ── TRACKLIST PANEL — aligned flush with the top of the glass sleeve box ── */}
             <div
-              className={`absolute top-0 bottom-0 flex flex-col text-left transition-colors duration-500 ease-out origin-left z-40 ${showTracklist ? "opacity-100 pointer-events-auto"
-                : "opacity-0 pointer-events-none"
-                }`}
+              className={`absolute top-0 bottom-0 flex flex-col text-left transition-colors duration-500 ease-out origin-left z-40 ${showTracklist ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
               style={{ left: 'calc(50% + 135px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
               onClick={(e) => e.stopPropagation()}>
               <div className="relative border border-white/10 h-full flex flex-col justify-start pt-2 bg-[#0a00653b] backdrop-blur-[45px] rounded-lg overflow-hidden">
@@ -749,7 +743,7 @@ export default function VinylHeroPlayer({
                   />
                 </div>
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap px-4">
-                  <span className="text-[12px] uppercase text-[var(--color-accent)]">
+                  <span className="text-[12px] text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
                   </span>
                   <div className="flex items-center gap-1.5">
@@ -759,7 +753,7 @@ export default function VinylHeroPlayer({
                   </div>
                 </div>
                 <ol
-                  className="scrollbar-none max-h-[200px] overflow-y-scroll pointer-events-auto space-y-1 text-[12px] pt-2 uppercase text-white/80 pr-3.5 pb-2 whitespace-nowrap [&::-webkit-scrollbar]:hidden"
+                  className="scrollbar-none max-h-[200px] overflow-y-scroll pointer-events-auto space-y-1 text-[12px] pt-2   pr-3.5 pb-2 whitespace-nowrap [&::-webkit-scrollbar]:hidden"
                   style={{ scrollBehavior: 'smooth', overscrollBehavior: 'contain', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                   onScroll={handleTracklistScroll}
                   onWheel={(e) => e.stopPropagation()}>
@@ -770,8 +764,7 @@ export default function VinylHeroPlayer({
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); playTrack(tIdx); }}
-                          className={`w-full text-left border-0 flex items-center gap-2 px-3 py-[1px] transition-colors duration-200 !rounded-none ${isSelected ? "text-[var(--color-accent)] bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white bg-[#00000029] cursor-pointer"
-                            }`}>
+                          className={`w-full text-left border-0 flex items-center gap-2 px-3 py-[1px] transition-colors duration-200 !rounded-none ${isSelected ? "text-[var(--color-accent)] bg-[var(--color-accent)]/15 cursor-default" : "hover:text-white bg-[#00000029] cursor-pointer"}`}>
                           <span className="text-[12px] opacity-50 w-4 text-right">{track.number}.</span>
                           <span className="truncate flex-1 text-[14px]">{track.title}</span>
                           {isSelected && isPlaying && <span className="w-2 h-2 bg-[#d946ef] animate-pulse" />}

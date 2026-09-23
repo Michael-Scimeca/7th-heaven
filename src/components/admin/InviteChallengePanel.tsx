@@ -88,13 +88,13 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       <button
         type="button"
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="w-full text-left relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group border-0 ">
+        className="w-full text-left relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group border-0">
         <div>
-          <p className="uppercase ">Show Promotions</p>
-          <h3 className="text-white flex items-center gap-2">
+          <p className="">Show Promotions</p>
+          <h3 className="flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
-              <span className="uppercase  border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
+              <span className="border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
                 Active
               </span>
             )}
@@ -102,10 +102,10 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           <p className="mt-0.5">Fans who invite N friends unlock a free merch item at the door</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-white/40 uppercase hidden sm:inline">
+          <span className="text-white/40 hidden sm:inline">
             {isCollapsed ? 'Expand' : 'Collapse'}
           </span>
-          <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center text-white transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>
+          <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>
 
           </div>
         </div>
@@ -115,11 +115,11 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
         <div className="relative p-6 pt-0 border-t border-white/[0.04] space-y-5 animate-[fadeIn_0.2s_ease-out]">
           {/* Show picker */}
           <div className="mb-6 mt-4">
-            <label htmlFor="invite-challenge-show-select" className="uppercase    text-white/40 mb-1.5 block">Select Show</label>
+            <label htmlFor="invite-challenge-show-select" className="text-white/40 mb-1.5 block">Select Show</label>
             <select id="invite-challenge-show-select"
               value={selectedShowId}
               onChange={(e) => setSelectedShowId(e.target.value)}
-              className="w-full bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50">
+              className="w-full bg-white/[0.04] border border-white/10 px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50">
               <option value="">— Pick a show —</option>
               {shows.map((s) => (
                 <option key={s._id} value={s._id}>
@@ -153,7 +153,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                     <>
                       {/* Threshold */}
                       <div>
-                        <label htmlFor="invite-challenge-threshold" className="uppercase    text-white/40 mb-1.5 block">
+                        <label htmlFor="invite-challenge-threshold" className="text-white/40 mb-1.5 block">
                           Invite Threshold
                         </label>
                         <div className="flex items-center gap-3">
@@ -163,7 +163,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                             max={500}
                             value={challenge.threshold}
                             onChange={(e) => setChallenge((c) => ({ ...c, threshold: parseInt(e.target.value) || 20 }))}
-                            className="w-24 bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
+                            className="w-24 bg-white/[0.04] border border-white/10 px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
                           />
                           <span className="text-white/30">fans invited to unlock reward</span>
                         </div>
@@ -171,7 +171,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                       {/* Reward name */}
                       <div>
-                        <label htmlFor="invite-challenge-reward-name" className="uppercase    text-white/40 mb-1.5 block">
+                        <label htmlFor="invite-challenge-reward-name" className="text-white/40 mb-1.5 block">
                           Reward Name
                         </label>
                         <input id="invite-challenge-reward-name"
@@ -179,13 +179,13 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           value={challenge.reward_name}
                           onChange={(e) => setChallenge((c) => ({ ...c, reward_name: e.target.value }))}
                           placeholder="e.g. Free Band Tee, Signed Poster, Backstage Pass"
-                          className="w-full bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20"
+                          className="w-full bg-white/[0.04] border border-white/10 px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder: text-white/20"
                         />
                       </div>
 
                       {/* Reward description */}
                       <div>
-                        <label htmlFor="invite-challenge-claim-instructions" className="uppercase    text-white/40 mb-1.5 block">
+                        <label htmlFor="invite-challenge-claim-instructions" className="text-white/40 mb-1.5 block">
                           Claim Instructions
                         </label>
                         <textarea aria-label="Text input"
@@ -194,13 +194,13 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
                           rows={2}
                           placeholder="e.g. Claim at the merch table, night of show"
-                          className="w-full bg-white/[0.04] border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20 resize-none"
+                          className="w-full bg-white/[0.04] border border-white/10 px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder: text-white/20 resize-none"
                         />
                       </div>
 
                       {/* Preview */}
                       <div className="p-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/[0.04]">
-                        <p className="uppercase mb-2">Fan-facing preview</p>
+                        <p className="mb-2">Fan-facing preview</p>
                         <div className="flex items-start gap-3">
                           <span className="text-2xl"></span>
                           <div>
@@ -223,9 +223,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   <button
                     onClick={save}
                     disabled={saving || !challenge.reward_name}
-                    className={`w-full py-3.5 uppercase transition-colors ${saved ? "bg-[var(--color-accent)] text-white"
-                      : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
-                      }`}>
+                    className={`w-full py-3.5 transition-colors ${saved ? "bg-[var(--color-accent)] " : "bg-[var(--color-accent)] hover:brightness-110 disabled:opacity-40" }`}>
                     {saved ? " Challenge Saved" : saving ? "Saving…" : "Save Challenge"}
                   </button>
                 </>

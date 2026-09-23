@@ -53,14 +53,14 @@ function RoomModalFooterButtons({
       <button
         type="button"
         onClick={onCancel}
-        className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
+        className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm font-semibold transition-colors cursor-pointer"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={isSaving}
-        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm    uppercase transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-bold text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
       >
         {isSaving ? (
           <>
@@ -90,7 +90,7 @@ function ModalInputField({
 }) {
   return (
     <div>
-      <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+      <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
         {label}
       </label>
       <input
@@ -99,7 +99,7 @@ function ModalInputField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+        className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
       />
     </div>
   );
@@ -203,9 +203,9 @@ function CruiseCabinsPricingSectionComponent({
   return (
     <>
       {/* ── SECTION 2: CABINS & PRICING ── */}
-      <LazyMount as="section" id="pricing" className="site-container relative z-20 -mt-85 lg:-mt-[460px] [text-shadow:3px_5px_6px_rgba(0,0,0,0.5)]" minHeight="800px" rootMargin="300px 0px">
+      <LazyMount as="section" id="pricing" className="site-container relative z-20 -mt-85 lg:-mt-[460px]" minHeight="800px" rootMargin="300px 0px">
         <div className="text-left max-w-3xl">
-          <h2 className="uppercase text-white">
+          <h2>
             {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")?.title || "Staterooms & Cruise Rates"}
           </h2>
           <p className="mt-4 font-semibold">
@@ -238,10 +238,10 @@ function CruiseCabinsPricingSectionComponent({
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <Ship className="w-6 h-6 text-purple-400 shrink-0" />
-                <h3 className="uppercase text-white">Ship Resources</h3>
+                <h3>Ship Resources</h3>
               </div>
 
-              <ul className="space-y-2 uppercase text-white">
+              <ul className="space-y-2">
                 <li>
                   <SeventhButton
                     type="button"
@@ -327,22 +327,22 @@ function CruiseCabinsPricingSectionComponent({
                   </SeventhButton>
                 </li>
                 <li>
-                  <a
+                  <SeventhButton
                     href="https://www.facebook.com/chicagomusiccruise/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-full bg-blue-600/40 hover:bg-blue-600 !text-white uppercase transition-all flex items-center gap-1 border border-blue-400/40">
+                    className="!rounded-full px-3.5 py-1.5 bg-blue-600/40 hover:bg-blue-600 ! flex items-center gap-1">
                     <span>Facebook</span>
-                  </a>
+                  </SeventhButton>
                 </li>
                 <li>
-                  <a
+                  <SeventhButton
                     href="https://www.instagram.com/chicagomusiccruise"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 rounded-full bg-pink-600/40 hover:bg-pink-600 !text-white uppercase transition-all flex items-center gap-1 border border-pink-400/40">
+                    className="!rounded-full px-3.5 py-1.5 bg-pink-600/40 hover:bg-pink-600 ! flex items-center gap-1">
                     <span>Instagram</span>
-                  </a>
+                  </SeventhButton>
                 </li>
               </ul>
             </div>
@@ -355,14 +355,14 @@ function CruiseCabinsPricingSectionComponent({
           <div className="relative text-left rounded-2xl md:col-span-8 lg:col-span-5 min-[1600px]:col-span-3">
             <div className="flex items-center gap-3 mb-6">
               <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
-              <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.bookingPolicyTitle || "Booking Policy"}</h3>
+              <h3>{sanityContent?.cruiseInfo?.bookingPolicyTitle || "Booking Policy"}</h3>
             </div>
-            <p className="text-purple-400 uppercase mb-6">
+            <p className="mb-6">
               {sanityContent?.cruiseInfo?.bookingPolicyHeading || "Book through us to participate & lock in best rates"}
             </p>
             <p className="mb-6">
               {sanityContent?.cruiseInfo?.bookingPolicyBody || (
-                <>To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white">must</strong> be placed under our official group booking.</>
+                <>To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="">must</strong> be placed under our official group booking.</>
               )}
             </p>
             <ul className="space-y-2.5 mb-6">
@@ -381,9 +381,9 @@ function CruiseCabinsPricingSectionComponent({
             </ul>
             <div className="pt-3 border-t border-white/10 space-y-1.5">
               <p><strong>Email:</strong> <a href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`} className="a-btn">{sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}</a></p>
-              <p><strong>Call Us:</strong> {sanityContent?.cruiseInfo?.bookingPhone || "(877) 683-9753 - opt 5"}</p>
+              <p><strong>Call Us:</strong> <a href={`tel:${(sanityContent?.cruiseInfo?.bookingPhone || "877-683-9753").replace(/[^0-9]/g, "")}`} className="hover:underline transition-colors">{sanityContent?.cruiseInfo?.bookingPhone || "(877) 683-9753 - opt 5"}</a></p>
               <p><CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> {sanityContent?.cruiseInfo?.depositInfo || "$250/person ($500/room)."}</p>
-              <p className=" "><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? (sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026") : (sanityContent?.cruiseInfo?.finalPayment2028 || "Oct 1, 2027")}.</p>
+              <p className="!mt-1"><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? (sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026") : (sanityContent?.cruiseInfo?.finalPayment2028 || "Oct 1, 2027")}.</p>
             </div>
           </div>
 
@@ -391,10 +391,10 @@ function CruiseCabinsPricingSectionComponent({
           <div className="relative text-left rounded-2xl md:col-span-6 lg:col-span-4 min-[1600px]:col-span-3">
             <div className="flex items-center gap-3 mb-6">
               <Compass className="w-6 h-6 text-purple-400 shrink-0" />
-              <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.passportTitle || "Passport Guidelines"}</h3>
+              <h3 className="">{sanityContent?.cruiseInfo?.passportTitle || "Passport Guidelines"}</h3>
             </div>
-            <p className="text-purple-400 uppercase mb-6">{sanityContent?.cruiseInfo?.passportSubheading || "Essential travel document guidelines"}</p>
-            <div className="space-y-4 text-white/80">
+            <p className="text-purple-400 mb-6">{sanityContent?.cruiseInfo?.passportSubheading || "Essential travel document guidelines"}</p>
+            <div className="space-y-4  ">
               <p>{sanityContent?.cruiseInfo?.passportBody || "A physical passport book valid for 6 months post-cruise is highly recommended for all travelers."}</p>
               <p>For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable.</p>
             </div>
@@ -404,21 +404,21 @@ function CruiseCabinsPricingSectionComponent({
           <div className="relative text-left md:col-span-6 lg:col-span-12 min-[1600px]:col-span-3">
             <div className="flex items-center gap-3 mb-6">
               <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
-              <h3 className="uppercase text-white">{sanityContent?.cruiseInfo?.cancellationTitle || "Cancellation Policy"}</h3>
+              <h3 className="">{sanityContent?.cruiseInfo?.cancellationTitle || "Cancellation Policy"}</h3>
             </div>
-            <p className="text-purple-400 uppercase mb-6">{sanityContent?.cruiseInfo?.cancellationSubheading || "Refund terms before booking"}</p>
-            <div className="space-y-4 text-white/80">
+            <p className="mb-6">{sanityContent?.cruiseInfo?.cancellationSubheading || "Refund terms before booking"}</p>
+            <div className="space-y-4  ">
               <div>
-                <h4 className="text-white uppercase mb-1">Group Rate Rooms:</h4>
+                <h4 className="mb-1">Group Rate Rooms:</h4>
                 {activePriceYear === 2027 ? (
-                  <ul className="list-disc pl-4 space-y-1 text-white/80">
+                  <ul className="list-disc pl-4 space-y-1  ">
                     <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
                     <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
                     <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
                     <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
                   </ul>
                 ) : (
-                  <ul className="list-disc pl-4 space-y-1 text-white/80">
+                  <ul className="list-disc pl-4 space-y-1  ">
                     <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
                     <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
                   </ul>
@@ -430,10 +430,10 @@ function CruiseCabinsPricingSectionComponent({
 
         {/* Pricing Cards Grid */}
         <div className="space-y-16 py-section-fluid">
-          <div className=" p-0 relative text-left">
+          <div className="p-0 relative text-left">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-2">
               <div>
-                <h3 className="uppercase text-white ">Limited Group Rate Cabins ({activePriceYear})</h3>
+                <h3 className="">Limited Group Rate Cabins ({activePriceYear})</h3>
               </div>
               {isAdmin && (
                 <AddCmsButton
@@ -480,7 +480,7 @@ function CruiseCabinsPricingSectionComponent({
                   <div
                     key={(room.code || room.selectValue) + idx}
                     onClick={() => handleSelectCabin(room.selectValue)}
-                    className="w-full text-left border-0 flex flex-col justify-between cursor-pointer group shadow-none">
+                    className="w-full text-left border-0 flex flex-col justify-between cursor-pointer group  ">
                     <div>
                       {room.image && (
                         <div className="relative h-44 w-full overflow-hidden text-center">
@@ -491,18 +491,18 @@ function CruiseCabinsPricingSectionComponent({
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
                           <SectionBadge label={room.badge} />
                         </div>
-                        <span className="uppercase block ">{room.code} Category</span>
-                        <h4 className="text-white uppercase text-left">{room.title}</h4>
+                        <span className="block">{room.code} Category</span>
+                        <h4 className="text-left">{room.title}</h4>
                       </div>
                     </div>
 
                     <div className="px-0 pt-0 text-left">
                       <div className="flex items-baseline gap-1.5">
-                        <span className="text-xl text-white">{room.price}</span>
-                        <span className="text-white/50 uppercase font-semibold">USD pp</span>
+                        <span className="text-xl">{room.price}</span>
+                        <span className="text-white/50 font-semibold">USD pp</span>
                       </div>
                       {room.inclusions && (
-                        <span className="text-purple-400 uppercase flex items-center gap-1">
+                        <span className="text-purple-400 flex items-center gap-1">
                           <CheckMarkIcon className="w-3.5 h-3.5 shrink-0" />
                           <span>{room.inclusions}</span>
                         </span>
@@ -532,17 +532,17 @@ function CruiseCabinsPricingSectionComponent({
         <div>
           <div className="text-center mb-8 border-b border-white/10 pb-6">
             <div className="flex items-center justify-center gap-3 flex-wrap mb-3">
-              <span className="inline-block text-xs font-bold uppercase tracking-widest px-3.5 py-1 rounded-full bg-purple-900/50 text-purple-300 border border-purple-500/30">
+              <span className="inline-block text-xs font-bold  st px-3.5 py-1 rounded-full bg-purple-900/50 text-purple-300 border border-purple-500/30">
                 Official Booking Form
               </span>
               <button
                 type="button"
                 onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
-                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full bg-rose-600/30 hover:bg-rose-600/50 text-rose-200 border border-rose-500/40 transition-all cursor-pointer">
+                className="inline-flex items-center gap-2 text-xs font-bold px-4 py-1.5 rounded-full bg-rose-600/30 hover:bg-rose-600/50 text-rose-200 border border-rose-500/40 transition-all cursor-pointer">
                 💳 {isPaymentDropdownOpen ? "Hide Payment Form" : "Make A Payment On Existing Booking"}
               </button>
             </div>
-            <h2 className="uppercase text-white text-2xl sm:text-3xl font-extrabold tracking-wide">
+            <h2>
               RESERVE YOUR CRUISE STATEROOM
             </h2>
             <p className="text-white/70 text-sm sm:text-base mt-2 max-w-xl mx-auto">
@@ -564,8 +564,8 @@ function CruiseCabinsPricingSectionComponent({
               <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto text-2xl">
                 <CheckCircle2 className="w-8 h-8 text-emerald-400" />
               </div>
-              <h3 className="text-2xl font-bold text-white uppercase">Reservation Submitted!</h3>
-              <p className="text-white/80 text-sm max-w-md mx-auto leading-relaxed">
+              <h3 className="text-2xl font-bold">Reservation Submitted!</h3>
+              <p className="  text-sm max-w-md mx-auto leading-relaxed">
                 Thank you, <strong className="text-emerald-400">{formData.name}</strong>! Your cruise booking request for cabin <strong className="text-purple-300">{formData.cabinPreference || "selected stateroom"}</strong> has been received by NTD Vacations concierge.
               </p>
               <p className="text-xs text-white/50">A confirmation email has been dispatched to {formData.email}.</p>
@@ -581,7 +581,7 @@ function CruiseCabinsPricingSectionComponent({
 
               {/* ROOM CATEGORY SELECTION */}
               <div>
-                <label htmlFor="cabinPreference" className="block font-bold uppercase  text-purple-300 mb-2">
+                <label htmlFor="cabinPreference" className="block font-bold text-purple-300 mb-2">
                   Room Category / Cabin Preference *
                 </label>
                 <div className="input-glow-border rounded-xl">
@@ -592,10 +592,10 @@ function CruiseCabinsPricingSectionComponent({
                     value={formData.cabinPreference || ""}
                     onChange={(e) => setFormData((prev: any) => ({ ...prev, cabinPreference: e.target.value }))}
                     placeholder="e.g. Ocean View Balcony (D4) or Suite"
-                    className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-3 text-white text-base focus:outline-none"
+                    className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-3 text-base focus:outline-none"
                   />
                 </div>
-                <p className="text-[11px] text-white/50 mt-1.5 uppercase font-medium">
+                <p className="text-[11px] text-white/50 mt-1.5 font-medium">
                   EVERY BOOKING NEEDS $500 DEPOSIT PER ROOM (OR $250 PER PERSON)
                 </p>
               </div>
@@ -603,8 +603,8 @@ function CruiseCabinsPricingSectionComponent({
               {/* GUEST 1 DETAILS & PAYMENT */}
               <div className="space-y-5">
                 <div className="border-b border-white/10 pb-3 flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-white uppercase   ">GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
-                  <span className="text-xs text-purple-400 uppercase font-semibold">Primary Guest</span>
+                  <h3 className="text-lg font-bold">GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
+                  <span className="text-xs text-purple-400 font-semibold">Primary Guest</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -617,7 +617,7 @@ function CruiseCabinsPricingSectionComponent({
                         value={formData.name}
                         onChange={(e) => setFormData((prev: any) => ({ ...prev, name: e.target.value }))}
                         placeholder="First &amp; Last Name (as on Passport/ID)"
-                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none"
+                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                       />
                     </div>
                   </div>
@@ -630,7 +630,7 @@ function CruiseCabinsPricingSectionComponent({
                         value={formData.email}
                         onChange={(e) => setFormData((prev: any) => ({ ...prev, email: e.target.value }))}
                         placeholder="your@email.com"
-                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none"
+                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                       />
                     </div>
                   </div>
@@ -646,7 +646,7 @@ function CruiseCabinsPricingSectionComponent({
                         value={formData.phone}
                         onChange={(e) => setFormData((prev: any) => ({ ...prev, phone: formatPhoneDisplay(e.target.value) }))}
                         placeholder="(555) 000-0000"
-                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none"
+                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                       />
                     </div>
                   </div>
@@ -658,7 +658,7 @@ function CruiseCabinsPricingSectionComponent({
                         value={formData.crownAnchor1 || ""}
                         onChange={(e) => setFormData((prev: any) => ({ ...prev, crownAnchor1: e.target.value }))}
                         placeholder="Royal Caribbean Loyalty #"
-                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none"
+                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                       />
                     </div>
                   </div>
@@ -691,15 +691,15 @@ function CruiseCabinsPricingSectionComponent({
               <div className="space-y-5">
                 <div className="border-b border-white/10 pb-3 flex items-center justify-between flex-wrap gap-2">
                   <div>
-                    <h3 className="text-lg font-bold text-white uppercase   ">GUEST 2 (IF NEEDED)</h3>
-                    <p className="text-[11px] text-white/50 uppercase mt-0.5">
+                    <h3 className="text-lg font-bold">GUEST 2 (IF NEEDED)</h3>
+                    <p className="text-[11px] text-white/50 mt-0.5">
                       YOU DO NOT NEED TO FILL OUT GUEST 2 CREDIT CARD INFO IF YOU ARE A COUPLE GOING TOGETHER ON ONE CREDIT CARD
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => toggleGuestActive(0, !guests[0]?.active)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase transition-all cursor-pointer border ${guests[0]?.active ? "bg-purple-600 border-purple-400 text-white" : "bg-white/10 border-white/20 text-white/70 hover:text-white"}`}
+                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer border ${guests[0]?.active ? "bg-purple-600 border-purple-400 " : "bg-white/10 border-white/20 text-white/70 hover:text-white "}`}
                   >
                     {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
                   </button>
@@ -716,7 +716,7 @@ function CruiseCabinsPricingSectionComponent({
                             value={guests[0].name}
                             onChange={(e) => updateGuest(0, "name", e.target.value)}
                             placeholder="Guest 2 First &amp; Last Name"
-                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none"
+                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                           />
                         </div>
                       </div>
@@ -728,7 +728,7 @@ function CruiseCabinsPricingSectionComponent({
                             value={guests[0].email}
                             onChange={(e) => updateGuest(0, "email", e.target.value)}
                             placeholder="guest2@email.com"
-                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none"
+                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                           />
                         </div>
                       </div>
@@ -743,7 +743,7 @@ function CruiseCabinsPricingSectionComponent({
                             value={guests[0].phone}
                             onChange={(e) => updateGuest(0, "phone", formatPhoneDisplay(e.target.value))}
                             placeholder="(555) 000-0000"
-                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none"
+                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                           />
                         </div>
                       </div>
@@ -755,7 +755,7 @@ function CruiseCabinsPricingSectionComponent({
                             value={guests[0].crownAnchor}
                             onChange={(e) => updateGuest(0, "crownAnchor", e.target.value)}
                             placeholder="Loyalty #"
-                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none"
+                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                           />
                         </div>
                       </div>
@@ -788,7 +788,7 @@ function CruiseCabinsPricingSectionComponent({
                           onChange={(e) => setFormData((prev: any) => ({ ...prev, splitPayment: e.target.checked }))}
                           className="rounded border-white/20 bg-black/50 text-purple-600 focus:ring-purple-500 cursor-pointer"
                         />
-                        <label htmlFor="splitPayment" className="text-xs font-semibold uppercase text-purple-200 cursor-pointer">
+                        <label htmlFor="splitPayment" className="text-xs font-semibold text-purple-200 cursor-pointer">
                           Split deposit onto 2 separate credit cards?
                         </label>
                       </div>
@@ -803,7 +803,7 @@ function CruiseCabinsPricingSectionComponent({
 
               {/* EXTRA / OPTIONS & NOTES */}
               <div className="space-y-4">
-                <h3 className="text-lg font-bold text-white uppercase border-b border-white/10 pb-3">
+                <h3 className="text-lg font-bold border-b border-white/10 pb-3">
                   EXTRA &amp; SPECIAL REQUESTS
                 </h3>
 
@@ -838,7 +838,7 @@ function CruiseCabinsPricingSectionComponent({
                       chevronColor="#f43f5e"
 
                     />
-                    <p className="text-[11px] text-white/50 mt-1 uppercase">GROUP RATE ROOMS MUST HAVE THIS</p>
+                    <p className="text-[11px] text-white/50 mt-1">GROUP RATE ROOMS MUST HAVE THIS</p>
                   </div>
                 </div>
 
@@ -855,11 +855,11 @@ function CruiseCabinsPricingSectionComponent({
                   <SeventhButton
                     type="submit"
                     disabled={signupStatus === "submitting"}
-                    className="font-extrabold uppercase w-full sm:w-auto justify-center"
+                    className="  w-full sm:w-auto justify-center"
                   >
                     {signupStatus === "submitting" ? (
                       <div className="flex items-center gap-2">
-                        <Loader2 className="w-5 h-5 animate-spin text-white" />
+                        <Loader2 className="w-5 h-5 animate-spin" />
                         <span>SUBMITTING RESERVATION...</span>
                       </div>
                     ) : (
@@ -877,7 +877,7 @@ function CruiseCabinsPricingSectionComponent({
 
       {/* Cruise Support Team */}
       <LazyMount as="section" id="concierge" className="site-container py-section-fluid text-center relative z-20 border-b border-white/10" minHeight="400px" rootMargin="300px 0px">
-        <h2 className="uppercase text-purple-300">
+        <h2>
           Official Cruise Concierge &amp; Booking Team
         </h2>
         <p className="text-white/70 max-w-2xl mx-auto mt-3 font-medium text-sm sm:text-base">
@@ -923,7 +923,7 @@ function CruiseCabinsPricingSectionComponent({
             return (
               <div key={nameStr + emailStr} className="flex flex-col items-center">
                 <div
-                  className="w-full  overflow-hidden flex items-end justify-center relative shadow-none"
+                  className="w-full overflow-hidden flex items-end justify-center relative  "
                   style={{
                     WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
                     maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
@@ -941,14 +941,14 @@ function CruiseCabinsPricingSectionComponent({
                     }}
                   />
                 </div>
-                <h4 className="text-white uppercase">{nameStr}</h4>
+                <h4 className="">{nameStr}</h4>
                 <div className="mt-2 flex flex-col items-center gap-1 w-full">
                   <SectionBadge label={roleStr} isActive />
                   {descStr && <p className="text-white/70 mt-0.5">{descStr}</p>}
                 </div>
                 <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
                   {phoneStr && (
-                    <a href={`tel:${phoneStr.replace(/[^0-9]/g, "")}`} className="!text-white hover:text-white/80 transition-colors">
+                    <a href={`tel:${phoneStr.replace(/[^0-9]/g, "")}`} className="! hover:text-white   transition-colors">
                       <span>{phoneStr}</span>
                     </a>
                   )}
@@ -967,7 +967,7 @@ function CruiseCabinsPricingSectionComponent({
       {/* FEATURED ARTISTS */}
       <LazyMount as="section" id="artists" className="site-container py-section-fluid border-b border-white/10" minHeight="500px" rootMargin="300px 0px">
         <div className="text-left w-full mb-10 max-w-3xl">
-          <h2 className="uppercase text-white mt-2">
+          <h2 className="mt-2">
             Featured <span className="accent-gradient-text">Artists</span>
           </h2>
           <p className="text-white/70 mt-2.5 font-medium text-sm sm:text-base leading-relaxed">
@@ -980,7 +980,7 @@ function CruiseCabinsPricingSectionComponent({
             <div key={band.name} className="relative overflow-hidden group border-0 flex flex-col justify-between">
               {band.photo && (
                 <div
-                  className="relative flex items-end justify-center  w-full overflow-hidden"
+                  className="relative flex items-end justify-center w-full overflow-hidden"
                   style={{
                     WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
                     maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
@@ -1000,7 +1000,7 @@ function CruiseCabinsPricingSectionComponent({
                 </div>
               )}
               <div className="relative z-10 pt-3 pb-2 flex flex-col text-left">
-                <h3 className="text-white ">{band.name}</h3>
+                <h3 className="">{band.name}</h3>
                 {band.role && (
                   <div className="mt-2">
                     <SectionBadge label={band.role} />
@@ -1032,7 +1032,7 @@ function CruiseCabinsPricingSectionComponent({
                   <Ship className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white uppercase tracking-wide">Add Stateroom to Sanity CMS</h3>
+                  <h3 className="text-xl font-bold  ">Add Stateroom to Sanity CMS</h3>
                   <p className="text-xs text-purple-300/70">Create and publish a stateroom rate card directly to Sanity CMS.</p>
                 </div>
               </div>
@@ -1054,7 +1054,7 @@ function CruiseCabinsPricingSectionComponent({
               <form onSubmit={handleSaveRoom} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                    <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                       Stateroom Title *
                     </label>
                     <input
@@ -1063,12 +1063,12 @@ function CruiseCabinsPricingSectionComponent({
                       value={roomForm.title}
                       onChange={(e) => setRoomForm((prev) => ({ ...prev, title: e.target.value }))}
                       placeholder="e.g. Ocean View Balcony"
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
+                      className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                    <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                       Category Code *
                     </label>
                     <input
@@ -1077,20 +1077,20 @@ function CruiseCabinsPricingSectionComponent({
                       value={roomForm.code}
                       onChange={(e) => setRoomForm((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
                       placeholder="e.g. D4, N5, IF, GS"
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                      className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                    <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                       Cruise Year *
                     </label>
                     <select
                       value={roomForm.year}
                       onChange={(e) => setRoomForm((prev) => ({ ...prev, year: e.target.value }))}
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
                     >
                       <option value="2027">2027 (Star of the Seas)</option>
                       <option value="2028">2028 (Legend of the Seas)</option>
@@ -1115,13 +1115,13 @@ function CruiseCabinsPricingSectionComponent({
                   />
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase    text-purple-200/80 mb-1.5">
+                    <label className="block text-xs font-semibold text-purple-200/80 mb-1.5">
                       Badge Status Color
                     </label>
                     <select
                       value={roomForm.status}
                       onChange={(e) => setRoomForm((prev) => ({ ...prev, status: e.target.value }))}
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
                     >
                       <option value="info">Info / Cyan (Available)</option>
                       <option value="warning">Warning / Amber (Few Left)</option>

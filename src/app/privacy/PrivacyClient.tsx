@@ -14,7 +14,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
         <h1 className="mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Privacy Policy"}
         </h1>
-        <p className="text-white/70">
+        <p className=" text-white/70">
           {sanityContent?.lastUpdated || sanityContent?.subtitle || "Last Updated: April 12, 2026"}
         </p>
       </header>
@@ -54,19 +54,19 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
               <p className="mb-3">We may collect the following types of information:</p>
               <div className="flex flex-col gap-3">
                 <div>
-                  <p className="mb-1 font-semibold text-white">Account Information</p>
+                  <p className="mb-1 font-semibold  ">Account Information</p>
                   <p>Name, email address, and password when you create a member account.</p>
                 </div>
                 <div>
-                  <p className="mb-1 font-semibold text-white">SMS Alert Information</p>
+                  <p className="mb-1 font-semibold  ">SMS Alert Information</p>
                   <p>Name, zip code, and phone number when you subscribe to show alerts. We also record your consent timestamp and IP address as required by law.</p>
                 </div>
                 <div>
-                  <p className="mb-1 font-semibold text-white">Location Data</p>
+                  <p className="mb-1 font-semibold  ">Location Data</p>
                   <p>Approximate geolocation (latitude/longitude) only when you explicitly enable the &quot;Nearby Shows&quot; feature. This data is stored locally in your browser and is not transmitted to our servers.</p>
                 </div>
                 <div>
-                  <p className="mb-1 font-semibold text-white">Usage Data</p>
+                  <p className="mb-1 font-semibold  ">Usage Data</p>
                   <p>Browser type, pages visited, and interaction patterns collected automatically through standard web analytics.</p>
                 </div>
               </div>

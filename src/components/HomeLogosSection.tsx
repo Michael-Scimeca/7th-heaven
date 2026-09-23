@@ -42,7 +42,7 @@ export default function HomeLogosSection({ sanityContent }: { sanityContent?: an
   return (
     <section id="logos" className="relative w-full py-section-fluid px-4 flex flex-col items-center text-center border-b border-white/10 ">
       <div className="inline-flex items-center gap-2 bg-[#00000029] border border-white/10 px-4 py-1.5 rounded-xl mb-2.5">
-        <span className="font-black text-white/95">
+        <span className="font-black  /95">
           {sanityContent?.logosBadge || "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
         </span>
       </div>

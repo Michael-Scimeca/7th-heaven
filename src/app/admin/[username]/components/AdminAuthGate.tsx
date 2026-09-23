@@ -42,26 +42,26 @@ export function AdminAuthGate({
 
         <form onSubmit={handleAdminLoginSubmit} className="space-y-4 text-left">
           <div>
-            <label htmlFor="admin-gate-email" className="text-4xs uppercase text-white mb-1.5 block">Email</label>
+            <label htmlFor="admin-gate-email" className="text-4xs mb-1.5 block">Email</label>
             <input
- id="admin-gate-email"
- type="email"
- value={adminLoginEmail}
- onChange={(e) => setAdminLoginEmail(e.target.value)}
+              id="admin-gate-email"
+              type="email"
+              value={adminLoginEmail}
+              onChange={(e) => setAdminLoginEmail(e.target.value)}
               placeholder="admin@7thheaven.com"
-              className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-2.5 bg-black/60 border border-white/10 placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors"
               required
             />
           </div>
           <div>
-            <label htmlFor="admin-gate-password" className="text-4xs uppercase text-white mb-1.5 block">Password</label>
+            <label htmlFor="admin-gate-password" className="text-4xs mb-1.5 block">Password</label>
             <input
- id="admin-gate-password"
- type="password"
- value={adminLoginPassword}
- onChange={(e) => setAdminLoginPassword(e.target.value)}
+              id="admin-gate-password"
+              type="password"
+              value={adminLoginPassword}
+              onChange={(e) => setAdminLoginPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-2.5 bg-black/60 border border-white/10 placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors"
               required
             />
           </div>
@@ -82,14 +82,14 @@ export function AdminAuthGate({
 
         <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-white/40">
           <button
- type="button"
- onClick={() => router.push('/')}
+            type="button"
+            onClick={() => router.push('/')}
             className="hover:text-white transition-colors cursor-pointer border-none p-0 text-white/40">
             ← Back to Home
           </button>
           <button
- type="button"
- onClick={() => openModal('login')}
+            type="button"
+            onClick={() => openModal('login')}
             className="hover:text-purple-300 transition-colors cursor-pointer border-none p-0 text-purple-400">
             Switch Account
           </button>

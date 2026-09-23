@@ -177,7 +177,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
             <div className="px-6 py-4 flex items-center justify-between" style={{ background: "rgba(239,68,68,0.06)", borderBottom: "1px solid rgba(239,68,68,0.15)" }}>
               <div className="flex items-center gap-3">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                <span className="uppercase" style={{ color: "#f87171" }}>Moderation Dashboard</span>
+                <span className="" style={{ color: "#f87171" }}>Moderation Dashboard</span>
                 <span className="px-2 py-0.5 rounded-lg" style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}>LIVE SHOW</span>
               </div>
               <div className="flex items-center gap-4" style={{ color: "rgba(255,255,255,0.35)" }}>
@@ -192,7 +192,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
             <div className="px-6 pt-3 pb-0 flex gap-2 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
               {(["streams", "users", "policy"] as const).map(tab => (
                 <button key={tab} onClick={() => setAdminTab(tab)}
-                  className="px-4 py-2 uppercase rounded-t-lg transition-colors"
+                  className="px-4 py-2 rounded-t-lg transition-colors"
                   style={{
                     background: adminTab === tab ? "rgba(255,10,61,0.15)" : "transparent",
                     color: adminTab === tab ? "#c084fc" : "rgba(255,255,255,0.35)",
@@ -232,7 +232,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                       </div>
                       {/* Card info */}
                       <div className="p-3">
-                        <p className=" ">{room.title}</p>
+                        <p className="">{room.title}</p>
                         <p style={{ color: "rgba(255,255,255,0.3)" }}>{getElapsed(room.creationTime)}</p>
                         <div className="flex gap-1.5 mt-3">
                           <Link href={`/live/${room.name.replace(/^live_/, "")}`}
@@ -268,7 +268,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                           opacity: isBanned ? 0.65 : 1,
                         }}>
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-11 h-11 rounded-lg flex items-center justify-center text-white shrink-0" style={{ background: fan.color }}>
+                          <div className="w-11 h-11 rounded-lg flex items-center justify-center shrink-0" style={{ background: fan.color }}>
                             {fan.avatar}
                           </div>
                           <div className="min-w-0">
@@ -285,12 +285,12 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                           <div className="flex items-center gap-1 shrink-0">
                             {!isWarned && (
                               <button onClick={() => { setWarnedUsers(s => new Set(s).add(fan.id)); addLog("⚠️ Warned", fan.name); }} title="Warn"
-                                className="w-8 h-8 rounded-lg flex items-center justify-center "
+                                className="w-8 h-8 rounded-lg flex items-center justify-center"
                                 style={{ background: "rgba(192, 132, 252,0.1)" }}>⚠️</button>
                             )}
                             {!isMuted && (
                               <button onClick={() => { setMutedUsers(s => new Set(s).add(fan.id)); addLog("🔇 Muted", fan.name); }} title="Mute"
-                                className="w-8 h-8 rounded-lg flex items-center justify-center "
+                                className="w-8 h-8 rounded-lg flex items-center justify-center"
                                 style={{ background: "rgba(156,163,175,0.08)" }}>🔇</button>
                             )}
                             <button onClick={() => { setBannedUsers(s => new Set(s).add(fan.id)); addLog("🚫 Banned", fan.name); }} title="Ban"
@@ -305,7 +305,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                   {/* Mod log */}
                   {modLog.length > 0 && (
                     <div className="col-span-full mt-4 p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                      <p className="uppercase mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>📋 Recent Actions</p>
+                      <p className="mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>📋 Recent Actions</p>
                       <div className="space-y-1">
                         {modLog.slice(0, 5).map(e => (
                           <div key={e.id} className="flex items-center justify-between" style={{ color: "rgba(255,255,255,0.4)" }}>
@@ -323,7 +323,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
               {adminTab === "policy" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
                   <div>
-                    <p className="uppercase mb-3" style={{ color: "#f87171" }}>🚫 Zero-Tolerance — Instant Ban</p>
+                    <p className="mb-3" style={{ color: "#f87171" }}>🚫 Zero-Tolerance — Instant Ban</p>
                     {[
                       { icon: "🔞", rule: "Adult / pornographic content", desc: "Explicit content, NSFW links, or adult platform promotion." },
                       { icon: "⚠️", rule: "Hate speech & slurs", desc: "Racist, homophobic, or discriminatory language." },
@@ -336,7 +336,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                     ))}
                   </div>
                   <div>
-                    <p className="uppercase mb-3" style={{ color: "#c084fc" }}>⚠️ Warn First — Then Mute/Kick</p>
+                    <p className="mb-3" style={{ color: "#c084fc" }}>⚠️ Warn First — Then Mute/Kick</p>
                     {[
                       { icon: "🏛️", rule: "Political commentary", desc: "No political debate, parties, or electoral content." },
                       { icon: "📢", rule: "Spam & self-promotion", desc: "Links, social handles, or money solicitation." },
@@ -411,16 +411,16 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
             </Link>
 
             {/* Card meta */}
-            <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-[45px] text-white">
+            <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-[45px]">
               {/* Avatar badge */}
               <div
-                className="absolute -top-5 right-6 w-11 h-11 rounded-full flex items-center justify-center text-white ring-4 ring-white/20 pointer-events-none select-none z-10"
+                className="absolute -top-5 right-6 w-11 h-11 rounded-full flex items-center justify-center ring-4 ring-white/20 pointer-events-none select-none z-10"
                 style={{ background: room.gradient }}>
                 {room.member}
               </div>
 
               <div className="min-w-0 flex-1 pr-2">
-                <h2 className="text-white mb-1 truncate text-base md:text-lg font-bold">{room.title}</h2>
+                <h2 className="mb-1 truncate text-base md:text-lg font-bold">{room.title}</h2>
                 <p className="font-medium text-xs md:text-sm text-white/60">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
               </div>
 
@@ -428,10 +428,7 @@ export default function LiveHubClient({ sanityContent }: { sanityContent?: any }
                 type="button"
                 aria-label="Copy stream link"
                 onClick={(e) => handleCopyLink(e, room.name.replace(/^live_/, ""))}
-                className={`ml-2 md:ml-4 shrink-0 px-3 md:px-4 py-2 text-xs font-bold uppercase    rounded-lg transition-all border cursor-pointer whitespace-nowrap z-20 ${copiedSlug === room.name.replace(/^live_/, "")
-                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]"
-                  : "bg-white/10 hover:bg-white/20 border-white/10 text-white active:scale-95"
-                  }`}>
+                className={`ml-2 md:ml-4 shrink-0 px-3 md:px-4 py-2 text-xs font-bold rounded-lg transition-all border cursor-pointer whitespace-nowrap z-20 ${copiedSlug === room.name.replace(/^live_/, "") ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]" : "bg-white/10 hover:bg-white/20 border-white/10 active:scale-95" }`}>
                 {copiedSlug === room.name.replace(/^live_/, "") ? "✓ Copied!" : "Copy Link"}
               </button>
             </div>

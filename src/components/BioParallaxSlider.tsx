@@ -1120,7 +1120,7 @@ lerpSpeed: ${lerpSpeed}`;
     <section
       id="band"
       ref={sectionRef}
-      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none relative "
+      className="w-full max-w-full overflow-x-clip h-auto flex flex-col justify-end select-none relative"
     >
 
 
@@ -1128,12 +1128,12 @@ lerpSpeed: ${lerpSpeed}`;
       {isCanvasCustomizerOpen && mounted && typeof document !== "undefined" && createPortal(
         <>
 
-          <div className="fixed inset-y-0 right-0 z-[9999] w-[360px] max-w-[92vw] h-screen max-h-screen bg-black/95 backdrop-blur-2xl border-l border-white/15 p-5 text-white shadow-[0_0_50px_rgba(0,0,0,0.8)] flex flex-col justify-between overflow-y-auto">
+          <div className="fixed inset-y-0 right-0 z-[9999] w-[360px] max-w-[92vw] h-screen max-h-screen bg-black/95 backdrop-blur-2xl border-l border-white/15 p-5 shadow-[0_0_50px_rgba(0,0,0,0.8)] flex flex-col justify-between overflow-y-auto">
             <div>
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                 <div>
-                  <h4 className="text-sm font-bold uppercase    text-amber-400 flex items-center gap-2">
+                  <h4 className="text-sm font-bold text-amber-400 flex items-center gap-2">
                     <span>🔥</span> Canvas & Stage Control
                   </h4>
                   <p className="text-[11px] text-white/50">Tune WebGL Fireplace & Bio Parallax Slider</p>
@@ -1153,20 +1153,14 @@ lerpSpeed: ${lerpSpeed}`;
                 <button
                   type="button"
                   onClick={() => setActiveCustomizerTab("canvas")}
-                  className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${activeCustomizerTab === "canvas"
-                    ? "bg-amber-500 text-black shadow-md"
-                    : "text-white/70 hover:text-white hover:bg-white/5"
-                    }`}
+                  className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${activeCustomizerTab === "canvas" ? "bg-amber-500 text-black shadow-md" : " text-white/70 hover:text-white hover:bg-white/5" }`}
                 >
                   🔥 Shader Canvas
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveCustomizerTab("stage")}
-                  className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${activeCustomizerTab === "stage"
-                    ? "bg-amber-500 text-black shadow-md"
-                    : "text-white/70 hover:text-white hover:bg-white/5"
-                    }`}
+                  className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${activeCustomizerTab === "stage" ? "bg-amber-500 text-black shadow-md" : " text-white/70 hover:text-white hover:bg-white/5" }`}
                 >
                   📐 Bio Stage
                 </button>
@@ -1176,12 +1170,11 @@ lerpSpeed: ${lerpSpeed}`;
                 <div className="space-y-4 text-xs">
                   {/* Enable Shader Canvas Toggle */}
                   <div className="flex items-center justify-between p-2.5 bg-white/5 rounded-lg border border-white/10">
-                    <span className="font-medium text-white/90">Enable Fireplace Shader</span>
+                    <span className="font-medium /90">Enable Fireplace Shader</span>
                     <button
                       type="button"
                       onClick={() => setIsCanvasEnabled((prev) => !prev)}
-                      className={`px-3 py-1 rounded-full font-bold text-[11px] transition-colors cursor-pointer ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20 text-white/70"
-                        }`}
+                      className={`px-3 py-1 rounded-full font-bold text-[11px] transition-colors cursor-pointer ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20 text-white/70" }`}
                     >
                       {isCanvasEnabled ? "ON" : "OFF"}
                     </button>
@@ -1205,10 +1198,7 @@ lerpSpeed: ${lerpSpeed}`;
                             setPaletteTheme(theme.id);
                             setUseCustomColors(false);
                           }}
-                          className={`p-2 rounded-lg text-left text-[11px] font-semibold border transition-all cursor-pointer ${!useCustomColors && paletteTheme === theme.id
-                            ? "bg-amber-500 text-black border-amber-400 font-bold shadow-sm"
-                            : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10"
-                            }`}
+                          className={`p-2 rounded-lg text-left text-[11px] font-semibold border transition-all cursor-pointer ${!useCustomColors && paletteTheme === theme.id ? "bg-amber-500 text-black border-amber-400 font-bold shadow-sm" : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10" }`}
                         >
                           {theme.label}
                         </button>
@@ -1219,14 +1209,13 @@ lerpSpeed: ${lerpSpeed}`;
                   {/* Custom Color Swatches & Toggle */}
                   <div className="p-3 bg-white/5 rounded-xl border border-white/10 space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-white/90 font-semibold text-xs flex items-center gap-1.5">
+                      <span className="/90 font-semibold text-xs flex items-center gap-1.5">
                         <span>🎨</span> Custom Palette Swatches
                       </span>
                       <button
                         type="button"
                         onClick={() => setUseCustomColors((prev) => !prev)}
-                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold transition-colors cursor-pointer ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20 text-white/70"
-                          }`}
+                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold transition-colors cursor-pointer ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20 text-white/70" }`}
                       >
                         {useCustomColors ? "CUSTOM" : "PRESET"}
                       </button>
@@ -1234,7 +1223,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                     {/* Preset Swatch Shortcuts */}
                     <div className="pt-2 border-t border-white/10">
-                      <span className="block text-[10px] font-semibold text-white/50 uppercase mb-1.5">Quick Swatch Presets</span>
+                      <span className="block text-[10px] font-semibold text-white/50 mb-1.5">Quick Swatch Presets</span>
                       <div className="flex flex-wrap gap-1.5">
                         {[
                           { label: "💜 Violet", base: "#151150", mid: "#611EBD", core: "#FF7A29", spark: "#FF6124" },
@@ -1253,7 +1242,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setColorCoreHex(s.core);
                               setColorSparkHex(s.spark);
                             }}
-                            className="px-2 py-1 bg-white/10 hover:bg-white/20 border border-white/15 rounded text-[10px] font-semibold text-white transition-all cursor-pointer"
+                            className="px-2 py-1 bg-white/10 hover:bg-white/20 border border-white/15 rounded text-[10px] font-semibold transition-all cursor-pointer"
                           >
                             {s.label}
                           </button>
@@ -1284,7 +1273,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setColorBaseHex(e.target.value);
                               setUseCustomColors(true);
                             }}
-                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-amber-400"
+                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono focus:outline-none focus:border-amber-400"
                           />
                         </div>
                       </div>
@@ -1311,7 +1300,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setColorMidHex(e.target.value);
                               setUseCustomColors(true);
                             }}
-                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-amber-400"
+                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono focus:outline-none focus:border-amber-400"
                           />
                         </div>
                       </div>
@@ -1338,7 +1327,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setColorCoreHex(e.target.value);
                               setUseCustomColors(true);
                             }}
-                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-amber-400"
+                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono focus:outline-none focus:border-amber-400"
                           />
                         </div>
                       </div>
@@ -1365,7 +1354,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setColorSparkHex(e.target.value);
                               setUseCustomColors(true);
                             }}
-                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono text-white focus:outline-none focus:border-amber-400"
+                            className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono focus:outline-none focus:border-amber-400"
                           />
                         </div>
                       </div>
@@ -1619,7 +1608,7 @@ lerpSpeed: ${lerpSpeed}`;
                 <button
                   type="button"
                   onClick={handleResetCanvasDefaults}
-                  className="flex-1 py-2 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg text-xs transition-colors cursor-pointer"
+                  className="flex-1 py-2 bg-white/10 hover:bg-white/20 font-semibold rounded-lg text-xs transition-colors cursor-pointer"
                 >
                   🔄 Reset Defaults
                 </button>
@@ -1652,8 +1641,7 @@ lerpSpeed: ${lerpSpeed}`;
                     key={idx}
                     type="button"
                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                    className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
-                      }`}>
+                    className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : "" }`}>
                     {/* Member Card Thumbnail */}
                     <div
                       className="sm: overflow-hidden relative transition-colors duration-300 rounded-lg shrink-0 spine-thumb-mask"
@@ -1665,13 +1653,11 @@ lerpSpeed: ${lerpSpeed}`;
                     </div>
 
                     {/* Member Name & Role Display (Responsive text sizing) */}
-                    <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0"
-                      : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                      }`}>
-                      <p className=" drop-">
+                    <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0" }`}>
+                      <p className="drop-">
                         {m?.name || "Band Member"}
                       </p>
-                      <p className="mt-0.5 sm: ">
+                      <p className="mt-0.5 sm:">
                         {m?.role || "Musician"}
                       </p>
                     </div>
@@ -1702,16 +1688,13 @@ lerpSpeed: ${lerpSpeed}`;
                       setSelectedMemberForSheet(m as BandMemberFactSheet);
                       setIsFactSheetOpen(true);
                     }}
-                    className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
-                      }`}>
+                    className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : "" }`}>
                     {/* Member Name & Role Display (Responsive text sizing) */}
-                    <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0"
-                      : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                      }`}>
-                      <p className=" drop-">
+                    <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0" }`}>
+                      <p className="drop-">
                         {m?.name || "Band Member"}
                       </p>
-                      <p className="mt-0.5 sm: ">
+                      <p className="mt-0.5 sm:">
                         {m?.role || "Musician"}
                       </p>
                     </div>
@@ -1853,8 +1836,7 @@ lerpSpeed: ${lerpSpeed}`;
                           {/* Glare Masked strictly to Non-Transparent Pixels of the Member Photo Cutout */}
                           <div
                             key={`glare-${i}-${isActive ? "active" : "inactive"}`}
-                            className={`glarer-mask absolute inset-0 pointer-events-none z-20 overflow-hidden glarer ${isActive ? "active-glare" : ""
-                              }`}
+                            className={`glarer-mask absolute inset-0 pointer-events-none z-20 overflow-hidden glarer ${isActive ? "active-glare" : "" }`}
                             style={{
                               maskImage: `url(${imageSrc})`,
                               WebkitMaskImage: `url(${imageSrc})`,
@@ -1916,7 +1898,7 @@ lerpSpeed: ${lerpSpeed}`;
                             opacity: activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
-                          <h3 className="sm:bg-black/60 bg-black/40 text-white pt-1 pr-2 pl-2" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="sm:bg-black/60 bg-black/40 pt-1 pr-2 pl-2" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="sm:bg-black/60 bg-black/40 md:pb-1 pb-1 pt-1 pr-2 pl-2 text-[#c084fc] block font-bold" style={{ fontSize: computedRoleFontSize }}>
@@ -1930,7 +1912,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <div
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
-                          <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="text-[var(--color-accent)] block mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -1943,7 +1925,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <div
                           className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
-                          <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="text-[var(--color-accent)] block drop- mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -1960,7 +1942,7 @@ lerpSpeed: ${lerpSpeed}`;
                             opacity: activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}>
-                          <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="text-[#c084fc] block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -1973,7 +1955,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <div
                           className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-2.5 rounded-lg transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
-                          <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="text-[#c084fc] block mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -1990,7 +1972,7 @@ lerpSpeed: ${lerpSpeed}`;
                             opacity: activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}>
-                          <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="text-[var(--color-accent)] block drop- mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -2003,7 +1985,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <div
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
-                          <h3 className="text-white" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="text-[var(--color-accent)] block mt-0.5" style={{ fontSize: computedRoleFontSize }}>
@@ -2016,7 +1998,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <div
                           className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
                           style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : inactiveNameOpacity }}>
-                          <h3 className="text-white drop-" style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="drop-" style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span className="text-[var(--color-accent)] block drop- mt-0.5" style={{ fontSize: computedRoleFontSize }}>

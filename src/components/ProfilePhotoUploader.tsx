@@ -118,7 +118,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="uppercase truncate">
+          <p className="truncate">
             {member?.name || "Official Profile Photo"}
           </p>
           <p>
@@ -142,14 +142,14 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
   }
 
   return (
-    <div className="bg-white border border-black/15 p-6 relative overflow-hidden text-black ">
+    <div className="bg-white border border-black/15 p-6 relative overflow-hidden text-black">
       <div className="flex items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)]">
             <Camera className="w-4 h-4 text-purple-600" />
           </div>
           <div>
-            <h3 className="uppercase text-black">
+            <h3 className="text-black">
               Official Profile & Scheduling Photo
             </h3>
             <p className="text-black/70 font-semibold">
@@ -158,7 +158,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           </div>
         </div>
         {isAvatarUrl && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[var(--font-size-2xs)] uppercase bg-emerald-100 border border-emerald-300 text-emerald-800">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[var(--font-size-2xs)] bg-emerald-100 border border-emerald-300 text-emerald-800">
             <span className="w-1.5 h-1.5 rounded-lg bg-[var(--color-accent)] animate-pulse" />
             Photo Active
           </span>
@@ -173,12 +173,12 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           ) : (
             <div className="text-center p-1">
               <span className="text-[var(--color-accent)] block">{initials}</span>
-              <p className="text-[var(--color-accent)]/60 uppercase mt-0.5">No Photo</p>
+              <p className="text-[var(--color-accent)]/60 mt-0.5">No Photo</p>
             </div>
           )}
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="overlay-center-hover cursor-pointer gap-1 text-white">
+            className="overlay-center-hover cursor-pointer gap-1">
             <Edit className="w-3.5 h-3.5" /> Change
           </button>
         </div>
@@ -232,8 +232,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
       </div>
 
       {message && (
-        <div className={`mt-3 px-4 py-2 rounded-lg flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
-          }`}>
+        <div className={`mt-3 px-4 py-2 rounded-lg flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800" }`}>
           <span>{message.text}</span>
           <button onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer">×</button>
         </div>

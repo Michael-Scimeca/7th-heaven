@@ -115,17 +115,17 @@ export default function CompleteProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen text-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-11 h-11 border-4 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" />
-          <p className="uppercase">Loading your profile...</p>
+          <p className="">Loading your profile...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen text-white flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg">
         {/* Card */}
         <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
@@ -142,7 +142,7 @@ export default function CompleteProfilePage() {
                 Welcome to the Family
                 {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}!
               </h1>
-              <p className="uppercase">
+              <p className="">
                 Let&apos;s finish setting up your profile
               </p>
             </div>
@@ -161,7 +161,7 @@ export default function CompleteProfilePage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               {/* Username */}
               <div>
-                <label htmlFor="complete-profile-username" className="uppercase    text-white/40 mb-1 block">
+                <label htmlFor="complete-profile-username" className="text-white/40 mb-1 block">
                   Choose Your Username
                 </label>
                 <div className="relative input-glow-border rounded-xl">
@@ -172,32 +172,30 @@ export default function CompleteProfilePage() {
                     onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                     placeholder="your_username"
                     maxLength={24}
-                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border border-white/10 placeholder: text-white/20 outline-none transition-colors rounded-xl"
                     required
                   />
                 </div>
-                <p className=" ">This is your public handle. Letters, numbers &amp; underscores only.</p>
+                <p className="">This is your public handle. Letters, numbers &amp; underscores only.</p>
               </div>
 
               {/* Notification Preferences */}
               <div className="flex flex-col gap-2">
-                <span className="uppercase    text-white/40 mb-1 block">
+                <span className="text-white/40 mb-1 block">
                   Notification Preferences
                 </span>
 
                 {/* Proximity alerts */}
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40'
-                    : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}>
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications ? 'bg-purple-600/10 border-purple-500/40' : 'bg-white/[0.02] border-white/10 border-white/10 ' }`}>
                   <SquishyToggle
                     id="complete-profile-notifications"
                     label="Email me when 7th Heaven books a show near me"
                     checked={wantNotifications}
                     onChange={(val) => setWantNotifications(val)}
                   />
-                  <span className="text-white/90 text-left">
+                  <span className="/90 text-left">
                     📍 Email me when 7th Heaven books a show near me
                   </span>
                 </div>
@@ -205,14 +203,14 @@ export default function CompleteProfilePage() {
                 {/* Zip code */}
                 {wantNotifications && (
                   <div className="ml-1">
-                    <label htmlFor="complete-profile-zip" className="uppercase    text-white/40 mb-1 block">Zip Code</label>
+                    <label htmlFor="complete-profile-zip" className="text-white/40 mb-1 block">Zip Code</label>
                     <div className="input-glow-border rounded-xl">
                       <input id="complete-profile-zip"
                         type="text"
                         value={zipCode}
                         onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
                         placeholder="e.g. 60601"
-                        className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                        className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 placeholder: text-white/20 outline-none transition-colors rounded-xl"
                       />
                     </div>
                   </div>
@@ -221,16 +219,14 @@ export default function CompleteProfilePage() {
                 {/* Newsletter */}
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40'
-                    : 'bg-white/[0.02] border-white/10   border-white/10 '
-                    }`}>
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter ? 'bg-purple-600/10 border-purple-500/40' : 'bg-white/[0.02] border-white/10 border-white/10 ' }`}>
                   <SquishyToggle
                     id="complete-profile-newsletter"
                     label="Send me news, show updates & exclusive drops"
                     checked={wantNewsletter}
                     onChange={(val) => setWantNewsletter(val)}
                   />
-                  <span className="text-white/90 text-left">
+                  <span className="/90 text-left">
                     📧 Send me news, show updates &amp; exclusive drops
                   </span>
                 </div>
@@ -250,14 +246,14 @@ export default function CompleteProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full py-3 bg-[var(--color-accent)] text-white uppercase    hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]">
+                className="w-full py-3 bg-[var(--color-accent)] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]">
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
 
               <p className="text-center">
                 By continuing you confirm you are 13+ and agree to our{" "}
-                <Link href="/privacy" className="  hover:text-white/40 transition-colors">Privacy</Link> &amp;{" "}
-                <Link href="/terms" className="  hover:text-white/40 transition-colors">Terms</Link>.
+                <Link href="/privacy" className="hover:text-white text-white/40 transition-colors">Privacy</Link> &amp;{" "}
+                <Link href="/terms" className="hover:text-white text-white/40 transition-colors">Terms</Link>.
               </p>
             </form>
           </div>

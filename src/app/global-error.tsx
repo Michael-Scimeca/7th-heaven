@@ -82,7 +82,7 @@ export default function GlobalError({
             <h1
  style={{
  color: "#f43f5e",
- textTransform: "uppercase",
+ textTransform: "",
  letterSpacing: "0.1em",
  }}>
               Critical System Error
@@ -106,7 +106,7 @@ export default function GlobalError({
                 border: "1px solid #3f3f46",
                 borderRadius: "8px",
                 cursor: "pointer",
-                textTransform: "uppercase",
+                textTransform: "",
                 letterSpacing: "0.1em",
                 fontSize: "12px",
                 fontWeight: "bold",

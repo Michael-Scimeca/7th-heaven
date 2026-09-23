@@ -223,7 +223,7 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
  fontWeight: 700,
  letterSpacing: 1.5,
  color: "#c084fc",
- textTransform: "uppercase",
+ textTransform: "",
  }}>
             📅 Event Planner Portal
           </div>
@@ -282,7 +282,7 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
             <div style={{ textAlign: "left" }}>
               <label
  htmlFor="email-input-planner"
- style={{ display: "block", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "rgba(255,255,255,0.7)", marginBottom: 6 }}>
+ style={{ display: "block", fontSize: 12, fontWeight: 700, textTransform: "", letterSpacing: 1, color: "rgba(255,255,255,0.7)", marginBottom: 6 }}>
                 Booking Email Address
               </label>
               <input

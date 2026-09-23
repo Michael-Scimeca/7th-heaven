@@ -6,6 +6,7 @@ import { useState, useRef, useEffect, useCallback, useSyncExternalStore, useMemo
 import { createPortal } from "react-dom";
 import { useHeroParallax } from "@/lib/useHeroParallax";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
+import HeroUpNextBanner from "@/components/HeroUpNextBanner";
 const emptySubscribe = () => () => { };
 
 // Safe SSR-compatible desktop media query using useSyncExternalStore
@@ -133,7 +134,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   }, []);
 
   // ── Bottom-Up & Video Mask Customizer states ───────────────────────────────
-  const [videoMaskStart, setVideoMaskStart] = useState(87); // % depth where video mask fade begins
+  const [videoMaskStart, setVideoMaskStart] = useState(60); // % depth where video mask fade begins
   const [gradHeight, setGradHeight] = useState(40); // %
   const [gradOpacity, setGradOpacity] = useState(0.85); // 0..1
   const [gradMidstop, setGradMidstop] = useState(25); // %
@@ -485,22 +486,19 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   return (
     <VideoSnapshotContext.Provider value={ctxValue}>
       <div
-        className="relative w-full h-full flex flex-col justify-between overflow-hidden"
+        className="relative w-full h-full flex flex-col justify-between"
 
       >
         {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
         {!isDesktop ? (
-          <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-            <Image
-              src="/images/hero/hero-banner.webp"
-              alt="7th Heaven Live Stage"
-              fill
-              priority
-              fetchPriority="high"
-              quality={30}
-              sizes="100vw"
-              className="object-cover z-0 brightness-[0.65]"
-            />
+          <div
+            className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
+            style={{
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
+            }}
+          >
+
             <video
               ref={mobileVideoRef}
               src="/movie/hero-mobile.mp4"
@@ -509,31 +507,30 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
               loop
               playsInline
               preload="auto"
-              className={`absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading
-                ? "opacity-0 translate-y-[30px]"
-                : "opacity-90 translate-y-0"
-                }`}
+              className={`absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading ? "opacity-0 translate-y-[30px]" : "opacity-90 translate-y-0"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
-                WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
-                maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
               }}
             />
           </div>
         ) : isYouTube && YTComp ? (
-          <YTComp videoId={ytId || "UQBvl_wZ0ak"} start={20} end={29} />
+          <div
+            className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
+            style={{
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
+            }}
+          >
+            <YTComp videoId={ytId || "UQBvl_wZ0ak"} start={20} end={29} />
+          </div>
         ) : (
-          <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-            <Image
-              src="/images/hero/hero-banner.webp"
-              alt="7th Heaven Live Stage"
-              fill
-              priority
-              fetchPriority="high"
-              quality={50}
-              sizes="100vw"
-              className="object-cover z-0 brightness-[0.65]"
-            />
+          <div
+            className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
+            style={{
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 100%)',
+            }}
+          >
             <video
               key={videoSrc}
               ref={videoRef}
@@ -552,14 +549,9 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
               muted
               loop
               playsInline
-              className={`absolute inset-0 w-full h-full object-cover z-10 pointer-events-none transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading
-                ? "opacity-0 translate-y-[30px] scale-[1.50] filter blur-sm"
-                : "opacity-100 translate-y-0 scale-[1.43] filter blur-0"
-                }`}
+              className={`absolute inset-0 w-full h-full object-cover z-10 pointer-events-none transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading ? "opacity-0 translate-y-[30px] scale-[1.50] filter blur-sm" : "opacity-100 translate-y-0 scale-[1.43] filter blur-0"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
-                WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
-                maskImage: `linear-gradient(to bottom, black 0%, black ${videoMaskStart}%, transparent 100%)`,
               }}>
               <source src={videoSrc} type="video/mp4" />
               <track kind="captions" />
@@ -580,26 +572,10 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
           }}
           title="Click to play video audio & music player"
           style={{
-            backgroundColor: tintColor,
             opacity: isMusicPlaying ? Math.min(tintOpacity * 0.35, 0.18) : tintOpacity,
             mixBlendMode: mixBlendMode,
           }}
         />
-
-
-
-
-
-        {/* ── Soft Bottom Dissolve Overlay ── */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-32 md:h-44 z-[3] pointer-events-none transition-all duration-700"
-          style={{
-            background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, (isMusicPlaying ? gradOpacity * 0.6 : gradOpacity) * 0.85)} 40%, transparent 100%)`,
-          }}
-        />
-
-
-
 
         {/* ── Tint Customizer Floating Panel (Dev/Tester Only) ── */}
         {mounted && localStorage.getItem("7h_tint_tester") === "true" && (
@@ -618,7 +594,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-white/80 group-  group-hover:rotate-45 transition-colors duration-300">
+                  className="  group- group-hover:rotate-45 transition-colors duration-300">
                   <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
                   <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
                   <path d="M12 2v2" />
@@ -637,10 +613,10 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-white/10 pb-2">
                   <div className="flex flex-col">
-                    <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] uppercase text-[var(--color-accent)]">
+                    <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] text-[var(--color-accent)]">
                       Video Tint Tester
                     </span>
-                    <span className="text-white/40 uppercase font-semibold">
+                    <span className="text-white/40 font-semibold">
                       Customize background tint
                     </span>
                   </div>
@@ -653,7 +629,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
                 {/* Presets */}
                 <div className="space-y-1.5">
-                  <span className="text-white/45 uppercase block">Presets</span>
+                  <span className="/45 block">Presets</span>
                   <div className="flex flex-wrap gap-2">
                     {TINT_PRESETS.map((preset) => (
                       <button
@@ -679,14 +655,14 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                         onChange={(e) => updateColor(e.target.value)}
                         className="absolute -inset-1 w-[200%] h-[200%] cursor-pointer border-none p-0 opacity-0"
                       />
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-white"><path d="M12 5v14M5 12h14" /></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className=""><path d="M12 5v14M5 12h14" /></svg>
                     </div>
                   </div>
                 </div>
 
                 {/* Opacity Slider */}
                 <div className="space-y-1.5">
-                  <div className="flex justify-between text-white/45 uppercase r">
+                  <div className="flex justify-between /45 r">
                     <span>Opacity</span>
                     <span className="text-[var(--color-accent)]">{Math.round(tintOpacity * 100)}%</span>
                   </div>
@@ -702,15 +678,13 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
                 {/* Blend Modes */}
                 <div className="space-y-1.5">
-                  <span className="text-white/45 uppercase block">Mix Blend Mode</span>
+                  <span className="/45 block">Mix Blend Mode</span>
                   <div className="grid grid-cols-3 gap-1">
                     {(["normal", "multiply", "overlay", "screen", "color", "darken"] as const).map((mode) => (
                       <button
                         key={mode}
                         onClick={() => updateBlend(mode)}
-                        className={`px-1 py-1    uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]    "
-                          : " bg-[#00000029] border-white/10 text-white hover:bg-white/10 hover:border-white/10"
-                          }`}>
+                        className={`px-1 py-1 rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)] " : " bg-[#00000029] border-white/10 hover:bg-white/10 hover:border-white/10"}`}>
                         {mode}
                       </button>
                     ))}
@@ -719,15 +693,15 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
                 {/* Active Values HUD */}
                 <div className="bg-white/[0.02] border border-white/10 rounded-lg p-2 text-white/40 space-y-0.5">
-                  <div>Color: <span className="text-white">{tintColor}</span></div>
-                  <div>Opacity: <span className="text-white">{tintOpacity}</span></div>
-                  <div>Blend: <span className="text-white">{mixBlendMode}</span></div>
+                  <div>Color: <span className="">{tintColor}</span></div>
+                  <div>Opacity: <span className="">{tintOpacity}</span></div>
+                  <div>Blend: <span className="">{mixBlendMode}</span></div>
                 </div>
 
                 {/* Copy CSS Button */}
                 <button
                   onClick={copyCSS}
-                  className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black text-[var(--font-size-2xs)] uppercase transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
+                  className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black text-[var(--font-size-2xs)] transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
                   {copied ? (
                     <>
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scaleIn_0.15s_ease-out]"><polyline points="20 6 9 17 4 12" /></svg>
@@ -750,31 +724,35 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
         <HeroParallaxCustomizer {...parallax} positionClassName="top-[160px] right-6 md:right-8" />
 
         {/* ── Hero Foreground Content & Text Overlay (Parallaxes UP on scroll) ── */}
-        <div ref={foregroundRef} className="relative z-[10] flex flex-col justify-between w-full h-full pointer-events-none p-6 sm:p-10 md:p-12">
-          {/* Hero Title & Subheading Content */}
-          <div className="site-container-left flex flex-col items-start max-w-3xl  pointer-events-auto">
+        <div ref={foregroundRef} className="relative z-[10] flex flex-col justify-end w-full h-full pointer-events-none site-container pb-20">
+          {/* Two-column layout on Desktop (lg+), stacked on Tablet & Mobile */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-8 w-full">
+            {/* Left Column: Hero Title & Subheading Content */}
+            <div className="pointer-events-auto max-w-[750px] lg:max-w-[50%] flex-1 flex flex-col gap-3">
+              {/* Hero Main Headline */}
+              <h1>
+                {sanityContent?.heroHeading || "7TH HEAVEN"}
+              </h1>
 
-            {/* Hero Main Headline */}
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.95)] leading-[0.92] mb-3">
-              {sanityContent?.heroHeading || "7TH HEAVEN"}
-            </h1>
-
-            {/* Hero Subheading */}
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl font-medium text-white/90 max-w-2xl drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] leading-relaxed">
-              {sanityContent?.heroSubheading || "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
-            </p>
-          </div>
-
-          {/* Bottom Row: Live Stream Thumbs + Vinyl Player */}
-          <div className="flex flex-col md:flex-row items-stretch md:items-end justify-between gap-6 w-full pointer-events-auto">
-            <div className="relative z-30 flex justify-start">
-              {children}
+              {/* Hero Subheading */}
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl font-medium /90 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] leading-relaxed">
+                {sanityContent?.heroSubheading || "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
+              </p>
             </div>
 
-            <div className="flex justify-end hidden md:flex">
-              {VinylComp && <VinylComp onAlbumChange={handleAlbumChange} />}
+            {/* Right Column: UP NEXT Show Banner (Smaller & Compact) */}
+            <div className="w-full lg:w-auto lg:max-w-[550px] shrink-0 pointer-events-auto">
+              <HeroUpNextBanner />
             </div>
           </div>
+
+          {children && (
+            <div className="flex flex-col md:flex-row items-end gap-6 w-full pointer-events-auto mt-4">
+              <div className="relative z-30 flex justify-start">
+                {children}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </VideoSnapshotContext.Provider>

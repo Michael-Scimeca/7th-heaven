@@ -64,7 +64,7 @@ export function GoingLiveOverlay({ onComplete, crew }: { onComplete: () => void;
         </div>
 
         <div style={{
- fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase',
+ fontSize: 11, letterSpacing: '0.3em', textTransform: '',
  color: 'rgba(255,255,255,0.3)', marginBottom: 12,
  }}>
           7th Heaven
@@ -94,7 +94,7 @@ export function GoingLiveOverlay({ onComplete, crew }: { onComplete: () => void;
  padding: '6px 16px', background: 'rgba(255,10,61,0.15)',
  border: '1px solid rgba(255,10,61,0.4)', borderRadius: 8,
  color: 'rgba(255,255,255,0.5)', fontSize: 11, letterSpacing: '0.2em',
- textTransform: 'uppercase',
+ textTransform: '',
  }}>
               {crew.name} · {crew.instrument}
             </div>
@@ -106,7 +106,7 @@ export function GoingLiveOverlay({ onComplete, crew }: { onComplete: () => void;
  display: 'inline-flex', alignItems: 'center', gap: 8,
  background: '#dc2626', padding: '8px 24px', borderRadius: 999,
  color: 'white', fontWeight: 900, fontSize: 18, letterSpacing: '0.1em',
- textTransform: 'uppercase',
+ textTransform: '',
  boxShadow: '0 0 30px rgba(220,38,38,0.5)',
  }}>
               <span style={{
@@ -127,7 +127,7 @@ export function GoingLiveOverlay({ onComplete, crew }: { onComplete: () => void;
  padding: '8px 20px', background: 'rgba(255,255,255,0.06)',
  border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8,
  color: 'rgba(255,255,255,0.4)', fontSize: 12, fontWeight: 700,
- letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
+ letterSpacing: '0.15em', textTransform: '', cursor: 'pointer',
  }}>
         Skip →
       </button>

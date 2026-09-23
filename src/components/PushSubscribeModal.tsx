@@ -85,7 +85,7 @@ export default function PushSubscribeModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-[45px] transition-opacity">
-      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0a1a] p-6 sm:p-8 text-white shadow-2xl">
+      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0a1a] p-6 sm:p-8 shadow-2xl">
         {/* Close Button */}
         <button
           type="button"
@@ -99,10 +99,10 @@ export default function PushSubscribeModal({
             <div className="flex items-center gap-3 mb-6">
 
               <div>
-                <h3 className="text-white">
+                <h3 className="">
                   Live Stream Push Alerts
                 </h3>
-                <span className="uppercase text-purple-400">
+                <span className="text-purple-400">
                   7th Heaven Official Notifications
                 </span>
               </div>
@@ -120,7 +120,7 @@ export default function PushSubscribeModal({
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block uppercase text-gray-300 mb-1.5">
+                <label className="block text-gray-300 mb-1.5">
                   Your Full Name
                 </label>
                 <div className="relative w-full">
@@ -131,7 +131,7 @@ export default function PushSubscribeModal({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Michael Scimeca"
-                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
+                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg placeholder: text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                     />
                   </div>
                   <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -141,7 +141,7 @@ export default function PushSubscribeModal({
               </div>
 
               <div>
-                <label className="block uppercase text-gray-300 mb-1.5">
+                <label className="block text-gray-300 mb-1.5">
                   Your Email Address
                 </label>
                 <div className="relative w-full">
@@ -152,7 +152,7 @@ export default function PushSubscribeModal({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="michael@example.com"
-                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg text-white placeholder:text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
+                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg placeholder: text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
                     />
                   </div>
                   <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
@@ -171,11 +171,11 @@ export default function PushSubscribeModal({
                 />
                 <label htmlFor="modal-terms-toggle" className="text-gray-300/90 leading-normal cursor-pointer select-none">
                   I agree to the{" "}
-                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400  hover:text-purple-300">
+                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">
                     Terms of Service
                   </a>{" "}
                   and{" "}
-                  <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400  hover:text-purple-300">
+                  <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">
                     Privacy Policy
                   </a>{" "}
                   to receive live stream push & email notifications.
@@ -186,7 +186,7 @@ export default function PushSubscribeModal({
                 <SeventhButton
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 text-white uppercase flex items-center justify-center gap-2">
+                  className="w-full py-3.5 flex items-center justify-center gap-2">
                   {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS "}
                 </SeventhButton>
               </div>
@@ -200,18 +200,18 @@ export default function PushSubscribeModal({
           </div>
         ) : (
           <div className="py-6 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-6 ">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-6">
               <Check className="w-8 h-8" />
             </div>
-            <h3 className="text-white mb-2">You&apos;re Subscribed! 🔔</h3>
+            <h3 className="mb-2">You&apos;re Subscribed! 🔔</h3>
             <p className="text-gray-300 max-w-sm mx-auto mb-6">
-              We sent a welcome confirmation email to <strong className="text-white">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
+              We sent a welcome confirmation email to <strong className="">{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
             </p>
 
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white uppercase rounded-lg transition-colors">
+              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 rounded-lg transition-colors">
               DONE
             </button>
           </div>

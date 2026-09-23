@@ -198,7 +198,7 @@ function HoldToActivateButtonDemo() {
   return (
     <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-amber-400 uppercase r">
+        <h3 className="text-amber-400 r">
           Hold to Activate Action Button
         </h3>
         <span className="text-[11px] text-white/40">Press &amp; hold for 1.5s to trigger</span>
@@ -211,9 +211,7 @@ function HoldToActivateButtonDemo() {
           onMouseLeave={cancelHold}
           onTouchStart={startHold}
           onTouchEnd={cancelHold}
-          className={`relative overflow-hidden px-8 py-3.5 rounded-lg uppercase transition-all cursor-pointer select-none border ${activated ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_30px_rgba(16,185,129,0.6)]"
-            : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"
-            }`}>
+          className={`relative overflow-hidden px-8 py-3.5 rounded-lg transition-all cursor-pointer select-none border ${activated ? "bg-emerald-600 border-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.6)]" : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"}`}>
           {holding && !activated && (
             <div
               className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 opacity-60 transition-all duration-75"
@@ -223,7 +221,7 @@ function HoldToActivateButtonDemo() {
           <span className="relative z-10 flex items-center gap-2">
             {activated ? (
               <>
-                <Check className="w-4 h-4 text-white" /> Action Activated!
+                <Check className="w-4 h-4" /> Action Activated!
               </>
             ) : holding ? (
               <>
@@ -259,14 +257,11 @@ function SparkleGenerateButtonDemo() {
     <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
       <div className="flex items-center justify-between gap-2 flex-wrap border-b border-white/10 pb-3">
         <div className="flex items-center gap-3">
-          <h3 className="text-violet-400 uppercase r text-sm sm:text-base">
+          <h3 className="text-violet-400 r text-sm sm:text-base">
             Sparkle Generate Button (GSAP Dust Particles)
           </h3>
           <span
-            className={`px-2 py-0.5 rounded text-[11px] border ${isActive
-              ? "bg-purple-500/20 text-purple-300 border-purple-500/50"
-              : "bg-white/5 text-white/50 border-white/10"
-              }`}>
+            className={`px-2 py-0.5 rounded text-[11px] border ${isActive ? "bg-purple-500/20 text-purple-300 border-purple-500/50" : "bg-white/5 text-white/50 border-white/10"}`}>
             {isActive ? "ACTIVE (LOCKED)" : "HOVER TRIGGER"}
           </span>
         </div>
@@ -293,7 +288,7 @@ function SparkleGenerateButtonDemo() {
 
         {/* Button Label Text Input */}
         <div className="space-y-1">
-          <label htmlFor="sgb-button-text-input" className="block text-xs font-semibold text-purple-200 uppercase r">
+          <label htmlFor="sgb-button-text-input" className="block text-xs font-semibold text-purple-200 r">
             Button Text
           </label>
           <input
@@ -302,7 +297,7 @@ function SparkleGenerateButtonDemo() {
             value={buttonText}
             onChange={(e) => setButtonText(e.target.value)}
             placeholder="Generate Site"
-            className="w-full px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-purple-500"
+            className="w-full px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs focus:outline-none focus:border-purple-500"
           />
         </div>
 
@@ -367,7 +362,7 @@ function CosmicTrackCardDemo() {
   return (
     <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
       <div className="flex items-center justify-between gap-2 flex-wrap border-b border-white/10 pb-3">
-        <h3 className="text-violet-400 uppercase text-sm sm:text-base font-bold">
+        <h3 className="text-violet-400 text-sm sm:text-base font-bold">
           Cosmic Track Card (Media Grid Selector Component)
         </h3>
         <span className="px-2 py-0.5 rounded text-[11px] bg-purple-500/20 text-purple-300 border border-purple-500/50 font-mono">
@@ -411,7 +406,7 @@ function GlassPlayButtonDemo() {
     <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
-          <h3 className="text-base font-bold text-pink-400 uppercase    flex items-center gap-2">
+          <h3 className="text-base font-bold text-pink-400 flex items-center gap-2">
             <Play className="w-4 h-4 fill-pink-400 text-pink-400" /> GlassPlayButton Control Studio
           </h3>
           <p className="text-xs text-white/50">
@@ -431,11 +426,11 @@ function GlassPlayButtonDemo() {
       {/* Control Panel Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-black/40 border border-white/5">
         <div>
-          <label className="text-[11px] font-semibold text-purple-300 uppercase block mb-1">Button Size</label>
+          <label className="text-[11px] font-semibold text-purple-300 block mb-1">Button Size</label>
           <select
             value={playSize}
             onChange={(e: any) => setPlaySize(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-md px-2.5 py-1.5 text-xs text-white outline-none cursor-pointer"
+            className="w-full bg-white/5 border border-white/10 rounded-md px-2.5 py-1.5 text-xs outline-none cursor-pointer"
           >
             <option value="sm" className="bg-[#120721]">Small (sm)</option>
             <option value="md" className="bg-[#120721]">Medium (md)</option>
@@ -445,7 +440,7 @@ function GlassPlayButtonDemo() {
         </div>
 
         <div className="flex flex-col justify-center gap-2">
-          <label className="inline-flex items-center gap-2 text-xs text-white/80 cursor-pointer">
+          <label className="inline-flex items-center gap-2 text-xs   cursor-pointer">
             <input
               type="checkbox"
               checked={isPlayingState}
@@ -454,7 +449,7 @@ function GlassPlayButtonDemo() {
             />
             Is Playing State
           </label>
-          <label className="inline-flex items-center gap-2 text-xs text-white/80 cursor-pointer">
+          <label className="inline-flex items-center gap-2 text-xs   cursor-pointer">
             <input
               type="checkbox"
               checked={hasGlow}
@@ -466,7 +461,7 @@ function GlassPlayButtonDemo() {
         </div>
 
         <div className="flex flex-col justify-center gap-2">
-          <label className="inline-flex items-center gap-2 text-xs text-white/80 cursor-pointer">
+          <label className="inline-flex items-center gap-2 text-xs   cursor-pointer">
             <input
               type="checkbox"
               checked={hasPulse}
@@ -577,7 +572,7 @@ function ButtonMasterGalleryAndStudio() {
               <Sliders className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white uppercase    flex items-center gap-2">
+              <h3 className="text-base font-bold flex items-center gap-2">
                 Site Button Control Studio
               </h3>
               <p className="text-xs text-purple-300/70">Tweak states live to inspect &amp; test all buttons on the site</p>
@@ -592,29 +587,26 @@ function ButtonMasterGalleryAndStudio() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Label Input */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-purple-300 uppercase">Button Text</label>
+            <label className="text-xs font-semibold text-purple-300">Button Text</label>
             <input
               type="text"
               value={buttonLabel}
               onChange={(e) => setButtonLabel(e.target.value)}
-              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 text-white focus:outline-none focus:border-purple-400 transition"
+              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 focus:outline-none focus:border-purple-400 transition"
               placeholder="Button Label..."
             />
           </div>
 
           {/* Size Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-purple-300 uppercase">Size Variant</label>
+            <label className="text-xs font-semibold text-purple-300">Size Variant</label>
             <div className="flex items-center gap-1 p-1 bg-black/60 rounded-lg border border-purple-500/40">
               {(["sm", "md", "lg"] as const).map((sz) => (
                 <button
                   key={sz}
                   type="button"
                   onClick={() => setButtonSize(sz)}
-                  className={`flex-1 py-1 text-xs uppercase rounded transition font-bold ${buttonSize === sz
-                    ? "bg-purple-600 text-white shadow-[0_0_10px_rgba(168,85,247,0.6)]"
-                    : "text-white/60 hover:text-white hover:bg-white/5"
-                    }`}
+                  className={`flex-1 py-1 text-xs rounded transition font-bold ${buttonSize === sz ? "bg-purple-600 shadow-[0_0_10px_rgba(168,85,247,0.6)]" : " text-white/60 hover:text-white hover:bg-white/5"}`}
                 >
                   {sz}
                 </button>
@@ -624,11 +616,11 @@ function ButtonMasterGalleryAndStudio() {
 
           {/* Icon Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-purple-300 uppercase">Button Icon</label>
+            <label className="text-xs font-semibold text-purple-300">Button Icon</label>
             <select
               value={iconName}
               onChange={(e) => setIconName(e.target.value as any)}
-              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 text-white focus:outline-none focus:border-purple-400 transition"
+              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 focus:outline-none focus:border-purple-400 transition"
             >
               <option value="sparkles">Sparkles</option>
               <option value="zap">Zap</option>
@@ -642,11 +634,11 @@ function ButtonMasterGalleryAndStudio() {
 
           {/* Pill Dot Color */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-purple-300 uppercase">Pill Badge Dot</label>
+            <label className="text-xs font-semibold text-purple-300">Pill Badge Dot</label>
             <select
               value={dotColor}
               onChange={(e) => setDotColor(e.target.value as any)}
-              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 text-white focus:outline-none focus:border-purple-400 transition"
+              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 focus:outline-none focus:border-purple-400 transition"
             >
               <option value="purple">Purple Glow</option>
               <option value="emerald">Emerald Glow</option>
@@ -659,38 +651,38 @@ function ButtonMasterGalleryAndStudio() {
 
         {/* Live Toggles Row */}
         <div className="flex flex-wrap items-center gap-6 pt-3 border-t border-purple-500/20">
-          <label className="flex items-center gap-2.5 text-xs text-white cursor-pointer select-none">
+          <label className="flex items-center gap-2.5 text-xs cursor-pointer select-none">
             <input
               type="checkbox"
               checked={isDisabled}
               onChange={(e) => setIsDisabled(e.target.checked)}
               className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
             />
-            <span className={isDisabled ? "text-rose-400 font-semibold" : "text-white/70"}>
+            <span className={isDisabled ? "text-rose-400 font-semibold" : " text-white/70"}>
               Disabled State
             </span>
           </label>
 
-          <label className="flex items-center gap-2.5 text-xs text-white cursor-pointer select-none">
+          <label className="flex items-center gap-2.5 text-xs cursor-pointer select-none">
             <input
               type="checkbox"
               checked={isActiveState}
               onChange={(e) => setIsActiveState(e.target.checked)}
               className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
             />
-            <span className={isActiveState ? "text-purple-300 font-semibold" : "text-white/70"}>
+            <span className={isActiveState ? "text-purple-300 font-semibold" : " text-white/70"}>
               Active / Hover Locked
             </span>
           </label>
 
-          <label className="flex items-center gap-2.5 text-xs text-white cursor-pointer select-none">
+          <label className="flex items-center gap-2.5 text-xs cursor-pointer select-none">
             <input
               type="checkbox"
               checked={isLoadingState}
               onChange={(e) => setIsLoadingState(e.target.checked)}
               className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
             />
-            <span className={isLoadingState ? "text-cyan-300 font-semibold" : "text-white/70"}>
+            <span className={isLoadingState ? "text-cyan-300 font-semibold" : " text-white/70"}>
               Loading Spinner State
             </span>
           </label>
@@ -704,7 +696,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-amber-400 uppercase   ">
+              <h4 className="text-sm font-bold text-amber-400">
                 SeventhButton / AlwaysButton
               </h4>
               <p className="text-[11px] text-white/50">Credits system &amp; high-converting hero button</p>
@@ -742,7 +734,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-violet-400 uppercase   ">
+              <h4 className="text-sm font-bold text-violet-400">
                 SparkleGenerateButton (GSAP Particle)
               </h4>
               <p className="text-[11px] text-white/50">GSAP Dust Particle generator button</p>
@@ -767,7 +759,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-emerald-400 uppercase   ">
+              <h4 className="text-sm font-bold text-emerald-400">
                 PillBadgeButton Component
               </h4>
               <p className="text-[11px] text-white/50">Category pill button with customizable pulsing glowing dot</p>
@@ -796,7 +788,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-pink-400 uppercase   ">
+              <h4 className="text-sm font-bold text-pink-400">
                 GlassPlayButton Component
               </h4>
               <p className="text-[11px] text-white/50">Unified frosted glass capsule play button for all video &amp; media triggers</p>
@@ -821,7 +813,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-indigo-400 uppercase   ">
+              <h4 className="text-sm font-bold text-indigo-400">
                 Glass Pill Tag Badge (.btn-pill-glass)
               </h4>
               <p className="text-[11px] text-white/50">Global CSS pill tag button with hover glow &amp; 0.2s transition</p>
@@ -839,8 +831,7 @@ function ButtonMasterGalleryAndStudio() {
             <button
               type="button"
               disabled={isDisabled}
-              className={`btn-pill-glass cursor-pointer ${isActiveState ? "active" : ""} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
-                }`}
+              className={`btn-pill-glass cursor-pointer ${isActiveState ? "active" : ""} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
             >
               {buttonLabel || "FEATURED TAG"}
             </button>
@@ -859,7 +850,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-pink-400 uppercase   ">
+              <h4 className="text-sm font-bold text-pink-400">
                 SquishyToggle Switch
               </h4>
               <p className="text-[11px] text-white/50">Spring-physics squishy state toggle switch</p>
@@ -874,7 +865,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-amber-300 uppercase   ">
+              <h4 className="text-sm font-bold text-amber-300">
                 AddCmsButton Component
               </h4>
               <p className="text-[11px] text-white/50">Admin CMS item creation action button</p>
@@ -900,7 +891,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-emerald-400 uppercase    flex items-center gap-2">
+              <h4 className="text-sm font-bold text-emerald-400 flex items-center gap-2">
                 <RefreshCw className={`w-4 h-4 ${sanitySyncing ? "animate-spin text-cyan-400" : ""}`} />
                 Update Sanity CMS Button
               </h4>
@@ -929,8 +920,7 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={handleUpdateSanity}
               disabled={sanitySyncing || isDisabled}
-              className={`btn-primary inline-flex items-center justify-center gap-2 rounded-full cursor-pointer transition ${sizePaddingClass} ${sanitySyncing ? "opacity-90 bg-purple-800" : ""
-                } ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
+              className={`btn-primary inline-flex items-center justify-center gap-2 rounded-full cursor-pointer transition ${sizePaddingClass} ${sanitySyncing ? "opacity-90 bg-purple-800" : ""} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
             >
               <RefreshCw className={`w-4 h-4 ${sanitySyncing ? "animate-spin text-cyan-300" : ""}`} />
               <span>{sanitySyncing ? "UPDATING SANITY..." : "UPDATE SANITY CMS"}</span>
@@ -947,14 +937,14 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-blue-400 uppercase   ">
+              <h4 className="text-sm font-bold text-blue-400">
                 Inline Action Buttons (EDIT &amp; DEL)
               </h4>
               <p className="text-[11px] text-white/50">Compact table row &amp; item management action buttons</p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="px-3 py-1 rounded-full border border-blue-500/50 text-blue-400 bg-blue-950/30 hover:bg-blue-600 hover:text-white uppercase font-bold text-xs transition">EDIT</button>\n<button className="px-3 py-1 rounded-full border border-red-500/50 text-red-400 bg-red-950/30 hover:bg-red-600 hover:text-white uppercase font-bold text-xs transition">DEL</button>`, "editdel")}
+              onClick={() => handleCopyCode(`<button className="px-3 py-1 rounded-full border border-blue-500/50 text-blue-400 bg-blue-950/30 hover:bg-blue-600 hover:text-white font-bold text-xs transition">EDIT</button>\n<button className="px-3 py-1 rounded-full border border-red-500/50 text-red-400 bg-red-950/30 hover:bg-red-600 hover:text-white font-bold text-xs transition">DEL</button>`, "editdel")}
               className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
             >
               {copiedTag === "editdel" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -965,16 +955,14 @@ function ButtonMasterGalleryAndStudio() {
             <button
               type="button"
               disabled={isDisabled}
-              className={`px-3.5 py-1.5 rounded-full border border-blue-500/60 text-blue-400 bg-blue-950/40 hover:bg-blue-600 hover:text-white uppercase font-extrabold text-xs    transition cursor-pointer shadow-[0_0_12px_rgba(59,130,246,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
-                } ${isActiveState ? "bg-blue-600 text-white border-blue-400 shadow-[0_0_18px_rgba(59,130,246,0.7)] scale-95" : ""}`}
+              className={`px-3.5 py-1.5 rounded-full border border-blue-500/60 text-blue-400 bg-blue-950/40 hover:bg-blue-600 hover:text-white   text-xs transition cursor-pointer shadow-[0_0_12px_rgba(59,130,246,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "bg-blue-600 border-blue-400 shadow-[0_0_18px_rgba(59,130,246,0.7)] scale-95" : ""}`}
             >
               EDIT
             </button>
             <button
               type="button"
               disabled={isDisabled}
-              className={`px-3.5 py-1.5 rounded-full border border-red-500/60 text-red-400 bg-red-950/40 hover:bg-red-600 hover:text-white uppercase font-extrabold text-xs    transition cursor-pointer shadow-[0_0_12px_rgba(239,68,68,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
-                } ${isActiveState ? "bg-red-600 text-white border-red-400 shadow-[0_0_18px_rgba(239,68,68,0.7)] scale-95" : ""}`}
+              className={`px-3.5 py-1.5 rounded-full border border-red-500/60 text-red-400 bg-red-950/40 hover:bg-red-600 hover:text-white   text-xs transition cursor-pointer shadow-[0_0_12px_rgba(239,68,68,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "bg-red-600 border-red-400 shadow-[0_0_18px_rgba(239,68,68,0.7)] scale-95" : ""}`}
             >
               DEL
             </button>
@@ -985,7 +973,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-purple-400 uppercase   ">
+              <h4 className="text-sm font-bold text-purple-400">
                 Primary Glow CTA (.btn-primary)
               </h4>
               <p className="text-[11px] text-white/50">Standard purple glow pill button style</p>
@@ -1002,8 +990,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`btn-primary inline-flex items-center justify-center gap-2 rounded-full cursor-pointer transition ${sizePaddingClass} ${isDisabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""
-                } ${isActiveState ? "ring-4 ring-purple-400/50 scale-[0.98]" : ""}`}
+              className={`btn-primary inline-flex items-center justify-center gap-2 rounded-full cursor-pointer transition ${sizePaddingClass} ${isDisabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "ring-4 ring-purple-400/50 scale-[0.98]" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1015,14 +1002,14 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-cyan-400 uppercase   ">
+              <h4 className="text-sm font-bold text-cyan-400">
                 Cyan Neon Cyber Action
               </h4>
               <p className="text-[11px] text-white/50">High-visibility cyan neon button with shadow glow</p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 uppercase rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] ${sizePaddingClass}">${buttonLabel}</button>`, "cyan-neon")}
+              onClick={() => handleCopyCode(`<button className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] ${sizePaddingClass}">${buttonLabel}</button>`, "cyan-neon")}
               className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
             >
               {copiedTag === "cyan-neon" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -1032,8 +1019,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold uppercase shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
-                } ${isActiveState ? "ring-2 ring-cyan-200 scale-95" : ""}`}
+              className={`rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "ring-2 ring-cyan-200 scale-95" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1045,14 +1031,14 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-white/80 uppercase   ">
+              <h4 className="text-sm font-bold  ">
                 Secondary Glass (.btn-secondary / .site-link)
               </h4>
               <p className="text-[11px] text-white/50">Glassmorphism translucent button</p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="bg-white/10 hover:bg-white/20 border border-white/10 text-white rounded-full ${sizePaddingClass}">${buttonLabel}</button>`, "glass")}
+              onClick={() => handleCopyCode(`<button className="bg-white/10 hover:bg-white/20 border border-white/10 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`, "glass")}
               className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
             >
               {copiedTag === "glass" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -1062,8 +1048,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-white font-medium transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none bg-[#00000029]" : ""
-                } ${isActiveState ? "bg-white/30 ring-2 ring-white/30 scale-95" : ""}`}
+              className={`rounded-full bg-white/10 hover:bg-white/20 border border-white/10 font-medium transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none bg-[#00000029]" : ""} ${isActiveState ? "bg-white/30 ring-2 ring-white/30 scale-95" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1075,7 +1060,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-rose-400 uppercase   ">
+              <h4 className="text-sm font-bold text-rose-400">
                 Danger Action Button
               </h4>
               <p className="text-[11px] text-white/50">Destructive or critical alert action</p>
@@ -1092,8 +1077,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`rounded-full bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-semibold uppercase transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""
-                } ${isActiveState ? "bg-red-600 text-white border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-95" : ""}`}
+              className={`rounded-full bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-semibold transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "bg-red-600 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-95" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1105,7 +1089,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-purple-300 uppercase    flex items-center gap-2">
+              <h4 className="text-sm font-bold text-purple-300 flex items-center gap-2">
                 Track &amp; Video Quick-Select Card Buttons
               </h4>
               <p className="text-[11px] text-white/50">Multi-line track card button selector (as seen on Rock &amp; Roll Kids)</p>
@@ -1141,14 +1125,14 @@ function ButtonMasterGalleryAndStudio() {
         <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm font-bold text-violet-300 uppercase    flex items-center gap-2">
+              <h4 className="text-sm font-bold text-violet-300 flex items-center gap-2">
                 Booking Show Format &amp; Event Type Selector Pills
               </h4>
               <p className="text-[11px] text-white/50">Full Band, Unplugged, Private Event &amp; Custom Booking pills with icon badges</p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="w-full text-left p-3.5 rounded-full border border-purple-400/80 bg-purple-900/50 hover:bg-purple-800/60 transition-all flex items-center gap-3">\n  <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">\n    <Guitar className="w-4 h-4" />\n  </div>\n  <div className="flex-1 min-w-0">\n    <span className="text-sm font-bold text-white mr-1.5">Full Band</span>\n    <span className="text-xs text-white/60">High energy, full 5-piece concert setup</span>\n  </div>\n</button>`, "bookingpills")}
+              onClick={() => handleCopyCode(`<button className="w-full text-left p-3.5 rounded-full border border-purple-400/80 bg-purple-900/50 hover:bg-purple-800/60 transition-all flex items-center gap-3">\n  <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">\n    <Guitar className="w-4 h-4" />\n  </div>\n  <div className="flex-1 min-w-0">\n    <span className="text-sm font-bold mr-1.5">Full Band</span>\n    <span className="text-xs text-white/60">High energy, full 5-piece concert setup</span>\n  </div>\n</button>`, "bookingpills")}
               className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
             >
               {copiedTag === "bookingpills" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -1166,16 +1150,13 @@ function ButtonMasterGalleryAndStudio() {
                 key={opt.id}
                 type="button"
                 disabled={isDisabled}
-                className={`w-full text-left px-4 py-3 rounded-full border transition-all duration-200 cursor-pointer flex items-center gap-3 ${isActiveState || opt.active
-                  ? "border-purple-400/80 bg-purple-900/50 shadow-[0_0_20px_rgba(168,85,247,0.35)] scale-[1.01]"
-                  : "border-white/10 bg-white/[0.03] hover:border-purple-400/40 hover:bg-white/10"
-                  } ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
+                className={`w-full text-left px-4 py-3 rounded-full border transition-all duration-200 cursor-pointer flex items-center gap-3 ${isActiveState || opt.active ? "border-purple-400/80 bg-purple-900/50 shadow-[0_0_20px_rgba(168,85,247,0.35)] scale-[1.01]" : "border-white/10 bg-white/[0.03] hover:border-purple-400/40 hover:bg-white/10"} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
               >
                 <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0">
                   {opt.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="text-sm font-bold text-white mr-1.5">{opt.title}</span>
+                  <span className="text-sm font-bold mr-1.5">{opt.title}</span>
                   <span className="text-xs text-white/60">{opt.desc}</span>
                 </div>
               </button>
@@ -1479,18 +1460,18 @@ export default function StyleGuidePage() {
   };
 
   return (
-    <div id="style-guide-page" className="min-h-screen text-white pt-24 pb-20 px-6 sm:px-8 lg:px-[42px]">
+    <div id="style-guide-page" className="min-h-screen pt-24 pb-20 px-6 sm:px-8 lg:px-[42px]">
       <div className="max-w-7xl mx-auto space-y-12">
 
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 pb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-3 py-1 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 uppercase flex items-center gap-1.5">
+              <span className="px-3 py-1 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 flex items-center gap-1.5">
                 7th Heaven Design System
               </span>
             </div>
-            <h1 className="text-4xl sm:text-5xl uppercase text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">
+            <h1 className="text-4xl sm:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">
               Master Style Guide
             </h1>
             <p className="mt-2 max-w-2xl">
@@ -1501,15 +1482,13 @@ export default function StyleGuidePage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => resetToDefaults()}
-              className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 text-white/80 transition flex items-center gap-2">
+              className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10   transition flex items-center gap-2">
               <RefreshCw className="w-3.5 h-3.5" /> Reset Tokens
             </button>
             <button
               onClick={() => saveTheme()}
               disabled={isSaving}
-              className={`px-5 py-2.5 rounded-lg    uppercase transition flex items-center gap-2 ${hasUnsavedChanges ? "bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)]"
-                : "bg-white/10 text-white/50 cursor-default"
-                }`}>
+              className={`px-5 py-2.5 rounded-lg transition flex items-center gap-2 ${hasUnsavedChanges ? "bg-purple-600 hover:bg-purple-500 shadow-[0_0_20px_rgba(147,51,234,0.4)]" : "bg-white/10 text-white/50 cursor-default"}`}>
               {isSaving ? "Saving..." : "Save Theme Tokens"}
             </button>
           </div>
@@ -1525,9 +1504,7 @@ export default function StyleGuidePage() {
                 key={sec.id}
                 href={`#${sec.id}`}
                 onClick={() => setActiveSection(sec.id)}
-                className={`px-4 py-2.5 rounded-lg    whitespace-nowrap transition flex items-center gap-2 border ${isActive ? "bg-purple-600/30 text-purple-300 border-purple-500/50 "
-                  : "   text-white hover:text-white border-transparent hover:border-white/10"
-                  }`}>
+                className={`px-4 py-2.5 rounded-lg whitespace-nowrap transition flex items-center gap-2 border ${isActive ? "bg-purple-600/30 text-purple-300 border-purple-500/50 " : " hover:text-white border-transparent hover:border-white/10"}`}>
                 <Icon className="w-3.5 h-3.5" />
                 <span>{sec.label}</span>
               </a>
@@ -1538,10 +1515,10 @@ export default function StyleGuidePage() {
         {/* SECTION 1: TYPOGRAPHY — FLUID TYPE SCALE EDITOR */}
         <section id="typography" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-purple-400 flex items-center gap-2">
+            <h2 className="flex items-center gap-2">
               <Type className="w-6 h-6" /> 1. Fluid Typography System
             </h2>
-            <p className=" ">
+            <p className="">
               Every text size uses <code className="text-purple-400">clamp()</code> for fluid scaling. Edit <strong>Mobile</strong>, <strong>Tablet</strong>, and <strong>Desktop</strong> values — changes apply live to the entire site.
             </p>
           </div>
@@ -1579,7 +1556,7 @@ export default function StyleGuidePage() {
                       <Sliders className="h-5 w-5 text-purple-300" />
                     </div>
                     <div>
-                      <h3 className="uppercase text-white flex items-center gap-2">
+                      <h3 className="flex items-center gap-2">
                         Fluid Type Studio Controls
                         <span className="text-[10px] text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded-lg">
                           .text-{studioSelectedTier}
@@ -1593,9 +1570,7 @@ export default function StyleGuidePage() {
 
                   <button
                     onClick={handleCopyStudioFormula}
-                    className={`px-4 py-2.5 rounded-lg uppercase transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
-                      : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
-                      }`}>
+                    className={`px-4 py-2.5 rounded-lg transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]" : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"}`}>
                     {copiedStudioFormula ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copiedStudioFormula ? "Formula Copied!" : "Copy CSS clamp()"}</span>
                   </button>
@@ -1603,7 +1578,7 @@ export default function StyleGuidePage() {
 
                 {/* Target Element Selector */}
                 <div className="space-y-2 relative z-10">
-                  <span className="text-[10px] uppercase text-purple-300 flex items-center gap-1.5">
+                  <span className="text-[10px] text-purple-300 flex items-center gap-1.5">
                     <Layers className="w-3 h-3 text-purple-400" /> Target Typography Element / Utility Class:
                   </span>
                   <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
@@ -1611,9 +1586,7 @@ export default function StyleGuidePage() {
                       <button
                         key={t}
                         onClick={() => setStudioSelectedTier(t)}
-                        className={`px-3 py-1.5 rounded-lg    transition-all ${studioSelectedTier === t ? "bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105"
-                          : "bg-white/[0.04] text-white hover:text-white hover:bg-white/10 border border-white/10"
-                          }`}>
+                        className={`px-3 py-1.5 rounded-lg transition-all ${studioSelectedTier === t ? "bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105" : "bg-white/[0.04] hover:text-white hover:bg-white/10 border border-white/10"}`}>
                         .text-{t}
                       </button>
                     ))}
@@ -1744,7 +1717,7 @@ export default function StyleGuidePage() {
                 {/* 5. Below Min Viewport Behavior Toggle */}
                 <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
                   <div>
-                    <h4 className="text-white flex items-center gap-2">
+                    <h4 className="flex items-center gap-2">
                       5. Below {studioMinVw}px Boundary Behavior:
                     </h4>
                     <p>
@@ -1754,18 +1727,12 @@ export default function StyleGuidePage() {
                   <div className="flex items-center gap-2 bg-black/40 p-1 rounded-lg border border-white/10 self-start sm:self-auto">
                     <button
                       onClick={() => setStudioMode("locked")}
-                      className={`px-3 py-1.5 rounded-lg    transition ${studioMode === "locked"
-                        ? "bg-purple-500 text-white "
-                        : "text-white/50 hover:text-white"
-                        }`}>
+                      className={`px-3 py-1.5 rounded-lg transition ${studioMode === "locked" ? "bg-purple-500 " : " text-white/50 hover:text-white "}`}>
                       🔒 Lock at {studioMinFs}px
                     </button>
                     <button
                       onClick={() => setStudioMode("chained")}
-                      className={`px-3 py-1.5 rounded-lg    transition ${studioMode === "chained"
-                        ? "bg-purple-500 text-white "
-                        : "text-white/50 hover:text-white"
-                        }`}>
+                      className={`px-3 py-1.5 rounded-lg transition ${studioMode === "chained" ? "bg-purple-500 " : " text-white/50 hover:text-white "}`}>
                       🔗 Chain to Tablet ({studioMinFs}px $\rightarrow$ 25px)
                     </button>
                   </div>
@@ -1775,7 +1742,7 @@ export default function StyleGuidePage() {
                 <div className="rounded-lg bg-black/60 border border-purple-500/30 p-5 space-y-4 relative z-10">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
                     <div className="flex items-center gap-2">
-                      <span className="uppercase text-purple-300">
+                      <span className="text-purple-300">
                         Generated CSS Formula & Live Inspection:
                       </span>
                     </div>
@@ -1795,36 +1762,36 @@ export default function StyleGuidePage() {
                   {/* Code snippet */}
                   <div className="overflow-x-auto rounded-lg bg-black/80 pt-3 pb-3 text-purple-200 border border-white/20">
                     <code className="text-purple-400">font-size</code>:{" "}
-                    <span className="text-white">{studioClamp.clampStr}</span> !important;
+                    <span className="">{studioClamp.clampStr}</span> !important;
                   </div>
 
                   {/* Formula Math Breakdown */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-[11px] text-white">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-[11px]">
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[12px] uppercase">Min Rem</span>
+                      <span className="block text-white/30 text-[12px]">Min Rem</span>
                       <span className="text-emerald-300">{studioClamp.minRem.toFixed(4)}rem</span> ({studioMinFs}px)
                     </div>
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[12px] uppercase">Max Rem</span>
+                      <span className="block text-white/30 text-[12px]">Max Rem</span>
                       <span className="text-purple-300">{studioClamp.maxRem.toFixed(4)}rem</span> ({studioMaxFs}px)
                     </div>
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[12px] uppercase">Slope (vw)</span>
+                      <span className="block text-white/30 text-[12px]">Slope (vw)</span>
                       <span>{studioClamp.slopeVw.toFixed(4)}vw</span>
                     </div>
                     <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[12px] uppercase">Intercept (rem)</span>
+                      <span className="block text-white/30 text-[12px]">Intercept (rem)</span>
                       <span className="text-amber-300">{studioClamp.interceptRem.toFixed(4)}rem</span>
                     </div>
                   </div>
 
                   {/* Live Interactive Sample Node */}
                   <div className="pt-2 border-t border-white/10">
-                    <span className="text-[10px] uppercase text-white/40 block mb-2">
+                    <span className="text-[10px] text-white/40 block mb-2">
                       Live Sample Render (`.text-{studioSelectedTier}`):
                     </span>
                     <div className="rounded-lg bg-white/[0.02] border border-white/10 p-6 flex items-center justify-center overflow-x-auto min-h-[120px]">
-                      <div className={`text-${studioSelectedTier} text-white uppercase text-center `}>
+                      <div className={`text-${studioSelectedTier} text-center`}>
                         {studioSelectedTier.toUpperCase()} FLUID SCALING SAMPLE
                       </div>
                     </div>
@@ -1837,15 +1804,15 @@ export default function StyleGuidePage() {
           {/* Fluid Type Scale Editor */}
           {(() => {
             const FLUID_SCALE = [
-              { key: "6xl", label: "text-6xl", cssProp: "--text-6xl", mobMin: "1.125", mobMax: "2.25", tabMin: "2.25", tabMax: "3.5", deskMin: "3.5", deskMax: "8.0", sample: "9XL HERO (NOW 6XL)", weight: "    ", extra: "uppercase" },
-              { key: "5xl", label: "text-5xl", cssProp: "--text-5xl", mobMin: "1.0625", mobMax: "2.0", tabMin: "2.0", tabMax: "3.0", deskMin: "3.0", deskMax: "6.0", sample: "8XL DISPLAY (NOW 5XL)", weight: "    ", extra: "uppercase" },
-              { key: "4xl", label: "text-4xl", cssProp: "--text-4xl", mobMin: "1.0", mobMax: "1.75", tabMin: "1.75", tabMax: "2.5", deskMin: "2.5", deskMax: "4.5", sample: "7TH HEAVEN (NOW 4XL)", weight: "    ", extra: "uppercase" },
-              { key: "3xl", label: "text-3xl", cssProp: "--text-3xl", mobMin: "0.875", mobMax: "1.0", tabMin: "1.0", tabMax: "1.25", deskMin: "1.25", deskMax: "1.75", sample: "VIP Backstage Package", weight: "font-extrabold", extra: "" },
+              { key: "6xl", label: "text-6xl", cssProp: "--text-6xl", mobMin: "1.125", mobMax: "2.25", tabMin: "2.25", tabMax: "3.5", deskMin: "3.5", deskMax: "8.0", sample: "9XL HERO (NOW 6XL)", weight: "    ", extra: "" },
+              { key: "5xl", label: "text-5xl", cssProp: "--text-5xl", mobMin: "1.0625", mobMax: "2.0", tabMin: "2.0", tabMax: "3.0", deskMin: "3.0", deskMax: "6.0", sample: "8XL DISPLAY (NOW 5XL)", weight: "    ", extra: "" },
+              { key: "4xl", label: "text-4xl", cssProp: "--text-4xl", mobMin: "1.0", mobMax: "1.75", tabMin: "1.75", tabMax: "2.5", deskMin: "2.5", deskMax: "4.5", sample: "7TH HEAVEN (NOW 4XL)", weight: "    ", extra: "" },
+              { key: "3xl", label: "text-3xl", cssProp: "--text-3xl", mobMin: "0.875", mobMax: "1.0", tabMin: "1.0", tabMax: "1.25", deskMin: "1.25", deskMax: "1.75", sample: "VIP Backstage Package", weight: " ", extra: "" },
               { key: "2xl", label: "text-2xl", cssProp: "--text-2xl", mobMin: "0.8125", mobMax: "0.9375", tabMin: "0.9375", tabMax: "1.125", deskMin: "1.125", deskMax: "1.5", sample: "Rocking Chicago & Nationwide Since 1985", weight: "  ", extra: "" },
               { key: "xl", label: "text-xl", cssProp: "--text-xl", mobMin: "0.8125", mobMax: "0.875", tabMin: "0.875", tabMax: "1.0", deskMin: "1.0", deskMax: "1.25", sample: "Join over 50,000 fans across 100+ shows every single year (Unified XL).", weight: "font-semibold", extra: "" },
               { key: "base", label: "text-base", cssProp: "--text-base", mobMin: "0.75", mobMax: "0.8125", tabMin: "0.8125", tabMax: "0.875", deskMin: "0.875", deskMax: "1.0", sample: "7th Heaven has processed over 1.5 million ticket requests. Book early for best availability.", weight: "font-normal", extra: "" },
               { key: "sm", label: "text-sm", cssProp: "--text-sm", mobMin: "0.6875", mobMax: "0.75", tabMin: "0.75", tabMax: "0.8125", deskMin: "0.8125", deskMax: "0.875", sample: "Doors open at 6:30 PM. All ages event subject to venue policies. Tickets non-refundable.", weight: "font-normal", extra: "" },
-              { key: "xs", label: "text-xs", cssProp: "--text-xs", mobMin: "0.625", mobMax: "0.6875", tabMin: "0.6875", tabMax: "0.75", deskMin: "0.75", deskMax: "0.75", sample: "LAST UPDATED 2 HOURS AGO • VERIFIED BY BAND MANAGEMENT", weight: "  ", extra: "uppercase  r" },
+              { key: "xs", label: "text-xs", cssProp: "--text-xs", mobMin: "0.625", mobMax: "0.6875", tabMin: "0.6875", tabMax: "0.75", deskMin: "0.75", deskMax: "0.75", sample: "LAST UPDATED 2 HOURS AGO • VERIFIED BY BAND MANAGEMENT", weight: "  ", extra: "  r" },
             ];
 
             const remToPx = (rem: string | number) => Math.round(parseFloat(String(rem)) * 16);
@@ -1935,11 +1902,11 @@ ${deskRules.join("\n")}
               <div className="space-y-4">
                 {/* Column headers */}
                 <div className="hidden xl:grid grid-cols-[90px_1fr_220px_220px_220px] gap-4 px-4 pb-2 border-b border-white/10">
-                  <span className="text-[10px] uppercase text-white/30">Utility</span>
-                  <span className="text-[10px] uppercase text-white/30">Preview</span>
-                  <span className="text-[10px] uppercase text-emerald-400">📱 Mobile Range</span>
-                  <span className="text-[10px] uppercase text-amber-400">📟 Tablet Range</span>
-                  <span className="text-[10px] uppercase text-purple-400">🖥 Desktop Range</span>
+                  <span className="text-[10px] text-white/30">Utility</span>
+                  <span className="text-[10px] text-white/30">Preview</span>
+                  <span className="text-[10px] text-emerald-400">📱 Mobile Range</span>
+                  <span className="text-[10px] text-amber-400">📟 Tablet Range</span>
+                  <span className="text-[10px] text-purple-400">🖥 Desktop Range</span>
                 </div>
 
                 {FLUID_SCALE.map((tier) => {
@@ -1957,7 +1924,7 @@ ${deskRules.join("\n")}
                         </div>
 
                         {/* Live Preview */}
-                        <div data-fluid-sample={tier.key} className={`text-${tier.key} ${tier.weight} ${tier.extra} text-white min-w-0 overflow-visible py-1`}>
+                        <div data-fluid-sample={tier.key} className={`text-${tier.key} ${tier.weight} ${tier.extra} min-w-0 overflow-visible py-1`}>
                           {tier.sample}
                         </div>
 
@@ -2188,7 +2155,7 @@ ${deskRules.join("\n")}
                         setShowCssModal(true);
                         setTimeout(() => setCssCopied(false), 3000);
                       }}
-                      className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 text-white uppercase shadow-purple-500/25 transition-all transform hover:scale-[1.02] flex items-center gap-2">
+                      className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 shadow-purple-500/25 transition-all transform hover:scale-[1.02] flex items-center gap-2">
                       <span>💾 Save & Copy Global CSS</span>
                       {cssCopied && <span className="text-emerald-300 animate-pulse">✓ Copied!</span>}
                     </button>
@@ -2221,7 +2188,7 @@ ${deskRules.join("\n")}
                           });
                         }
                       }}
-                      className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 text-white uppercase transition flex items-center gap-2">
+                      className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 transition flex items-center gap-2">
                       ↺ Reset All to Defaults
                     </button>
                   </div>
@@ -2234,7 +2201,7 @@ ${deskRules.join("\n")}
                       <div className="flex items-center justify-between pb-3 border-b border-white/10">
                         <div className="flex items-center gap-3">
                           <span className="w-3 h-3 rounded-lg bg-emerald-400 animate-ping" />
-                          <h3 className="uppercase text-white">
+                          <h3 className="">
                             Global CSS Saved to Clipboard
                           </h3>
                         </div>
@@ -2260,12 +2227,12 @@ ${deskRules.join("\n")}
                             setCssCopied(true);
                             setTimeout(() => setCssCopied(false), 2000);
                           }}
-                          className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white uppercase transition">
+                          className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 transition">
                           📋 Copy Again
                         </button>
                         <button
                           onClick={() => setShowCssModal(false)}
-                          className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white uppercase transition">
+                          className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition">
                           Close
                         </button>
                       </div>
@@ -2281,10 +2248,10 @@ ${deskRules.join("\n")}
         <section id="colors" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h2 className="uppercase text-purple-400 flex items-center gap-2">
+              <h2 className=" flex items-center gap-2">
                 <Palette className="w-6 h-6" /> 2. Full Color Palette & Swatches
               </h2>
-              <p className=" ">
+              <p className="">
                 Standard CSS custom variables and live theme color tokens across background, text, accent, status, and borders.
               </p>
             </div>
@@ -2293,16 +2260,16 @@ ${deskRules.join("\n")}
           {/* White Standard Callout */}
           <div className="p-5 rounded-lg bg-white/[0.03] border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <span className="text-purple-400uppercase block mb-1">
+              <span className="text-purple-400 block mb-1">
                 Standardized White Palette Rules
               </span>
-              <h3 className="text-white">The Two White Palette: Solid White & 0.5 White</h3>
-              <p className=" ">
-                Our site design strictly uses only two shades of white: <strong className="text-white">Solid White (#ffffff / 100%)</strong> for primary text and titles, and <strong className="text-white/70">0.5 White (rgba(255, 255, 255, 0.5) / 50%)</strong> for secondary text, labels, and muted metadata.
+              <h3 className="">The Two White Palette: Solid White & 0.5 White</h3>
+              <p className="">
+                Our site design strictly uses only two shades of white: <strong className="">Solid White (#ffffff / 100%)</strong> for primary text and titles, and <strong className="text-white/70">0.5 White (rgba(255, 255, 255, 0.5) / 50%)</strong> for secondary text, labels, and muted metadata.
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0">
-              <div className="px-4 py-2 rounded-lg bg-white text-black ">
+              <div className="px-4 py-2 rounded-lg bg-white text-black">
                 Solid White (#ffffff)
               </div>
               <div className="px-4 py-2 rounded-lg bg-[#00000029] 0 text-black border border-white/10">
@@ -2328,14 +2295,14 @@ ${deskRules.join("\n")}
                   <div
                     className="absolute inset-0 flex items-center justify-center"
                     style={{ backgroundColor: colorVal.startsWith("var(") ? "#9333ea" : colorVal }}>
-                    <span className="opacity-0 group-hover:opacity-100 transition text-[10px] bg-black/80 px-2 py-1 rounded text-white flex items-center gap-1">
+                    <span className="opacity-0 group-hover:opacity-100 transition text-[10px] bg-black/80 px-2 py-1 rounded flex items-center gap-1">
                       {copiedToken === varName ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                       {copiedToken === varName ? "Copied!" : "Copy"}
                     </span>
                   </div>
                 </div>
                 <div>
-                  <div className="text-[11px] text-white/90 truncate" title={varName}>
+                  <div className="text-[11px] /90 truncate" title={varName}>
                     {varName.replace("--color-", "").replace("--chat-", "")}
                   </div>
                   <div className="text-[10px] text-white/50 truncate">
@@ -2348,35 +2315,35 @@ ${deskRules.join("\n")}
 
           {/* Inline Theme Token Editor */}
           <div className="p-5 rounded-lg bg-black/40 border border-purple-500/30 space-y-4">
-            <h3 className="text-purple-300 uppercase flex items-center gap-2">
+            <h3 className=" flex items-center gap-2">
               <Sliders className="w-4 h-4 text-purple-400" /> Quick Theme Token Overrides
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-white mb-1">Accent Glow Color</label>
+                <label className="block mb-1">Accent Glow Color</label>
                 <input
                   type="text"
                   value={tokens.colors["--color-accent-glow"] || "rgba(147, 51, 234, 0.4)"}
                   onChange={(e) => updateToken("colors", "--color-accent-glow", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 text-white focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
-                <label className="block text-white mb-1">Border Main Color</label>
+                <label className="block mb-1">Border Main Color</label>
                 <input
                   type="text"
                   value={tokens.colors["--color-border-main"] || "rgba(255, 255, 255, 0.08)"}
                   onChange={(e) => updateToken("colors", "--color-border-main", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 text-white focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
-                <label className="block text-white mb-1">Chat Glow Color</label>
+                <label className="block mb-1">Chat Glow Color</label>
                 <input
                   type="text"
                   value={tokens.colors["--chat-glow-color"] || "rgba(168, 85, 247, 0.35)"}
                   onChange={(e) => updateToken("colors", "--chat-glow-color", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 text-white focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 focus:border-purple-500 outline-none"
                 />
               </div>
             </div>
@@ -2386,7 +2353,7 @@ ${deskRules.join("\n")}
         {/* SECTION 3: BUTTONS */}
         <section id="buttons" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-emerald-400 flex items-center gap-2">
+            <h2 className="text-emerald-400 flex items-center gap-2">
               <MousePointer className="w-6 h-6" /> 3. Button Master Gallery & Interactive Studio
             </h2>
             <p className="text-sm text-white/60">
@@ -2400,10 +2367,10 @@ ${deskRules.join("\n")}
         {/* SECTION 4: FORM ELEMENTS */}
         <section id="form-elements" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-amber-400 flex items-center gap-2">
+            <h2 className="text-amber-400 flex items-center gap-2">
               <Layout className="w-6 h-6" /> 4. Form Elements & Real Controls
             </h2>
-            <p className=" ">
+            <p className="">
               Text inputs, search inputs, textareas, checkboxes, radios, switches, and select dropdowns across Default, Focused, Filled, Error, and Disabled states.
             </p>
           </div>
@@ -2414,7 +2381,7 @@ ${deskRules.join("\n")}
 
             {/* Text Inputs */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
-              <h3 className="text-purple-400uppercase r">Text Inputs</h3>
+              <h3>Text Inputs</h3>
 
               {/* Default */}
               <div>
@@ -2423,7 +2390,7 @@ ${deskRules.join("\n")}
                   <input
                     type="text"
                     placeholder="Enter full name..."
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10   placeholder-white/40 outline-none transition"
                   />
                 </div>
               </div>
@@ -2436,7 +2403,7 @@ ${deskRules.join("\n")}
                     type="text"
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/10 border-none text-white/80 outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white/10 border-none   outline-none transition"
                   />
                 </div>
               </div>
@@ -2467,7 +2434,7 @@ ${deskRules.join("\n")}
 
             {/* Search & Textarea */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
-              <h3 className="text-purple-400 uppercase r">Search & Textarea Controls</h3>
+              <h3>Search & Textarea Controls</h3>
 
               {/* Search input with icon */}
               <div>
@@ -2488,7 +2455,7 @@ ${deskRules.join("\n")}
                     rows={4}
                     value={textareaInput}
                     onChange={(e) => setTextareaInput(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border-none text-white/80 placeholder-white/40 outline-none focus:ring-0 transition resize-none"
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border-none   placeholder-white/40 outline-none focus:ring-0 transition resize-none"
                   />
                 </div>
               </div>
@@ -2496,7 +2463,7 @@ ${deskRules.join("\n")}
 
             {/* PIN / OTP Digit Input */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5 md:col-span-2">
-              <h3 className="text-purple-400 uppercase r">PIN / OTP Digit Input</h3>
+              <h3>PIN / OTP Digit Input</h3>
 
               {/* Default State */}
               <div>
@@ -2526,11 +2493,7 @@ ${deskRules.join("\n")}
                           onBlur={() => setPinDefaultFocusedIndex(null)}
                           onChange={e => handlePinDefaultDigit(i, e.target.value)}
                           onKeyDown={e => handlePinDefaultKeyDown(i, e)}
-                          className={`w-full h-full text-center text-xl    rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20 ${pinDefaultFocusedIndex === i ? 'border-white/40 text-white'
-                            : digit
-                              ? 'border-white/30 text-white/70'
-                              : ' border-white/10 text-white/40 hover:border-white/30'
-                            }`}
+                          className={`w-full h-full text-center text-xl rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20 ${pinDefaultFocusedIndex === i ? 'border-white/40 ' : digit ? 'border-white/30 text-white/70' : ' border-white/10 text-white/40 hover:border-white/30'}`}
                         />
                       </div>
                     );
@@ -2565,11 +2528,7 @@ ${deskRules.join("\n")}
                           onBlur={() => setPinFocusedIndex(null)}
                           onChange={e => handlePinDigit(i, e.target.value)}
                           onKeyDown={e => handlePinKeyDown(i, e)}
-                          className={`w-full h-full text-center text-xl    rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums ${pinFocusedIndex === i ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
-                            : digit
-                              ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
-                              : ' border-white/10 text-white/40 hover:border-white/40'
-                            }`}
+                          className={`w-full h-full text-center text-xl rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums ${pinFocusedIndex === i ? 'border-purple-400 shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative' : digit ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]' : ' border-white/10 text-white/40 hover:border-white/40'}`}
                         />
                       </div>
                     );
@@ -2637,7 +2596,7 @@ ${deskRules.join("\n")}
 
             {/* Verify Module Cards */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
-              <h3 className="text-purple-400 uppercase r">Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
+              <h3>Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
               <p>Full glassmorphism verify card modules as used on <code className="text-purple-300">/crew/verify</code>, <code className="text-purple-300">/planner/verify</code>, <code className="text-purple-300">/cruise/verify</code>, and <code className="text-purple-300">/admin</code> (2FA).</p>
 
               <div className="overflow-x-auto -mx-5 px-5">
@@ -2645,8 +2604,8 @@ ${deskRules.join("\n")}
 
                   {/* ── Crew Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Crew</p>
-                    <h4 className="text-white uppercase mb-1">Crew PIN Verification</h4>
+                    <p className="tracking-[0.3em] mb-1">7th Heaven · Crew</p>
+                    <h4 className="mb-1">Crew PIN Verification</h4>
                     <p className="mb-6">Enter your 6-digit PIN to verify crew access</p>
                     <div
                       className="rounded-lg px-4 py-6 w-full no-glow"
@@ -2658,7 +2617,7 @@ ${deskRules.join("\n")}
                         borderRadius: 24,
                         boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                       }}>
-                      <p className="uppercase text-center mb-6">Enter 6-Digit PIN</p>
+                      <p className="text-center mb-6">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
@@ -2669,7 +2628,7 @@ ${deskRules.join("\n")}
                       </div>
                       <button disabled
                         style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                        className="w-full py-3 text-[10px] cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
                       <div className="mt-3 text-center">
                         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
                         <button type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
@@ -2678,7 +2637,7 @@ ${deskRules.join("\n")}
                       <p className="text-center cursor-pointer transition">← Back to Crew Page</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px] tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CREW ACCESS</span>
+                        <span className="text-[8px] tracking-[0.1em]">7TH HEAVEN · CREW ACCESS</span>
                         <div className="flex-1 h-px bg-white/[0.08]" />
                       </div>
                     </div>
@@ -2686,7 +2645,7 @@ ${deskRules.join("\n")}
 
                   {/* ── Planner Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <h4 className="text-white uppercase mb-1">Planner Access PIN</h4>
+                    <h4 className="mb-1">Planner Access PIN</h4>
                     <p className="mb-6">Enter your 6-digit PIN to access your Planner Dashboard</p>
                     <div
                       className="rounded-lg px-4 py-6 w-full no-glow"
@@ -2708,7 +2667,7 @@ ${deskRules.join("\n")}
                       </div>
                       <button disabled
                         style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                        className="w-full py-3 text-[10px] cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
                       <div className="space-y-1.5 mt-3 text-center">
                         <button type="button" style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Resend PIN</button>
                         <button type="button" style={{ display: "block", margin: "4px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Need a PIN sent to your email?</button>
@@ -2721,7 +2680,7 @@ ${deskRules.join("\n")}
                       <p className="text-center cursor-pointer transition">← Back to Planner Page</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px] tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · PLANNER ACCESS</span>
+                        <span className="text-[8px] tracking-[0.1em]">7TH HEAVEN · PLANNER ACCESS</span>
                         <div className="flex-1 h-px bg-white/[0.08]" />
                       </div>
                     </div>
@@ -2730,9 +2689,9 @@ ${deskRules.join("\n")}
                   {/* ── Cruise Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <div className="mb-2">
-                      <span className="text-[12px] uppercase    text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-3 py-1">7th Heaven Caribbean Cruise</span>
+                      <span className="text-[12px] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-3 py-1">7th Heaven Caribbean Cruise</span>
                     </div>
-                    <h4 className="text-white uppercase mb-1">Check Your Email</h4>
+                    <h4 className="mb-1">Check Your Email</h4>
                     <p className="mb-1">We sent a 6-digit verification code to</p>
                     <p className="text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-6">your email address</p>
                     <div
@@ -2759,7 +2718,7 @@ ${deskRules.join("\n")}
                       </div>
                       <button disabled
                         style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                        className="w-full py-3 text-[10px] cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
                       <div className="mt-3 text-center">
                         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
                         <button type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
@@ -2768,7 +2727,7 @@ ${deskRules.join("\n")}
                       <p className="text-center cursor-pointer transition">← Back to Cruise Page</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px] tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
+                        <span className="text-[8px] tracking-[0.1em]">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
                         <div className="flex-1 h-px bg-white/[0.08]" />
                       </div>
                     </div>
@@ -2776,8 +2735,8 @@ ${deskRules.join("\n")}
 
                   {/* ── Admin 2FA Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Admin</p>
-                    <h4 className="text-white uppercase mb-1">Admin 2FA Verification</h4>
+                    <p className="tracking-[0.3em] mb-1">7th Heaven · Admin</p>
+                    <h4 className="mb-1">Admin 2FA Verification</h4>
                     <p className="mb-6">Enter your 6-digit PIN after login</p>
                     <div
                       className="rounded-lg px-4 py-6 w-full no-glow"
@@ -2789,7 +2748,7 @@ ${deskRules.join("\n")}
                         borderRadius: 24,
                         boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                       }}>
-                      <p className="uppercase text-center mb-6">Enter 6-Digit PIN</p>
+                      <p className="text-center mb-6">Enter 6-Digit PIN</p>
                       <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
@@ -2800,7 +2759,7 @@ ${deskRules.join("\n")}
                       </div>
                       <button disabled
                         style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 text-[10px] uppercase cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                        className="w-full py-3 text-[10px] cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
                       <div className="mt-3 text-center">
                         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
                         <button type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
@@ -2809,7 +2768,7 @@ ${deskRules.join("\n")}
                       <p className="text-center cursor-pointer transition">← Back to Login</p>
                       <div className="flex items-center justify-center gap-2 mt-3">
                         <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px] tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · ADMIN ACCESS</span>
+                        <span className="text-[8px] tracking-[0.1em]">7TH HEAVEN · ADMIN ACCESS</span>
                         <div className="flex-1 h-px bg-white/[0.08]" />
                       </div>
                     </div>
@@ -2821,15 +2780,15 @@ ${deskRules.join("\n")}
 
             {/* Auth Modal Modules */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
-              <h3 className="text-purple-400 uppercase r">Auth Modal Modules (Sign In · Sign Up)</h3>
+              <h3>Auth Modal Modules (Sign In · Sign Up)</h3>
               <p>Full glassmorphism authentication modal cards as used in <code className="text-purple-300">LoginModal.tsx</code> for fan and member login/signup.</p>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                 {/* ── Sign In Modal Card ── */}
                 <div className="flex flex-col items-center">
-                  <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Auth</p>
-                  <h4 className="text-white uppercase mb-1">Sign In Modal</h4>
+                  <p className="tracking-[0.3em] mb-1">7th Heaven · Auth</p>
+                  <h4 className="mb-1">Sign In Modal</h4>
                   <p className="mb-6">Existing member login interface</p>
                   <div
                     className="rounded-lg p-6 w-full no-glow relative"
@@ -2842,14 +2801,14 @@ ${deskRules.join("\n")}
                       boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                     }}>
                     {/* Close Button */}
-                    <div className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white cursor-pointer hover:bg-white/20 transition">✕</div>
+                    <div className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center cursor-pointer hover:bg-white/20 transition">✕</div>
 
                     {/* Logo Header */}
                     <div className="text-center mb-5">
-                      <h2 className="er uppercase italic text-white">
+                      <h2 className="er italic">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
-                      <div className="uppercase tracking-[0.18em]  ">
+                      <div className="tracking-[0.18em]">
                         SIGN IN TO YOUR ACCOUNT
                       </div>
                     </div>
@@ -2857,14 +2816,14 @@ ${deskRules.join("\n")}
                     {/* Mode Tabs */}
                     <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-6 select-none">
                       <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
-                      <button className="relative z-10 py-2 uppercase text-white text-center">Sign In</button>
-                      <button className="relative z-10 py-2 uppercase text-white text-center">Sign Up</button>
+                      <button className="relative z-10 py-2 text-center">Sign In</button>
+                      <button className="relative z-10 py-2 text-center">Sign Up</button>
                     </div>
 
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase    text-white/70 block text-left">ACCOUNT TYPE:</span>
+                        <span className="text-[10px] text-white/70 block text-left">ACCOUNT TYPE:</span>
                       </div>
                       <div className="grid grid-cols-5 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
                         {(['fan', 'crew', 'planner', 'cruise', 'admin'] as const).map((r) => (
@@ -2872,9 +2831,7 @@ ${deskRules.join("\n")}
                             key={r}
                             type="button"
                             onClick={() => setSignInRole(r as any)}
-                            className={`py-1.5 px-1 text-[10px]    uppercase rounded-lg text-center transition-all cursor-pointer ${signInRole === (r as any) ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
-                              : "text-white/50 hover:text-white/90"
-                              }`}>
+                            className={`py-1.5 px-1 text-[10px] rounded-lg text-center transition-all cursor-pointer ${signInRole === (r as any) ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40" : " text-white/50 hover:text-white /90"}`}>
                             {r}
                           </button>
                         ))}
@@ -2884,42 +2841,42 @@ ${deskRules.join("\n")}
                     {/* Form Fields */}
                     <div className="space-y-3 mb-6">
                       <div>
-                        <label className="text-[10px] uppercase    text-white/80 mb-1 block">EMAIL</label>
+                        <label className="text-[10px]   mb-1 block">EMAIL</label>
                         <div className="input-glow-border rounded-lg w-full">
                           <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div>
-                        <label className="text-[10px] uppercase    text-white/80 mb-1 block">PASSWORD</label>
+                        <label className="text-[10px]   mb-1 block">PASSWORD</label>
                         <div className="input-glow-border rounded-lg w-full">
                           <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="text-[11px] text-purple-300 hover:  cursor-pointer">Forgot Password?</span>
+                        <span className="text-[11px] text-purple-300 hover:text-white cursor-pointer">Forgot Password?</span>
                       </div>
                     </div>
 
                     {/* Submit CTA */}
-                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 uppercase rounded-lg mb-6 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 rounded-lg mb-6 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
                       SIGN IN
                     </button>
 
                     {/* Divider & Socials */}
                     <div className="relative text-center my-4">
                       <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10" /></div>
-                      <span className="relative bg-[#120a22] px-3 text-[12px] uppercase text-white/40">OR CONTINUE WITH</span>
+                      <span className="relative bg-[#120a22] px-3 text-[12px] text-white/40">OR CONTINUE WITH</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
-                      <button className="py-2.5 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 rounded-lg text-white text-center transition flex items-center justify-center gap-1.5">
+                      <button className="py-2.5 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 rounded-lg text-center transition flex items-center justify-center gap-1.5">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
                         Google
                       </button>
-                      <button className="py-2.5 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 rounded-lg text-white text-center transition flex items-center justify-center gap-1.5">
+                      <button className="py-2.5 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 rounded-lg text-center transition flex items-center justify-center gap-1.5">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                         Facebook
                       </button>
-                      <button style={{ backgroundColor: "#000000" }} className="py-2.5 hover:bg-zinc-900 border-none rounded-lg text-white text-center transition flex items-center justify-center gap-1.5">
+                      <button style={{ backgroundColor: "#000000" }} className="py-2.5 hover:bg-zinc-900 border-none rounded-lg text-center transition flex items-center justify-center gap-1.5">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
                         Apple
                       </button>
@@ -2929,8 +2886,8 @@ ${deskRules.join("\n")}
 
                 {/* ── Sign Up Modal Card ── */}
                 <div className="flex flex-col items-center">
-                  <p className="uppercase tracking-[0.3em] mb-1">7th Heaven · Auth</p>
-                  <h4 className="text-white uppercase mb-1">Sign Up Modal</h4>
+                  <p className="tracking-[0.3em] mb-1">7th Heaven · Auth</p>
+                  <h4 className="mb-1">Sign Up Modal</h4>
                   <p className="mb-6">New fan registration interface</p>
                   <div
                     className="rounded-lg p-6 w-full no-glow relative"
@@ -2943,37 +2900,35 @@ ${deskRules.join("\n")}
                       boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                     }}>
                     {/* Close Button */}
-                    <div className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-white cursor-pointer hover:bg-white/20 transition">✕</div>
+                    <div className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center cursor-pointer hover:bg-white/20 transition">✕</div>
 
                     {/* Logo Header */}
                     <div className="text-center mb-5">
-                      <h2 className="er uppercase italic text-white">
+                      <h2 className="er italic">
                         <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
                       </h2>
-                      <div className="uppercase tracking-[0.18em]  flex items-center justify-center gap-1 flex-wrap">
-                        SIGN UP FOR FREE <span className="text-white bg-[var(--color-accent)] px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/40">FAN</span> MEMBERSHIP
+                      <div className="tracking-[0.18em] flex items-center justify-center gap-1 flex-wrap">
+                        SIGN UP FOR FREE <span className="bg-[var(--color-accent)] px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/40">FAN</span> MEMBERSHIP
                       </div>
                     </div>
 
                     {/* Mode Tabs */}
                     <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-6 select-none">
                       <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] translate-x-full" />
-                      <button className="relative z-10 py-2 uppercase text-white text-center">Sign In</button>
-                      <button className="relative z-10 py-2 uppercase text-white text-center">Sign Up</button>
+                      <button className="relative z-10 py-2 text-center">Sign In</button>
+                      <button className="relative z-10 py-2 text-center">Sign Up</button>
                     </div>
 
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
-                      <span className="text-[10px] uppercase    text-white/70 block text-left">ACCOUNT TYPE:</span>
+                      <span className="text-[10px] text-white/70 block text-left">ACCOUNT TYPE:</span>
                       <div className="grid grid-cols-2 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
                         {(['fan', 'planner'] as const).map((r) => (
                           <button
                             key={r}
                             type="button"
                             onClick={() => setSignUpRole(r)}
-                            className={`py-1.5 px-2 text-[10px]    uppercase rounded-lg text-center transition-all cursor-pointer ${signUpRole === r ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
-                              : "text-white/50 hover:text-white/90"
-                              }`}>
+                            className={`py-1.5 px-2 text-[10px] rounded-lg text-center transition-all cursor-pointer ${signUpRole === r ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40" : " text-white/50 hover:text-white /90"}`}>
                             {r}
                           </button>
                         ))}
@@ -2985,13 +2940,13 @@ ${deskRules.join("\n")}
                       {signUpRole === 'planner' ? (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-[10px] uppercase    text-white/80 mb-1 block">FULL NAME</label>
+                            <label className="text-[10px]   mb-1 block">FULL NAME</label>
                             <div className="input-glow-border rounded-lg w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
-                            <label className="text-[10px] uppercase    text-white/80 mb-1 block">COMPANY / VENUE NAME</label>
+                            <label className="text-[10px]   mb-1 block">COMPANY / VENUE NAME</label>
                             <div className="input-glow-border rounded-lg w-full">
                               <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
@@ -3000,13 +2955,13 @@ ${deskRules.join("\n")}
                       ) : signUpRole === 'cruise' ? (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-[10px] uppercase    text-white/80 mb-1 block">FULL NAME</label>
+                            <label className="text-[10px]   mb-1 block">FULL NAME</label>
                             <div className="input-glow-border rounded-lg w-full">
                               <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                           <div>
-                            <label className="text-[10px] uppercase    text-white/80 mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
+                            <label className="text-[10px]   mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
                             <div className="input-glow-border rounded-lg w-full">
                               <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                             </div>
@@ -3016,13 +2971,13 @@ ${deskRules.join("\n")}
                         <>
                           <div className="grid grid-cols-2 gap-3">
                             <div>
-                              <label className="text-[10px] uppercase    text-white/80 mb-1 block">FULL NAME</label>
+                              <label className="text-[10px]   mb-1 block">FULL NAME</label>
                               <div className="input-glow-border rounded-lg w-full">
                                 <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                               </div>
                             </div>
                             <div>
-                              <label className="text-[10px] uppercase    text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
+                              <label className="text-[10px]   mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
                               <div className="input-glow-border rounded-lg w-full">
                                 <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                               </div>
@@ -3032,17 +2987,17 @@ ${deskRules.join("\n")}
                           <div className="grid grid-cols-2 gap-3 pt-1">
                             <div className="flex items-center gap-2">
                               <SquishyToggle id="preview-alerts" checked={previewAlerts} onChange={setPreviewAlerts} label="Show alerts near me" />
-                              <span className="text-[10px] text-white/80">Show alerts near me</span>
+                              <span className="text-[10px]  ">Show alerts near me</span>
                             </div>
                             <div className="flex items-center gap-2">
                               <SquishyToggle id="preview-news" checked={previewNews} onChange={setPreviewNews} label="News & updates" />
-                              <span className="text-[10px] text-white/80">News & updates</span>
+                              <span className="text-[10px]  ">News & updates</span>
                             </div>
                           </div>
 
                           {previewAlerts && (
                             <div className="pt-1">
-                              <label className="text-[10px] uppercase    text-white/80 mb-1 block">Zip Code & Radius</label>
+                              <label className="text-[10px]   mb-1 block">Zip Code & Radius</label>
                               <div className="flex items-center gap-2">
                                 <div className="input-glow-border rounded-lg flex-1">
                                   <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" placeholder="Zip code" />
@@ -3069,13 +3024,13 @@ ${deskRules.join("\n")}
 
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="text-[10px] uppercase    text-white/80 mb-1 block">EMAIL</label>
+                          <label className="text-[10px]   mb-1 block">EMAIL</label>
                           <div className="input-glow-border rounded-lg w-full">
                             <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                         <div>
-                          <label className="text-[10px] uppercase    text-white/80 mb-1 block">PASSWORD</label>
+                          <label className="text-[10px]   mb-1 block">PASSWORD</label>
                           <div className="input-glow-border rounded-lg w-full">
                             <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
                           </div>
@@ -3084,12 +3039,12 @@ ${deskRules.join("\n")}
 
                       <div className="flex items-center gap-2 pt-1">
                         <SquishyToggle id="preview-age" checked={previewAge} onChange={setPreviewAge} label="Age confirmation" />
-                        <span className="text-[10px] text-white/80">I confirm that I am <strong className="text-purple-300">18 years of age or older</strong></span>
+                        <span className="text-[10px]  ">I confirm that I am <strong className="text-purple-300">18 years of age or older</strong></span>
                       </div>
                     </div>
 
                     {/* Submit CTA */}
-                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 uppercase rounded-lg mb-2 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E]">
+                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 rounded-lg mb-2 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E]">
                       CREATE ACCOUNT
                     </button>
                   </div>
@@ -3100,7 +3055,7 @@ ${deskRules.join("\n")}
 
             {/* Checkboxes & Radios */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
-              <h3 className="text-emerald-400 uppercase r">Checkboxes & Radio Controls</h3>
+              <h3 className="text-emerald-400 r">Checkboxes & Radio Controls</h3>
 
               <div className="space-y-3">
                 <div className="flex items-center gap-3 cursor-pointer">
@@ -3110,7 +3065,7 @@ ${deskRules.join("\n")}
                     checked={checkboxState}
                     onChange={setCheckboxState}
                   />
-                  <span className="text-white/90">Subscribe to official band newsletter announcements</span>
+                  <span className="/90">Subscribe to official band newsletter announcements</span>
                 </div>
 
                 <div className="flex items-center gap-3 cursor-pointer">
@@ -3120,7 +3075,7 @@ ${deskRules.join("\n")}
                     checked={false}
                     onChange={() => { }}
                   />
-                  <span className="text-white">Unchecked state</span>
+                  <span className="">Unchecked state</span>
                 </div>
 
                 <div className="flex items-center gap-3 opacity-40">
@@ -3147,7 +3102,7 @@ ${deskRules.join("\n")}
                       onChange={(e) => setRadioState(e.target.value)}
                       className="w-4 h-4 text-purple-600 accent-purple-600 cursor-pointer"
                     />
-                    <span className="text-white/90">Full Electric Band (6-Piece)</span>
+                    <span className="/90">Full Electric Band (6-Piece)</span>
                   </label>
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input
@@ -3158,7 +3113,7 @@ ${deskRules.join("\n")}
                       onChange={(e) => setRadioState(e.target.value)}
                       className="w-4 h-4 text-purple-600 accent-purple-600 cursor-pointer"
                     />
-                    <span className="text-white/80">Acoustic Trio Setup</span>
+                    <span className=" ">Acoustic Trio Setup</span>
                   </label>
                 </div>
               </div>
@@ -3166,12 +3121,12 @@ ${deskRules.join("\n")}
 
             {/* Switches & Toggles */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
-              <h3 className="text-pink-400 uppercase r">Toggles & Switches</h3>
+              <h3 className="text-pink-400 r">Toggles & Switches</h3>
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-white/90 block">Push Notifications</span>
+                    <span className="/90 block">Push Notifications</span>
                     <span className="text-[11px] text-white/50 block">Receive live show reminders</span>
                   </div>
                   <SquishyToggle
@@ -3184,7 +3139,7 @@ ${deskRules.join("\n")}
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-white block">Disabled Toggle (Off)</span>
+                    <span className="block">Disabled Toggle (Off)</span>
                     <span className="text-[11px] text-white/40 block">System locked</span>
                   </div>
                   <SquishyToggle
@@ -3204,10 +3159,10 @@ ${deskRules.join("\n")}
         {/* SECTION 5: DROPDOWNS */}
         <section id="dropdowns" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-purple-400flex items-center gap-2">
+            <h2 className=" flex items-center gap-2">
               <ChevronDown className="w-6 h-6" /> 5. Standardized Global Dropdowns
             </h2>
-            <p className=" ">
+            <p className="">
               Standardized dropdown implementation using our global border standard <code>rgba(255,255,255,0.08)</code>.
             </p>
           </div>
@@ -3217,8 +3172,8 @@ ${deskRules.join("\n")}
             {/* Standard Pill Filter Dropdown (CITY ▼ Default) */}
             <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-purple-400uppercase r">Default Site Pill Dropdown (`CITY ▼`)</h3>
-                <span className="text-[10px] uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Site-Wide Standard</span>
+                <h3>Default Site Pill Dropdown (`CITY ▼`)</h3>
+                <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Site-Wide Standard</span>
               </div>
               <p>
                 Gooey animated glass filter pill dropdown with selection popup menu. Used across Tour List filters, booking forms, and site-wide dropdown controls.
@@ -3244,10 +3199,10 @@ ${deskRules.join("\n")}
         <section id="chat" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h2 className="uppercase text-purple-400 flex items-center gap-2">
+              <h2 className=" flex items-center gap-2">
                 <MessageSquare className="w-6 h-6" /> 6. Live Chat Box Component
               </h2>
-              <p className=" ">
+              <p className="">
                 Live interactive preview of <code className="text-purple-300">CruiseChat</code> with real-time UI controls for bubble radius, borders, opacity, font size, and per-user colors.
               </p>
             </div>
@@ -3273,7 +3228,7 @@ ${deskRules.join("\n")}
                   setCopiedSpec(true);
                   setTimeout(() => setCopiedSpec(null as any), 2500);
                 }}
-                className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white transition flex items-center gap-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)]">
+                className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 transition flex items-center gap-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)]">
                 {copiedSpec ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copiedSpec ? "CSS Specs Copied!" : "Copy Chat Style Spec"}</span>
               </button>
@@ -3293,7 +3248,7 @@ ${deskRules.join("\n")}
                   setMultiUserColorMode(true);
                   setBubbleColorPalette("default");
                 }}
-                className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 text-white hover:text-white transition">
+                className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 hover:text-white transition">
                 Reset Controls
               </button>
             </div>
@@ -3302,19 +3257,17 @@ ${deskRules.join("\n")}
           {/* Chat Bubble Customizer UI Control Bar */}
           <div className="p-5 rounded-lg bg-white/[0.03] border border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <h3 className="text-purple-400uppercase flex items-center gap-2">
+              <h3 className=" flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> Chat Bubble UI Controls Studio
               </h3>
 
               {/* Multi-User Distinct Color Mode Toggle */}
               <div className="flex items-center gap-2 bg-[#00000029] border border-white/10 p-1.5 rounded-xl">
-                <span className="text-[11px] text-white/80 pl-1">Multi-User Unique Colors:</span>
+                <span className="text-[11px]   pl-1">Multi-User Unique Colors:</span>
                 <button
                   type="button"
                   onClick={() => setMultiUserColorMode(!multiUserColorMode)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px]    uppercase transition ${multiUserColorMode ? "bg-emerald-600 text-white "
-                    : "bg-white/10 text-white/50"
-                    }`}>
+                  className={`px-2.5 py-1 rounded-lg text-[10px] transition ${multiUserColorMode ? "bg-emerald-600 " : "bg-white/10 text-white/50"}`}>
                   {multiUserColorMode ? "ON (Unique Per Person)" : "OFF (Single Swatch)"}
                 </button>
               </div>
@@ -3324,7 +3277,7 @@ ${deskRules.join("\n")}
 
               {/* 1. Corner Radius Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center text-white/80">
+                <div className="flex justify-between items-center  ">
                   <span>Corner Radius</span>
                   <span className="text-purple-300">{bubbleRadius}px</span>
                 </div>
@@ -3342,9 +3295,7 @@ ${deskRules.join("\n")}
                       key={r}
                       type="button"
                       onClick={() => setBubbleRadius(r)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubbleRadius === r ? "bg-purple-600 border-purple-400 text-white"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubbleRadius === r ? "bg-purple-600 border-purple-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {r === 0 ? "0px" : `${r}px`}
                     </button>
                   ))}
@@ -3353,7 +3304,7 @@ ${deskRules.join("\n")}
 
               {/* 2. Border Width Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center text-white/80">
+                <div className="flex justify-between items-center  ">
                   <span>Border Width</span>
                   <span>{bubbleBorderWidth}px</span>
                 </div>
@@ -3371,9 +3322,7 @@ ${deskRules.join("\n")}
                       key={w}
                       type="button"
                       onClick={() => setBubbleBorderWidth(w)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubbleBorderWidth === w ? "bg-cyan-600 border-purple-400 text-white"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubbleBorderWidth === w ? "bg-cyan-600 border-purple-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {w === 0 ? "0px" : `${w}px`}
                     </button>
                   ))}
@@ -3382,7 +3331,7 @@ ${deskRules.join("\n")}
 
               {/* 3. Font Size Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center text-white/80">
+                <div className="flex justify-between items-center  ">
                   <span>Font Size</span>
                   <span className="text-emerald-300">{bubbleFontSize}px</span>
                 </div>
@@ -3400,9 +3349,7 @@ ${deskRules.join("\n")}
                       key={s}
                       type="button"
                       onClick={() => setBubbleFontSize(s)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubbleFontSize === s ? "bg-emerald-600 border-emerald-400 text-white"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubbleFontSize === s ? "bg-emerald-600 border-emerald-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {s}px
                     </button>
                   ))}
@@ -3411,7 +3358,7 @@ ${deskRules.join("\n")}
 
               {/* 4. Padding Y Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center text-white/80">
+                <div className="flex justify-between items-center  ">
                   <span>Padding Y (Vertical)</span>
                   <span>{bubblePaddingY}px</span>
                 </div>
@@ -3429,9 +3376,7 @@ ${deskRules.join("\n")}
                       key={py}
                       type="button"
                       onClick={() => setBubblePaddingY(py)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubblePaddingY === py ? "bg-cyan-600 border-purple-400 text-white"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubblePaddingY === py ? "bg-cyan-600 border-purple-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {py}px
                     </button>
                   ))}
@@ -3440,7 +3385,7 @@ ${deskRules.join("\n")}
 
               {/* 5. Padding X Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center text-white/80">
+                <div className="flex justify-between items-center  ">
                   <span>Padding X (Horizontal)</span>
                   <span className="text-purple-300">{bubblePaddingX}px</span>
                 </div>
@@ -3458,9 +3403,7 @@ ${deskRules.join("\n")}
                       key={px}
                       type="button"
                       onClick={() => setBubblePaddingX(px)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubblePaddingX === px ? "bg-purple-600 border-purple-400 text-white"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubblePaddingX === px ? "bg-purple-600 border-purple-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {px}px
                     </button>
                   ))}
@@ -3469,7 +3412,7 @@ ${deskRules.join("\n")}
 
               {/* 6. Message Spacing Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center text-white/80">
+                <div className="flex justify-between items-center  ">
                   <span>Message Spacing (Gap)</span>
                   <span className="text-amber-300">{messageSpacing}px</span>
                 </div>
@@ -3487,9 +3430,7 @@ ${deskRules.join("\n")}
                       key={sp}
                       type="button"
                       onClick={() => setMessageSpacing(sp)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${messageSpacing === sp ? "bg-amber-600 border-amber-400 text-white"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`flex-1 py-1 rounded text-[10px] border transition ${messageSpacing === sp ? "bg-amber-600 border-amber-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {sp}px
                     </button>
                   ))}
@@ -3498,7 +3439,7 @@ ${deskRules.join("\n")}
 
               {/* 7. Opacity Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center text-white/80">
+                <div className="flex justify-between items-center  ">
                   <span>Bubble Opacity</span>
                   <span className="text-pink-300">{bubbleOpacity}%</span>
                 </div>
@@ -3516,9 +3457,7 @@ ${deskRules.join("\n")}
                       key={o}
                       type="button"
                       onClick={() => setBubbleOpacity(o)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${bubbleOpacity === o ? "bg-pink-600 border-pink-400 text-white"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubbleOpacity === o ? "bg-pink-600 border-pink-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {o}%
                     </button>
                   ))}
@@ -3527,7 +3466,7 @@ ${deskRules.join("\n")}
 
               {/* 8. Color Palette Swatches */}
               <div className="space-y-2">
-                <label className="block text-white/80">Color Swatches</label>
+                <label className="block  ">Color Swatches</label>
                 <div className="flex items-center gap-1.5 flex-wrap">
                   {[
                     { label: "Default", val: "default", bg: "#7e22ce" },
@@ -3546,9 +3485,7 @@ ${deskRules.join("\n")}
                       }}
                       style={{ backgroundColor: p.bg }}
                       title={p.label}
-                      className={`w-5 h-5 rounded-lg border-2 transition transform hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode ? "border-white ring-2 ring-white/50 scale-110"
-                        : "border-transparent opacity-80"
-                        }`}
+                      className={`w-5 h-5 rounded-lg border-2 transition transform hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode ? "border-white ring-2 ring-white/50 scale-110" : "border-transparent opacity-80"}`}
                     />
                   ))}
                 </div>
@@ -3564,7 +3501,7 @@ ${deskRules.join("\n")}
                     className="w-5 h-5 rounded-lg border border-white/10 cursor-pointer"
                     title="Custom Color Picker"
                   />
-                  <span className="text-[12px] text-white uppercase truncate max-w-[80px]">
+                  <span className="text-[12px] truncate max-w-[80px]">
                     {multiUserColorMode ? "Multi-User" : bubbleColorPalette}
                   </span>
                 </div>
@@ -3572,7 +3509,7 @@ ${deskRules.join("\n")}
 
               {/* 9. Background Style Themes */}
               <div className="space-y-2">
-                <label className="block text-white/80">Fill Theme</label>
+                <label className="block  ">Fill Theme</label>
                 <div className="grid grid-cols-2 gap-1.5">
                   {[
                     { label: "Classic", val: "classic" },
@@ -3584,9 +3521,7 @@ ${deskRules.join("\n")}
                       key={bg.val}
                       type="button"
                       onClick={() => setBubbleBgStyle(bg.val)}
-                      className={`py-1 px-1.5 rounded text-[10px]    border truncate transition ${bubbleBgStyle === bg.val ? "bg-purple-600/40 border-purple-400 text-purple-200"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`py-1 px-1.5 rounded text-[10px] border truncate transition ${bubbleBgStyle === bg.val ? "bg-purple-600/40 border-purple-400 text-purple-200" : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {bg.label}
                     </button>
                   ))}
@@ -3632,17 +3567,17 @@ ${deskRules.join("\n")}
         {/* SECTION 7: CARDS & BADGES */}
         <section id="components" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-pink-400 flex items-center gap-2">
+            <h2 className="text-pink-400 flex items-center gap-2">
               <Layers className="w-6 h-6" /> 7. Reusable Cards, Badges & Alerts
             </h2>
-            <p className=" ">
+            <p className="">
               Actual shipping badges, announcement banners, cookie notices, and glass card containers.
             </p>
           </div>
 
           {/* Role Badges */}
           <div className="space-y-3">
-            <h3 className="text-purple-400uppercase r">Role & Section Badges</h3>
+            <h3>Role & Section Badges</h3>
             <div className="flex flex-wrap items-center gap-3">
               <RoleBadge role="admin" />
               <RoleBadge role="crew" />
@@ -3654,7 +3589,7 @@ ${deskRules.join("\n")}
 
           {/* Announcement Banner Component */}
           <div className="space-y-3 pt-4 border-t border-white/10">
-            <h3 className="text-amber-400 uppercase r">Announcement Banner Component</h3>
+            <h3 className="text-amber-400 r">Announcement Banner Component</h3>
             <AnnouncementBanner
               text="⚡ 7TH HEAVEN CRUISE 2026 PRE-SALE IS NOW OPEN FOR VIP MEMBERS!"
               link="/cruise"
@@ -3668,8 +3603,8 @@ ${deskRules.join("\n")}
 
             {/* Glass Card Container */}
             <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 backdrop-blur-xl hover:border-purple-500/40 transition space-y-3">
-              <span className="text-purple-400 uppercase">Glassmorphism Card</span>
-              <h4 className="text-white">House of Blues Chicago</h4>
+              <span className="text-purple-400">Glassmorphism Card</span>
+              <h4 className="">House of Blues Chicago</h4>
               <p>
                 Standard container card with 1px border <code className="text-purple-300">rgba(255,255,255,0.08)</code>.
               </p>
@@ -3680,7 +3615,7 @@ ${deskRules.join("\n")}
 
             {/* Alert Banner Callout */}
             <div className="p-6 rounded-lg bg-amber-500/10 border border-amber-500/30 space-y-3">
-              <div className="flex items-center gap-2 text-amber-400 uppercase r">
+              <div className="flex items-center gap-2 text-amber-400 r">
                 <AlertTriangle className="w-4 h-4" /> System Warning Notice
               </div>
               <p className="text-amber-200/80">
@@ -3691,15 +3626,15 @@ ${deskRules.join("\n")}
             {/* Modal Trigger */}
             <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
-                <span className="text-emerald-400 uppercase">Interactive Modal</span>
-                <h4 className="text-white">Login & Authentication Modal</h4>
-                <p className=" ">
+                <span className="text-emerald-400">Interactive Modal</span>
+                <h4 className="">Login & Authentication Modal</h4>
+                <p className="">
                   Trigger the site-wide login/signup modal dialog.
                 </p>
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 uppercase transition flex items-center justify-center gap-2">
+                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 transition flex items-center justify-center gap-2">
                 <Lock className="w-3.5 h-3.5" /> Launch Login Modal
               </button>
             </div>
@@ -3710,10 +3645,10 @@ ${deskRules.join("\n")}
         {/* SECTION 8: MODALS & DIALOGS */}
         <section id="modals" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-purple-400 flex items-center gap-2">
+            <h2 className="flex items-center gap-2">
               <Maximize2 className="w-6 h-6" /> 8. Modals & Dialogs
             </h2>
-            <p className=" ">
+            <p className="">
               Standard modal patterns: glassmorphism shell, confirmation/alert dialogs, and the global login/signup auth modal.
             </p>
           </div>
@@ -3723,15 +3658,15 @@ ${deskRules.join("\n")}
             {/* 1 — Glassmorphism Modal Shell */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
-                <span className="uppercase">Glass Shell</span>
-                <h4 className="text-white">Glassmorphism Modal</h4>
-                <p className=" ">
+                <span className="">Glass Shell</span>
+                <h4 className="">Glassmorphism Modal</h4>
+                <p className="">
                   The frosted-glass card used for verify screens, PIN entry, and success states.
                 </p>
               </div>
               <button
                 onClick={() => setShowGlassModal(true)}
-                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-purple-500/40 uppercase transition flex items-center justify-center gap-2 cursor-pointer">
+                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-purple-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
                 <Eye className="w-3.5 h-3.5" /> Preview Glass Modal
               </button>
             </div>
@@ -3739,20 +3674,20 @@ ${deskRules.join("\n")}
             {/* 2 — Confirmation / Alert Dialog */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
-                <span className="text-amber-400 uppercase">Confirm / Alert</span>
-                <h4 className="text-white">Confirmation Dialog</h4>
-                <p className=" ">
+                <span className="text-amber-400">Confirm / Alert</span>
+                <h4 className="">Confirmation Dialog</h4>
+                <p className="">
                   Destructive action confirmation with cancel/confirm buttons.
                 </p>
                 {confirmResult && (
-                  <p className={`mt-2 ${confirmResult === 'confirmed' ? 'text-red-400' : 'text-white/50'}`}>
+                  <p className={`mt-2 ${confirmResult === 'confirmed' ? 'text-red-400' : ' text-white/50'}`}>
                     Result: {confirmResult === 'confirmed' ? '✓ Confirmed' : '✕ Cancelled'}
                   </p>
                 )}
               </div>
               <button
                 onClick={() => { setShowConfirmModal(true); setConfirmResult(null); }}
-                className="px-4 py-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 uppercase transition flex items-center justify-center gap-2 cursor-pointer">
+                className="px-4 py-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 transition flex items-center justify-center gap-2 cursor-pointer">
                 <Trash2 className="w-3.5 h-3.5" /> Open Confirm Dialog
               </button>
             </div>
@@ -3760,15 +3695,15 @@ ${deskRules.join("\n")}
             {/* 3 — Login / Auth Modal */}
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
               <div>
-                <span className="text-emerald-400 uppercase">Auth Modal</span>
-                <h4 className="text-white">Login & Signup Modal</h4>
-                <p className=" ">
+                <span className="text-emerald-400">Auth Modal</span>
+                <h4 className="">Login & Signup Modal</h4>
+                <p className="">
                   Site-wide auth modal with login/signup toggle, form validation, and role selection.
                 </p>
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 uppercase transition flex items-center justify-center gap-2 cursor-pointer">
+                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 transition flex items-center justify-center gap-2 cursor-pointer">
                 <Lock className="w-3.5 h-3.5" /> Launch Login Modal
               </button>
             </div>
@@ -3776,7 +3711,7 @@ ${deskRules.join("\n")}
 
           {/* Alert / Success Toast Demo (inline) */}
           <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
-            <h3 className="text-purple-400 uppercase r">Alert / Success Toast Patterns</h3>
+            <h3>Alert / Success Toast Patterns</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Success */}
               <div className="flex items-start gap-3 p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
@@ -3832,7 +3767,7 @@ ${deskRules.join("\n")}
                 <div className="w-14 h-14 rounded-lg bg- purple-white/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-6">
                   <Zap className="w-7 h-7 text-purple-400" />
                 </div>
-                <h3 className="text-white uppercase mb-1">Glassmorphism Shell</h3>
+                <h3 className="mb-1">Glassmorphism Shell</h3>
                 <p className="mb-6">
                   This is the standard frosted-glass modal card used across verify screens, PIN entry, and success states.
                 </p>
@@ -3842,12 +3777,12 @@ ${deskRules.join("\n")}
                     <input
                       type="text"
                       placeholder="Enter your email..."
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/80 placeholder-white/40 outline-none transition"
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10   placeholder-white/40 outline-none transition"
                     />
                   </div>
                   <button
                     onClick={() => setShowGlassModal(false)}
-                    className="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white uppercase transition cursor-pointer">
+                    className="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 transition cursor-pointer">
                     Continue
                   </button>
                 </div>
@@ -3875,19 +3810,19 @@ ${deskRules.join("\n")}
                 <div className="w-14 h-14 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-6">
                   <Trash2 className="w-7 h-7 text-red-400" />
                 </div>
-                <h3 className="text-white uppercase text-center mb-1">Delete Item?</h3>
+                <h3 className="text-center mb-1">Delete Item?</h3>
                 <p className="text-center mb-6">
                   This action cannot be undone. The item will be permanently removed from your account.
                 </p>
                 <div className="flex gap-3">
                   <button
                     onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
-                    className="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white uppercase transition cursor-pointer">
+                    className="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 transition cursor-pointer">
                     Cancel
                   </button>
                   <button
                     onClick={() => { setShowConfirmModal(false); setConfirmResult('confirmed'); }}
-                    className="flex-1 py-3 rounded-lg bg-red-600 hover:bg-red-500 text-white uppercase transition cursor-pointer">
+                    className="flex-1 py-3 rounded-lg bg-red-600 hover:bg-red-500 transition cursor-pointer">
                     Delete
                   </button>
                 </div>
@@ -3899,30 +3834,30 @@ ${deskRules.join("\n")}
         {/* SECTION 9: BORDERS & GLASS */}
         <section id="borders" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-purple-400 flex items-center gap-2">
+            <h2 className="flex items-center gap-2">
               9. Border & Glass Standard
             </h2>
-            <p className=" ">
+            <p className="">
               Confirming all dividers and component boundaries use our standardized global border color: <code>rgba(255, 255, 255, 0.08)</code>.
             </p>
           </div>
 
           <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
-            <div className="flex items-center justify-between text-white">
-              <span>Variable: <strong className="text-white">--color-border-main</strong></span>
+            <div className="flex items-center justify-between">
+              <span>Variable: <strong className="">--color-border-main</strong></span>
               <span>Computed Value: <strong>rgba(255, 255, 255, 0.08)</strong></span>
             </div>
 
             <div className="h-px bg-white/10 w-full" />
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02] text-white/80">
+              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02]  ">
                 Card Border: border-white/10
               </div>
-              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02] text-white/80">
+              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02]  ">
                 Divider: border-b border-white/10
               </div>
-              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02] text-white/80">
+              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02]  ">
                 Input Border: border-white/10
               </div>
             </div>
@@ -3932,10 +3867,10 @@ ${deskRules.join("\n")}
         {/* SCROLLBAR SHOWCASE */}
         <section id="scrollbars" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-purple-400 flex items-center gap-2">
+            <h2 className="flex items-center gap-2">
               <Sliders className="w-6 h-6" /> Custom Scrollbars
             </h2>
-            <p className=" ">
+            <p className="">
               Apply <code className="text-purple-300">custom-scrollbar</code> or <code className="text-purple-300">custom-purple-scrollbar</code> to any scrollable container.
               Both classes are identical — the glowing purple thumb always shows.
             </p>
@@ -3945,7 +3880,7 @@ ${deskRules.join("\n")}
 
             {/* Vertical scroll demo */}
             <div className="space-y-3">
-              <p className="uppercase text-purple-400">Vertical Scroll</p>
+              <p className="text-purple-400">Vertical Scroll</p>
               <div className="bg-white/[0.02] border border-white/10 rounded-lg overflow-hidden">
                 <CustomScrollbar height={256} className="p-4 space-y-3">
                   {Array.from({ length: 18 }).map((_, i) => (
@@ -3964,7 +3899,7 @@ ${deskRules.join("\n")}
 
             {/* Horizontal scroll demo */}
             <div className="space-y-3">
-              <p className="uppercase text-purple-400">Horizontal Scroll</p>
+              <p className="text-purple-400">Horizontal Scroll</p>
               <div className="bg-white/[0.02] border border-white/10 rounded-lg overflow-hidden">
                 <CustomScrollbar direction="horizontal" className="p-4 pb-6">
                   <div className="flex gap-3" style={{ minWidth: 900 }}>
@@ -3982,7 +3917,7 @@ ${deskRules.join("\n")}
 
             {/* Both axes demo */}
             <div className="space-y-3 md:col-span-2">
-              <p className="uppercase text-purple-400">Both Axes (2D Scroll)</p>
+              <p className="text-purple-400">Both Axes (2D Scroll)</p>
               <div
                 data-lenis-prevent
                 className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-lg p-4">
@@ -4005,7 +3940,7 @@ ${deskRules.join("\n")}
 
           {/* Usage code block */}
           <div className="bg-black/40 border border-white/10 rounded-lg p-5">
-            <p className="uppercase text-purple-400 mb-3">Usage</p>
+            <p className="text-purple-400 mb-3">Usage</p>
             <pre className="text-[11px] text-purple-200 overflow-x-auto custom-scrollbar">
               {`// globals.css already defines:
 .custom-scrollbar::-webkit-scrollbar        { width: 10px; height: 10px; }
@@ -4023,10 +3958,10 @@ ${deskRules.join("\n")}
         {/* SECTION 10: SPACING & PADDING TOKENS */}
         <section id="spacing" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-purple-400 flex items-center gap-2">
+            <h2 className=" flex items-center gap-2">
               <Box className="w-6 h-6" /> 10. Spacing & Page Padding Scale
             </h2>
-            <p className=" ">
+            <p className="">
               Standardized responsive page padding scale: <code className="text-purple-300">px-6 sm:px-8 lg:px-[42px]</code> (24px Mobile / 32px Tablet / 42px Desktop).
             </p>
           </div>
@@ -4034,19 +3969,19 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
               <span>Mobile Page Padding</span>
-              <div className="text-2xl text-white">16px (<code className="text-white/50">var(--page-padding-x)</code>)</div>
+              <div className="text-2xl">16px (<code className="text-white/50">var(--page-padding-x)</code>)</div>
               <p>Used on screens below 768px viewport width.</p>
             </div>
 
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-purple-400">Tablet Page Padding</span>
-              <div className="text-2xl text-white">32px (<code className="text-white/50">var(--page-padding-x)</code>)</div>
+              <div className="text-2xl">32px (<code className="text-white/50">var(--page-padding-x)</code>)</div>
               <p>Used on screens between 768px and 1024px viewport width.</p>
             </div>
 
             <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-emerald-400">Desktop Page Padding</span>
-              <div className="text-2xl text-white">42px (<code className="text-white/50">var(--page-padding-x)</code>)</div>
+              <div className="text-2xl">42px (<code className="text-white/50">var(--page-padding-x)</code>)</div>
               <p>Standardized max desktop horizontal container padding.</p>
             </div>
           </div>
@@ -4054,14 +3989,14 @@ ${deskRules.join("\n")}
           {/* Dedicated .site-container Utility Specification Card */}
           <div className="p-6 rounded-lg bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-1">
-              <span className="text-purple-400 uppercase block">
+              <span className="text-purple-400 block">
                 Primary Layout Wrapper Class
               </span>
-              <h3 className="text-white flex items-center gap-2">
+              <h3 className="flex items-center gap-2">
                 <code className="text-purple-300 bg- purple-white/20 px-2 py-0.5 rounded-lg border border-purple-500/40">.site-container</code>
-                <span className="text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-lg uppercase r">Active Globally</span>
+                <span className="text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-lg r">Active Globally</span>
               </h3>
-              <p className="max-w-2xl ">
+              <p className="max-w-2xl">
                 The universal wrapper class <code className="text-purple-300">.site-container</code> enforces 100% full-bleed edge-to-edge layout width with responsive breakpoint padding (<code>16px</code> Mobile $\rightarrow$ <code className="text-purple-300">32px</code> Tablet $\rightarrow$ <code className="text-emerald-300">42px</code> Desktop).
               </p>
             </div>
@@ -4077,18 +4012,16 @@ ${deskRules.join("\n")}
         <section id="canvas-studio" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <h2 className="uppercase text-emerald-400 flex items-center gap-2">
+              <h2 className="text-emerald-400 flex items-center gap-2">
                 <Sliders className="w-6 h-6" /> 11. Canvas Shader & Full-Page Film Grain Studio
               </h2>
-              <p className=" ">
+              <p className="">
                 Interactive real-time controller for background WebGL shader parameters and full-page film grain overlay system.
               </p>
             </div>
             <button
               onClick={handleCopyCanvasSpec}
-              className={`px-4 py-2.5 rounded-lg uppercase transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
-                : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
-                }`}>
+              className={`px-4 py-2.5 rounded-lg transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec ? "bg-emerald-600 border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.5)]" : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"}`}>
               {copiedCanvasSpec ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copiedCanvasSpec ? "Canvas Specs Copied!" : "Copy Canvas & Grain Spec"}</span>
             </button>
@@ -4097,7 +4030,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Full-Page Film Grain Controls */}
             <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-6">
-              <h3 className="uppercase text-emerald-400 flex items-center gap-2">
+              <h3 className="text-emerald-400 flex items-center gap-2">
                 Film Grain Controls
               </h3>
               <p>
@@ -4107,7 +4040,7 @@ ${deskRules.join("\n")}
               {/* Grain Opacity Slider */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="text-white/80">Grain Opacity</span>
+                  <span className=" ">Grain Opacity</span>
                   <span className="text-emerald-400">{canvasGrainOpacity}% ({(canvasGrainOpacity / 100).toFixed(2)})</span>
                 </div>
                 <input
@@ -4124,9 +4057,7 @@ ${deskRules.join("\n")}
                       key={op}
                       type="button"
                       onClick={() => setCanvasGrainOpacity(op)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${canvasGrainOpacity === op ? "bg-emerald-600 border-emerald-400 text-white"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`flex-1 py-1 rounded text-[10px] border transition ${canvasGrainOpacity === op ? "bg-emerald-600 border-emerald-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {op}%
                     </button>
                   ))}
@@ -4136,7 +4067,7 @@ ${deskRules.join("\n")}
               {/* Grain Size Slider */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="text-white/80">Grain Size (baseFrequency)</span>
+                  <span className=" ">Grain Size (baseFrequency)</span>
                   <span className="text-emerald-400">{canvasGrainSize}</span>
                 </div>
                 <input
@@ -4154,9 +4085,7 @@ ${deskRules.join("\n")}
                       key={sz}
                       type="button"
                       onClick={() => setCanvasGrainSize(sz)}
-                      className={`flex-1 py-1 rounded text-[10px]    uppercase border transition ${canvasGrainSize === sz ? "bg-emerald-600 border-emerald-400 text-white"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`flex-1 py-1 rounded text-[10px] border transition ${canvasGrainSize === sz ? "bg-emerald-600 border-emerald-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {sz}
                     </button>
                   ))}
@@ -4165,7 +4094,7 @@ ${deskRules.join("\n")}
 
               {/* Grain Blend Mode */}
               <div className="space-y-2">
-                <label className="block text-white/80">Grain Blend Mode</label>
+                <label className="block  ">Grain Blend Mode</label>
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
                   {[
                     { label: "Overlay", val: "overlay" },
@@ -4178,9 +4107,7 @@ ${deskRules.join("\n")}
                       key={mode.val}
                       type="button"
                       onClick={() => setCanvasGrainBlend(mode.val)}
-                      className={`py-1.5 px-1 rounded text-[10px]    border truncate transition ${canvasGrainBlend === mode.val ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
-                        : " bg-[#00000029] border-white/10 text-white hover:text-white"
-                        }`}>
+                      className={`py-1.5 px-1 rounded text-[10px] border truncate transition ${canvasGrainBlend === mode.val ? "bg-emerald-600/40 border-emerald-400 text-emerald-200" : " bg-[#00000029] border-white/10 hover:text-white "}`}>
                       {mode.label}
                     </button>
                   ))}
@@ -4190,7 +4117,7 @@ ${deskRules.join("\n")}
 
             {/* Background WebGL Shader Controls — LIVE connected to NeatGradient */}
             <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
-              <h3 className="uppercase text-purple-400 flex items-center gap-2">
+              <h3 className=" flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> 2. Background Shader Parameters (Live)
               </h3>
               <p>All sliders update the WebGL canvas shader in real-time via <code className="text-purple-300">window.__neatInstance</code>.</p>
@@ -4211,8 +4138,8 @@ ${deskRules.join("\n")}
               ] as const).map((ctrl) => (
                 <div key={ctrl.label} className="space-y-1">
                   <div className="flex justify-between items-center">
-                    <span className="text-white/80">{ctrl.label}</span>
-                    <span className={` text-${ctrl.color}-400`}>{ctrl.value}</span>
+                    <span className=" ">{ctrl.label}</span>
+                    <span className={`text-${ctrl.color}-400`}>{ctrl.value}</span>
                   </div>
                   <input
                     type="range"
@@ -4228,7 +4155,7 @@ ${deskRules.join("\n")}
 
               {/* Background Color */}
               <div className="space-y-2">
-                <label className="block text-white/80">Background Color</label>
+                <label className="block  ">Background Color</label>
                 <div className="flex items-center gap-3">
                   {[
                     { label: "Midnight", bg: "#05030a" },
@@ -4243,8 +4170,7 @@ ${deskRules.join("\n")}
                       onClick={() => setCanvasBgColor(bg.bg)}
                       style={{ backgroundColor: bg.bg }}
                       title={bg.label}
-                      className={`w-6 h-6 rounded-lg border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : " border-white/10 "
-                        }`}
+                      className={`w-6 h-6 rounded-lg border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : " border-white/10 "}`}
                     />
                   ))}
                   <input
@@ -4263,11 +4189,11 @@ ${deskRules.join("\n")}
         {/* SECTION 11: GLOBAL CONTAINER STYLES */}
         <section id="global-containers" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="uppercase text-pink-400 flex items-center gap-2">
+            <h2 className="text-pink-400 flex items-center gap-2">
               <Settings className="w-6 h-6" /> 11. Global Container, Border & Background Styles
             </h2>
-            <p className=" ">
-              Edit global CSS variables for section/card backgrounds, borders, and glass surfaces. Changes apply site-wide in real-time. Hit <strong className="text-white">SAVE THEME TOKENS</strong> at the top to persist.
+            <p className="">
+              Edit global CSS variables for section/card backgrounds, borders, and glass surfaces. Changes apply site-wide in real-time. Hit <strong className="">SAVE THEME TOKENS</strong> at the top to persist.
             </p>
           </div>
 
@@ -4292,7 +4218,7 @@ ${deskRules.join("\n")}
                 <div key={item.token} className="p-4 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="uppercase text-pink-400">{item.label}</span>
+                      <span className="text-pink-400">{item.label}</span>
                       <p className="mt-0.5">{item.desc}</p>
                     </div>
                     <code className="text-[10px] text-white/40 bg-black/40 px-2 py-1 rounded border border-white/5">{item.token}</code>
@@ -4306,13 +4232,13 @@ ${deskRules.join("\n")}
                       type="text"
                       value={currentValue}
                       onChange={(e) => updateToken(item.category, item.token, e.target.value)}
-                      className="flex-1 px-3 py-1.5 bg-[#00000029] border border-white/10 rounded-lg text-white focus:border-pink-500 focus:outline-none transition"
+                      className="flex-1 px-3 py-1.5 bg-[#00000029] border border-white/10 rounded-lg focus:border-pink-500 focus:outline-none transition"
                       placeholder="rgba(255,255,255,0.03)"
                     />
                     <button
                       type="button"
                       onClick={() => updateToken(item.category, item.token, "transparent")}
-                      className="px-2 py-1.5 text-[10px] uppercase text-white bg-[#00000029] border border-white/10 rounded-lg hover:text-white hover:border-white/30 transition">
+                      className="px-2 py-1.5 text-[10px] bg-[#00000029] border border-white/10 rounded-lg hover:text-white hover:border-white/30 transition">
                       Clear
                     </button>
                   </div>
@@ -4326,9 +4252,7 @@ ${deskRules.join("\n")}
                         key={preset}
                         type="button"
                         onClick={() => updateToken(item.category, item.token, preset)}
-                        className={`px-2 py-1 rounded text-[12px]    border transition ${currentValue === preset ? "bg-pink-600/40 border-pink-400 text-pink-200"
-                          : " bg-[#00000029] border-white/10 text-white/50 hover:text-white"
-                          }`}>
+                        className={`px-2 py-1 rounded text-[12px] border transition ${currentValue === preset ? "bg-pink-600/40 border-pink-400 text-pink-200" : " bg-[#00000029] border-white/10 text-white/50 hover:text-white "}`}>
                         {preset === "transparent" ? "none" : preset.length > 20 ? preset.slice(0, 18) + "…" : preset}
                       </button>
                     ))}
@@ -4340,7 +4264,7 @@ ${deskRules.join("\n")}
 
           {/* Live Preview Strip */}
           <div className="space-y-3">
-            <h3 className="uppercase text-white">Live Preview</h3>
+            <h3 className="">Live Preview</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-5 rounded-lg space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-card"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
                 <span className="text-pink-400">Card Container</span>
@@ -4361,19 +4285,19 @@ ${deskRules.join("\n")}
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
         <section id="stateroom-perks" className="scroll-mt-36 border-0 rounded-lg p-0 space-y-6 overflow-hidden">
           <div className="border-b border-white/10 px-0 py-4 pb-4">
-            <h2 className="uppercase text-purple-400flex items-center gap-2">
+            <h2 className=" flex items-center gap-2">
               <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
             </h2>
-            <p className=" ">
+            <p className="">
               Interactive preview of the Stateroom Categories catalog and Suite Class Perks component (from the Cruise page). Responds to container, border, and accent theme token changes in real-time.
             </p>
           </div>
 
           <div className="p-0 grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
             {/* Stateroom Categories Tab Column — borderless & unpadded */}
-            <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 shadow-none">
+            <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0  ">
               <div>
-                <h3 className="uppercase text-white mb-6">Stateroom Categories</h3>
+                <h3 className="mb-6">Stateroom Categories</h3>
                 <div className="flex flex-col gap-2.5">
                   {[
                     { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
@@ -4385,20 +4309,18 @@ ${deskRules.join("\n")}
                       key={tab.id}
                       type="button"
                       onClick={() => setStateroomTab(tab.id as any)}
-                      className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 text-white"
-                        : " bg-[#00000029] hover:bg-white/10 text-white/80"
-                        }`}>
-                      <h4 className="text-white uppercase r">{tab.label}</h4>
-                      <p className=" ">{tab.desc}</p>
+                      className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 " : " bg-[#00000029] hover:bg-white/10  "}`}>
+                      <h4 className="r">{tab.label}</h4>
+                      <p className="">{tab.desc}</p>
                     </button>
                   ))}
                 </div>
               </div>
 
               <div className="mt-8 border-0 p-0">
-                <h4 className="uppercase text-white mb-3">Available layouts:</h4>
+                <h4 className="mb-3">Available layouts:</h4>
                 {stateroomTab === "suites" && (
-                  <div className="space-y-2 text-white/80 font-medium">
+                  <div className="space-y-2   font-medium">
                     <p>• Ultimate Family Townhouse</p>
                     <p>• Royal Loft Suite</p>
                     <p>• Owner&apos;s Suite</p>
@@ -4408,7 +4330,7 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "balcony" && (
-                  <div className="space-y-2 text-white/80 font-medium">
+                  <div className="space-y-2   font-medium">
                     <p>• Infinite Ocean View Balcony</p>
                     <p>• Infinite Central Park Balcony</p>
                     <p>• Ocean View Balcony</p>
@@ -4417,13 +4339,13 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "ocean" && (
-                  <div className="space-y-2 text-white/80 font-medium">
+                  <div className="space-y-2   font-medium">
                     <p>• Panoramic Ocean View</p>
                     <p>• Ocean View</p>
                   </div>
                 )}
                 {stateroomTab === "interior" && (
-                  <div className="space-y-2 text-white/80 font-medium">
+                  <div className="space-y-2   font-medium">
                     <p>• Interior</p>
                     <p>• Spacious Interior</p>
                     <p>• Central Park View Interior</p>
@@ -4434,12 +4356,12 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Suite Class Benefits Column (Span 2) */}
-            <div className="lg:col-span-2 bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 md:p-8 rounded-lg flex flex-col justify-between ">
+            <div className="lg:col-span-2 bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 md:p-8 rounded-lg flex flex-col justify-between">
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                   <div>
-                    <span className="uppercase ]">VIP Experiences</span>
-                    <h3 className="uppercase text-white ">Suite Class Perks</h3>
+                    <span className="]">VIP Experiences</span>
+                    <h3 className="">Suite Class Perks</h3>
                   </div>
                   <div className="flex gap-1.5 bg-[#00000029] p-1.5 border border-white/10 rounded-xl">
                     {(["sea", "sky", "star"] as const).map(perk => (
@@ -4447,9 +4369,7 @@ ${deskRules.join("\n")}
                         key={perk}
                         type="button"
                         onClick={() => setSuiteTab(perk)}
-                        className={`px-4 py-2 rounded-lg    uppercase transition-colors cursor-pointer ${suiteTab === perk ? "bg-cyan-600 text-white shadow-cyan-600/30"
-                          : "   text-white hover:text-white"
-                          }`}>
+                        className={`px-4 py-2 rounded-lg transition-colors cursor-pointer ${suiteTab === perk ? "bg-cyan-600 shadow-cyan-600/30" : " hover:text-white "}`}>
                         {perk} Class
                       </button>
                     ))}
@@ -4457,7 +4377,7 @@ ${deskRules.join("\n")}
                 </div>
 
                 {/* Benefits List */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base text-white/90">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base /90">
                   {suiteTab === "sea" && [
                     "Dedicated check-in line",
                     "Priority boarding",
@@ -4526,7 +4446,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Disclaimers & Notes */}
-              <div className="mt-8 border-t border-white/10 pt-4 text-white space-y-1.5 font-semibold">
+              <div className="mt-8 border-t border-white/10 pt-4 space-y-1.5 font-semibold">
                 {suiteTab === "sea" && (
                   <>
                     <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
@@ -4556,8 +4476,8 @@ ${deskRules.join("\n")}
           <div className="pt-8 border-t border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <span className="uppercase text-purple-400">Prevailing Market Pricing Cards</span>
-                <h3 className="uppercase text-white ">Stateroom & Cabin Rate Cards</h3>
+                <span className="text-purple-400">Prevailing Market Pricing Cards</span>
+                <h3 className="">Stateroom & Cabin Rate Cards</h3>
               </div>
             </div>
 
@@ -4571,9 +4491,9 @@ ${deskRules.join("\n")}
                 return (
                   <div
                     key={room.code}
-                    className="overflow-hidden rounded-lg flex flex-col justify-between group relative shadow-none border-0 ">
+                    className="overflow-hidden rounded-lg flex flex-col justify-between group relative   border-0">
                     {isYo && (
-                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] uppercase px-2.5 py-1 rounded-lg flex items-center gap-1 border-0 z-10">
+                      <div className="absolute top-3 right-3 bg-purple-600 text-[10px] px-2.5 py-1 rounded-lg flex items-center gap-1 border-0 z-10">
                         <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
                         <span>Popular</span>
                       </div>
@@ -4586,25 +4506,22 @@ ${deskRules.join("\n")}
                       )}
                       <div className="px-0 py-5">
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                          <span className={`text-[10px] uppercase px-2.5 py-0.5 rounded border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'
-                            }`}>{room.label}</span>
+                          <span className={`text-[10px] px-2.5 py-0.5 rounded border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'}`}>{room.label}</span>
                         </div>
-                        <span className="text-[10px] text-white/50 uppercase block">{room.code} Category</span>
-                        <h4 className="text-white uppercase mt-0.5 text-left">{room.title}</h4>
+                        <span className="text-[10px] text-white/50 block">{room.code} Category</span>
+                        <h4 className="mt-0.5 text-left">{room.title}</h4>
                       </div>
                     </div>
 
                     <div className="px-0 pt-0 pb-5 text-left">
                       <div className="flex items-baseline gap-1.5">
-                        <span className="text-xl text-white">{room.price}</span>
-                        <span className="text-white">USD pp</span>
+                        <span className="text-xl">{room.price}</span>
+                        <span className="">USD pp</span>
                       </div>
-                      <span className="text-[10px] text-white/50 uppercase block ">Rates as of June 27, 2026</span>
+                      <span className="text-[10px] text-white/50 block">Rates as of June 27, 2026</span>
                       <button
                         type="button"
-                        className={`mt-4 w-full py-2.5 px-4 rounded-lg uppercase flex items-center justify-center gap-1.5 cursor-pointer border-0 ${isYo ? 'bg-purple-600 hover:bg-purple-500 text-white'
-                          : 'bg-purple-600 hover:bg-purple-500 text-white'
-                          }`}>
+                        className={`mt-4 w-full py-2.5 px-4 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer border-0 ${isYo ? 'bg-purple-600 hover:bg-purple-500 ' : 'bg-purple-600 hover:bg-purple-500 '}`}>
                         <span>Select Prevailing Rate</span>
 
                       </button>
@@ -4619,63 +4536,63 @@ ${deskRules.join("\n")}
           <div className="pt-8 border-t border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <span className="uppercase ]">Reservation Form Component</span>
-                <h3 className="uppercase text-white ">Cruise Guest Booking Registration Card</h3>
+                <span className="]">Reservation Form Component</span>
+                <h3 className="">Cruise Guest Booking Registration Card</h3>
               </div>
             </div>
 
-            <div className="booking-form-card border-0 rounded-lg overflow-hidden shadow-none p-0 text-left">
+            <div className="booking-form-card border-0 rounded-lg overflow-hidden   p-0 text-left">
               {/* Header Banner */}
-              <div className="booking-header-banner border-0 px-0 py-2 text-left ">
-                <h2 className="uppercase text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
-                <p className="text-purple-400 uppercase ">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
-                <p className="uppercase mt-0.5">GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS (877-683-9753)</p>
+              <div className="booking-header-banner border-0 px-0 py-2 text-left">
+                <h2 className="">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                <p className="text-purple-400">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
+                <p className="mt-0.5">GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS <a href="tel:8776839753" className="hover:underline transition-colors">(877-683-9753)</a></p>
               </div>
 
               {/* GUEST 1 (Primary Booker) */}
               <div className="booking-section-container border-0 p-0">
                 <div className="booking-section-header px-0 py-3 border-0 flex items-center justify-between">
-                  <span className="uppercase text-white">Guest 1 (Primary Booker)</span>
-                  <span className="uppercase text-white bg-purple-600 px-3 py-1 rounded-lg border-0">Primary</span>
+                  <span className="">Guest 1 (Primary Booker)</span>
+                  <span className="bg-purple-600 px-3 py-1 rounded-lg border-0">Primary</span>
                 </div>
                 <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2" suppressHydrationWarning>
                   {/* Name */}
                   <div className="booking-cell border-0 py-3 px-0 col-span-2" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-name" className="booking-label block text-purple-400uppercase mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+                    <label htmlFor="sg-guest1-name" className="booking-label block text-purple-400 mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Phone */}
                   <div className="booking-cell border-0 py-3 px-0 md:pr-3" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-phone" className="booking-label block text-purple-400uppercase mb-1.5">Phone Number *</label>
-                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+                    <label htmlFor="sg-guest1-phone" className="booking-label block text-purple-400 mb-1.5">Phone Number *</label>
+                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Email */}
                   <div className="booking-cell border-0 py-3 px-0 md:pl-3" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-email" className="booking-label block text-purple-400uppercase mb-1.5">Email Address *</label>
-                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+                    <label htmlFor="sg-guest1-email" className="booking-label block text-purple-400 mb-1.5">Email Address *</label>
+                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* T-Shirt Size */}
                   <div className="booking-cell border-0 py-3 px-0 md:pr-3 relative" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-tshirt" className="booking-label block text-purple-400uppercase mb-1.5">T-Shirt Size</label>
-                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
-                      {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817] text-white">{sz}</option>)}
+                    <label htmlFor="sg-guest1-tshirt" className="booking-label block text-purple-400 mb-1.5">T-Shirt Size</label>
+                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold focus:outline-none cursor-pointer appearance-none rounded-lg">
+                      {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817]">{sz}</option>)}
                     </select>
                   </div>
                   {/* Crown & Anchor */}
                   <div className="booking-cell border-0 py-3 px-0 md:pl-3" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-crown" className="booking-label block text-purple-400uppercase mb-1.5">Crown & Anchor Number (if applicable)</label>
-                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+                    <label htmlFor="sg-guest1-crown" className="booking-label block text-purple-400 mb-1.5">Crown & Anchor Number (if applicable)</label>
+                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold placeholder: text-white/40 focus:outline-none rounded-lg" />
                   </div>
                 </div>
 
                 {/* Toggles */}
                 <div className="grid grid-cols-1 md:grid-cols-2 border-0 gap-y-2 mt-2">
                   <div className="booking-cell border-0 py-3 px-0 md:pr-3 flex flex-col justify-between">
-                    <span className="booking-label block text-purple-400uppercase mb-2.5">Do you want travel protection insurance? *</span>
+                    <span className="booking-label block text-purple-400 mb-2.5">Do you want travel protection insurance? *</span>
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Travel protection option" key={opt} type="button" onClick={() => setSgGuestInsurance(opt)}
-                          className={`flex-1 py-2.5 rounded-lg    uppercase border-0 transition-colors cursor-pointer ${sgGuestInsurance === opt ? "bg-cyan-600 text-white shadow-cyan-600/30" : " bg-[#00000029] text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg border-0 transition-colors cursor-pointer ${sgGuestInsurance === opt ? "bg-cyan-600 shadow-cyan-600/30" : " bg-[#00000029] text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                         </button>
                       ))}
@@ -4683,11 +4600,11 @@ ${deskRules.join("\n")}
                   </div>
 
                   <div className="booking-cell border-0 py-3 px-0 md:pl-3 flex flex-col justify-between">
-                    <span className="booking-label block text-purple-400 uppercase mb-2.5">Do you want pre-paid gratuities? *</span>
+                    <span className="booking-label block text-purple-400 mb-2.5">Do you want pre-paid gratuities? *</span>
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Prepaid gratuities option" key={opt} type="button" onClick={() => setSgGuestGratuities(opt)}
-                          className={`flex-1 py-2.5 rounded-lg    uppercase border-0 transition-colors cursor-pointer ${sgGuestGratuities === opt ? "bg-purple-600 text-white shadow-purple-600/30" : " bg-[#00000029] text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg border-0 transition-colors cursor-pointer ${sgGuestGratuities === opt ? "bg-purple-600 shadow-purple-600/30" : " bg-[#00000029] text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                         </button>
                       ))}
@@ -4702,25 +4619,25 @@ ${deskRules.join("\n")}
           <div className="pt-8 border-t border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <span className="uppercase text-purple-400">Policies & Terms Component</span>
-                <h3 className="uppercase text-white ">Cruise Booking, Passport & Cancellation Guidelines</h3>
+                <span className="text-purple-400">Policies & Terms Component</span>
+                <h3 className="">Cruise Booking, Passport & Cancellation Guidelines</h3>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 text-left">
               {/* Column 1: Booking Policy */}
-              <div className=" border-0 p-0 relative text-left">
+              <div className="border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-6">
                   <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0" />
-                  <h3 className="uppercase text-white">Booking Policy & Best Rate Guarantee</h3>
+                  <h3 className="">Booking Policy & Best Rate Guarantee</h3>
                 </div>
-                <p className="text-amber-400 uppercase mb-6">
+                <p className="text-amber-400 mb-6">
                   Book through us to participate & lock in best rates
                 </p>
                 <p className="mb-6">
-                  To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className="text-white font-extrabold">must</strong> be placed under our official group booking.
+                  To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className=" ">must</strong> be placed under our official group booking.
                 </p>
-                <ul className="space-y-3 text-white/80 mb-6">
+                <ul className="space-y-3   mb-6">
                   <li className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-purple-400shrink-0 mt-0.5" />
                     <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions.</span>
@@ -4738,13 +4655,13 @@ ${deskRules.join("\n")}
                     <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <AlertTriangle className="w-4 h-4  shrink-0 mt-0.5" />
+                    <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
                     <span><strong>Prevailing Rates:</strong> Gratuities are <strong>NOT included</strong> (Pre-paid gratuities are $129.50 PP • $147 PP for Suites).</span>
                   </li>
                 </ul>
                 <div className="pt-3 border-t border-white/10 space-y-2">
                   <p>
-                    <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="hover:text-white  transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="hover:text-white  transition-colors">Mary@NTDVacations.com</a>
+                    <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="hover:text-white transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="hover:text-white transition-colors">Mary@NTDVacations.com</a>
                   </p>
                   <p>
                     <CreditCard className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin (Min $500).
@@ -4756,39 +4673,39 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Column 2: Passport Requirements */}
-              <div className=" border-0 p-0 relative text-left">
+              <div className="border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-6">
                   <Compass className="w-6 h-6 text-purple-400shrink-0" />
-                  <h3 className="uppercase text-white">Passport Requirements</h3>
+                  <h3 className="">Passport Requirements</h3>
                 </div>
-                <p className="text-purple-400uppercase mb-6">
+                <p className="mb-6">
                   Essential travel document guidelines
                 </p>
-                <div className="space-y-4 text-white/80">
+                <div className="space-y-4  ">
                   <p>
-                    A physical passport book valid for 6 months post-cruise is <strong className="text-white  inline-block">highly recommended</strong> for all travelers.
+                    A physical passport book valid for 6 months post-cruise is <strong className="inline-block">highly recommended</strong> for all travelers.
                   </p>
                   <p>
                     For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
                   </p>
                   <p>
-                    Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="  hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
+                    Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
                   </p>
                 </div>
               </div>
 
               {/* Column 3: Cancellation Policy */}
-              <div className=" border-0 p-0 relative text-left">
+              <div className="border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-6">
                   <Calendar className="w-6 h-6 text-purple-400 shrink-0" />
-                  <h3 className="uppercase text-white">Cancellation Policy</h3>
+                  <h3 className="">Cancellation Policy</h3>
                 </div>
-                <p className="text-purple-400 uppercase mb-6">
+                <p className=" mb-6">
                   Refund terms before booking
                 </p>
-                <div className="space-y-4 text-white/80">
+                <div className="space-y-4  ">
                   <div>
-                    <h4 className="text-white uppercase mb-1">Group Rate Rooms:</h4>
+                    <h4 className="mb-1">Group Rate Rooms:</h4>
                     <ul className="list-disc pl-5 space-y-1">
                       <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
                       <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
@@ -4799,7 +4716,7 @@ ${deskRules.join("\n")}
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-white uppercase mb-1">Prevailing Rate:</h4>
+                    <h4 className="mb-1">Prevailing Rate:</h4>
                     <p>Cancel by Oct 10, 2026 for no penalty.</p>
                   </div>
                 </div>
@@ -4811,10 +4728,10 @@ ${deskRules.join("\n")}
         {/* SECTION 13: CREW SCHEDULING & CREW GROUPS SYSTEM */}
         <section id="crew-scheduling" className="scroll-mt-36 border-0 rounded-lg p-0 space-y-8 overflow-hidden">
           <div className="border-b border-white/10 px-0 py-4 pb-4">
-            <h2 className="uppercase text-purple-400 flex items-center gap-2">
+            <h2 className=" flex items-center gap-2">
               <Calendar className="w-6 h-6" /> 13. Crew Scheduling & Crew Groups System
             </h2>
-            <p className=" ">
+            <p className="">
               Complete UI specification and live previews of the OpenShifts grid cell controls, Select Crew Group popover module, Create New Crew Group glass modal, and Shift Drawer candidate assignment cards.
             </p>
           </div>
@@ -4826,29 +4743,29 @@ ${deskRules.join("\n")}
               <div>
                 <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-6">
                   <div>
-                    <h3 className="uppercase text-white">OpenShifts Cell & Group Popover</h3>
+                    <h3 className="">OpenShifts Cell & Group Popover</h3>
                     <p>Grid cell action buttons & frosted glass group selection popover</p>
                   </div>
-                  <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] uppercase border border-purple-500/30">Module Preview</span>
+                  <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] border border-purple-500/30">Module Preview</span>
                 </div>
 
                 {/* OpenShifts Cell Controls Mockup */}
                 <div className="space-y-3">
-                  <span className="text-[10px] text-white/40 uppercase block">1. OpenShifts Grid Cell Buttons</span>
+                  <span className="text-[10px] text-white/40 block">1. OpenShifts Grid Cell Buttons</span>
                   <div className="p-3 bg-[#0d0d14] border border-white/10 rounded-lg space-y-2 max-w-sm">
                     <div className="w-full py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                       <span className="text-purple-400 group-hover:text-purple-300">+</span>
-                      <span className="text-[12px] uppercase text-purple-400 group-hover:text-purple-300 mt-0.5">Add Crew Member</span>
+                      <span className="text-[12px] text-purple-400 group-hover:text-purple-300 mt-0.5">Add Crew Member</span>
                     </div>
 
                     <div className="flex gap-2 w-full">
                       <div className="flex-1 py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                         <span className="text-purple-400 group-hover:text-purple-300">+</span>
-                        <span className="text-[12px] uppercase text-purple-400 group-hover:text-purple-300 mt-0.5 text-center">Add Crew Group</span>
+                        <span className="text-[12px] text-purple-400 group-hover:text-purple-300 mt-0.5 text-center">Add Crew Group</span>
                       </div>
                       <div className="flex-1 py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
                         <span className="text-purple-400 group-hover:text-purple-300">+</span>
-                        <span className="text-[12px] uppercase text-purple-400 group-hover:text-purple-300 mt-0.5 text-center">Create Group</span>
+                        <span className="text-[12px] text-purple-400 group-hover:text-purple-300 mt-0.5 text-center">Create Group</span>
                       </div>
                     </div>
                   </div>
@@ -4856,11 +4773,11 @@ ${deskRules.join("\n")}
 
                 {/* Select Crew Group Popover Spec */}
                 <div className="space-y-3 mt-6">
-                  <span className="text-[10px] text-white/40 uppercase block">2. Frosted Glass Select Crew Group Popover</span>
+                  <span className="text-[10px] text-white/40 block">2. Frosted Glass Select Crew Group Popover</span>
                   <div
-                    className="w-full max-w-sm bg-[#14151f]/80backdrop-blur-[18px] border border-white/10 rounded-lg p-4 flex flex-col gap-2 "
+                    className="w-full max-w-sm bg-[#14151f]/80backdrop-blur-[18px] border border-white/10 rounded-lg p-4 flex flex-col gap-2"
                     style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
-                    <div className="text-white/90 uppercase px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
+                    <div className="/90 px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
                       <span>Select Crew Group</span>
                       <span className="text-white/50 px-2 py-0.5 bg-[#00000029] rounded-lg border border-white/10">3 saved</span>
                     </div>
@@ -4874,10 +4791,10 @@ ${deskRules.join("\n")}
                         <button
                           key={grp.name}
                           type="button"
-                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 text-white transition-all cursor-pointer border border-white/10 border-white/10 flex items-center gap-3 ">
+                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-all cursor-pointer border border-white/10 border-white/10 flex items-center gap-3">
                           <span className="w-7 h-7 rounded-lg bg- purple-white/20 border border-purple-500/30 text-purple-300 flex items-center justify-center shrink-0 shadow-inner">+</span>
                           <div className="min-w-0 flex-1 flex items-center justify-between">
-                            <span className="truncate font-extrabold">{grp.name}</span>
+                            <span className="truncate  ">{grp.name}</span>
                             <span className="text-[10px] text-white/40 font-semibold">{grp.count}</span>
                           </div>
                         </button>
@@ -4892,51 +4809,51 @@ ${deskRules.join("\n")}
             <div className="bg-white/[0.02] border border-white/10 rounded-lg p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
-                  <h3 className="uppercase text-white">Create New Crew Group Glass Modal</h3>
+                  <h3 className="">Create New Crew Group Glass Modal</h3>
                   <p>Modal container, input spacing, toggle checklist & role preset pills</p>
                 </div>
-                <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] uppercase border border-purple-500/30">Modal Spec</span>
+                <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] border border-purple-500/30">Modal Spec</span>
               </div>
 
               {/* Modal Frame Mockup */}
-              <div className="bg-black/30backdrop-blur-[18px] border border-white/10 rounded-lg overflow-hidden ">
+              <div className="bg-black/30backdrop-blur-[18px] border border-white/10 rounded-lg overflow-hidden">
                 {/* Header */}
                 <div className="p-4 border-b border-white/10 flex items-center justify-between shrink-0">
                   <div>
-                    <h3 className="italic text-white">Create New Crew Group</h3>
-                    <p className="uppercase mt-0.5">Select members and customize their shift slots</p>
+                    <h3 className="italic">Create New Crew Group</h3>
+                    <p className="mt-0.5">Select members and customize their shift slots</p>
                   </div>
-                  <button type="button" className="text-white/40 hover:text-white transition-colors cursor-pointer border-none ">✕</button>
+                  <button type="button" className="text-white/40 hover:text-white transition-colors cursor-pointer border-none">✕</button>
                 </div>
 
                 {/* Body */}
                 <CustomScrollbar height={384} className="px-4 pt-5 pb-3 space-y-3.5">
                   {/* Group Name input */}
-                  <div className=" space-y-1.5">
-                    <label className="text-[12px] uppercase text-white/50 block">Group Name</label>
+                  <div className="space-y-1.5">
+                    <label className="text-[12px] text-white/50 block">Group Name</label>
                     <input
                       type="text"
                       readOnly
                       value="Weekend Tech Crew"
-                      className="w-full px-3.5 py-2.5 border border-white/10 rounded-lg text-white"
+                      className="w-full px-3.5 py-2.5 border border-white/10 rounded-lg"
                     />
                   </div>
 
                   {/* Member selection list item */}
                   <div className="space-y-1.5 pt-2">
-                    <span className="text-[12px] uppercase text-white/50 block">Select Crew Members</span>
+                    <span className="text-[12px] text-white/50 block">Select Crew Members</span>
                     <div className="p-3 border border-white/10 rounded-lg space-y-3">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-4 bg-purple-600 rounded-lg relative cursor-pointer">
                             <div className="w-3.5 h-3.5 bg-white rounded-lg absolute top-0.25 right-0.5" />
                           </div>
-                          <div className="w-7 h-7 rounded-lg bg-purple-600 border border-purple-400/40 text-[10px] text-white flex items-center justify-center">
+                          <div className="w-7 h-7 rounded-lg bg-purple-600 border border-purple-400/40 text-[10px] flex items-center justify-center">
                             AJ
                           </div>
                           <div>
                             <p>Abbie Janssen</p>
-                            <span className="text-[8px] text-white/40 uppercase font-semibold block">STAGE MANAGER</span>
+                            <span className="text-[8px] text-white/40 font-semibold block">STAGE MANAGER</span>
                           </div>
                         </div>
                       </div>
@@ -4944,25 +4861,23 @@ ${deskRules.join("\n")}
                       {/* Time Frame box */}
                       <div className="p-2.5 border border-white/10 space-y-2 rounded-lg">
                         <div className="flex items-center justify-between">
-                          <span className="uppercase text-purple-300 text-[9.5px]">Time Frame 1</span>
+                          <span className="text-purple-300 text-[9.5px]">Time Frame 1</span>
                         </div>
                         <div className="grid grid-cols-2 gap-2">
-                          <div className="p-1.5 bg-[#00000029] border border-white/10 rounded text-[10px] text-white">5:00 PM</div>
-                          <div className="p-1.5 bg-[#00000029] border border-white/10 rounded text-[10px] text-white">10:00 PM</div>
+                          <div className="p-1.5 bg-[#00000029] border border-white/10 rounded text-[10px]">5:00 PM</div>
+                          <div className="p-1.5 bg-[#00000029] border border-white/10 rounded text-[10px]">10:00 PM</div>
                         </div>
 
                         {/* Role Pills Showcase */}
                         <div className="pt-1">
-                          <span className="uppercase text-white/50 mb-1 block">Roles / Duties</span>
+                          <span className="text-white/50 mb-1 block">Roles / Duties</span>
                           <div className="flex flex-wrap gap-1">
                             {["STAGE HAND", "AUDIO MIX", "LIGHTS", "STAGE MANAGER"].map(preset => {
                               const isSelected = preset === "STAGE MANAGER" || preset === "LIGHTS";
                               return (
                                 <span
                                   key={preset}
-                                  className={`px-2 py-0.5 rounded-lg text-[10.5px] uppercase border ${isSelected ? 'bg-purple-600 text-white border-purple-500 '
-                                    : ' bg-[#00000029] border-white/10 text-white/70'
-                                    }`}>
+                                  className={`px-2 py-0.5 rounded-lg text-[10.5px] border ${isSelected ? 'bg-purple-600 border-purple-500 ' : ' bg-[#00000029] border-white/10 text-white/70'}`}>
                                   {isSelected ? `✓ ${preset}` : preset}
                                 </span>
                               );
@@ -4976,10 +4891,10 @@ ${deskRules.join("\n")}
 
                 {/* Footer */}
                 <div className="p-4 border-t border-white/10 flex items-center justify-between gap-3 shrink-0">
-                  <button type="button" className="px-4 py-2 border border-white/10 bg-[#00000029] text-white/70 uppercase rounded-lg transition-colors cursor-pointer">
+                  <button type="button" className="px-4 py-2 border border-white/10 bg-[#00000029] text-white/70 rounded-lg transition-colors cursor-pointer">
                     Cancel
                   </button>
-                  <button type="button" className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white uppercase rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
+                  <button type="button" className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
                     Save Group
                   </button>
                 </div>
@@ -4988,7 +4903,7 @@ ${deskRules.join("\n")}
           </div>
         </section>
 
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

@@ -17,13 +17,13 @@ export default function NotFound() {
                         404
                     </h1>
                     <h1
-                        className="absolute inset-0 text-6xl er  select-none animate-pulse"
+                        className="absolute inset-0 text-6xl er select-none animate-pulse"
                         style={{ opacity: 0.15 }}>
                         404
                     </h1>
                 </div>
 
-                <h2 className=" mb-3">
+                <h2 className="mb-3">
                     Page Not <span className="text-[var(--color-accent)]">Found</span>
                 </h2>
 
@@ -34,17 +34,17 @@ export default function NotFound() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link
                         href="/"
-                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white uppercase    rounded-lg hover:brightness-110 transition-transform ">
+                        className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg hover:brightness-110 transition-transform">
                         Back to Home
                     </Link>
                     <Link
                         href="/#tour"
-                        className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 uppercase    transition-colors">
+                        className="px-8 py-3.5 border border-white/10 text-white/50 hover:text-white hover:border-white/30 transition-colors">
                         View Tour Dates
                     </Link>
                 </div>
 
-                <p className=" 6 uppercase ">
+                <p className="6">
                     7th Heaven — Lost in the mix
                 </p>
             </div>

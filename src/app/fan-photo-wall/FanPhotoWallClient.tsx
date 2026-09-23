@@ -22,7 +22,7 @@ import dynamic from "next/dynamic";
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
   ssr: false,
   loading: () => (
-    <div className="animate-pulse bg-white/[0.02] border border-white/10 p-8 text-center text-white/40 uppercase">
+    <div className="animate-pulse bg-white/[0.02] border border-white/10 p-8 text-center text-white/40">
       Loading Upload Form...
     </div>
   ),
@@ -258,12 +258,12 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
   return (
     <div className="min-h-screen page-container" id="fan-photo-wall-page">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
-      <section className="site-container  relative pb-6 flex flex-col justify-center" id="fan-wall">
+      <section className="site-container relative pb-6 flex flex-col justify-center" id="fan-wall">
         <div className="relative z-10">
           {/* Hero Header */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8">
             <div className="text-left">
-              <h1 className="uppercase text-white">
+              <h1>
                 {sanityContent?.heroHeading
                   ? sanityContent.heroHeading.replace(/FAN PHOTO (?:&|AND) VIDEO WALL/i, "FAN MEDIA WALL").replace(/FAN PHOTO WALL/i, "FAN MEDIA WALL")
                   : sanityContent?.title
@@ -287,16 +287,16 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                       sanityContent.guestLockText
                     ) : (
                       <>
-                        You must be a <span className="text-white">Fan Member</span> to share your moments.{" "}
+                        You must be a <span className="">Fan Member</span> to share your moments.{" "}
                         <button
                           onClick={() => openModal("signup")}
-                          className="  text-white hover:text-purple-300 transition-colors cursor-pointer">
+                          className="hover:text-purple-300 transition-colors cursor-pointer">
                           Sign up free
                         </button>{" "}
                         or{" "}
                         <button
                           onClick={() => openModal("login")}
-                          className="  text-white hover:text-purple-300 transition-colors cursor-pointer">
+                          className="hover:text-purple-300 transition-colors cursor-pointer">
                           sign in
                         </button>
                         .
@@ -325,7 +325,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   }
                 }}
                 icon={<Camera className="w-4 h-4" />}
-                className="px-8 py-4 rounded-lg text-white w-full justify-center">
+                className="px-8 py-4 rounded-lg w-full justify-center">
                 {showUpload
                   ? (sanityContent?.uploadButtonHideText || "Hide Upload Form")
                   : (sanityContent?.uploadButtonText || "Upload Photo / Video")}
@@ -336,7 +336,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
           {/* Dynamic Upload Form */}
           {
             showUpload && effectivelyLoggedIn && (
-              <div className=" 0 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
+              <div className="0 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
                 <FanUploadForm />
               </div>
             )
@@ -353,15 +353,15 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
           <section className="mx-auto site-container py-section-fluid">
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               <div>
-                <h3 className="text-white text-lg font-bold uppercase">
+                <h3 className="text-lg font-bold">
                   {sanityContent?.pendingQueueTitle || "Pending Review Queue"}
                 </h3>
-                <p className="uppercase text-xs text-purple-300/70">
+                <p className="text-xs text-purple-300/70">
                   {sanityContent?.pendingQueueSubtitle || "Viewed & Approved by Admins & Crew only"}
                 </p>
               </div>
 
-              <span className="bg-[#00000040] text-white px-3 py-1 rounded-xl border border-white/10 text-xs font-semibold">
+              <span className="bg-[#00000040] px-3 py-1 rounded-xl border border-white/10 text-xs font-semibold">
                 {pendingPhotos.length} Pending
               </span>
             </div>
@@ -381,22 +381,22 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                         ) : (
                           <Image src={photo.src} alt="Fan Upload" fill sizes="(max-width: 768px) 100vw, 400px" unoptimized className="object-cover" />
                         )}
-                        <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-black/80 backdrop-blur-md rounded-md text-[11px] text-white font-semibold border border-white/10">
+                        <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-black/80 backdrop-blur-md rounded-md text-[11px] font-semibold border border-white/10">
                           {photo.date || "Pending"}
                         </div>
                       </div>
                       <div className="space-y-1.5">
-                        <div className="flex items-center gap-1.5 text-white font-bold text-sm">
+                        <div className="flex items-center gap-1.5 font-bold text-sm">
                           <span className="text-purple-400">@</span>
                           <span className="truncate">{photo.name}</span>
                         </div>
                         {photo.venue && (
-                          <p className="uppercase text-xs text-white/70 flex items-center gap-1.5 font-medium">
+                          <p className="text-xs text-white/70 flex items-center gap-1.5 font-medium">
                             <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" /> {photo.venue}
                           </p>
                         )}
                         {photo.caption && (
-                          <p className="text-xs text-white/90 italic leading-relaxed line-clamp-2 pt-0.5">
+                          <p className="text-xs /90 italic leading-relaxed line-clamp-2 pt-0.5">
                             &quot;{photo.caption}&quot;
                           </p>
                         )}
@@ -407,7 +407,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                       <button
                         onClick={() => handleRejectPhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="  uppercase font-bold text-red-200 bg-red-950/60 border border-red-500/30 !rounded-full hover:bg-red-900/80 transition-colors cursor-pointer text-center">
+                        className="font-bold text-red-200 bg-red-950/60 border border-red-500/30 !rounded-full hover:bg-red-900/80 transition-colors cursor-pointer text-center">
                         Reject
                       </button>
                       <SeventhButton
@@ -427,9 +427,9 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
       }
 
       {/* Featured Media Section Title & Paragraph */}
-      <section className="mx-auto site-container py-section-fluid ">
+      <section className="mx-auto site-container py-section-fluid">
         <div className="mb-6">
-          <h2 className="uppercase text-white">
+          <h2 className="">
             {sanityContent?.sectionTitle || "FEATURED MEDIA"}
           </h2>
           <p className="mt-2 max-w-2xl text-white/70">
@@ -441,7 +441,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
         {/* Photo Feed Grid - Full Bleed 0 Gap Uniform Grid */}
         {
           approvedPhotos.length > 0 ? (
-            <div className="mx-auto   grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+            <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
               {approvedPhotos.map((photo) => {
                 const isVideo =
                   photo.type === "video" ||
@@ -453,7 +453,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                     className="flex flex-col justify-between border border-white/10 rounded-2xl overflow-hidden hover:bg-[#0b041a]/90 bg-purple-900/30 transition-colors duration-300 h-full">
                     <div className="p-4 flex items-center justify-between border-b border-white/10 bg-black/[0.02] gap-3">
                       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                        <div className="w-11 h-11 min-w-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center text-white" style={{ aspectRatio: "1 / 1" }}>
+                        <div className="w-11 h-11 min-w-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center" style={{ aspectRatio: "1 / 1" }}>
                           {photo.name
                             ? photo.name
                               .split(" ")
@@ -469,7 +469,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                             {photo.name}
                           </p>
                           {(photo.venue || photo.city) && (
-                            <p className="uppercase mt-0.5 truncate">
+                            <p className="mt-0.5 truncate">
                               {photo.venue}
                               {photo.venue && photo.city && " • "}
                               {photo.city}
@@ -478,11 +478,11 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                         </div>
                       </div>
                       <div className="flex flex-col items-end gap-0.5 shrink-0">
-                        <span className="text-white  uppercase font-bold">
+                        <span className="font-bold">
                           {isVideo ? "Video" : "Photo"}
                         </span>
                         {photo.date && (
-                          <span className="text-white/70  font-bold">{photo.date}</span>
+                          <span className="text-white/70 font-bold">{photo.date}</span>
                         )}
                       </div>
                     </div>
@@ -544,7 +544,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-white/15">
+                  className="/15">
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                   <circle cx="8.5" cy="8.5" r="1.5" />
                   <polyline points="21 15 16 10 5 21" />
@@ -594,7 +594,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 )}
                 <div className="mt-4 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
                   <div>
-                    <p className="text-white text-lg">
+                    <p className="text-lg">
                       {selectedPhoto.name}
                     </p>
                     {selectedPhoto.venue && (
@@ -614,7 +614,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                     <button
                       onClick={() => handleFlagPhoto(selectedPhoto.id)}
                       disabled={flaggingId === selectedPhoto.id}
-                      className="text-white/40 hover:text-red-400 text-xs uppercase st transition-colors flex items-center gap-1.5 disabled:opacity-50">
+                      className="text-white/40 hover:text-red-400 text-xs st transition-colors flex items-center gap-1.5 disabled:opacity-50">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
                         <line x1="4" y1="22" x2="4" y2="15" />
@@ -648,7 +648,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 <Camera className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white uppercase tracking-wide">Add Photo / Video to Sanity CMS</h3>
+                <h3 className="text-xl font-bold  ">Add Photo / Video to Sanity CMS</h3>
                 <p className="text-xs text-purple-300/70">Create and publish a fan wall moment directly to Sanity CMS.</p>
               </div>
             </div>
@@ -675,8 +675,8 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.name}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, name: e.target.value }))}
                   placeholder="e.g. ChicagoLou"
-                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                  labelClassName="text-xs font-semibold     text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
                 />
 
                 <InputField
@@ -684,8 +684,8 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.venue}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, venue: e.target.value }))}
                   placeholder="e.g. DeKalb Cornfest"
-                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                  labelClassName="text-xs font-semibold     text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
                 />
               </div>
 
@@ -695,8 +695,8 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.city}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, city: e.target.value }))}
                   placeholder="e.g. DeKalb, IL"
-                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                  labelClassName="text-xs font-semibold     text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
                 />
 
                 <InputField
@@ -704,14 +704,14 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.date}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, date: e.target.value }))}
                   placeholder="e.g. August 2024"
-                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                  labelClassName="text-xs font-semibold     text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold uppercase    text-purple-200/80 min-h-[24px]">
+                  <label className="block text-xs font-semibold text-purple-200/80 min-h-[24px]">
                     Media Type
                   </label>
                   <CustomDropdown
@@ -731,8 +731,8 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   value={cmsForm.instagram}
                   onChange={(e) => setCmsForm((prev) => ({ ...prev, instagram: e.target.value }))}
                   placeholder="e.g. @chicagolou"
-                  labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                  labelClassName="text-xs font-semibold     text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
                 />
               </div>
 
@@ -742,8 +742,8 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 value={cmsForm.src}
                 onChange={(e) => setCmsForm((prev) => ({ ...prev, src: e.target.value }))}
                 placeholder="e.g. /images/fan-photo-featured.jpg or https://..."
-                labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
-                inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                labelClassName="text-xs font-semibold     text-purple-200/80 mb-0"
+                inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
               />
 
               <InputField
@@ -753,8 +753,8 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 value={cmsForm.caption}
                 onChange={(e) => setCmsForm((prev) => ({ ...prev, caption: e.target.value }))}
                 placeholder="e.g. Front row every single time. Best night of the summer!"
-                labelClassName="text-xs font-semibold uppercase    text-purple-200/80 mb-0"
-                inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5 text-white placeholder-gray-500 text-sm font-normal"
+                labelClassName="text-xs font-semibold     text-purple-200/80 mb-0"
+                inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
               />
 
               <div className="flex items-center gap-2 pt-1">
@@ -781,7 +781,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                 <button
                   type="submit"
                   disabled={isSavingCms}
-                  className="btn-primary px-6 py-2.5 rounded-xl text-sm    cursor-pointer disabled:opacity-50 flex items-center gap-2"
+                  className="btn-primary px-6 py-2.5 rounded-xl text-sm cursor-pointer disabled:opacity-50 flex items-center gap-2"
                 >
                   {isSavingCms ? (
                     <>

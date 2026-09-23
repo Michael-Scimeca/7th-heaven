@@ -123,7 +123,7 @@ export default function HeroLiveThumbs() {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
           <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-600" />
         </span>
-        <span className="text-white/80 group-hover:text-white uppercase tracking-[0.18em]">
+        <span className="  group-hover:text-white tracking-[0.18em]">
           Show Live Streams
         </span>
       </button>
@@ -182,13 +182,13 @@ export default function HeroLiveThumbs() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
               <span className="relative inline-flex rounded-lg h-3 w-3 bg-red-600" />
             </span>
-            <span className="text-white text-[var(--font-size-2xs)] uppercase tracking-[0.18em] whitespace-nowrap">
+            <span className="text-[var(--font-size-2xs)] tracking-[0.18em] whitespace-nowrap">
               Crew Streaming
             </span>
             {mediaPosts.length > 2 && (
               <Link
                 href="/live"
-                className="text-red-500 hover:text-red-400 transition-colors uppercase    ml-2 cursor-pointer flex items-center gap-0.5 hover:  whitespace-nowrap">
+                className="text-red-500 hover:text-red-400 transition-colors ml-2 cursor-pointer flex items-center gap-0.5 hover:text-white whitespace-nowrap">
                 + {mediaPosts.length - 2} More →
               </Link>
             )}
@@ -233,19 +233,19 @@ export default function HeroLiveThumbs() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
                   {/* LIVE badge — top left */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 text-white uppercase px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(220,38,38,0.7)]">
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(220,38,38,0.7)]">
                     <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
                     LIVE
                   </div>
 
                   {/* Viewer count — top right */}
-                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white px-2 py-0.5 rounded-lg">
+                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-lg">
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" /></svg>
                     {viewers}
                   </div>
 
                   {/* Stream duration — bottom left */}
-                  <div className="absolute bottom-3 left-3.5 text-white/80">
+                  <div className="absolute bottom-3 left-3.5  ">
                     {timeText}
                   </div>
                 </div>
@@ -258,13 +258,13 @@ export default function HeroLiveThumbs() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-emerald-400 opacity-60" />
                       <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-emerald-500" />
                     </span>
-                    <span className="text-[var(--font-size-2xs)] uppercase text-white truncate">
+                    <span className="text-[var(--font-size-2xs)] truncate">
                       {crewName}
                     </span>
                   </div>
 
                   {/* Watch now cta */}
-                  <span className="uppercase text-red-400 group-hover:text-red-300 transition-colors shrink-0">
+                  <span className="text-red-400 group-hover:text-red-300 transition-colors shrink-0">
                     WATCH →
                   </span>
                 </div>

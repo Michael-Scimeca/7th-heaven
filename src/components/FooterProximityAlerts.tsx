@@ -265,7 +265,7 @@ export default function FooterProximityAlerts() {
           <div className="flex items-center gap-3">
 
             <div>
-              <h3 className="uppercase text-white flex items-center gap-2">
+              <h3 className="flex items-center gap-2">
                 Proximity & Show Alert Filters
               </h3>
               <p>
@@ -290,7 +290,7 @@ export default function FooterProximityAlerts() {
         {/* Top Row: Form Inputs */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 relative z-10">
           <div>
-            <label className="block uppercase mb-2 flex items-center gap-1.5">
+            <label className="block mb-2 flex items-center gap-1.5">
               Full Name
             </label>
             <GlowInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" wrapperClassName="w-full" />
@@ -350,7 +350,7 @@ export default function FooterProximityAlerts() {
                       type="button"
                       onClick={() => toggleType(type.id)}
                       isActive={isSelected}
-                      className="!w-auto inline-flex items-center gap-1.5 ">
+                      className="!w-auto inline-flex items-center gap-1.5">
                       {type.iconType === "guitar" ? (
                         <Guitar className="w-3.5 h-3.5 text-purple-300 shrink-0 inline-block" />
                       ) : (
@@ -374,22 +374,22 @@ export default function FooterProximityAlerts() {
 
         <div className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10" onClick={() => setAgreeTerms(!agreeTerms)}>
           <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
-          <span className="text-white font-medium">
-            I agree to the <Link href="/terms" className="  hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="  hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
+          <span className="font-medium">
+            I agree to the <Link href="/terms" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
           </span>
         </div>
 
         <div className="pt-5 border-t border-white/10 flex flex-col items-start justify-start gap-3 relative z-10">
           {permission === "granted" ? (
             <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 uppercase whitespace-nowrap shrink-0">
+              <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 whitespace-nowrap shrink-0">
                 <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
               </span>
               <SeventhButton
                 icon={false}
                 onClick={handleSavePrefs}
                 disabled={isBusy}
-                className="!px-6 !py-3 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
+                className="!px-6 !py-3 !text-xs ! rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
                 <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                   {status === "saving" ? (
                     <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
@@ -406,7 +406,7 @@ export default function FooterProximityAlerts() {
               icon={false}
               onClick={handleEnableAlerts}
               disabled={isBusy || permission === "denied"}
-              className="!px-6 !py-3.5 !text-xs ! uppercase rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
+              className="!px-6 !py-3.5 !text-xs ! rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
               <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
                 {status === "saving" ? (
                   <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
@@ -422,7 +422,7 @@ export default function FooterProximityAlerts() {
             </SeventhButton>
           )}
 
-          <p className="uppercase text-xs text-white/70 tracking-wide ">
+          <p className="text-xs text-white/70  ">
             {permission === "granted"
               ? "Your notifications are enabled. Update filters above and save anytime."
               : "Click to enable instant browser & proximity alerts for nearby shows."}

@@ -38,16 +38,16 @@ export function MiniDatePicker({ label, value, onChange }: MiniDatePickerProps) 
 
   return (
     <div className="relative">
-      <label htmlFor={inputId} className="text-base uppercase text-white block mb-1.5 cursor-pointer">{label}</label>
+      <label htmlFor={inputId} className="text-base block mb-1.5 cursor-pointer">{label}</label>
       <button
         id={inputId}
         aria-label={label || "Pick a date"}
         type="button"
         onClick={() => setShowCal(!showCal)}
 
-        className={`group w-full backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-2.5 py-2.5 text-xl text-left transition-colors cursor-pointer flex items-center justify-between rounded-lg ${value ? 'text-white font-semibold' : 'text-white/45'}`}
+        className={`group w-full backdrop-blur-[45px] border border-white/10 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 px-2.5 py-2.5 text-xl text-left transition-colors cursor-pointer flex items-center justify-between rounded-lg ${value ? ' font-semibold' : ' /45'}`}
         style={{ background: "transparent", border: "1px solid #ffffff1a" }}>
-        <span className={`transition-[color,opacity] duration-200 ${value ? 'text-white font-semibold' : 'text-white/45 group-hover:text-white group-hover:opacity-100'}`}>
+        <span className={`transition-[color,opacity] duration-200 ${value ? ' font-semibold' : ' /45 group-hover:text-white group-hover:opacity-100'}`}>
           {value ? new Date(value + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Pick a date…'}
         </span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 transition-opacity duration-200"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
@@ -60,18 +60,18 @@ export function MiniDatePicker({ label, value, onChange }: MiniDatePickerProps) 
               type="button"
               disabled={isPrevDisabled}
               onClick={() => setCalMonth(new Date(year, month - 1, 1))}
-              className={`p-1 transition-colors ${isPrevDisabled ? 'text-white/20 cursor-not-allowed' : ' text-white hover:text-white cursor-pointer'}`}>
+              className={`p-1 transition-colors ${isPrevDisabled ? ' text-white/20 cursor-not-allowed' : ' hover:text-white cursor-pointer'}`}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
             </button>
-            <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="uppercase text-white/80 hover:text-[#c27aff] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
-            <button aria-label="Next Month" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-white hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
+            <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="  hover:text-[#c27aff] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
+            <button aria-label="Next Month" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
           </div>
           {showMonthGrid ? (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <button type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-white hover:text-white text-base cursor-pointer">← {year - 1}</button>
-                <span className="text-white">{year}</span>
-                <button type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-white hover:text-white text-base cursor-pointer">{year + 1} →</button>
+                <button type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="hover:text-white text-base cursor-pointer">← {year - 1}</button>
+                <span className="">{year}</span>
+                <button type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="hover:text-white text-base cursor-pointer">{year + 1} →</button>
               </div>
               <div className="grid grid-cols-3 gap-1.5">
                 {M_NAMES.map((m, i) => {
@@ -79,7 +79,7 @@ export function MiniDatePicker({ label, value, onChange }: MiniDatePickerProps) 
                   const isPast = new Date(year, i + 1, 0) < today;
                   return (
                     <button key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
-                      className={`py-2 rounded-lg text-base    uppercase transition-colors ${isPast ? 'text-white/20 cursor-not-allowed' : isCur ? 'bg-[#a855f7] text-white shadow-purple-600/30' : 'text-white/70 hover:bg-white/10 cursor-pointer'}`}>{m}</button>
+                      className={`py-2 rounded-lg text-base transition-colors ${isPast ? ' text-white/20 cursor-not-allowed' : isCur ? 'bg-[#a855f7] shadow-purple-600/30' : ' text-white/70 hover:bg-white/10 cursor-pointer'}`}>{m}</button>
                   );
                 })}
               </div>
@@ -87,7 +87,7 @@ export function MiniDatePicker({ label, value, onChange }: MiniDatePickerProps) 
           ) : (
             <>
               <div className="grid grid-cols-7 mb-1">
-                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={`day-${i}-${d}`} className="text-center text-lg text-white/40 uppercase">{d}</div>)}
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={`day-${i}-${d}`} className="text-center text-lg text-white/40">{d}</div>)}
               </div>
               <div className="grid grid-cols-7 gap-1">
                 {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
@@ -103,14 +103,14 @@ export function MiniDatePicker({ label, value, onChange }: MiniDatePickerProps) 
                     <button
                       key={`${ds}-${i}`} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-10 w-full    rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] text-white shadow-purple-600/40    ' : ' bg-[#00000029] hover:bg-white/15 text-white/80 cursor-pointer'}`}>
+                      className={`h-10 w-full rounded-lg transition-colors flex items-center justify-center ${isPast ? ' text-white/20 cursor-not-allowed' : isSel ? 'bg-[#a855f7] shadow-purple-600/40 ' : ' bg-[#00000029] hover:bg-white/15   cursor-pointer'}`}>
                       {i + 1}
                     </button>
                   );
                 })}
               </div>
               {value && (
-                <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase cursor-pointer">Clear</button>
+                <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 cursor-pointer">Clear</button>
               )}
             </>
           )}

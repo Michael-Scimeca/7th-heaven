@@ -114,9 +114,9 @@ export default function ShopInventoryAdminPage() {
 
   if (!authorized) {
     return (
-      <div className="min-h-screen text-white pt-32 pb-24 flex items-center justify-center px-6">
+      <div className="min-h-screen pt-32 pb-24 flex items-center justify-center px-6">
         <div className="max-w-md w-full bg-white/[0.04] border border-white/[0.12] rounded-lg p-8 text-center">
-          <h2 className="text-xl font-bold uppercase mb-2">Admin Access Required</h2>
+          <h2 className="text-xl mb-2">Admin Access Required</h2>
           <p className="mb-6">
             This page manages real inventory and pricing. Sign in with an admin, crew, or merch
             account to continue.
@@ -124,7 +124,7 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => openModal("login")}
-            className="px-5 py-2.5 bg-[var(--color-accent)] text-white uppercase rounded-lg">
+            className="px-5 py-2.5 bg-[var(--color-accent)] rounded-lg">
             Sign In
           </button>
         </div>
@@ -133,24 +133,24 @@ export default function ShopInventoryAdminPage() {
   }
 
   return (
-    <div className="min-h-screen text-white pt-32 pb-24">
+    <div className="min-h-screen pt-32 pb-24">
       <div className="site-container max-w-5xl mx-auto px-6">
         <Link
           href="/payment-test"
-          className="uppercase text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+          className="text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
           ← Back to Shop
         </Link>
 
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div>
-            <span className="inline-block text-[10px] uppercase  mb-1">
+            <span className="inline-block text-[10px] mb-1">
               Shop Backend
             </span>
-            <h1 className="text-white">
+            <h1>>
               Inventory Management
             </h1>
             {lowStockCount > 0 && (
-              <p className="text-yellow-300 ">
+              <p className="text-yellow-300">
                 ⚠️ {lowStockCount} variant{lowStockCount === 1 ? "" : "s"} at or below its low-stock threshold
               </p>
             )}
@@ -158,7 +158,7 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setShowAddProduct(true)}
-            className="px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors">
+            className="px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 rounded-lg transition-colors">
             + Add Product
           </button>
         </div>
@@ -167,13 +167,13 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`px-4 py-2 rounded-lg    uppercase transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : " bg-[#00000029] border border-white/10 text-white hover:text-white"}`}>
+            className={`px-4 py-2 rounded-lg transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : " bg-[#00000029] border border-white/10 hover:text-white "}`}>
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2 rounded-lg    uppercase transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : " bg-[#00000029] border border-white/10 text-white hover:text-white"}`}>
+            className={`px-4 py-2 rounded-lg transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : " bg-[#00000029] border border-white/10 hover:text-white "}`}>
             Orders ({orders.length})
           </button>
         </div>
@@ -266,8 +266,8 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
           )}
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className="text-white truncate">{product.title}</h3>
-              <span className="text-[10px] uppercase text-white/40 bg-[#00000029] px-2 py-0.5 rounded">
+              <h3 className="truncate">{product.title}</h3>
+              <span className="text-[10px] text-white/40 bg-[#00000029] px-2 py-0.5 rounded">
                 {product.category}
               </span>
             </div>
@@ -280,21 +280,20 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
             type="button"
             disabled={busy}
             onClick={toggleActive}
-            className={`px-3 py-1.5 rounded-lg uppercase transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : " bg-[#00000029] text-white/40 border border-white/10"
-              }`}>
+            className={`px-3 py-1.5 rounded-lg transition-colors ${product.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : " bg-[#00000029] text-white/40 border border-white/10"}`}>
             {product.active ? "Active" : "Inactive"}
           </button>
           <button
             type="button"
             disabled={busy}
             onClick={deleteProduct}
-            className="px-3 py-1.5 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 rounded-lg uppercase transition-colors">
+            className="px-3 py-1.5 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/30 rounded-lg transition-colors">
             Delete
           </button>
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="px-3 py-1.5 bg-[#00000029] text-white/70 hover:text-white rounded-lg uppercase transition-colors">
+            className="px-3 py-1.5 bg-[#00000029] text-white/70 hover:text-white rounded-lg transition-colors">
             {expanded ? "Collapse" : `Variants (${product.variants?.length || 0})`}
           </button>
         </div>
@@ -302,7 +301,7 @@ function ProductRow({ product, onChanged }: { product: Product; onChanged: () =>
 
       {expanded && (
         <div className="p-4 bg-black/20 space-y-2">
-          <div className="text-[10px] uppercase text-white/40 mb-2">
+          <div className="text-[10px] text-white/40 mb-2">
             Variants ({product.variant_kind})
           </div>
           {(product.variants || []).map((variant) => (
@@ -398,7 +397,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           setLabel(e.target.value);
           markDirty();
         }}
-        className="col-span-2 sm:col-span-1 bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white"
+        className="col-span-2 sm:col-span-1 bg-[#00000029] border border-white/10 rounded px-2 py-1.5"
         placeholder="Label"
       />
       <div className="flex items-center gap-1">
@@ -446,7 +445,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
             type="button"
             disabled={busy}
             onClick={save}
-            className="px-2.5 py-1.5 bg-[var(--color-accent)] text-white text-[10px] uppercase rounded-md">
+            className="px-2.5 py-1.5 bg-[var(--color-accent)] text-[10px] rounded-md">
             Save
           </button>
         )}
@@ -454,7 +453,7 @@ function VariantRow({ variant, onChanged }: { variant: Variant; onChanged: () =>
           type="button"
           disabled={busy}
           onClick={toggleActive}
-          className={`px-2 py-1.5 text-[10px] uppercase rounded-lg ${variant.active ? "bg-emerald-500/15 text-emerald-300" : " bg-[#00000029] text-white/40"}`}>
+          className={`px-2 py-1.5 text-[10px] rounded-lg ${variant.active ? "bg-emerald-500/15 text-emerald-300" : " bg-[#00000029] text-white/40"}`}>
           {variant.active ? "On" : "Off"}
         </button>
         <button
@@ -516,21 +515,21 @@ function AddVariantForm({
   return (
     <div className="mt-2 flex flex-wrap items-end gap-2 bg-white/[0.02] border border-dashed border-white/10 rounded-lg p-3">
       <div>
-        <label className="block text-[12px] uppercase text-white/40 mb-1">Label</label>
-        <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white w-24" />
+        <label className="block text-[12px] text-white/40 mb-1">Label</label>
+        <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="e.g. XL" className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 w-24" />
       </div>
       <div>
-        <label className="block text-[12px] uppercase text-white/40 mb-1">Price</label>
-        <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white w-24" />
+        <label className="block text-[12px] text-white/40 mb-1">Price</label>
+        <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 w-24" />
       </div>
       <div>
-        <label className="block text-[12px] uppercase text-white/40 mb-1">Stock</label>
-        <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 text-white w-20" />
+        <label className="block text-[12px] text-white/40 mb-1">Stock</label>
+        <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="bg-[#00000029] border border-white/10 rounded px-2 py-1.5 w-20" />
       </div>
-      <button type="button" disabled={submitting} onClick={submit} className="px-3 py-1.5 bg-[var(--color-accent)] text-white text-[10px] uppercase rounded-md">
+      <button type="button" disabled={submitting} onClick={submit} className="px-3 py-1.5 bg-[var(--color-accent)] text-[10px] rounded-md">
         Add
       </button>
-      <button type="button" onClick={onCancel} className="px-3 py-1.5 bg-[#00000029] text-white text-[10px] uppercase rounded-md">
+      <button type="button" onClick={onCancel} className="px-3 py-1.5 bg-[#00000029] text-[10px] rounded-md">
         Cancel
       </button>
       {error && <p className="text-rose-400 w-full">{error}</p>}
@@ -601,31 +600,31 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4">
       <div className="bg-[#0e0e18] border border-white/[0.12] rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
-          <h2 className="text-white uppercase">Add Product</h2>
+          <h2>Add Product</h2>
           <button type="button" onClick={onClose} className="text-white/40 hover:text-white text-lg p-1">
             ✕
           </button>
         </div>
 
         <div>
-          <label className="block text-[10px] uppercase text-white/40 mb-1">Title</label>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white" />
+          <label className="block text-[10px] text-white/40 mb-1">Title</label>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5" />
         </div>
 
         <div>
-          <label className="block text-[10px] uppercase text-white/40 mb-1">Description</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white" />
+          <label className="block text-[10px] text-white/40 mb-1">Description</label>
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5" />
         </div>
 
         <div>
-          <label className="block text-[10px] uppercase text-white/40 mb-1">Image URL</label>
-          <input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="/images/merch/logo-tee.png" className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white" />
+          <label className="block text-[10px] text-white/40 mb-1">Image URL</label>
+          <input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="/images/merch/logo-tee.png" className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-[10px] uppercase text-white/40 mb-1">Category</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value as typeof category)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white">
+            <label className="block text-[10px] text-white/40 mb-1">Category</label>
+            <select value={category} onChange={(e) => setCategory(e.target.value as typeof category)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5">
               {CATEGORIES.map((c) => (
                 <option key={c} value={c}>
                   {c}
@@ -634,8 +633,8 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
             </select>
           </div>
           <div>
-            <label className="block text-[10px] uppercase text-white/40 mb-1">Variant Type</label>
-            <select value={variantKind} onChange={(e) => setVariantKind(e.target.value as typeof variantKind)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5 text-white">
+            <label className="block text-[10px] text-white/40 mb-1">Variant Type</label>
+            <select value={variantKind} onChange={(e) => setVariantKind(e.target.value as typeof variantKind)} className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-2.5">
               {VARIANT_KINDS.map((k) => (
                 <option key={k} value={k}>
                   {k}
@@ -646,7 +645,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
         </div>
 
         <div>
-          <label className="block text-[10px] uppercase text-white/40 mb-2">
+          <label className="block text-[10px] text-white/40 mb-2">
             Variants ({variantKind === "Size" ? "sizes" : variantKind === "Format" ? "formats" : "colors"})
           </label>
           <div className="space-y-2">
@@ -656,7 +655,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
                   value={v.label}
                   onChange={(e) => updateVariant(i, "label", e.target.value)}
                   placeholder={variantKind === "Size" ? "M" : variantKind === "Format" ? "Vinyl LP" : "Black"}
-                  className="flex-1 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white"
+                  className="flex-1 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2"
                 />
                 <input
                   type="number"
@@ -664,14 +663,14 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
                   value={v.price}
                   onChange={(e) => updateVariant(i, "price", e.target.value)}
                   placeholder="Price"
-                  className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white"
+                  className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2"
                 />
                 <input
                   type="number"
                   value={v.stock}
                   onChange={(e) => updateVariant(i, "stock", e.target.value)}
                   placeholder="Stock"
-                  className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2 text-white"
+                  className="w-20 bg-white/[0.03] border border-white/[0.12] rounded-lg px-3 py-2"
                 />
               </div>
             ))}
@@ -694,7 +693,7 @@ function AddProductModal({ onClose, onCreated }: { onClose: () => void; onCreate
           type="button"
           disabled={submitting}
           onClick={submit}
-          className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white uppercase rounded-lg transition-colors disabled:opacity-50">
+          className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 rounded-lg transition-colors disabled:opacity-50">
           {submitting ? "Creating…" : "Create Product"}
         </button>
       </div>
@@ -733,8 +732,8 @@ function OrdersTab({ orders }: { orders: Order[] }) {
         <div key={order.id} className="bg-white/[0.03] border border-white/[0.08] rounded-lg p-4">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
-              <span className="text-white">{order.tran_nbr}</span>
-              <span className={`px-2 py-0.5 rounded-lg text-[10px] uppercase border ${statusStyles[order.status]}`}>
+              <span className="">{order.tran_nbr}</span>
+              <span className={`px-2 py-0.5 rounded-lg text-[10px] border ${statusStyles[order.status]}`}>
                 {order.status}
               </span>
             </div>
@@ -747,7 +746,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
               </span>
             </div>
           </div>
-          <div className="text-white">
+          <div className="">
             {(order.line_items || []).map((item, i) => (
               <span key={`${item.title}-${item.variantLabel}-${i}`}>
                 {item.title} ({item.variantLabel}) × {item.quantity}

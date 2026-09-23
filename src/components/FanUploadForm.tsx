@@ -230,7 +230,7 @@ export default function FanUploadForm() {
       <div className="flex items-center gap-3 mb-6">
         <div>
           <h2>Submit to Fan Wall</h2>
-          <p className=" ">Share your concert moments</p>
+          <p className="">Share your concert moments</p>
         </div>
       </div>
 
@@ -268,8 +268,7 @@ export default function FanUploadForm() {
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
-                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30   bg-[#00000029] "
-                  }`}>
+                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 bg-[#00000029] " }`}>
                 {previews.length > 0 ? (
                   <div className="absolute inset-0 p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 overflow-y-auto bg-black/90 z-20">
                     {Array.from(previews, (src, i) => ({ src, i })).map(({ src, i }) => {
@@ -307,16 +306,16 @@ export default function FanUploadForm() {
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
                       </div>
-                      <p className="uppercase mb-1 group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
-                      <p className="uppercase tracking-[0.1em]">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
+                      <p className="mb-1 group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
+                      <p className="tracking-[0.1em]">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
                     </div>
                   </>
                 )}
                 {isScanning && (
                   <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
                     <div className="w-11 h-11 border-2 border-white/10 border-t-emerald-500 rounded-lg animate-spin mb-3" />
-                    <p className="uppercase">Safety Scan</p>
-                    <p className="text-emerald-400 uppercase ">{scanStatus}</p>
+                    <p className="">Safety Scan</p>
+                    <p className="text-emerald-400">{scanStatus}</p>
                   </div>
                 )}
                 <input ref={fileRef} type="file" name="photo" accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime" multiple className="hidden" onChange={(e) => handleFilesChange(e.target.files)} />
@@ -326,7 +325,7 @@ export default function FanUploadForm() {
             <div className="flex flex-col lg:flex-row flex-wrap items-end gap-3 p-0">
               <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="fan-upload-venue" className="uppercase    block mb-1.5 px-1">Venue / Event <span className="text-[var(--color-accent)]">*</span></label>
+                  <label htmlFor="fan-upload-venue" className="block mb-1.5 px-1">Venue / Event <span className="text-[var(--color-accent)]">*</span></label>
                   <GlowInput
                     id="fan-upload-venue"
                     type="text"
@@ -337,7 +336,7 @@ export default function FanUploadForm() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="fan-upload-date" className="uppercase    block mb-1.5 px-1">Date <span className="text-[var(--color-accent)]">*</span></label>
+                  <label htmlFor="fan-upload-date" className="block mb-1.5 px-1">Date <span className="text-[var(--color-accent)]">*</span></label>
                   <GlowInput
                     id="fan-upload-date"
                     type="date"
@@ -348,7 +347,7 @@ export default function FanUploadForm() {
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label htmlFor="fan-upload-caption" className="uppercase    block mb-1.5 px-1">Caption</label>
+                  <label htmlFor="fan-upload-caption" className="block mb-1.5 px-1">Caption</label>
                   <GlowInput
                     id="fan-upload-caption"
                     type="text"
@@ -365,7 +364,7 @@ export default function FanUploadForm() {
                 onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}
                 icon={false}
-                className="w-full lg:w-32 shrink-0 flex items-center justify-center text-white uppercase    h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer">
+                className="w-full lg:w-32 shrink-0 flex items-center justify-center h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer">
                 {uploading ? "Uploading…" : isScanning ? "Scanning…" : "Publish"}
               </SeventhButton>
             </div>

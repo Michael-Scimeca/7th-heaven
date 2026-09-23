@@ -237,14 +237,13 @@ export default function CustomVideoPlayer({
 
       {/* Top Header Overlay with Title & Close Button */}
       <div
-        className={`absolute top-0 inset-x-0 z-30 p-4 bg-gradient-to-b from-black/80 via-black/40 to-transparent flex items-center justify-between transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute top-0 inset-x-0 z-30 p-4 bg-gradient-to-b from-black/80 via-black/40 to-transparent flex items-center justify-between transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
         onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-2 max-w-[80%]">
-          <span className="uppercase  bg-black/60 px-2 py-0.5 rounded border border-white/10">
+          <span className="bg-black/60 px-2 py-0.5 rounded border border-white/10">
             Now Playing
           </span>
-          <h4 className="text-white truncate drop-shadow">
+          <h4 className="truncate drop-shadow">
             {title}
           </h4>
         </div>
@@ -252,7 +251,7 @@ export default function CustomVideoPlayer({
         {onClose && (
           <button
             onClick={onClose}
-            className="p-2 !rounded-full bg-black/60 text-white/80 hover:text-white hover:bg-white/20 transition-all border border-white/10 "
+            className="p-2 !rounded-full bg-black/60   hover:text-white hover:bg-white/20 transition-all border border-white/10"
             aria-label="Close Player">
             <X className="w-6 h-6" />
           </button>
@@ -261,8 +260,7 @@ export default function CustomVideoPlayer({
 
       {/* Bottom Custom Control Bar */}
       <div
-        className={`absolute bottom-0 inset-x-0 z-30 px-4 pb-4 pt-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute bottom-0 inset-x-0 z-30 px-4 pb-4 pt-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
         onClick={(e) => e.stopPropagation()}>
         {/* Custom Progress Bar */}
         <div
@@ -294,7 +292,7 @@ export default function CustomVideoPlayer({
             <SeventhButton
               onClick={togglePlay}
               icon={false}
-              className="w-11 h-11 !rounded-full !p-0 text-white flex items-center justify-center transition-transform cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
+              className="w-11 h-11 !rounded-full !p-0 flex items-center justify-center transition-transform cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.6)] border border-purple-300/40"
               aria-label={isPlaying ? "Pause" : "Play"}>
               {isPlaying ? (
                 <Pause className="w-5 h-5 fill-white" />
@@ -320,7 +318,7 @@ export default function CustomVideoPlayer({
             </button>
 
             {/* Time Counter */}
-            <span className="text-white/80 tabular-nums ml-1">
+            <span className="  tabular-nums ml-1">
               {formatTime(currentTime)} <span className="text-white/40">/</span> {formatTime(duration)}
             </span>
           </div>
@@ -339,13 +337,12 @@ export default function CustomVideoPlayer({
                 {isMuted || volume === 0 ? (
                   <VolumeX className="w-4 h-4 text-purple-400" />
                 ) : (
-                  <Volume2 className="w-4 h-4 text-white" />
+                  <Volume2 className="w-4 h-4" />
                 )}
               </button>
 
               <div
-                className={`flex items-center transition-[width,opacity] duration-300 overflow-hidden ${showVolume ? "w-20 opacity-100" : "w-0 opacity-0"
-                  }`}>
+                className={`flex items-center transition-[width,opacity] duration-300 overflow-hidden ${showVolume ? "w-20 opacity-100" : "w-0 opacity-0"}`}>
                 <input
                   type="range"
                   min={0}

@@ -92,10 +92,10 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
         <div className="site-container">
           <div className="flex items-center justify-between mb-10">
             <div>
-              <span className="text-[var(--color-accent)] uppercase mb-2 block">Specials</span>
-              <h2 className="text-white uppercase">On Sale Now</h2>
+              <span className="text-[var(--color-accent)] mb-2 block">Specials</span>
+              <h2 className="">On Sale Now</h2>
             </div>
-            <Link href="/merch" className="text-white/40 hover:text-white uppercase    border border-white/10 px-4 py-2 transition-colors">
+            <Link href="/merch" className="text-white/40 hover:text-white border border-white/10 px-4 py-2 transition-colors">
               Shop All →
             </Link>
           </div>
@@ -141,17 +141,17 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
         {isDemo && (
           <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-white/10 rounded-lg">
             <AlertTriangle className="w-4 h-4 text-purple-300 shrink-0" />
-            <span className="text-purple-300 uppercase">Demo</span>
+            <span className="text-purple-300">Demo</span>
             <p className="text-purple-200/50">Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast Shipping.</p>
           </div>
         )}
         {/* ── END DEMO BANNER ─────────────────────────────────────────── */}
         <div className="flex items-center justify-between mb-10">
           <div>
-            <span className="text-[var(--color-accent)] uppercase mb-2 block">{sanityContent?.merchBadge || "Specials"}</span>
-            <h2 className="text-white uppercase">{sanityContent?.merchTitle || "On Sale Now"}</h2>
+            <span className="text-[var(--color-accent)] mb-2 block">{sanityContent?.merchBadge || "Specials"}</span>
+            <h2 className="">{sanityContent?.merchTitle || "On Sale Now"}</h2>
           </div>
-          <Link href="/merch" className="text-white/40 hover-text-white uppercase    border border-white/10 px-4 py-2 color-transition">
+          <Link href="/merch" className="text-white/40 hover- border border-white/10 px-4 py-2 color-transition">
             {sanityContent?.merchCtaText || "Shop All →"}
           </Link>
         </div>
@@ -167,7 +167,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
               <div key={product.id} className="bg-white/[0.02] border border-white/10 overflow-hidden border-white/10 color-transition group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
-                  <span className="bg-red-500 text-white text-[var(--font-size-2xs)] uppercase px-2.5 py-1 rounded-lg shadow-red-500/20">
+                  <span className="bg-red-500 text-[var(--font-size-2xs)] px-2.5 py-1 rounded-lg shadow-red-500/20">
                     Sale
                   </span>
                 </div>
@@ -180,24 +180,24 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                     </div>
                   )}
                   {soldOut && (
-                    <span className="absolute top-2 right-2 bg-red-500/80 backdrop-blur-sm text-white text-[var(--font-size-2xs)] uppercase px-2 py-0.5 rounded">Sold Out</span>
+                    <span className="absolute top-2 right-2 bg-red-500/80 backdrop-blur-sm text-[var(--font-size-2xs)] px-2 py-0.5 rounded">Sold Out</span>
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="text-white truncate mb-1 group- color-transition">{product.title}</h3>
+                  <h3 className="truncate mb-1 group- color-transition">{product.title}</h3>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-[var(--color-accent)]">{price}</span>
                       {compareAt && (
-                        <span className="text-white/25 line-through">{compareAt}</span>
+                        <span className="line-through">{compareAt}</span>
                       )}
                     </div>
                     {soldOut ? (
-                      <span className="text-[var(--font-size-2xs)] text-white/15 uppercase">Sold Out</span>
+                      <span className="text-[var(--font-size-2xs)] /15">Sold Out</span>
                     ) : (
                       <button
                         onClick={() => handleBuy()}
-                        className="text-[var(--font-size-2xs)] uppercase text-white/30 hover-text-white color-transition cursor-pointer">
+                        className="text-[var(--font-size-2xs)] text-white/30 hover- color-transition cursor-pointer">
                         Buy →
                       </button>
                     )}

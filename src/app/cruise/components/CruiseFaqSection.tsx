@@ -22,8 +22,8 @@ export default function CruiseFaqSection({ sanityContent }: CruiseFaqSectionProp
   return (
     <LazyMount as="section" id="faqs" className="py-section-fluid site-container" minHeight="600px" rootMargin="300px 0px" style={{ contentVisibility: "auto", containIntrinsicSize: "600px" }}>
       <section className="text-center max-w-4xl mx-auto">
-        <div className=" w-full mb-10">
-          <h2 className="uppercase">
+        <div className="w-full mb-10">
+          <h2>
             {sectionTitle}
           </h2>
           <p className="mt-3 font-semibold max-w-2xl">
@@ -38,7 +38,7 @@ export default function CruiseFaqSection({ sanityContent }: CruiseFaqSectionProp
                 type="button"
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/10 transition-colors cursor-pointer !rounded-none border-none ">
-                <span className="text-white pr-4 font-bold">{faq.q}</span>
+                <span className="  pr-4 font-bold">{faq.q}</span>
                 <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 shrink-0 ${openFaq === i ? 'rotate-90 text-purple-400' : ''}`}>
                   <ChevronRight className="w-4 h-4" />
                 </div>

@@ -15,7 +15,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
         <h1 className="mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Terms of Service"}
         </h1>
-        <p className="text-white/70">
+        <p className=" text-white/70">
           {sanityContent?.lastUpdated || sanityContent?.subtitle || "Last Updated: April 12, 2026"}
         </p>
       </header>
@@ -79,27 +79,27 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
 
               <div className="space-y-4">
                 <div>
-                  <p className="font-semibold text-white mb-1">4.1 Consent & Subscription</p>
+                  <p className="font-semibold   mb-1">4.1 Consent & Subscription</p>
                   <p>You expressly consent to receive automated show notifications, proximity alerts, and event updates via browser web push, email, or digital alerts based on your provided full name, email address, zip code / city, distance radius (e.g., 15 mi, 30 mi, 50 mi, 100 mi, or all shows), and selected show type preferences (e.g., Full Band, Unplugged, Outdoor, Casino, TV, Fundraiser, Special). Consent is not required as a condition of any purchase.</p>
                 </div>
 
                 <div>
-                  <p className="font-semibold text-white mb-1">4.2 Location & Zip Code Data</p>
+                  <p className="font-semibold   mb-1">4.2 Location & Zip Code Data</p>
                   <p>Proximity alerts calculate distance thresholds to upcoming tour dates based on the zip code or city you provide. Location data is stored securely and used exclusively to filter and deliver relevant nearby concert notifications.</p>
                 </div>
 
                 <div>
-                  <p className="font-semibold text-white mb-1">4.3 Web Push & Browser Permissions</p>
+                  <p className="font-semibold   mb-1">4.3 Web Push & Browser Permissions</p>
                   <p>Web push notifications are delivered directly through your web browser or device when push permissions are granted. You may grant or revoke notification permissions at any time through your browser settings or via the site footer alert preferences panel.</p>
                 </div>
 
                 <div>
-                  <p className="font-semibold text-white mb-1">4.4 Message & Alert Frequency</p>
+                  <p className="font-semibold   mb-1">4.4 Message & Alert Frequency</p>
                   <p>Alert frequency varies based on band concert schedules and new tour date additions in your specified distance radius (typically 1–4 notifications per month).</p>
                 </div>
 
                 <div>
-                  <p className="font-semibold text-white mb-1">4.5 Unsubscribing & Managing Preferences</p>
+                  <p className="font-semibold   mb-1">4.5 Unsubscribing & Managing Preferences</p>
                   <p>You can update your distance radius, toggle show type filters, or unsubscribe from proximity alerts at any time using the Proximity & Show Alert Filters panel located in the site footer or by blocking notifications in your browser settings. For assistance, contact us at <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a>.</p>
                 </div>
               </div>

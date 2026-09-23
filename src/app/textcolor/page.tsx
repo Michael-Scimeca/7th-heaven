@@ -42,19 +42,19 @@ export default function TextColorTestPage() {
   // buffer, scrolling the Playground card into view also reveals the
   // footer on top of it, intercepting clicks on the inputs below.
   return (
-    <div className="min-h-screen w-full bg-black px-6 pt-16 pb-[65vh] text-white">
+    <div className="min-h-screen w-full bg-black px-6 pt-16 pb-[65vh]">
       <div className="mx-auto flex max-w-4xl flex-col gap-16">
         <header className="flex flex-col gap-2">
-          <p className="uppercase">
+          <p className="">
             /textcolor test page
           </p>
-          <h1 className="text-2xl font-semibold text-white/80">
+          <h1 className="text-2xl font-semibold  ">
             Aurora Text playground
           </h1>
           <p className="max-w-xl">
             Testing MagicUI&apos;s{" "}
             <a
-              className="  decoration-white/30 underline-offset-4 hover:decoration-white/60"
+              className="decoration-white/30 underline-offset-4 hover:decoration-white/60"
               href="https://magicui.design/docs/components/aurora-text"
               target="_blank"
               rel="noreferrer">
@@ -70,14 +70,14 @@ export default function TextColorTestPage() {
           <h2 className="sm:text-6xl">
             Ship <AuroraText colors={PRESETS[0].colors}>beautiful</AuroraText>
           </h2>
-          <h2 className="text-white/90">
+          <h2 className="/90">
             Ship <AuroraText colors={PRESETS[0].colors}>beautiful</AuroraText>
           </h2>
         </section>
 
         {/* Presets */}
         <section className="flex flex-col gap-6">
-          <h3 className="font-semibold uppercase text-white/40">
+          <h3 className="font-semibold text-white/40">
             Presets
           </h3>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -85,7 +85,7 @@ export default function TextColorTestPage() {
               <div
                 key={preset.name}
                 className="flex flex-col gap-2 rounded-lg border border-white/10 p-6">
-                <p className="font-extrabold">
+                <p className=" ">
                   <AuroraText colors={preset.colors} speed={preset.speed}>
                     {text}
                   </AuroraText>
@@ -98,7 +98,7 @@ export default function TextColorTestPage() {
 
         {/* Playground */}
         <section className="flex flex-col gap-6">
-          <h3 className="font-semibold uppercase text-white/40">
+          <h3 className="font-semibold text-white/40">
             Playground
           </h3>
 
@@ -109,17 +109,17 @@ export default function TextColorTestPage() {
               </AuroraText>
             </p>
 
-            <label className="flex flex-col gap-2 text-white">
+            <label className="flex flex-col gap-2">
               Text
               <input
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="rounded border border-white/10 bg-[#00000029] px-3 py-2 text-white outline-none focus:border-white/40"
+                className="rounded border border-white/10 bg-[#00000029] px-3 py-2 outline-none focus:border-white/40"
               />
             </label>
 
-            <label className="flex flex-col gap-2 text-white">
+            <label className="flex flex-col gap-2">
               Speed ({speed.toFixed(1)}x)
               <input
                 type="range"
@@ -131,7 +131,7 @@ export default function TextColorTestPage() {
               />
             </label>
 
-            <div className="flex flex-col gap-2 text-white">
+            <div className="flex flex-col gap-2">
               Gradient stops
               <div className="flex flex-wrap gap-3">
                 {colors.map((c, i) => (
@@ -140,7 +140,7 @@ export default function TextColorTestPage() {
                       type="color"
                       value={c}
                       onChange={(e) => updateColor(i, e.target.value)}
-                      className="h-8 w-8 cursor-pointer rounded border border-white/10 "
+                      className="h-8 w-8 cursor-pointer rounded border border-white/10"
                     />
                     <span className="text-white/50">
                       {c}

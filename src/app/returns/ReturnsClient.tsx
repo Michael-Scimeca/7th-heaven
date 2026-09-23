@@ -11,10 +11,10 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
   return (
     <main className="site-container page-container min-h-screen text-left" id="returns-page">
       <header className="mb-6 text-left">
-        <h1 className="text-[clamp(2rem,4vw,3rem)] mb-2">
+        <h1 className="mb-2">
           {sanityContent?.heroHeading || sanityContent?.title || "Return & Refund Policy"}
         </h1>
-        <p className="text-white/70">
+        <p>
           {sanityContent?.lastUpdated || sanityContent?.subtitle || "Last Updated: April 12, 2026"}
         </p>
       </header>
@@ -100,7 +100,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 If you have any questions about returns, exchanges, or refunds, please reach out to us:
               </p>
               <div className="space-y-1">
-                <p className="font-semibold text-white">7th Heaven Support</p>
+                <p className="font-semibold  ">7th Heaven Support</p>
                 <p>Email: <a href="mailto:info@7thheavenband.com" className="a-btn">info@7thheavenband.com</a></p>
                 <p>Website: <a href="https://7thheavenband.com" target="_blank" rel="noopener noreferrer" className="a-btn">7thheavenband.com</a></p>
               </div>
