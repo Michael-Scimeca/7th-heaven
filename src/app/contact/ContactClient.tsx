@@ -134,10 +134,10 @@ export default function ContactClient({
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10 flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-stretch relative z-10 flex-1 min-h-[700px]">
 
         {/* Left Column: Contact Cards (Full Width on Mobile, Smaller on Tablet md:col-span-5) */}
-        <section aria-label="Contact Directory" className="w-full min-h-full max-w-full md:max-w-md md:col-span-5 lg:col-span-4 flex flex-col text-left h-full flex-1">
+        <section aria-label="Contact Directory" className="w-full min-h-full max-w-full md:max-w-md  md:col-span-5 lg:col-span-4 flex flex-col text-left h-full flex-1">
 
           {/* Contact Cards List (1 Column Stacked, Distributed to fill section height) */}
           <div className="flex-1 flex flex-col justify-between w-full h-full pb-6">
@@ -151,6 +151,13 @@ export default function ContactClient({
                   onMouseEnter={() => setActivePhotoId(photoForThisCard)}
                   onClick={() => setActivePhotoId(photoForThisCard)}
                   className="border-b border-white/10 cursor-pointer">
+                  {/* Name & Title / Note */}
+                  <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
+                    <h3 className="leading-snug">
+                      {contact.name || "7th Heaven Representative"}
+                    </h3>
+                  </div>
+
                   {/* Category Pill */}
                   <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
                     <SectionBadge
@@ -159,15 +166,8 @@ export default function ContactClient({
                     />
                   </div>
 
-                  {/* Name & Title / Note */}
-                  <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                    <h3 className="  leading-snug">
-                      {contact.name || "7th Heaven Representative"}
-                    </h3>
-                  </div>
-
                   {/* Contact Info: Email Top, Phone Directly Underneath */}
-                  <div className="flex flex-col items-start gap-[clamp(0.15rem,0.5vh,0.625rem)]">
+                  <div className="flex flex-col items-start  pb-2">
                     {/* Email */}
                     {contact.email && (
                       <a
