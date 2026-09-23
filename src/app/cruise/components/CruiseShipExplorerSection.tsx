@@ -69,7 +69,7 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
             { title: "Dueling Pianos Music Hall", img: "/images/cruise/ship/duelingpianos.jpg", category: "Live Nightlife" },
             { title: "Ultimate Family Townhouse", img: "/images/cruise/ship/family-townhouse.jpg", category: "Suite Luxury" },
           ].map((item) => (
-            <div key={item.title} className="relative rounded-2xl overflow-hidden group h-52 sm:h-60 rounded-lg">
+            <div key={item.title} className="relative overflow-hidden group h-52 sm:h-60">
               <Image
                 width={400}
                 height={300}
@@ -154,9 +154,9 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
               { name: "Trellis Bar Dining", img: "/images/cruise/ship/central-park.jpg", tag: "Outdoor Dining" },
             ]
           ).map((food) => (
-            <div key={food.name} className="relative rounded-lg overflow-hidden group border border-black/10 h-48 md:h-56">
+            <div key={food.name} className="relative  overflow-hidden group border border-black/10 h-48 md:h-56">
               <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover" />
-              <div className="absolute rounded-lg inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
+              <div className="absolute  inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                 <SectionBadge label={food.tag} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
                 <p className="leading-snug">{food.name}</p>
               </div>
@@ -237,9 +237,9 @@ function CruiseShipExplorerSectionComponent({ sanityContent }: CruiseShipExplore
               { name: "Royal AquaDome Theater", img: "/images/cruise/ship/aquadome.jpg", tag: "Main Theater" },
             ]
           ).map((item) => (
-            <div key={item.name} className="relative overflow-hidden rounded-lg group border border-black/10 h-48 md:h-56">
+            <div key={item.name} className="relative overflow-hidden group border border-black/10 h-48 md:h-56">
               <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                 <SectionBadge label={item.tag} className="self-start mb-1.5 !bg-black/80 !backdrop-blur-md !border-white/20 shadow-md" />
                 <p className="leading-snug">{item.name}</p>
               </div>

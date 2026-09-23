@@ -98,7 +98,7 @@ export const CosmicTrackCard = React.forwardRef<
       <button
         ref={buttonRef}
         type={type}
-        className={`gob-button sgb-generate-button !rounded-2xl ${isActive ? "sgb-is-forced" : ""} ${className}`}
+        className={`!rounded-2xl border border-white/10 ${isActive ? "sgb-is-forced" : ""} ${className}`}
         style={style}
         {...buttonProps}
       >

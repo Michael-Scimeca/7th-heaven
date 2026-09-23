@@ -489,7 +489,7 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                 onMouseEnter={() => setHoveredVideoId(video.id)}
                 onMouseLeave={() => setHoveredVideoId(null)}
                 onClick={() => setPlayingVideo(video)}
-                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] overflow-hidden transition-all duration-500 bg-[#0c071a] cursor-pointer animate-[fade-in_0.35s_ease-out_both] rounded-[40px] ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"}`}
+                className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] overflow-hidden transition-all duration-500 bg-[#0c071a] cursor-pointer animate-[fade-in_0.35s_ease-out_both]  ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"}`}
                 style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}>
                 {/* Full Bleed Visual Media Player Preview */}
                 <div className="absolute inset-0 w-full h-full">

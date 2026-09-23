@@ -450,9 +450,6 @@ export default function RockNRollKidsClient({
       <section aria-labelledby="rrk-story-heading" className="w-full py-section-fluid border-b border-white/10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-start text-left w-full">
           <div className="md:col-span-5 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/20 border border-purple-400/40 text-purple-300 font-bold text-xs shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-              <span>✨</span> {badgeText}
-            </div>
             <h2 id="rrk-story-heading">
               {titleText}
             </h2>
@@ -477,7 +474,7 @@ export default function RockNRollKidsClient({
             </div>
           </div>
 
-          <div className="md:col-span-7 p-7 sm:p-10 rounded-3xl bg-gradient-to-br from-[#12092a]/90 via-black/80 to-[#0b041a]/90 border border-purple-500/30 backdrop-blur-2xl shadow-[0_0_50px_rgba(147,51,234,0.15)] relative overflow-hidden space-y-6">
+          <div className="md:col-span-7 p-6 rounded-3xl   border border-white/10 backdrop-blur-2xl relative overflow-hidden space-y-6">
             <div className="absolute -top-16 -right-16 w-56 h-56 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
 
@@ -568,7 +565,7 @@ export default function RockNRollKidsClient({
 
           {/* RIGHT COLUMN: Video Matrix Player & Video Grid Selector */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="aspect-video w-full rounded-lg overflow-hidden">
+            <div className="aspect-video w-full  overflow-hidden">
               <iframe
                 src={`https://www.youtube.com/embed/${selectedVideo}`}
                 title="Rock and Roll Kids Player"
@@ -578,7 +575,7 @@ export default function RockNRollKidsClient({
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 border border-white/10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 ">
               {videosList.map((v: any) => (
                 <CosmicTrackCard
                   key={v.id}
@@ -612,9 +609,9 @@ export default function RockNRollKidsClient({
           {productsList.map((prod: any) => (
             <article
               key={prod.id}
-              className="bg-[#0b0718]/90 border border-white/10 rounded-xl overflow-hidden flex flex-col justify-between p-4 transition-all group">
+              className="bg-[#0b0718]/90 border border-white/10 overflow-hidden flex flex-col justify-between p-4 transition-all group">
               <div>
-                <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden mb-3 bg-black/40">
+                <div className="relative w-full aspect-[3/4] overflow-hidden mb-3 bg-black/40">
                   <Image
                     src={prod.coverImg}
                     alt={prod.title}

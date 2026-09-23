@@ -41,8 +41,8 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
             {portsList.map((port: any, idx: number) => {
               const currentImg = activePortImages[port.name] || port.image;
               return (
-                <div key={`grid-${port.name}`} className="flex flex-col justify-between group rounded-2xl">
-                  <div className="h-48 sm:h-56 w-full relative overflow-hidden rounded-lg bg-black">
+                <div key={`grid-${port.name}`} className="flex flex-col justify-between group ">
+                  <div className="h-48 sm:h-56 w-full relative overflow-hidden  bg-black">
                     {currentImg && (
                       <Image
                         key={currentImg}
@@ -86,7 +86,7 @@ export default function CruisePortsCatalogSection({ sanityContent }: CruisePorts
                               type="button"
                               onMouseEnter={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
                               onClick={() => setActivePortImages(prev => ({ ...prev, [port.name]: gImg }))}
-                              className={`w-14 h-11 rounded-lg overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10 shadow-purple-500/20" : "border-white/20 "}`}
+                              className={`w-14 h-11  overflow-hidden shrink-0 border transition-all duration-200 cursor-pointer ${isActive ? "border-purple-400 ring-2 ring-purple-500/60 scale-105 z-10 shadow-purple-500/20" : "border-white/20 "}`}
                               title={`View photo ${gIdx + 1}`}>
                               <Image width={56} height={44} unoptimized src={gImg} alt={`${port.name} thumb ${gIdx}`} className="w-full h-full object-cover" />
                             </button>

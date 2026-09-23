@@ -79,9 +79,9 @@ export default function CruiseHeroSection({
           preload="auto"
           className="w-full h-full object-cover"
           style={{
-            objectPosition: "center 0%",
-            transform: "translateY(-17vw) scale(1)",
-            transformOrigin: "top",
+            objectPosition: "center center",
+            transform: "scale(1.02)",
+            transformOrigin: "center center",
             WebkitMaskImage: maskImageGradient,
             maskImage: maskImageGradient,
           }}>

@@ -239,13 +239,13 @@ export default function CruiseVideoGallery() {
               onClick={() => setActiveVideo(vid)}
               className="w-full text-left overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer group">
               {/* Poster Thumbnail */}
-              <div className="relative aspect-video bg-black/90 overflow-hidden rounded-lg">
+              <div className="relative aspect-video bg-black/90 overflow-hidden">
                 <Image width={200} height={200} unoptimized
                   src={vid.poster || '/images/cruise/cruise-hero.png'}
                   alt={vid.title}
-                  className="w-full h-full object-cover opacity-90 overflow-hidden group-hover:opacity-100 rounded-lg"
+                  className="w-full h-full object-cover opacity-90 overflow-hidden group-hover:opacity-100 "
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center !rounded-lg">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center">
                   <GlassPlayButton size="lg" />
                 </div>
 
