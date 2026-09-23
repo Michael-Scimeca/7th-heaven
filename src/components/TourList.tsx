@@ -940,9 +940,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
             <h2 className="t mb-3">
               Upcoming Tour Dates
             </h2>
-            <p className="text-white/70 text-sm sm:text-base md:text-lg font-medium leading-relaxed">
+            <h3 className="text-white/70 text-sm sm:text-base md:text-lg font-medium leading-relaxed">
               Catch 7th Heaven live on stage! Explore all upcoming show dates, venues, directions, and sync concerts directly to your calendar.
-            </p>
+            </h3>
           </div>
 
           {!hideMap && (

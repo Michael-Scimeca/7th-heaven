@@ -154,9 +154,9 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
             <h2 className="font-[family-name:var(--font-rockstar)]">
               {sanityContent?.newsTitle || "Latest Band News"}
             </h2>
-            <p className="mt-2 text-sm md:text-base">
+            <h3 className="mt-2 text-sm md:text-base font-normal">
               {sanityContent?.newsSubtitle || "Stay updated with official announcements, tour updates, new music releases, and exclusive band stories."}
-            </p>
+            </h3>
           </div>
           <AddCmsButton
             label="ADD NEWS"

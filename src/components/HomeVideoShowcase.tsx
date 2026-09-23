@@ -666,9 +666,9 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
             <h2 className="mb-2.5">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
-            <p className="text-purple-200/75 font-normal mb-5">
+            <h3 className="text-purple-200/75 font-normal mb-5">
               {sanityContent?.videoShowcaseSubtitle || "Explore 7th Heaven's live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax."}
-            </p>
+            </h3>
           </div>
 
           <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">

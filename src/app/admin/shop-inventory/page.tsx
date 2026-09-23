@@ -146,7 +146,7 @@ export default function ShopInventoryAdminPage() {
             <span className="inline-block text-[10px] mb-1">
               Shop Backend
             </span>
-            <h1>>
+            <h1>
               Inventory Management
             </h1>
             {lowStockCount > 0 && (

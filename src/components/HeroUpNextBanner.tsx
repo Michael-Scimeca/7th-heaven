@@ -203,9 +203,9 @@ export default function HeroUpNextBanner() {
 
         {/* Subtitle / Notes */}
         {upNext.info && (
-          <p className="text-[11px] sm:text-xs   text-purple-300/90  r">
+          <h3 className="text-[11px] sm:text-xs text-purple-300/90 font-normal">
             {upNext.info}
-          </p>
+          </h3>
         )}
 
         {/* Action Links (DIRECTIONS | WEBSITE | ADD TO CALENDAR) */}
