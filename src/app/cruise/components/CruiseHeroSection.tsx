@@ -29,8 +29,8 @@ export default function CruiseHeroSection({
     }
   }, []);
 
-  const desktopVideoUrl = sanityContent?.heroVideoUrl || "/movie/cruise-desktop.mp4";
-  const mobileVideoUrl = sanityContent?.heroVideoMobileUrl || "/movie/cruise-desktop.mp4";
+  const desktopVideoUrl = "/movie/cruise-desktop.mp4";
+  const mobileVideoUrl = "/movie/cruise-desktop.mp4";
   const posterUrl = sanityContent?.heroPosterUrl || "/images/cruise/hero-video-poster.jpg";
 
   const bottomFadeStart = heroMaskSettings?.bottomFadeStart ?? 80;
