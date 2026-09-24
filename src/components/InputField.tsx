@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, useId } from "react";
 
 export interface InputFieldProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -45,12 +45,13 @@ export const InputField = forwardRef<
     },
     ref,
   ) => {
+    const autoId = useId();
     const generatedId =
       name ||
       (label
         ? `input-${label.toLowerCase().replace(/[^a-z0-9]/g, "-")}`
         : undefined);
-    const inputId = id || generatedId;
+    const inputId = id || generatedId || autoId;
 
     return (
       <div

@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useId } from "react";
 import { cn } from "@/lib/utils";
 
 export interface FormInputProps
@@ -10,7 +10,8 @@ export interface FormInputProps
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   ({ label, error, icon, className, id, required, ...props }, ref) => {
-    const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, "-") : undefined);
+    const autoId = useId();
+    const inputId = id || autoId;
 
     return (
       <div className="w-full">

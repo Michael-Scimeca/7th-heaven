@@ -973,10 +973,11 @@ export default function HomeVideoShowcase({
 
               <form onSubmit={handleAddVideoSubmit} className="space-y-4">
                 <div>
-                  <label className="mb-1.5 block text-xs text-purple-200/80">
+                  <label htmlFor="sanity-video-title" className="mb-1.5 block text-xs text-purple-200/80">
                     Video Title *
                   </label>
                   <input
+                    id="sanity-video-title"
                     type="text"
                     required
                     value={newTitle}
@@ -987,10 +988,11 @@ export default function HomeVideoShowcase({
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-xs text-purple-200/80">
+                  <label htmlFor="sanity-video-url" className="mb-1.5 block text-xs text-purple-200/80">
                     YouTube URL or Video ID *
                   </label>
                   <input
+                    id="sanity-video-url"
                     type="text"
                     required
                     value={newUrl}
@@ -1003,7 +1005,7 @@ export default function HomeVideoShowcase({
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                   <div>
                     <div className="mb-1.5 flex items-center justify-between">
-                      <label className="block text-xs text-purple-200/80">
+                      <label htmlFor="sanity-video-category" className="block text-xs text-purple-200/80">
                         Category *
                       </label>
                       <button
@@ -1022,6 +1024,7 @@ export default function HomeVideoShowcase({
 
                     {isCustomCategory ? (
                       <input
+                        id="sanity-video-category"
                         type="text"
                         required
                         value={customCategoryInput}
@@ -1031,6 +1034,7 @@ export default function HomeVideoShowcase({
                       />
                     ) : (
                       <select
+                        id="sanity-video-category"
                         value={newCategory}
                         onChange={(e) => {
                           if (e.target.value === "__CUSTOM__") {
@@ -1055,10 +1059,11 @@ export default function HomeVideoShowcase({
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                    <label htmlFor="sanity-video-year" className="mb-1.5 block text-xs text-purple-200/80">
                       Year
                     </label>
                     <input
+                      id="sanity-video-year"
                       type="number"
                       value={newYear}
                       onChange={(e) => setNewYear(e.target.value)}
@@ -1067,10 +1072,11 @@ export default function HomeVideoShowcase({
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                    <label htmlFor="sanity-video-duration" className="mb-1.5 block text-xs text-purple-200/80">
                       Duration
                     </label>
                     <input
+                      id="sanity-video-duration"
                       type="text"
                       value={newDuration}
                       onChange={(e) => setNewDuration(e.target.value)}
@@ -1081,10 +1087,11 @@ export default function HomeVideoShowcase({
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-xs text-purple-200/80">
+                  <label htmlFor="sanity-video-description" className="mb-1.5 block text-xs text-purple-200/80">
                     Description
                   </label>
                   <textarea
+                    id="sanity-video-description"
                     rows={3}
                     value={newDesc}
                     onChange={(e) => setNewDesc(e.target.value)}

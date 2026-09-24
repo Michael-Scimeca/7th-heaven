@@ -44,9 +44,11 @@ export function SquishyToggle({
   onChange = () => {},
   disabled = false,
   label = "Toggle switch",
-  id = "squishy-toggle",
+  id,
   className = "",
 }: SquishyToggleProps) {
+  const generatedId = React.useId();
+  const toggleId = id || generatedId;
   const [animState, setAnimState] = useState<"idle" | "in" | "out">("idle");
   const prevChecked = useRef(checked);
 
@@ -83,7 +85,7 @@ export function SquishyToggle({
       className={`squishy-toggle relative inline-block h-[30px] w-[52px] shrink-0 overflow-hidden rounded-full border border-white/25 bg-black/50 shadow-inner select-none ${disabled ? "cursor-not-allowed opacity-50" : ""} ${className}`}
     >
       <input
-        id={id}
+        id={toggleId}
         type="checkbox"
         aria-label={label}
         checked={checked}
