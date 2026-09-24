@@ -6,7 +6,17 @@
   --font-sans: 'Switzer', sans-serif;
   --font-heading: 'Tanker', sans-serif;
   --font-display: 'Tanker', sans-serif;
+  --color-accent: #9333ea;
+  --color-accent-hover: #a855f7;
+  --color-bg-base: #05030a;
+  --color-bg-surface: #0f0f13;
+  --color-bg-glass: rgba(18, 18, 24, 0.65);
   --color-dark-purple: lab(37 69.67 -89.26);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
 }
 
 @font-face {

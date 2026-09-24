@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase-client";
+import StatusBadge from "@/components/ui/StatusBadge";
 
 const crewMembers = [
   { name: "Adam Heisler", role: "Lead Vocals", avatar: "AH" },
@@ -154,12 +155,10 @@ export default function AdminFeedPost() {
 
         {/* Header */}
         <div className="mb-8">
-          <div className="mb-3 flex items-center gap-2">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-lg bg-red-500" />
-            </span>
-            <span className="text-red-400">Collaborative Live Feed</span>
+          <div className="mb-3">
+            <StatusBadge status="error" dot>
+              Collaborative Live Feed
+            </StatusBadge>
           </div>
           <h1>Post to Feed</h1>
           <p>Updates are synchronized across all crew devices</p>
