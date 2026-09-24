@@ -29,7 +29,7 @@ export function DemoPreview({
     <>
       <button
         onClick={() => setExpanded(true)}
-        className={`group relative aspect-video w-full cursor-pointer overflow-hidden border-2 transition-colors duration-300 ${isPurple ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]" : "border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"}`}
+        className={`group relative aspect-video w-full cursor-pointer overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]" : "border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"}`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image
@@ -42,11 +42,11 @@ export function DemoPreview({
           loading="lazy"
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 transition-opacity group-hover:opacity-50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-50" />
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div
-            className={`flex h-14 w-14 items-center justify-center rounded-lg transition-colors duration-300 group-hover:scale-110 ${isPurple ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]" : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"}`}
+            className={`flex h-14 w-14 items-center justify-center rounded-lg group-hover:scale-110 ${isPurple ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]" : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"}`}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
               <path d="M8 5v14l11-7z" />
@@ -66,20 +66,20 @@ export function DemoPreview({
       {/* Fullscreen Modal */}
       {expanded && (
         <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-[45px] md:p-8"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-2xl md:p-8"
           onClick={() => setExpanded(false)}
         >
           <div className="relative w-full max-w-6xl">
             {/* Close Button */}
             <button
               onClick={() => setExpanded(false)}
-              className="absolute -top-12 right-0 flex cursor-pointer items-center gap-2 transition-colors hover:text-white"
+              className="absolute -top-12 right-0 flex cursor-pointer items-center gap-2 hover:text-white"
             >
-              Close <span className="text-lg">✕</span>
+              Close <span>✕</span>
             </button>
             {/* Title */}
             <div className="mb-6">
-              <h3 className="" style={{ fontStyle: "italic" }}>
+              <h3 style={{ fontStyle: " " }}>
                 {title} <span style={{ color: "#851DEF" }}>Demo</span>
               </h3>
             </div>
@@ -110,7 +110,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
 
   return (
     <div
-      className={`group relative flex flex-col overflow-hidden border transition-colors duration-300 ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/10 border-white/[0.07] bg-white/[0.02]"}`}
+      className={`group relative flex flex-col overflow-hidden border ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/10 border-white/[0.07] bg-white/[0.02]"}`}
     >
       {/* accent top line */}
       <div
@@ -130,7 +130,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Titles */}
         <div>
-          <h3 className="mb-1.5" style={{ fontStyle: "italic" }}>
+          <h3 className="mb-1.5" style={{ fontStyle: " " }}>
             {f.title}
           </h3>
           <p className={` ${isPurple ? "text-[#c084fc]" : "text-white/40"}`}>
@@ -161,7 +161,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
             {f.bullets.map((b) => (
               <li
                 key={`bullet-${b.slice(0, 20)}`}
-                className="flex items-start gap-2.5 text-lg"
+                className="flex items-start gap-2.5"
               >
                 <span
                   className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-lg ${isPurple ? "bg-[var(--color-accent)]" : "bg-white/25"}`}
@@ -176,13 +176,9 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div>
           <button
             onClick={() => setExpanded((v) => !v)}
-            className={`flex cursor-pointer items-center gap-2 text-base transition-colors ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 text-white/70 hover:text-white"}`}
+            className={`flex cursor-pointer items-center gap-2 text-base ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white"}`}
           >
-            <span
-              className={`transition-transform duration-200 ${expanded ? "rotate-90" : "rotate-0"}`}
-            >
-              ▶
-            </span>
+            <span className={`${expanded ? "rotate-90" : "rotate-0"}`}>▶</span>
             How It Works
           </button>
           {expanded && (
@@ -223,7 +219,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
       {f.link && (
         <Link
           href={f.link}
-          className={`flex items-center justify-between border-t px-6 py-4 text-base transition-colors ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:bg-[var(--color-accent)]/10 hover:text-white" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+          className={`flex items-center justify-between border-t px-6 py-4 text-base ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:bg-[var(--color-accent)]/10 hover:text-white" : "border-white/10 bg-[#00000029] hover:text-white"}`}
         >
           Explore live →
         </Link>

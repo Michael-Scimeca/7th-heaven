@@ -30,11 +30,7 @@ export function LoadingSpinner({
       {...props}
     >
       <Loader2 className={cn("animate-spin", spinnerSizes[size])} />
-      {label && (
-        <span className="text-sm font-medium tracking-wide text-white/70">
-          {label}
-        </span>
-      )}
+      {label && <span className="font-medium tracking-wide">{label}</span>}
     </div>
   );
 

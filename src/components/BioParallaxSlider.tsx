@@ -1427,17 +1427,17 @@ lerpSpeed: ${lerpSpeed}`;
                 {/* Header */}
                 <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
                   <div>
-                    <h4 className="flex items-center gap-2 text-sm text-amber-400">
+                    <h4 className="flex items-center gap-2 text-amber-400">
                       <span>🔥</span> Canvas & Stage Control
                     </h4>
-                    <p className="text-[11px] text-white/50">
+                    <p className="text-white/50">
                       Tune WebGL Fireplace & Bio Parallax Slider
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setIsCanvasCustomizerOpen(false)}
-                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-white/10 hover:bg-white/20 hover:text-white"
                     aria-label="Close UI Controls"
                   >
                     ✕
@@ -1449,28 +1449,28 @@ lerpSpeed: ${lerpSpeed}`;
                   <button
                     type="button"
                     onClick={() => setActiveCustomizerTab("canvas")}
-                    className={`flex-1 cursor-pointer rounded-md py-1.5 text-xs transition-all ${activeCustomizerTab === "canvas" ? "bg-amber-500 shadow-md" : "text-white/70 hover:bg-white/5 hover:text-white"}`}
+                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "canvas" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"}`}
                   >
                     🔥 Shader Canvas
                   </button>
                   <button
                     type="button"
                     onClick={() => setActiveCustomizerTab("stage")}
-                    className={`flex-1 cursor-pointer rounded-md py-1.5 text-xs transition-all ${activeCustomizerTab === "stage" ? "bg-amber-500 shadow-md" : "text-white/70 hover:bg-white/5 hover:text-white"}`}
+                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "stage" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"}`}
                   >
                     📐 Bio Stage
                   </button>
                 </div>
 
                 {activeCustomizerTab === "canvas" && (
-                  <div className="space-y-4 text-xs">
+                  <div className="space-y-4">
                     {/* Enable Shader Canvas Toggle */}
                     <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-2.5">
                       <span className="/90">Enable Fireplace Shader</span>
                       <button
                         type="button"
                         onClick={() => setIsCanvasEnabled((prev) => !prev)}
-                        className={`cursor-pointer rounded-full px-3 py-1 text-[11px] transition-colors ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20 text-white/70"}`}
+                        className={`cursor-pointer rounded-full px-3 py-1 ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20"}`}
                       >
                         {isCanvasEnabled ? "ON" : "OFF"}
                       </button>
@@ -1478,7 +1478,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                     {/* Palette Theme Presets */}
                     <div>
-                      <span className="mb-1.5 block text-white/70">
+                      <span className="mb-1.5 block">
                         Fireplace Palette Preset
                       </span>
                       <div className="grid grid-cols-2 gap-1.5">
@@ -1496,7 +1496,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setPaletteTheme(theme.id);
                               setUseCustomColors(false);
                             }}
-                            className={`cursor-pointer rounded-lg border p-2 text-left text-[11px] transition-all ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-500 shadow-sm" : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10"}`}
+                            className={`cursor-pointer rounded-lg border p-2 text-left ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-500 shadow-sm" : "border-white/10 bg-white/5 hover:bg-white/10"}`}
                           >
                             {theme.label}
                           </button>
@@ -1507,13 +1507,13 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Custom Color Swatches & Toggle */}
                     <div className="space-y-3 rounded-xl border border-white/10 bg-white/5 p-3">
                       <div className="flex items-center justify-between">
-                        <span className="/90 flex items-center gap-1.5 text-xs">
+                        <span className="/90 flex items-center gap-1.5">
                           <span>🎨</span> Custom Palette Swatches
                         </span>
                         <button
                           type="button"
                           onClick={() => setUseCustomColors((prev) => !prev)}
-                          className={`cursor-pointer rounded-full px-2.5 py-0.5 text-[10px] transition-colors ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20 text-white/70"}`}
+                          className={`cursor-pointer rounded-full px-2.5 py-0.5 text-[10px] ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20"}`}
                         >
                           {useCustomColors ? "CUSTOM" : "PRESET"}
                         </button>
@@ -1572,7 +1572,7 @@ lerpSpeed: ${lerpSpeed}`;
                                 setColorCoreHex(s.core);
                                 setColorSparkHex(s.spark);
                               }}
-                              className="cursor-pointer rounded border border-white/15 bg-white/10 px-2 py-1 text-[10px] transition-all hover:bg-white/20"
+                              className="cursor-pointer rounded border border-white/15 bg-white/10 px-2 py-1 text-[10px] hover:bg-white/20"
                             >
                               {s.label}
                             </button>
@@ -1584,7 +1584,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <div>
                           <div className="mb-1 flex justify-between text-[10px] text-white/60">
                             <span>Base Sky</span>
-                            <span className="font-mono text-amber-300">
+                            <span className="text-amber-300">
                               {colorBaseHex}
                             </span>
                           </div>
@@ -1605,7 +1605,7 @@ lerpSpeed: ${lerpSpeed}`;
                                 setColorBaseHex(e.target.value);
                                 setUseCustomColors(true);
                               }}
-                              className="w-full rounded border border-white/15 bg-black/50 px-2 py-1 font-mono text-[11px] focus:border-amber-400 focus:outline-none"
+                              className="focus-ring w-full rounded border border-white/15 bg-black/50 px-2 py-1"
                             />
                           </div>
                         </div>
@@ -1613,7 +1613,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <div>
                           <div className="mb-1 flex justify-between text-[10px] text-white/60">
                             <span>Mid Flame</span>
-                            <span className="font-mono text-amber-300">
+                            <span className="text-amber-300">
                               {colorMidHex}
                             </span>
                           </div>
@@ -1634,7 +1634,7 @@ lerpSpeed: ${lerpSpeed}`;
                                 setColorMidHex(e.target.value);
                                 setUseCustomColors(true);
                               }}
-                              className="w-full rounded border border-white/15 bg-black/50 px-2 py-1 font-mono text-[11px] focus:border-amber-400 focus:outline-none"
+                              className="focus-ring w-full rounded border border-white/15 bg-black/50 px-2 py-1"
                             />
                           </div>
                         </div>
@@ -1642,7 +1642,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <div>
                           <div className="mb-1 flex justify-between text-[10px] text-white/60">
                             <span>Core Fire</span>
-                            <span className="font-mono text-amber-300">
+                            <span className="text-amber-300">
                               {colorCoreHex}
                             </span>
                           </div>
@@ -1663,7 +1663,7 @@ lerpSpeed: ${lerpSpeed}`;
                                 setColorCoreHex(e.target.value);
                                 setUseCustomColors(true);
                               }}
-                              className="w-full rounded border border-white/15 bg-black/50 px-2 py-1 font-mono text-[11px] focus:border-amber-400 focus:outline-none"
+                              className="focus-ring w-full rounded border border-white/15 bg-black/50 px-2 py-1"
                             />
                           </div>
                         </div>
@@ -1671,7 +1671,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <div>
                           <div className="mb-1 flex justify-between text-[10px] text-white/60">
                             <span>Spark Embers</span>
-                            <span className="font-mono text-amber-300">
+                            <span className="text-amber-300">
                               {colorSparkHex}
                             </span>
                           </div>
@@ -1692,7 +1692,7 @@ lerpSpeed: ${lerpSpeed}`;
                                 setColorSparkHex(e.target.value);
                                 setUseCustomColors(true);
                               }}
-                              className="w-full rounded border border-white/15 bg-black/50 px-2 py-1 font-mono text-[11px] focus:border-amber-400 focus:outline-none"
+                              className="focus-ring w-full rounded border border-white/15 bg-black/50 px-2 py-1"
                             />
                           </div>
                         </div>
@@ -1702,8 +1702,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Flame Animation Speed */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">Flame Speed</span>
-                        <span className="font-mono text-amber-400">
+                        <span>Flame Speed</span>
+                        <span className="text-amber-400">
                           {flameSpeed.toFixed(1)}x
                         </span>
                       </div>
@@ -1724,10 +1724,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Flame Scale / Height */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">
-                          Flame Height Scale
-                        </span>
-                        <span className="font-mono text-amber-400">
+                        <span>Flame Height Scale</span>
+                        <span className="text-amber-400">
                           {flameHeight.toFixed(1)}x
                         </span>
                       </div>
@@ -1748,8 +1746,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Ember / Spark Density */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">Ember Density</span>
-                        <span className="font-mono text-amber-400">
+                        <span>Ember Density</span>
+                        <span className="text-amber-400">
                           {sparkDensity.toFixed(1)}x
                         </span>
                       </div>
@@ -1770,8 +1768,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Spark Particle Size */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">Spark Size</span>
-                        <span className="font-mono text-amber-400">
+                        <span>Spark Size</span>
+                        <span className="text-amber-400">
                           {sparkScale.toFixed(2)}
                         </span>
                       </div>
@@ -1792,10 +1790,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Canvas Opacity */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">Canvas Opacity</span>
-                        <span className="font-mono text-amber-400">
-                          {canvasOpacity}%
-                        </span>
+                        <span>Canvas Opacity</span>
+                        <span className="text-amber-400">{canvasOpacity}%</span>
                       </div>
                       <input
                         type="range"
@@ -1814,12 +1810,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Backdrop Glow Opacity */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">
-                          Image Glow Opacity
-                        </span>
-                        <span className="font-mono text-amber-400">
-                          {glowOpacity}%
-                        </span>
+                        <span>Image Glow Opacity</span>
+                        <span className="text-amber-400">{glowOpacity}%</span>
                       </div>
                       <input
                         type="range"
@@ -1838,14 +1830,12 @@ lerpSpeed: ${lerpSpeed}`;
                 )}
 
                 {activeCustomizerTab === "stage" && (
-                  <div className="space-y-4 text-xs">
+                  <div className="space-y-4">
                     {/* Card Width */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">Card Width</span>
-                        <span className="font-mono text-amber-400">
-                          {cardWidth}px
-                        </span>
+                        <span>Card Width</span>
+                        <span className="text-amber-400">{cardWidth}px</span>
                       </div>
                       <input
                         type="range"
@@ -1864,10 +1854,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Image Height */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">Cutout Height</span>
-                        <span className="font-mono text-amber-400">
-                          {imageHeight}px
-                        </span>
+                        <span>Cutout Height</span>
+                        <span className="text-amber-400">{imageHeight}px</span>
                       </div>
                       <input
                         type="range"
@@ -1886,10 +1874,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Image Scale */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">
-                          Member Image Scale
-                        </span>
-                        <span className="font-mono text-amber-400">
+                        <span>Member Image Scale</span>
+                        <span className="text-amber-400">
                           {imageScale.toFixed(2)}
                         </span>
                       </div>
@@ -1910,10 +1896,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Image Y Offset */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">Image Y Offset</span>
-                        <span className="font-mono text-amber-400">
-                          {imageOffsetY}px
-                        </span>
+                        <span>Image Y Offset</span>
+                        <span className="text-amber-400">{imageOffsetY}px</span>
                       </div>
                       <input
                         type="range"
@@ -1932,10 +1916,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Gap */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">Card Spacing Gap</span>
-                        <span className="font-mono text-amber-400">
-                          {gap}px
-                        </span>
+                        <span>Card Spacing Gap</span>
+                        <span className="text-amber-400">{gap}px</span>
                       </div>
                       <input
                         type="range"
@@ -1952,12 +1934,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Active Y Shift */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">
-                          Active Card Y-Elevation
-                        </span>
-                        <span className="font-mono text-amber-400">
-                          {activeYShift}px
-                        </span>
+                        <span>Active Card Y-Elevation</span>
+                        <span className="text-amber-400">{activeYShift}px</span>
                       </div>
                       <input
                         type="range"
@@ -1976,10 +1954,8 @@ lerpSpeed: ${lerpSpeed}`;
                     {/* Text Backdrop Opacity */}
                     <div>
                       <div className="mb-1 flex justify-between">
-                        <span className="text-white/70">
-                          Text Backdrop Opacity
-                        </span>
-                        <span className="font-mono text-amber-400">
+                        <span>Text Backdrop Opacity</span>
+                        <span className="text-amber-400">
                           {textBackdropOpacity}%
                         </span>
                       </div>
@@ -2006,14 +1982,14 @@ lerpSpeed: ${lerpSpeed}`;
                   <button
                     type="button"
                     onClick={handleResetCanvasDefaults}
-                    className="flex-1 cursor-pointer rounded-lg bg-white/10 py-2 text-xs transition-colors hover:bg-white/20"
+                    className="flex-1 cursor-pointer rounded-lg bg-white/10 py-2 hover:bg-white/20"
                   >
                     🔄 Reset Defaults
                   </button>
                   <button
                     type="button"
                     onClick={handleCopyConfig}
-                    className="flex-1 cursor-pointer rounded-lg bg-amber-500 py-2 text-xs transition-colors hover:bg-amber-400"
+                    className="flex-1 cursor-pointer rounded-lg bg-amber-500 py-2 hover:bg-amber-400"
                   >
                     {copiedConfigNotification ? "✓ Copied!" : "📋 Copy Config"}
                   </button>
@@ -2040,11 +2016,11 @@ lerpSpeed: ${lerpSpeed}`;
                     e.stopPropagation();
                     goToSlide(idx);
                   }}
-                  className={`group relative flex cursor-pointer items-center gap-2 transition-colors duration-300 sm:gap-3.5 ${isActive ? "z-20" : ""}`}
+                  className={`group relative flex cursor-pointer items-center gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""}`}
                 >
                   {/* Member Card Thumbnail */}
                   <div
-                    className="sm: spine-thumb-mask relative shrink-0 overflow-hidden rounded-lg transition-colors duration-300"
+                    className="sm: spine-thumb-mask relative shrink-0 overflow-hidden rounded-lg"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -2055,13 +2031,13 @@ lerpSpeed: ${lerpSpeed}`;
                       alt={m?.name || "Band Member"}
                       fill
                       sizes="100px"
-                      className={`object-cover transition-all duration-300 ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"}`}
+                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"}`}
                     />
                   </div>
 
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div
-                    className={`block text-left whitespace-nowrap transition-colors duration-300 ${isActive ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
+                    className={`block text-left whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
                   >
                     <p className="drop-">{m?.name || "Band Member"}</p>
                     <p className="sm: mt-0.5">{m?.role || "Musician"}</p>
@@ -2091,11 +2067,11 @@ lerpSpeed: ${lerpSpeed}`;
                     setSelectedMemberForSheet(m as BandMemberFactSheet);
                     setIsFactSheetOpen(true);
                   }}
-                  className={`group relative flex cursor-pointer items-center justify-end gap-2 transition-colors duration-300 sm:gap-3.5 ${isActive ? "z-20" : ""}`}
+                  className={`group relative flex cursor-pointer items-center justify-end gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""}`}
                 >
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div
-                    className={`block text-right whitespace-nowrap transition-colors duration-300 ${isActive ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
+                    className={`block text-right whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
                   >
                     <p className="drop-">{m?.name || "Band Member"}</p>
                     <p className="sm: mt-0.5">{m?.role || "Musician"}</p>
@@ -2103,7 +2079,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                   {/* Member Card Thumbnail */}
                   <div
-                    className="sm: spine-thumb-mask relative shrink-0 overflow-hidden rounded-lg transition-colors duration-300"
+                    className="sm: spine-thumb-mask relative shrink-0 overflow-hidden rounded-lg"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -2114,7 +2090,7 @@ lerpSpeed: ${lerpSpeed}`;
                       alt={m?.name || "Band Member"}
                       fill
                       sizes="100px"
-                      className={`object-cover transition-all duration-300 ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"}`}
+                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"}`}
                     />
                   </div>
                 </button>
@@ -2182,13 +2158,13 @@ lerpSpeed: ${lerpSpeed}`;
                       i < displayMembers.length - 1 ? `${gap}px` : "0px",
                     isolation: "isolate",
                   }}
-                  className="relative flex shrink-0 origin-bottom cursor-pointer flex-col justify-end overflow-visible border-0 text-left ring-0 outline-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none active:outline-none"
+                  className="focus-ring relative flex shrink-0 origin-bottom cursor-pointer flex-col justify-end overflow-visible border-0 text-left ring-0 outline-none focus-visible:ring-0 focus-visible:outline-none active:outline-none"
                 >
                   <div className="relative z-10 flex h-full flex-col justify-end overflow-visible">
                     <div className="relative overflow-visible">
                       {/* Dynamic Sized Member Photo Cutout Container */}
                       <div
-                        className="smooothy-img-container relative flex w-full origin-bottom items-end justify-center overflow-visible transition-colors duration-150"
+                        className="smooothy-img-container relative flex w-full origin-bottom items-end justify-center overflow-visible"
                         style={{
                           height: `${imageHeight}px`,
                           transform: `translateY(${imageOffsetY}px)`,
@@ -2197,7 +2173,7 @@ lerpSpeed: ${lerpSpeed}`;
                         {/* WebGL Pixel Fireplace Shader Canvas behind Active Band Member */}
                         {isCanvasEnabled && Math.abs(activeIndex - i) <= 1 && (
                           <div
-                            className="pointer-events-none absolute inset-x-[-20%] top-[-10%] bottom-[60px] z-[-1] overflow-hidden transition-opacity duration-700 ease-out md:bottom-[80px]"
+                            className="pointer-events-none absolute inset-x-[-20%] top-[-10%] bottom-[60px] z-[-1] overflow-hidden md:bottom-[80px]"
                             style={{
                               opacity: isActive ? canvasOpacity / 100 : 0,
                             }}
@@ -2219,22 +2195,14 @@ lerpSpeed: ${lerpSpeed}`;
                         )}
                         {/* Radiant Gradient Glow behind Active Image Cutout */}
                         <div
-                          className="pointer-events-none absolute inset-x-[-15%] top-[-10%] bottom-[40px] z-[0] origin-center rounded-full mix-blend-screen blur-2xl transition-opacity duration-300 ease-out md:blur-3xl"
+                          className="pointer-events-none absolute inset-x-[-15%] top-[-10%] bottom-[40px] z-[0] origin-center rounded-full mix-blend-screen blur-2xl md:blur-3xl"
                           style={{
                             background: getGlowGradient(),
                             opacity: isActive ? glowOpacity / 100 : 0,
                             transform: isActive ? "scale(1)" : "scale(0.75)",
                           }}
                         />
-                        <picture className="relative z-10 flex h-full w-full items-end justify-center">
-                          <source
-                            media="(max-width: 767px)"
-                            srcSet={mobileSrc}
-                          />
-                          <source
-                            media="(min-width: 768px)"
-                            srcSet={desktopSrc}
-                          />
+                        <div className="relative z-10 flex h-full w-full items-end justify-center">
                           <Image
                             src={imageSrc}
                             alt={m?.name || "Member Photo"}
@@ -2267,11 +2235,11 @@ lerpSpeed: ${lerpSpeed}`;
                               transformOrigin: "bottom center",
                             }}
                           />
-                        </picture>
+                        </div>
 
                         {/* Orb Button Glass Stack — Toggle Bio Fact Sheet (Active Member Only) */}
                         {/* {isActive && (
-                          <div className="btn-wrapper absolute top-2 right-2 md:top-4 md:right-4 z-0 text-[7.5px] md:text-[8.5px] transition-all duration-300 pointer-events-auto animate-orb-pop">
+                          <div className="btn-wrapper absolute top-2 right-2 md:top-4 md:right-4 z-0 text-[7.5px] md:text-[8.5px] pointer-events-auto animate-orb-pop">
                             <button
                               type="button"
                               aria-label={isFactSheetOpen ? `Close bio details for ${m?.name || "Band Member"}` : `View bio details for ${m?.name || "Band Member"}`}
@@ -2309,7 +2277,7 @@ lerpSpeed: ${lerpSpeed}`;
                       {textPos === "left" && (
                         <div
                           id="names"
-                          className="pointer-events-none absolute left-4 z-30 flex max-w-[90%] flex-col items-start text-left transition-opacity duration-300"
+                          className="pointer-events-none absolute left-4 z-30 flex max-w-[90%] flex-col items-start text-left"
                           style={{
                             bottom: `1px`,
                             opacity:
@@ -2340,17 +2308,14 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-glass" && (
                         <div
-                          className="pointer-events-none absolute left-4 z-30 flex max-w-[90%] flex-col items-start border border-white/10 bg-black/85 px-4 py-3 text-left backdrop-blur-xl transition-opacity duration-300"
+                          className="pointer-events-none absolute left-4 z-30 flex max-w-[90%] flex-col items-start border border-white/10 bg-black/85 px-4 py-3 text-left backdrop-blur-xl"
                           style={{
                             bottom: `${textBottomOffset}px`,
                             opacity:
                               activeIndex === i ? 1 : inactiveNameOpacity,
                           }}
                         >
-                          <h3
-                            className=""
-                            style={{ fontSize: computedNameFontSize }}
-                          >
+                          <h3 style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span
@@ -2364,7 +2329,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "left-accent" && (
                         <div
-                          className="pointer-events-none absolute left-4 z-30 flex max-w-[90%] flex-col items-start py-1 pl-0 text-left transition-opacity duration-300"
+                          className="pointer-events-none absolute left-4 z-30 flex max-w-[90%] flex-col items-start py-1 pl-0 text-left"
                           style={{
                             bottom: `${textBottomOffset}px`,
                             opacity:
@@ -2388,7 +2353,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center" && (
                         <div
-                          className="pointer-events-none absolute left-1/2 z-30 flex w-full -translate-x-1/2 flex-col items-center px-2 text-center transition-opacity duration-300"
+                          className="pointer-events-none absolute left-1/2 z-30 flex w-full -translate-x-1/2 flex-col items-center px-2 text-center"
                           style={{
                             bottom: `${textBottomOffset}px`,
                             opacity:
@@ -2401,10 +2366,7 @@ lerpSpeed: ${lerpSpeed}`;
                               : {}),
                           }}
                         >
-                          <h3
-                            className=""
-                            style={{ fontSize: computedNameFontSize }}
-                          >
+                          <h3 style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span
@@ -2418,17 +2380,14 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="pointer-events-none absolute left-1/2 z-30 flex max-w-[90%] -translate-x-1/2 flex-col items-center rounded-lg border border-white/10 bg-black/85 px-4 py-2.5 text-center backdrop-blur-xl transition-opacity duration-300"
+                          className="pointer-events-none absolute left-1/2 z-30 flex max-w-[90%] -translate-x-1/2 flex-col items-center rounded-lg border border-white/10 bg-black/85 px-4 py-2.5 text-center backdrop-blur-xl"
                           style={{
                             bottom: `${textBottomOffset}px`,
                             opacity:
                               activeIndex === i ? 1 : inactiveNameOpacity,
                           }}
                         >
-                          <h3
-                            className=""
-                            style={{ fontSize: computedNameFontSize }}
-                          >
+                          <h3 style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span
@@ -2442,7 +2401,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right" && (
                         <div
-                          className="pointer-events-none absolute right-4 z-30 flex max-w-[90%] flex-col items-end text-right transition-opacity duration-300"
+                          className="pointer-events-none absolute right-4 z-30 flex max-w-[90%] flex-col items-end text-right"
                           style={{
                             bottom: `${textBottomOffset}px`,
                             opacity:
@@ -2473,17 +2432,14 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-glass" && (
                         <div
-                          className="pointer-events-none absolute right-4 z-30 flex max-w-[90%] flex-col items-end border border-white/10 bg-black/85 px-4 py-3 text-right backdrop-blur-xl transition-opacity duration-300"
+                          className="pointer-events-none absolute right-4 z-30 flex max-w-[90%] flex-col items-end border border-white/10 bg-black/85 px-4 py-3 text-right backdrop-blur-xl"
                           style={{
                             bottom: `${textBottomOffset}px`,
                             opacity:
                               activeIndex === i ? 1 : inactiveNameOpacity,
                           }}
                         >
-                          <h3
-                            className=""
-                            style={{ fontSize: computedNameFontSize }}
-                          >
+                          <h3 style={{ fontSize: computedNameFontSize }}>
                             {m?.name}
                           </h3>
                           <span
@@ -2497,7 +2453,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "right-accent" && (
                         <div
-                          className="pointer-events-none absolute right-4 z-30 flex max-w-[90%] flex-col items-end border-r-2 border-[var(--color-accent)] py-1 pr-3 text-right transition-opacity duration-300"
+                          className="pointer-events-none absolute right-4 z-30 flex max-w-[90%] flex-col items-end border-r-2 border-[var(--color-accent)] py-1 pr-3 text-right"
                           style={{
                             bottom: `${textBottomOffset}px`,
                             opacity:

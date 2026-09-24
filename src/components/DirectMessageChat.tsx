@@ -133,7 +133,7 @@ export default function DirectMessageChat() {
       {/* Floating Chat Bubble Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="group relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[var(--color-accent)] shadow-[0_4px_20px_rgba(255,10,61,0.5)] transition-colors hover:bg-[var(--color-accent-hover)]"
+        className="group relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[var(--color-accent)] shadow-[0_4px_20px_rgba(255,10,61,0.5)] hover:bg-[var(--color-accent-hover)]"
       >
         {open ? (
           <svg

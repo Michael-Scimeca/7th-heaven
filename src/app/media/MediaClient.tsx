@@ -146,7 +146,7 @@ function VideoCardVisual({
           fill
           loading={isTop6 ? "eager" : "lazy"}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className={`object-cover transition-all duration-300 ease-out ${isLoaded ? "opacity-100" : "opacity-0"} ${isHovered ? "scale-105" : "scale-100"}`}
+          className={`object-cover ${isLoaded ? "opacity-100" : "opacity-0"} ${isHovered ? "scale-105" : "scale-100"}`}
           unoptimized
           onLoad={() => setIsLoaded(true)}
           onError={handleImageError}
@@ -156,7 +156,7 @@ function VideoCardVisual({
       {/* 3. 5-Second Video Hover Snippet (Pre-buffered for top 6, instant playback on hover) */}
       {shouldRenderIframe && (
         <div
-          className={`pointer-events-none absolute inset-0 z-10 h-full w-full overflow-hidden transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}
+          className={`pointer-events-none absolute inset-0 z-10 h-full w-full overflow-hidden ${isHovered ? "opacity-100" : "opacity-0"}`}
         >
           <iframe
             src={embedSnippetUrl}
@@ -591,7 +591,7 @@ export default function MediaClient({
               return (
                 <li key={`${activeFilter}-${video.id}`}>
                   <article
-                    className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] flex-col overflow-hidden bg-[#0c071a] transition-all duration-500 sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-6" : "lg:translate-y-4"}`}
+                    className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] flex-col overflow-hidden bg-[#0c071a] sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-6" : "lg:translate-y-4"}`}
                     style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}
                   >
                     <button
@@ -600,7 +600,7 @@ export default function MediaClient({
                       onMouseEnter={() => setHoveredVideoId(video.id)}
                       onMouseLeave={() => setHoveredVideoId(null)}
                       onClick={() => setPlayingVideo(video)}
-                      className="relative h-full w-full cursor-pointer text-left focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                      className="focus-ring relative h-full w-full cursor-pointer text-left"
                     >
                       {/* Full Bleed Visual Media Player Preview */}
                       <div className="absolute inset-0 h-full w-full">
@@ -615,15 +615,15 @@ export default function MediaClient({
                       </div>
 
                       {/* Dark Gradient Overlay at Bottom */}
-                      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-0" />
+                      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-0" />
 
                       {/* Centered Glass Play Button Above Dark Overlay */}
-                      <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:opacity-0">
+                      <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center group-hover:scale-110 group-hover:opacity-0">
                         <GlassPlayButton size="lg" />
                       </div>
 
                       {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
-                      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end p-4 text-center transition-opacity duration-300 group-hover:opacity-0 sm:p-8">
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end p-4 text-center group-hover:opacity-0 sm:p-8">
                         {/* Category Pill Tag */}
                         <span className="mb-2 inline-flex shrink-0 items-center justify-center !rounded-lg border border-white/10 bg-white/20 px-3 py-1.5 text-center backdrop-blur-md">
                           {video.category || "7TH HEAVEN"}
@@ -637,7 +637,7 @@ export default function MediaClient({
                         </div>
 
                         {/* Year / Duration Metadata */}
-                        <span className="shrink-0 text-xs text-white/70">
+                        <span className="shrink-0">
                           {video.year || "2026"}{" "}
                           {video.duration ? `• ${video.duration}` : ""}
                         </span>
@@ -659,7 +659,7 @@ export default function MediaClient({
                   Math.min(prev + CARDS_PER_BATCH, filteredVideos.length),
                 )
               }
-              className="btn-secondary cursor-pointer rounded-full px-6 py-2.5 text-sm"
+              className="btn-secondary cursor-pointer rounded-full px-6 py-2.5"
             >
               {sanityContent?.loadMoreText || "Load more"} (
               {filteredVideos.length - visibleCount} more)
@@ -671,7 +671,7 @@ export default function MediaClient({
         {filteredVideos.length === 0 && (
           <div className="rounded-3xl border border-white/10 bg-white/5 py-24 text-center">
             <Search className="mx-auto mb-6 h-12 w-12 text-purple-400/50" />
-            <p className=" ">
+            <p>
               {sanityContent?.noResultsTitle || "No media found matching"}{" "}
               &quot;{searchQuery}&quot;
             </p>
@@ -703,17 +703,15 @@ export default function MediaClient({
               {/* Modal Header Bar */}
               <div className="flex items-center justify-between border-b border-white/10 bg-black/60 px-6 py-4">
                 <div className="flex items-center gap-3">
-                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-2.5 py-1 text-xs text-purple-300">
+                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-2.5 py-1">
                     {playingVideo.category || "7TH HEAVEN"}
                   </span>
-                  <h3 className="line-clamp-1 sm:text-lg">
-                    {playingVideo.title}
-                  </h3>
+                  <h3 className="sm: line-clamp-1">{playingVideo.title}</h3>
                 </div>
                 <button
                   type="button"
                   onClick={() => setPlayingVideo(null)}
-                  className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-xl bg-white/10 transition-colors hover:bg-white/20 hover:text-white"
+                  className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 hover:text-white"
                   aria-label="Close modal"
                 >
                   <X className="h-5 w-5" />
@@ -748,13 +746,13 @@ export default function MediaClient({
               <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="flex items-center gap-2.5">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-purple-500/40 bg-purple-500/20">
-                    <VideoIcon className="h-4 w-4 text-purple-300" />
+                    <VideoIcon className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3 className=" ">
+                    <h3>
                       {sanityContent?.modalTitle || "Add Video to Media Vault"}
                     </h3>
-                    <p className="text-xs text-purple-300/70">
+                    <p className="/70">
                       {sanityContent?.modalSubtitle ||
                         "Syncs to Sanity CMS & Media Hub"}
                     </p>
@@ -771,7 +769,7 @@ export default function MediaClient({
 
               <form onSubmit={handleAddVideoSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-[10px] text-purple-300">
+                  <label className="block text-[10px]">
                     Video URL or ID <span className="text-pink-400">*</span>
                   </label>
                   <input
@@ -780,7 +778,7 @@ export default function MediaClient({
                     value={newUrl}
                     onChange={(e) => setNewUrl(e.target.value)}
                     placeholder="Paste video link or ID..."
-                    className="interactive-input w-full rounded-lg px-3 py-2 text-sm"
+                    className="interactive-input w-full rounded-lg px-3 py-2"
                   />
                 </div>
 
@@ -800,11 +798,11 @@ export default function MediaClient({
                           />
                         </div>
                         <div>
-                          <div className="flex items-center gap-1.5 text-purple-300">
+                          <div className="flex items-center gap-1.5">
                             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
                             <span>Valid Video Link Detected</span>
                           </div>
-                          <p className="mt-0.5 text-xs text-purple-200/80">
+                          <p className="mt-0.5 text-purple-200/80">
                             ID: {parsed}
                           </p>
                         </div>
@@ -815,7 +813,7 @@ export default function MediaClient({
                 })()}
 
                 <div>
-                  <label className="block text-[10px] text-purple-300">
+                  <label className="block text-[10px]">
                     Video Title <span className="text-pink-400">*</span>
                   </label>
                   <input
@@ -824,14 +822,14 @@ export default function MediaClient({
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     placeholder="e.g. Ain't That Just Beautiful (Official Video)"
-                    className="placeholder: w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 text-white/30 focus:border-purple-400 focus:outline-none"
+                    className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 text-white/30"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <div className="mb-1 flex items-center justify-between">
-                      <label className="block text-[10px] text-purple-300">
+                      <label className="block text-[10px]">
                         Category <span className="text-pink-400">*</span>
                       </label>
                       <button
@@ -842,7 +840,7 @@ export default function MediaClient({
                             setCustomCategoryInput("");
                           }
                         }}
-                        className="cursor-pointer text-[10px] text-purple-400 transition-colors hover:text-purple-300"
+                        className="hover: cursor-pointer text-[10px] text-purple-400"
                       >
                         {isCustomCategory ? "← Select List" : "+ New Category"}
                       </button>
@@ -855,7 +853,7 @@ export default function MediaClient({
                         value={customCategoryInput}
                         onChange={(e) => setCustomCategoryInput(e.target.value)}
                         placeholder="e.g. Acoustic Sessions"
-                        className="placeholder: w-full rounded-lg border border-purple-500/50 bg-black/60 px-3 py-2.5 text-sm text-white/30 focus:border-purple-400 focus:outline-none"
+                        className="placeholder: focus-ring w-full rounded-lg border border-purple-500/50 bg-black/60 px-3 py-2.5 text-white/30"
                       />
                     ) : (
                       <select
@@ -868,7 +866,7 @@ export default function MediaClient({
                             setNewCategory(e.target.value);
                           }
                         }}
-                        className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-3 py-2.5 text-sm focus:border-purple-400 focus:outline-none"
+                        className="focus-ring w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-3 py-2.5"
                       >
                         {availableCategories.map((cat) => (
                           <option key={cat} value={cat}>
@@ -883,21 +881,19 @@ export default function MediaClient({
                   </div>
 
                   <div>
-                    <label className="block text-[10px] text-purple-300">
-                      Release Year
-                    </label>
+                    <label className="block text-[10px]">Release Year</label>
                     <input
                       type="number"
                       value={newYear}
                       onChange={(e) => setNewYear(e.target.value)}
                       placeholder="2026"
-                      className="placeholder: w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 text-white/30 focus:border-purple-400 focus:outline-none"
+                      className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 text-white/30"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] text-purple-300">
+                  <label className="block text-[10px]">
                     Description / Notes (Optional)
                   </label>
                   <textarea
@@ -905,7 +901,7 @@ export default function MediaClient({
                     value={newDesc}
                     onChange={(e) => setNewDesc(e.target.value)}
                     placeholder="e.g. Filmed live at Frontier Days..."
-                    className="placeholder: w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2 text-white/30 focus:border-purple-400 focus:outline-none"
+                    className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2 text-white/30"
                   />
                 </div>
 
@@ -913,14 +909,14 @@ export default function MediaClient({
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
-                    className="cursor-pointer px-4 py-2 text-white/70 transition-colors hover:text-white"
+                    className="cursor-pointer px-4 py-2 hover:text-white"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 px-6 py-2.5 text-xs shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-all hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                    className="flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
                   >
                     {submitting
                       ? sanityContent?.modalSavingText || "Saving to Sanity..."

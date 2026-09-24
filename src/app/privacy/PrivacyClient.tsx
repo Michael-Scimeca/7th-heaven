@@ -18,7 +18,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             sanityContent?.title ||
             "Privacy Policy"}
         </h1>
-        <p className="text-white/70">
+        <p>
           {sanityContent?.lastUpdated ||
             sanityContent?.subtitle ||
             "Last Updated: April 12, 2026"}
@@ -27,8 +27,8 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
 
       <div className="prose-legal flex flex-col gap-10 text-base">
         {sanityContent?.sections &&
-          Array.isArray(sanityContent.sections) &&
-          sanityContent.sections.length > 0 ? (
+        Array.isArray(sanityContent.sections) &&
+        sanityContent.sections.length > 0 ? (
           sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
@@ -45,9 +45,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                 <h2 id={`${headingId}-heading`} className="mb-3">
                   {sec.title || `${idx + 1}. Policy Section`}
                 </h2>
-                {sec.subtitle && (
-                  <p className="mb-2 text-white/70">{sec.subtitle}</p>
-                )}
+                {sec.subtitle && <p className="mb-2">{sec.subtitle}</p>}
                 {sec.body && (
                   <div className="whitespace-pre-line">{sec.body}</div>
                 )}
@@ -85,14 +83,14 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
               </p>
               <dl className="flex flex-col gap-3">
                 <div>
-                  <dt className="mb-1  ">Account Information</dt>
+                  <dt className="mb-1">Account Information</dt>
                   <dd>
                     Name, email address, and password when you create a member
                     account.
                   </dd>
                 </div>
                 <div>
-                  <dt className="mb-1  ">SMS Alert Information</dt>
+                  <dt className="mb-1">SMS Alert Information</dt>
                   <dd>
                     Name, zip code, and phone number when you subscribe to show
                     alerts. We also record your consent timestamp and IP address
@@ -100,7 +98,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                   </dd>
                 </div>
                 <div>
-                  <dt className="mb-1  ">Location Data</dt>
+                  <dt className="mb-1">Location Data</dt>
                   <dd>
                     Approximate geolocation (latitude/longitude) only when you
                     explicitly enable the &quot;Nearby Shows&quot; feature. This
@@ -109,7 +107,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                   </dd>
                 </div>
                 <div>
-                  <dt className="mb-1  ">Usage Data</dt>
+                  <dt className="mb-1">Usage Data</dt>
                   <dd>
                     Browser type, pages visited, and interaction patterns
                     collected automatically through standard web analytics.
@@ -308,7 +306,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                 If you have questions about this Privacy Policy or wish to
                 exercise your data rights, contact us at:
               </p>
-              <address className="space-y-1 not-italic">
+              <address className="not- space-y-1">
                 <p>
                   Email:{" "}
                   <a href="mailto:info@7thheavenband.com" className="a-btn">

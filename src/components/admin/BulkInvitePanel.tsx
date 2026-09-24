@@ -239,7 +239,7 @@ export default function BulkInvitePanel() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`flex w-full cursor-pointer flex-col items-center justify-center !border-2 !border-dashed border-white/10 p-8 text-center transition-colors duration-300 ${isDragging ? "scale-[0.99]" : "] border-black/20"}`}
+            className={`flex w-full cursor-pointer flex-col items-center justify-center !border-2 !border-dashed border-white/10 p-8 text-center ${isDragging ? "scale-[0.99]" : "] border-black/20"}`}
           >
             <input
               type="file"
@@ -268,7 +268,7 @@ export default function BulkInvitePanel() {
 
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col gap-3">
-            <label htmlFor="bulk-invite-text-input" className="text-white/70">
+            <label htmlFor="bulk-invite-text-input">
               Copy-Paste Contact List
             </label>
             <div className="input-glow-border w-full">
@@ -279,7 +279,7 @@ export default function BulkInvitePanel() {
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
                 rows={5}
-                className="placeholder: w-full resize-none rounded-lg border-white/10 bg-black/40 px-4 py-3 text-white/40 transition-colors outline-none"
+                className="placeholder: w-full resize-none rounded-lg border-white/10 bg-black/40 px-4 py-3 text-white/40 outline-none"
               />
             </div>
             <SeventhButton
@@ -334,7 +334,7 @@ export default function BulkInvitePanel() {
             <div
               className={`flex items-center gap-3 border p-4 ${results.failed > 0 ? "border-rose-200 bg-rose-50 text-rose-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"}`}
             >
-              <span className="text-lg">{results.failed > 0 ? "" : ""}</span>
+              <span>{results.failed > 0 ? "" : ""}</span>
               <p>
                 Dispatched: {results.success} invites sent successfully
                 {results.failed > 0 && `, ${results.failed} failed`}.
@@ -354,10 +354,7 @@ export default function BulkInvitePanel() {
               </thead>
               <tbody className="divide-y divide-black/5">
                 {invites.map((inv) => (
-                  <tr
-                    key={inv.email}
-                    className="transition-colors hover:bg-black/[0.01]"
-                  >
+                  <tr key={inv.email} className="hover:bg-black/[0.01]">
                     <td className="px-4 py-3.5 text-black">{inv.email}</td>
                     <td className="px-4 py-3.5 text-black/70">
                       {inv.name || <span className="text-black/30">N/A</span>}

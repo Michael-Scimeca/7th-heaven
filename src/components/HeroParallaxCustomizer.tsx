@@ -53,7 +53,7 @@ export default function HeroParallaxCustomizer({
         <button
           aria-label="Open Parallax Customizer"
           onClick={() => setIsPxUiOpen(true)}
-          className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-[45px] transition-colors hover:bg-black/85 active:scale-95"
+          className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95"
           title="Open Parallax Customizer"
         >
           <svg
@@ -65,7 +65,7 @@ export default function HeroParallaxCustomizer({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="transition-colors duration-300 group-hover:text-[var(--color-accent)]"
+            className="group-hover:text-[var(--color-accent)]"
           >
             <polygon points="12 2 2 7 12 12 22 7 12 2" />
             <polyline points="2 17 12 22 22 17" />
@@ -87,7 +87,7 @@ export default function HeroParallaxCustomizer({
             <button
               aria-label="Close Parallax Customizer"
               onClick={() => setIsPxUiOpen(false)}
-              className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+              className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg text-white/50 hover:bg-white/10 hover:text-white"
             >
               <svg
                 width="14"
@@ -112,7 +112,7 @@ export default function HeroParallaxCustomizer({
                   key={preset.name}
                   aria-label={`Apply ${preset.name} preset`}
                   onClick={() => updatePxRange(preset.range)}
-                  className={`cursor-pointer rounded border px-2 py-1 transition-colors ${pxRange === preset.range ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"}`}
+                  className={`cursor-pointer rounded border px-2 py-1 ${pxRange === preset.range ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"}`}
                 >
                   {preset.name}
                 </button>
@@ -162,14 +162,14 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Toggle foreground counter-drift"
             onClick={() => updatePxForeground(!pxForeground)}
-            className={`flex w-full cursor-pointer items-center justify-between rounded border px-3 py-2 transition-colors ${pxForeground ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)]/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
+            className={`flex w-full cursor-pointer items-center justify-between rounded border px-3 py-2 ${pxForeground ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)]/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
           >
             <span className="r">Foreground Counter-Drift</span>
             <span
-              className={`relative h-4 w-8 rounded-lg transition-colors ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}
+              className={`relative h-4 w-8 rounded-lg ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}
             >
               <span
-                className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white transition-transform ${pxForeground ? "translate-x-4" : "translate-x-0.5"}`}
+                className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white ${pxForeground ? "translate-x-4" : "translate-x-0.5"}`}
               />
             </span>
           </button>
@@ -191,7 +191,7 @@ export default function HeroParallaxCustomizer({
           <button
             aria-label="Copy parallax settings"
             onClick={copyPxSettings}
-            className="flex w-full cursor-pointer items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-600 py-2 text-[var(--font-size-2xs)] shadow-[0_4px_12px_rgba(147,51,234,0.2)] transition-colors hover:from-amber-600 hover:to-orange-700 active:scale-97"
+            className="flex w-full cursor-pointer items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-600 py-2 text-[var(--font-size-2xs)] shadow-[0_4px_12px_rgba(147,51,234,0.2)] hover:from-amber-600 hover:to-orange-700 active:scale-97"
           >
             {pxCopied ? (
               <>

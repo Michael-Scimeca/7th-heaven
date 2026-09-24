@@ -181,7 +181,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
             </div>
             <Link
               href="/merch"
-              className="border border-white/10 px-4 py-2 text-white/40 transition-colors hover:text-white"
+              className="border border-white/10 px-4 py-2 text-white/40 hover:text-white"
             >
               Shop All →
             </Link>
@@ -229,8 +229,8 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ─────────────────────── */}
         {isDemo && (
           <div className="mb-6 flex items-center gap-2 rounded-lg border border-white/10 bg-purple-600/10 px-4 py-2">
-            <AlertTriangle className="h-4 w-4 shrink-0 text-purple-300" />
-            <span className="text-purple-300">Demo</span>
+            <AlertTriangle className="h-4 w-4 shrink-0" />
+            <span>Demo</span>
             <p className="text-purple-200/50">
               Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast
               Shipping.
@@ -284,7 +284,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                       alt={product.title}
                       fill
                       sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover group-hover:scale-105"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -298,7 +298,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="group- color-transition mb-1 truncate">
+                  <h3 className="group- color-transition mb-1">
                     {product.title}
                   </h3>
                   <div className="flex items-center justify-between">

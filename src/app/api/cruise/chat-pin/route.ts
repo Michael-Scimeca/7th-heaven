@@ -66,18 +66,16 @@ export async function POST(req: Request) {
         { onConflict: "key" },
       );
     // Also sync to cruise_announcement key for consistency across all widgets
-    await supabaseAdmin
-      .from("site_settings")
-      .upsert(
-        {
-          key: "cruise_announcement",
-          value: JSON.stringify({
-            message: cleanPin,
-            timestamp: new Date().toISOString(),
-          }),
-        },
-        { onConflict: "key" },
-      );
+    await supabaseAdmin.from("site_settings").upsert(
+      {
+        key: "cruise_announcement",
+        value: JSON.stringify({
+          message: cleanPin,
+          timestamp: new Date().toISOString(),
+        }),
+      },
+      { onConflict: "key" },
+    );
 
     // Broadcast to clients listening on the chat room channel
     const channel = supabaseAdmin.channel("room_cruise_dashboard");

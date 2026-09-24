@@ -153,17 +153,13 @@ export default function MemberFactSheetDrawer({
   return createPortal(
     <div className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none">
       {/* Dimmed Blurred Backdrop Overlay */}
-      <div
-        className="fixed inset-0 transition-opacity duration-300 ease-out"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="fixed inset-0" onClick={onClose} aria-hidden="true" />
 
       {/* Slide-Over Drawer Container */}
       <div
         ref={drawerRef}
         data-lenis-prevent="true"
-        className="custom-scrollbar fact-sheet-scrollbar relative z-10 flex h-full w-full transform flex-col justify-between overflow-y-auto bg-[#0c0a14]/45 backdrop-blur-2xl transition-transform duration-300 ease-out sm:w-[480px] md:w-[520px] lg:w-[560px]"
+        className="custom-scrollbar fact-sheet-scrollbar relative z-10 flex h-full w-full transform flex-col justify-between overflow-y-auto bg-[#0c0a14]/45 backdrop-blur-2xl sm:w-[480px] md:w-[520px] lg:w-[560px]"
         style={{
           boxShadow:
             "-12px 0 36px rgba(0, 0, 0, 0.8), 0 0 45px rgba(168, 85, 247, 0.15)",
@@ -172,9 +168,7 @@ export default function MemberFactSheetDrawer({
         {/* Top Control Bar */}
         <div className="sticky top-0 z-30 flex items-center justify-between bg-[#0c0a14] px-6 py-2">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[11px] text-purple-300/90">
-              BACKSTAGE FACT SHEET
-            </span>
+            <span className="/90">BACKSTAGE FACT SHEET</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -183,19 +177,19 @@ export default function MemberFactSheetDrawer({
                 <button
                   type="button"
                   onClick={handlePrev}
-                  className="rounded-md border border-white/10 bg-white/5 p-1 text-neutral-300 transition-colors hover:bg-purple-500/20 hover:text-white"
+                  className="border border-white/10 bg-white/5 p-1 text-neutral-300 hover:bg-purple-500/20 hover:text-white"
                   title="Previous Member"
                   aria-label="Previous member"
                 >
                   <ChevronLeft className="h-3.5 w-3.5" />
                 </button>
-                <span className="px-1 font-mono text-[10px] text-neutral-400">
+                <span className="px-1 text-[10px] text-neutral-400">
                   {currentIndex + 1} / {allMembers.length}
                 </span>
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="rounded-md border border-white/10 bg-white/5 p-1 text-neutral-300 transition-colors hover:bg-purple-500/20 hover:text-white"
+                  className="border border-white/10 bg-white/5 p-1 text-neutral-300 hover:bg-purple-500/20 hover:text-white"
                   title="Next Member"
                   aria-label="Next member"
                 >
@@ -207,7 +201,7 @@ export default function MemberFactSheetDrawer({
             <button
               type="button"
               onClick={onClose}
-              className="hover:white/20 rounded-full border border-white/10 bg-white/10 p-1.5 text-neutral-300 transition-colors hover:text-white"
+              className="hover:white/20 rounded-full border border-white/10 bg-white/10 p-1.5 text-neutral-300 hover:text-white"
               aria-label="Close modal"
             >
               <X className="h-4 w-4" />
@@ -225,7 +219,7 @@ export default function MemberFactSheetDrawer({
             </h2>
 
             {/* Role Subtitle */}
-            <p className="mt-2 mb-5 text-[11px] sm:text-xs">{member.role}</p>
+            <p className="sm: mt-2 mb-5">{member.role}</p>
 
             {/* 4-Column Quick Metadata Grid */}
             <div className="grid grid-cols-4 gap-2 border-t border-white/10 pt-3">
@@ -251,7 +245,7 @@ export default function MemberFactSheetDrawer({
           {/* ── SECTION 01: THE CONTRADICTION ── */}
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3 className="font-mono text-[11px]">THE CONTRADICTION</h3>
+              <h3>THE CONTRADICTION</h3>
             </div>
 
             <div className="space-y-3.5">
@@ -259,22 +253,18 @@ export default function MemberFactSheetDrawer({
               <div className="flex items-center justify-between gap-2 rounded-lg border border-white/5 bg-black/40 px-3 py-3 text-center">
                 <div className="flex-1">
                   <span className="mb-1 block">BEST TRAIT</span>
-                  <span className="block text-xs text-rose-400">
-                    {bestTrait}
-                  </span>
+                  <span className="block text-rose-400">{bestTrait}</span>
                 </div>
-                <span className="shrink-0 px-2 font-serif italic">and yet</span>
+                <span className="shrink-0 px-2 font-serif">and yet</span>
                 <div className="flex-1">
                   <span>WORST TRAIT</span>
-                  <span className="block text-xs text-rose-400">
-                    {worstTrait}
-                  </span>
+                  <span className="block text-rose-400">{worstTrait}</span>
                 </div>
               </div>
 
               {/* Favorite Quote Box */}
               <div className="border-l-2 border-purple-500/60 py-1 pt-2 pl-3.5">
-                <p className="font-serif text-sm text-neutral-200 italic sm:text-base">
+                <p className="font-serif text-neutral-200 sm:text-base">
                   &ldquo;{favQuote}&rdquo;
                 </p>
                 <span className="block text-[12px] text-purple-400">
@@ -287,7 +277,7 @@ export default function MemberFactSheetDrawer({
           {/* ── SECTION 02: THE SETLIST ── */}
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3 className="font-mono text-[11px]">THE SETLIST</h3>
+              <h3>THE SETLIST</h3>
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -296,9 +286,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE LOVE SONG
                   </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favLoveSong}
-                  </p>
+                  <p className="text-neutral-200">{member.favLoveSong}</p>
                 </div>
               )}
 
@@ -307,9 +295,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE ROCK SONG
                   </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favRockSong}
-                  </p>
+                  <p className="text-neutral-200">{member.favRockSong}</p>
                 </div>
               )}
 
@@ -318,7 +304,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE ALBUM
                   </span>
-                  <p className="text-xs text-neutral-200">{member.favAlbum}</p>
+                  <p className="text-neutral-200">{member.favAlbum}</p>
                 </div>
               )}
 
@@ -327,7 +313,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE BAND
                   </span>
-                  <p className="text-xs text-neutral-200">{member.favBands}</p>
+                  <p className="text-neutral-200">{member.favBands}</p>
                 </div>
               )}
 
@@ -336,9 +322,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE SOUNDTRACK
                   </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favSoundtrack}
-                  </p>
+                  <p className="text-neutral-200">{member.favSoundtrack}</p>
                 </div>
               )}
 
@@ -347,7 +331,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE 7TH HEAVEN SONG
                   </span>
-                  <p className="text-xs text-purple-300">{member.fav7hSong}</p>
+                  <p>{member.fav7hSong}</p>
                 </div>
               )}
 
@@ -356,9 +340,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FIRST SONG LEARNED
                   </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.firstSongLearned}
-                  </p>
+                  <p className="text-neutral-200">{member.firstSongLearned}</p>
                 </div>
               )}
 
@@ -367,9 +349,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE PLACE TO PLAY
                   </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favPlaceToPlay}
-                  </p>
+                  <p className="text-neutral-200">{member.favPlaceToPlay}</p>
                 </div>
               )}
 
@@ -378,9 +358,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     BEST CONCERT SEEN
                   </span>
-                  <p className="text-xs text-neutral-200 italic">
-                    {member.bestConcertSeen}
-                  </p>
+                  <p className="text-neutral-200">{member.bestConcertSeen}</p>
                 </div>
               )}
             </div>
@@ -389,7 +367,7 @@ export default function MemberFactSheetDrawer({
           {/* ── SECTION 03: ON SCREEN ── */}
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3 className="text-[11px] text-neutral-300">ON SCREEN</h3>
+              <h3 className="text-neutral-300">ON SCREEN</h3>
             </div>
 
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
@@ -398,7 +376,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE TV SHOW
                   </span>
-                  <p className="text-xs text-neutral-200">{member.favTvShow}</p>
+                  <p className="text-neutral-200">{member.favTvShow}</p>
                 </div>
               )}
 
@@ -407,7 +385,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE MOVIE
                   </span>
-                  <p className="text-xs text-neutral-200">{member.favMovie}</p>
+                  <p className="text-neutral-200">{member.favMovie}</p>
                 </div>
               )}
 
@@ -416,9 +394,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE CARTOON
                   </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favCartoon}
-                  </p>
+                  <p className="text-neutral-200">{member.favCartoon}</p>
                 </div>
               )}
 
@@ -427,9 +403,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE MAGAZINE
                   </span>
-                  <p className="text-xs text-neutral-200 italic">
-                    {member.favMagazine}
-                  </p>
+                  <p className="text-neutral-200">{member.favMagazine}</p>
                 </div>
               )}
             </div>
@@ -438,7 +412,7 @@ export default function MemberFactSheetDrawer({
           {/* ── SECTION 04: OFF STAGE ── */}
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3 className="font-mono text-[11px]">OFF STAGE</h3>
+              <h3>OFF STAGE</h3>
             </div>
 
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
@@ -447,9 +421,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     HOBBY AWAY FROM THE BAND
                   </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.hobbyAwayFromBand}
-                  </p>
+                  <p className="text-neutral-200">{member.hobbyAwayFromBand}</p>
                 </div>
               )}
 
@@ -458,7 +430,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     BEST FEELING IN THE WORLD
                   </span>
-                  <p className="text-xs text-neutral-200">
+                  <p className="text-neutral-200">
                     {member.bestFeelingInWorld}
                   </p>
                 </div>
@@ -467,9 +439,7 @@ export default function MemberFactSheetDrawer({
               {member.influences && (
                 <div>
                   <span className="mb-1 block text-purple-400">INFLUENCES</span>
-                  <p className="text-xs text-neutral-200">
-                    {member.influences}
-                  </p>
+                  <p className="text-neutral-200">{member.influences}</p>
                 </div>
               )}
 
@@ -478,7 +448,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE PET
                   </span>
-                  <p className="text-xs text-neutral-200">{member.favPet}</p>
+                  <p className="text-neutral-200">{member.favPet}</p>
                 </div>
               )}
 
@@ -487,7 +457,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE FOODS
                   </span>
-                  <p className="text-xs text-neutral-200">{member.favFoods}</p>
+                  <p className="text-neutral-200">{member.favFoods}</p>
                 </div>
               )}
 
@@ -496,7 +466,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE DRINK
                   </span>
-                  <p className="text-xs text-neutral-200">{member.favDrink}</p>
+                  <p className="text-neutral-200">{member.favDrink}</p>
                 </div>
               )}
 
@@ -505,7 +475,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE CAR
                   </span>
-                  <p className="text-xs text-neutral-200">{member.favCar}</p>
+                  <p className="text-neutral-200">{member.favCar}</p>
                 </div>
               )}
 
@@ -514,9 +484,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE SPORT TO WATCH
                   </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favSportToWatch}
-                  </p>
+                  <p className="text-neutral-200">{member.favSportToWatch}</p>
                 </div>
               )}
 
@@ -525,9 +493,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     FAVORITE BOARD/VIDEO GAME
                   </span>
-                  <p className="text-xs text-neutral-200">
-                    {member.favBoardGame}
-                  </p>
+                  <p className="text-neutral-200">{member.favBoardGame}</p>
                 </div>
               )}
 
@@ -536,7 +502,7 @@ export default function MemberFactSheetDrawer({
                   <span className="mb-1 block text-purple-400">
                     LITTLE-KNOWN FACT
                   </span>
-                  <p className="text-xs text-neutral-200">
+                  <p className="text-neutral-200">
                     {member.littleKnownFact || member.funFact}
                   </p>
                 </div>

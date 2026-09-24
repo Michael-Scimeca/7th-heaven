@@ -165,14 +165,14 @@ export default function ProximitySubscriberAdminPanel() {
     <div className="relative my-8 w-full rounded-lg">
       {/* Action Controls Bar */}
       <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/10 pb-4">
-        <span className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-900/60 px-3.5 py-1.5 text-xs text-purple-200">
+        <span className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-900/60 px-3.5 py-1.5 text-purple-200">
           <Users className="h-4 w-4 text-pink-400" /> {subscribers.length}{" "}
           Subscribers
         </span>
         <button
           type="button"
           onClick={fetchSubscribers}
-          className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-white/10 px-3.5 py-1.5 text-xs transition-colors hover:bg-white/20"
+          className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-white/10 px-3.5 py-1.5 hover:bg-white/20"
         >
           <RefreshCw className="h-3.5 w-3.5" />
           <span>Refresh</span>
@@ -194,7 +194,7 @@ export default function ProximitySubscriberAdminPanel() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search subscribers by name, zip code, or device..."
-              className="w-full rounded-lg border-none bg-black/40 py-2.5 pr-4 pl-10 placeholder-white/30 transition-colors outline-none"
+              className="w-full rounded-lg border-none bg-black/40 py-2.5 pr-4 pl-10 placeholder-white/30 outline-none"
             />
           </div>
           <Search className="pointer-events-none absolute top-1/2 left-3.5 z-20 h-4 w-4 -translate-y-1/2 text-white/40" />
@@ -252,7 +252,7 @@ export default function ProximitySubscriberAdminPanel() {
                 const isEditing = editingId === sub.id;
 
                 return (
-                  <tr key={sub.id} className="bg-[#00000029] transition-colors">
+                  <tr key={sub.id} className="bg-[#00000029]">
                     {/* Fan / Device */}
                     <td className="px-4 py-4">
                       {isEditing ? (
@@ -309,7 +309,7 @@ export default function ProximitySubscriberAdminPanel() {
                           showAllOption={false}
                         />
                       ) : (
-                        <span className="bg- purple-white/20 rounded-lg border border-purple-500/30 px-2.5 py-1 text-[11px] text-purple-300">
+                        <span className="bg- purple-white/20 rounded-lg border border-purple-500/30 px-2.5 py-1">
                           {sub.radius === "all"
                             ? "All Distance"
                             : `${sub.radius} Mi`}
@@ -338,7 +338,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => handleSaveEdit(sub.id)}
-                            className="cursor-pointer rounded-lg bg-emerald-600 p-1.5 transition-colors hover:bg-emerald-500"
+                            className="cursor-pointer rounded-lg bg-emerald-600 p-1.5 hover:bg-emerald-500"
                             title="Save Preference"
                           >
                             <Check className="h-4 w-4" />
@@ -346,7 +346,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => setEditingId(null)}
-                            className="cursor-pointer rounded-lg bg-white/10 p-1.5 text-white/70 transition-colors hover:bg-white/20"
+                            className="cursor-pointer rounded-lg bg-white/10 p-1.5 hover:bg-white/20"
                             title="Cancel"
                           >
                             <X className="h-4 w-4" />
@@ -357,7 +357,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => handleSendTestPush(sub.id)}
-                            className="inline-flex cursor-pointer items-center gap-1 rounded-lg bg-purple-600/80 px-2.5 py-1.5 transition-colors hover:bg-purple-600"
+                            className="inline-flex cursor-pointer items-center gap-1 rounded-lg bg-purple-600/80 px-2.5 py-1.5 hover:bg-purple-600"
                             title="Send Targeted Test Push"
                           >
                             <Send className="h-3.5 w-3.5" /> Test Push
@@ -366,7 +366,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => handleStartEdit(sub)}
-                            className="cursor-pointer rounded-lg bg-white/10 p-1.5 transition-colors hover:bg-white/20 hover:text-white"
+                            className="cursor-pointer rounded-lg bg-white/10 p-1.5 hover:bg-white/20 hover:text-white"
                             title="Edit Fan Preference"
                           >
                             <Edit2 className="h-3.5 w-3.5" />
@@ -375,7 +375,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => handleDelete(sub.id)}
-                            className="cursor-pointer rounded-lg bg-rose-500/20 p-1.5 text-rose-300 transition-colors hover:bg-rose-500/40"
+                            className="cursor-pointer rounded-lg bg-rose-500/20 p-1.5 text-rose-300 hover:bg-rose-500/40"
                             title="Delete Subscriber"
                           >
                             <Trash2 className="h-3.5 w-3.5" />

@@ -25,7 +25,7 @@ async function MerchQRContent() {
 function MerchQRFallback() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="animate-pulse text-sm text-white/50">Loading merch…</div>
+      <div className="animate-pulse text-white/50">Loading merch…</div>
     </div>
   );
 }

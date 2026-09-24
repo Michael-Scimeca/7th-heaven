@@ -88,13 +88,13 @@ export default function PushSubscribeModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px] transition-opacity">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
       <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0a1a] p-6 shadow-2xl sm:p-8">
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 rounded-lg bg-[#00000029] p-1 text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+          className="absolute top-4 right-4 rounded-lg bg-[#00000029] p-1 text-white/40 hover:bg-white/10 hover:text-white"
         >
           <X className="h-5 w-5" />
         </button>
@@ -134,7 +134,7 @@ export default function PushSubscribeModal({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Michael Scimeca"
-                      className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 transition-all outline-none"
+                      className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 outline-none"
                     />
                   </div>
                   <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
@@ -155,7 +155,7 @@ export default function PushSubscribeModal({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="michael@example.com"
-                      className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 transition-all outline-none"
+                      className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 outline-none"
                     />
                   </div>
                   <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
@@ -181,7 +181,7 @@ export default function PushSubscribeModal({
                     href="/terms"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-purple-400 hover:text-purple-300"
+                    className="hover: text-purple-400"
                   >
                     Terms of Service
                   </a>{" "}
@@ -190,7 +190,7 @@ export default function PushSubscribeModal({
                     href="/privacy"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-purple-400 hover:text-purple-300"
+                    className="hover: text-purple-400"
                   >
                     Privacy Policy
                   </a>{" "}
@@ -231,7 +231,7 @@ export default function PushSubscribeModal({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg bg-white/10 px-6 py-2.5 transition-colors hover:bg-white/20"
+              className="rounded-lg bg-white/10 px-6 py-2.5 hover:bg-white/20"
             >
               DONE
             </button>

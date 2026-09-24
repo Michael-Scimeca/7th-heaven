@@ -405,7 +405,7 @@ export default function FooterProximityAlerts() {
                       className="inline-flex !w-auto items-center gap-1.5"
                     >
                       {type.iconType === "guitar" ? (
-                        <Guitar className="inline-block h-3.5 w-3.5 shrink-0 text-purple-300" />
+                        <Guitar className="inline-block h-3.5 w-3.5 shrink-0" />
                       ) : (
                         <span
                           className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
@@ -442,7 +442,7 @@ export default function FooterProximityAlerts() {
             checked={agreeTerms}
             onChange={setAgreeTerms}
           />
-          <span className=" ">
+          <span>
             I agree to the{" "}
             <Link
               href="/terms"
@@ -474,7 +474,7 @@ export default function FooterProximityAlerts() {
                 icon={false}
                 onClick={handleSavePrefs}
                 disabled={isBusy}
-                className="! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 !text-xs whitespace-nowrap transition-all disabled:opacity-60"
+                className="! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 whitespace-nowrap disabled:opacity-60"
               >
                 <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                   {status === "saving" ? (
@@ -495,7 +495,7 @@ export default function FooterProximityAlerts() {
               icon={false}
               onClick={handleEnableAlerts}
               disabled={isBusy || permission === "denied"}
-              className="shrink-0 cursor-pointer flex-nowrap whitespace-nowrap transition-all disabled:opacity-60"
+              className="shrink-0 cursor-pointer flex-nowrap whitespace-nowrap disabled:opacity-60"
             >
               <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                 {status === "saving" ? (
@@ -520,7 +520,7 @@ export default function FooterProximityAlerts() {
             </SeventhButton>
           )}
 
-          <p className="text-xs text-white/70">
+          <p>
             {permission === "granted"
               ? "Your notifications are enabled. Update filters above and save anytime."
               : "Click to enable instant browser & proximity alerts for nearby shows."}

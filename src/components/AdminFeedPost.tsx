@@ -175,7 +175,7 @@ export default function AdminFeedPost() {
                   key={m.avatar}
                   type="button"
                   onClick={() => setSelectedMember(m)}
-                  className={`border p-3 text-center transition-colors duration-200 ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
+                  className={`border p-3 text-center ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
                 >
                   <div
                     className="mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-lg border"
@@ -192,7 +192,7 @@ export default function AdminFeedPost() {
                   >
                     {m.avatar}
                   </div>
-                  <span className="block truncate">{m.name.split(" ")[0]}</span>
+                  <span className="block">{m.name.split(" ")[0]}</span>
                 </button>
               ))}
             </div>
@@ -207,7 +207,7 @@ export default function AdminFeedPost() {
                   key={t.value}
                   type="button"
                   onClick={() => setPostType(t.value)}
-                  className={`flex items-center gap-1.5 border px-3 py-2 transition-colors duration-200 ${postType === t.value ? "border-white/10 bg-white/[0.06]" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
+                  className={`flex items-center gap-1.5 border px-3 py-2 ${postType === t.value ? "border-white/10 bg-white/[0.06]" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
                   style={
                     postType === t.value
                       ? { color: t.color }
@@ -244,7 +244,7 @@ export default function AdminFeedPost() {
                       : "Share what's happening..."
                 }
                 rows={4}
-                className="placeholder: w-full resize-none rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-base text-white/20 transition-colors outline-none"
+                className="placeholder: w-full resize-none rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-base text-white/20 outline-none"
                 maxLength={500}
               />
             </div>
@@ -272,7 +272,7 @@ export default function AdminFeedPost() {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   placeholder="https://..."
-                  className="placeholder: w-full rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-white/20 transition-colors outline-none"
+                  className="placeholder: w-full rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-white/20 outline-none"
                 />
               </div>
             </div>
@@ -282,7 +282,7 @@ export default function AdminFeedPost() {
           <button
             type="submit"
             disabled={!content.trim() || isPosting}
-            className={`w-full py-3 transition-colors duration-300 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover" : "cursor-not-allowed bg-white/[0.05] text-white/20"}`}
+            className={`w-full py-3 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover" : "cursor-not-allowed bg-white/[0.05] text-white/20"}`}
           >
             {isPosting ? (
               <span className="flex items-center justify-center gap-2">
@@ -298,7 +298,7 @@ export default function AdminFeedPost() {
         {/* Status Message */}
         {status && (
           <div
-            className={`mt-4 border p-3 text-center transition-colors duration-300 ${status.type === "success" ? "border-green-500/30 bg-green-500/10 text-green-400" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
+            className={`mt-4 border p-3 text-center ${status.type === "success" ? "border-green-500/30 bg-green-500/10 text-green-400" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
           >
             {status.message}
           </div>
@@ -312,11 +312,9 @@ export default function AdminFeedPost() {
               {recentPosts.map((p) => (
                 <div
                   key={p.content || p.member}
-                  className="border border-white/[0.06] bg-white/[0.02] p-3 text-white/50"
+                  className="line-clamp-2 border border-white/[0.06] bg-white/[0.02] p-3 text-white/50"
                 >
-                  <span className="text-white/70">{p.member}:</span>{" "}
-                  {p.content.slice(0, 80)}
-                  {p.content.length > 80 ? "…" : ""}{" "}
+                  <span>{p.member}:</span> {p.content}{" "}
                   <span className="text-white/20">· {p.time}</span>
                 </div>
               ))}

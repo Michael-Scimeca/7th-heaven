@@ -27,11 +27,11 @@ function DemoFrame({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg">{label}</h2>
+        <h2>{label}</h2>
         <button
           onClick={onPlay}
           disabled={playing}
-          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {playing ? "Playing…" : "Replay"}
         </button>
@@ -42,7 +42,7 @@ function DemoFrame({
       >
         {/* fixed chrome -- never touched by any transition */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-4 py-2 backdrop-blur-sm">
-          <span className="text-[11px] text-white/70">7th Heaven Studio</span>
+          <span>7th Heaven Studio</span>
           <span className="flex gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-white/30" />
             <span className="h-1.5 w-1.5 rounded-full bg-white/30" />
@@ -255,7 +255,7 @@ function CurtainWipeDemo() {
               unoptimized
               className="h-full w-full object-cover object-top"
             />
-            <span className="r /90 absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs">
+            <span className="r /90 absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1">
               Cruise (old)
             </span>
           </div>
@@ -275,7 +275,7 @@ function CurtainWipeDemo() {
                 unoptimized
                 className="h-full w-full object-cover object-top"
               />
-              <span className="r /90 absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs">
+              <span className="r /90 absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1">
                 Book (new)
               </span>
             </div>
@@ -284,13 +284,13 @@ function CurtainWipeDemo() {
       </DemoFrame>
 
       {/* Tuning panel -- speed / easing / slant, live-wired into play() above */}
-      <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px]">New page reveal</p>
+      <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3">
+        <p>New page reveal</p>
         <div className="flex items-center justify-between gap-3">
           <label className="text-white/60">
             Reveal speed <span className="/35">(exit + 0.25s, linked)</span>
           </label>
-          <span className="font-mono">{revealDuration.toFixed(2)}s</span>
+          <span>{revealDuration.toFixed(2)}s</span>
         </div>
         <input
           type="range"
@@ -307,7 +307,7 @@ function CurtainWipeDemo() {
           <label htmlFor="reveal-scale" className="text-white/60">
             Reveal scale
           </label>
-          <span className="font-mono">{revealScale.toFixed(2)}x</span>
+          <span>{revealScale.toFixed(2)}x</span>
         </div>
         <input
           id="reveal-scale"
@@ -340,7 +340,7 @@ function CurtainWipeDemo() {
           <label htmlFor="slant-ratio" className="text-white/60">
             Slant ratio
           </label>
-          <span className="font-mono">{slantRatio.toFixed(3)}</span>
+          <span>{slantRatio.toFixed(3)}</span>
         </div>
         <input
           id="slant-ratio"
@@ -367,13 +367,13 @@ function CurtainWipeDemo() {
 
       {/* Old-page exit panel -- independent speed/easing/slant/flip, wired
           into the tl.fromTo(oldRef.current, ...) tween in play() above. */}
-      <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px] text-fuchsia-400/80">Old page exit</p>
+      <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3">
+        <p className="text-fuchsia-400/80">Old page exit</p>
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="old-duration" className="text-white/60">
             Exit speed
           </label>
-          <span className="font-mono">{oldDuration.toFixed(2)}s</span>
+          <span>{oldDuration.toFixed(2)}s</span>
         </div>
         <input
           id="old-duration"
@@ -390,7 +390,7 @@ function CurtainWipeDemo() {
           <label htmlFor="old-scale" className="text-white/60">
             Exit scale
           </label>
-          <span className="font-mono">{oldScale.toFixed(2)}x</span>
+          <span>{oldScale.toFixed(2)}x</span>
         </div>
         <input
           id="old-scale"
@@ -407,7 +407,7 @@ function CurtainWipeDemo() {
           <label htmlFor="old-rotation" className="text-white/60">
             Exit rotation
           </label>
-          <span className="font-mono">{oldRotation}°</span>
+          <span>{oldRotation}°</span>
         </div>
         <input
           id="old-rotation"
@@ -440,7 +440,7 @@ function CurtainWipeDemo() {
           <label htmlFor="old-slant-ratio" className="text-white/60">
             Slant ratio
           </label>
-          <span className="font-mono">{oldSlantRatio.toFixed(3)}</span>
+          <span>{oldSlantRatio.toFixed(3)}</span>
         </div>
         <input
           id="old-slant-ratio"
@@ -508,7 +508,7 @@ function FadeThenRiseDemo() {
           <span className="text-2xl font-black">OLD PAGE</span>
         </div>
         {/* title stays pinned/visible through the whole fade, like the reference */}
-        <span className="st absolute bottom-3 left-4 z-10 text-sm font-black">
+        <span className="st absolute bottom-3 left-4 z-10 font-black">
           old page
         </span>
         <div
@@ -526,7 +526,7 @@ export default function PreloadersTestPage() {
   return (
     <main className="min-h-screen bg-[#05030a] px-6 py-16 md:px-12">
       <div className="mx-auto max-w-6xl">
-        <p className="text-xs text-white/40">Internal test page</p>
+        <p className="text-white/40">Internal test page</p>
         <h1 className="mt-2 text-4xl">Preloader / transition test bench</h1>
         <p className="mt-4 max-w-2xl text-white/60">
           Three self-contained transition demos, isolated from real routing so

@@ -68,30 +68,26 @@ export async function POST(request: Request) {
 
     // Update enabled state
     if (body.enabled !== undefined) {
-      await supabaseAdmin
-        .from("site_settings")
-        .upsert(
-          {
-            key: "referral_program_enabled",
-            value: String(body.enabled),
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "key" },
-        );
+      await supabaseAdmin.from("site_settings").upsert(
+        {
+          key: "referral_program_enabled",
+          value: String(body.enabled),
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: "key" },
+      );
     }
 
     // Update milestones
     if (body.milestones !== undefined && Array.isArray(body.milestones)) {
-      await supabaseAdmin
-        .from("site_settings")
-        .upsert(
-          {
-            key: "referral_milestones",
-            value: JSON.stringify(body.milestones),
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "key" },
-        );
+      await supabaseAdmin.from("site_settings").upsert(
+        {
+          key: "referral_milestones",
+          value: JSON.stringify(body.milestones),
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: "key" },
+      );
     }
 
     return NextResponse.json({ success: true });

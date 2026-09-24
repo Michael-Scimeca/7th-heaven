@@ -99,7 +99,7 @@ export default function LiveStreamInlineSubscribe({
         className={`w-full ${maxWidth} flex flex-col items-center justify-between gap-4 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] p-6 backdrop-blur-xl sm:flex-row ${className}`}
       >
         <div className="flex items-center gap-4">
-          <div className="bg- purple-white/20 flex h-12 w-12 shrink-0 animate-pulse items-center justify-center rounded-lg border border-purple-500/40 text-purple-300">
+          <div className="bg- purple-white/20 flex h-12 w-12 shrink-0 animate-pulse items-center justify-center rounded-lg border border-purple-500/40">
             <Mail className="h-6 w-6" />
           </div>
           <div>
@@ -116,7 +116,7 @@ export default function LiveStreamInlineSubscribe({
           href={topicUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex shrink-0 items-center gap-2 rounded-lg border border-purple-500/30 bg-white/10 px-4 py-2.5 text-purple-300 transition-all hover:bg-white/20 hover:text-white"
+          className="flex shrink-0 items-center gap-2 rounded-lg border border-purple-500/30 bg-white/10 px-4 py-2.5 hover:bg-white/20 hover:text-white"
         >
           <span>Web Alerts Feed</span>
           <ExternalLink className="h-3.5 w-3.5" />
@@ -167,7 +167,7 @@ export default function LiveStreamInlineSubscribe({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your Full Name"
-                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 transition-all outline-none"
+                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 outline-none"
                 />
               </div>
               <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
@@ -183,7 +183,7 @@ export default function LiveStreamInlineSubscribe({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your Email Address"
-                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 transition-all outline-none"
+                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 outline-none"
                 />
               </div>
               <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
@@ -209,7 +209,7 @@ export default function LiveStreamInlineSubscribe({
                 href="/terms"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-purple-400 hover:text-purple-300"
+                className="hover: text-purple-400"
               >
                 Terms of Service
               </a>{" "}
@@ -218,7 +218,7 @@ export default function LiveStreamInlineSubscribe({
                 href="/privacy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-purple-400 hover:text-purple-300"
+                className="hover: text-purple-400"
               >
                 Privacy Policy
               </a>{" "}

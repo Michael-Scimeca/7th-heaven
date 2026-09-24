@@ -306,7 +306,7 @@ export default function ClaimPage() {
                 <p className="mb-1 text-[var(--color-accent)]/60">
                   Account Name
                 </p>
-                <p className="text-purple-300">{winnerName}</p>
+                <p>{winnerName}</p>
               </div>
 
               {/* Prizes List */}
@@ -343,7 +343,7 @@ export default function ClaimPage() {
                         />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate">{displayTitle}</p>
+                        <p>{displayTitle}</p>
                         <p className="mt-0.5">Qty: {item.qty || 1}</p>
                       </div>
                     </div>
@@ -361,9 +361,7 @@ export default function ClaimPage() {
                         key={i}
                         className="shadow-[0_0_8px_rgba(192, 132, 252,0.15)] flex h-14 w-10 items-center justify-center rounded-lg border-2 border-purple-500/40 bg-black/60"
                       >
-                        <span className="text-2xl text-purple-300 tabular-nums">
-                          {digit}
-                        </span>
+                        <span className="text-2xl tabular-nums">{digit}</span>
                       </div>
                     ),
                   )}

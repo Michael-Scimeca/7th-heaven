@@ -11,7 +11,10 @@ export interface ModalDialogProps {
   className?: string;
 }
 
-const maxWidthStyles: Record<NonNullable<ModalDialogProps["maxWidth"]>, string> = {
+const maxWidthStyles: Record<
+  NonNullable<ModalDialogProps["maxWidth"]>,
+  string
+> = {
   sm: "max-w-sm",
   md: "max-w-md",
   lg: "max-w-lg",
@@ -53,7 +56,7 @@ export function ModalDialog({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-md transition-opacity"
+        className="fixed inset-0 bg-black/70 backdrop-blur-md"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -69,14 +72,14 @@ export function ModalDialog({
         {/* Header */}
         <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
           {title ? (
-            <h2 className="text-lg font-bold tracking-tight text-white">{title}</h2>
+            <h2 className="font-bold tracking-tight text-white">{title}</h2>
           ) : (
             <div />
           )}
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+            className="rounded-lg p-1.5 text-white/50 hover:bg-white/10 hover:text-white"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />

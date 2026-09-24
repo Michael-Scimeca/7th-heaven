@@ -74,7 +74,7 @@ export function MemberHeaderBadge({
             />
           </div>
         ) : (
-          <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-purple-400/30 bg-gradient-to-br from-purple-600/40 to-indigo-900/60 text-lg shadow-[0_0_25px_rgba(168,85,247,0.25)] sm:h-16 sm:w-16 sm:text-xl">
+          <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-purple-400/30 bg-gradient-to-br from-purple-600/40 to-indigo-900/60 shadow-[0_0_25px_rgba(168,85,247,0.25)] sm:h-16 sm:w-16 sm:text-xl">
             {initials}
           </div>
         )}
@@ -93,15 +93,15 @@ export function MemberHeaderBadge({
           <h2 className={nameClassName}>{name}</h2>
           {statusBadge && (
             <span
-              className={`r inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs ${statusColorClass}`}
+              className={`r inline-flex items-center gap-1.5 rounded-full border px-3 py-1 ${statusColorClass}`}
             >
               <span className="h-2 w-2 animate-pulse rounded-full bg-rose-500" />
               {statusBadge}
             </span>
           )}
         </div>
-        {email && <p className="text-sm text-white/70">{email}</p>}
-        {subtitle && <p className="mt-0 text-sm sm:text-base">{subtitle}</p>}
+        {email && <p>{email}</p>}
+        {subtitle && <p className="mt-0 sm:text-base">{subtitle}</p>}
         {children}
       </div>
     </div>

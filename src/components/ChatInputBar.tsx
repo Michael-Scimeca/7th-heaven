@@ -68,7 +68,7 @@ export default function ChatInputBar({
               type="button"
               onClick={onEmojiToggle}
               title="Insert Emoji"
-              className="hover:text-whitebg-white-10 color-transition flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/70"
+              className="hover:text-whitebg-white-10 color-transition flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#00000029]"
             >
               😀
             </button>
@@ -90,7 +90,7 @@ export default function ChatInputBar({
             aria-label="Send message"
             type="submit"
             disabled={disabled || !value.trim()}
-            className="hover:text-whitebg-purple-600 color-transition flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-purple-700/50 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30"
+            className="hover:text-whitebg-purple-600 color-transition flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-purple-700/50 shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30"
           >
             <svg
               width="12"

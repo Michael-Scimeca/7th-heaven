@@ -14,14 +14,14 @@ interface RoleBadgeProps {
 const roleConfig = {
   fan: {
     label: "FAN",
-    color: " text-white/70",
+    color: "  ",
     bg: "bg-white/[0.08]",
     border: "border-white/10",
     glow: "",
   },
   crew: {
     label: "CREW",
-    color: "text-purple-300",
+    color: " ",
     bg: "bg-purple-600/20",
     border: "border-purple-500/35",
     glow: "shadow-[0_0_8px_rgba(168,85,247,0.2)]",
@@ -141,9 +141,7 @@ function RoleAvatar({
           aspectRatio: "1 / 1",
         }}
       >
-        <span className="" style={{ fontSize: size * 0.33 }}>
-          {initials}
-        </span>
+        <span style={{ fontSize: size * 0.33 }}>{initials}</span>
       </div>
     </div>
   );

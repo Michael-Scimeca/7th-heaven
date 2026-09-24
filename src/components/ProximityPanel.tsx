@@ -249,7 +249,7 @@ export default function ProximityPanel() {
             </span>
             <button
               onClick={fetchNearbyShows}
-              className="text-white/40 transition-colors hover:text-white"
+              className="text-white/40 hover:text-white"
             >
               Refresh
             </button>
@@ -271,7 +271,7 @@ export default function ProximityPanel() {
               {nearbyShows.map((show) => (
                 <div
                   key={show.id}
-                  className="group border border-white/10 bg-[#00000029] p-4 transition-colors hover:border-blue-500/40"
+                  className="group border border-white/10 bg-[#00000029] p-4 hover:border-blue-500/40"
                 >
                   <div className="flex items-center justify-between">
                     <button
@@ -286,12 +286,12 @@ export default function ProximityPanel() {
                             { month: "short" },
                           )}
                         </span>
-                        <span className="text-lg">
+                        <span>
                           {new Date(show.date + "T12:00:00").getDate()}
                         </span>
                       </div>
                       <div>
-                        <p className="transition-colors group-hover:text-blue-400">
+                        <p className="group-hover:text-blue-400">
                           {show.venue_name}
                         </p>
                         <p>
@@ -310,7 +310,7 @@ export default function ProximityPanel() {
                         e.stopPropagation();
                         toggleGoing(show);
                       }}
-                      className={`rounded-lg border px-4 py-2 transition-colors ${myStatus && selectedShow?.id === show.id ? "border-blue-600 bg-blue-600" : "hover: border-white/10 bg-white/10 hover:border-blue-500 hover:bg-blue-500"}`}
+                      className={`rounded-lg border px-4 py-2 ${myStatus && selectedShow?.id === show.id ? "border-blue-600 bg-blue-600" : "hover: border-white/10 bg-white/10 hover:border-blue-500 hover:bg-blue-500"}`}
                     >
                       {myStatus && selectedShow?.id === show.id
                         ? "Going"
@@ -329,14 +329,14 @@ export default function ProximityPanel() {
                         <div className="flex items-center gap-2">
                           <a
                             href={show.showPageUrl || `/shows/${show.id}`}
-                            className="text-blue-400 transition-colors hover:text-white"
+                            className="text-blue-400 hover:text-white"
                           >
                             View Show Page →
                           </a>
                           <span className="text-white/20">·</span>
                           <a
                             href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
-                            className="text-white/40 transition-colors hover:text-white"
+                            className="text-white/40 hover:text-white"
                           >
                             Share
                           </a>

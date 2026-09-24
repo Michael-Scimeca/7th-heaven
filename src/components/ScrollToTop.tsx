@@ -27,20 +27,6 @@ export default function ScrollToTop() {
         (window as any).__lenis.scrollTo(0, { immediate: true });
       }
     }
-
-    let active = true;
-    const t = setTimeout(() => {
-      if (!active) return;
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" as any });
-      if (typeof window !== "undefined" && (window as any).__lenis) {
-        (window as any).__lenis.scrollTo(0, { immediate: true });
-      }
-    }, 50);
-
-    return () => {
-      active = false;
-      clearTimeout(t);
-    };
   }, [pathname]);
 
   return null;

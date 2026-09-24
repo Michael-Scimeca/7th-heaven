@@ -318,7 +318,7 @@ function MerchDashboard() {
           <p className="mb-6">Sign in with your merch team account.</p>
           <button
             onClick={() => openModal()}
-            className="w-full bg-purple-600 py-3 transition-colors hover:bg-purple-500"
+            className="w-full bg-purple-600 py-3 hover:bg-purple-500"
           >
             Sign In
           </button>

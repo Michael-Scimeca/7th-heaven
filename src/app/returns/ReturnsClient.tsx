@@ -27,8 +27,8 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
 
       <div className="prose-legal flex flex-col gap-10 text-base">
         {sanityContent?.sections &&
-          Array.isArray(sanityContent.sections) &&
-          sanityContent.sections.length > 0 ? (
+        Array.isArray(sanityContent.sections) &&
+        sanityContent.sections.length > 0 ? (
           sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
@@ -45,9 +45,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 <h2 id={`${headingId}-heading`} className="mb-3">
                   {sec.title || `${idx + 1}. Policy Section`}
                 </h2>
-                {sec.subtitle && (
-                  <p className="mb-2 text-white/70">{sec.subtitle}</p>
-                )}
+                {sec.subtitle && <p className="mb-2">{sec.subtitle}</p>}
                 {sec.body && (
                   <div className="whitespace-pre-line">{sec.body}</div>
                 )}
@@ -158,8 +156,8 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 If you have any questions about returns, exchanges, or refunds,
                 please reach out to us:
               </p>
-              <address className="space-y-1 not-italic">
-                <p className=" ">7th Heaven Support</p>
+              <address className="not- space-y-1">
+                <p>7th Heaven Support</p>
                 <p>
                   Email:{" "}
                   <a href="mailto:info@7thheavenband.com" className="a-btn">

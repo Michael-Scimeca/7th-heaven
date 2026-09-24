@@ -1,0 +1,2826 @@
+{
+  "uniqueBackdropCount": 39,
+  "uniqueElementCount": 6,
+  "masterList": [
+    {
+      "classValue": "backdrop-blur-xl",
+      "actualPx": "24px",
+      "type": "Backdrop Blur",
+      "timesUsed": 103,
+      "occurrences": [
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 700,
+          "snippet": "className={`absolute right-0 ${positionClasses} custom-scrollbar z-50 max-h-[85vh] w-[340px] animate-[scaleIn_0.15s_ease-out] space-y-3.5 overflow-y-auto rounded-lg border border-white/10 bg-[#0f0720]/95 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl sm:w-[380px] sm:p-5`}"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 7339,
+          "snippet": "className=\"! rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-white\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 7357,
+          "snippet": "className=\"! rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-[var(--color-accent)]\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 9856,
+          "snippet": "className=\"relative w-full max-w-md animate-[scaleIn_0.2s_ease-out] space-y-4 border border-white/10 bg-[#0c0c0e]/85 p-6 shadow-2xl backdrop-blur-xl\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 13789,
+          "snippet": "<div className=\"sticky top-0 z-30 flex flex-col border-b border-white/10 bg-[#0f0720]/55 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 16692,
+          "snippet": "className=\"relative z-10 flex w-full max-w-md animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] flex-col items-center space-y-4 border border-purple-500/30 bg-[#181920]/85 p-6 text-center shadow-2xl backdrop-blur-xl select-none\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 1292,
+          "snippet": "<div className=\"sticky top-0 z-30 flex flex-col border-b border-white/10 bg-[#0f0720]/95 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 4299,
+          "snippet": "className=\"relative z-10 flex w-full max-w-md animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] flex-col items-center space-y-4 border border-purple-500/30 bg-[#181920]/85 p-6 text-center shadow-2xl backdrop-blur-xl select-none\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 4350,
+          "snippet": "className=\"relative z-10 flex h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/10 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 4494,
+          "snippet": "className=\"relative z-10 flex h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/10 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 882,
+          "snippet": "<div className=\"relative z-10 w-full max-w-lg animate-[fade-in-up_0.6s_ease-out_both] rounded-[2rem] border border-white/10 bg-[var(--color-bg-surface)]/80 p-10 text-center backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/book/success/page.tsx",
+          "line": 41,
+          "snippet": "<div className=\"rounded-[2rem] border border-emerald-500/10 bg-[var(--color-bg-surface)]/80 p-10 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 156,
+          "snippet": "<div className=\"relative overflow-hidden rounded-lg border-white/10 bg-[#00000029] shadow-2xl backdrop-blur-xl lg:col-span-2\">"
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 274,
+          "snippet": "className={`flex w-full cursor-pointer items-center gap-4 rounded-2xl border p-4 text-left ${activeSpotlightPort === idx ? \"border-white/10 bg-[#00000029] backdrop-blur-xl\" : \"border-white/10 bg-[#00000029] backdrop-blur-xl\"}`}"
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 274,
+          "snippet": "className={`flex w-full cursor-pointer items-center gap-4 rounded-2xl border p-4 text-left ${activeSpotlightPort === idx ? \"border-white/10 bg-[#00000029] backdrop-blur-xl\" : \"border-white/10 bg-[#00000029] backdrop-blur-xl\"}`}"
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 316,
+          "snippet": "className=\"flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border-white/10 bg-[#00000029] backdrop-blur-xl\""
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 329,
+          "snippet": "className=\"flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] backdrop-blur-xl\""
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 345,
+          "snippet": "className=\"group flex w-[320px] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-lg border-white/10 bg-[#00000029] backdrop-blur-xl hover:-translate-y-1 md:w-[380px]\""
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 432,
+          "snippet": "className=\"flex flex-col items-start gap-6 rounded-2xl border-white/10 bg-[#00000029] p-4 backdrop-blur-xl hover:bg-white/[0.08] md:flex-row md:items-center md:p-6\""
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 476,
+          "snippet": "className=\"shrink-0 cursor-pointer rounded-xl border-white/10 bg-[#00000029] px-4 py-2 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/app/cruise/dashboard/page.tsx",
+          "line": 183,
+          "snippet": "<div className=\"overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/cruise/verify/CruiseVerifyClient.tsx",
+          "line": 124,
+          "snippet": "<div className=\"relative w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.04] p-8 text-center backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/fans/[username]/page.tsx",
+          "line": 1148,
+          "snippet": "className=\"! inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-[#00000029] px-2.5 py-1 shadow-sm backdrop-blur-xl hover:bg-white/15 hover:text-white\""
+        },
+        {
+          "file": "src/app/fans/[username]/page.tsx",
+          "line": 1170,
+          "snippet": "\"inline-flex items-center gap-1.5       !  bg-[#00000029] border border-white/15 backdrop-blur-xl px-2.5 py-1 rounded-lg hover:bg-white/15 hover:text-white transition-all shadow-sm\";"
+        },
+        {
+          "file": "src/app/faq/FaqClient.tsx",
+          "line": 381,
+          "snippet": "<div className=\"rounded-lg bg-[#00000029] p-8 py-16 text-center backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/faq/FaqClient.tsx",
+          "line": 395,
+          "snippet": "<aside className=\"mt-6 flex flex-col items-center justify-between gap-6 rounded-lg bg-[#00000029] p-6 text-center backdrop-blur-xl sm:flex-row sm:p-8 sm:text-left\">"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5015,
+          "snippet": ".backdrop-blur-xl,"
+        },
+        {
+          "file": "src/app/notifications/page.tsx",
+          "line": 221,
+          "snippet": "<div className=\"mx-auto max-w-3xl rounded-lg border border-white/10 bg-[#00000029] p-6 backdrop-blur-xl sm:p-10\">"
+        },
+        {
+          "file": "src/app/payment/page.tsx",
+          "line": 85,
+          "snippet": "<div className=\"bg-white/[0.04]backdrop-blur-xl rounded-lg border border-white/[0.12] p-8 text-left shadow-[0_8px_64px_rgba(0,0,0,0.4)]\">"
+        },
+        {
+          "file": "src/app/payment-test/checkout/page.tsx",
+          "line": 99,
+          "snippet": "<div className=\"bg-white/[0.04]backdrop-blur-xl rounded-lg border border-white/[0.12] p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]\">"
+        },
+        {
+          "file": "src/app/payment-test/result/page.tsx",
+          "line": 74,
+          "snippet": "<div className=\"bg-white/[0.04]backdrop-blur-xl rounded-lg border border-white/[0.12] p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]\">"
+        },
+        {
+          "file": "src/app/sitemap/VisualSitemapClient.tsx",
+          "line": 2274,
+          "snippet": "<div className=\"mx-auto mb-6 flex max-w-[1700px] flex-wrap items-center justify-between gap-4 rounded-lg border border-purple-500/30 bg-[#0c0c14] px-6 py-4 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 26,
+          "snippet": "<div className=\"animate-pulse rounded-lg border border-purple-500/30 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] p-12 text-center text-white/40 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 1864,
+          "snippet": "<div className=\"sticky top-20 z-40 flex scrollbar-none items-center gap-2 overflow-x-auto rounded-lg border border-white/10 bg-[#070510]/90 p-2 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 1943,
+          "snippet": "<div className=\"relative space-y-6 overflow-hidden rounded-lg border border-purple-500/30 bg-gradient-to-b from-purple-950/20 via-black/40 to-black/60 p-6 backdrop-blur-xl sm:p-8\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 4925,
+          "snippet": "<div className=\"space-y-3 rounded-lg border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl hover:border-purple-500/40\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 5922,
+          "snippet": "className=\"space-y-2 rounded-lg p-5 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 6047,
+          "snippet": "<div className=\"flex flex-col justify-between rounded-lg border border-[var(--color-section-border)] bg-[var(--color-section-bg)] p-6 backdrop-blur-xl md:p-8 lg:col-span-2\">"
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 67,
+          "snippet": "<div className=\"flex max-w-5xl flex-wrap justify-center gap-1.5 border border-white/10 bg-[#00000029] p-2.5 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 83,
+          "snippet": "<div className=\"shadow-[0_20px_50px_rgba(0,0,0,0.4)]backdrop-blur-xl group flex flex-col justify-between rounded-lg border border-white/10 bg-[var(--color-surface-raised)] p-8 hover:border-[var(--color-accent)] md:col-span-2 md:p-10\">"
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 127,
+          "snippet": "className={`group relative overflow-hidden rounded-lg border border-purple-500/30 p-7 backdrop-blur-xl hover:border-purple-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] ${i === 0 || i === 3 ? \"md:col-span-2\" : \"\"}`}"
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 149,
+          "snippet": "className={`hover:shadow-[0_20px_45px_rgba(147, 51, 234,0.25)] group rounded-lg border border-purple-500/30 bg-gradient-to-b from-amber-950/30 via-black to-amber-950/10 p-7 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:border-purple-400 ${i === 2 || i === 5 ? \"md:col-span-2\" : \"\"}`}"
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 236,
+          "snippet": "className=\"group relative overflow-hidden rounded-lg border border-[var(--color-accent)]/20 p-8 shadow-[var(--shadow-brand)] backdrop-blur-xl hover:border-[var(--color-accent)] hover:shadow-[var(--shadow-brand)]\""
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 253,
+          "snippet": "className=\"group flex items-center gap-5 rounded-lg border border-white/10 bg-gradient-to-b from-white/10 via-white/5 to-transparent p-6 backdrop-blur-xl hover:border-[var(--color-accent)]/20\""
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 308,
+          "snippet": "className=\"flex w-[280px] shrink-0 flex-col justify-between rounded-lg border border-white/10 bg-[var(--color-surface-raised)] p-7 backdrop-blur-xl hover:border-[var(--color-accent)]/50 md:w-[320px]\""
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 347,
+          "snippet": "className=\"group flex flex-col items-start justify-between gap-4 rounded-lg border border-white/8 bg-[var(--color-surface-raised)] p-6 backdrop-blur-xl hover:border-[var(--color-accent)]/40 md:flex-row md:items-center md:p-8\""
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 389,
+          "snippet": "className=\"group rounded-tl-3xl rounded-tr-lg rounded-br-3xl rounded-bl-lg border border-white/10 p-7 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 405,
+          "snippet": "className=\"shadow-[0_10px_30px_rgba(0,0,0,0.3)]backdrop-blur-xl group rounded-lg border border-white/8 bg-[var(--color-surface-raised)] p-7 hover:border-[var(--color-accent)]/40\""
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 446,
+          "snippet": "className=\"group border border-white/10 p-6 text-center backdrop-blur-xl hover:border-[var(--color-accent)]\""
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 462,
+          "snippet": "className=\"shadow-[0_20px_40px_rgba(0,0,0,0.9)]backdrop-blur-xl group relative rounded-lg border border-white/8 bg-[var(--color-surface-raised)] p-8 hover:-translate-y-2 hover:border-[var(--color-accent)]/40\""
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 599,
+          "snippet": "<div className=\"relative flex flex-col items-center justify-between gap-6 overflow-hidden rounded-full border border-purple-500/30 bg-gradient-to-r from-purple-950/70 via-indigo-950/50 to-purple-950/70 p-4 backdrop-blur-xl sm:flex-row sm:p-6\">"
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 657,
+          "snippet": "<div className=\"relative z-10 flex h-full min-h-full w-full shrink-0 flex-col self-stretch overflow-hidden border-r border-white/10 pt-6 pb-0 pl-4 backdrop-blur-xl md:w-[clamp(200px,24vw,320px)] md:pt-10 md:pl-8\">"
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 682,
+          "snippet": "className=\"placeholder: w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 pl-9 text-white/40 backdrop-blur-xl outline-none\""
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 733,
+          "snippet": "<div className=\"z-20 flex shrink-0 items-center justify-between border-b border-white/10 bg-black/50 px-4 py-3 backdrop-blur-xl lg:hidden\">"
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 899,
+          "snippet": "className=\"custom-scrollbar relative z-10 hidden h-full w-full shrink-0 items-center self-stretch overflow-y-auto overscroll-contain border-l border-white/10 pt-5 pr-4 pb-8 pl-4 backdrop-blur-xl md:flex md:w-[clamp(220px,22vw,350px)] md:flex-col lg:pr-8 lg:pl-6\""
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 1087,
+          "snippet": "<div className=\"relative z-30 flex h-[54px] w-full shrink-0 items-center gap-3 border-t border-white/10 bg-black/50 px-4 backdrop-blur-xl sm:gap-4 md:px-8\">"
+        },
+        {
+          "file": "src/components/BioParallaxSlider.tsx",
+          "line": 2319,
+          "snippet": "className=\"pointer-events-none absolute left-4 z-30 flex max-w-[90%] flex-col items-start border border-white/10 bg-black/85 px-4 py-3 text-left backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/BioParallaxSlider.tsx",
+          "line": 2391,
+          "snippet": "className=\"pointer-events-none absolute left-1/2 z-30 flex max-w-[90%] -translate-x-1/2 flex-col items-center rounded-lg border border-white/10 bg-black/85 px-4 py-2.5 text-center backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/BioParallaxSlider.tsx",
+          "line": 2443,
+          "snippet": "className=\"pointer-events-none absolute right-4 z-30 flex max-w-[90%] flex-col items-end border border-white/10 bg-black/85 px-4 py-3 text-right backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/CookieConsentBanner.tsx",
+          "line": 77,
+          "snippet": "<div className=\"relative overflow-hidden border border-white/10 bg-[#0e0e1a]/95 shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 3424,
+          "snippet": "className=\"! border-white/10 bg-[#00000029] !px-3.5 !py-2 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 3432,
+          "snippet": "className=\"flex items-center justify-center gap-2 self-start rounded-lg border border-white/10 bg-[#00000029] px-3.5 py-1.5 backdrop-blur-xl hover:text-white sm:self-auto\""
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 4065,
+          "snippet": "className=\"! flex items-center gap-1 rounded rounded-lg border border-white/10 bg-[#00000029] px-2 py-0.5 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 4099,
+          "snippet": "className=\"! border-white/10 bg-[#00000029] !px-3.5 !py-3 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 4844,
+          "snippet": "className=\"flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/CrewHQ.tsx",
+          "line": 604,
+          "snippet": "<header className=\"sticky top-0 z-40 border-b border-white/[0.05] bg-[var(--color-bg-primary)]/80 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 249,
+          "snippet": "className=\"fixed top-[88px] right-4 z-50 flex w-96 max-w-[calc(100vw-2rem)] flex-col rounded-lg border border-purple-500/40 bg-[#0c101d]/95 shadow-[0_10px_50px_rgba(0,0,0,0.9)] backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/CruiseSnakeItinerary.tsx",
+          "line": 1444,
+          "snippet": "<div className=\"rounded-r-2xl rounded-b-2xl border border-white/10 bg-black/60 p-5 shadow-2xl backdrop-blur-xl md:p-6\">"
+        },
+        {
+          "file": "src/components/DirectMessageChat.tsx",
+          "line": 177,
+          "snippet": "<div className=\"absolute right-0 bottom-16 flex h-[380px] w-[300px] animate-[fadeIn_0.25s_ease-out] flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]/95 shadow-[0_8px_32px_rgba(0,0,0,0.8)] backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/FakeLiveStream/RaffleClaimModal.tsx",
+          "line": 57,
+          "snippet": "<div className=\"relative max-h-[90vh] w-full max-w-sm overflow-y-auto border border-purple-500/40 bg-gray-50/98 p-6 text-black backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1948,
+          "snippet": "<div className=\"pointer-events-auto relative flex flex-col overflow-hidden border-2 border-yellow-500/50 bg-gray-50/95 px-4 py-5 shadow-[0_0_40px_rgba(234,179,8,0.3)] backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 3958,
+          "snippet": "<div className=\"flex flex-1 flex-col items-center justify-center space-y-6 bg-[#07040d]/50 p-6 pb-1 text-center backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 4402,
+          "snippet": "className=\"relative max-h-[90vh] w-full max-w-sm overflow-y-auto border bg-white/98 p-6 text-left backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/FeaturedTrack.tsx",
+          "line": 263,
+          "snippet": "<div className=\"h-full rounded-lg border border-white/10 bg-black/70 p-3 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/FeaturedTrack.tsx",
+          "line": 435,
+          "snippet": "<div className=\"relative overflow-hidden border border-white/10 bg-white/[0.02] p-8 text-center backdrop-blur-xl sm:p-12\">"
+        },
+        {
+          "file": "src/components/FeaturedTrack.tsx",
+          "line": 464,
+          "snippet": "<div className=\"relative overflow-hidden border border-white/10 bg-white/[0.02] p-6 backdrop-blur-xl sm:p-8\">"
+        },
+        {
+          "file": "src/components/GooeyMessagesDropdown.tsx",
+          "line": 164,
+          "snippet": "className={`relative z-50 min-h-[46px] border border-[#ffffff1a] border-white/10 bg-[#00000029] shadow-[0_24px_60px_#0000008c] backdrop-blur-xl ${fullWidth ? \"w-full justify-between text-left\" : \"min-w-fit justify-between text-left\"} ${noPadding ? \"p-0\" : fullWidth ? \"px-4 py-0\" : \"px-4 py-0\"} rounded-lg ${open ? \"rounded-t-lg rounded-b-none bg-[#8d73d71c]\" : \"/90 border-white/10 bg-[#8d73d71c] hover:bg-[#8d73d71c]\"} ${noBorder ? \"!border-none\" : \"\"} flex cursor-pointer items-center gap-3 shadow-[0_3px_9px_#0000008c] transition-[background-color,border-color,transform,box-shadow] disabled:cursor-not-allowed disabled:opacity-50`}"
+        },
+        {
+          "file": "src/components/GooeyMessagesDropdown.tsx",
+          "line": 196,
+          "snippet": "className=\"animate-in fade-in zoom-in-95 slide-in-from-top-2 absolute top-full !left-0 z-[99999] w-max max-w-md min-w-full origin-top overflow-hidden rounded-lg rounded-t-none rounded-b-lg border border-t-0 border-white/10 bg-[#00000029] shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-xl transition-[opacity,transform] ease-[cubic-bezier(0.34,1.56,0.64,1)]\""
+        },
+        {
+          "file": "src/components/Header.tsx",
+          "line": 902,
+          "snippet": "className=\"pointer-events-auto fixed inset-0 z-[9999] flex flex-col overflow-y-auto bg-black/30 backdrop-blur-xl\""
+        },
+        {
+          "file": "src/components/HeroParallaxCustomizer.tsx",
+          "line": 76,
+          "snippet": "<div className=\"flex w-[280px] animate-[scaleIn_0.2s_ease-out] flex-col gap-4 border border-white/10 bg-black/75 p-4 text-left shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl select-none\">"
+        },
+        {
+          "file": "src/components/HeroUpcomingShows.tsx",
+          "line": 99,
+          "snippet": "<div className=\"h-full rounded-lg border border-white/10 p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/HeroUpcomingShows.tsx",
+          "line": 166,
+          "snippet": "<div className=\"w-full rounded-lg border border-white/10 bg-black/85 p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/HeroVideoPlayer.tsx",
+          "line": 705,
+          "snippet": "<div className=\"flex w-[280px] animate-[scaleIn_0.2s_ease-out] flex-col gap-4 border border-white/10 bg-black/75 p-4 text-left shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl select-none\">"
+        },
+        {
+          "file": "src/components/LiveStatusSign.tsx",
+          "line": 45,
+          "snippet": "<div className=\"relative flex items-center gap-4 overflow-hidden rounded-lg border border-white/10 bg-black/60 px-6 py-2.5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:border-red-500/50\">"
+        },
+        {
+          "file": "src/components/LiveStreamInlineSubscribe.tsx",
+          "line": 99,
+          "snippet": "className={`w-full ${maxWidth} flex flex-col items-center justify-between gap-4 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] p-6 backdrop-blur-xl sm:flex-row ${className}`}"
+        },
+        {
+          "file": "src/components/PageNav.tsx",
+          "line": 154,
+          "snippet": "className=\"pointer-events-auto absolute bottom-full left-0 mb-6 flex w-[320px] origin-bottom-left animate-[fade-in-up_0.2s_ease-out_both] flex-col overflow-hidden rounded-lg border-l border-white/10 bg-[#0a00653b] backdrop-blur-2xl backdrop-blur-xl sm:w-[340px]\""
+        },
+        {
+          "file": "src/components/PagesPillDrawer.tsx",
+          "line": 482,
+          "snippet": "<div className=\"animate-fadeIn fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 p-4 backdrop-blur-xl md:p-6\">"
+        },
+        {
+          "file": "src/components/ProximityNotify.tsx",
+          "line": 344,
+          "snippet": "<div className=\"rounded-lg border border-purple-500/30 bg-purple-950/40 p-8 text-center shadow-2xl backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/StickyNotesOverlay.tsx",
+          "line": 290,
+          "snippet": "className=\"fixed right-5 bottom-5 z-[99999] flex cursor-pointer items-center gap-1.5 rounded-lg border border-amber-500/40 bg-black/90 p-2.5 text-amber-400 backdrop-blur-xl transition-[background-color,color,transform] hover:scale-110 hover:bg-black hover:text-amber-300 active:scale-95\""
+        },
+        {
+          "file": "src/components/StickyNotesOverlay.tsx",
+          "line": 296,
+          "snippet": "<div className=\"fixed right-5 bottom-5 z-[99999] flex items-center gap-2 rounded-2xl border border-white/10 bg-black/90 p-2 shadow-[0_0_30px_rgba(0,0,0,0.8)] backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/TourMap.tsx",
+          "line": 1408,
+          "snippet": "<div className=\"hidden max-w-full rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-3 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-4.5 lg:block\">"
+        },
+        {
+          "file": "src/components/TourMap.tsx",
+          "line": 1605,
+          "snippet": "className=\"flex max-h-[85vh] w-[360px] max-w-[90vw] flex-col gap-4 overflow-y-auto rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-4.5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-5\""
+        },
+        {
+          "file": "src/components/TourMap.tsx",
+          "line": 1742,
+          "snippet": "className=\"flex max-h-[85vh] w-[360px] max-w-[90vw] flex-col gap-4 overflow-y-auto rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-4.5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-5\""
+        },
+        {
+          "file": "src/components/TourMap.tsx",
+          "line": 1907,
+          "snippet": "className=\"flex max-h-[85vh] w-[360px] max-w-[90vw] flex-col gap-4 overflow-y-auto rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-4.5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-5\""
+        },
+        {
+          "file": "src/components/UserFlowMap.tsx",
+          "line": 204,
+          "snippet": "className={`group relative rounded-lg border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 text-center backdrop-blur-xl select-none`}"
+        },
+        {
+          "file": "src/components/UserFlowMap.tsx",
+          "line": 242,
+          "snippet": "<div className=\"group relative w-48 cursor-pointer rounded-lg border border-amber-400/50 bg-[#2d1c07]/95 px-3 py-2 text-center shadow-[0_0_15px_rgba(245,158,11,0.25)] backdrop-blur-xl select-none\">"
+        },
+        {
+          "file": "src/components/UserFlowMap.tsx",
+          "line": 280,
+          "snippet": "className={`group relative rounded-lg border ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}"
+        },
+        {
+          "file": "src/components/UserFlowMap.tsx",
+          "line": 350,
+          "snippet": "className={`group relative rounded-lg border-2 border-dashed ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}"
+        },
+        {
+          "file": "src/components/UserFlowMap.tsx",
+          "line": 1594,
+          "snippet": "<div className=\"absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 rounded-lg border border-white/10 bg-black/90 px-4 py-2 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/admin/AdminDashboardSkeleton.tsx",
+          "line": 9,
+          "snippet": "<div className=\"sticky top-0 z-50 flex h-16 items-center justify-between border-b border-white/10 bg-black/40 px-6 backdrop-blur-xl\">"
+        },
+        {
+          "file": "src/components/ui/GlassCard.tsx",
+          "line": 11,
+          "snippet": "default: \"border border-white/10 bg-black/40 backdrop-blur-xl shadow-xl\","
+        },
+        {
+          "file": "src/components/ui/GlassCard.tsx",
+          "line": 14,
+          "snippet": "\"border border-white/10 bg-black/40 backdrop-blur-xl shadow-xl transition-all duration-300 hover:border-purple-500/40 hover:bg-black/60 hover:shadow-[0_0_25px_rgba(168,85,247,0.15)]\","
+        },
+        {
+          "file": "src/components/ui/GlassCard.tsx",
+          "line": 16,
+          "snippet": "\"border border-purple-500/20 bg-gradient-to-b from-purple-900/20 via-black/40 to-black/60 backdrop-blur-xl shadow-2xl\","
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-blur-2xl",
+      "actualPx": "40px",
+      "type": "Backdrop Blur",
+      "timesUsed": 86,
+      "occurrences": [
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 5232,
+          "snippet": "className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 px-4 py-2.5 text-[0.9rem] backdrop-blur-2xl ${bannerSaveStatus === \"saved\" ? \"border border-white/10 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]\" : \"border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]\"}`}"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 7466,
+          "snippet": "<div className=\"absolute top-0 right-0 m-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[0.9rem] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 14654,
+          "snippet": "<div className=\"animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 14705,
+          "snippet": "<div className=\"animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 15236,
+          "snippet": "<div className=\"relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10 px-6 py-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 15508,
+          "snippet": "<div className=\"relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/15 bg-[#0a00653b] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 16744,
+          "snippet": "className=\"relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/15 bg-[#0a00653b] backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 16889,
+          "snippet": "className=\"relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/15 bg-[#0a00653b] backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 17460,
+          "snippet": "<div className=\"relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/15 bg-[#0a00653b] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 18504,
+          "snippet": "<div className=\"no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 2192,
+          "snippet": "<div className=\"animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 2243,
+          "snippet": "<div className=\"animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 2780,
+          "snippet": "<div className=\"relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10 px-6 py-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 3067,
+          "snippet": "<div className=\"relative flex h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/10 bg-[#0a00653b] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 5062,
+          "snippet": "<div className=\"relative flex h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/10 bg-[#0a00653b] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/admin/page.tsx",
+          "line": 270,
+          "snippet": "<div className=\"pointer-events-none fixed inset-0 z-0 bg-black/55 backdrop-blur-2xl\" />"
+        },
+        {
+          "file": "src/app/admin/shop-inventory/page.tsx",
+          "line": 722,
+          "snippet": "<div className=\"fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 1400,
+          "snippet": "className=\".5 placeholder: focus-ring w-full rounded-lg border border-purple-400/40 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-2xl outline-none\""
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 1698,
+          "snippet": "className=\"placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none\""
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 1721,
+          "snippet": "className=\"placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none\""
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 1746,
+          "snippet": "className=\"placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none\""
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 1771,
+          "snippet": "className=\"placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none\""
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 1794,
+          "snippet": "className=\"placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none\""
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 2700,
+          "snippet": "className=\"placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-2xl outline-none\""
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 2721,
+          "snippet": "className=\"placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-2xl outline-none\""
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 2768,
+          "snippet": "className=\"fixed inset-0 h-full w-full cursor-default border-0 bg-black/80 backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/app/book/components/MiniDatePicker.tsx",
+          "line": 70,
+          "snippet": "className={`group focus-ring flex w-full cursor-pointer items-center justify-between rounded-lg border border-white/10 px-2.5 py-2.5 text-left ring-0 backdrop-blur-2xl outline-none focus-visible:ring-0 focus-visible:outline-none ${value ? \" \" : \" \"}`}"
+        },
+        {
+          "file": "src/app/crew/verify/CrewVerifyClient.tsx",
+          "line": 52,
+          "snippet": "<div className=\"pointer-events-none fixed inset-0 z-0 bg-black/55 backdrop-blur-2xl\" />"
+        },
+        {
+          "file": "src/app/cruise/components/CruiseHeroSection.tsx",
+          "line": 133,
+          "snippet": "<span className=\"btn-pill-glass flex items-center gap-2.5 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/cruise/components/CruiseHeroSection.tsx",
+          "line": 139,
+          "snippet": "<span className=\"btn-pill-glass flex items-center gap-2.5 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/cruise/components/CruiseHeroSection.tsx",
+          "line": 152,
+          "snippet": "className=\"btn-pill-glass flex cursor-pointer items-center gap-2 border border-rose-500/40 bg-rose-900/40 text-rose-200 backdrop-blur-2xl transition-[background-color,color,border-color] hover:bg-rose-800/60 hover:text-white\""
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 360,
+          "snippet": "<span className=\"absolute top-4 left-4 z-20 rounded-lg border border-white/10 bg-black/70 px-3 py-1 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/features/components/FeatureCardUI.tsx",
+          "line": 69,
+          "snippet": "className=\"fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-2xl md:p-8\""
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5016,
+          "snippet": ".backdrop-blur-2xl,"
+        },
+        {
+          "file": "src/app/live/LiveHubClient.tsx",
+          "line": 843,
+          "snippet": "<div className=\"relative flex items-center justify-between bg-black/40 p-6 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/payment-test/page.tsx",
+          "line": 62,
+          "snippet": "<span className=\"absolute top-3 left-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[10px] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/payment-test/page.tsx",
+          "line": 719,
+          "snippet": "<div className=\"fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/qr/merch/MerchQRClient.tsx",
+          "line": 568,
+          "snippet": "<span className=\"absolute top-3 left-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/qr/merch/MerchQRClient.tsx",
+          "line": 608,
+          "snippet": "<div className=\"fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/qr/merch/MerchQRClient.tsx",
+          "line": 783,
+          "snippet": "<div className=\"fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/qr/merch/MerchQRClient.tsx",
+          "line": 858,
+          "snippet": "<div className=\"fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/90 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 2947,
+          "snippet": "<div className=\"animate-fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3891,
+          "snippet": "<div className=\"relative mb-6 grid grid-cols-2 rounded-lg border border-white/10 bg-white/10 p-1 backdrop-blur-2xl select-none\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3908,
+          "snippet": "<div className=\"grid grid-cols-5 gap-1 rounded-lg border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 4061,
+          "snippet": "<div className=\"relative mb-6 grid grid-cols-2 rounded-lg border border-white/10 bg-white/10 p-1 backdrop-blur-2xl select-none\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 4076,
+          "snippet": "<div className=\"grid grid-cols-2 gap-1 rounded-lg border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none\">"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 5091,
+          "snippet": "className=\"absolute inset-0 cursor-default border-0 bg-black/60 p-0 backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 5145,
+          "snippet": "className=\"absolute inset-0 cursor-default border-0 bg-black/60 p-0 backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 1232,
+          "snippet": "<div className=\"h-1.5 w-full overflow-hidden rounded-lg border border-white/10 bg-white/15 backdrop-blur-2xl group-hover:bg-white/25\">"
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 1313,
+          "snippet": "<div className=\"h-1.5 w-full overflow-hidden rounded-lg border border-white/10 bg-white/15 backdrop-blur-2xl group-hover:bg-white/25\">"
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 1358,
+          "snippet": "className=\"fixed inset-0 z-[200] flex cursor-default items-center justify-center bg-black/80 backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/components/BioParallaxSlider.tsx",
+          "line": 1425,
+          "snippet": "<div className=\"fixed inset-y-0 right-0 z-[9999] flex h-screen max-h-screen w-[360px] max-w-[92vw] flex-col justify-between overflow-y-auto border-l border-white/15 bg-black/95 p-5 shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/BioScrollReveal.tsx",
+          "line": 164,
+          "snippet": "<span className=\"rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/CalendarPicker.tsx",
+          "line": 523,
+          "snippet": "className=\"placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#0c0817]/80 px-4 py-3 text-white/40 shadow-inner backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 5704,
+          "snippet": "<div className=\"fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 5893,
+          "snippet": "<div className=\"gap-3text-black fixed right-6 bottom-6 z-[10000] flex w-full max-w-sm animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] border border-black/10 bg-white/95 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 5917,
+          "snippet": "<div className=\"no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 6043,
+          "snippet": "<div className=\"no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 6327,
+          "snippet": "<div className=\"no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/CruiseChat.tsx",
+          "line": 906,
+          "snippet": "<div className=\"absolute top-2 right-2 z-20 flex items-center gap-1 rounded-lg border border-white/10 bg-black/90 p-1 opacity-0 backdrop-blur-2xl group-hover:opacity-100\">"
+        },
+        {
+          "file": "src/components/CruiseSnakeItinerary.tsx",
+          "line": 1321,
+          "snippet": "<div className=\"sticky bottom-0 z-10 mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4 pb-1 text-white/40 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/CruiseSnakeItinerary.tsx",
+          "line": 1683,
+          "snippet": "className={`flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-4 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] backdrop-blur-2xl ${isActive ? \"scale-105 opacity-100\" : \"opacity-85\"}`}"
+        },
+        {
+          "file": "src/components/CruiseVideoGallery.tsx",
+          "line": 314,
+          "snippet": "className=\"animate-in fade-in fixed inset-0 z-[999999] flex items-center justify-center bg-black/60 p-4 backdrop-blur-2xl md:p-8\""
+        },
+        {
+          "file": "src/components/CustomYTPlayer.tsx",
+          "line": 275,
+          "snippet": "className=\"fixed inset-0 z-[9999] m-0 flex h-full w-full max-w-none items-center justify-center border-none bg-black/70 p-0 text-inherit backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/components/DevGuideLine.tsx",
+          "line": 41,
+          "snippet": "<div className=\"pointer-events-auto absolute top-1 right-6 z-[9999999] flex items-center gap-2 rounded-lg border border-purple-400/60 bg-black/95 px-3 py-1 shadow-[0_0_20px_rgba(34,211,238,0.3)] backdrop-blur-2xl select-none\">"
+        },
+        {
+          "file": "src/components/Header.tsx",
+          "line": 743,
+          "snippet": "className=\"flex aspect-square h-full w-full shrink-0 items-center justify-center border border-white/10 bg-black/40 text-[clamp(10px,1.2vw,14px)] shadow-inner backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/components/HeaderMaskEditor.tsx",
+          "line": 84,
+          "snippet": "className=\"flex cursor-pointer items-center gap-2 rounded-lg border border-purple-500/40 bg-black/90 px-4 py-2.5 backdrop-blur-2xl hover:bg-purple-950/90\""
+        },
+        {
+          "file": "src/components/HeroLiveThumbs.tsx",
+          "line": 125,
+          "snippet": "className=\"group flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[var(--color-bg-surface)]/80 px-3 py-1.5 backdrop-blur-2xl select-none\""
+        },
+        {
+          "file": "src/components/HeroParallaxCustomizer.tsx",
+          "line": 56,
+          "snippet": "className=\"group flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95\""
+        },
+        {
+          "file": "src/components/HeroUpNextBanner.tsx",
+          "line": 333,
+          "snippet": "<div className=\"absolute bottom-full left-0 z-50 mb-2 min-w-[170px] rounded-xl border border-purple-400/40 bg-[#0c0721]/95 py-2 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/HeroVideoPlayer.tsx",
+          "line": 678,
+          "snippet": "className=\"group flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95\""
+        },
+        {
+          "file": "src/components/LoginModal.tsx",
+          "line": 848,
+          "snippet": "className=\"absolute inset-0 cursor-default border-0 bg-black/80 p-0 backdrop-blur-2xl\""
+        },
+        {
+          "file": "src/components/LoginModal.tsx",
+          "line": 1050,
+          "snippet": "<div className=\"relative mx-auto mb-6 grid max-w-sm grid-cols-2 border border-white/10 bg-white/10 p-1 shadow-inner backdrop-blur-2xl select-none\">"
+        },
+        {
+          "file": "src/components/LoginModal.tsx",
+          "line": 1088,
+          "snippet": "className={`grid gap-1 rounded-lg border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none ${modalMode === \"signup\" ? \"grid-cols-2\" : \"grid-cols-5\"}`}"
+        },
+        {
+          "file": "src/components/MemberDashboard.tsx",
+          "line": 625,
+          "snippet": "className={`flex flex-col items-center justify-between gap-4 border bg-black/40 p-4 backdrop-blur-2xl sm:flex-row ${msg.color === \"yellow\" ? \"border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]\" : \"border-white/10\"}`}"
+        },
+        {
+          "file": "src/components/MemberDashboard.tsx",
+          "line": 721,
+          "snippet": "className={`group relative overflow-hidden border bg-black/40 backdrop-blur-2xl ${photo.rejected ? \"border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]\" : photo.approved ? \"border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]\" : \"border-white/10\"}`}"
+        },
+        {
+          "file": "src/components/MemberFactSheetDrawer.tsx",
+          "line": 162,
+          "snippet": "className=\"custom-scrollbar fact-sheet-scrollbar relative z-10 flex h-full w-full transform flex-col justify-between overflow-y-auto bg-[#0c0a14]/45 backdrop-blur-2xl sm:w-[480px] md:w-[520px] lg:w-[560px]\""
+        },
+        {
+          "file": "src/components/PageNav.tsx",
+          "line": 154,
+          "snippet": "className=\"pointer-events-auto absolute bottom-full left-0 mb-6 flex w-[320px] origin-bottom-left animate-[fade-in-up_0.2s_ease-out_both] flex-col overflow-hidden rounded-lg border-l border-white/10 bg-[#0a00653b] backdrop-blur-2xl backdrop-blur-xl sm:w-[340px]\""
+        },
+        {
+          "file": "src/components/PageNav.tsx",
+          "line": 158,
+          "snippet": "<div className=\"shrink-0 border-b border-white/10 bg-white/[0.04] py-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/PushSubscribeModal.tsx",
+          "line": 91,
+          "snippet": "<div className=\"fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/TourList.tsx",
+          "line": 1963,
+          "snippet": "<div className=\"absolute right-0 z-50 mt-2 min-w-[165px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/TourList.tsx",
+          "line": 2235,
+          "snippet": "<div className=\"absolute right-0 z-50 mt-2 min-w-[165px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/UserFlowMap.tsx",
+          "line": 1539,
+          "snippet": "<div className=\"relative h-[850px] w-full overflow-hidden rounded-lg border border-purple-500/30 bg-[#050505] backdrop-blur-2xl\">"
+        },
+        {
+          "file": "src/components/UserFlowMap.tsx",
+          "line": 1541,
+          "snippet": "<div className=\"pointer-events-none absolute top-0 right-0 left-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/90 px-4 py-2.5 backdrop-blur-2xl select-none\">"
+        },
+        {
+          "file": "src/components/VinylHeroPlayer.tsx",
+          "line": 1047,
+          "snippet": "<div className=\"h-1.5 w-full overflow-hidden rounded-lg border border-white/10 bg-white/10 backdrop-blur-2xl group-hover:bg-white/20\">"
+        },
+        {
+          "file": "src/components/VinylHeroPlayer.tsx",
+          "line": 1093,
+          "snippet": "<div className=\"relative flex h-full flex-col justify-start overflow-hidden rounded-lg border border-white/10 bg-[#0a00653b] pt-2 backdrop-blur-2xl\">"
+        }
+      ]
+    },
+    {
+      "classValue": "blur",
+      "actualPx": "8px",
+      "type": "Element Blur",
+      "timesUsed": 59,
+      "occurrences": [
+        {
+          "file": "src/app/admin/page.tsx",
+          "line": 264,
+          "snippet": "filter: \"brightness(0.55) blur(3px)\","
+        },
+        {
+          "file": "src/app/crew/verify/CrewVerifyClient.tsx",
+          "line": 46,
+          "snippet": "filter: \"brightness(0.55) blur(3px)\","
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 782,
+          "snippet": "backdrop-filter: blur(var(--input-blur, 24px));"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 782,
+          "snippet": "backdrop-filter: blur(var(--input-blur, 24px));"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 783,
+          "snippet": "-webkit-backdrop-filter: blur(var(--input-blur, 24px));"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 783,
+          "snippet": "-webkit-backdrop-filter: blur(var(--input-blur, 24px));"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 859,
+          "snippet": "backdrop-filter: blur(var(--input-blur)) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 859,
+          "snippet": "backdrop-filter: blur(var(--input-blur)) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 860,
+          "snippet": "-webkit-backdrop-filter: blur(var(--input-blur)) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 860,
+          "snippet": "-webkit-backdrop-filter: blur(var(--input-blur)) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 1102,
+          "snippet": "/* Sticky Tour Sort Bar — 100vw full-width glass backdrop-filter blur when stuck below header */"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 1112,
+          "snippet": "backdrop-filter: blur(16px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 1113,
+          "snippet": "-webkit-backdrop-filter: blur(16px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 2040,
+          "snippet": "backdrop-filter: blur(20px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 2041,
+          "snippet": "-webkit-backdrop-filter: blur(20px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 2645,
+          "snippet": "filter: url(#goo) blur(40px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 3835,
+          "snippet": "backdrop-filter: blur(18px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 3836,
+          "snippet": "-webkit-backdrop-filter: blur(18px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4135,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4136,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4144,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4145,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4154,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4155,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4165,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4166,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4175,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4176,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4186,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4187,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4193,
+          "snippet": "backdrop-filter: blur(8px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4194,
+          "snippet": "-webkit-backdrop-filter: blur(8px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5018,
+          "snippet": "backdrop-filter: blur(8px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5019,
+          "snippet": "-webkit-backdrop-filter: blur(8px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5310,
+          "snippet": "backdrop-filter: blur(24px) saturate(180%);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5311,
+          "snippet": "-webkit-backdrop-filter: blur(24px) saturate(180%);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5648,
+          "snippet": "backdrop-filter: blur(12px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5649,
+          "snippet": "-webkit-backdrop-filter: blur(12px);"
+        },
+        {
+          "file": "src/app/hambuger/page.tsx",
+          "line": 70,
+          "snippet": "<div className=\"hb-blur-bg\" aria-hidden=\"true\" />"
+        },
+        {
+          "file": "src/app/planner/verify/PlannerVerifyClient.tsx",
+          "line": 20,
+          "snippet": "filter: \"brightness(0.35) blur(3px)\","
+        },
+        {
+          "file": "src/app/studio/[[...tool]]/studio.css",
+          "line": 8,
+          "snippet": "backdrop-filter: blur(12px) !important;"
+        },
+        {
+          "file": "src/app/studio/[[...tool]]/studio.css",
+          "line": 9,
+          "snippet": "-webkit-backdrop-filter: blur(12px) !important;"
+        },
+        {
+          "file": "src/components/CrewSetPasswordModal.tsx",
+          "line": 80,
+          "snippet": "filter: \"brightness(0.35) blur(10px)\","
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 203,
+          "snippet": "filter: blur(${settings.videoBlur}px) brightness(${settings.videoBrightness}%) contrast(${settings.videoContrast}%);"
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 204,
+          "snippet": "-webkit-filter: blur(${settings.videoBlur}px) brightness(${settings.videoBrightness}%) contrast(${settings.videoContrast}%);"
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 211,
+          "snippet": "backdrop-filter: blur(${settings.itinBlur}px);"
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 212,
+          "snippet": "-webkit-backdrop-filter: blur(${settings.itinBlur}px);"
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 219,
+          "snippet": "backdrop-filter: blur(${settings.historyBlur}px);"
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 220,
+          "snippet": "-webkit-backdrop-filter: blur(${settings.historyBlur}px);"
+        },
+        {
+          "file": "src/components/GooeyDropdown.tsx",
+          "line": 13,
+          "snippet": "*    layer that has an SVG \"goo\" filter applied (blur -> high-contrast alpha"
+        },
+        {
+          "file": "src/components/GradientText.css",
+          "line": 11,
+          "snippet": "backdrop-filter: blur(10px);"
+        },
+        {
+          "file": "src/components/HeroVideoPlayer.tsx",
+          "line": 641,
+          "snippet": "className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? \"translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter\" : \"blur-0 translate-y-0 scale-[1.43] opacity-100 filter\"}`}"
+        },
+        {
+          "file": "src/components/InputStyleEditor.tsx",
+          "line": 358,
+          "snippet": "backdrop-filter: blur(${settings.blurAmount}px);"
+        },
+        {
+          "file": "src/components/InputStyleEditor.tsx",
+          "line": 359,
+          "snippet": "-webkit-backdrop-filter: blur(${settings.blurAmount}px);"
+        },
+        {
+          "file": "src/components/MemberDashboard.tsx",
+          "line": 576,
+          "snippet": "<div className=\"group-hover:blur-0 absolute top-0 right-0 translate-x-4 -translate-y-4 p-4 opacity-30 blur-[2px] group-hover:opacity-40\">"
+        },
+        {
+          "file": "src/components/MemberDashboard.tsx",
+          "line": 576,
+          "snippet": "<div className=\"group-hover:blur-0 absolute top-0 right-0 translate-x-4 -translate-y-4 p-4 opacity-30 blur-[2px] group-hover:opacity-40\">"
+        },
+        {
+          "file": "src/components/TourMap.tsx",
+          "line": 1079,
+          "snippet": "<div style=\"background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:230px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 3px 9px #00000033; position:relative; text-align:left;\">"
+        },
+        {
+          "file": "src/components/TourMap.tsx",
+          "line": 1079,
+          "snippet": "<div style=\"background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:230px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 3px 9px #00000033; position:relative; text-align:left;\">"
+        },
+        {
+          "file": "src/components/VinylHeroPlayer.tsx",
+          "line": 875,
+          "snippet": "className={`${isPlayerReady ? \"blur-0 pointer-events-auto scale-100 opacity-100\" : \"pointer-events-none scale-95 opacity-0 blur-xs\"}`}"
+        }
+      ]
+    },
+    {
+      "classValue": "blur-3xl",
+      "actualPx": "64px",
+      "type": "Element Blur",
+      "timesUsed": 35,
+      "occurrences": [
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 18167,
+          "snippet": "<div className=\"pointer-events-none absolute top-1/2 left-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-cyan-500/10 to-transparent blur-3xl\" />"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 18170,
+          "snippet": "<div className=\"pointer-events-none absolute top-0 right-0 h-64 w-64 bg-cyan-500/5 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 18392,
+          "snippet": "<div className=\"pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10\" />"
+        },
+        {
+          "file": "src/app/api/dev/planner-dashboard-preview/route.ts",
+          "line": 43,
+          "snippet": "<div class=\"absolute top-0 right-0 w-64 h-64 bg-purple-600/10 rounded-lg blur-3xl pointer-events-none\"></div>"
+        },
+        {
+          "file": "src/app/book/BookClient.tsx",
+          "line": 880,
+          "snippet": "<div className=\"pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.05] blur-3xl\" />"
+        },
+        {
+          "file": "src/app/book/success/page.tsx",
+          "line": 36,
+          "snippet": "<div className=\"pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-emerald-500 opacity-[0.04] blur-3xl\" />"
+        },
+        {
+          "file": "src/app/book/success/page.tsx",
+          "line": 37,
+          "snippet": "<div className=\"pointer-events-none absolute top-1/3 right-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)] opacity-[0.03] blur-3xl\" />"
+        },
+        {
+          "file": "src/app/cruise/[username]/page.tsx",
+          "line": 790,
+          "snippet": "<div className=\"pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)]/5 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/cruise/[username]/page.tsx",
+          "line": 791,
+          "snippet": "<div className=\"pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-lg bg-cyan-500/5 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/cruise/dashboard/page.tsx",
+          "line": 171,
+          "snippet": "<div className=\"pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)]/5 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/cruise/dashboard/page.tsx",
+          "line": 172,
+          "snippet": "<div className=\"pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-lg bg-cyan-500/5 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/cruise/verify/CruiseVerifyClient.tsx",
+          "line": 120,
+          "snippet": "<div className=\"pointer-events-none absolute top-1/3 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/10 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/cruise/verify/CruiseVerifyClient.tsx",
+          "line": 121,
+          "snippet": "<div className=\"pointer-events-none absolute top-2/3 left-1/3 h-[300px] w-[300px] rounded-full bg-indigo-600/10 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/fans/[username]/page.tsx",
+          "line": 638,
+          "snippet": "<div className=\"pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-lg blur-3xl\" />"
+        },
+        {
+          "file": "src/app/fans/[username]/page.tsx",
+          "line": 687,
+          "snippet": "className=\"pointer-events-none absolute top-0 right-0 h-48 w-48 translate-x-1/2 -translate-y-1/2 rounded-lg opacity-10 blur-3xl group-hover:opacity-20\""
+        },
+        {
+          "file": "src/app/fans/[username]/page.tsx",
+          "line": 739,
+          "snippet": "<div className=\"pointer-events-none absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)]/10 blur-3xl group-hover:bg-[var(--color-accent)]/20\" />"
+        },
+        {
+          "file": "src/app/features/page.tsx",
+          "line": 87,
+          "snippet": "<div className=\"absolute top-0 left-1/2 h-[600px] w-[1100px] -translate-x-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.10] blur-3xl\" />"
+        },
+        {
+          "file": "src/app/features/page.tsx",
+          "line": 307,
+          "snippet": "<div className=\"absolute top-1/2 left-1/2 h-[400px] w-[1000px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.07] blur-3xl\" />"
+        },
+        {
+          "file": "src/app/media/MediaClient.tsx",
+          "line": 132,
+          "snippet": "className=\"pointer-events-none absolute top-0 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full opacity-40 blur-3xl\""
+        },
+        {
+          "file": "src/app/not-found.tsx",
+          "line": 7,
+          "snippet": "<div className=\"pointer-events-none absolute top-1/3 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.04] blur-3xl\" />"
+        },
+        {
+          "file": "src/app/planner/PlannerClient.tsx",
+          "line": 411,
+          "snippet": "<div className=\"absolute top-0 right-0 h-64 w-64 rounded-lg bg-purple-600/5 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/rock-and-roll-kids/RockNRollKidsClient.tsx",
+          "line": 588,
+          "snippet": "<div className=\"pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-purple-600/20 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/rock-and-roll-kids/RockNRollKidsClient.tsx",
+          "line": 589,
+          "snippet": "<div className=\"pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-600/15 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/shows/[id]/ShowPageClient.tsx",
+          "line": 561,
+          "snippet": "<div className=\"pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-[var(--color-accent)]/5 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/shows/[id]/ShowPageClient.tsx",
+          "line": 615,
+          "snippet": "<div className=\"pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-red-500/5 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 1945,
+          "snippet": "<div className=\"pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-lg bg-purple-600/10 blur-3xl\" />"
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 1946,
+          "snippet": "<div className=\"pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-lg bg-pink-600/10 blur-3xl\" />"
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 238,
+          "snippet": "<div className=\"absolute -top-12 -left-12 h-32 w-32 rounded-lg bg-[var(--color-accent)]/15 blur-3xl group-hover:bg-[var(--color-accent)]/15\" />"
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 908,
+          "snippet": "className=\"h-[300px] w-[300px] animate-[orbPulse_8s_ease-in-out_infinite] rounded-lg opacity-10 blur-3xl\""
+        },
+        {
+          "file": "src/components/BioParallaxSlider.tsx",
+          "line": 2198,
+          "snippet": "className=\"pointer-events-none absolute inset-x-[-15%] top-[-10%] bottom-[40px] z-[0] origin-center rounded-full mix-blend-screen blur-2xl md:blur-3xl\""
+        },
+        {
+          "file": "src/components/FeaturedTrack.tsx",
+          "line": 416,
+          "snippet": "className=\"pointer-events-none absolute top-1/2 left-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-lg opacity-[0.08] blur-3xl\""
+        },
+        {
+          "file": "src/components/HeroAlbumPlayer.tsx",
+          "line": 90,
+          "snippet": "<div className=\"pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-lg bg-[var(--color-accent)]/20 blur-3xl group-hover:bg-[var(--color-accent)]/30\" />"
+        },
+        {
+          "file": "src/components/PlannerDashboard.tsx",
+          "line": 410,
+          "snippet": "<div className=\"pointer-events-none absolute top-1/3 left-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.03] blur-3xl\" />"
+        },
+        {
+          "file": "src/components/admin/InviteChallengePanel.tsx",
+          "line": 94,
+          "snippet": "<div className=\"pointer-events-none absolute top-0 left-0 h-32 w-64 bg-[var(--color-accent)]/10 blur-3xl\" />"
+        },
+        {
+          "file": "src/components/admin/ReferralProgramPanel.tsx",
+          "line": 155,
+          "snippet": "<div className=\"pointer-events-none absolute top-0 right-0 h-32 w-64 bg-purple-600/10 blur-3xl\" />"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-blur-md",
+      "actualPx": "12px",
+      "type": "Backdrop Blur",
+      "timesUsed": 32,
+      "occurrences": [
+        {
+          "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
+          "line": 1465,
+          "snippet": "<div className=\"fixed inset-0 z-[9999] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-md\">"
+        },
+        {
+          "file": "src/app/cruise/components/CruiseFaqSection.tsx",
+          "line": 46,
+          "snippet": "<div className=\"mx-auto border border-white/20 bg-[#00000029] backdrop-blur-md\">"
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 83,
+          "snippet": "className=\"border-white/20 !bg-black/90 shadow-lg backdrop-blur-md\""
+        },
+        {
+          "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+          "line": 181,
+          "snippet": "className=\"border-white/20 bg-black/90 shadow-lg backdrop-blur-md\""
+        },
+        {
+          "file": "src/app/cruise/components/CruiseShipExplorerSection.tsx",
+          "line": 150,
+          "snippet": "className=\"mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+        },
+        {
+          "file": "src/app/cruise/components/CruiseShipExplorerSection.tsx",
+          "line": 387,
+          "snippet": "className=\"mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+        },
+        {
+          "file": "src/app/cruise/components/CruiseShipExplorerSection.tsx",
+          "line": 659,
+          "snippet": "className=\"mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+        },
+        {
+          "file": "src/app/fan-photo-wall/FanPhotoWallClient.tsx",
+          "line": 431,
+          "snippet": "className=\"flex w-full flex-col justify-between rounded-2xl border border-purple-500/20 p-4 text-left shadow-xl backdrop-blur-md hover:border-purple-400/40\""
+        },
+        {
+          "file": "src/app/fan-photo-wall/FanPhotoWallClient.tsx",
+          "line": 454,
+          "snippet": "<div className=\"absolute top-2.5 right-2.5 border border-white/10 bg-black/80 px-2.5 py-1 backdrop-blur-md\">"
+        },
+        {
+          "file": "src/app/fan-photo-wall/FanPhotoWallClient.tsx",
+          "line": 642,
+          "snippet": "className=\"fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md sm:p-8\""
+        },
+        {
+          "file": "src/app/fan-photo-wall/FanPhotoWallClient.tsx",
+          "line": 725,
+          "snippet": "<div className=\"fixed inset-0 z-[9999] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-md\">"
+        },
+        {
+          "file": "src/app/media/MediaClient.tsx",
+          "line": 628,
+          "snippet": "<span className=\"mb-2 inline-flex shrink-0 items-center justify-center !rounded-lg border border-white/10 bg-white/20 px-3 py-1.5 text-center backdrop-blur-md\">"
+        },
+        {
+          "file": "src/app/media/MediaClient.tsx",
+          "line": 696,
+          "snippet": "className=\"fixed inset-0 z-[999999] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-md sm:p-6 md:p-10\""
+        },
+        {
+          "file": "src/app/media/MediaClient.tsx",
+          "line": 744,
+          "snippet": "<div className=\"fixed inset-0 z-[999999] flex animate-[fade-in_0.15s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-md\">"
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 648,
+          "snippet": "className=\"flex items-center gap-1.5 rounded-lg border border-white/20 bg-black/60 px-3 py-1.5 backdrop-blur-md hover:bg-black/80 hover:text-white\""
+        },
+        {
+          "file": "src/components/CruiseVideoGallery.tsx",
+          "line": 285,
+          "snippet": "className=\"!border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+        },
+        {
+          "file": "src/components/GlassPlayButton.tsx",
+          "line": 82,
+          "snippet": "className={`seventh--btn group relative inline-flex h-15 w-15 cursor-pointer items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-[background-color,border-color,box-shadow,transform,opacity] select-none active:scale-95 ${varStyles.bg} ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? \"ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50\" : \"\"} ${pulse ? \"animate-pulse\" : \"\"} ${disabled ? \"pointer-events-none cursor-not-allowed opacity-40\" : \"hover:scale-105\"} ${className}`}"
+        },
+        {
+          "file": "src/components/HeroUpcomingShows.tsx",
+          "line": 317,
+          "snippet": "<div className=\"absolute right-0 bottom-full z-50 mb-1 min-w-[160px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-md\">"
+        },
+        {
+          "file": "src/components/HomeNewsSection.tsx",
+          "line": 285,
+          "snippet": "<div className=\"animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3 rounded-xl border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md\">"
+        },
+        {
+          "file": "src/components/HomeNewsSection.tsx",
+          "line": 295,
+          "snippet": "<div className=\"animate-fade-in fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md\">"
+        },
+        {
+          "file": "src/components/HomeVideoShowcase.tsx",
+          "line": 776,
+          "snippet": "className=\"absolute top-1/2 left-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95\""
+        },
+        {
+          "file": "src/components/HomeVideoShowcase.tsx",
+          "line": 784,
+          "snippet": "className=\"absolute top-1/2 right-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95\""
+        },
+        {
+          "file": "src/components/HomeVideoShowcase.tsx",
+          "line": 937,
+          "snippet": "<div className=\"animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3 rounded-xl border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md\">"
+        },
+        {
+          "file": "src/components/HomeVideoShowcase.tsx",
+          "line": 947,
+          "snippet": "<div className=\"animate-fade-in fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md\">"
+        },
+        {
+          "file": "src/components/PageTransition.tsx",
+          "line": 1011,
+          "snippet": "className=\"custom-scrollbar pointer-events-auto fixed right-4 bottom-20 z-[99999] flex max-h-[75vh] w-[320px] max-w-[320px] flex-col gap-2 overflow-y-auto overscroll-contain rounded-2xl border border-white/20 bg-black/95 p-3.5 backdrop-blur-md select-none\""
+        },
+        {
+          "file": "src/components/StickyNotesOverlay.tsx",
+          "line": 344,
+          "snippet": "<div className=\"fixed inset-0 z-[100000] flex justify-end bg-black/70 backdrop-blur-md\">"
+        },
+        {
+          "file": "src/components/TourList.tsx",
+          "line": 2322,
+          "snippet": "<div className=\"fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-md\">"
+        },
+        {
+          "file": "src/components/TourMap.tsx",
+          "line": 1583,
+          "snippet": "<div className=\"absolute inset-0 z-[2] flex items-center justify-center bg-purple-950/80 backdrop-blur-md\">"
+        },
+        {
+          "file": "src/components/admin/AdminDashboardSkeleton.tsx",
+          "line": 37,
+          "snippet": "className=\"space-y-3 rounded-xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-md\""
+        },
+        {
+          "file": "src/components/admin/RoleEmailDirectory.tsx",
+          "line": 482,
+          "snippet": "<div className=\"pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-5 [mask-image:linear-gradient(to_top,black_20%,transparent_100%)] backdrop-blur-md [-webkit-mask-image:linear-gradient(to_top,black_20%,transparent_100%)]\" />"
+        },
+        {
+          "file": "src/components/ui/GlassCard.tsx",
+          "line": 12,
+          "snippet": "solid: \"border border-white/10 bg-[#0f0f13] backdrop-blur-md shadow-2xl\","
+        },
+        {
+          "file": "src/components/ui/ModalDialog.tsx",
+          "line": 59,
+          "snippet": "className=\"fixed inset-0 bg-black/70 backdrop-blur-md\""
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-blur",
+      "actualPx": "8px",
+      "type": "Backdrop Blur",
+      "timesUsed": 28,
+      "occurrences": [
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 15437,
+          "snippet": "<div className=\"pointer-events-none absolute top-[50px] right-0 left-0 z-10 h-6 [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] backdrop-blur [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]\" />"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 15438,
+          "snippet": "<div className=\"pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-6 [mask-image:linear-gradient(to_top,black_0%,transparent_100%)] backdrop-blur [-webkit-mask-image:linear-gradient(to_top,black_0%,transparent_100%)]\" />"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 2994,
+          "snippet": "<div className=\"pointer-events-none absolute top-[44px] right-0 left-0 z-10 h-6 [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] backdrop-blur [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]\" />"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 2995,
+          "snippet": "<div className=\"pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-6 [mask-image:linear-gradient(to_top,black_0%,transparent_100%)] backdrop-blur [-webkit-mask-image:linear-gradient(to_top,black_0%,transparent_100%)]\" />"
+        },
+        {
+          "file": "src/app/fans/[username]/page.tsx",
+          "line": 1542,
+          "snippet": "<div className=\"backdrop-blur-2xs absolute inset-0 z-20 flex flex-col justify-between bg-red-950/80 p-3.5 text-left\">"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 1086,
+          "snippet": "will-change on backdrop-blur elements wastes a GPU texture slot per-element"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 1089,
+          "snippet": "[class*=\"backdrop-blur\"] {"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5014,
+          "snippet": "/* Cap heavy backdrop-blur filters on mobile devices to maintain smooth 60fps scrolling */"
+        },
+        {
+          "file": "src/app/live/LiveHubClient.tsx",
+          "line": 779,
+          "snippet": "<SectionBadge className=\"gap-1.5 backdrop-blur\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 3599,
+          "snippet": "<div className=\"/90 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/60 px-3 py-1 backdrop-blur\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 3602,
+          "snippet": "<div className=\"/90 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/60 px-3 py-1 backdrop-blur\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 4853,
+          "snippet": "<span className=\"backdrop-blur-[16px rounded-lg border border-white/10 bg-[#00000029] px-3 py-1\">"
+        },
+        {
+          "file": "src/components/CruiseWidgets.tsx",
+          "line": 220,
+          "snippet": "<div className=\"absolute inset-0 z-10 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur group-hover:opacity-100\">"
+        },
+        {
+          "file": "src/components/GooeyDropdown.tsx",
+          "line": 132,
+          "snippet": "// Translucent background color for glass backdrop-blur"
+        },
+        {
+          "file": "src/components/HeroLiveHub.tsx",
+          "line": 261,
+          "snippet": "<div className=\"overlay-center-hover z-20 bg-black/60 backdrop-blur\">"
+        },
+        {
+          "file": "src/components/HeroUpNextBanner.tsx",
+          "line": 254,
+          "snippet": "<div className=\"flex w-full flex-col gap-2.5 rounded-2xl border border-white/10 p-4 text-left shadow-[0_15px_50px_rgba(0,0,0,0.85)] backdrop-blur-[24px] select-none\">"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 21,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[1] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0)_20%)] backdrop-blur-[1.5px] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0)_20%)]\" />"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 22,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[2] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_15%,rgba(0,0,0,0)_40%)] backdrop-blur-[3px] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_15%,rgba(0,0,0,0)_40%)]\" />"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 23,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[3] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_30%,rgba(0,0,0,0)_65%)] backdrop-blur-[6px] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_30%,rgba(0,0,0,0)_65%)]\" />"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 24,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[4] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_50%,rgba(0,0,0,0)_85%)] backdrop-blur-[12px] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_50%,rgba(0,0,0,0)_85%)]\" />"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 25,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[5] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_70%,rgba(0,0,0,0)_100%)] backdrop-blur-[20px] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_70%,rgba(0,0,0,0)_100%)]\" />"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 35,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[1] [mask-image:linear-gradient(to_top,rgba(0,0,0,1)_0%,rgba(0,0,0,0)_20%)] backdrop-blur-[1.5px] [-webkit-mask-image:linear-gradient(to_top,rgba(0,0,0,1)_0%,rgba(0,0,0,0)_20%)]\" />"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 36,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[2] [mask-image:linear-gradient(to_top,rgba(0,0,0,1)_15%,rgba(0,0,0,0)_40%)] backdrop-blur-[3px] [-webkit-mask-image:linear-gradient(to_top,rgba(0,0,0,1)_15%,rgba(0,0,0,0)_40%)]\" />"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 37,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[3] [mask-image:linear-gradient(to_top,rgba(0,0,0,1)_30%,rgba(0,0,0,0)_65%)] backdrop-blur-[6px] [-webkit-mask-image:linear-gradient(to_top,rgba(0,0,0,1)_30%,rgba(0,0,0,0)_65%)]\" />"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 38,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[4] [mask-image:linear-gradient(to_top,rgba(0,0,0,1)_50%,rgba(0,0,0,0)_85%)] backdrop-blur-[12px] [-webkit-mask-image:linear-gradient(to_top,rgba(0,0,0,1)_50%,rgba(0,0,0,0)_85%)]\" />"
+        },
+        {
+          "file": "src/components/ProgressiveBlur.tsx",
+          "line": 39,
+          "snippet": "<div className=\"pointer-events-none absolute inset-0 z-[5] [mask-image:linear-gradient(to_top,rgba(0,0,0,1)_70%,rgba(0,0,0,0)_100%)] backdrop-blur-[20px] [-webkit-mask-image:linear-gradient(to_top,rgba(0,0,0,1)_70%,rgba(0,0,0,0)_100%)]\" />"
+        },
+        {
+          "file": "src/components/SlideupSection.tsx",
+          "line": 407,
+          "snippet": "<span className=\"su-thumb-badge mb-2 inline-block rounded-[6px] border border-white/30 bg-white/20 px-3 py-[5px] text-[0.75rem] tracking-[0.08em] backdrop-blur-[12px]\">"
+        },
+        {
+          "file": "src/components/TourList.tsx",
+          "line": 1647,
+          "snippet": "className=\"sort-bar-bg pointer-events-none absolute -top-3 right-1/2 -bottom-3 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen bg-black/20 opacity-0 backdrop-blur-[24px]\""
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-blur-sm",
+      "actualPx": "4px",
+      "type": "Backdrop Blur",
+      "timesUsed": 27,
+      "occurrences": [
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 158,
+          "snippet": "className=\"hover:text-whitebg-black-80 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 179,
+          "snippet": "className=\"hover:text-whitebg-red-600 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+          "line": 17705,
+          "snippet": "<span className=\"pointer-events-none absolute -right-1 -bottom-1 z-10 rounded-full border border-purple-400/50 bg-purple-600/70 px-2 py-0.5 text-[9px] text-purple-200 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 881,
+          "snippet": "className=\"flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm hover:bg-black/80 hover:text-white\""
+        },
+        {
+          "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+          "line": 905,
+          "snippet": "className=\"flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm hover:bg-red-600 hover:text-white\""
+        },
+        {
+          "file": "src/app/features/components/FeatureCardUI.tsx",
+          "line": 59,
+          "snippet": "className={`rounded-lg border px-2.5 py-1 backdrop-blur-sm ${isPurple ? \"border-[#851DEF]/50 bg-[var(--color-accent)]/30\" : \"border-white/10 bg-black/50\"}`}"
+        },
+        {
+          "file": "src/app/merch/page.tsx",
+          "line": 353,
+          "snippet": "<header className=\"sticky top-[95px] z-20 border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/app/preloaders/page.tsx",
+          "line": 44,
+          "snippet": "<div className=\"pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-4 py-2 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/AudioPlayer.tsx",
+          "line": 1107,
+          "snippet": "<div className=\"flex h-7 w-7 transform items-center justify-center rounded-lg border border-white bg-black/30 backdrop-blur-sm group-hover:scale-110\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 5707,
+          "snippet": "<div className=\"absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 5759,
+          "snippet": "<div className=\"animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/CrewDashboard/index.tsx",
+          "line": 5815,
+          "snippet": "<div className=\"animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/CruiseChat.tsx",
+          "line": 847,
+          "snippet": "<span className=\"absolute -right-1 -bottom-1 rounded-full border border-purple-400/50 bg-purple-600/70 px-1.5 py-0.5 text-[7px] text-purple-200 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/CruiseSnakeItinerary.tsx",
+          "line": 1084,
+          "snippet": "<div className=\"space-y-1.5 border border-white/10 bg-black/30 p-3 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/CruiseWidgets.tsx",
+          "line": 913,
+          "snippet": "className=\"absolute inset-0 border-0 bg-black/70 backdrop-blur-sm\""
+        },
+        {
+          "file": "src/components/FakeLiveStream/RaffleClaimModal.tsx",
+          "line": 56,
+          "snippet": "<div className=\"pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1752,
+          "snippet": "<span className=\"absolute -right-1 -bottom-1 rounded-full border border-purple-400/50 bg-purple-600/70 px-1.5 py-0.5 text-[8px] text-[var(--color-accent)] text-purple-200 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 4400,
+          "snippet": "<div className=\"pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/FanUploadForm.tsx",
+          "line": 411,
+          "snippet": "<div className=\"absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/HeroLiveThumbs.tsx",
+          "line": 272,
+          "snippet": "<div className=\"absolute top-3.5 right-3.5 flex items-center gap-1 rounded-lg bg-black/70 px-2 py-0.5 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/HomeMerch.tsx",
+          "line": 295,
+          "snippet": "<span className=\"absolute top-2 right-2 rounded bg-red-500/80 px-2 py-0.5 text-[var(--font-size-2xs)] backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/HomeNewsSection.tsx",
+          "line": 258,
+          "snippet": "className=\"fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm\""
+        },
+        {
+          "file": "src/components/PlannerDashboard.tsx",
+          "line": 599,
+          "snippet": "className=\"fixed inset-0 h-full w-full cursor-default border-0 bg-black/70 backdrop-blur-sm\""
+        },
+        {
+          "file": "src/components/TourList.tsx",
+          "line": 2679,
+          "snippet": "className=\"fixed inset-0 z-[99999] flex cursor-default items-center justify-center bg-black/80 backdrop-blur-sm\""
+        },
+        {
+          "file": "src/components/VideoSection.tsx",
+          "line": 93,
+          "snippet": "<div className=\"r absolute right-2 bottom-2 z-[3] rounded-[2px] bg-black/80 px-1.5 py-0.5 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/VideoSection.tsx",
+          "line": 237,
+          "snippet": "<div className=\"r absolute right-3 bottom-3 z-[3] rounded bg-black/80 px-2 py-1 backdrop-blur-sm\">"
+        },
+        {
+          "file": "src/components/VideoSection.tsx",
+          "line": 379,
+          "snippet": "<div className=\"r absolute right-2 bottom-2 z-[3] rounded-[2px] bg-black/80 px-1.5 py-0.5 backdrop-blur-sm\">"
+        }
+      ]
+    },
+    {
+      "classValue": "backdropFilter: \"blur(24px)\"",
+      "actualPx": "24px",
+      "type": "Backdrop Blur",
+      "timesUsed": 16,
+      "occurrences": [
+        {
+          "file": "src/app/admin/page.tsx",
+          "line": 13,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/admin/page.tsx",
+          "line": 433,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/crew/verify/CrewVerifyClient.tsx",
+          "line": 58,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/planner/verify/PlannerVerifyClient.tsx",
+          "line": 597,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3444,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3537,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3664,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3762,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3866,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 4030,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 5098,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 5155,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 6744,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/components/CrewSetPasswordModal.tsx",
+          "line": 102,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/components/LoginModal.tsx",
+          "line": 857,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/components/TourList.tsx",
+          "line": 1650,
+          "snippet": "backdropFilter: \"blur(24px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "BackdropFilter: \"blur(24px)\"",
+      "actualPx": "24px",
+      "type": "Backdrop Blur",
+      "timesUsed": 16,
+      "occurrences": [
+        {
+          "file": "src/app/admin/page.tsx",
+          "line": 14,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/admin/page.tsx",
+          "line": 434,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/crew/verify/CrewVerifyClient.tsx",
+          "line": 59,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/planner/verify/PlannerVerifyClient.tsx",
+          "line": 598,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3445,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3538,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3665,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3763,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 3867,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 4031,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 5099,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 5156,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/app/style-guide/page.tsx",
+          "line": 6745,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/components/CrewSetPasswordModal.tsx",
+          "line": 103,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/components/LoginModal.tsx",
+          "line": 858,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        },
+        {
+          "file": "src/components/TourList.tsx",
+          "line": 1649,
+          "snippet": "WebkitBackdropFilter: \"blur(24px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(20px)",
+      "actualPx": "20px",
+      "type": "Backdrop Blur",
+      "timesUsed": 14,
+      "occurrences": [
+        {
+          "file": "src/app/globals.css",
+          "line": 2040,
+          "snippet": "backdrop-filter: blur(20px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 2041,
+          "snippet": "-webkit-backdrop-filter: blur(20px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4135,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4136,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4144,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4145,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4154,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4155,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4165,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4166,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4175,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4176,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4186,
+          "snippet": "backdrop-filter: blur(20px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4187,
+          "snippet": "-webkit-backdrop-filter: blur(20px) !important;"
+        }
+      ]
+    },
+    {
+      "classValue": "backdropFilter: \"blur(8px)\"",
+      "actualPx": "8px",
+      "type": "Backdrop Blur",
+      "timesUsed": 6,
+      "occurrences": [
+        {
+          "file": "src/app/live/LiveHubClient.tsx",
+          "line": 791,
+          "snippet": "backdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/app/live/LiveHubClient.tsx",
+          "line": 807,
+          "snippet": "backdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1848,
+          "snippet": "backdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1881,
+          "snippet": "backdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1898,
+          "snippet": "backdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1918,
+          "snippet": "backdropFilter: \"blur(8px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "BackdropFilter: \"blur(8px)\"",
+      "actualPx": "8px",
+      "type": "Backdrop Blur",
+      "timesUsed": 6,
+      "occurrences": [
+        {
+          "file": "src/app/live/LiveHubClient.tsx",
+          "line": 792,
+          "snippet": "WebkitBackdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/app/live/LiveHubClient.tsx",
+          "line": 808,
+          "snippet": "WebkitBackdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1849,
+          "snippet": "WebkitBackdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1882,
+          "snippet": "WebkitBackdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1899,
+          "snippet": "WebkitBackdropFilter: \"blur(8px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1919,
+          "snippet": "WebkitBackdropFilter: \"blur(8px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(8px)",
+      "actualPx": "8px",
+      "type": "Backdrop Blur",
+      "timesUsed": 4,
+      "occurrences": [
+        {
+          "file": "src/app/globals.css",
+          "line": 4193,
+          "snippet": "backdrop-filter: blur(8px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 4194,
+          "snippet": "-webkit-backdrop-filter: blur(8px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5018,
+          "snippet": "backdrop-filter: blur(8px) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5019,
+          "snippet": "-webkit-backdrop-filter: blur(8px) !important;"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(12px)",
+      "actualPx": "12px",
+      "type": "Backdrop Blur",
+      "timesUsed": 4,
+      "occurrences": [
+        {
+          "file": "src/app/globals.css",
+          "line": 5648,
+          "snippet": "backdrop-filter: blur(12px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5649,
+          "snippet": "-webkit-backdrop-filter: blur(12px);"
+        },
+        {
+          "file": "src/app/studio/[[...tool]]/studio.css",
+          "line": 8,
+          "snippet": "backdrop-filter: blur(12px) !important;"
+        },
+        {
+          "file": "src/app/studio/[[...tool]]/studio.css",
+          "line": 9,
+          "snippet": "-webkit-backdrop-filter: blur(12px) !important;"
+        }
+      ]
+    },
+    {
+      "classValue": "backdropFilter: \"blur(12px)\"",
+      "actualPx": "12px",
+      "type": "Backdrop Blur",
+      "timesUsed": 4,
+      "occurrences": [
+        {
+          "file": "src/components/CrewSetPasswordModal.tsx",
+          "line": 91,
+          "snippet": "backdropFilter: \"blur(12px)\","
+        },
+        {
+          "file": "src/components/CustomScrollbar.tsx",
+          "line": 288,
+          "snippet": "backdropFilter: \"blur(12px)\","
+        },
+        {
+          "file": "src/components/CustomScrollbar.tsx",
+          "line": 316,
+          "snippet": "backdropFilter: \"blur(12px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1650,
+          "snippet": "backdropFilter: \"blur(12px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "BackdropFilter: \"blur(12px)\"",
+      "actualPx": "12px",
+      "type": "Backdrop Blur",
+      "timesUsed": 4,
+      "occurrences": [
+        {
+          "file": "src/components/CrewSetPasswordModal.tsx",
+          "line": 92,
+          "snippet": "WebkitBackdropFilter: \"blur(12px)\","
+        },
+        {
+          "file": "src/components/CustomScrollbar.tsx",
+          "line": 289,
+          "snippet": "WebkitBackdropFilter: \"blur(12px)\","
+        },
+        {
+          "file": "src/components/CustomScrollbar.tsx",
+          "line": 317,
+          "snippet": "WebkitBackdropFilter: \"blur(12px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 1651,
+          "snippet": "WebkitBackdropFilter: \"blur(12px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-blur-3xl",
+      "actualPx": "64px",
+      "type": "Backdrop Blur",
+      "timesUsed": 3,
+      "occurrences": [
+        {
+          "file": "src/app/globals.css",
+          "line": 5017,
+          "snippet": ".backdrop-blur-3xl {"
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 217,
+          "snippet": "className={`group rounded-lg border border-white/10 bg-white/[0.04] p-8 backdrop-blur-3xl hover:bg-white/[0.08] ${i === 0 ? \"md:col-span-2\" : \"\"}`}"
+        },
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 479,
+          "snippet": "className=\"group rounded-lg border border-white/10 bg-white/[0.03] p-8 backdrop-blur-3xl hover:border-[var(--color-accent)]/20 hover:bg-white/[0.07]\""
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(var(--input-blur, 24px)",
+      "actualPx": "var(--input-blur, 24px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/app/globals.css",
+          "line": 782,
+          "snippet": "backdrop-filter: blur(var(--input-blur, 24px));"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 783,
+          "snippet": "-webkit-backdrop-filter: blur(var(--input-blur, 24px));"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(var(--input-blur)",
+      "actualPx": "var(--input-blur",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/app/globals.css",
+          "line": 859,
+          "snippet": "backdrop-filter: blur(var(--input-blur)) !important;"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 860,
+          "snippet": "-webkit-backdrop-filter: blur(var(--input-blur)) !important;"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(16px)",
+      "actualPx": "16px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/app/globals.css",
+          "line": 1112,
+          "snippet": "backdrop-filter: blur(16px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 1113,
+          "snippet": "-webkit-backdrop-filter: blur(16px);"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(18px)",
+      "actualPx": "18px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/app/globals.css",
+          "line": 3835,
+          "snippet": "backdrop-filter: blur(18px);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 3836,
+          "snippet": "-webkit-backdrop-filter: blur(18px);"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(24px)",
+      "actualPx": "24px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/app/globals.css",
+          "line": 5310,
+          "snippet": "backdrop-filter: blur(24px) saturate(180%);"
+        },
+        {
+          "file": "src/app/globals.css",
+          "line": 5311,
+          "snippet": "-webkit-backdrop-filter: blur(24px) saturate(180%);"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(${settings.itinBlur}px)",
+      "actualPx": "${settings.itinBlur}px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 211,
+          "snippet": "backdrop-filter: blur(${settings.itinBlur}px);"
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 212,
+          "snippet": "-webkit-backdrop-filter: blur(${settings.itinBlur}px);"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(${settings.historyBlur}px)",
+      "actualPx": "${settings.historyBlur}px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 219,
+          "snippet": "backdrop-filter: blur(${settings.historyBlur}px);"
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 220,
+          "snippet": "-webkit-backdrop-filter: blur(${settings.historyBlur}px);"
+        }
+      ]
+    },
+    {
+      "classValue": "backdropFilter: \"blur(45px)\"",
+      "actualPx": "45px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/CruiseVideoGallery.tsx",
+          "line": 311,
+          "snippet": "backdropFilter: \"blur(45px)\","
+        },
+        {
+          "file": "src/components/CustomYTPlayer.tsx",
+          "line": 272,
+          "snippet": "backdropFilter: \"blur(45px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "BackdropFilter: \"blur(45px)\"",
+      "actualPx": "45px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/CruiseVideoGallery.tsx",
+          "line": 312,
+          "snippet": "WebkitBackdropFilter: \"blur(45px)\","
+        },
+        {
+          "file": "src/components/CustomYTPlayer.tsx",
+          "line": 273,
+          "snippet": "WebkitBackdropFilter: \"blur(45px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "backdropFilter: \"blur(16px)\"",
+      "actualPx": "16px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 2265,
+          "snippet": "backdropFilter: \"blur(16px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 3913,
+          "snippet": "backdropFilter: \"blur(16px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "BackdropFilter: \"blur(16px)\"",
+      "actualPx": "16px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 2266,
+          "snippet": "WebkitBackdropFilter: \"blur(16px)\","
+        },
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 3914,
+          "snippet": "WebkitBackdropFilter: \"blur(16px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "backdropFilter: `blur(${backdropBlur}px)",
+      "actualPx": "${backdropBlur}px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/GooeyDropdown.tsx",
+          "line": 234,
+          "snippet": "backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,"
+        },
+        {
+          "file": "src/components/GooeyDropdown.tsx",
+          "line": 255,
+          "snippet": "backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,"
+        }
+      ]
+    },
+    {
+      "classValue": "BackdropFilter: `blur(${backdropBlur}px)",
+      "actualPx": "${backdropBlur}px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/GooeyDropdown.tsx",
+          "line": 235,
+          "snippet": "WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,"
+        },
+        {
+          "file": "src/components/GooeyDropdown.tsx",
+          "line": 256,
+          "snippet": "WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(${settings.blurAmount}px)",
+      "actualPx": "${settings.blurAmount}px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/InputStyleEditor.tsx",
+          "line": 358,
+          "snippet": "backdrop-filter: blur(${settings.blurAmount}px);"
+        },
+        {
+          "file": "src/components/InputStyleEditor.tsx",
+          "line": 359,
+          "snippet": "-webkit-backdrop-filter: blur(${settings.blurAmount}px);"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter:blur(16px)",
+      "actualPx": "16px",
+      "type": "Backdrop Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/TourMap.tsx",
+          "line": 1079,
+          "snippet": "<div style=\"background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:230px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 3px 9px #00000033; position:relative; text-align:left;\">"
+        },
+        {
+          "file": "src/components/TourMap.tsx",
+          "line": 1079,
+          "snippet": "<div style=\"background:rgba(8, 8, 18, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); color:white; padding:12px 16px; width:max-content; min-width:230px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 3px 9px #00000033; position:relative; text-align:left;\">"
+        }
+      ]
+    },
+    {
+      "classValue": "blur-2xl",
+      "actualPx": "40px",
+      "type": "Element Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/AccomplishmentsLayouts.tsx",
+          "line": 129,
+          "snippet": "<div className=\"absolute top-0 right-0 h-24 w-24 rounded-lg blur-2xl group-hover:bg-cyan-500/20\" />"
+        },
+        {
+          "file": "src/components/BioParallaxSlider.tsx",
+          "line": 2198,
+          "snippet": "className=\"pointer-events-none absolute inset-x-[-15%] top-[-10%] bottom-[40px] z-[0] origin-center rounded-full mix-blend-screen blur-2xl md:blur-3xl\""
+        }
+      ]
+    },
+    {
+      "classValue": "filter: blur(${settings.videoBlur}px)",
+      "actualPx": "${settings.videoBlur}px",
+      "type": "Element Blur",
+      "timesUsed": 2,
+      "occurrences": [
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 203,
+          "snippet": "filter: blur(${settings.videoBlur}px) brightness(${settings.videoBrightness}%) contrast(${settings.videoContrast}%);"
+        },
+        {
+          "file": "src/components/CruiseHeroMaskEditor.tsx",
+          "line": 204,
+          "snippet": "-webkit-filter: blur(${settings.videoBlur}px) brightness(${settings.videoBrightness}%) contrast(${settings.videoContrast}%);"
+        }
+      ]
+    },
+    {
+      "classValue": "backdropFilter: \"blur(4px)\"",
+      "actualPx": "4px",
+      "type": "Backdrop Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/app/planner/verify/PlannerVerifyClient.tsx",
+          "line": 31,
+          "snippet": "backdropFilter: \"blur(4px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "BackdropFilter: \"blur(4px)\"",
+      "actualPx": "4px",
+      "type": "Backdrop Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/app/planner/verify/PlannerVerifyClient.tsx",
+          "line": 32,
+          "snippet": "WebkitBackdropFilter: \"blur(4px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "backdropFilter: \"blur(14px)\"",
+      "actualPx": "14px",
+      "type": "Backdrop Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 2390,
+          "snippet": "backdropFilter: \"blur(14px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "BackdropFilter: \"blur(14px)\"",
+      "actualPx": "14px",
+      "type": "Backdrop Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/components/FakeLiveStream/index.tsx",
+          "line": 2391,
+          "snippet": "WebkitBackdropFilter: \"blur(14px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-filter: blur(10px)",
+      "actualPx": "10px",
+      "type": "Backdrop Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/components/GradientText.css",
+          "line": 11,
+          "snippet": "backdrop-filter: blur(10px);"
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-blur-xs",
+      "actualPx": "2px",
+      "type": "Backdrop Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/components/Header.tsx",
+          "line": 759,
+          "snippet": "<div className=\"absolute inset-0 z-20 flex items-center justify-center rounded-full bg-black/75 backdrop-blur-xs\">"
+        }
+      ]
+    },
+    {
+      "classValue": "backdropFilter: \"blur(21px)\"",
+      "actualPx": "21px",
+      "type": "Backdrop Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/components/Header.tsx",
+          "line": 904,
+          "snippet": "backdropFilter: \"blur(21px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "BackdropFilter: \"blur(21px)\"",
+      "actualPx": "21px",
+      "type": "Backdrop Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/components/Header.tsx",
+          "line": 905,
+          "snippet": "WebkitBackdropFilter: \"blur(21px)\","
+        }
+      ]
+    },
+    {
+      "classValue": "backdrop-blur-lg",
+      "actualPx": "16px",
+      "type": "Backdrop Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/components/VideoSection.tsx",
+          "line": 288,
+          "snippet": "className={`sticky top-[72px] z-30 mb-8 ${navStuck ? \"border-b border-white/10 backdrop-blur-lg\" : \"\"}`}"
+        }
+      ]
+    },
+    {
+      "classValue": "blur-sm",
+      "actualPx": "4px",
+      "type": "Element Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/components/HeroVideoPlayer.tsx",
+          "line": 641,
+          "snippet": "className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? \"translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter\" : \"blur-0 translate-y-0 scale-[1.43] opacity-100 filter\"}`}"
+        }
+      ]
+    },
+    {
+      "classValue": "blur-xs",
+      "actualPx": "2px",
+      "type": "Element Blur",
+      "timesUsed": 1,
+      "occurrences": [
+        {
+          "file": "src/components/VinylHeroPlayer.tsx",
+          "line": 875,
+          "snippet": "className={`${isPlayerReady ? \"blur-0 pointer-events-auto scale-100 opacity-100\" : \"pointer-events-none scale-95 opacity-0 blur-xs\"}`}"
+        }
+      ]
+    }
+  ]
+}

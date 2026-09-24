@@ -81,24 +81,20 @@ export default function HeaderMaskEditor() {
       <button
         aria-label="Toggle Header Mask Controls"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex cursor-pointer items-center gap-2 rounded-lg border border-purple-500/40 bg-black/90 px-4 py-2.5 backdrop-blur-[45px] transition-all duration-300 hover:bg-purple-950/90"
+        className="flex cursor-pointer items-center gap-2 rounded-lg border border-purple-500/40 bg-black/90 px-4 py-2.5 backdrop-blur-2xl hover:bg-purple-950/90"
       >
         <span className="text-purple-400">🎛️</span>
         <span>Header Mask UI</span>
-        <span
-          className={`text-[10px] text-purple-300 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-        >
-          ▲
-        </span>
+        <span className={`text-[10px] ${isOpen ? "rotate-180" : ""}`}>▲</span>
       </button>
 
       {/* Control Drawer Panel */}
       {isOpen && (
-        <div className="bg-[#090514]/95backdrop-blur-[18px] animate-in fade-in slide-in-from-bottom-3 custom-scrollbar absolute right-0 bottom-14 flex max-h-[85vh] w-80 flex-col gap-4 overflow-y-auto rounded-lg border border-purple-500/30 p-5 duration-200 sm:w-96">
+        <div className="bg-[#090514]/95backdrop-blur-xl animate-in fade-in slide-in-from-bottom-3 custom-scrollbar absolute right-0 bottom-14 flex max-h-[85vh] w-80 flex-col gap-4 overflow-y-auto rounded-lg border border-purple-500/30 p-5 sm:w-96">
           <div className="flex items-center justify-between border-b border-purple-900/40 pb-3">
             <div>
               <h3 className="text-purple-200">Header Mask Gradient Editor</h3>
-              <p className="text-purple-300/70">
+              <p className="/70">
                 Live mask gradient, height, blur & opacity control
               </p>
             </div>
@@ -136,7 +132,7 @@ export default function HeaderMaskEditor() {
           {/* Quick Presets */}
           <div className="flex flex-col gap-1.5">
             <label className="text-[10px]">Presets</label>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
+            <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() =>
                   applyPreset({
@@ -148,7 +144,7 @@ export default function HeaderMaskEditor() {
                     maskMode: "linear",
                   })
                 }
-                className="cursor-pointer rounded-lg border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left transition-colors hover:bg-purple-800/80"
+                className="cursor-pointer rounded-lg border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
               >
                 ⚡ Standard 228px
               </button>
@@ -163,7 +159,7 @@ export default function HeaderMaskEditor() {
                     maskMode: "ease",
                   })
                 }
-                className="cursor-pointer rounded-lg border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left transition-colors hover:bg-purple-800/80"
+                className="cursor-pointer rounded-lg border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
               >
                 ✨ Ultra Glass
               </button>
@@ -178,7 +174,7 @@ export default function HeaderMaskEditor() {
                     maskMode: "linear",
                   })
                 }
-                className="cursor-pointer rounded-lg border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left transition-colors hover:bg-purple-800/80"
+                className="cursor-pointer rounded-lg border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
               >
                 🌊 Soft Fade
               </button>
@@ -193,7 +189,7 @@ export default function HeaderMaskEditor() {
                     maskMode: "sharp",
                   })
                 }
-                className="cursor-pointer rounded-lg border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left transition-colors hover:bg-purple-800/80"
+                className="cursor-pointer rounded-lg border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
               >
                 ⬛ Solid Dark
               </button>
@@ -303,7 +299,7 @@ export default function HeaderMaskEditor() {
           {/* Reset Button */}
           <button
             onClick={() => setSettings(DEFAULT_SETTINGS)}
-            className="w-full cursor-pointer rounded-lg border border-white/10 bg-purple-950/40 py-2 text-purple-300 transition-colors hover:bg-purple-900/60 hover:text-white"
+            className="w-full cursor-pointer rounded-lg border border-white/10 bg-purple-950/40 py-2 hover:bg-purple-900/60 hover:text-white"
           >
             Reset Defaults
           </button>

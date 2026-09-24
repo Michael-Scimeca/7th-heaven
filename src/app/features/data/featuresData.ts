@@ -1166,7 +1166,7 @@ export const FEATURES: FeatureCard[] = [
       "Email newsletters drive more ticket sales and merch purchases than any social media post. Having the capability built directly into the admin panel means the band can communicate instantly without learning Mailchimp or Klaviyo.",
     bullets: [
       "Admin composes subject line and body content directly in the /admin dashboard",
-      "Rich text formatting: bold, italic, links, and line breaks supported",
+      "Rich text formatting: bold,  , links, and line breaks supported",
       "One click sends to: all Supabase profiles (registered fans) + all newsletter_subscribers (email-only signups)",
       "Branded Newsletter Blast template: 7th Heaven logo, colors, unsubscribe link",
       "Delivery handled by Resend — reliable infrastructure with bounce handling",
@@ -1349,7 +1349,7 @@ export const FEATURES: FeatureCard[] = [
       "IP cleanup: the rate limiter Map is pruned when it exceeds 500 entries to prevent memory leaks",
       "Role enforcement: client-supplied roles (sender_role, etc.) are ignored — server always assigns from the database",
       "Input type validation: typeof checks on every field before any database interaction",
-      "Length limits: all string inputs truncated to safe lengths before storage",
+      "Length limits: all string inputs  d to safe lengths before storage",
       "XSS sanitization: strips <>, {}, javascript: protocol injections, onXxx= event handlers",
       "Spam detection: URL blocking, repeated-character detection, emoji flood detection",
       "Room allowlist: only 'live_*' and 'cruise_*' chat room names accepted — prevents writing to arbitrary tables",

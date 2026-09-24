@@ -31,7 +31,7 @@ const SECTIONS: ComplianceSection[] = [
     title: "SMS Marketing (TCPA & CTIA)",
     subtitle:
       "Federal regulations on text messaging, quiet hours & opt-out rules",
-    color: "text-purple-300",
+    color: " ",
     borderColor: "border-purple-500/30",
     icon: (
       <svg
@@ -478,13 +478,11 @@ export default function AdminLegalPage() {
           <div className="flex shrink-0 flex-col items-stretch gap-4 sm:flex-row sm:items-center">
             {/* Pass Rate Gauge Box */}
             <div className="flex items-center gap-4 rounded-lg border border-purple-500/30 bg-[#141422] p-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-purple-400/40 bg-purple-600/20 text-lg text-purple-300">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-purple-400/40 bg-purple-600/20">
                 {passPercentage}%
               </div>
               <div>
-                <div className="text-[10px] text-purple-300">
-                  Compliance Status
-                </div>
+                <div className="text-[10px]">Compliance Status</div>
                 <div className="mt-0.5 flex items-center gap-1 text-emerald-400">
                   <span>✓</span> {completedChecksCount} of {totalChecks}{" "}
                   Inspections Passed
@@ -494,7 +492,7 @@ export default function AdminLegalPage() {
 
             <Link
               href="/admin/admin"
-              className="rounded-lg border border-white/10 bg-[#00000029] px-5 py-3 text-center transition-colors hover:bg-white/10 hover:text-white"
+              className="rounded-lg border border-white/10 bg-[#00000029] px-5 py-3 text-center hover:bg-white/10 hover:text-white"
             >
               ← Back to Admin
             </Link>
@@ -523,7 +521,7 @@ export default function AdminLegalPage() {
                   className={`flex w-full cursor-pointer items-center justify-between rounded-lg border p-4 text-left transition-[border-color,background-color,color,box-shadow] duration-200 ${
                     isSelected
                       ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)]`
-                      : `border-white/10 bg-[#00000029] bg-white/[0.02] text-white/70`
+                      : `border-white/10 bg-[#00000029] bg-white/[0.02]`
                   }`}
                 >
                   <div className="flex items-center gap-3.5">
@@ -548,7 +546,7 @@ export default function AdminLegalPage() {
 
             {/* Legal Disclaimer Box */}
             <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.02] p-5">
-              <span className="mb-1.5 block text-[0.9rem] text-purple-300">
+              <span className="mb-1.5 block text-[0.9rem]">
                 ⚖️ Legal Inspection Note
               </span>
               <p>
@@ -562,10 +560,10 @@ export default function AdminLegalPage() {
 
           {/* Right Detailed Inspection Panel */}
           <div
-            className={`rounded-lg border bg-white/[0.01] p-8 transition-colors duration-300 lg:p-10 ${active.borderColor} shadow-2xl`}
+            className={`rounded-lg border bg-white/[0.01] p-8 lg:p-10 ${active.borderColor} shadow-2xl`}
           >
             {/* Active Header Info */}
-            <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
+            <div className="mb-6 flex flex-wrap items-start justify-between gap-4 border-b border-white/10 pb-6">
               <div className="flex items-center gap-4">
                 <div
                   className={`rounded-lg bg-[#00000029] p-4 ${active.color} shrink-0`}
@@ -586,7 +584,7 @@ export default function AdminLegalPage() {
 
             {/* Compliance Context & Legal Rationale Box */}
             <div className="mb-8 rounded-lg border border-purple-500/30 bg-purple-950/20 p-5">
-              <span className="mb-2 block text-purple-300">
+              <span className="mb-2 block">
                 📜 Regulatory Context & Legal Mandate
               </span>
               <p>{active.explanation}</p>
@@ -606,7 +604,7 @@ export default function AdminLegalPage() {
                 return (
                   <div
                     key={req.id}
-                    className={`rounded-lg border p-5 transition-[background-color,border-color] duration-200 ${isChecked ? "border-white/10 bg-white/[0.02]" : "border-rose-500/30 bg-rose-950/10"}`}
+                    className={`rounded-lg border p-5 transition-[background-color,border-color] ${isChecked ? "border-white/10 bg-white/[0.02]" : "border-rose-500/30 bg-rose-950/10"}`}
                   >
                     <div className="mb-2 flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
@@ -620,7 +618,7 @@ export default function AdminLegalPage() {
                         </div>
                         <div>
                           <h4
-                            className={`transition-colors ${isChecked ? " " : "text-rose-200"}`}
+                            className={` ${isChecked ? " " : "text-rose-200"}`}
                           >
                             {req.title}
                           </h4>
@@ -645,7 +643,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.verifiedProof && (
-                        <span className="flex shrink-0 items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1 text-[10px] text-purple-300">
+                        <span className="flex shrink-0 items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1 text-[10px]">
                           <span>🔒</span> {req.verifiedProof}
                         </span>
                       )}

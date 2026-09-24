@@ -63,7 +63,7 @@ loadFont({
   url: staticFile("font.woff2"), // Required: font file URL
   format: "woff2", // Optional: auto-detected from extension
   weight: "400", // Optional: font weight
-  style: "normal", // Optional: normal or italic
+  style: "normal", // Optional: normal or  
   display: "block", // Optional: font-display behavior
 });
 ```

@@ -102,14 +102,14 @@ export default function BehindTheScenes({
               {/* Play CTA */}
               <button
                 onClick={() => setPlayingId(featured.id)}
-                className="group inline-flex cursor-pointer items-center gap-3 bg-white px-8 py-4 transition-colors duration-300 hover:bg-[var(--color-accent)] hover:text-white"
+                className="group inline-flex cursor-pointer items-center gap-3 bg-white px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white"
               >
                 <svg
                   width="14"
                   height="16"
                   viewBox="0 0 20 22"
                   fill="none"
-                  className="transition-colors"
+                  className=""
                 >
                   <path
                     d="M19 11L1 21V1L19 11Z"
@@ -127,7 +127,7 @@ export default function BehindTheScenes({
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="transition-transform group-hover:translate-x-1"
+                  className="group-hover:translate-x-1"
                 >
                   <line x1="7" y1="17" x2="17" y2="7" />
                   <polyline points="7 7 17 7 17 17" />
@@ -170,13 +170,13 @@ export default function BehindTheScenes({
                         unoptimized
                         src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
                         alt={video.title}
-                        className="absolute inset-0 z-[1] h-full w-full object-cover grayscale transition-colors duration-500 group-hover:grayscale-0"
+                        className="absolute inset-0 z-[1] h-full w-full object-cover grayscale group-hover:grayscale-0"
                         loading="lazy"
                         onError={(e) => {
                           e.currentTarget.src = "/images/video-placeholder.jpg";
                         }}
                       />
-                      <div className="absolute inset-0 z-[2] bg-black/30 transition-colors duration-300 group-hover:bg-black/10" />
+                      <div className="absolute inset-0 z-[2] bg-black/30 group-hover:bg-black/10" />
                       <div className="absolute top-4 right-4 z-[3]">
                         <SeventhButton
                           icon={false}

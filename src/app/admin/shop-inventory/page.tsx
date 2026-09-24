@@ -159,7 +159,7 @@ export default function ShopInventoryAdminPage() {
       <div className="site-container mx-auto max-w-5xl px-6">
         <Link
           href="/payment-test"
-          className="mb-6 flex items-center gap-2 text-purple-400 transition-colors hover:text-white"
+          className="mb-6 flex items-center gap-2 text-purple-400 hover:text-white"
         >
           ← Back to Shop
         </Link>
@@ -178,7 +178,7 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setShowAddProduct(true)}
-            className="rounded-lg bg-[var(--color-accent)] px-4 py-2.5 transition-colors hover:bg-[var(--color-accent)]/80"
+            className="rounded-lg bg-[var(--color-accent)] px-4 py-2.5 hover:bg-[var(--color-accent)]/80"
           >
             + Add Product
           </button>
@@ -188,14 +188,14 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`rounded-lg px-4 py-2 transition-colors ${activeTab === "products" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+            className={`rounded-lg px-4 py-2 ${activeTab === "products" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
           >
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`rounded-lg px-4 py-2 transition-colors ${activeTab === "orders" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+            className={`rounded-lg px-4 py-2 ${activeTab === "orders" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
           >
             Orders ({orders.length})
           </button>
@@ -319,14 +319,12 @@ function ProductRow({
           )}
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className="truncate">{product.title}</h3>
+              <h3>{product.title}</h3>
               <span className="rounded bg-[#00000029] px-2 py-0.5 text-[10px] text-white/40">
                 {product.category}
               </span>
             </div>
-            <p className="truncate">
-              {product.description || "No description."}
-            </p>
+            <p>{product.description || "No description."}</p>
           </div>
         </div>
 
@@ -335,7 +333,7 @@ function ProductRow({
             type="button"
             disabled={busy}
             onClick={toggleActive}
-            className={`rounded-lg px-3 py-1.5 transition-colors ${product.active ? "border border-emerald-500/30 bg-emerald-500/20 text-emerald-300" : "border border-white/10 bg-[#00000029] text-white/40"}`}
+            className={`rounded-lg px-3 py-1.5 ${product.active ? "border border-emerald-500/30 bg-emerald-500/20 text-emerald-300" : "border border-white/10 bg-[#00000029] text-white/40"}`}
           >
             {product.active ? "Active" : "Inactive"}
           </button>
@@ -343,14 +341,14 @@ function ProductRow({
             type="button"
             disabled={busy}
             onClick={deleteProduct}
-            className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-3 py-1.5 text-rose-300 transition-colors hover:bg-rose-500/30"
+            className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-3 py-1.5 text-rose-300 hover:bg-rose-500/30"
           >
             Delete
           </button>
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="rounded-lg bg-[#00000029] px-3 py-1.5 text-white/70 transition-colors hover:text-white"
+            className="rounded-lg bg-[#00000029] px-3 py-1.5 hover:text-white"
           >
             {expanded
               ? "Collapse"
@@ -522,7 +520,7 @@ function VariantRow({
             type="button"
             disabled={busy}
             onClick={save}
-            className="rounded-md bg-[var(--color-accent)] px-2.5 py-1.5 text-[10px]"
+            className="bg-[var(--color-accent)] px-2.5 py-1.5 text-[10px]"
           >
             Save
           </button>
@@ -627,14 +625,14 @@ function AddVariantForm({
         type="button"
         disabled={submitting}
         onClick={submit}
-        className="rounded-md bg-[var(--color-accent)] px-3 py-1.5 text-[10px]"
+        className="bg-[var(--color-accent)] px-3 py-1.5 text-[10px]"
       >
         Add
       </button>
       <button
         type="button"
         onClick={onCancel}
-        className="rounded-md bg-[#00000029] px-3 py-1.5 text-[10px]"
+        className="bg-[#00000029] px-3 py-1.5 text-[10px]"
       >
         Cancel
       </button>
@@ -721,14 +719,14 @@ function AddProductModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
       <div className="max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto rounded-lg border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <h2>Add Product</h2>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 text-lg text-white/40 hover:text-white"
+            className="p-1 text-white/40 hover:text-white"
           >
             ✕
           </button>
@@ -876,7 +874,7 @@ function AddProductModal({
           type="button"
           disabled={submitting}
           onClick={submit}
-          className="w-full rounded-lg bg-[var(--color-accent)] py-3 transition-colors hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
+          className="w-full rounded-lg bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
         >
           {submitting ? "Creating…" : "Create Product"}
         </button>

@@ -19,7 +19,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             sanityContent?.title ||
             "Terms of Service"}
         </h1>
-        <p className="text-white/70">
+        <p>
           {sanityContent?.lastUpdated ||
             sanityContent?.subtitle ||
             "Last Updated: April 12, 2026"}
@@ -28,8 +28,8 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
 
       <div className="prose-legal flex flex-col gap-10 text-base">
         {sanityContent?.sections &&
-          Array.isArray(sanityContent.sections) &&
-          sanityContent.sections.length > 0 ? (
+        Array.isArray(sanityContent.sections) &&
+        sanityContent.sections.length > 0 ? (
           sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
@@ -46,9 +46,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 <h2 id={`${headingId}-heading`} className="mb-3">
                   {sec.title || `${idx + 1}. Policy Section`}
                 </h2>
-                {sec.subtitle && (
-                  <p className="mb-2 text-white/70">{sec.subtitle}</p>
-                )}
+                {sec.subtitle && <p className="mb-2">{sec.subtitle}</p>}
                 {sec.body && (
                   <div className="whitespace-pre-line">{sec.body}</div>
                 )}
@@ -139,9 +137,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
 
               <dl className="space-y-4">
                 <div>
-                  <dt className="mb-1  ">
-                    4.1 Consent & Subscription
-                  </dt>
+                  <dt className="mb-1">4.1 Consent & Subscription</dt>
                   <dd>
                     You expressly consent to receive automated show
                     notifications, proximity alerts, and event updates via
@@ -155,9 +151,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 </div>
 
                 <div>
-                  <dt className="mb-1  ">
-                    4.2 Location & Zip Code Data
-                  </dt>
+                  <dt className="mb-1">4.2 Location & Zip Code Data</dt>
                   <dd>
                     Proximity alerts calculate distance thresholds to upcoming
                     tour dates based on the zip code or city you provide.
@@ -167,9 +161,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 </div>
 
                 <div>
-                  <dt className="mb-1  ">
-                    4.3 Web Push & Browser Permissions
-                  </dt>
+                  <dt className="mb-1">4.3 Web Push & Browser Permissions</dt>
                   <dd>
                     Web push notifications are delivered directly through your
                     web browser or device when push permissions are granted. You
@@ -180,9 +172,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 </div>
 
                 <div>
-                  <dt className="mb-1  ">
-                    4.4 Message & Alert Frequency
-                  </dt>
+                  <dt className="mb-1">4.4 Message & Alert Frequency</dt>
                   <dd>
                     Alert frequency varies based on band concert schedules and
                     new tour date additions in your specified distance radius
@@ -191,7 +181,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 </div>
 
                 <div>
-                  <dt className="mb-1  ">
+                  <dt className="mb-1">
                     4.5 Unsubscribing & Managing Preferences
                   </dt>
                   <dd>
@@ -354,7 +344,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <p className="mb-2">
                 For questions about these Terms of Service:
               </p>
-              <address className="space-y-1 not-italic">
+              <address className="not- space-y-1">
                 <p>
                   Email:{" "}
                   <a href="mailto:info@7thheavenband.com" className="a-btn">

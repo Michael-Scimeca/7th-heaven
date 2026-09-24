@@ -89,26 +89,26 @@ function BioScrollRevealComponent({
                   itemRefs.current[index] = el;
                 }}
                 onClick={() => handleNameClick(index)}
-                className="group cursor-pointer transition-all duration-300 select-none"
+                className="group cursor-pointer select-none"
               >
                 <div className="mb-2 flex items-baseline gap-4">
                   <span className="text-purple-400 opacity-60">
                     0{index + 1}
                   </span>
-                  <span className="text-white/50 transition-colors group-hover:text-white">
+                  <span className="text-white/50 group-hover:text-white">
                     {member.role}
                   </span>
                 </div>
 
                 <h3
-                  className={`transition-all duration-300 md:text-7xl ${isActive ? "translate-x-2 scale-[1.02] drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]" : "text-white/30 text-white/70 group-hover:text-white"}`}
+                  className={`md:text-7xl ${isActive ? "translate-x-2 scale-[1.02] drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]" : "text-white/30 group-hover:text-white"}`}
                 >
                   {member.name}
                 </h3>
 
                 {member.description && (
                   <p
-                    className={`mt-3 max-w-lg transition-opacity duration-300 ${isActive ? "opacity-100" : "text-white/30 opacity-40"}`}
+                    className={`mt-3 max-w-lg ${isActive ? "opacity-100" : "text-white/30 opacity-40"}`}
                   >
                     {member.description}
                   </p>
@@ -118,7 +118,7 @@ function BioScrollRevealComponent({
                   <Link
                     href={member.linkHref}
                     onClick={(e) => e.stopPropagation()}
-                    className={`mt-4 inline-flex items-center gap-2 transition-opacity hover:text-white ${isActive ? "opacity-100" : "pointer-events-none opacity-0"}`}
+                    className={`mt-4 inline-flex items-center gap-2 hover:text-white ${isActive ? "opacity-100" : "pointer-events-none opacity-0"}`}
                   >
                     <span>View Full Bio</span>
                     <svg
@@ -146,7 +146,7 @@ function BioScrollRevealComponent({
               return (
                 <div
                   key={member.id}
-                  className={`absolute inset-0 h-full w-full transition-all duration-700 ease-out ${isActive ? "pointer-events-auto scale-100 opacity-100" : "pointer-events-none scale-105 opacity-0"}`}
+                  className={`absolute inset-0 h-full w-full ${isActive ? "pointer-events-auto scale-100 opacity-100" : "pointer-events-none scale-105 opacity-0"}`}
                 >
                   <Image
                     src={member.imageUrl}
@@ -161,7 +161,7 @@ function BioScrollRevealComponent({
 
                   {/* Portrait Caption Overlay */}
                   <div className="absolute right-6 bottom-6 left-6">
-                    <span className="rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 backdrop-blur-[45px]">
+                    <span className="rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 backdrop-blur-2xl">
                       {member.role}
                     </span>
                     <h4 className="drop- mt-2">{member.name}</h4>

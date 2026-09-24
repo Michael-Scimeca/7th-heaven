@@ -59,7 +59,7 @@ function ProductCard({
           unoptimized
           className="object-cover"
         />
-        <span className="absolute top-3 left-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[10px] backdrop-blur-[45px]">
+        <span className="absolute top-3 left-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[10px] backdrop-blur-2xl">
           {product.category}
         </span>
         {soldOut && (
@@ -93,7 +93,7 @@ function ProductCard({
                   type="button"
                   disabled={variantSoldOut}
                   onClick={() => setUserSelectedVariantId(variant.id)}
-                  className={`rounded-lg px-3 py-1.5 transition-colors disabled:cursor-not-allowed disabled:line-through disabled:opacity-30 ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)]" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+                  className={`rounded-lg px-3 py-1.5 disabled:cursor-not-allowed disabled:line-through disabled:opacity-30 ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)]" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
                 >
                   {variant.label}
                 </button>
@@ -103,14 +103,14 @@ function ProductCard({
         </div>
 
         <div className="mt-auto flex items-center justify-between pt-2">
-          <span className="text-lg text-[var(--color-accent)]">
+          <span className="text-[var(--color-accent)]">
             ${Number(selectedVariant.price).toFixed(2)}
           </span>
           <button
             type="button"
             disabled={soldOut || maxedOut}
             onClick={() => onAdd(selectedVariant.id)}
-            className="rounded-lg bg-[var(--color-accent)] px-4 py-2 transition-colors hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-lg bg-[var(--color-accent)] px-4 py-2 hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {soldOut ? "Sold Out" : maxedOut ? "Max in Cart" : "Add to Cart"}
           </button>
@@ -283,7 +283,7 @@ export default function PaymentTestShopPage() {
       <div className="site-container mx-auto max-w-5xl px-6">
         <Link
           href="/"
-          className="mb-6 flex items-center gap-2 text-purple-400 transition-colors hover:text-white"
+          className="mb-6 flex items-center gap-2 text-purple-400 hover:text-white"
         >
           ← Back to Home
         </Link>
@@ -311,7 +311,7 @@ export default function PaymentTestShopPage() {
             <button
               type="button"
               onClick={() => setShowCreditGuide(!showCreditGuide)}
-              className="flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-emerald-300 transition-colors hover:bg-emerald-500/20"
+              className="flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-emerald-300 hover:bg-emerald-500/20"
             >
               💳 Credit System &amp; Processing Guide{" "}
               {showCreditGuide ? "▲" : "▼"}
@@ -319,13 +319,13 @@ export default function PaymentTestShopPage() {
             <button
               type="button"
               onClick={() => setShowLimitations(!showLimitations)}
-              className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 text-purple-300 transition-colors hover:bg-purple-500/20"
+              className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 hover:bg-purple-500/20"
             >
               ✨ Store Features &amp; Architecture
             </button>
             <Link
               href="/admin/shop-inventory"
-              className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-cyan-500/10 px-3 py-1.5 transition-colors hover:bg-cyan-500/20"
+              className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-cyan-500/10 px-3 py-1.5 hover:bg-cyan-500/20"
             >
               🛠️ Manage Inventory
             </Link>
@@ -339,10 +339,8 @@ export default function PaymentTestShopPage() {
               <div className="flex items-center gap-3">
                 <span className="text-2xl">💳</span>
                 <div>
-                  <h2 className="text-lg">
-                    Credit Processing &amp; Merchant System Setup
-                  </h2>
-                  <p className="mt-0.5 text-xs text-emerald-400/90">
+                  <h2>Credit Processing &amp; Merchant System Setup</h2>
+                  <p className="mt-0.5 text-emerald-400/90">
                     Step-by-step technical breakdown for configuring North
                     Merchant Processing &amp; Fan Store Credits
                   </p>
@@ -351,21 +349,21 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCreditGuide(false)}
-                className="ml-4 shrink-0 text-xs text-white/40 hover:text-white"
+                className="ml-4 shrink-0 text-white/40 hover:text-white"
               >
                 ✕ Close
               </button>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-xs text-emerald-300">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     1
                   </span>
-                  <h4 className=" ">Merchant Environment Setup</h4>
+                  <h4>Merchant Environment Setup</h4>
                 </div>
-                <p className="text-xs leading-relaxed text-white/70">
+                <p>
                   To accept live credit card transactions, configure server
                   credentials in your{" "}
                   <code className="rounded bg-black/60 px-1.5 py-0.5 text-emerald-300">
@@ -373,7 +371,7 @@ export default function PaymentTestShopPage() {
                   </code>
                   :
                 </p>
-                <div className="space-y-1 rounded-lg border border-white/5 bg-black/80 p-2.5 font-mono text-[11px] text-emerald-300">
+                <div className="space-y-1 rounded-lg border border-white/5 bg-black/80 p-2.5 text-emerald-300">
                   <div>NORTH_MERCHANT_ID=your_merchant_id</div>
                   <div>NORTH_TERMINAL_ID=your_terminal_id</div>
                   <div>NORTH_API_SECRET=your_secret_key</div>
@@ -382,12 +380,12 @@ export default function PaymentTestShopPage() {
 
               <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-xs text-emerald-300">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     2
                   </span>
-                  <h4 className=" ">TAC Tokenization Flow</h4>
+                  <h4>TAC Tokenization Flow</h4>
                 </div>
-                <p className="text-xs leading-relaxed text-white/70">
+                <p>
                   Cart checkout triggers{" "}
                   <code className="rounded bg-black/60 px-1.5 py-0.5 text-emerald-300">
                     /api/payment-test/north/tac
@@ -401,12 +399,12 @@ export default function PaymentTestShopPage() {
 
               <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-xs text-emerald-300">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     3
                   </span>
-                  <h4 className=" ">Verification &amp; Inventory Sync</h4>
+                  <h4>Verification &amp; Inventory Sync</h4>
                 </div>
-                <p className="text-xs leading-relaxed text-white/70">
+                <p>
                   Upon gateway approval, North redirects to{" "}
                   <code className="rounded bg-black/60 px-1.5 py-0.5 text-emerald-300">
                     /api/payment-test/north/result
@@ -418,12 +416,12 @@ export default function PaymentTestShopPage() {
 
               <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-xs text-emerald-300">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     4
                   </span>
-                  <h4 className=" ">Fan Loyalty &amp; Store Credit</h4>
+                  <h4>Fan Loyalty &amp; Store Credit</h4>
                 </div>
-                <p className="text-xs leading-relaxed text-white/70">
+                <p>
                   Fans earn 5% back in store credits on every purchase. Credits
                   automatically convert to discount tokens redeemable at
                   checkout or applied towards VIP meet-and-greet passes.
@@ -453,7 +451,7 @@ export default function PaymentTestShopPage() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 text-white/70 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <div className="rounded-lg border border-white/10 bg-black/40 p-3">
                 <span className="mb-1 block text-[10px] text-emerald-400">
                   ✅ Real-Time Inventory Tracking
@@ -493,7 +491,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="rounded-lg border border-white/10 bg-black/40 p-3">
-                <span className="mb-1 block text-[10px] text-purple-300">
+                <span className="mb-1 block text-[10px]">
                   ⚡ Streamlined Fast Checkout
                 </span>
                 <p>
@@ -504,7 +502,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="rounded-lg border border-white/10 bg-black/40 p-3">
-                <span className="mb-1 block text-[10px] text-purple-300">
+                <span className="mb-1 block text-[10px]">
                   ⚡ Direct Merchant Security
                 </span>
                 <p>
@@ -515,7 +513,7 @@ export default function PaymentTestShopPage() {
               </div>
 
               <div className="rounded-lg border border-white/10 bg-black/40 p-3">
-                <span className="mb-1 block text-[10px] text-purple-300">
+                <span className="mb-1 block text-[10px]">
                   ⚡ Instant Email Order Confirmation
                 </span>
                 <p>
@@ -565,7 +563,7 @@ export default function PaymentTestShopPage() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 text-white/70 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <div className="rounded-lg border border-emerald-500/20 bg-black/40 p-3">
                 <span className="mb-1 block text-[10px] text-emerald-400">
                   🔁 Fan Club / Merch Subscriptions
@@ -674,7 +672,7 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`shrink-0 rounded-lg px-4 py-2 transition-colors ${activeCategory === cat ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+                className={`shrink-0 rounded-lg px-4 py-2 ${activeCategory === cat ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
               >
                 {cat}
               </button>
@@ -684,7 +682,7 @@ export default function PaymentTestShopPage() {
           <button
             type="button"
             onClick={() => setShowCart(true)}
-            className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 transition-colors hover:border-[var(--color-accent)]"
+            className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 hover:border-[var(--color-accent)]"
           >
             🛒 Cart ({cart.getNumberOfCartItems()})
           </button>
@@ -718,14 +716,14 @@ export default function PaymentTestShopPage() {
 
       {/* Cart drawer */}
       {showCart && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
           <div className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto rounded-lg border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <h2>My Cart</h2>
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="p-1 text-lg text-white/40 hover:text-white"
+                className="p-1 text-white/40 hover:text-white"
               >
                 ✕
               </button>
@@ -757,7 +755,7 @@ export default function PaymentTestShopPage() {
                         />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate">{item.title}</p>
+                        <p>{item.title}</p>
                         <p>{item.variantLabel}</p>
                         <p className="mt-0.5">
                           ${item.unitPrice.toFixed(2)} each
@@ -767,7 +765,7 @@ export default function PaymentTestShopPage() {
                         <button
                           type="button"
                           onClick={() => cart.removeOneItemFromCart(item.id)}
-                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] text-white/70 hover:text-white"
+                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] hover:text-white"
                         >
                           −
                         </button>
@@ -776,7 +774,7 @@ export default function PaymentTestShopPage() {
                           type="button"
                           disabled={atMax}
                           onClick={() => handleCartIncrement(item.id)}
-                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] text-white/70 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
                         >
                           +
                         </button>
@@ -812,7 +810,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="flex-1 rounded-lg border border-white/10 bg-[#00000029] py-3 transition-colors hover:bg-white/10"
+                className="flex-1 rounded-lg border border-white/10 bg-[#00000029] py-3 hover:bg-white/10"
               >
                 Continue Shopping
               </button>
@@ -820,7 +818,7 @@ export default function PaymentTestShopPage() {
                 type="button"
                 disabled={cart.items.length === 0 || startingCheckout}
                 onClick={handleCheckout}
-                className="flex-1 rounded-lg bg-[var(--color-accent)] py-3 transition-colors hover:bg-[var(--color-accent)]/80 disabled:opacity-40"
+                className="flex-1 rounded-lg bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-40"
               >
                 {startingCheckout ? "Starting…" : "Checkout with North"}
               </button>

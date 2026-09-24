@@ -43,7 +43,6 @@ export default function CustomScrollbar({
   const [hasScrollableY, setHasScrollableY] = useState(false);
   const [hasScrollableX, setHasScrollableX] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
   const dragStartPos = useRef(0);
   const dragStartScrollPos = useRef(0);
   const rafRef = useRef<number>(0);
@@ -248,8 +247,6 @@ export default function CustomScrollbar({
         minWidth: 0,
         overflow: "hidden",
       }}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
     >
       {/* Scrollable content with hidden native scrollbar */}
       <div

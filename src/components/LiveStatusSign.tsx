@@ -42,9 +42,9 @@ export default function LiveStatusSign() {
   return (
     <div className="fixed top-24 left-1/2 z-[100] -translate-x-1/2 animate-[fade-in-down_0.8s_var(--ease-out-expo)]">
       <Link href="/live" className="group">
-        <div className="relative flex items-center gap-4 overflow-hidden rounded-lg border border-white/10 bg-black/60 px-6 py-2.5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-colors duration-500 hover:border-red-500/50">
+        <div className="relative flex items-center gap-4 overflow-hidden rounded-lg border border-white/10 bg-black/60 px-6 py-2.5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:border-red-500/50">
           {/* Background Glow */}
-          <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 transition-transform duration-1000 group-hover:translate-x-[100%]" />
+          <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 group-hover:translate-x-[100%]" />
 
           <div className="flex items-center gap-2">
             <span className="relative flex h-2 w-2">
@@ -60,7 +60,7 @@ export default function LiveStatusSign() {
             <span>
               {liveCount} Active {liveCount === 1 ? "Feed" : "Feeds"}
             </span>
-            <div className="flex h-6 w-6 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-colors duration-300 group-hover:border-red-500 group-hover:bg-red-500">
+            <div className="flex h-6 w-6 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] group-hover:border-red-500 group-hover:bg-red-500">
               <svg
                 width="12"
                 height="12"

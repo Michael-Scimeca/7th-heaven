@@ -108,8 +108,8 @@ function OpenShiftsCellHeader() {
         </svg>
       </div>
       <div>
-        <span className="block text-[11px]">OpenShifts</span>
-        <span className="text-[10px] text-purple-300">Positions</span>
+        <span className="block">OpenShifts</span>
+        <span className="text-[10px]">Positions</span>
       </div>
     </div>
   );
@@ -129,10 +129,10 @@ function CrewShiftTooltip({
   return (
     <div className="wiw-tooltip w-52 rounded-lg border border-slate-700/50 bg-[#1c1d22] p-3 text-left">
       <div className="text-slate-200">{displayName}</div>
-      <div className="mb-2 text-purple-300">Role: {role || "Crew Member"}</div>
+      <div className="mb-2">Role: {role || "Crew Member"}</div>
       <div className="space-y-1 border-t border-slate-700/50 pt-1.5 text-slate-400">
         <div className="flex items-center gap-1.5">
-          <span className="truncate">{email || "N/A"}</span>
+          <span>{email || "N/A"}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span>{phone || "N/A"}</span>
@@ -155,7 +155,7 @@ function ShiftCardHoverActions({
         type="button"
         aria-label="Edit shift"
         onClick={onEdit}
-        className="hover:text-whitebg-black-80 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 text-white/70 backdrop-blur-sm"
+        className="hover:text-whitebg-black-80 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm"
         title="Edit shift"
       >
         <svg
@@ -176,7 +176,7 @@ function ShiftCardHoverActions({
         type="button"
         aria-label="Delete shift"
         onClick={onDelete}
-        className="hover:text-whitebg-red-600 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 text-white/70 backdrop-blur-sm"
+        className="hover:text-whitebg-red-600 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm"
         title="Delete shift"
       >
         <svg
@@ -596,24 +596,22 @@ const SidebarDateButton = React.memo(
       <button
         type="button"
         onClick={() => show.date && onClick(show.date)}
-        className={`group flex w-full cursor-pointer items-center gap-2 !rounded-none border-b border-white/10 px-2 py-1.5 text-left transition-colors duration-150 ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "}`}
+        className={`group flex w-full cursor-pointer items-center gap-2 !rounded-none border-b border-white/10 px-2 py-1.5 text-left ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "}`}
       >
         <div className="flex min-w-[32px] shrink-0 flex-col items-center">
           <span className="text-[9px] text-white/40">{show.dayLabel}</span>
           <span
-            className={`text-[11px] ${isSelected ? "text-purple-300" : isActiveWeek ? "text-white/70" : "text-white/50"}`}
+            className={` ${isSelected ? " " : isActiveWeek ? " " : "text-white/50"}`}
           >
             {show.dateLabel}
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <p
-            className={`truncate ${isSelected ? " " : isActiveWeek ? "/90" : "text-white/70"}`}
-          >
+          <p className={` ${isSelected ? " " : isActiveWeek ? "/90" : " "}`}>
             {show.venue || show.venue_name}
           </p>
           {show.city && (
-            <p className="m-0 truncate">
+            <p className="m-0">
               {show.city}
               {show.state ? `, ${show.state}` : ""}
             </p>
@@ -704,11 +702,9 @@ function DutyRoleEditorPopover({
     >
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-        <div className="truncate pr-2">
-          <span className="block truncate">Edit Roles</span>
-          <span className="block truncate text-[10px] text-purple-300">
-            {memberName}
-          </span>
+        <div className="pr-2">
+          <span className="block">Edit Roles</span>
+          <span className="block text-[10px]">{memberName}</span>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
           <button
@@ -801,7 +797,7 @@ function DutyRoleEditorPopover({
             <button
               type="button"
               onClick={() => setEditingDutyValue("")}
-              className="cursor-pointer border-none text-[10px] text-rose-400 transition-colors hover:text-rose-300"
+              className="cursor-pointer border-none text-[10px] text-rose-400 hover:text-rose-300"
             >
               Clear Roles
             </button>
@@ -813,7 +809,7 @@ function DutyRoleEditorPopover({
           value={editingDutyValue}
           onChange={(e) => setEditingDutyValue(e.target.value)}
           placeholder="e.g. STAGE HAND, MERCH..."
-          className="placeholder: w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-white/40 shadow-inner transition-colors focus:border-purple-400 focus:bg-white/15 focus:outline-none"
+          className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-white/40 shadow-inner focus:bg-white/15"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSaveDuty(memberId);
@@ -4766,8 +4762,7 @@ export function AdminDashboardMain({
       label: "Booking Requests",
       value: pendingBookings.length.toString(),
       trend: pendingBookings.length > 0 ? "Action Needed" : "Clear",
-      color:
-        pendingBookings.length > 0 ? "text-purple-300" : "text-emerald-400",
+      color: pendingBookings.length > 0 ? " " : "text-emerald-400",
     },
     {
       label: "Server Status",
@@ -4832,7 +4827,7 @@ export function AdminDashboardMain({
       >
         <span className="select-none">ℹ</span>
         <div>
-          <p className="text-purple-300">About {title}</p>
+          <p>About {title}</p>
           <p className="mt-0.5 leading-normal opacity-80">{description}</p>
         </div>
       </div>
@@ -5149,7 +5144,7 @@ export function AdminDashboardMain({
                     }
                   }}
                   onClick={() => toggleSection("globalalert")}
-                  className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 transition-colors select-none"
+                  className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
                 >
                   <div className="flex flex-col">
                     <h3 className="flex items-center gap-2">
@@ -5182,7 +5177,7 @@ export function AdminDashboardMain({
                           await updateGlobalBanner({ isActive: newActive });
                         }}
                         disabled={bannerUpdating}
-                        className={`relative shrink-0 cursor-pointer overflow-hidden rounded-lg border px-4 py-1.5 text-[0.9rem] transition-colors duration-300 ${bannerActive ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] text-white/50 hover:border-white/20"} disabled:opacity-50`}
+                        className={`relative shrink-0 cursor-pointer overflow-hidden rounded-lg border px-4 py-1.5 text-[0.9rem] ${bannerActive ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] text-white/50 hover:border-white/20"} disabled:opacity-50`}
                       >
                         <span className="relative z-10 flex items-center gap-2">
                           <span
@@ -5234,7 +5229,7 @@ export function AdminDashboardMain({
                       {/* Save status toast */}
                       {bannerSaveStatus && (
                         <div
-                          className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 px-4 py-2.5 text-[0.9rem] backdrop-blur-[45px] ${bannerSaveStatus === "saved" ? "border border-white/10 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]"}`}
+                          className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 px-4 py-2.5 text-[0.9rem] backdrop-blur-2xl ${bannerSaveStatus === "saved" ? "border border-white/10 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]"}`}
                         >
                           {bannerSaveStatus === "saved"
                             ? " Banner updated successfully"
@@ -5259,7 +5254,7 @@ export function AdminDashboardMain({
                           <button
                             onClick={() => updateGlobalBanner()}
                             disabled={bannerUpdating}
-                            className="cursor-pointer rounded-lg border border-[var(--color-accent)]/50 bg-[var(--color-accent)] px-6 py-2.5 shadow-[0_4px_15px_rgba(255,10,61,0.3)] transition-colors hover:-translate-y-0.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] active:translate-y-0 disabled:opacity-50"
+                            className="cursor-pointer rounded-lg border border-[var(--color-accent)]/50 bg-[var(--color-accent)] px-6 py-2.5 shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:-translate-y-0.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] active:translate-y-0 disabled:opacity-50"
                           >
                             {bannerUpdating ? "Saving..." : "Dispatch"}
                           </button>
@@ -5317,7 +5312,7 @@ export function AdminDashboardMain({
                         {bannerExpiresAt && (
                           <div className="flex w-fit items-center gap-2 rounded-lg border border-white/10 bg-black/30 px-2 py-1 text-[0.55rem]">
                             <span className="text-white/30">Auto-off at:</span>
-                            <span className="r text-purple-300">
+                            <span className="r">
                               {new Date(bannerExpiresAt).toLocaleString(
                                 undefined,
                                 {
@@ -5472,10 +5467,8 @@ export function AdminDashboardMain({
 
               <div className="bg-[var(--card-bg)]">
                 <span className="mb-1 block text-[0.55rem]">Bounce Rate</span>
-                <span className="block text-2xl text-purple-300">
-                  {gaData.bounceRate}
-                </span>
-                <span className="mt-1 block text-[0.55rem] text-purple-300">
+                <span className="block text-2xl">{gaData.bounceRate}</span>
+                <span className="mt-1 block text-[0.55rem]">
                   High Engagement
                 </span>
               </div>
@@ -5568,19 +5561,19 @@ export function AdminDashboardMain({
 
                   <div className="mb-5 grid grid-cols-3 gap-2 text-center">
                     <div>
-                      <span className="block text-lg"></span>
+                      <span className="block"></span>
                       <span className="mt-1 block">68%</span>
                       <span className="block text-[12px]">Mobile</span>
                     </div>
 
                     <div>
-                      <span className="block text-lg"></span>
+                      <span className="block"></span>
                       <span className="mt-1 block">27%</span>
                       <span className="block text-[12px]">Desktop</span>
                     </div>
 
                     <div>
-                      <span className="block text-lg"></span>
+                      <span className="block"></span>
                       <span className="mt-1 block">5%</span>
                       <span className="block text-[12px]">Tablet</span>
                     </div>
@@ -5661,7 +5654,7 @@ export function AdminDashboardMain({
                       <td className="p-3">1,650</td>
                       <td className="p-3">1,410</td>
                       <td className="p-3">1m 05s</td>
-                      <td className="p-3 text-purple-300">38%</td>
+                      <td className="p-3">38%</td>
                       <td className="pt-3 pb-3 text-right text-[#c27aff]">
                         410 Banner Clicks
                       </td>
@@ -5687,7 +5680,7 @@ export function AdminDashboardMain({
                       <td className="p-3">180</td>
                       <td className="p-3">145</td>
                       <td className="p-3">0m 52s</td>
-                      <td className="p-3 text-purple-300">45%</td>
+                      <td className="p-3">45%</td>
                       <td className="pt-3 pb-3 text-right text-[#c27aff]">
                         120 Video Plays
                       </td>
@@ -5757,9 +5750,9 @@ export function AdminDashboardMain({
 
               <div className="w-full rounded-lg border border-purple-500/30 bg-purple-500/10 p-3 sm:w-auto">
                 <div className="flex items-start gap-2">
-                  <span className="text-purple-300"></span>
+                  <span></span>
                   <div>
-                    <p className="text-purple-300">Shopify E-Commerce Link</p>
+                    <p>Shopify E-Commerce Link</p>
                     <p className="mt-1 max-w-[320px]">
                       To sync checkout conversion values to GA4: Open Shopify
                       Admin → Online Store → Preferences. Paste Tag:{" "}
@@ -5787,7 +5780,7 @@ export function AdminDashboardMain({
             toggleSection("shopify");
           }
         }}
-        className="pr- flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0 transition-colors select-none hover:bg-white/[0.02]"
+        className="pr- flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]"
       >
         <div className="flex flex-col">
           <h3 className="flex cursor-pointer items-center gap-2 text-left">
@@ -5822,20 +5815,20 @@ export function AdminDashboardMain({
             <SeventhButton
               isActive={shopifyTab === "shopify"}
               onClick={() => setShopifyTab("shopify")}
-              className="cursor-pointer px-4 py-2 text-xs whitespace-nowrap"
+              className="cursor-pointer px-4 py-2 whitespace-nowrap"
             >
               Shopify API
             </SeventhButton>
             <SeventhButton
               isActive={shopifyTab === "simulated"}
               onClick={() => setShopifyTab("simulated")}
-              className="cursor-pointer px-4 py-2 text-xs whitespace-nowrap"
+              className="cursor-pointer px-4 py-2 whitespace-nowrap"
             >
               Simulated Checkouts
             </SeventhButton>
           </div>
           {shopifyTab === "shopify" && (
-            <div className="flex items-center gap-3 transition-opacity duration-300 ease-out">
+            <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
                 {[7, 30, 90].map((d) => (
                   <SeventhButton
@@ -5875,7 +5868,7 @@ export function AdminDashboardMain({
                   } catch {}
                   setShopifyLoading(false);
                 }}
-                className="rounded border border-white/10 bg-[#00000029] px-3 py-1.5 text-[0.9rem] text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+                className="rounded border border-white/10 bg-[#00000029] px-3 py-1.5 text-[0.9rem] text-white/40 hover:bg-white/10 hover:text-white"
               >
                 ↻ Refresh
               </button>
@@ -5928,16 +5921,13 @@ export function AdminDashboardMain({
                 <div className="py-6 pl-0">
                   {shopifyData.needsOrderScope && (
                     <div className="mb-6 flex items-start gap-3 border border-white/10 bg-purple-500/10 p-4">
-                      <span className="text-lg text-purple-300"></span>
+                      <span></span>
                       <div>
-                        <p className="text-purple-300">
-                          Orders Access Not Enabled
-                        </p>
+                        <p>Orders Access Not Enabled</p>
                         <p className="mt-1">
-                          To see sales data, enable{" "}
-                          <code className="text-purple-300">read_orders</code>{" "}
-                          in Shopify Admin → Settings → Apps → Your app → Admin
-                          API scopes. Showing inventory data instead.
+                          To see sales data, enable <code>read_orders</code> in
+                          Shopify Admin → Settings → Apps → Your app → Admin API
+                          scopes. Showing inventory data instead.
                         </p>
                       </div>
                     </div>
@@ -6015,7 +6005,7 @@ export function AdminDashboardMain({
                           {shopifyData.products.map((p: any) => (
                             <tr
                               key={p.id || p.handle || p.title}
-                              className="border-b border-white/10 transition-colors hover:bg-white/[0.02]"
+                              className="border-b border-white/10 hover:bg-white/[0.02]"
                             >
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
@@ -6026,7 +6016,7 @@ export function AdminDashboardMain({
                                       className="h-8 w-8 rounded border border-white/10 object-cover"
                                     />
                                   )}
-                                  <span className="max-w-[200px] truncate">
+                                  <span className="max-w-[200px]">
                                     {p.title}
                                   </span>
                                 </div>
@@ -6035,7 +6025,7 @@ export function AdminDashboardMain({
                                 <button
                                   type="button"
                                   onClick={() => openQrModal(p)}
-                                  className="group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 transition-colors hover:bg-white/15"
+                                  className="group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 hover:bg-white/15"
                                   title="View & Print QR Code"
                                 >
                                   <svg
@@ -6064,7 +6054,7 @@ export function AdminDashboardMain({
                               </td>
                               <td className="px-4 py-3 text-right">
                                 <span
-                                  className={`${p.inventory <= 0 ? "text-rose-400" : p.inventory < 5 ? "text-purple-300" : "text-emerald-400"}`}
+                                  className={`${p.inventory <= 0 ? "text-rose-400" : p.inventory < 5 ? " " : "text-emerald-400"}`}
                                 >
                                   {p.inventory}
                                 </span>
@@ -6165,16 +6155,16 @@ export function AdminDashboardMain({
                                 (p: any, i: number) => (
                                   <tr
                                     key={p.id || p.handle || p.title}
-                                    className="border-b border-white/10 transition-colors hover:bg-white/[0.02]"
+                                    className="border-b border-white/10 hover:bg-white/[0.02]"
                                   >
                                     <td className="px-4 py-3">
                                       <div className="flex items-center gap-3">
                                         <span
-                                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? "border border-purple-500/30 bg-white/20 text-purple-300" : i === 1 ? "border border-gray-400/30 bg-gray-400/20 text-gray-300" : i === 2 ? "border border-orange-700/30 bg-orange-700/20 text-orange-400" : "border border-white/10 bg-[#00000029] text-white/30"}`}
+                                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? "border border-purple-500/30 bg-white/20" : i === 1 ? "border border-gray-400/30 bg-gray-400/20 text-gray-300" : i === 2 ? "border border-orange-700/30 bg-orange-700/20 text-orange-400" : "border border-white/10 bg-[#00000029] text-white/30"}`}
                                         >
                                           {i + 1}
                                         </span>
-                                        <span className="max-w-[180px] truncate">
+                                        <span className="max-w-[180px]">
                                           {p.title}
                                         </span>
                                       </div>
@@ -6240,7 +6230,7 @@ export function AdminDashboardMain({
                                       </span>
                                       <div className="h-5 flex-1 overflow-hidden rounded-full bg-[#00000029]">
                                         <div
-                                          className="h-full rounded-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48] transition-colors duration-500"
+                                          className="h-full rounded-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48]"
                                           style={{
                                             width: `${Math.max(pct, 2)}%`,
                                           }}
@@ -6300,7 +6290,7 @@ export function AdminDashboardMain({
                             {shopifyData.orders.map((order: any) => (
                               <tr
                                 key={order.id}
-                                className="border-b border-white/10 transition-colors hover:bg-white/[0.02]"
+                                className="border-b border-white/10 hover:bg-white/[0.02]"
                               >
                                 <td className="px-4 py-3">
                                   <div className="text-[#96bf48]">
@@ -6318,7 +6308,7 @@ export function AdminDashboardMain({
                                   </div>
                                 </td>
                                 <td className="px-4 py-3">
-                                  <div className="max-w-[120px] truncate">
+                                  <div className="max-w-[120px]">
                                     {order.customer.name}
                                   </div>
                                   {order.customer.ordersCount > 1 && (
@@ -6336,7 +6326,7 @@ export function AdminDashboardMain({
                                 <td className="px-4 py-3">
                                   <div className="flex flex-col gap-1">
                                     <span
-                                      className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === "PAID" ? "border border-emerald-500/30 bg-emerald-500/15" : order.financialStatus === "REFUNDED" || order.financialStatus === "PARTIALLY_REFUNDED" ? "border border-rose-500/30 bg-rose-500/15 text-rose-400" : "border border-purple-500/30 bg-purple-500/15 text-purple-300"}`}
+                                      className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === "PAID" ? "border border-emerald-500/30 bg-emerald-500/15" : order.financialStatus === "REFUNDED" || order.financialStatus === "PARTIALLY_REFUNDED" ? "border border-rose-500/30 bg-rose-500/15 text-rose-400" : "border border-purple-500/30 bg-purple-500/15"}`}
                                     >
                                       {order.financialStatus
                                         ?.toLowerCase()
@@ -6402,7 +6392,7 @@ export function AdminDashboardMain({
                           {shopifyData.products.map((p: any) => (
                             <tr
                               key={p.id || p.handle || p.title}
-                              className="border-b border-white/10 transition-colors hover:bg-white/[0.02]"
+                              className="border-b border-white/10 hover:bg-white/[0.02]"
                             >
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
@@ -6413,7 +6403,7 @@ export function AdminDashboardMain({
                                       className="h-8 w-8 rounded border border-white/10 object-cover"
                                     />
                                   )}
-                                  <span className="max-w-[200px] truncate">
+                                  <span className="max-w-[200px]">
                                     {p.title}
                                   </span>
                                 </div>
@@ -6422,7 +6412,7 @@ export function AdminDashboardMain({
                                 <button
                                   type="button"
                                   onClick={() => openQrModal(p)}
-                                  className="group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 transition-colors hover:bg-white/15"
+                                  className="group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 hover:bg-white/15"
                                   title="View & Print QR Code"
                                 >
                                   <svg
@@ -6451,7 +6441,7 @@ export function AdminDashboardMain({
                               </td>
                               <td className="px-4 py-3 text-right">
                                 <span
-                                  className={`${p.inventory <= 0 ? "text-rose-400" : p.inventory < 5 ? "text-purple-300" : "text-emerald-400"}`}
+                                  className={`${p.inventory <= 0 ? "text-rose-400" : p.inventory < 5 ? " " : "text-emerald-400"}`}
                                 >
                                   {p.inventory}
                                 </span>
@@ -6468,10 +6458,10 @@ export function AdminDashboardMain({
                 </div>
               ) : null
             ) : (
-              <div className="py-6 pl-0 transition-opacity duration-300 ease-out">
+              <div className="py-6 pl-0">
                 {/* Simulated Metrics Grid */}
                 <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-                  <div className="border border-white/10 bg-black/30 p-5 transition-colors hover:border-purple-500/40">
+                  <div className="border border-white/10 bg-black/30 p-5 hover:border-purple-500/40">
                     <p className="mb-2">Simulated Revenue</p>
                     <p>
                       $
@@ -6486,7 +6476,7 @@ export function AdminDashboardMain({
                     </p>
                     <p className="mt-1">Store + Flash Drop</p>
                   </div>
-                  <div className="border border-white/10 bg-black/30 p-5 transition-colors">
+                  <div className="border border-white/10 bg-black/30 p-5">
                     <p className="mb-2">Store Purchases</p>
                     <p>
                       {
@@ -6496,7 +6486,7 @@ export function AdminDashboardMain({
                     </p>
                     <p className="mt-1">Normal store checkout</p>
                   </div>
-                  <div className="border border-white/10 bg-black/30 p-5 transition-colors">
+                  <div className="border border-white/10 bg-black/30 p-5">
                     <p className="mb-2">Flash Drops</p>
                     <p>
                       {
@@ -6506,7 +6496,7 @@ export function AdminDashboardMain({
                     </p>
                     <p className="mt-1">Live drop purchases</p>
                   </div>
-                  <div className="border border-white/10 bg-black/30 p-5 transition-colors">
+                  <div className="border border-white/10 bg-black/30 p-5">
                     <p className="mb-2">Raffle Claims</p>
                     <p>
                       {
@@ -6554,7 +6544,7 @@ export function AdminDashboardMain({
                           {simulatedOrders.map((order) => (
                             <tr
                               key={order.id}
-                              className="border-b border-white/10 transition-colors hover:bg-white/[0.02]"
+                              className="border-b border-white/10 hover:bg-white/[0.02]"
                             >
                               <td className="px-4 py-3">
                                 <div className="text-[var(--color-accent)]">
@@ -6579,7 +6569,7 @@ export function AdminDashboardMain({
                                 </div>
                                 {order.address && (
                                   <div
-                                    className="mt-0.5 max-w-[150px] truncate text-[0.55rem] text-white/30"
+                                    className="mt-0.5 max-w-[150px] text-[0.55rem] text-white/30"
                                     title={`${order.address}, ${order.city}, ${order.zip}`}
                                   >
                                     {order.address}, {order.city}
@@ -6611,7 +6601,7 @@ export function AdminDashboardMain({
                               </td>
                               <td className="px-4 py-3">
                                 <span
-                                  className={`inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === "Flash Drop" ? "border border-pink-500/30 bg-pink-500/15 text-pink-400" : order.source === "Raffle" ? "border border-purple-500/30 bg-purple-500/15 text-purple-300" : "border border-blue-500/30 bg-blue-500/15 text-blue-400"}`}
+                                  className={`inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === "Flash Drop" ? "border border-pink-500/30 bg-pink-500/15 text-pink-400" : order.source === "Raffle" ? "border border-purple-500/30 bg-purple-500/15" : "border border-blue-500/30 bg-blue-500/15 text-blue-400"}`}
                                 >
                                   {order.source}
                                 </span>
@@ -6619,7 +6609,7 @@ export function AdminDashboardMain({
                               <td className="px-4 py-3">
                                 <div className="flex flex-col gap-1">
                                   <span
-                                    className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.status === "Shipped" || order.status === "Claimed" ? "border border-emerald-500/30 bg-emerald-500/15" : order.status === "Ready for Pickup" ? "border border-purple-500/30 bg-purple-500/15 text-purple-300" : "border border-white/10 bg-[#00000029] text-white/40"}`}
+                                    className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.status === "Shipped" || order.status === "Claimed" ? "border border-emerald-500/30 bg-emerald-500/15" : order.status === "Ready for Pickup" ? "border border-purple-500/30 bg-purple-500/15" : "border border-white/10 bg-[#00000029] text-white/40"}`}
                                   >
                                     {order.status}
                                   </span>
@@ -6640,7 +6630,7 @@ export function AdminDashboardMain({
                                           "Shipped",
                                         )
                                       }
-                                      className="cursor-pointer rounded bg-purple-500 px-2.5 py-1 text-[0.55rem] shadow-[0_0_10px_rgba(255,10,61,0.3)] transition-colors hover:bg-purple-400 active:scale-95"
+                                      className="cursor-pointer rounded bg-purple-500 px-2.5 py-1 text-[0.55rem] shadow-[0_0_10px_rgba(255,10,61,0.3)] hover:bg-purple-400 active:scale-95"
                                     >
                                       Ship Package
                                     </button>
@@ -6653,7 +6643,7 @@ export function AdminDashboardMain({
                                         "Claimed",
                                       )
                                     }
-                                    className="shadow-[0_0_10px_rgba(147, 51, 234,0.3)] cursor-pointer rounded bg-purple-600 px-2.5 py-1 text-[0.55rem] transition-colors hover:bg-purple-500 active:scale-95"
+                                    className="shadow-[0_0_10px_rgba(147, 51, 234,0.3)] cursor-pointer rounded bg-purple-600 px-2.5 py-1 text-[0.55rem] hover:bg-purple-500 active:scale-95"
                                   >
                                     Claim Merch
                                   </button>
@@ -6798,23 +6788,19 @@ export function AdminDashboardMain({
                             }}
                             className="group relative col-span-4 flex cursor-pointer items-center gap-3"
                           >
-                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-gradient-to-br from-purple-500/30 to-purple-800/20 text-xs text-purple-300 group-hover:border-purple-400">
+                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-gradient-to-br from-purple-500/30 to-purple-800/20 group-hover:border-purple-400">
                               {b.name?.substring(0, 2).toUpperCase() || "EP"}
                             </div>
                             <div className="min-w-0 flex-1">
-                              <div className="truncate transition-colors group-hover:text-purple-300">
-                                {b.name}
-                              </div>
-                              <div className="truncate">{b.email}</div>
+                              <div className="group-hover:">{b.name}</div>
+                              <div>{b.email}</div>
 
                               {editingInlineLoadInId === b.bookingId ? (
                                 <div
                                   className="inline-loadin-popover z-30 mt-2 min-w-[250px] animate-[scaleIn_0.15s_ease-out] space-y-2 border-none p-2"
                                   onClick={(e) => e.stopPropagation()}
                                 >
-                                  <p className="text-[11px] text-purple-300">
-                                    Set Official Load-In / Out Time:
-                                  </p>
+                                  <p>Set Official Load-In / Out Time:</p>
                                   <div className="input-glow-border w-full">
                                     <input
                                       type="text"
@@ -6846,7 +6832,7 @@ export function AdminDashboardMain({
                                         }
                                       }}
                                       placeholder="e.g. 5:00 PM Load-In / 11:30 PM Out"
-                                      className="placeholder: w-full rounded-lg border border-white/10 px-2.5 py-1.5 text-white/40 focus:outline-none"
+                                      className="placeholder: focus-ring w-full rounded-lg border border-white/10 px-2.5 py-1.5 text-white/40"
                                     />
                                   </div>
                                   <div className="flex items-center justify-between gap-1.5 pt-0.5">
@@ -6856,7 +6842,7 @@ export function AdminDashboardMain({
                                         e.stopPropagation();
                                         setEditingInlineLoadInId(null);
                                       }}
-                                      className="cursor-pointer px-2 py-1 text-[12px] text-white/50 transition-colors hover:text-white"
+                                      className="cursor-pointer px-2 py-1 text-[12px] text-white/50 hover:text-white"
                                     >
                                       Cancel
                                     </button>
@@ -6871,7 +6857,7 @@ export function AdminDashboardMain({
                                         );
                                         setEditingInlineLoadInId(null);
                                       }}
-                                      className="cursor-pointer rounded-lg border-none bg-purple-600 px-2.5 py-1 text-[12px] transition-colors hover:bg-purple-500 disabled:opacity-50"
+                                      className="cursor-pointer rounded-lg border-none bg-purple-600 px-2.5 py-1 text-[12px] hover:bg-purple-500 disabled:opacity-50"
                                     >
                                       {loadInSaving[b.bookingId]
                                         ? "Saving..."
@@ -6914,7 +6900,7 @@ export function AdminDashboardMain({
 
                           {/* Venue */}
                           <div className="col-span-2 min-w-0">
-                            <div className="max-w-[180px] truncate">
+                            <div className="max-w-[180px]">
                               {b.venueName || "–"}
                             </div>
                             <div className="text-[0.9rem]">
@@ -6965,7 +6951,7 @@ export function AdminDashboardMain({
                                       setUpdatingBookingId(null);
                                     }
                                   }}
-                                  className="cursor-pointer rounded-lg bg-emerald-500 px-2.5 py-1 text-[0.55rem] transition-colors hover:bg-emerald-400 disabled:opacity-50"
+                                  className="cursor-pointer rounded-lg bg-emerald-500 px-2.5 py-1 text-[0.55rem] hover:bg-emerald-400 disabled:opacity-50"
                                 >
                                   {updatingBookingId === b.bookingId
                                     ? "..."
@@ -7007,7 +6993,7 @@ export function AdminDashboardMain({
                                       setUpdatingBookingId(null);
                                     }
                                   }}
-                                  className="cursor-pointer rounded-lg bg-rose-600 px-2.5 py-1 text-[0.55rem] transition-colors hover:bg-rose-500 disabled:opacity-50"
+                                  className="cursor-pointer rounded-lg bg-rose-600 px-2.5 py-1 text-[0.55rem] hover:bg-rose-500 disabled:opacity-50"
                                 >
                                   {updatingBookingId === b.bookingId
                                     ? "..."
@@ -7026,9 +7012,7 @@ export function AdminDashboardMain({
                                 <p className="dark: mb-1 text-black/50 text-white/40">
                                   Booking Ref ID
                                 </p>
-                                <p className="text-sm text-purple-400">
-                                  {b.bookingId}
-                                </p>
+                                <p className="text-purple-400">{b.bookingId}</p>
                               </div>
                               <div>
                                 <p className="dark: mb-1 text-black/50 text-white/40">
@@ -7062,7 +7046,7 @@ export function AdminDashboardMain({
                                 <p className="dark: mb-1 text-black/50 text-white/40">
                                   Load-In / Setup Time
                                 </p>
-                                <p className=" ">
+                                <p>
                                   {b.loadInTime ||
                                     b.load_in_time ||
                                     "Unsure — Admin to set & email"}
@@ -7077,7 +7061,7 @@ export function AdminDashboardMain({
                                     href={b.ticketLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="block max-w-[200px] truncate hover:text-white"
+                                    className="block max-w-[200px] hover:text-white"
                                     title={b.ticketLink}
                                   >
                                     {b.ticketLink}
@@ -7093,7 +7077,7 @@ export function AdminDashboardMain({
                                   <p className="dark: mb-1 text-black/50 text-white/40">
                                     Public Notes (displayed to fans)
                                   </p>
-                                  <p className="dark: rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 text-white/70 dark:border-white/5 dark:bg-white/[0.02]">
+                                  <p className="dark: rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/5 dark:bg-white/[0.02]">
                                     "{b.details}"
                                   </p>
                                 </div>
@@ -7103,7 +7087,7 @@ export function AdminDashboardMain({
                                   <p className="dark: mb-1 text-black/50 text-white/40">
                                     Planner's Internal Notes
                                   </p>
-                                  <p className="dark: rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 text-white/70 dark:border-white/5 dark:bg-white/[0.02]">
+                                  <p className="dark: rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/5 dark:bg-white/[0.02]">
                                     {b.plannerNotes}
                                   </p>
                                 </div>
@@ -7112,7 +7096,7 @@ export function AdminDashboardMain({
                               {/* Official Load-In Setup Manager Widget */}
                               <div className="col-span-2 mt-3 space-y-3 rounded-lg border border-purple-500/30 bg-purple-950/30 p-4 sm:col-span-4">
                                 <div className="flex flex-wrap items-center justify-between gap-2">
-                                  <p className="flex items-center gap-2 text-purple-300">
+                                  <p className="flex items-center gap-2">
                                     <Clock className="h-4 w-4" /> Official
                                     Load-In Setup Manager
                                   </p>
@@ -7153,7 +7137,7 @@ export function AdminDashboardMain({
                                       }))
                                     }
                                     placeholder="e.g. 5:00 PM (2 hours before show)"
-                                    className="placeholder: flex-1 rounded-lg border border-white/10 bg-[#00000029] px-3.5 py-2 text-white/30 focus:border-purple-400 focus:outline-none"
+                                    className="placeholder: focus-ring flex-1 rounded-lg border border-white/10 bg-[#00000029] px-3.5 py-2 text-white/30"
                                   />
                                   <button
                                     type="button"
@@ -7164,7 +7148,7 @@ export function AdminDashboardMain({
                                         b.plannerEmail || b.email,
                                       )
                                     }
-                                    className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 px-4 py-2 transition-colors transition-opacity hover:from-purple-500 hover:to-cyan-400 disabled:opacity-50"
+                                    className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 px-4 py-2 hover:from-purple-500 hover:to-cyan-400 disabled:opacity-50"
                                   >
                                     {loadInSaving[b.bookingId]
                                       ? "Sending..."
@@ -7298,24 +7282,24 @@ export function AdminDashboardMain({
                   ).map((planner: any) => (
                     <div
                       key={planner.email}
-                      className="grid grid-cols-1 items-center gap-4 border-b border-white/10 bg-[#00000029] px-4 py-4 transition-colors md:grid-cols-12"
+                      className="grid grid-cols-1 items-center gap-4 border-b border-white/10 bg-[#00000029] px-4 py-4 md:grid-cols-12"
                     >
                       <div className="col-span-12 flex min-w-0 items-center gap-4 md:col-span-3">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5">
                           {planner.name?.substring(0, 2).toUpperCase() || "EP"}
                         </div>
                         <div className="min-w-0 overflow-hidden">
-                          <span className="block truncate">
+                          <span className="block">
                             {planner.name || "Unknown Planner"}
                           </span>
-                          <p className="truncate text-xs text-white/50">
+                          <p className="text-white/50">
                             {planner.venueName || "General Venue"}
                           </p>
                         </div>
                       </div>
 
                       <div className="col-span-12 min-w-0 md:col-span-2">
-                        <span className="block truncate text-sm text-white/70 capitalize">
+                        <span className="block capitalize">
                           {planner.eventType
                             ? planner.eventType.replace(/_/g, " ")
                             : planner.category || "Event Planner"}
@@ -7324,25 +7308,17 @@ export function AdminDashboardMain({
 
                       <div className="col-span-12 min-w-0 md:col-span-2">
                         {planner.phone ? (
-                          <span className="block truncate text-sm text-white/70">
-                            {planner.phone}
-                          </span>
+                          <span className="block">{planner.phone}</span>
                         ) : (
-                          <span className="text-sm text-white/30">
-                            No phone
-                          </span>
+                          <span className="text-white/30">No phone</span>
                         )}
                       </div>
 
                       <div className="col-span-12 min-w-0 md:col-span-3">
                         {planner.email ? (
-                          <span className="block truncate text-sm text-white/70">
-                            {planner.email}
-                          </span>
+                          <span className="block">{planner.email}</span>
                         ) : (
-                          <span className="text-sm text-white/30">
-                            No email
-                          </span>
+                          <span className="text-white/30">No email</span>
                         )}
                       </div>
 
@@ -7360,7 +7336,7 @@ export function AdminDashboardMain({
                               ...prev,
                             ])
                           }
-                          className="! rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-[16px] transition-colors hover:text-white"
+                          className="! rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-white"
                         >
                           Email
                         </a>
@@ -7378,7 +7354,7 @@ export function AdminDashboardMain({
                                 ...prev,
                               ])
                             }
-                            className="! rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-[16px] transition-colors hover:text-[var(--color-accent)]"
+                            className="! rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-[var(--color-accent)]"
                           >
                             Text
                           </a>
@@ -7479,7 +7455,7 @@ export function AdminDashboardMain({
                   {moderationQueue.map((photo) => (
                     <div
                       key={photo.id}
-                      className="group relative overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] transition-colors hover:border-[var(--color-accent)]/50"
+                      className="group relative overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] hover:border-[var(--color-accent)]/50"
                     >
                       <div className="relative aspect-[4/3] overflow-hidden bg-[#00000029]">
                         <img
@@ -7487,18 +7463,16 @@ export function AdminDashboardMain({
                           alt="Fan Upload"
                           className="h-full w-full object-cover"
                         />
-                        <div className="absolute top-0 right-0 m-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[0.9rem] backdrop-blur-[45px]">
+                        <div className="absolute top-0 right-0 m-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[0.9rem] backdrop-blur-2xl">
                           {new Date(photo.submittedAt).toLocaleDateString()}
                         </div>
                       </div>
                       <div className="flex flex-col gap-1.5 p-4">
-                        <div className="flex items-center gap-2 truncate">
+                        <div className="flex items-center gap-2">
                           <span className="text-[var(--color-accent)]">@</span>
                           {photo.name}
                         </div>
-                        {photo.venue && (
-                          <p className="truncate"> {photo.venue}</p>
-                        )}
+                        {photo.venue && <p> {photo.venue}</p>}
                         {photo.caption && (
                           <p className="mt-2 border-l-2 border-white/10 pl-3">
                             "{photo.caption}"
@@ -7508,13 +7482,13 @@ export function AdminDashboardMain({
                       <div className="grid grid-cols-2 divide-x divide-white/10 border-t border-white/10">
                         <button
                           onClick={() => moderatePhoto(photo.id, "reject")}
-                          className="cursor-pointer bg-red-600 py-3 text-[0.9rem] shadow-[0_0_15px_rgba(239,68,68,0.4)] transition-colors hover:bg-red-500"
+                          className="cursor-pointer bg-red-600 py-3 text-[0.9rem] shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:bg-red-500"
                         >
                           Reject & Delete
                         </button>
                         <button
                           onClick={() => moderatePhoto(photo.id, "approve")}
-                          className="bg-emerald-400 py-3 text-[0.9rem] text-[#050505] shadow-[0_0_15px_rgba(52,211,153,0.3)] transition-colors hover:bg-emerald-300"
+                          className="bg-emerald-400 py-3 text-[0.9rem] text-[#050505] shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:bg-emerald-300"
                         >
                           Safe & Approve
                         </button>
@@ -7619,9 +7593,7 @@ export function AdminDashboardMain({
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <span className=" ">
-                          {mem.fan_name || "Anonymous Fan"}
-                        </span>
+                        <span>{mem.fan_name || "Anonymous Fan"}</span>
                         <span className="text-[0.9rem] text-white/30">
                           {new Date(
                             mem.created_at || mem.submittedAt,
@@ -7645,13 +7617,13 @@ export function AdminDashboardMain({
                     <div className="flex shrink-0 gap-2">
                       <button
                         onClick={() => moderateMemory(mem.id, "reject")}
-                        className="cursor-pointer rounded-lg bg-red-600 px-4 py-2 shadow-[0_0_15px_rgba(239,68,68,0.4)] transition-colors hover:bg-red-500"
+                        className="cursor-pointer rounded-lg bg-red-600 px-4 py-2 shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:bg-red-500"
                       >
                         Reject
                       </button>
                       <button
                         onClick={() => moderateMemory(mem.id, "approve")}
-                        className="rounded-lg bg-emerald-400 px-4 py-2 text-[#050505] shadow-[0_0_15px_rgba(52,211,153,0.3)] transition-colors hover:bg-emerald-300"
+                        className="rounded-lg bg-emerald-400 px-4 py-2 text-[#050505] shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:bg-emerald-300"
                       >
                         Approve
                       </button>
@@ -7764,22 +7736,17 @@ export function AdminDashboardMain({
                     {feeds.map((feed) => (
                       <tr
                         key={feed.id}
-                        className="border-b border-white/10 transition-colors hover:bg-white/[0.02]"
+                        className="border-b border-white/10 hover:bg-white/[0.02]"
                       >
                         <td className="p-4">
                           <div className="flex items-center gap-2">
                             <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-red-500" />
                             {feed.isSimulated && feed.route ? (
-                              <Link
-                                href={feed.route}
-                                className="block truncate transition-colors"
-                              >
+                              <Link href={feed.route} className="block">
                                 {feed.name}
                               </Link>
                             ) : (
-                              <span className="block truncate">
-                                {feed.name}
-                              </span>
+                              <span className="block">{feed.name}</span>
                             )}
                             {feed.isSimulated && (
                               <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/15 px-1.5 py-0.5 text-[0.5rem]">
@@ -7791,7 +7758,7 @@ export function AdminDashboardMain({
                             Uptime: {feed.uptime}
                           </div>
                         </td>
-                        <td className="p-4 text-white/70">{feed.host}</td>
+                        <td className="p-4">{feed.host}</td>
                         <td className="p-4">{feed.viewers.toLocaleString()}</td>
                         <td className="p-4 text-[var(--color-accent)]">
                           {feed.revenue !== undefined
@@ -7806,13 +7773,13 @@ export function AdminDashboardMain({
                                   ? feed.route
                                   : `/live/${feed.id}`
                               }
-                              className="inline-block rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-[0.9rem] transition-colors hover:bg-white/10 hover:text-white"
+                              className="inline-block rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-[0.9rem] hover:bg-white/10 hover:text-white"
                             >
                               View
                             </Link>
                             <button
                               onClick={() => killStream(feed)}
-                              className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2 text-[0.9rem] text-red-500 transition-colors hover:bg-red-500 hover:text-white"
+                              className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2 text-[0.9rem] text-red-500 hover:bg-red-500 hover:text-white"
                             >
                               Shut Down
                             </button>
@@ -8072,9 +8039,8 @@ export function AdminDashboardMain({
                             Connected
                           </span>
                         </div>
-                        <span className="text-[11px] text-white/50">
-                          Sender Number:{" "}
-                          <strong className=" ">+1 (888) 7H-ROCKS</strong>{" "}
+                        <span className="text-white/50">
+                          Sender Number: <strong>+1 (888) 7H-ROCKS</strong>{" "}
                           (Toll-Free Verified) • SID:{" "}
                           <code className="text-rose-300/80">
                             AC89f2a...98e4
@@ -8117,9 +8083,7 @@ export function AdminDashboardMain({
                       <div className="r text-[10px] text-white/40">
                         Twilio Rate
                       </div>
-                      <div className="text-purple-300">
-                        ${smsCostPerSegment}/SMS
-                      </div>
+                      <div>${smsCostPerSegment}/SMS</div>
                       <div className="text-[12px] text-white/40">
                         US Standard Rate
                       </div>
@@ -8162,9 +8126,7 @@ export function AdminDashboardMain({
                         Total SMS Sent
                       </div>
                       <div>{smsTotalSpentAllTime.toLocaleString()}</div>
-                      <div className="text-[12px] text-purple-300">
-                        Across 4 blasts
-                      </div>
+                      <div className="text-[12px]">Across 4 blasts</div>
                     </div>
                   </div>
                 </div>
@@ -8192,7 +8154,7 @@ export function AdminDashboardMain({
                       {/* Screen Content placed precisely inside the screen cutout */}
                       <div className="absolute top-[24px] right-[20px] bottom-[24px] left-[20px] flex flex-col justify-between overflow-hidden rounded-[44px] bg-[#07070b] pt-7">
                         {/* Status Bar */}
-                        <div className="z-10 flex shrink-0 items-center justify-between px-6 pt-1 pb-1 text-[11px]">
+                        <div className="z-10 flex shrink-0 items-center justify-between px-6 pt-1 pb-1">
                           <span>9:41</span>
                           <div className="flex items-center gap-1.5">
                             <span className="text-[10px]">5G</span>
@@ -8222,7 +8184,7 @@ export function AdminDashboardMain({
                           </div>
 
                           {/* SMS Bubble */}
-                          <div className="/90 rounded-lg rounded-tl-xs border border-white/10 bg-[#242333] p-3.5 text-[11px] whitespace-pre-wrap">
+                          <div className="/90 rounded-lg rounded-tl-xs border border-white/10 bg-[#242333] p-3.5 whitespace-pre-wrap">
                             {smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
                               smsPreview || (
                                 <span className="text-white/40">
@@ -8268,7 +8230,7 @@ export function AdminDashboardMain({
                       </div>
                       <div>
                         <span className="text-white/40">Twilio Segments: </span>
-                        <strong className="text-purple-300">
+                        <strong>
                           {Math.ceil(
                             ((
                               smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
@@ -8319,14 +8281,14 @@ export function AdminDashboardMain({
                           Twilio Pay-As-You-Go
                         </span>
                       </div>
-                      <div className="space-y-1.5 text-white/70">
+                      <div className="space-y-1.5">
                         <div className="flex items-center justify-between">
                           <span>Recipients (25mi Radius):</span>
                           <span>480 subscribers</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span>Segments per Message:</span>
-                          <span className="text-purple-300">
+                          <span>
                             {Math.ceil(
                               ((
                                 smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
@@ -8376,7 +8338,7 @@ export function AdminDashboardMain({
                                   ? `Sent to ${smsResult.sent} fan${smsResult.sent !== 1 ? "s" : ""}`
                                   : smsResult.message}
                                 {smsResult.note && (
-                                  <span className="ml-2 text-purple-300">
+                                  <span className="ml-2">
                                     ({smsResult.note})
                                   </span>
                                 )}
@@ -8491,7 +8453,7 @@ export function AdminDashboardMain({
                           smsSendingRef.current = false;
                           setSmsSending(false);
                         }}
-                        className="flex cursor-pointer items-center gap-2 rounded-lg bg-rose-500 px-6 py-3 shadow-[0_0_20px_rgba(244,63,94,0.3)] transition-colors hover:bg-rose-400 disabled:cursor-not-allowed disabled:opacity-30"
+                        className="flex cursor-pointer items-center gap-2 rounded-lg bg-rose-500 px-6 py-3 shadow-[0_0_20px_rgba(244,63,94,0.3)] hover:bg-rose-400 disabled:cursor-not-allowed disabled:opacity-30"
                       >
                         {smsSending ? (
                           <>
@@ -8512,7 +8474,7 @@ export function AdminDashboardMain({
                     <h4 className="flex items-center gap-2">
                       <span></span> Twilio Blast History & Spending Logs
                     </h4>
-                    <span className="text-[11px] text-white/40">
+                    <span className="text-white/40">
                       Total Spent:{" "}
                       <strong className="text-rose-400">
                         ${smsTotalSpentAllTime.toFixed(2)}
@@ -8907,7 +8869,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           onClick={() => setIsManageRolesModalOpen(true)}
-                          className="a-btn flex cursor-pointer items-center gap-1 border-none p-0 text-white/70 transition-colors hover:text-white"
+                          className="a-btn flex cursor-pointer items-center gap-1 border-none p-0 hover:text-white"
                         >
                           <Plus className="h-3 w-3 text-purple-400" />
                           <span>Manage Preset Roles</span>
@@ -8969,7 +8931,7 @@ export function AdminDashboardMain({
                                   className="!mb-0 list-none border-b border-white/10 bg-[#00000029] last:border-b-0"
                                 >
                                   <div
-                                    className={`relative flex min-h-[38px] items-center justify-between gap-2.5 px-2.5 py-2 transition-colors duration-200 ${isChecked ? " " : ""}`}
+                                    className={`relative flex min-h-[38px] items-center justify-between gap-2.5 px-2.5 py-2 ${isChecked ? " " : ""}`}
                                     title={` ${r.phone || "No phone"} \n ${r.email || "No email"}`}
                                   >
                                     <div
@@ -9029,7 +8991,7 @@ export function AdminDashboardMain({
 
                                       {/* Name */}
                                       <span
-                                        className={`truncate ${!r.phone ? "dark: text-black/40 text-white/40" : "dark:"}`}
+                                        className={` ${!r.phone ? "dark: text-black/40 text-white/40" : "dark:"}`}
                                       >
                                         {r.name}
                                       </span>
@@ -9047,10 +9009,10 @@ export function AdminDashboardMain({
                                             );
                                             setEditingDutyValue(r.duty || "");
                                           }}
-                                          className="group relative inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1 text-xs transition-colors hover:bg-white/20 md:text-sm dark:text-purple-300"
+                                          className="group md: dark: relative inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1 hover:bg-white/20"
                                           title={`Click to change or edit role(s): ${r.duty}`}
                                         >
-                                          <span className="max-w-[200px] truncate md:max-w-[320px]">
+                                          <span className="max-w-[200px] md:max-w-[320px]">
                                             {r.duty}
                                           </span>
                                         </button>
@@ -9064,7 +9026,7 @@ export function AdminDashboardMain({
                                             );
                                             setEditingDutyValue(r.duty || "");
                                           }}
-                                          className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 text-xs text-white/60 transition-colors hover:bg-white/10 hover:text-purple-300 md:text-sm"
+                                          className="hover: md: flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 text-white/60 hover:bg-white/10"
                                           title="Click to assign role(s)"
                                         >
                                           <span>+ Assign Role</span>
@@ -9094,7 +9056,7 @@ export function AdminDashboardMain({
                                           );
                                           setEditingDutyValue(r.duty || "");
                                         }}
-                                        className="flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+                                        className="flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 text-white/40 hover:bg-white/10 hover:text-white"
                                         title="Edit Role"
                                       >
                                         <svg
@@ -9228,7 +9190,7 @@ export function AdminDashboardMain({
                         return (
                           <div className="flex animate-[fadeIn_0.2s_ease-out] items-center justify-between border border-white/10 bg-purple-500/10 p-3">
                             <div>
-                              <span className="block text-[0.65rem] text-purple-300">
+                              <span className="block text-[0.65rem]">
                                 Active Show Target
                               </span>
                               <span>
@@ -9238,7 +9200,7 @@ export function AdminDashboardMain({
                             <button
                               type="button"
                               onClick={() => selectShowForSms("")}
-                              className="cursor-pointer border-none text-white/40 transition-colors hover:text-white"
+                              className="cursor-pointer border-none text-white/40 hover:text-white"
                               title="Clear targeted show"
                             ></button>
                           </div>
@@ -9392,9 +9354,7 @@ export function AdminDashboardMain({
                                                   </div>
                                                 );
                                               })()}
-                                              <span className=" ">
-                                                {r.name}
-                                              </span>
+                                              <span>{r.name}</span>
                                             </div>
 
                                             <div className="relative shrink-0">
@@ -9411,12 +9371,10 @@ export function AdminDashboardMain({
                                                     r.duty || r.role || "",
                                                   );
                                                 }}
-                                                className="flex max-w-[200px] shrink-0 cursor-pointer items-center gap-1 rounded-lg border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.5 text-[9px] text-purple-300 transition-colors hover:bg-white/20 hover:text-purple-300"
+                                                className="hover: flex max-w-[200px] shrink-0 cursor-pointer items-center gap-1 rounded-lg border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.5 text-[9px] hover:bg-white/20"
                                                 title={`Click to edit role(s): ${displayRole}`}
                                               >
-                                                <span className="truncate">
-                                                  {displayRole}
-                                                </span>
+                                                <span>{displayRole}</span>
                                                 {isEditingThis && (
                                                   <DutyRoleEditorPopover
                                                     memberName={r.name}
@@ -9611,7 +9569,7 @@ export function AdminDashboardMain({
                           crewAlertSendingRef.current = false;
                           setCrewAlertSending(false);
                         }}
-                        className="disabled: flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
+                        className="disabled: flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
                       >
                         {crewAlertSending ? (
                           <>
@@ -9640,7 +9598,7 @@ export function AdminDashboardMain({
                         }
                       }}
                       onClick={() => setSendSmsAlert((prev) => !prev)}
-                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 transition-colors select-none md:p-3 ${sendSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                     >
                       <div className="flex items-center gap-2">
                         <SquishyToggle
@@ -9649,7 +9607,7 @@ export function AdminDashboardMain({
                           checked={sendSmsAlert}
                           onChange={(val) => setSendSmsAlert(val)}
                         />
-                        <span className="text-purple-300">SMS TEXTS</span>
+                        <span>SMS TEXTS</span>
                       </div>
                       <span className="leading-normal text-white/40">
                         Sends raw text alerts to active mobile numbers
@@ -9666,7 +9624,7 @@ export function AdminDashboardMain({
                         }
                       }}
                       onClick={() => setSendEmailAlert((prev) => !prev)}
-                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 transition-colors select-none md:p-3 ${sendEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                     >
                       <div className="flex items-center gap-2">
                         <SquishyToggle
@@ -9675,7 +9633,7 @@ export function AdminDashboardMain({
                           checked={sendEmailAlert}
                           onChange={(val) => setSendEmailAlert(val)}
                         />
-                        <span className="text-purple-300">EMAIL ALERTS</span>
+                        <span>EMAIL ALERTS</span>
                       </div>
                       <span className="leading-normal text-white/40">
                         Sends styled HTML alerts to registered emails
@@ -9693,7 +9651,7 @@ export function AdminDashboardMain({
                           }
                         }}
                         onClick={() => setCrewSendAsGroup((prev) => !prev)}
-                        className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 transition-colors select-none md:p-3 ${crewSendAsGroup ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                        className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${crewSendAsGroup ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                       >
                         <div className="flex items-center gap-2">
                           <SquishyToggle
@@ -9702,9 +9660,7 @@ export function AdminDashboardMain({
                             checked={crewSendAsGroup}
                             onChange={(val) => setCrewSendAsGroup(val)}
                           />
-                          <span className="text-purple-300">
-                            SEND AS GROUP TEXT
-                          </span>
+                          <span>SEND AS GROUP TEXT</span>
                         </div>
                         <span className="leading-normal text-white/40">
                           Appends list of recipients to SMS so everyone sees who
@@ -9826,7 +9782,7 @@ export function AdminDashboardMain({
                         }
                         setCrewAlertSending(false);
                       }}
-                      className="disabled: flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
+                      className="disabled: flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
                     >
                       {crewAlertSending ? (
                         <>
@@ -9876,7 +9832,7 @@ export function AdminDashboardMain({
                             Full HTML Template
                           </span>
                         </div>
-                        <span className="max-w-[180px] truncate text-white/50">
+                        <span className="max-w-[180px] text-white/50">
                           Subject: {smsEmailSubject || "(No subject)"}
                         </span>
                       </div>
@@ -9908,7 +9864,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           onClick={() => setIsManageRolesModalOpen(false)}
-                          className="cursor-pointer border-none text-white/40 transition-colors hover:text-white"
+                          className="cursor-pointer border-none text-white/40 hover:text-white"
                         >
                           Close
                         </button>
@@ -9931,7 +9887,7 @@ export function AdminDashboardMain({
                               setNewPresetRoleInput(e.target.value)
                             }
                             placeholder="e.g. LIGHTING DESIGNER"
-                            className="flex-1 rounded-lg border border-white/10 bg-black/40 px-3 py-2 placeholder-white/30 transition-[border-color,box-shadow,background-color] outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(168,85,247,0.4)] focus:ring-2 focus:ring-purple-500/50 focus:outline-none"
+                            className="focus-ring flex-1 rounded-lg border border-white/10 bg-black/40 px-3 py-2 placeholder-white/30 transition-[border-color,box-shadow,background-color] outline-none focus:shadow-[0_0_12px_rgba(168,85,247,0.4)]"
                             onKeyDown={(e) => {
                               if (e.key === "Enter") {
                                 handleAddPresetRole(newPresetRoleInput);
@@ -9945,7 +9901,7 @@ export function AdminDashboardMain({
                               handleAddPresetRole(newPresetRoleInput);
                               setNewPresetRoleInput("");
                             }}
-                            className="cursor-pointer rounded-lg border-none bg-purple-600 px-4 py-2 transition-colors hover:bg-purple-500"
+                            className="cursor-pointer rounded-lg border-none bg-purple-600 px-4 py-2 hover:bg-purple-500"
                           >
                             Add
                           </button>
@@ -9972,7 +9928,7 @@ export function AdminDashboardMain({
                                 <button
                                   type="button"
                                   onClick={() => handleDeletePresetRole(role)}
-                                  className="-lg flex cursor-pointer items-center justify-center border-none bg-rose-500/10 p-1 text-rose-400 transition-colors hover:bg-rose-500/20 hover:text-rose-300"
+                                  className="-lg flex cursor-pointer items-center justify-center border-none bg-rose-500/10 p-1 text-rose-400 hover:bg-rose-500/20 hover:text-rose-300"
                                   title="Delete Preset"
                                 >
                                   <svg
@@ -10227,7 +10183,7 @@ export function AdminDashboardMain({
                                     }
                                   }}
                                   onClick={toggleSelection}
-                                  className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-2.5 !rounded-none border-b border-white/10 !bg-[#00000029] !px-2 transition-colors duration-200 select-none ${isChecked ? " " : "hover:bg-white/[0.04]"}`}
+                                  className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-2.5 !rounded-none border-b border-white/10 !bg-[#00000029] !px-2 select-none ${isChecked ? " " : "hover:bg-white/[0.04]"}`}
                                   title={`Click to toggle selection for ${r.name}\n ${r.phone || "No phone"} \n ${r.email || "No email"}`}
                                 >
                                   <div className="flex min-w-0 flex-1 items-center gap-3">
@@ -10277,12 +10233,12 @@ export function AdminDashboardMain({
                                     })()}
 
                                     {/* Name */}
-                                    <span className="truncate">{r.name}</span>
+                                    <span>{r.name}</span>
                                   </div>
 
                                   {/* Role badge */}
                                   <div className="flex shrink-0 items-center gap-1.5">
-                                    <span className="inline-block shrink-0 rounded-lg border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 text-[12px] text-purple-300">
+                                    <span className="inline-block shrink-0 rounded-lg border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 text-[12px]">
                                       {r.role}
                                     </span>
                                   </div>
@@ -10322,7 +10278,7 @@ export function AdminDashboardMain({
                       </div>
 
                       {bandSmsSelectedShowDate && (
-                        <div className="flex animate-[fadeIn_0.2s_ease-out] items-center justify-between rounded-lg border border-purple-500/25 bg-purple-500/10 px-3 py-2 text-purple-300">
+                        <div className="flex animate-[fadeIn_0.2s_ease-out] items-center justify-between rounded-lg border border-purple-500/25 bg-purple-500/10 px-3 py-2">
                           <div className="flex items-center gap-1.5">
                             <span></span>
                             <span>
@@ -10339,7 +10295,7 @@ export function AdminDashboardMain({
                             type="button"
                             aria-label="Clear selected show"
                             onClick={() => selectShowForBandSms("")}
-                            className="cursor-pointer border-none text-[var(--color-accent)] hover:text-purple-300"
+                            className="hover: cursor-pointer border-none text-[var(--color-accent)]"
                           ></button>
                         </div>
                       )}
@@ -10356,7 +10312,7 @@ export function AdminDashboardMain({
                             }
                           }}
                           onClick={() => setSendBandSmsAlert((prev) => !prev)}
-                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 transition-colors select-none md:p-3 ${sendBandSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                         >
                           <div className="flex items-center gap-2">
                             <SquishyToggle
@@ -10365,9 +10321,9 @@ export function AdminDashboardMain({
                               checked={sendBandSmsAlert}
                               onChange={(val) => setSendBandSmsAlert(val)}
                             />
-                            <span className="text-purple-300">SMS TEXTS</span>
+                            <span>SMS TEXTS</span>
                           </div>
-                          <span className="text-[11px] leading-normal text-white/40">
+                          <span className="leading-normal text-white/40">
                             Sends raw text alerts to active mobile numbers
                           </span>
                         </div>
@@ -10382,7 +10338,7 @@ export function AdminDashboardMain({
                             }
                           }}
                           onClick={() => setSendBandEmailAlert((prev) => !prev)}
-                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 transition-colors select-none md:p-3 ${sendBandEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                         >
                           <div className="flex items-center gap-2">
                             <SquishyToggle
@@ -10391,11 +10347,9 @@ export function AdminDashboardMain({
                               checked={sendBandEmailAlert}
                               onChange={(val) => setSendBandEmailAlert(val)}
                             />
-                            <span className="text-purple-300">
-                              EMAIL ALERTS
-                            </span>
+                            <span>EMAIL ALERTS</span>
                           </div>
-                          <span className="text-[11px] leading-normal text-white/40">
+                          <span className="leading-normal text-white/40">
                             Sends styled HTML alerts to registered emails
                           </span>
                         </div>
@@ -10444,7 +10398,7 @@ export function AdminDashboardMain({
                               backgroundColor: "#181924",
                               color: "#ffffff",
                             }}
-                            className="! placeholder: w-full resize-none rounded-lg border border-white/10 px-3.5 py-2.5 text-white/30 transition-colors focus:border-purple-500/50 focus:outline-none"
+                            className="! placeholder: focus-ring w-full resize-none rounded-lg border border-white/10 px-3.5 py-2.5 text-white/30"
                           />
                         </div>
                       </div>
@@ -10477,7 +10431,7 @@ export function AdminDashboardMain({
                             !bandAlertMsg.trim() ||
                             selectedBandPhones.length === 0
                           }
-                          className="disabled: flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
+                          className="disabled: flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
                         >
                           {bandAlertSending ? (
                             <>
@@ -10530,7 +10484,7 @@ export function AdminDashboardMain({
                                   className="flex flex-col gap-1.5 rounded-lg border border-white/10 bg-white/[0.02] p-2.5"
                                 >
                                   <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2.5 truncate">
+                                    <div className="flex items-center gap-2.5">
                                       {r.avatar ? (
                                         <img
                                           src={r.avatar}
@@ -10540,7 +10494,7 @@ export function AdminDashboardMain({
                                       ) : (
                                         <div className="h-6.5 w-6.5 shrink-0 rounded-full border border-purple-400/50 bg-purple-600/30" />
                                       )}
-                                      <div className="truncate">
+                                      <div>
                                         <span className="block">{r.name}</span>
                                         <span className="mt-1 block text-[var(--color-accent)]/80">
                                           {r.role || "BAND MEMBER"}
@@ -10559,12 +10513,12 @@ export function AdminDashboardMain({
                                           ),
                                         )
                                       }
-                                      className="shrink-0 cursor-pointer border-none p-1 text-[var(--font-size-2xs)] text-white/30 transition-colors hover:text-rose-400"
+                                      className="shrink-0 cursor-pointer border-none p-1 text-[var(--font-size-2xs)] text-white/30 hover:text-rose-400"
                                     ></button>
                                   </div>
 
                                   {/* Time Frame, Phone & Email Details */}
-                                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-white/10 pt-1.5 text-[11px] text-white/50">
+                                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-white/10 pt-1.5 text-white/50">
                                     <div className="flex items-center gap-1">
                                       <span>⏰</span>
                                       <span>{timeFrameStr}</span>
@@ -10573,11 +10527,9 @@ export function AdminDashboardMain({
                                       <span></span>
                                       <span>{phoneDisplay}</span>
                                     </div>
-                                    <div className="flex max-w-[200px] items-center gap-1 truncate">
+                                    <div className="flex max-w-[200px] items-center gap-1">
                                       <span></span>
-                                      <span className="truncate">
-                                        {emailDisplay}
-                                      </span>
+                                      <span>{emailDisplay}</span>
                                     </div>
                                   </div>
                                 </div>
@@ -10734,7 +10686,7 @@ export function AdminDashboardMain({
                       value={blastSubject}
                       onChange={(e) => setBlastSubject(e.target.value)}
                       placeholder="e.g.  New Show Announced — Chicago June 15th!"
-                      className="w-full rounded-lg border border-white/10 px-4 py-3 placeholder-white/40 transition-colors focus:border-[var(--color-accent)]/50 focus:outline-none"
+                      className="focus-ring w-full rounded-lg border border-white/10 px-4 py-3 placeholder-white/40"
                     />
                   </div>
                 </div>
@@ -10752,7 +10704,7 @@ export function AdminDashboardMain({
                       onChange={(e) => setBlastBody(e.target.value)}
                       placeholder="Write your announcement here..."
                       rows={6}
-                      className="w-full resize-none rounded-lg border border-white/10 px-4 py-3 placeholder-white/40 transition-colors focus:border-[var(--color-accent)]/50 focus:outline-none"
+                      className="focus-ring w-full resize-none rounded-lg border border-white/10 px-4 py-3 placeholder-white/40"
                     />
                   </div>
                 </div>
@@ -10956,10 +10908,10 @@ export function AdminDashboardMain({
                             a.name.toLowerCase() === user.name.toLowerCase()),
                       ) as any;
                       return (
-                        <div key={user.id} className="transition-colors">
-                          <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 px-4 transition-colors hover:bg-black/5 dark:border-white/5 dark:hover:bg-white/[0.02]">
-                            <div className="max-w-[220px] truncate">
-                              <div className="flex items-center gap-2.5 truncate">
+                        <div key={user.id} className="">
+                          <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 px-4 hover:bg-black/5 dark:border-white/5 dark:hover:bg-white/[0.02]">
+                            <div className="max-w-[220px]">
+                              <div className="flex items-center gap-2.5">
                                 {(() => {
                                   const avatarSrc = resolveMemberAvatar(
                                     user.name,
@@ -10997,7 +10949,7 @@ export function AdminDashboardMain({
                                     </div>
                                   );
                                 })()}
-                                <span className="truncate">{user.name}</span>
+                                <span>{user.name}</span>
                               </div>
                             </div>
                             <div>
@@ -11028,13 +10980,13 @@ export function AdminDashboardMain({
                                           : user.id,
                                       )
                                     }
-                                    className="rounded border border-white/10 bg-[#00000029] px-3 py-2 text-[0.9rem] transition-colors hover:text-white"
+                                    className="rounded border border-white/10 bg-[#00000029] px-3 py-2 text-[0.9rem] hover:text-white"
                                   >
                                     {viewingUser === user.id ? "Hide" : "View"}
                                   </button>
                                   <button
                                     onClick={() => banUser(user.id, user.name)}
-                                    className="rounded border border-red-500/30 bg-[#00000029] px-3 py-2 text-[0.9rem] text-red-500 transition-colors hover:border-red-500 hover:bg-red-500 hover:text-white"
+                                    className="rounded border border-red-500/30 bg-[#00000029] px-3 py-2 text-[0.9rem] text-red-500 hover:border-red-500 hover:bg-red-500 hover:text-white"
                                   >
                                     Remove
                                   </button>
@@ -11061,7 +11013,7 @@ export function AdminDashboardMain({
                                   <span className="text-[0.55rem] text-white/30">
                                     Password:{" "}
                                   </span>
-                                  <span className="text-purple-300">
+                                  <span>
                                     {acct?.password ||
                                       (user.role === "crew"
                                         ? "********"
@@ -11108,7 +11060,7 @@ export function AdminDashboardMain({
                                           );
                                         }
                                       }}
-                                      className="ml-2 rounded border border-purple-500/30 bg-white/20 px-2 py-0.5 text-[0.55rem] text-purple-300 hover:bg-purple-500/30"
+                                      className="ml-2 rounded border border-purple-500/30 bg-white/20 px-2 py-0.5 text-[0.55rem] hover:bg-purple-500/30"
                                     >
                                       Reset Password
                                     </button>
@@ -11224,7 +11176,7 @@ export function AdminDashboardMain({
                       placeholder="e.g. Alex Rivera"
                       value={newCrewName}
                       onChange={(e) => setNewCrewName(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 transition-colors outline-none"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
                     />
                   </div>
                 </div>
@@ -11249,7 +11201,7 @@ export function AdminDashboardMain({
                         )
                       }
                       maxLength={24}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 transition-colors outline-none"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
                     />
                   </div>
                 </div>
@@ -11267,7 +11219,7 @@ export function AdminDashboardMain({
                       placeholder="crew@7thheaven.com"
                       value={newCrewEmail}
                       onChange={(e) => setNewCrewEmail(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 transition-colors outline-none"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
                     />
                   </div>
                 </div>
@@ -11285,7 +11237,7 @@ export function AdminDashboardMain({
                       placeholder="Min 6 characters"
                       value={newCrewPassword}
                       onChange={(e) => setNewCrewPassword(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 transition-colors outline-none"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
                     />
                   </div>
                 </div>
@@ -11294,7 +11246,7 @@ export function AdminDashboardMain({
                     htmlFor="admin-create-crew-phone"
                     className="mb-2 block text-[0.9rem] text-white/40"
                   >
-                    Phone Number <span className="text-purple-300">*</span>
+                    Phone Number <span>*</span>
                   </label>
                   <div className="input-glow-border w-full">
                     <input
@@ -11316,7 +11268,7 @@ export function AdminDashboardMain({
                             `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`,
                           );
                       }}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 transition-colors outline-none"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
                     />
                   </div>
                 </div>
@@ -11327,7 +11279,7 @@ export function AdminDashboardMain({
                     !newCrewEmail.trim() ||
                     !newCrewPassword.trim()
                   }
-                  className="flex items-center gap-2 rounded-lg px-6 py-3 text-[0.7rem] whitespace-nowrap transition-colors disabled:cursor-not-allowed disabled:opacity-30"
+                  className="flex items-center gap-2 rounded-lg px-6 py-3 text-[0.7rem] whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
                 >
                   <svg
                     width="16"
@@ -11348,7 +11300,7 @@ export function AdminDashboardMain({
                 </SeventhButton>
               </div>
               <div className="mt-4 flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.02] p-3">
-                <span className="mt-0.5 text-purple-300"></span>
+                <span className="mt-0.5"></span>
                 <p>
                   A crew account will be created with the credentials above.
                   Share the login details securely with the crew member. Only
@@ -11361,7 +11313,7 @@ export function AdminDashboardMain({
                 <div className="mt-4 animate-[fadeIn_0.3s_ease] border border-emerald-500/30 bg-emerald-500/[0.08] p-5">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/20 text-lg"></div>
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/20"></div>
                       <div>
                         <h4>Crew Account Created</h4>
                         <p className="mt-1">
@@ -11375,7 +11327,7 @@ export function AdminDashboardMain({
                           <span className="shrink-0 text-[0.55rem] text-white/30">
                             Temp Password
                           </span>
-                          <code className="text-purple-300 select-all">
+                          <code className="select-all">
                             {createdCrew.password}
                           </code>
                           <button
@@ -11384,7 +11336,7 @@ export function AdminDashboardMain({
                                 createdCrew.password,
                               );
                             }}
-                            className="ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 transition-colors hover:border-white/30 hover:text-white"
+                            className="ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 hover:border-white/30 hover:text-white"
                           >
                             Copy
                           </button>
@@ -11394,14 +11346,14 @@ export function AdminDashboardMain({
                     <button
                       aria-label="Dismiss created crew notification"
                       onClick={() => setCreatedCrew(null)}
-                      className="shrink-0 text-lg text-white/20 transition-colors hover:text-white"
+                      className="shrink-0 text-white/20 hover:text-white"
                     >
                       ✕
                     </button>
                   </div>
                   <button
                     onClick={scrollToRegistry}
-                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-emerald-500/10 py-2.5 text-[0.65rem] transition-colors hover:bg-emerald-500/20"
+                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-emerald-500/10 py-2.5 text-[0.65rem] hover:bg-emerald-500/20"
                   >
                     <svg
                       width="14"
@@ -11569,7 +11521,7 @@ export function AdminDashboardMain({
                       placeholder="e.g. Michael Scimeca"
                       value={newAdminName}
                       onChange={(e) => setNewAdminName(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 transition-colors outline-none"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
                     />
                   </div>
                 </div>
@@ -11587,7 +11539,7 @@ export function AdminDashboardMain({
                       placeholder="admin@7thheaven.com"
                       value={newAdminEmail}
                       onChange={(e) => setNewAdminEmail(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 transition-colors outline-none"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
                     />
                   </div>
                 </div>
@@ -11605,7 +11557,7 @@ export function AdminDashboardMain({
                       placeholder="e.g. mikeys"
                       value={newAdminUsername}
                       onChange={(e) => setNewAdminUsername(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 transition-colors outline-none"
+                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
                     />
                   </div>
                 </div>
@@ -11617,7 +11569,7 @@ export function AdminDashboardMain({
                     !newAdminUsername.trim() ||
                     adminCreateLoading
                   }
-                  className="flex items-center gap-2 rounded-lg px-6 py-3 text-[0.7rem] whitespace-nowrap transition-colors disabled:cursor-not-allowed disabled:opacity-30"
+                  className="flex items-center gap-2 rounded-lg px-6 py-3 text-[0.7rem] whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
                 >
                   <svg
                     width="16"
@@ -11639,7 +11591,7 @@ export function AdminDashboardMain({
               </div>
 
               <div className="mt-4 flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.02] p-3">
-                <span className="mt-0.5 text-purple-300"></span>
+                <span className="mt-0.5"></span>
                 <p>
                   A secure temporary password will be auto-generated and emailed
                   to the new admin. They can log in immediately with those
@@ -11653,7 +11605,7 @@ export function AdminDashboardMain({
                 <div className="mt-4 border border-purple-500/30 bg-purple-600/[0.08] p-5">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-white/20 text-lg"></div>
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-white/20"></div>
                       <div>
                         <h4>Admin Account Created</h4>
                         <p className="mt-1">
@@ -11664,7 +11616,7 @@ export function AdminDashboardMain({
                           <span className="shrink-0 text-[0.55rem] text-white/30">
                             Temp Password
                           </span>
-                          <code className="text-purple-300 select-all">
+                          <code className="select-all">
                             {createdAdmin.password}
                           </code>
                           <button
@@ -11673,7 +11625,7 @@ export function AdminDashboardMain({
                                 createdAdmin.password,
                               );
                             }}
-                            className="ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 transition-colors hover:border-white/30 hover:text-white"
+                            className="ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 hover:border-white/30 hover:text-white"
                           >
                             Copy
                           </button>
@@ -11687,7 +11639,7 @@ export function AdminDashboardMain({
                     <button
                       aria-label="Dismiss created admin notification"
                       onClick={() => setCreatedAdmin(null)}
-                      className="shrink-0 text-lg text-white/20 transition-colors hover:text-white"
+                      className="shrink-0 text-white/20 hover:text-white"
                     >
                       ✕
                     </button>
@@ -11716,7 +11668,7 @@ export function AdminDashboardMain({
                     <h4 className="flex items-center gap-2">
                       Sub-Admin Role Permissions
                       {savePermStatus === "saving" && (
-                        <span className="animate-pulse text-[0.65rem] text-purple-300">
+                        <span className="animate-pulse text-[0.65rem]">
                           Saving changes...
                         </span>
                       )}
@@ -11740,7 +11692,7 @@ export function AdminDashboardMain({
                       className="border border-white/10 bg-white/[0.03] p-4"
                     >
                       <div className="mb-3 flex items-center justify-between">
-                        <span className="text-purple-300">{email}</span>
+                        <span>{email}</span>
                         <span className="text-[0.9rem] text-white/30">
                           Sub-Admin
                         </span>
@@ -11770,7 +11722,7 @@ export function AdminDashboardMain({
                                 };
                                 savePermissionsToBackend(updated);
                               }}
-                              className={`flex cursor-pointer items-center justify-between rounded-lg border p-2.5 text-left transition-colors ${enabled ? "border-purple-500/40 bg-purple-500/10 text-purple-300" : "border-white/10 bg-black/40 text-white/40 hover:border-white/20"}`}
+                              className={`flex cursor-pointer items-center justify-between rounded-lg border p-2.5 text-left ${enabled ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-black/40 text-white/40 hover:border-white/20"}`}
                             >
                               <span>{label}</span>
                               <span
@@ -12056,9 +12008,7 @@ export function AdminDashboardMain({
                     <p className="mt-0.5">Deposits</p>
                   </div>
                   <div className="border border-white/10 bg-black/30 p-3 text-center">
-                    <p className="text-purple-300">
-                      {signups.filter((s: any) => s.fullPaid).length}
-                    </p>
+                    <p>{signups.filter((s: any) => s.fullPaid).length}</p>
                     <p className="mt-0.5">Paid Full</p>
                   </div>
                 </div>
@@ -12070,7 +12020,7 @@ export function AdminDashboardMain({
                       <button
                         aria-label="Select all passenger emails"
                         onClick={toggleAllEmails}
-                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded border transition-colors ${allSelected ? "border-purple-500/40 bg-cyan-500/20" : "border-white/10 bg-black/20 text-white/10 hover:border-white/25"}`}
+                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded border ${allSelected ? "border-purple-500/40 bg-cyan-500/20" : "border-white/10 bg-black/20 text-white/10 hover:border-white/25"}`}
                       >
                         {allSelected && (
                           <svg
@@ -12099,7 +12049,7 @@ export function AdminDashboardMain({
                         setCruiseEmailResult(null);
                       }}
                       disabled={cruiseSelectedEmails.length === 0}
-                      className="flex cursor-pointer items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-600/15 px-4 py-2 text-[0.9rem] text-purple-300 transition-colors hover:bg-purple-600/25 disabled:cursor-not-allowed disabled:opacity-30"
+                      className="flex cursor-pointer items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-600/15 px-4 py-2 text-[0.9rem] hover:bg-purple-600/25 disabled:cursor-not-allowed disabled:opacity-30"
                     >
                       <svg
                         width="14"
@@ -12130,7 +12080,7 @@ export function AdminDashboardMain({
                       <button
                         aria-label="Close email compose panel"
                         onClick={() => setCruiseEmailOpen(false)}
-                        className="cursor-pointer text-white/20 text-white/50 transition-colors hover:text-white"
+                        className="cursor-pointer text-white/20 text-white/50 hover:text-white"
                       >
                         ✕
                       </button>
@@ -12146,7 +12096,7 @@ export function AdminDashboardMain({
                           <button
                             aria-label={`Remove ${email}`}
                             onClick={() => toggleEmail(email)}
-                            className="cursor-pointer text-white/20 transition-colors hover:text-rose-400"
+                            className="cursor-pointer text-white/20 hover:text-rose-400"
                           >
                             ×
                           </button>
@@ -12169,7 +12119,7 @@ export function AdminDashboardMain({
                             setCruiseEmailSubject(e.target.value)
                           }
                           placeholder="e.g. Important Cruise Update — Departure Details"
-                          className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 placeholder-white/20 transition-colors focus:border-purple-500/50 focus:outline-none"
+                          className="focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 placeholder-white/20"
                         />
                       </div>
                     </div>
@@ -12187,7 +12137,7 @@ export function AdminDashboardMain({
                           onChange={(e) => setCruiseEmailBody(e.target.value)}
                           placeholder="Write your message to cruise passengers..."
                           rows={5}
-                          className="w-full resize-none rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 transition-colors focus:border-purple-500/50 focus:outline-none"
+                          className="focus-ring w-full resize-none rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20"
                         />
                       </div>
                     </div>
@@ -12215,7 +12165,7 @@ export function AdminDashboardMain({
                           !cruiseEmailBody.trim()
                         }
                         onClick={sendCruiseEmail}
-                        className="flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-600 to-cyan-500 px-5 py-2.5 text-[0.65rem] shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-colors hover:from-cyan-500 hover:to-cyan-400 disabled:cursor-not-allowed disabled:opacity-30"
+                        className="flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-600 to-cyan-500 px-5 py-2.5 text-[0.65rem] shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:from-cyan-500 hover:to-cyan-400 disabled:cursor-not-allowed disabled:opacity-30"
                       >
                         {cruiseEmailSending ? (
                           <>
@@ -12267,30 +12217,22 @@ export function AdminDashboardMain({
                             />
                           </div>
                           {/* Row number */}
-                          <span className="font-mono text-xs text-white/30">
-                            {i + 1}
-                          </span>
+                          <span className="text-white/30">{i + 1}</span>
                           {/* Name + Email */}
                           <div className="min-w-0">
-                            <p className="truncate text-sm">{s.name}</p>
-                            <p className="truncate text-xs text-white/50">
-                              {s.email}
-                            </p>
+                            <p>{s.name}</p>
+                            <p className="text-white/50">{s.email}</p>
                           </div>
                           {/* Phone */}
-                          <p className="truncate font-mono text-xs text-white/70">
-                            {s.phone || "—"}
-                          </p>
+                          <p>{s.phone || "—"}</p>
                           {/* Party size + date */}
                           <div>
-                            <p className="/90 text-xs">
+                            <p className="/90">
                               {s.partySize > 1
                                 ? `${s.partySize} guests`
                                 : "1 guest"}
                             </p>
-                            <p className="text-[11px] text-white/40">
-                              {s.date}
-                            </p>
+                            <p className="text-white/40">{s.date}</p>
                           </div>
                           {/* Checked off */}
                           <div className="flex justify-center">
@@ -12299,7 +12241,7 @@ export function AdminDashboardMain({
                               onClick={() =>
                                 toggleFlag(s.id, "checked_off", !s.checkedOff)
                               }
-                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] duration-100 active:scale-90 ${s.checkedOff ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
+                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.checkedOff ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
                             >
                               {s.checkedOff && (
                                 <svg
@@ -12324,7 +12266,7 @@ export function AdminDashboardMain({
                               onClick={() =>
                                 toggleFlag(s.id, "deposit_paid", !s.depositPaid)
                               }
-                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] duration-100 active:scale-90 ${s.depositPaid ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
+                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.depositPaid ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
                             >
                               {s.depositPaid && (
                                 <svg
@@ -12349,7 +12291,7 @@ export function AdminDashboardMain({
                               onClick={() =>
                                 toggleFlag(s.id, "full_paid", !s.fullPaid)
                               }
-                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] duration-100 active:scale-90 ${s.fullPaid ? "border-purple-500/40 bg-purple-500/20 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
+                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.fullPaid ? "border-purple-500/40 bg-purple-500/20 shadow-[0_0_10px_rgba(168,85,247,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
                             >
                               {s.fullPaid && (
                                 <svg
@@ -12372,7 +12314,7 @@ export function AdminDashboardMain({
                             <button
                               aria-label={`Delete signup ${s.name || ""}`}
                               onClick={() => deleteSignup(s.id, s.name)}
-                              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-transparent text-white/20 opacity-0 transition-colors group-hover/row:opacity-100 hover:border-rose-500/30 hover:text-rose-400"
+                              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-transparent text-white/20 opacity-0 group-hover/row:opacity-100 hover:border-rose-500/30 hover:text-rose-400"
                             >
                               <svg
                                 width="14"
@@ -12409,7 +12351,7 @@ export function AdminDashboardMain({
                         URL.revokeObjectURL(url);
                       }
                     }}
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 border border-purple-400/30 bg-gradient-to-r from-cyan-600 to-cyan-500 py-3 text-[0.65rem] shadow-[0_4px_15px_rgba(6,182,212,0.25)] transition-colors hover:from-cyan-500 hover:to-cyan-400"
+                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 border border-purple-400/30 bg-gradient-to-r from-cyan-600 to-cyan-500 py-3 text-[0.65rem] shadow-[0_4px_15px_rgba(6,182,212,0.25)] hover:from-cyan-500 hover:to-cyan-400"
                   >
                     <svg
                       width="14"
@@ -13551,7 +13493,7 @@ export function AdminDashboardMain({
                           {memberName[0]?.toUpperCase()}
                         </div>
                       )}
-                      <span className="truncate text-[12px]">{memberName}</span>
+                      <span className="text-[12px]">{memberName}</span>
                     </div>
                   );
                 })()}
@@ -13567,7 +13509,7 @@ export function AdminDashboardMain({
                         .map((singleRole: string) => (
                           <span
                             key={singleRole}
-                            className="max-w-full truncate rounded px-1.5 py-0.5 text-[12.5px] select-none"
+                            className="max-w-full rounded px-1.5 py-0.5 text-[12.5px] select-none"
                           >
                             {singleRole}
                           </span>
@@ -13609,9 +13551,7 @@ export function AdminDashboardMain({
                 </div>
                 <div>{shift.location || "Venue"}</div>
                 {shift.notes && (
-                  <div className="line-clamp-1 text-white/70">
-                    "{shift.notes}"
-                  </div>
+                  <div className="line-clamp-1">"{shift.notes}"</div>
                 )}
               </div>
             )}
@@ -13731,7 +13671,7 @@ export function AdminDashboardMain({
               {shift.crewId === "openshifts" ? (
                 <>
                   <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-purple-500 bg-purple-500/10 text-[var(--font-size-5xs)]"></div>
-                  <span className="truncate">OpenShifts</span>
+                  <span>OpenShifts</span>
                 </>
               ) : (
                 <>
@@ -13775,7 +13715,7 @@ export function AdminDashboardMain({
                     );
                   })()}
 
-                  <span className="/85 truncate">
+                  <span className="/85">
                     {shift.crewName ||
                       (() => {
                         const member = crewMembers.find(
@@ -13816,15 +13756,14 @@ export function AdminDashboardMain({
             colorClass =
               "text-emerald-400 bg-emerald-500/10 border-emerald-500/25";
           } else if (upper.includes("MANAGER")) {
-            colorClass =
-              "text-purple-300 bg-purple-500/10 border-purple-500/25";
+            colorClass = "  bg-purple-500/10 border-purple-500/25";
           } else if (upper.includes("BUSSER")) {
             colorClass = "text-sky-400 bg-sky-500/10 border-sky-500/25";
           }
           return (
             <span
               key={r}
-              className={`inline-block shrink-0 rounded-lg border px-1.5 py-0.5 text-[12px]`}
+              className="inline-block shrink-0 rounded-lg border px-1.5 py-0.5 text-[12px]"
             >
               {r}
             </span>
@@ -13868,7 +13807,7 @@ export function AdminDashboardMain({
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
                       }}
-                      className={`group wiw-sticky-header relative min-w-[130px] flex-1 cursor-pointer border-r border-b border-[var(--border-color)] p-2 transition-colors duration-200 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? "text-purple-300" : isNextShow ? "border-x border-white/10 text-purple-300" : " "}`}
+                      className={`group wiw-sticky-header relative min-w-[130px] flex-1 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? " " : isNextShow ? "border-x border-white/10" : " "}`}
                       title="Click to select date & stack working crew at top"
                     >
                       <div className="flex w-full flex-col gap-1">
@@ -13883,14 +13822,14 @@ export function AdminDashboardMain({
                               </span>
                             )}
                           </div>
-                          <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100">
                             <button
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
-                              className="cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10 hover:text-purple-300"
+                              className="hover: cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10"
                               title="Alert assigned crew for this show"
                             >
                               <svg
@@ -13914,7 +13853,7 @@ export function AdminDashboardMain({
                                   prev === day.dateStr ? null : day.dateStr,
                                 );
                               }}
-                              className={`cursor-pointer rounded border-none p-0.5 transition-colors ${scheduleSortByDate === day.dateStr ? "bg-white/20 text-purple-300" : " "}`}
+                              className={`cursor-pointer rounded border-none p-0.5 ${scheduleSortByDate === day.dateStr ? "bg-white/20" : " "}`}
                               title={
                                 scheduleSortByDate === day.dateStr
                                   ? "Reset crew sorting"
@@ -13942,7 +13881,7 @@ export function AdminDashboardMain({
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="mt-1 flex w-full cursor-pointer items-center justify-center gap-1 truncate text-[12px] text-purple-300 transition-colors select-none hover:text-white"
+                            className="mt-1 flex w-full cursor-pointer items-center justify-center gap-1 text-[12px] select-none hover:text-white"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
                             {dayShow.venue || dayShow.venue_name}
@@ -13955,7 +13894,7 @@ export function AdminDashboardMain({
               </div>
               {/* Row 1: OpenShifts */}
               {!scheduleCrewFilter && !schedulePersonSearch.trim() && (
-                <div className="flex w-full border-b border-[var(--border-color)] transition-colors">
+                <div className="flex w-full border-b border-[var(--border-color)]">
                   <div className="wiw-sticky-col flex w-60 shrink-0 items-center border-r border-[var(--border-color)] p-1">
                     <div className="flex items-center gap-2 pl-2">
                       <span className="r text-[10px]">Open Shifts</span>
@@ -13967,7 +13906,7 @@ export function AdminDashboardMain({
                     return (
                       <div
                         key={day.dateStr}
-                        className={`min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 transition-colors ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
+                        className={`min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
                         onDragOver={(e) => {
                           e.preventDefault();
                           if (e.dataTransfer)
@@ -14003,12 +13942,12 @@ export function AdminDashboardMain({
                                 "SERVER",
                               );
                             }}
-                            className="group flex w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs transition-colors hover:border-purple-400 hover:bg-purple-500/10"
+                            className="group flex w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                           >
-                            <span className="text-[12px] text-purple-400 transition-colors group-hover:text-purple-300">
+                            <span className="group-hover: text-[12px] text-purple-400">
                               +
                             </span>
-                            <span className="mt-0.5 text-[10px] text-purple-400 transition-colors group-hover:text-purple-300">
+                            <span className="group-hover: mt-0.5 text-[10px] text-purple-400">
                               Add Crew Member
                             </span>
                           </div>
@@ -14037,12 +13976,12 @@ export function AdminDashboardMain({
                                     : `openshifts_group_${day.dateStr}`,
                                 );
                               }}
-                              className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs transition-colors hover:border-purple-400 hover:bg-purple-500/10"
+                              className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                             >
-                              <span className="text-[12px] text-purple-400 transition-colors group-hover:text-purple-300">
+                              <span className="group-hover: text-[12px] text-purple-400">
                                 +
                               </span>
-                              <span className="mt-0.5 text-center text-[10px] text-purple-400 transition-colors group-hover:text-purple-300">
+                              <span className="group-hover: mt-0.5 text-center text-[10px] text-purple-400">
                                 Add Crew Group
                               </span>
                             </div>
@@ -14074,12 +14013,12 @@ export function AdminDashboardMain({
                                 setNewGroupNameInput("");
                                 setIsCreateGroupModalOpen(true);
                               }}
-                              className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs transition-colors hover:border-purple-400 hover:bg-purple-500/10"
+                              className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                             >
-                              <span className="text-[12px] text-purple-400 transition-colors group-hover:text-purple-300">
+                              <span className="group-hover: text-[12px] text-purple-400">
                                 +
                               </span>
-                              <span className="mt-0.5 text-center text-[10px] text-purple-400 transition-colors group-hover:text-purple-300">
+                              <span className="group-hover: mt-0.5 text-center text-[10px] text-purple-400">
                                 Create Group
                               </span>
                             </div>
@@ -14125,7 +14064,7 @@ export function AdminDashboardMain({
                   return (
                     <div
                       key={member.id}
-                      className={`flex w-full border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? "bg-emerald-500/10" : "hover:bg-white/[0.02]"}`}
+                      className={`flex w-full border-b border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10" : "hover:bg-white/[0.02]"}`}
                     >
                       <div
                         className={`wiw-sticky-col relative w-60 shrink-0 border-r border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]" : " "}`}
@@ -14149,7 +14088,7 @@ export function AdminDashboardMain({
                           <CrewAvatar member={member} />
                           <div className="wiw-tooltip-container min-w-0 flex-1">
                             <div className="flex items-center justify-between gap-1">
-                              <p className="truncate">{member.name}</p>
+                              <p>{member.name}</p>
                               {isWorkingOnActiveDate && (
                                 <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/20 px-1 py-0.5 text-[9px] shadow-2xs">
                                   Working
@@ -14174,28 +14113,20 @@ export function AdminDashboardMain({
 
                             <div className="mt-1 space-y-0.5">
                               {member.phone && (
-                                <div className="truncate" title={member.phone}>
-                                  {" "}
-                                  {member.phone}
-                                </div>
+                                <div title={member.phone}> {member.phone}</div>
                               )}
                               {member.email && (
-                                <div className="truncate" title={member.email}>
-                                  {" "}
-                                  {member.email}
-                                </div>
+                                <div title={member.email}> {member.email}</div>
                               )}
                             </div>
 
                             <div className="wiw-tooltip w-52 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-3 text-left">
-                              <div className=" ">{member.name}</div>
+                              <div>{member.name}</div>
                               <div className="mb-2 text-[12px] text-[var(--color-accent)]">
                                 Role: {member.role || "Crew Member"}
                               </div>
                               <div className="space-y-1 border-t border-[var(--border-color)] pt-1.5 text-[12px]">
-                                <p className="truncate">
-                                  Email: {member.email || "N/A"}
-                                </p>
+                                <p>Email: {member.email || "N/A"}</p>
                                 <p>Phone: {member.phone || "N/A"}</p>
                               </div>
                               {hoursStatus.status !== "ok" && (
@@ -14236,7 +14167,7 @@ export function AdminDashboardMain({
                                 );
                               }
                             }}
-                            className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 transition-colors ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : "bg-[var(--card-bg)]"}`}
+                            className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : "bg-[var(--card-bg)]"}`}
                             onDragOver={(e) => {
                               e.preventDefault();
                               if (e.dataTransfer)
@@ -14267,7 +14198,7 @@ export function AdminDashboardMain({
                                     member.role || "SERVER",
                                   );
                                 }}
-                                className="mt-1 flex w-full cursor-pointer items-center justify-center gap-1 rounded border border-purple-500/30 bg-purple-500/20 py-1 text-[10px] text-purple-300 transition-colors hover:bg-purple-500/40 hover:text-white"
+                                className="mt-1 flex w-full cursor-pointer items-center justify-center gap-1 rounded border border-purple-500/30 bg-purple-500/20 py-1 text-[10px] hover:bg-purple-500/40 hover:text-white"
                               >
                                 <svg
                                   width="10"
@@ -14317,7 +14248,7 @@ export function AdminDashboardMain({
             return (
               <div
                 key={day.dateStr}
-                className={`flex min-h-[350px] flex-col border bg-black/40 p-2.5 transition-colors ${isHovered ? "border-purple-500/30 bg-purple-500/10" : "border-white/5"}`}
+                className={`flex min-h-[350px] flex-col border bg-black/40 p-2.5 ${isHovered ? "border-purple-500/30 bg-purple-500/10" : "border-white/5"}`}
                 onDragOver={(e) => {
                   e.preventDefault();
                   if (e.dataTransfer) {
@@ -14382,7 +14313,7 @@ export function AdminDashboardMain({
               >
                 <div className="mb-2 flex flex-col items-center border-b border-white/10 pb-2 text-center">
                   <span className="block text-white/30">{day.dayName}</span>
-                  <span className="mt-0.5 block text-white/70">
+                  <span className="mt-0.5 block">
                     {day.monthName} {day.dayOfMonth}
                   </span>
                   {(() => {
@@ -14395,7 +14326,7 @@ export function AdminDashboardMain({
                           e.stopPropagation();
                           setSelectedShowCrewDate(day.dateStr);
                         }}
-                        className="mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 truncate rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 text-[8.5px] text-purple-300 transition-colors hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
+                        className="mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
                         title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                       >
                         {dayShow.venue || dayShow.venue_name}
@@ -14448,7 +14379,7 @@ export function AdminDashboardMain({
                             e.stopPropagation();
                             setSelectedShowCrewDate(day.dateStr);
                           }}
-                          className="py-0.2 mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 truncate rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] text-purple-300 transition-colors hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
+                          className="py-0.2 mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
                           title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                         >
                           {dayShow.venue || dayShow.venue_name}
@@ -14475,7 +14406,7 @@ export function AdminDashboardMain({
                 {Array.from({ length: 17 }).map((_, idx) => (
                   <div
                     key={idx}
-                    className={`h-0 w-full border-b ${idx % 2 === 0 ? "border-solid border-white/10" : "border-dashed border-white/10"}`}
+                    className="h-0 w-full border-b border-dashed border-white/10 even:border-solid"
                   />
                 ))}
               </div>
@@ -14570,8 +14501,8 @@ export function AdminDashboardMain({
                           }}
                           className={`wiw-card cursor-pointer overflow-hidden rounded-lg p-1 ${shift.isDraft ? "wiw-striped" : ""}`}
                         >
-                          <div className="truncate">{shift.crewName}</div>
-                          <div className="truncate text-[var(--font-size-5xs)] text-purple-300">
+                          <div>{shift.crewName}</div>
+                          <div className="text-[var(--font-size-5xs)]">
                             {shift.role || "Crew"}
                           </div>
                           <div className="text-[var(--font-size-4xs)] opacity-80">
@@ -14605,7 +14536,7 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("calendar")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 transition-colors select-none"
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
         >
           <div className="flex flex-col">
             <h3 className="flex items-center gap-2">
@@ -14677,11 +14608,11 @@ export function AdminDashboardMain({
                   </span>
                   <span className="font-light text-white/30">|</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px]">Active Editors:</span>
+                    <span>Active Editors:</span>
                     {coEditors.map((ed) => (
                       <span
                         key={ed.id}
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] transition-colors ${ed.isEditing ? "border-pink-500/40 bg-pink-500/15 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]" : "border-blue-500/30 bg-blue-500/15 text-blue-300"}`}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] ${ed.isEditing ? "border-pink-500/40 bg-pink-500/15 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]" : "border-blue-500/30 bg-blue-500/15 text-blue-300"}`}
                       >
                         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
                         {ed.name}{" "}
@@ -14703,7 +14634,7 @@ export function AdminDashboardMain({
                         timestamp: "Just now",
                       });
                     }}
-                    className="flex cursor-pointer items-center gap-1 rounded border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 text-[11px] text-purple-300 transition-colors hover:bg-white/20"
+                    className="flex cursor-pointer items-center gap-1 rounded border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 hover:bg-white/20"
                     title="Simulate concurrent editing conflict (schedule mix-up) to test live sync warning"
                   >
                     Simulate Mix-Up Conflict
@@ -14711,7 +14642,7 @@ export function AdminDashboardMain({
                   <button
                     type="button"
                     onClick={() => setShowCoEditorModal(true)}
-                    className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-[#00000029] px-2.5 py-1 text-[11px] text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                    className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-[#00000029] px-2.5 py-1 hover:bg-white/10 hover:text-white"
                   >
                     Co-Editor Settings
                   </button>
@@ -14720,13 +14651,13 @@ export function AdminDashboardMain({
 
               {/*  Schedule Mix-Up Conflict Resolution Modal */}
               {coEditorConflictAlert?.isOpen && (
-                <div className="animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+                <div className="animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
                   <div className="shadow-[0_0_50px_rgba(147, 51, 234,0.3)] w-full max-w-lg space-y-4 border-2 border-purple-500/50 bg-[#1e1e26] p-6">
                     <div className="flex items-center gap-3 border-b border-white/10 pb-3">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-purple-500/40 bg-white/20 text-xl"></div>
                       <div>
                         <h3>Schedule Mix-Up Prevented!</h3>
-                        <p className="text-purple-300/80">
+                        <p className="/80">
                           Concurrent Edit Detected from Co-Editor
                         </p>
                       </div>
@@ -14760,7 +14691,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={() => setCoEditorConflictAlert(null)}
-                        className="cursor-pointer rounded-lg bg-purple-600 px-4 py-2 transition-colors hover:bg-purple-500"
+                        className="cursor-pointer rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-500"
                       >
                         Accept Remote Sync
                       </button>
@@ -14771,7 +14702,7 @@ export function AdminDashboardMain({
 
               {/*  Co-Editors Settings & Live Active List Modal */}
               {showCoEditorModal && (
-                <div className="animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+                <div className="animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
                   <div className="w-full max-w-md space-y-5 border border-white/10 bg-[#181820] p-6">
                     <div className="flex items-center justify-between border-b border-white/10 pb-3">
                       <h3 className="flex items-center gap-2">
@@ -14780,7 +14711,7 @@ export function AdminDashboardMain({
                       <button
                         aria-label="Close co-editor modal"
                         onClick={() => setShowCoEditorModal(false)}
-                        className="text-lg text-white/40 hover:text-white"
+                        className="text-white/40 hover:text-white"
                       >
                         ✕
                       </button>
@@ -14832,7 +14763,7 @@ export function AdminDashboardMain({
                     <div className="flex items-center justify-end">
                       <button
                         onClick={() => setShowCoEditorModal(false)}
-                        className="rounded-lg bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+                        className="rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20"
                       >
                         Close
                       </button>
@@ -14858,7 +14789,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={handlePrevWeek}
-                        className="cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 transition-colors hover:text-white"
+                        className="cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
                         title="Previous Week"
                       >
                         <svg
@@ -14879,7 +14810,7 @@ export function AdminDashboardMain({
                         onClick={() => {
                           document.getElementById("wiw-date-picker")?.click();
                         }}
-                        className="cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 transition-colors hover:text-white"
+                        className="cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
                         title="Choose Date"
                       >
                         <svg
@@ -14923,7 +14854,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={handleNextWeek}
-                        className="cursor-pointer border-none bg-[#00000029] p-2 text-white/40 transition-colors hover:text-white"
+                        className="cursor-pointer border-none bg-[#00000029] p-2 text-white/40 hover:text-white"
                         title="Next Week"
                       >
                         <svg
@@ -14944,7 +14875,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={handleGoToToday}
-                      className="cursor-pointer rounded-lg border border-solid border-white/10 bg-[#00000029] bg-black/40 px-3 py-1.5 text-white/70 transition-colors hover:text-white"
+                      className="cursor-pointer rounded-lg border border-solid border-white/10 bg-[#00000029] bg-black/40 px-3 py-1.5 hover:text-white"
                     >
                       TODAY
                     </button>
@@ -14952,7 +14883,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={handleGoToMonth}
-                      className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 transition-colors ${calendarRange === "month" ? "border-purple-500/30 bg-purple-500/10 text-purple-300 hover:bg-white/20" : "border-white/10 bg-[#00000029] bg-black/40 text-white/70 hover:text-white"}`}
+                      className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange === "month" ? "border-purple-500/30 bg-purple-500/10 hover:bg-white/20" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                     >
                       MONTH
                     </button>
@@ -15025,7 +14956,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={() => setShowTourDropdown((prev) => !prev)}
-                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 transition-colors ${showTourDropdown ? "border-purple-500/40 bg-purple-500/10 text-purple-300" : "border-white/10 bg-[#00000029] bg-black/40 text-white/70 hover:text-white"}`}
+                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDropdown ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       >
                         SHOWS
                         <svg
@@ -15035,7 +14966,7 @@ export function AdminDashboardMain({
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="3"
-                          className={`transition-transform ${showTourDropdown ? "rotate-180" : ""}`}
+                          className={`${showTourDropdown ? "rotate-180" : ""}`}
                         >
                           <polyline points="6 9 12 15 18 9" />
                         </svg>
@@ -15097,12 +15028,12 @@ export function AdminDashboardMain({
                                       }
                                       setShowTourDropdown(false);
                                     }}
-                                    className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left transition-colors"
+                                    className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left"
                                   >
-                                    <span className="min-w-[80px] text-purple-300/70 group-hover:text-purple-300">
+                                    <span className="/70 group-hover: min-w-[80px]">
                                       {dateLabel}
                                     </span>
-                                    <span className="truncate text-white/70 group-hover:text-white">
+                                    <span className="group-hover:text-white">
                                       {show.venue || show.venue_name}
                                     </span>
                                     {show.city && (
@@ -15122,7 +15053,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={() => setShowTourDatesOnly((prev) => !prev)}
-                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 transition-colors ${showTourDatesOnly ? "border-purple-500/40 bg-purple-500/15 text-purple-300" : "border-white/10 bg-[#00000029] bg-black/40 text-white/70 hover:text-white"}`}
+                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDatesOnly ? "border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       title="Show only days with tour shows"
                     >
                       {showTourDatesOnly ? " SHOWS ONLY" : "ALL DAYS"}
@@ -15155,7 +15086,7 @@ export function AdminDashboardMain({
                       onClick={() =>
                         setIsFiltersPanelExpanded(!isFiltersPanelExpanded)
                       }
-                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 transition-colors select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 51, 234,0.1)] border-purple-500/40 bg-purple-500/15 text-purple-300" : "border-white/10 bg-[#00000029] bg-black/40 text-white/70 hover:text-white"}`}
+                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 51, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       title="Search & advanced filters by person, venue, date range, and event type"
                     >
                       <span></span>{" "}
@@ -15193,7 +15124,7 @@ export function AdminDashboardMain({
                           setShowTourDatesOnly(false);
                           setScheduleSortByDate(null);
                         }}
-                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-rose-500/30 bg-rose-500/15 px-3 py-1.5 text-rose-400 transition-colors select-none hover:bg-rose-500/25 hover:text-rose-300"
+                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-rose-500/30 bg-rose-500/15 px-3 py-1.5 text-rose-400 select-none hover:bg-rose-500/25 hover:text-rose-300"
                         title="Reset all search filters"
                       >
                         Clear All
@@ -15216,7 +15147,7 @@ export function AdminDashboardMain({
                             }
                           }
                         }}
-                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-red-500/40 bg-red-500/20 px-3 py-1.5 text-red-400 transition-colors select-none hover:bg-red-500/30 hover:text-red-300"
+                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-red-500/40 bg-red-500/20 px-3 py-1.5 text-red-400 select-none hover:bg-red-500/30 hover:text-red-300"
                         title="Clear all scheduled shift timeframes and start fresh"
                       >
                         Clear All Shifts
@@ -15227,7 +15158,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={handleGenerateTestData}
-                      className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 text-purple-300 transition-colors select-none hover:bg-purple-500/30 hover:text-purple-200"
+                      className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
                       title="Generate realistic test schedule data for 2-4 weeks with edge cases"
                     >
                       Generate Test Data
@@ -15243,7 +15174,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={handlePurgeTestData}
-                        className="flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 text-purple-300 transition-colors select-none hover:bg-purple-500/30 hover:text-purple-200"
+                        className="flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
                         title="Purge all test schedule data ([TEST] shifts)"
                       >
                         Purge Test Data
@@ -15302,7 +15233,7 @@ export function AdminDashboardMain({
 
                 {/* Expandable Advanced Filters Panel */}
                 {isFiltersPanelExpanded && (
-                  <div className="relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10 px-6 py-4 backdrop-blur-[45px]">
+                  <div className="relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10 px-6 py-4 backdrop-blur-2xl">
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                       {/* Search by Person */}
                       <div className="flex flex-col gap-1.5">
@@ -15321,7 +15252,7 @@ export function AdminDashboardMain({
                               setSchedulePersonSearch(e.target.value)
                             }
                             placeholder="Name, role, e.g. Dave, Audio..."
-                            className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-1.5 placeholder-white/20 transition-colors outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-1.5 placeholder-white/20 outline-none"
                           />
                           {schedulePersonSearch && (
                             <button
@@ -15353,7 +15284,7 @@ export function AdminDashboardMain({
                               setScheduleVenueSearch(e.target.value)
                             }
                             placeholder="Venue, e.g. Blarney, Cruise..."
-                            className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-1.5 placeholder-white/20 transition-colors outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-1.5 placeholder-white/20 outline-none"
                           />
                           {scheduleVenueSearch && (
                             <button
@@ -15408,7 +15339,7 @@ export function AdminDashboardMain({
                                 setScheduleStartDate(e.target.value)
                               }
                               onClick={(e) => e.currentTarget.showPicker?.()}
-                              className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 [color-scheme:dark] transition-colors outline-none"
+                              className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 [color-scheme:dark] outline-none"
                             />
                           </div>
                           <span className="/35">TO</span>
@@ -15421,7 +15352,7 @@ export function AdminDashboardMain({
                                 setScheduleEndDate(e.target.value)
                               }
                               onClick={(e) => e.currentTarget.showPicker?.()}
-                              className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 [color-scheme:dark] transition-colors outline-none"
+                              className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 [color-scheme:dark] outline-none"
                             />
                           </div>
                           {(scheduleStartDate || scheduleEndDate) && (
@@ -15431,7 +15362,7 @@ export function AdminDashboardMain({
                                 setScheduleStartDate("");
                                 setScheduleEndDate("");
                               }}
-                              className="cursor-pointer rounded border-none bg-[#00000029] px-2 py-1 text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+                              className="cursor-pointer rounded border-none bg-[#00000029] px-2 py-1 text-white/40 hover:bg-white/10 hover:text-white"
                               title="Reset Date Range"
                             >
                               Clear
@@ -15445,25 +15376,17 @@ export function AdminDashboardMain({
                     <div className="flex items-center justify-between border-t border-white/10 pt-2 text-[var(--font-size-2xs)] text-white/40">
                       <div className="flex items-center gap-4">
                         <span>
-                          Displaying{" "}
-                          <strong className="text-purple-300">
-                            {filteredDays.length}
-                          </strong>{" "}
-                          date columns
+                          Displaying <strong>{filteredDays.length}</strong> date
+                          columns
                         </span>
                         <span>
-                          Showing{" "}
-                          <strong className="text-purple-300">
-                            {filteredCrewMembers.length}
-                          </strong>{" "}
+                          Showing <strong>{filteredCrewMembers.length}</strong>{" "}
                           crew rows
                         </span>
                       </div>
                       {activeFiltersCount > 0 && (
                         <div className="flex items-center gap-2">
-                          <span className="text-purple-300/80">
-                            Filters active
-                          </span>
+                          <span className="/80">Filters active</span>
                           <button
                             type="button"
                             onClick={() => {
@@ -15476,7 +15399,7 @@ export function AdminDashboardMain({
                               setShowTourDatesOnly(false);
                               setScheduleSortByDate(null);
                             }}
-                            className="cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5 text-purple-300 transition-colors hover:bg-white/20 hover:text-white"
+                            className="cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5 hover:bg-white/20 hover:text-white"
                           >
                             Reset All Filters
                           </button>
@@ -15511,8 +15434,8 @@ export function AdminDashboardMain({
                       </div>
 
                       {/* Gradient Blur Fade Overlays */}
-                      <div className="pointer-events-none absolute top-[50px] right-0 left-0 z-10 h-6 [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] backdrop-blur-[9px] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]" />
-                      <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-6 [mask-image:linear-gradient(to_top,black_0%,transparent_100%)] backdrop-blur-[9px] [-webkit-mask-image:linear-gradient(to_top,black_0%,transparent_100%)]" />
+                      <div className="pointer-events-none absolute top-[50px] right-0 left-0 z-10 h-6 [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)] backdrop-blur [-webkit-mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]" />
+                      <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-6 [mask-image:linear-gradient(to_top,black_0%,transparent_100%)] backdrop-blur [-webkit-mask-image:linear-gradient(to_top,black_0%,transparent_100%)]" />
 
                       <CustomScrollbar
                         className="flex min-h-0 flex-1 flex-col gap-0.5 bg-[#0a00653b]"
@@ -15611,7 +15534,7 @@ export function AdminDashboardMain({
                                 setDraggedCrewMemberId(null);
                                 setEditingShiftId(null);
                               }}
-                              className="cursor-pointer border-none text-white/40 transition-colors hover:text-white"
+                              className="cursor-pointer border-none text-white/40 hover:text-white"
                             >
                               ✕
                             </button>
@@ -15645,7 +15568,7 @@ export function AdminDashboardMain({
                                           return updated;
                                         });
                                       }}
-                                      className="flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/20 bg-red-500/10 py-2 text-red-400 transition-colors hover:bg-red-500/20 hover:text-red-300"
+                                      className="flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20 hover:text-red-300"
                                     >
                                       <span></span> Request Coverage
                                     </button>
@@ -15684,7 +15607,7 @@ export function AdminDashboardMain({
                                           }),
                                         );
                                       }}
-                                      className="rounded border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-300 transition-colors hover:bg-red-500/40"
+                                      className="rounded border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-300 hover:bg-red-500/40"
                                     >
                                       Clear
                                     </button>
@@ -15703,7 +15626,7 @@ export function AdminDashboardMain({
                                           onClick={() =>
                                             setOnlyShowFitRole(true)
                                           }
-                                          className={`cursor-pointer rounded px-2 py-0.5 transition-colors ${onlyShowFitRole ? "bg-purple-600" : "hover:text-white"}`}
+                                          className={`cursor-pointer rounded px-2 py-0.5 ${onlyShowFitRole ? "bg-purple-600" : "hover:text-white"}`}
                                         >
                                           Fit Role ({editingShift.role})
                                         </button>
@@ -15712,7 +15635,7 @@ export function AdminDashboardMain({
                                           onClick={() =>
                                             setOnlyShowFitRole(false)
                                           }
-                                          className={`cursor-pointer rounded px-2 py-0.5 transition-colors ${!onlyShowFitRole ? "border border-red-500/30 bg-red-500/20 text-red-300" : "hover:text-white"}`}
+                                          className={`cursor-pointer rounded px-2 py-0.5 ${!onlyShowFitRole ? "border border-red-500/30 bg-red-500/20 text-red-300" : "hover:text-white"}`}
                                         >
                                           Override (All)
                                         </button>
@@ -15757,7 +15680,7 @@ export function AdminDashboardMain({
                                           return (
                                             <div
                                               key={member.id}
-                                              className="flex items-center justify-between gap-2 rounded-lg border border-white/5 bg-black/30 p-1.5 transition-colors hover:bg-black/40"
+                                              className="flex items-center justify-between gap-2 rounded-lg border border-white/5 bg-black/30 p-1.5 hover:bg-black/40"
                                             >
                                               <div className="flex items-center gap-2">
                                                 {(() => {
@@ -15843,7 +15766,7 @@ export function AdminDashboardMain({
                                                   setDraggedCrewMemberId(null);
                                                   setEditingShiftId(null);
                                                 }}
-                                                className={`rounded border-none px-2 py-1 transition-colors ${isOverlapping ? "cursor-not-allowed bg-[#00000029] text-white/20" : "cursor-pointer bg-purple-600 hover:bg-purple-500"}`}
+                                                className={`rounded border-none px-2 py-1 ${isOverlapping ? "cursor-not-allowed bg-[#00000029] text-white/20" : "cursor-pointer bg-purple-600 hover:bg-purple-500"}`}
                                               >
                                                 Assign
                                               </button>
@@ -15887,11 +15810,11 @@ export function AdminDashboardMain({
                               return (
                                 <div className="shrink-0 space-y-1.5 rounded-lg border border-white/10 bg-purple-500/10 px-3 py-2">
                                   <div className="flex min-w-0 items-center justify-between gap-2">
-                                    <div className="flex min-w-0 items-center gap-1.5 truncate">
-                                      <span className="truncate text-[14px]">
+                                    <div className="flex min-w-0 items-center gap-1.5">
+                                      <span className="text-[14px]">
                                         {activeShow.venue}
                                       </span>
-                                      <span className="shrink-0 truncate text-[13px] text-white/40">
+                                      <span className="shrink-0 text-[13px] text-white/40">
                                         ({activeShow.city}
                                         {activeShow.state
                                           ? `, ${activeShow.state}`
@@ -15899,21 +15822,21 @@ export function AdminDashboardMain({
                                         )
                                       </span>
                                     </div>
-                                    <span className="shrink-0 rounded-lg border border-white/20 bg-purple-500/10 px-2 py-0.5 text-[12px] text-purple-300">
+                                    <span className="shrink-0 rounded-lg border border-white/20 bg-purple-500/10 px-2 py-0.5 text-[12px]">
                                       {formattedDate}
                                     </span>
                                   </div>
 
-                                  <div className="no-scrollbar flex items-center gap-2 overflow-x-auto border-t border-white/10 pt-1.5 text-[11px]">
-                                    <span className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[11px] whitespace-nowrap text-purple-300">
+                                  <div className="no-scrollbar flex items-center gap-2 overflow-x-auto border-t border-white/10 pt-1.5">
+                                    <span className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-white/10 bg-purple-500/10 px-2 py-0.5 whitespace-nowrap">
                                       Fest: {festStart}
                                     </span>
-                                    <span className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[11px] whitespace-nowrap text-purple-300">
+                                    <span className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-white/10 bg-purple-500/10 px-2 py-0.5 whitespace-nowrap">
                                       Band: {bandTime}
                                     </span>
                                     {activeShow.notes && (
                                       <span
-                                        className="shrink-0 truncate text-[11px] text-white/40"
+                                        className="shrink-0 text-white/40"
                                         title={activeShow.notes}
                                       >
                                         • {activeShow.notes}
@@ -15995,7 +15918,7 @@ export function AdminDashboardMain({
                                           return (
                                             <div
                                               key={member.id}
-                                              className={`rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] duration-200 ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"}`}
+                                              className={`rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"}`}
                                             >
                                               <div className="flex items-center justify-between">
                                                 <label className="flex w-full cursor-pointer items-center gap-3 select-none">
@@ -16107,7 +16030,7 @@ export function AdminDashboardMain({
                                                               (s, idx) => (
                                                                 <span
                                                                   key={idx}
-                                                                  className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 text-purple-300 select-none"
+                                                                  className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 select-none"
                                                                 >
                                                                   {s.role ||
                                                                     "SHIFT"}
@@ -16148,7 +16071,6 @@ export function AdminDashboardMain({
                                                       >
                                                         <div className="flex items-center justify-between">
                                                           <span
-                                                            className="text-purple-300"
                                                             style={{
                                                               fontSize: "11px",
                                                             }}
@@ -16426,7 +16348,7 @@ export function AdminDashboardMain({
                                                                 );
                                                               }}
                                                               placeholder="e.g. Audio Mix"
-                                                              className="w-full rounded-lg border border-white/10 px-3 py-2 transition-colors outline-none"
+                                                              className="w-full rounded-lg border border-white/10 px-3 py-2 outline-none"
                                                             />
                                                           </div>
                                                           <div className="mt-1.5 flex flex-wrap gap-1">
@@ -16623,7 +16545,7 @@ export function AdminDashboardMain({
                                                                   (tag) => (
                                                                     <span
                                                                       key={tag}
-                                                                      className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-2 py-0.5 text-purple-300"
+                                                                      className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-2 py-0.5"
                                                                     >
                                                                       {tag}
                                                                       <button
@@ -16693,7 +16615,7 @@ export function AdminDashboardMain({
                                                           ],
                                                         );
                                                       }}
-                                                      className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2 text-purple-300 transition-colors hover:bg-white/20"
+                                                      className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2 hover:bg-white/20"
                                                       style={{
                                                         fontSize: "11px",
                                                       }}
@@ -16719,7 +16641,7 @@ export function AdminDashboardMain({
                             <button
                               type="button"
                               onClick={addScheduleItem}
-                              className="w-full cursor-pointer rounded-lg border-none bg-purple-600 py-2 text-[11px] transition-colors hover:bg-purple-500"
+                              className="w-full cursor-pointer rounded-lg border-none bg-purple-600 py-2 hover:bg-purple-500"
                             >
                               {editingShiftId
                                 ? "Save Changes"
@@ -16735,7 +16657,7 @@ export function AdminDashboardMain({
                                   setDraggedCrewMemberId(null);
                                   setEditingShiftId(null);
                                 }}
-                                className="w-full cursor-pointer rounded-lg border border-red-500/30 bg-red-600/20 py-1.5 text-[10.5px] text-red-200 transition-colors hover:bg-red-600 hover:text-white"
+                                className="w-full cursor-pointer rounded-lg border border-red-500/30 bg-red-600/20 py-1.5 text-[10.5px] text-red-200 hover:bg-red-600 hover:text-white"
                               >
                                 Delete Shift
                               </button>
@@ -16790,7 +16712,7 @@ export function AdminDashboardMain({
                         onClick={() =>
                           setAlertModal({ ...alertModal, isOpen: false })
                         }
-                        className="mt-2 w-full cursor-pointer border-none bg-purple-600 py-2.5 transition-colors hover:bg-purple-500"
+                        className="mt-2 w-full cursor-pointer border-none bg-purple-600 py-2.5 hover:bg-purple-500"
                       >
                         Got It
                       </button>
@@ -16838,7 +16760,7 @@ export function AdminDashboardMain({
                               <button
                                 aria-label="Close select group drawer"
                                 onClick={() => setCellGroupPopover(null)}
-                                className="cursor-pointer border-none text-white/40 transition-colors hover:text-white"
+                                className="cursor-pointer border-none text-white/40 hover:text-white"
                               >
                                 ✕
                               </button>
@@ -16871,7 +16793,7 @@ export function AdminDashboardMain({
                                     setNewGroupNameInput("");
                                     setIsCreateGroupModalOpen(true);
                                   }}
-                                  className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 transition-colors hover:bg-purple-500"
+                                  className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
                                 >
                                   + Create First Crew Group
                                 </button>
@@ -16889,16 +16811,16 @@ export function AdminDashboardMain({
                                       handleAddGroupToDay(dateStr, g);
                                       setCellGroupPopover(null);
                                     }}
-                                    className="group flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3.5 text-left shadow-2xs transition-colors hover:bg-white/10"
+                                    className="group flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3.5 text-left shadow-2xs hover:bg-white/10"
                                     title={`Apply Group: ${g.name}`}
                                   >
                                     <div className="flex min-w-0 items-center gap-3">
-                                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-purple-500/30 bg-white/20 text-purple-300 shadow-inner transition-transform group-hover:scale-105">
+                                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-purple-500/30 bg-white/20 shadow-inner group-hover:scale-105">
                                         +
                                       </span>
-                                      <span className="truncate">{g.name}</span>
+                                      <span>{g.name}</span>
                                     </div>
-                                    <span className="shrink-0 text-purple-400 group-hover:text-purple-300">
+                                    <span className="group-hover: shrink-0 text-purple-400">
                                       Apply
                                     </span>
                                   </button>
@@ -16912,7 +16834,7 @@ export function AdminDashboardMain({
                             <button
                               type="button"
                               onClick={() => setCellGroupPopover(null)}
-                              className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-white/70 transition-colors hover:text-white"
+                              className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
                             >
                               Cancel
                             </button>
@@ -16936,7 +16858,7 @@ export function AdminDashboardMain({
                                 setNewGroupNameInput("");
                                 setIsCreateGroupModalOpen(true);
                               }}
-                              className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 transition-colors hover:bg-purple-500"
+                              className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
                             >
                               + Create New Group
                             </button>
@@ -16981,7 +16903,7 @@ export function AdminDashboardMain({
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="cursor-pointer border-none text-white/40 transition-colors hover:text-white"
+                            className="cursor-pointer border-none text-white/40 hover:text-white"
                           >
                             ✕
                           </button>
@@ -17005,7 +16927,7 @@ export function AdminDashboardMain({
                                 setNewGroupNameInput(e.target.value)
                               }
                               placeholder="e.g. Weekend Tech Crew"
-                              className="w-full border border-white/10 px-3.5 py-2.5 transition-colors"
+                              className="w-full border border-white/10 px-3.5 py-2.5"
                             />
                           </div>
 
@@ -17030,9 +16952,9 @@ export function AdminDashboardMain({
                                 return [
                                   <div
                                     key={m.id}
-                                    className="pt-3 pr-3 pb-3 transition-colors last:border-b-0"
+                                    className="pt-3 pr-3 pb-3 last:border-b-0"
                                   >
-                                    <label className="group -mx-1.5 flex cursor-pointer items-center justify-between gap-3 rounded-lg px-1.5 py-1 transition-colors select-none">
+                                    <label className="group -mx-1.5 flex cursor-pointer items-center justify-between gap-3 rounded-lg px-1.5 py-1 select-none">
                                       {/* Left checkbox and avatar */}
                                       <div className="flex min-w-0 items-center gap-3">
                                         <SquishyToggle
@@ -17066,16 +16988,14 @@ export function AdminDashboardMain({
                                         />
                                         <CrewAvatar member={m} />
                                         <div className="min-w-0">
-                                          <p className="truncate text-sm">
-                                            {m.name}
-                                          </p>
-                                          <span className="mt-0.5 block truncate font-normal text-white/50">
+                                          <p>{m.name}</p>
+                                          <span className="mt-0.5 block font-normal text-white/50">
                                             <a
                                               href={`tel:${(m.phone || "(555) 123-4567").replace(/[^\d+]/g, "")}`}
                                               onClick={(e) =>
                                                 e.stopPropagation()
                                               }
-                                              className="transition-colors hover:text-white"
+                                              className="hover:text-white"
                                             >
                                               {m.phone || "(555) 123-4567"}
                                             </a>
@@ -17087,7 +17007,7 @@ export function AdminDashboardMain({
                                               onClick={(e) =>
                                                 e.stopPropagation()
                                               }
-                                              className="transition-colors hover:text-white"
+                                              className="hover:text-white"
                                             >
                                               {m.email ||
                                                 `${(m.name || "crew").toLowerCase().replace(/\s+/g, "")}@7thheavenband.com`}
@@ -17117,7 +17037,6 @@ export function AdminDashboardMain({
                                           >
                                             <div className="flex items-center justify-between">
                                               <span
-                                                className="text-purple-300"
                                                 style={{ fontSize: "9.5px" }}
                                               >
                                                 Time Frame {tfIdx + 1}
@@ -17424,7 +17343,7 @@ export function AdminDashboardMain({
                                               }),
                                             );
                                           }}
-                                          className="w-full cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 py-1.5 text-center text-purple-300 transition-colors hover:bg-white/20"
+                                          className="w-full cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 py-1.5 text-center hover:bg-white/20"
                                           style={{ fontSize: "8.5px" }}
                                         >
                                           + Add Time Frame
@@ -17446,7 +17365,7 @@ export function AdminDashboardMain({
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-white/70 transition-colors hover:text-white"
+                            className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
                           >
                             Cancel
                           </button>
@@ -17502,7 +17421,7 @@ export function AdminDashboardMain({
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="disabled: cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 transition-colors hover:bg-purple-500 disabled:bg-purple-600/20"
+                            className="disabled: cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 hover:bg-purple-500 disabled:bg-purple-600/20"
                           >
                             Save Group
                           </button>
@@ -17543,7 +17462,7 @@ export function AdminDashboardMain({
                           <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                             <div>
                               <h3>Show Crew Roster</h3>
-                              <p className="mt-1 text-purple-300">
+                              <p className="mt-1">
                                 {new Date(
                                   selectedShowCrewDate + "T12:00:00",
                                 ).toLocaleDateString("en-US", {
@@ -17557,7 +17476,7 @@ export function AdminDashboardMain({
                             <button
                               aria-label="Close selected show crew date modal"
                               onClick={() => setSelectedShowCrewDate(null)}
-                              className="/45 cursor-pointer border-none transition-colors hover:text-white"
+                              className="/45 cursor-pointer border-none hover:text-white"
                             >
                               ✕
                             </button>
@@ -17585,9 +17504,7 @@ export function AdminDashboardMain({
                                 <span className="block text-white/40">
                                   Open Position(s)
                                 </span>
-                                <span className="text-purple-300">
-                                  {openShifts.length}
-                                </span>
+                                <span>{openShifts.length}</span>
                               </div>
                             </div>
 
@@ -17621,7 +17538,7 @@ export function AdminDashboardMain({
                                     return (
                                       <div
                                         key={shift.id}
-                                        className="flex items-center justify-between gap-3 border border-white/10 bg-black/20 p-3 transition-colors"
+                                        className="flex items-center justify-between gap-3 border border-white/10 bg-black/20 p-3"
                                       >
                                         <div className="flex min-w-0 items-center gap-2.5">
                                           {member?.avatar ? (
@@ -17639,7 +17556,7 @@ export function AdminDashboardMain({
                                             </div>
                                           )}
                                           <div className="min-w-0">
-                                            <span className="block truncate">
+                                            <span className="block">
                                               {shift.crewName}
                                             </span>
                                             <span className="/45 mt-1 inline-block rounded bg-[#00000029] px-1.5 py-0.5">
@@ -17658,7 +17575,7 @@ export function AdminDashboardMain({
                                               setSelectedShowCrewDate(null);
                                               handleEditShiftClick(shift);
                                             }}
-                                            className="mt-1 inline-block cursor-pointer rounded border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[8.5px] text-purple-300 transition-colors hover:border-purple-500/40 hover:bg-white/20 hover:text-white"
+                                            className="mt-1 inline-block cursor-pointer rounded border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:bg-white/20 hover:text-white"
                                           >
                                             Edit
                                           </button>
@@ -17684,7 +17601,7 @@ export function AdminDashboardMain({
                                   {openShifts.map((shift) => (
                                     <div
                                       key={shift.id}
-                                      className="flex items-center justify-between gap-3 border border-dashed border-purple-500/25 bg-purple-500/[0.02] p-3 transition-colors hover:border-purple-500/40"
+                                      className="flex items-center justify-between gap-3 border border-dashed border-purple-500/25 bg-purple-500/[0.02] p-3 hover:border-purple-500/40"
                                     >
                                       <div>
                                         <span className="mt-0.5 block text-white/40">
@@ -17697,7 +17614,7 @@ export function AdminDashboardMain({
                                           setSelectedShowCrewDate(null);
                                           handleEditShiftClick(shift);
                                         }}
-                                        className="cursor-pointer rounded-lg border-none bg-purple-600 px-3 py-1.5 transition-colors hover:bg-purple-500"
+                                        className="cursor-pointer rounded-lg border-none bg-purple-600 px-3 py-1.5 hover:bg-purple-500"
                                       >
                                         Fill Slot
                                       </button>
@@ -17762,7 +17679,7 @@ export function AdminDashboardMain({
               type="button"
               onClick={() => adminPhotoInputRef.current?.click()}
               title="Click to upload crew photo"
-              className="group flex h-full w-full cursor-pointer items-center justify-center overflow-hidden !rounded-full border border-white/10 bg-gradient-to-br from-purple-500/30 to-purple-800/20 text-xl transition-colors"
+              className="group flex h-full w-full cursor-pointer items-center justify-center overflow-hidden !rounded-full border border-white/10 bg-gradient-to-br from-purple-500/30 to-purple-800/20 text-xl"
             >
               {isAvatarUrl ? (
                 <img
@@ -17781,7 +17698,7 @@ export function AdminDashboardMain({
                 </span>
               )}
               {/* Hover overlay with camera icon */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-[12px] opacity-0 transition-opacity group-hover:opacity-100">
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-[12px] opacity-0 group-hover:opacity-100">
                 <span>{adminAvatarUploading ? "..." : "Upload"}</span>
               </div>
             </button>
@@ -17805,7 +17722,7 @@ export function AdminDashboardMain({
                 God Mode
               </span>
             </div>
-            <p className=" ">{effectiveAdmin.email}</p>
+            <p>{effectiveAdmin.email}</p>
             <p className="mt-0.5">
               {(member?.role || effectiveAdmin.role) === "crew"
                 ? "Manage setlists, live feeds, community updates, and crew tools."
@@ -17850,7 +17767,7 @@ export function AdminDashboardMain({
           {/* Exit Link */}
           <Link
             href="/"
-            className="hover: flex cursor-pointer items-center gap-1.5 px-1 py-2 text-black/70 transition-colors"
+            className="hover: flex cursor-pointer items-center gap-1.5 px-1 py-2 text-black/70"
           >
             Exit to Site
           </Link>
@@ -17882,7 +17799,7 @@ export function AdminDashboardMain({
                       .getElementById("booking-requests-section")
                       ?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className={`rounded-lg p-4 transition-colors ${metric.label === "Booking Requests" ? "cursor-pointer" : ""}`}
+                className={`rounded-lg p-4 ${metric.label === "Booking Requests" ? "cursor-pointer" : ""}`}
               >
                 <p className="mb-2">{metric.label}</p>
                 <div className="flex items-end justify-between">
@@ -18004,7 +17921,7 @@ export function AdminDashboardMain({
                                 prev === entry.id ? null : entry.id,
                               )
                             }
-                            className="a-btn inline-flex cursor-pointer items-center gap-1 transition-colors hover:text-white"
+                            className="a-btn inline-flex cursor-pointer items-center gap-1 hover:text-white"
                           >
                             {expandedAuditId === entry.id
                               ? "Hide Details "
@@ -18027,9 +17944,7 @@ export function AdminDashboardMain({
                                     <span className="r text-white/40">
                                       IP Address
                                     </span>
-                                    <span className="text-white/70">
-                                      {entry.details.ipAddress}
-                                    </span>
+                                    <span>{entry.details.ipAddress}</span>
                                   </div>
                                 </div>
                               )}
@@ -18040,7 +17955,7 @@ export function AdminDashboardMain({
                                     {" "}
                                     SMS Message Body
                                   </span>
-                                  <div className="rounded-lg border border-white/10 p-2.5 whitespace-pre-wrap text-purple-300">
+                                  <div className="rounded-lg border border-white/10 p-2.5 whitespace-pre-wrap">
                                     {entry.details.smsText}
                                   </div>
                                 </div>
@@ -18099,7 +18014,7 @@ export function AdminDashboardMain({
                         </div>
                       )}
 
-                      <span className="text-[11px]">{entry.time}</span>
+                      <span>{entry.time}</span>
                     </div>
                   </div>
                 ))}
@@ -18143,7 +18058,7 @@ export function AdminDashboardMain({
                     <div>
                       <label
                         htmlFor="admin-guidelines-title"
-                        className="r mb-2 block text-white/70"
+                        className="r mb-2 block"
                       >
                         Section Title
                       </label>
@@ -18155,13 +18070,13 @@ export function AdminDashboardMain({
                           setAdminGuidelinesTitle(e.target.value)
                         }
                         placeholder="Cruise Information & Guidelines"
-                        className="placeholder: w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 text-sm text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
+                        className="placeholder: focus-ring w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="admin-guidelines-subtitle"
-                        className="r mb-2 block text-white/70"
+                        className="r mb-2 block"
                       >
                         Subtitle Badge
                       </label>
@@ -18174,11 +18089,11 @@ export function AdminDashboardMain({
                             setAdminGuidelinesSubtitle(e.target.value)
                           }
                           placeholder="Cruiser Welcome Pack"
-                          className="placeholder: w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 pr-12 text-sm text-white/40 shadow-inner transition-[border-color,box-shadow,background-color] outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
+                          className="placeholder: focus-ring w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 pr-12 text-white/40 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
                         />
                         <button
                           type="button"
-                          className="absolute top-1/2 right-2.5 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg border border-purple-400/30 bg-gradient-to-r from-purple-500/40 to-pink-500/40 text-xs transition-[filter,background-color,border-color] hover:brightness-125"
+                          className="absolute top-1/2 right-2.5 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg border border-purple-400/30 bg-gradient-to-r from-purple-500/40 to-pink-500/40 transition-[filter,background-color,border-color] hover:brightness-125"
                           title="Badge options"
                         >
                           <span className="er">•••</span>
@@ -18249,12 +18164,10 @@ export function AdminDashboardMain({
 
             {/* Row 2: Passenger Notice & Cruise Email Broadcast */}
             <div className="relative mb-6 grid grid-cols-1 items-start gap-6">
-              <div className="pointer-events-none absolute top-1/2 left-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px]" />
+              <div className="pointer-events-none absolute top-1/2 left-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-cyan-500/10 to-transparent blur-3xl" />
 
-              <div
-                className={`group relative z-10 flex flex-col overflow-hidden`}
-              >
-                <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 bg-cyan-500/5 blur-[80px]" />
+              <div className="group relative z-10 flex flex-col overflow-hidden">
+                <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 bg-cyan-500/5 blur-3xl" />
                 <div className="relative z-10 flex flex-col gap-6">
                   <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
                     <div className="flex items-center gap-4">
@@ -18285,7 +18198,7 @@ export function AdminDashboardMain({
                       <div>
                         <label
                           htmlFor="admin-cruise-blast-subject"
-                          className="r mb-2 block text-white/70"
+                          className="r mb-2 block"
                         >
                           Notice Title / Email Subject Line
                         </label>
@@ -18297,7 +18210,7 @@ export function AdminDashboardMain({
                             setCruiseBlastSubject(e.target.value)
                           }
                           placeholder="e.g. TEST, CAPTAIN'S LOG, or Cruise Update..."
-                          className="placeholder: w-full rounded-lg border border-white/10 bg-[#18072b]/90 px-4 py-3 text-sm text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50"
+                          className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#18072b]/90 px-4 py-3 text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
                         />
                       </div>
 
@@ -18330,7 +18243,7 @@ export function AdminDashboardMain({
                             checked={postNoticeToDashboard}
                             onChange={setPostNoticeToDashboard}
                           />
-                          <span className=" "> Live Banner on Dashboard</span>
+                          <span> Live Banner on Dashboard</span>
                         </div>
                         <div
                           className="flex cursor-pointer items-center gap-2 select-none"
@@ -18344,7 +18257,7 @@ export function AdminDashboardMain({
                             checked={sendEmailToPassengers}
                             onChange={setSendEmailToPassengers}
                           />
-                          <span className=" "> Email Passenger Signups</span>
+                          <span> Email Passenger Signups</span>
                         </div>
                       </div>
 
@@ -18407,10 +18320,10 @@ export function AdminDashboardMain({
                           onClick={() => updateCruiseMessage("")}
                           disabled={cruiseUpdating}
                           title="Remove Notice Banner"
-                          className="group/trash flex h-11 w-11 items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 transition-colors hover:bg-rose-500 hover:text-white disabled:opacity-50"
+                          className="group/trash flex h-11 w-11 items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white disabled:opacity-50"
                         >
                           <svg
-                            className="transition-transform group-hover/trash:scale-110"
+                            className="group-hover/trash:scale-110"
                             width="16"
                             height="16"
                             viewBox="0 0 24 24"
@@ -18438,14 +18351,14 @@ export function AdminDashboardMain({
                           <SeventhButton
                             isActive={livePreviewTab === "dashboard"}
                             onClick={() => setLivePreviewTab("dashboard")}
-                            className="r cursor-pointer px-4 py-2 text-xs whitespace-nowrap"
+                            className="r cursor-pointer px-4 py-2 whitespace-nowrap"
                           >
                             CRUISE DASHBOARD BANNER
                           </SeventhButton>
                           <SeventhButton
                             isActive={livePreviewTab === "email"}
                             onClick={() => setLivePreviewTab("email")}
-                            className="r cursor-pointer px-4 py-2 text-xs whitespace-nowrap"
+                            className="r cursor-pointer px-4 py-2 whitespace-nowrap"
                           >
                             EMAIL BROADCAST
                           </SeventhButton>
@@ -18476,7 +18389,7 @@ export function AdminDashboardMain({
             className="relative mt-6 grid grid-cols-1 items-start gap-6"
           >
             <div className="group relative z-10 flex flex-col overflow-hidden">
-              <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-[80px] transition-colors duration-700 group-hover:bg-emerald-500/10" />
+              <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10" />
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="flex items-center gap-4">
                   <div>
@@ -18513,7 +18426,7 @@ export function AdminDashboardMain({
                       {(cruiseStats.recentSignups || []).map((s) => (
                         <div
                           key={s.email || s.name}
-                          className="group/row mb-0 flex items-center gap-3 border-b border-white/10 bg-black/20 px-3 py-2.5 transition-colors"
+                          className="group/row mb-0 flex items-center gap-3 border-b border-white/10 bg-black/20 px-3 py-2.5"
                         >
                           <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-emerald-500/10 text-[0.5rem]">
                             {s.name
@@ -18524,8 +18437,8 @@ export function AdminDashboardMain({
                               .toUpperCase()}
                           </div>
                           <div className="min-w-0 flex-1">
-                            <p className="truncate">{s.name}</p>
-                            <p className="mt-0 truncate">{s.email}</p>
+                            <p>{s.name}</p>
+                            <p className="mt-0">{s.email}</p>
                           </div>
                           <div className="shrink-0 text-right">
                             <p>{s.phone || "—"}</p>
@@ -18555,7 +18468,7 @@ export function AdminDashboardMain({
                       URL.revokeObjectURL(url);
                     }
                   }}
-                  className="mt-auto flex w-full cursor-pointer items-center justify-center gap-2 border border-white/10 bg-gradient-to-r from-emerald-600 to-emerald-500 py-3.5 text-[0.65rem] shadow-[0_4px_15px_rgba(16,185,129,0.25)] transition-colors hover:from-emerald-500 hover:to-emerald-400"
+                  className="mt-auto flex w-full cursor-pointer items-center justify-center gap-2 border border-white/10 bg-gradient-to-r from-emerald-600 to-emerald-500 py-3.5 text-[0.65rem] shadow-[0_4px_15px_rgba(16,185,129,0.25)] hover:from-emerald-500 hover:to-emerald-400"
                 >
                   <svg
                     width="16"
@@ -18588,7 +18501,7 @@ export function AdminDashboardMain({
       )}
 
       {selectedQrProduct && (
-        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
           <div className="flex max-h-[90vh] w-full max-w-4xl animate-[scaleIn_0.2s_ease-out] flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]">
             <div className="flex items-center justify-between border-b border-white/10 bg-black/20 p-6">
               <div>
@@ -18617,7 +18530,7 @@ export function AdminDashboardMain({
               <button
                 aria-label="Close QR product label modal"
                 onClick={() => setSelectedQrProduct(null)}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-colors hover:bg-white/10 hover:text-white"
+                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"
               >
                 ✕
               </button>
@@ -18636,7 +18549,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           onClick={() => setQrLinkType("product")}
-                          className={`cursor-pointer rounded-lg border px-3 py-2 transition-colors ${qrLinkType === "product" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"}`}
+                          className={`cursor-pointer rounded-lg border px-3 py-2 ${qrLinkType === "product" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"}`}
                         >
                           Product Detail Page
                         </button>
@@ -18647,7 +18560,7 @@ export function AdminDashboardMain({
                             !selectedQrProduct.variants ||
                             selectedQrProduct.variants.length === 0
                           }
-                          className={`cursor-pointer rounded-lg border px-3 py-2 transition-colors disabled:pointer-events-none disabled:opacity-30 ${qrLinkType === "checkout" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"}`}
+                          className={`cursor-pointer rounded-lg border px-3 py-2 disabled:pointer-events-none disabled:opacity-30 ${qrLinkType === "checkout" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"}`}
                         >
                           Direct Add to Cart
                         </button>
@@ -18682,7 +18595,7 @@ export function AdminDashboardMain({
                                   : selectedQrProduct.variants[val],
                               );
                             }}
-                            className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 outline-none focus:border-[var(--color-accent)]/50"
+                            className="focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 outline-none"
                           >
                             {qrLinkType === "product" && (
                               <option value="-1">
@@ -18718,7 +18631,7 @@ export function AdminDashboardMain({
                         value={qrSubtitle}
                         onChange={(e) => setQrSubtitle(e.target.value)}
                         placeholder="Official Merchandise"
-                        className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 outline-none focus:border-[var(--color-accent)]/50"
+                        className="focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 outline-none"
                       />
                     </div>
 
@@ -18731,10 +18644,10 @@ export function AdminDashboardMain({
                         type="button"
                         aria-label="Toggle include price tag"
                         onClick={() => setQrIncludePrice(!qrIncludePrice)}
-                        className={`h-6 w-10 cursor-pointer rounded-full p-1 transition-colors ${qrIncludePrice ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                        className={`h-6 w-10 cursor-pointer rounded-full p-1 ${qrIncludePrice ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                       >
                         <div
-                          className={`h-4 w-4 rounded-full bg-white transition-transform ${qrIncludePrice ? "translate-x-4" : "translate-x-0"}`}
+                          className={`h-4 w-4 rounded-full bg-white ${qrIncludePrice ? "translate-x-4" : "translate-x-0"}`}
                         />
                       </button>
                     </div>
@@ -18742,10 +18655,7 @@ export function AdminDashboardMain({
                 </div>
 
                 <div className="border border-white/10 bg-purple-500/10 p-4 text-[0.65rem]">
-                  <span className="mb-1 block text-purple-300">
-                    {" "}
-                    Pro-Tip for Merch Tables
-                  </span>
+                  <span className="mb-1 block"> Pro-Tip for Merch Tables</span>
                   Generate a **Direct Add to Cart** QR code for each specific
                   size (e.g. Medium vs. Large). When fans scan it, the item is
                   instantly added to their Shopify cart for immediate checkout,
@@ -18770,7 +18680,7 @@ export function AdminDashboardMain({
                     </div>
 
                     <div className="my-2 text-center">
-                      <div className="max-w-[200px] truncate">
+                      <div className="max-w-[200px]">
                         {selectedQrProduct.title}
                       </div>
                       {selectedQrVariant && (
@@ -18800,7 +18710,7 @@ export function AdminDashboardMain({
                     <div className="w-full text-center">
                       <p className="mb-2 text-black/40">Scan to Buy Now</p>
                       {qrIncludePrice && (
-                        <div className="border-t border-black/10 pt-2 text-lg text-black">
+                        <div className="border-t border-black/10 pt-2 text-black">
                           $
                           {(selectedQrVariant
                             ? selectedQrVariant.price
@@ -18817,13 +18727,13 @@ export function AdminDashboardMain({
             <div className="flex items-center justify-end gap-3 border-t border-white/10 bg-black/20 p-6">
               <button
                 onClick={() => setSelectedQrProduct(null)}
-                className="cursor-pointer rounded-lg px-4 py-2 transition-colors hover:text-white"
+                className="cursor-pointer rounded-lg px-4 py-2 hover:text-white"
               >
                 Cancel
               </button>
               <button
                 onClick={() => window.print()}
-                className="flex cursor-pointer items-center gap-2 border border-white/10 bg-[var(--color-accent)] px-6 py-3 text-[0.65rem] shadow-[0_4px_15px_rgba(255,10,61,0.3)] transition-colors hover:bg-[var(--color-accent)]/90"
+                className="flex cursor-pointer items-center gap-2 border border-white/10 bg-[var(--color-accent)] px-6 py-3 text-[0.65rem] shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/90"
               >
                 <svg
                   width="14"
@@ -18846,7 +18756,7 @@ export function AdminDashboardMain({
         </div>
       )}
       {activeToast && (
-        <div className="fixed right-6 bottom-6 z-[9999] flex items-start gap-3 border border-emerald-500/30 bg-[var(--color-bg-card)] px-5 py-4 transition-opacity duration-300 ease-out">
+        <div className="fixed right-6 bottom-6 z-[9999] flex items-start gap-3 border border-emerald-500/30 bg-[var(--color-bg-card)] px-5 py-4">
           <div className="text-xl"></div>
           <div>
             <p>{activeToast.title}</p>

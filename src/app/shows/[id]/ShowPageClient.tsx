@@ -330,7 +330,7 @@ export default function ShowPageClient({
     return (
       <div
         key={a.id}
-        className={`flex items-center gap-4 border p-4 transition-colors ${
+        className={`flex items-center gap-4 border p-4 ${
           a.status === "there"
             ? "border-emerald-500/30 bg-emerald-500/[0.03]"
             : isMe
@@ -360,7 +360,7 @@ export default function ShowPageClient({
 
         {/* Info */}
         <div className="min-w-0 flex-1">
-          <p className="truncate">
+          <p>
             {isAnon ? "Anonymous Fan" : a.profiles?.full_name || "Fan"}
             {isMe && (
               <span className="ml-2 text-[var(--color-accent)] text-[var(--font-size-2xs)]">
@@ -421,7 +421,7 @@ export default function ShowPageClient({
                     </span>
                   )}
                 </div>
-                <span className="shrink-0 rounded-lg bg-red-500 px-4 py-1.5 transition-colors group-hover:bg-white group-hover:text-red-600">
+                <span className="shrink-0 rounded-lg bg-red-500 px-4 py-1.5 group-hover:bg-white group-hover:text-red-600">
                   Watch Now →
                 </span>
               </Link>
@@ -436,7 +436,7 @@ export default function ShowPageClient({
         <div className="site-container relative z-10 py-14 md:py-20">
           <Link
             href="/#tour"
-            className="mb-8 inline-flex items-center gap-2 text-white/30 transition-colors"
+            className="mb-8 inline-flex items-center gap-2 text-white/30"
           >
             ← All Shows
           </Link>
@@ -448,7 +448,7 @@ export default function ShowPageClient({
                 {isPast ? (
                   <SectionBadge label="Past Show" />
                 ) : show.status === "live" ? (
-                  <SectionBadge className="gap-2 border-purple-500/40 text-purple-300">
+                  <SectionBadge className="gap-2 border-purple-500/40">
                     <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                     <span>HAPPENING NOW</span>
                   </SectionBadge>
@@ -478,7 +478,7 @@ export default function ShowPageClient({
                 )}
                 {show.all_ages !== null && (
                   <span
-                    className={`flex items-center gap-1.5 border px-3 py-1.5 ${show.all_ages ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-purple-500/30 bg-purple-600/10 text-purple-300"}`}
+                    className={`flex items-center gap-1.5 border px-3 py-1.5 ${show.all_ages ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-purple-500/30 bg-purple-600/10"}`}
                   >
                     {show.all_ages ? "✅ All Ages" : "🔞 21+"}
                   </span>
@@ -500,7 +500,7 @@ export default function ShowPageClient({
                       onClick={handleRsvp}
                       disabled={rsvpLoading}
                       id="rsvp-btn"
-                      className="cursor-pointer border border-white/10 bg-white/10 px-8 py-4 transition-colors hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-50"
+                      className="cursor-pointer border border-white/10 bg-white/10 px-8 py-4 hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-50"
                     >
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
@@ -534,14 +534,14 @@ export default function ShowPageClient({
                 target="_blank"
                 rel="noopener noreferrer"
                 id="directions-btn"
-                className="border border-white/10 px-6 py-3 text-center transition-colors hover:border-white/30 hover:text-white"
+                className="border border-white/10 px-6 py-3 text-center hover:border-white/30 hover:text-white"
               >
                 📍 Directions
               </a>
               <button
                 onClick={copyLink}
                 id="share-show-btn"
-                className="border border-white/10 px-6 py-3 transition-colors hover:border-white/30 hover:text-white"
+                className="border border-white/10 px-6 py-3 hover:border-white/30 hover:text-white"
               >
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
@@ -558,7 +558,7 @@ export default function ShowPageClient({
             <div className="mb-12 grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
               {/* Notify Me Column */}
               <div className="group relative flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
-                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-[var(--color-accent)]/5 blur-[40px]" />
+                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-[var(--color-accent)]/5 blur-3xl" />
                 <div>
                   <span className="mb-6 inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-purple-500/10 px-3 py-1 text-[var(--font-size-2xs)]">
                     Missed this show?
@@ -589,7 +589,7 @@ export default function ShowPageClient({
                           onChange={(e) => setNotifyEmail(e.target.value)}
                           containerClassName="flex-1"
                           glow={true}
-                          inputClassName="bg-black/40 border  border-white/10  px-4 py-3   placeholder: text-white/20 outline-none transition-colors rounded-xl"
+                          inputClassName="bg-black/40 border  border-white/10  px-4 py-3   placeholder: text-white/20 outline-none  rounded-xl"
                         />
                         <SeventhButton
                           type="submit"
@@ -612,7 +612,7 @@ export default function ShowPageClient({
 
               {/* Video Embed Column */}
               <div className="group relative flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
-                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-red-500/5 blur-[40px]" />
+                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-red-500/5 blur-3xl" />
                 <div>
                   <span className="mb-6 inline-flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1 text-[var(--font-size-2xs)] text-red-400">
                     Live Performance
@@ -637,7 +637,7 @@ export default function ShowPageClient({
           <button
             id="attendee-toggle-btn"
             onClick={() => setAttendeeListOpen(!attendeeListOpen)}
-            className="group mb-1 flex w-full cursor-pointer items-center justify-between border border-white/10 border-white/[0.06] bg-white/[0.02] p-5 transition-colors"
+            className="group mb-1 flex w-full cursor-pointer items-center justify-between border border-white/10 border-white/[0.06] bg-white/[0.02] p-5"
           >
             <div className="flex items-center gap-6">
               <div className="text-left">
@@ -664,7 +664,7 @@ export default function ShowPageClient({
                 </span>
               )}
               <span
-                className={`text-xl text-white/40 transition-transform duration-300 ${attendeeListOpen ? "rotate-180" : ""}`}
+                className={`text-xl text-white/40 ${attendeeListOpen ? "rotate-180" : ""}`}
               >
                 ↓
               </span>
@@ -681,7 +681,7 @@ export default function ShowPageClient({
                     <button
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`cursor-pointer px-4 py-1.5 transition-colors ${goingFilter === f ? "bg-white/10" : "text-white/30"}`}
+                      className={`cursor-pointer px-4 py-1.5 ${goingFilter === f ? "bg-white/10" : "text-white/30"}`}
                     >
                       {f === "all"
                         ? `All (${totalCount})`
@@ -749,7 +749,7 @@ export default function ShowPageClient({
                 </SeventhButton>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="border border-white/10 px-6 py-3 text-white/50 transition-colors hover:border-white/30 hover:text-white"
+                  className="border border-white/10 px-6 py-3 text-white/50 hover:border-white/30 hover:text-white"
                 >
                   💬 Text a Friend
                 </a>

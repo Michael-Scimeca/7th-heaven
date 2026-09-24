@@ -74,7 +74,7 @@ function buildPlannerEmailHtml(booking: any) {
           metaInfo += `<br/><span style="color:rgba(255,255,255,0.4);font-size:11px;">Tickets: <a href="${sanitize(s.ticketLink)}" style="color:#a855f7;text-decoration:none;">${sanitize(s.ticketLink)}</a></span>`;
         }
         if (s.notes) {
-          metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;font-style:italic;">Notes: "${sanitize(s.notes)}"</span>`;
+          metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;font-style: ;">Notes: "${sanitize(s.notes)}"</span>`;
         }
         const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(booking.bookingId)}&date=${encodeURIComponent(s.date)}&venue=${encodeURIComponent(booking.venueName || "")}&city=${encodeURIComponent(booking.venueCity)}&state=${encodeURIComponent(booking.venueState)}&eventType=${encodeURIComponent(typeLabel)}&startTime=${encodeURIComponent(s.startTime || "")}&endTime=${encodeURIComponent(s.endTime || "")}`;
         return `<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:#fff;">
@@ -213,7 +213,7 @@ function buildAdminNotificationHtml(booking: any) {
           metaInfo += `<br/><span style="color:rgba(255,255,255,0.4);font-size:11px;">Tickets: <a href="${sanitize(s.ticketLink)}" style="color:#a855f7;text-decoration:none;">${sanitize(s.ticketLink)}</a></span>`;
         }
         if (s.notes) {
-          metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;font-style:italic;">Notes: "${sanitize(s.notes)}"</span>`;
+          metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;font-style: ;">Notes: "${sanitize(s.notes)}"</span>`;
         }
         const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(booking.bookingId)}&date=${encodeURIComponent(s.date)}&venue=${encodeURIComponent(booking.venueName || "")}&city=${encodeURIComponent(booking.venueCity)}&state=${encodeURIComponent(booking.venueState)}&eventType=${encodeURIComponent(typeLabel)}&startTime=${encodeURIComponent(s.startTime || "")}&endTime=${encodeURIComponent(s.endTime || "")}`;
         return `<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:#fff;">

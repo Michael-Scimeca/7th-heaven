@@ -592,7 +592,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 right-0 left-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} pointer-events-none transition-colors duration-300`}
+      className={`fixed top-0 right-0 left-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} pointer-events-none`}
       suppressHydrationWarning
     >
       <div className="site-container w-full max-w-full">
@@ -613,11 +613,11 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 transition-colors duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-[#9333ea]" : "cursor-pointer"}`}
+            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-[#9333ea]" : "cursor-pointer"}`}
             title="7th Heaven — Go to Home Page"
           >
-            <div className="pointer-events-auto flex h-[clamp(24px,2.5vw,46px)] w-[clamp(130px,13.5vw,250px)] items-center justify-center transition-[width,height] duration-150 select-none">
-              <Logo className="pointer-events-auto h-full w-full text-current transition-colors duration-[250ms]" />
+            <div className="pointer-events-auto flex h-[clamp(24px,2.5vw,46px)] w-[clamp(130px,13.5vw,250px)] items-center justify-center transition-[width,height] select-none">
+              <Logo className="pointer-events-auto h-full w-full text-current duration-[250ms]" />
             </div>
           </TransitionLink>
           <nav className="relative z-50 hidden items-center gap-3 lg:flex lg:flex-1 lg:justify-start lg:gap-5 xl:gap-8">
@@ -636,7 +636,7 @@ export function Header() {
             {showUserAuth && (
               <TransitionLink
                 href={studioHref}
-                className={`relative inline-flex items-center border-b-2 pb-0.5 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap transition-all duration-200 ${effectivePathname.startsWith("/studio") ? "active cursor-default border-[#c084fc] text-[var(--color-purple-light)]" : "cursor-pointer border-[#c084fc]/70 text-[var(--color-purple-light)] hover:border-white hover:text-white"}`}
+                className={`relative inline-flex items-center border-b-2 pb-0.5 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${effectivePathname.startsWith("/studio") ? "active cursor-default border-[#c084fc] text-[var(--color-purple-light)]" : "cursor-pointer border-[#c084fc]/70 text-[var(--color-purple-light)] hover:border-white hover:text-white"}`}
               >
                 STUDIO
               </TransitionLink>
@@ -713,7 +713,7 @@ export function Header() {
                   <TransitionLink
                     href={dashboardHref}
                     showSpinner={false}
-                    className="relative flex aspect-square h-8 min-h-8 w-8 min-w-8 shrink-0 items-center justify-center transition-transform sm:h-10 sm:min-h-10 sm:w-10 sm:min-w-10 md:h-11 md:min-h-11 md:w-11 md:min-w-11"
+                    className="relative flex aspect-square h-8 min-h-8 w-8 min-w-8 shrink-0 items-center justify-center sm:h-10 sm:min-h-10 sm:w-10 sm:min-w-10 md:h-11 md:min-h-11 md:w-11 md:min-w-11"
                     style={{
                       borderRadius: "50%",
                       overflow: "hidden",
@@ -740,7 +740,7 @@ export function Header() {
                       />
                     ) : (
                       <div
-                        className="flex aspect-square h-full w-full shrink-0 items-center justify-center border border-white/10 bg-black/40 text-[clamp(10px,1.2vw,14px)] shadow-inner backdrop-blur-[45px]"
+                        className="flex aspect-square h-full w-full shrink-0 items-center justify-center border border-white/10 bg-black/40 text-[clamp(10px,1.2vw,14px)] shadow-inner backdrop-blur-2xl"
                         style={{
                           width: "100%",
                           height: "100%",
@@ -764,7 +764,7 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`sm: absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center border border-[#3c0366] px-1 py-0.5 text-[9px] text-[11px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg}`}
+                    className={`sm: absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center border border-[#3c0366] px-1 py-0.5 text-[9px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}
@@ -775,7 +775,7 @@ export function Header() {
                     logout();
                     requestTransition("/");
                   }}
-                  className="ml-1 flex cursor-pointer items-center gap-1.5 text-[12px] text-[#9333ea] transition-colors sm:ml-2"
+                  className="ml-1 flex cursor-pointer items-center gap-1.5 text-[12px] text-[#9333ea] sm:ml-2"
                   title="Sign Out"
                 >
                   <span>SIGN OUT</span>
@@ -800,7 +800,7 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="relative flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-0 transition-colors hover:text-[var(--color-accent)] sm:h-9 sm:w-9 md:h-10 md:w-10 lg:hidden"
+              className="relative flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-0 hover:text-[var(--color-accent)] sm:h-9 sm:w-9 md:h-10 md:w-10 lg:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"
@@ -899,7 +899,7 @@ export function Header() {
                 // comment above): it makes the wipe edge read as a slight
                 // diagonal that self-levels as it finishes, rather than a
                 // flat curtain.
-                className="pointer-events-auto fixed inset-0 z-[9999] flex flex-col overflow-y-auto bg-black/30 backdrop-blur-[21px]"
+                className="pointer-events-auto fixed inset-0 z-[9999] flex flex-col overflow-y-auto bg-black/30 backdrop-blur-xl"
                 style={{
                   backdropFilter: "blur(21px)",
                   WebkitBackdropFilter: "blur(21px)",
@@ -975,7 +975,7 @@ export function Header() {
                           key={link.href}
                           href={link.href}
                           onClick={() => setMobileOpen(false)}
-                          className={`inline-flex w-fit max-w-full items-start self-start text-[clamp(2.375rem,10vw,6.25rem)] leading-[1.02] transition-colors duration-300 sm:text-5xl lg:text-6xl xl:text-7xl ${link.href === studioHref ? "decoration-[#c084fc] decoration-4 underline-offset-8" : ""} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith("/studio")) ? "active cursor-default !text-[#c084fc]" : "! cursor-pointer hover:!text-[#c084fc]"}`}
+                          className={`inline-flex w-fit max-w-full items-start self-start text-[clamp(2.375rem,10vw,6.25rem)] leading-[1.02] sm:text-5xl lg:text-6xl xl:text-7xl ${link.href === studioHref ? "decoration-[#c084fc] decoration-4 underline-offset-8" : ""} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith("/studio")) ? "active cursor-default !text-[#c084fc]" : "! cursor-pointer hover:!text-[#c084fc]"}`}
                           style={{
                             // exoape's own per-link reveal: rotate:7deg -> 0 and
                             // yPercent:100 -> 0 (a full line-height slide, not a
@@ -1008,12 +1008,12 @@ export function Header() {
                   Play Reel / Our Story / Now Hiring! row, filled in with
                   this site's own links rather than copying its wording. */}
                   <div className="flex shrink-0 items-center justify-between gap-4 border-t border-white/10 px-6 py-5 sm:px-10">
-                    <div className="flex items-center gap-4 text-[11px] sm:gap-6">
+                    <div className="flex items-center gap-4 sm:gap-6">
                       <a
                         href="https://www.instagram.com/7thheavenband"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="! transition-colors hover:!text-[#c084fc]"
+                        className="! hover:!text-[#c084fc]"
                       >
                         Instagram
                       </a>
@@ -1021,7 +1021,7 @@ export function Header() {
                         href="https://www.facebook.com/7thheavenband"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="! transition-colors hover:!text-[#c084fc]"
+                        className="! hover:!text-[#c084fc]"
                       >
                         Facebook
                       </a>
@@ -1029,7 +1029,7 @@ export function Header() {
                         href="https://twitter.com/7thheavenband"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="! transition-colors hover:!text-[#c084fc]"
+                        className="! hover:!text-[#c084fc]"
                       >
                         Twitter
                       </a>
@@ -1037,7 +1037,7 @@ export function Header() {
                         href="https://www.youtube.com/user/7thheavenband"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="! hidden transition-colors hover:!text-[#c084fc] sm:inline"
+                        className="! hidden hover:!text-[#c084fc] sm:inline"
                       >
                         YouTube
                       </a>
@@ -1067,7 +1067,7 @@ export function Header() {
                                 className="h-full w-full object-cover"
                               />
                             ) : (
-                              <div className="flex h-full w-full items-center justify-center border border-white/20 bg-black/60 text-xs">
+                              <div className="flex h-full w-full items-center justify-center border border-white/20 bg-black/60">
                                 {initials}
                               </div>
                             )}
@@ -1085,7 +1085,7 @@ export function Header() {
                             logout();
                             requestTransition("/");
                           }}
-                          className="ml-1 cursor-pointer text-[12px] text-purple-400 transition-colors hover:text-white"
+                          className="ml-1 cursor-pointer text-[12px] text-purple-400 hover:text-white"
                         >
                           SIGN OUT
                         </button>
@@ -1097,7 +1097,7 @@ export function Header() {
                           setMobileOpen(false);
                           openModal("login");
                         }}
-                        className="shrink-0 rounded-lg px-3.5 py-1.5 text-xs"
+                        className="shrink-0 rounded-lg px-3.5 py-1.5"
                       >
                         SIGN IN
                       </SeventhButton>

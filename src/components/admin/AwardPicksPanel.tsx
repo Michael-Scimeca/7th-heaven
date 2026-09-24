@@ -205,10 +205,10 @@ export default function AwardPicksPanel() {
             <button
               key={pick.id}
               onClick={() => setSelectedPick(pick.id)}
-              className={`cursor-pointer rounded-lg border p-3 text-center transition-colors ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "border-white/10 bg-white/[0.02]"}`}
+              className={`cursor-pointer rounded-lg border p-3 text-center ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "border-white/10 bg-white/[0.02]"}`}
             >
               <div
-                className="mx-auto mb-1.5 flex h-11 w-11 items-center justify-center rounded-lg text-lg"
+                className="mx-auto mb-1.5 flex h-11 w-11 items-center justify-center rounded-lg"
                 style={{
                   background: `${pick.color}20`,
                   color: pick.color,
@@ -217,7 +217,7 @@ export default function AwardPicksPanel() {
               >
                 7H
               </div>
-              <p className="truncate">{pick.name}</p>
+              <p>{pick.name}</p>
               <p className={` ${rarityColors[pick.rarity]}`}>{pick.rarity}</p>
             </button>
           ))}
@@ -232,7 +232,7 @@ export default function AwardPicksPanel() {
             <button
               key={r.id}
               onClick={() => setSelectedReason(r.id)}
-              className={`cursor-pointer rounded-lg border px-3 py-2 text-left transition-colors ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+              className={`cursor-pointer rounded-lg border px-3 py-2 text-left ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
             >
               <span>{r.label}</span>
             </button>
@@ -266,7 +266,7 @@ export default function AwardPicksPanel() {
               <button
                 key={fan.id}
                 onClick={() => setSelectedFan(fan)}
-                className={`w-full cursor-pointer border-b border-white/10 px-4 py-2.5 text-left transition-colors last:border-0 ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10" : "hover:bg-white/[0.03]"}`}
+                className={`w-full cursor-pointer border-b border-white/10 px-4 py-2.5 text-left last:border-0 ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10" : "hover:bg-white/[0.03]"}`}
               >
                 <span>{fan.full_name || "Unnamed"}</span>
                 <span className="ml-2 text-white/30">{fan.email}</span>
@@ -286,7 +286,7 @@ export default function AwardPicksPanel() {
         <button
           onClick={handleAward}
           disabled={!selectedFan || awarding}
-          className="flex-1 cursor-pointer bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] transition-colors hover:brightness-110 disabled:opacity-30"
+          className="flex-1 cursor-pointer bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-30"
         >
           {awarding
             ? "Awarding..."
@@ -295,7 +295,7 @@ export default function AwardPicksPanel() {
         <button
           onClick={handleBulkAward}
           disabled={filteredFans.length === 0 || awarding}
-          className="cursor-pointer border border-[var(--color-border-purple)] px-6 py-3 text-[var(--color-purple-light)] text-[var(--font-size-xs)] transition-colors hover:bg-[var(--color-purple-glow)] disabled:opacity-30"
+          className="cursor-pointer border border-[var(--color-border-purple)] px-6 py-3 text-[var(--color-purple-light)] text-[var(--font-size-xs)] hover:bg-[var(--color-purple-glow)] disabled:opacity-30"
         >
           Bulk ({filteredFans.length})
         </button>
@@ -324,7 +324,7 @@ export default function AwardPicksPanel() {
                   className="h-3 w-3 rounded-lg"
                   style={{ background: a.color }}
                 />
-                <span className="text-white/70">{a.fan}</span>
+                <span>{a.fan}</span>
                 <span className="text-white/30">→</span>
                 <span className={`${rarityColors[a.rarity]}`}>{a.pick}</span>
                 <span className="ml-auto text-white/20">{a.time}</span>

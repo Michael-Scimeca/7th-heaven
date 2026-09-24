@@ -17,13 +17,13 @@ export async function GET() {
         {/* Top Navbar Header */}
         <div class="bg-[#0c0c16] border border-purple-500/30 rounded-lg p-4 flex items-center justify-between shadow-2xl">
           <div class="flex items-center gap-3">
-            <div class=" w-11 h-11 rounded-lg bg-purple-600/30 border-2 border-purple-400 flex items-center justify-center text-purple-300 text-lg">
+            <div class=" w-11 h-11 rounded-lg bg-purple-600/30 border-2 border-purple-400 flex items-center justify-center    ">
               MR
             </div>
             <div>
               <div class="flex items-center gap-2">
                 <h1 class="text-xl  ">Marcus Rivera</h1>
-                <span class="px-2.5 py-0.5 text-[10px] uppercase bg- purple-white/20 text-purple-300 border border-purple-500/40 rounded-lg">
+                <span class="px-2.5 py-0.5 text-[10px] uppercase bg- purple-white/20   border border-purple-500/40 rounded-lg">
                   📋 Event Planner
                 </span>
               </div>
@@ -44,12 +44,12 @@ export async function GET() {
           <div class="flex items-center justify-between relative z-10">
             <div>
               <span class=" uppercase text-purple-400">Planner Coordinator Portal</span>
-              <h2 class="   ">Confirmed Event Bookings</h2>
+              <h2 >Confirmed Event Bookings</h2>
               <p class=" ">Manage concert schedules, stage riders, and direct band manager communications.</p>
             </div>
             <div class="bg-purple-600/30 border border-purple-400/40 px-4 py-2 rounded-lg text-right">
               <span class="text-[10px] uppercase block">Booking Reference</span>
-              <span class="text-lg   r">7H-BK-4821</span>
+              <span class="    r">7H-BK-4821</span>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ export async function GET() {
               </div>
               <div class="flex justify-between py-1">
                 <span class=" /40 uppercase  ">Performance Window</span>
-                <span class="text-purple-300 ">7:00 PM – 10:00 PM</span>
+                <span class="  ">7:00 PM – 10:00 PM</span>
               </div>
             </div>
 

@@ -64,7 +64,15 @@ export default function TransitionLink({
       return; // anchor scroll or studio link
     const currentPathname =
       typeof window !== "undefined" ? window.location.pathname : "";
-    if (targetHref === currentPathname) return; // already there
+    if (targetHref === currentPathname) {
+      e.preventDefault();
+      if (typeof window !== "undefined" && (window as any).__lenis) {
+        (window as any).__lenis.scrollTo(0);
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      return;
+    }
 
     e.preventDefault();
     requestTransition(targetHref);

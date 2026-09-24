@@ -16,7 +16,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { StatsGl, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const emptySubscribe = () => () => { };
+const emptySubscribe = () => () => {};
 
 import { suppressBlobTextureErrors } from "@/lib/suppressBlobTextureErrors";
 import { SectionBadge } from "./SectionBadge";
@@ -145,7 +145,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           if (parsed.lineColor === "#06b6d4") parsed.lineColor = "#780aed";
           return { ...DEFAULT_HISTORY_TUNING, ...parsed };
         }
-      } catch { }
+      } catch {}
     }
     return DEFAULT_HISTORY_TUNING;
   });
@@ -163,7 +163,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       localStorage.setItem("7h_history_tuning_v6", JSON.stringify(tuning));
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch { }
+    } catch {}
   };
 
   const handleResetTuning = () => {
@@ -172,7 +172,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       localStorage.removeItem("7h_history_tuning");
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch { }
+    } catch {}
   };
 
   // Reverse history so timeline starts at 1998 (Inaugural Voyage) and proceeds chronologically to 2028
@@ -574,7 +574,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       if (saved) {
         setMaskSettings((prev) => ({ ...prev, ...JSON.parse(saved) }));
       }
-    } catch { }
+    } catch {}
 
     const handleUpdate = (e: Event) => {
       const customEvent = e as CustomEvent;
@@ -597,7 +597,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   );
 
   return (
-    <div className="py-section-fluid relative right-1/2 left-1/2 -mr-[50vw] -ml-[50vw] w-screen overflow-x-clip text-left transition-all duration-150">
+    <div className="py-section-fluid relative right-1/2 left-1/2 -mr-[50vw] -ml-[50vw] w-screen overflow-x-clip text-left">
       {/* ── Inner Backdrop & Tint Overlay (Separated from maskImage to eliminate Chrome compositor white polygon bug) ── */}
       <div className="pointer-events-none absolute inset-0 z-0" />
 
@@ -629,7 +629,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (0px FULL BLEED EDGE-TO-EDGE) ── */}
       <div
         ref={desktopContainerRef}
-        className="site-container relative mx-auto    overflow-clip md:block "
+        className="site-container relative mx-auto overflow-clip md:block"
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div
@@ -815,9 +815,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     const paddedItems =
                       rowItems.length < chunkSize
                         ? [
-                          ...rowItems,
-                          ...Array(chunkSize - rowItems.length).fill(null),
-                        ]
+                            ...rowItems,
+                            ...Array(chunkSize - rowItems.length).fill(null),
+                          ]
                         : rowItems;
 
                     return paddedItems.map((hist, itemIndex) => {
@@ -841,10 +841,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         ? false
                         : is2026
                           ? currentShipLength > 0 &&
-                          shipMaxTravelLength > 0 &&
-                          currentShipLength >= shipMaxTravelLength - 10
+                            shipMaxTravelLength > 0 &&
+                            currentShipLength >= shipMaxTravelLength - 10
                           : currentShipLength > 0 &&
-                          currentShipLength >= badgePathLen - 80;
+                            currentShipLength >= badgePathLen - 80;
 
                       const flexAlignClass = isEvenRow
                         ? itemIndex === 0
@@ -866,14 +866,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         >
                           <div
                             data-year-badge
-                            className={`z-40 inline-block rounded-lg transition-colors duration-300 ${isReached ? "scale-105 border-2 border-purple-400 bg-[#240852] shadow-[0_0_25px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#240852]"}`}
+                            className={`z-40 inline-block rounded-lg ${isReached ? "scale-105 border-2 border-purple-400 bg-[#240852] shadow-[0_0_25px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#240852]"}`}
                             style={{
                               padding:
                                 "clamp(0.25rem, 0.6vw, 0.5rem) clamp(0.75rem, 1.5vw, 1.5rem)",
                             }}
                           >
                             <h6
-                              className={`transition-colors ${isReached ? " " : "text-white/40"}`}
+                              className={` ${isReached ? " " : "text-white/40"}`}
                               style={{ fontSize: "clamp(1.5rem, 3.2vw, 3rem)" }}
                             >
                               {hist.year}
@@ -893,9 +893,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     const paddedItems =
                       rowItems.length < chunkSize
                         ? [
-                          ...rowItems,
-                          ...Array(chunkSize - rowItems.length).fill(null),
-                        ]
+                            ...rowItems,
+                            ...Array(chunkSize - rowItems.length).fill(null),
+                          ]
                         : rowItems;
 
                     return paddedItems.map((hist, itemIndex) => {
@@ -922,10 +922,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           ? false
                           : is2026
                             ? currentShipLength > 0 &&
-                            shipMaxTravelLength > 0 &&
-                            currentShipLength >= shipMaxTravelLength - 10
+                              shipMaxTravelLength > 0 &&
+                              currentShipLength >= shipMaxTravelLength - 10
                             : currentShipLength > 0 &&
-                            currentShipLength >= badgePathLen - 80);
+                              currentShipLength >= badgePathLen - 80);
 
                       return (
                         <div
@@ -934,12 +934,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           style={{ width: "clamp(200px, 24vw, 380px)" }}
                         >
                           <div
-                            className={`transition-colors duration-300 ${isReached ? "opacity-100" : "opacity-70"}`}
+                            className={`${isReached ? "opacity-100" : "opacity-70"}`}
                             style={{ padding: "0.5rem 0" }}
                           >
                             <div className="mb-2 flex items-center justify-between gap-2 rounded-lg">
                               <span
-                                className={`rounded-lg transition-colors ${isReached ? "border border-white/10 bg-cyan-500/20" : "border border-white/10 bg-[#00000029] text-white/40"}`}
+                                className={`rounded-lg ${isReached ? "border border-white/10 bg-cyan-500/20" : "border border-white/10 bg-[#00000029] text-white/40"}`}
                                 style={{
                                   fontSize: "clamp(0.55rem, 0.75vw, 0.65rem)",
                                   padding: "0.125rem 0.5rem",
@@ -950,7 +950,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             </div>
 
                             <h4
-                              className={`transition-colors ${isReached ? " " : " "}`}
+                              className={` ${isReached ? " " : " "}`}
                               style={{
                                 fontSize: "clamp(0.75rem, 1.1vw, 1rem)",
                               }}
@@ -988,7 +988,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               const isReached =
                 idx === 0 ||
                 mobileProgress >=
-                Math.max(0, idx / chronologicalHistory.length - 0.03);
+                  Math.max(0, idx / chronologicalHistory.length - 0.03);
               const nextHist = chronologicalHistory[idx + 1];
               const isLastHistoricalNode = hist.year === "2026";
               const isFutureItem = hist.year === "2027" || hist.year === "2028";
@@ -999,23 +999,21 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <div key={hist.year || idx} className="group relative">
                   {/* Node Circle Box */}
                   <div
-                    className={`absolute top-2 left-[-25px] z-10 h-4 w-4 rounded-lg border-2 border-transparent transition-colors duration-300 ${isReached ? "scale-125 bg-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.8)]" : "bg-cyan-500/30"}`}
+                    className={`absolute top-2 left-[-25px] z-10 h-4 w-4 rounded-lg border-2 border-transparent ${isReached ? "scale-125 bg-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.8)]" : "bg-cyan-500/30"}`}
                   />
 
                   {/* Connecting Line Segment — Aligned at 25px Global Mobile Padding */}
                   {showConnectorLine && (
                     <div
-                      className={`absolute top-2 bottom-[-32px] left-[-19px] w-[4px] transition-colors duration-300 ${isReached ? "bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]" : "bg-cyan-500/20"}`}
+                      className={`absolute top-2 bottom-[-32px] left-[-19px] w-[4px] ${isReached ? "bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]" : "bg-cyan-500/20"}`}
                     />
                   )}
 
                   <div
-                    className={`py-1 transition-colors duration-300 ${isReached ? "opacity-100" : "opacity-70"}`}
+                    className={`py-1 ${isReached ? "opacity-100" : "opacity-70"}`}
                   >
                     <div className="mb-2 flex items-center justify-between gap-3">
-                      <span className="text-lg text-purple-400">
-                        {hist.year}
-                      </span>
+                      <span className="text-purple-400">{hist.year}</span>
                       <span className="text-white/30">VOYAGE #{idx + 1}</span>
                     </div>
                     <h4>{hist.ship}</h4>
@@ -1032,10 +1030,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {showSettings &&
         mounted &&
         createPortal(
-          <div className="pointer-events-none fixed inset-0 z-[999999] flex items-center justify-center p-4 transition-opacity duration-200 ease-out">
+          <div className="pointer-events-none fixed inset-0 z-[999999] flex items-center justify-center p-4">
             <div
               data-settings-panel
-              className="pointer-events-auto fixed bottom-16 left-6 max-h-[85vh] w-[450px] max-w-[94vw] overflow-y-auto rounded-3xl border border-purple-400/40 bg-[#04040e]/30 p-6 text-left shadow-[0_0_60px_rgba(6,182,212,0.25)] transition-opacity duration-300 ease-out"
+              className="pointer-events-auto fixed bottom-16 left-6 max-h-[85vh] w-[450px] max-w-[94vw] overflow-y-auto rounded-3xl border border-purple-400/40 bg-[#04040e]/30 p-6 text-left shadow-[0_0_60px_rgba(6,182,212,0.25)]"
             >
               <div className="mb-5 flex items-center justify-between border-b border-purple-500/30 pb-3">
                 <div className="flex items-center gap-2">
@@ -1043,7 +1041,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 </div>
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="cursor-pointer rounded-lg px-2 py-1 text-lg transition-colors hover:bg-white/10 hover:text-white"
+                  className="cursor-pointer rounded-lg px-2 py-1 hover:bg-white/10 hover:text-white"
                 >
                   ✕
                 </button>
@@ -1107,7 +1105,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           onClick={() =>
                             setTuning({ ...tuning, scalingCurve: mode })
                           }
-                          className={`cursor-pointer border px-2 py-1.5 transition-colors ${(tuning.scalingCurve || "linear") === mode ? "border-purple-300 bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.5)]" : "border-white/10 bg-[#00000029] text-white/70 hover:bg-white/10 hover:text-white"}`}
+                          className={`cursor-pointer border px-2 py-1.5 ${(tuning.scalingCurve || "linear") === mode ? "border-purple-300 bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.5)]" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
                         >
                           {mode === "linear"
                             ? "Linear"
@@ -1343,7 +1341,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       <button
                         key={col}
                         onClick={() => setTuning({ ...tuning, lineColor: col })}
-                        className={`h-7 w-7 cursor-pointer rounded-lg border-2 transition-transform ${tuning.lineColor === col ? "scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]" : "border-transparent opacity-70 hover:opacity-100"}`}
+                        className={`h-7 w-7 cursor-pointer rounded-lg border-2 ${tuning.lineColor === col ? "scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]" : "border-transparent opacity-70 hover:opacity-100"}`}
                         style={{ backgroundColor: col }}
                       />
                     ))}
@@ -1355,19 +1353,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
                 <button
                   onClick={handleResetTuning}
-                  className="cursor-pointer bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+                  className="cursor-pointer bg-white/10 px-4 py-2 hover:bg-white/20"
                 >
                   🔄 Reset Defaults
                 </button>
                 <div className="flex items-center gap-2">
                   {saveToast && (
-                    <span className="text-[var(--color-accent)] transition-opacity duration-300 ease-out">
-                      ✓ Saved!
-                    </span>
+                    <span className="text-[var(--color-accent)]">✓ Saved!</span>
                   )}
                   <button
                     onClick={handleSaveTuning}
-                    className="cursor-pointer bg-cyan-500 px-5 py-2 shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-colors hover:bg-cyan-400"
+                    className="cursor-pointer bg-cyan-500 px-5 py-2 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:bg-cyan-400"
                   >
                     💾 Save Settings
                   </button>

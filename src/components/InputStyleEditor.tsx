@@ -416,7 +416,7 @@ a:hover {
       {/* Editor Drawer Modal — Pinned to Far Right, No Background Blur/Tint Overlay */}
       {isOpen && (
         <div className="pointer-events-none fixed inset-0 z-[10000] flex items-center justify-end p-4 md:p-6">
-          <div className="bg-[#0c0817]/95backdrop-blur-[18px] pointer-events-auto flex max-h-[88vh] w-full max-w-xl flex-col overflow-hidden rounded-lg border border-purple-500/30 shadow-2xl shadow-[0_0_50px_rgba(0,240,255,0.2)]">
+          <div className="bg-[#0c0817]/95backdrop-blur-xl pointer-events-auto flex max-h-[88vh] w-full max-w-xl flex-col overflow-hidden rounded-lg border border-purple-500/30 shadow-2xl shadow-[0_0_50px_rgba(0,240,255,0.2)]">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.02] p-5">
               <div className="flex items-center gap-3">
@@ -433,7 +433,7 @@ a:hover {
                 <button
                   aria-label="Reset to defaults"
                   onClick={() => setSettings(DEFAULT_INPUT_SETTINGS)}
-                  className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                  className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 hover:bg-white/10 hover:text-white"
                   title="Reset to defaults"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
@@ -442,7 +442,7 @@ a:hover {
                 <button
                   aria-label="Close modal"
                   onClick={() => setIsOpen(false)}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20"
+                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-white/10 hover:bg-white/20"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -460,7 +460,7 @@ a:hover {
                   onClick={() =>
                     setSettings((prev) => ({ ...prev, ...p.settings }))
                   }
-                  className="shrink-0 cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 transition-all hover:border-purple-400/40 hover:bg-cyan-500/20"
+                  className="shrink-0 cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 hover:border-purple-400/40 hover:bg-cyan-500/20"
                 >
                   {p.name}
                 </button>
@@ -471,37 +471,37 @@ a:hover {
             <div className="flex border-b border-white/10">
               <button
                 onClick={() => setActiveTab("controls")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 transition-colors ${activeTab === "controls" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "controls" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Sliders className="h-3.5 w-3.5" /> Inputs
               </button>
               <button
                 onClick={() => setActiveTab("search")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 transition-colors ${activeTab === "search" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "search" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Search className="h-3.5 w-3.5" /> Search Bar
               </button>
               <button
                 onClick={() => setActiveTab("checkboxes")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 transition-colors ${activeTab === "checkboxes" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "checkboxes" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <CheckSquare className="h-3.5 w-3.5" /> Checkboxes
               </button>
               <button
                 onClick={() => setActiveTab("typography")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 transition-colors ${activeTab === "typography" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "typography" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Type className="h-3.5 w-3.5" /> Typography & Tags
               </button>
               <button
                 onClick={() => setActiveTab("preview")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 transition-colors ${activeTab === "preview" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "preview" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Eye className="h-3.5 w-3.5" /> Sandbox
               </button>
               <button
                 onClick={() => setActiveTab("css")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 transition-colors ${activeTab === "css" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "css" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Layers className="h-3.5 w-3.5" /> CSS
               </button>
@@ -517,7 +517,7 @@ a:hover {
                       🎨 Background & Blur
                     </h4>
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Fill Opacity</span>
                         <span>{Math.round(settings.bgOpacity * 100)}%</span>
                       </label>
@@ -535,7 +535,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Backdrop Blur</span>
                         <span>{settings.blurAmount}px</span>
                       </label>
@@ -553,7 +553,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-white/70">
+                      <label className="mb-1 block">
                         Background Tint (RGB)
                       </label>
                       <div className="grid grid-cols-3 gap-2">
@@ -613,7 +613,7 @@ a:hover {
                       📐 Border & Geometry
                     </h4>
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Border Width</span>
                         <span>{settings.borderWidth}px</span>
                       </label>
@@ -630,7 +630,7 @@ a:hover {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Corner Radius</span>
                         <span>{settings.borderRadius}px</span>
                       </label>
@@ -647,9 +647,7 @@ a:hover {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-white/70">
-                        Border Color
-                      </label>
+                      <label className="mb-1 block">Border Color</label>
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -669,7 +667,7 @@ a:hover {
                       ✨ Focus Glow & Color
                     </h4>
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Focus Glow Opacity</span>
                         <span>
                           {Math.round(settings.focusGlowOpacity * 100)}%
@@ -689,9 +687,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-white/70">
-                        Focus Border Color
-                      </label>
+                      <label className="mb-1 block">Focus Border Color</label>
                       <input
                         type="color"
                         value={
@@ -713,7 +709,7 @@ a:hover {
                       📏 Spacing & Padding
                     </h4>
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Vertical Padding</span>
                         <span>{settings.paddingY}px</span>
                       </label>
@@ -731,7 +727,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Horizontal Padding</span>
                         <span>{settings.paddingX}px</span>
                       </label>
@@ -759,9 +755,7 @@ a:hover {
                     </h4>
 
                     <div>
-                      <label className="mb-1 block text-white/70">
-                        Search Icon Color
-                      </label>
+                      <label className="mb-1 block">Search Icon Color</label>
                       <div className="flex items-center gap-3">
                         <input
                           type="color"
@@ -787,7 +781,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Icon Opacity</span>
                         <span>
                           {Math.round(
@@ -813,7 +807,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Icon Left Offset</span>
                         <span>{settings.searchIconLeft ?? 16}px</span>
                       </label>
@@ -831,7 +825,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Icon Vertical Alignment (Nudge Down)</span>
                         <span>+{settings.searchIconTopOffset ?? 1.5}px</span>
                       </label>
@@ -852,7 +846,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Text Left Padding (Icon Clearance)</span>
                         <span>{settings.searchPaddingLeft ?? 48}px</span>
                       </label>
@@ -873,7 +867,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Text Right Padding</span>
                         <span>{settings.searchPaddingRight ?? 48}px</span>
                       </label>
@@ -894,7 +888,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Vertical Padding (Height)</span>
                         <span>{settings.searchPaddingY ?? 14}px</span>
                       </label>
@@ -912,7 +906,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Search Bar Max Width</span>
                         <span>{settings.searchMaxWidth ?? 500}px</span>
                       </label>
@@ -930,7 +924,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Search Corner Radius</span>
                         <span>{settings.searchRadius ?? 12}px</span>
                       </label>
@@ -990,7 +984,7 @@ a:hover {
                     </h4>
 
                     <div>
-                      <label className="mb-1 block text-white/70">
+                      <label className="mb-1 block">
                         Checkbox Accent Color
                       </label>
                       <div className="flex items-center gap-3">
@@ -1018,7 +1012,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Checkbox Dimension Size</span>
                         <span>{settings.checkboxSize}px</span>
                       </label>
@@ -1036,7 +1030,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 flex justify-between text-white/70">
+                      <label className="mb-1 flex justify-between">
                         <span>Checkbox Corner Radius</span>
                         <span>{settings.checkboxRadius}px</span>
                       </label>
@@ -1066,7 +1060,7 @@ a:hover {
                           />
                           <span>Drop on ALL live streams (Global)</span>
                         </div>
-                        <div className="flex cursor-pointer items-center gap-3 text-white/70 select-none">
+                        <div className="flex cursor-pointer items-center gap-3 select-none">
                           <SquishyToggle
                             id="editor-preview-2"
                             label="Send email notification"
@@ -1089,7 +1083,7 @@ a:hover {
                     </h4>
 
                     <div>
-                      <label className="mb-1 block text-white/70">
+                      <label className="mb-1 block">
                         Headings Color (h1, h2, h3, h4, h5, h6)
                       </label>
                       <div className="flex items-center gap-3">
@@ -1117,7 +1111,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-white/70">
+                      <label className="mb-1 block">
                         Paragraph Text Color (p tags)
                       </label>
                       <div className="flex items-center gap-3">
@@ -1141,9 +1135,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-white/70">
-                        Link Color (a tags)
-                      </label>
+                      <label className="mb-1 block">Link Color (a tags)</label>
                       <div className="flex items-center gap-3">
                         <input
                           type="color"
@@ -1165,7 +1157,7 @@ a:hover {
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-white/70">
+                      <label className="mb-1 block">
                         Link Hover Color (a:hover)
                       </label>
                       <div className="flex items-center gap-3">
@@ -1267,7 +1259,7 @@ a:hover {
                     <span>Generated Global CSS Rules</span>
                     <button
                       onClick={copyCSS}
-                      className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-purple-400/40 bg-cyan-500/20 px-3 py-1.5 transition-all hover:bg-cyan-500/30"
+                      className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-purple-400/40 bg-cyan-500/20 px-3 py-1.5 hover:bg-cyan-500/30"
                     >
                       {copied ? (
                         <Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -1292,7 +1284,7 @@ a:hover {
               </span>
               <button
                 onClick={() => setIsOpen(false)}
-                className="cursor-pointer rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 px-5 py-2 shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all hover:brightness-110"
+                className="cursor-pointer rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 px-5 py-2 shadow-[0_0_15px_rgba(0,240,255,0.3)] hover:brightness-110"
               >
                 Done
               </button>

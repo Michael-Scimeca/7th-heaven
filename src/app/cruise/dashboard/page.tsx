@@ -168,8 +168,8 @@ export default function CruiseDashboardGate() {
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-32 pb-20">
-      <div className="pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)]/5 blur-[100px]" />
-      <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-lg bg-cyan-500/5 blur-[100px]" />
+      <div className="pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)]/5 blur-3xl" />
+      <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-lg bg-cyan-500/5 blur-3xl" />
 
       <div className="relative z-10 w-full max-w-md animate-[fadeIn_0.3s_ease-out]">
         <div className="mb-8 text-center">
@@ -213,7 +213,7 @@ export default function CruiseDashboardGate() {
                     onChange={(e) =>
                       setPinInput(e.target.value.replace(/\D/g, ""))
                     }
-                    className="w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 text-center text-lg transition-colors outline-none focus:border-purple-400/50"
+                    className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 text-center outline-none"
                   />
                 </div>
 
@@ -224,7 +224,7 @@ export default function CruiseDashboardGate() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-cyan-500 py-3 shadow-cyan-500/10 transition-colors hover:bg-cyan-400 disabled:opacity-50"
+                  className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-cyan-500 py-3 shadow-cyan-500/10 hover:bg-cyan-400 disabled:opacity-50"
                 >
                   {submitting ? (
                     <span className="h-4 w-4 animate-spin rounded-lg border-2 border-black/30 border-t-black" />
@@ -240,7 +240,7 @@ export default function CruiseDashboardGate() {
                       setVerifyingPin(false);
                       setAuthError("");
                     }}
-                    className="cursor-pointer text-[var(--font-size-2xs)] text-white/40 transition-colors hover:text-white"
+                    className="cursor-pointer text-[var(--font-size-2xs)] text-white/40 hover:text-white"
                   >
                     ← Cancel and Back
                   </button>
@@ -261,7 +261,7 @@ export default function CruiseDashboardGate() {
                   setRegSuccess(false);
                   setAuthTab("login");
                 }}
-                className="w-full cursor-pointer border border-white/10 bg-[#00000029] py-2.5 transition-colors hover:bg-white/10 hover:text-white"
+                className="w-full cursor-pointer border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10 hover:text-white"
               >
                 Go to Log In
               </button>
@@ -275,7 +275,7 @@ export default function CruiseDashboardGate() {
                     setAuthTab("login");
                     setAuthError("");
                   }}
-                  className={`flex-1 cursor-pointer py-4 transition-colors ${authTab === "login" ? "border-b-2 border-purple-400 bg-white/[0.02]" : "text-white/40 text-white/70 hover:text-white"}`}
+                  className={`flex-1 cursor-pointer py-4 ${authTab === "login" ? "border-b-2 border-purple-400 bg-white/[0.02]" : "text-white/40 hover:text-white"}`}
                 >
                   Log In
                 </button>
@@ -284,7 +284,7 @@ export default function CruiseDashboardGate() {
                     setAuthTab("register");
                     setAuthError("");
                   }}
-                  className={`flex-1 cursor-pointer py-4 transition-colors ${authTab === "register" ? "border-b-2 border-purple-400 bg-white/[0.02]" : "text-white/40 text-white/70 hover:text-white"}`}
+                  className={`flex-1 cursor-pointer py-4 ${authTab === "register" ? "border-b-2 border-purple-400 bg-white/[0.02]" : "text-white/40 hover:text-white"}`}
                 >
                   Register
                 </button>
@@ -311,7 +311,7 @@ export default function CruiseDashboardGate() {
                         placeholder="name@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 transition-colors outline-none focus:border-purple-400/50"
+                        className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 outline-none"
                       />
                     </div>
                     <div>
@@ -328,7 +328,7 @@ export default function CruiseDashboardGate() {
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 transition-colors outline-none focus:border-purple-400/50"
+                        className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 outline-none"
                       />
                     </div>
 
@@ -339,7 +339,7 @@ export default function CruiseDashboardGate() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-cyan-500 py-3 shadow-cyan-500/10 transition-colors hover:bg-cyan-400 disabled:opacity-50"
+                      className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-cyan-500 py-3 shadow-cyan-500/10 hover:bg-cyan-400 disabled:opacity-50"
                     >
                       {submitting ? (
                         <span className="h-4 w-4 animate-spin rounded-lg border-2 border-black/30 border-t-black" />
@@ -352,7 +352,7 @@ export default function CruiseDashboardGate() {
                       <button
                         type="button"
                         onClick={() => router.replace("/cruise/demo")}
-                        className="r flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 py-3 transition-all hover:brightness-110"
+                        className="r flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 py-3 hover:brightness-110"
                       >
                         ⚡ Instant Demo Access
                       </button>
@@ -378,7 +378,7 @@ export default function CruiseDashboardGate() {
                         placeholder="John Doe"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 transition-colors outline-none focus:border-purple-400/50"
+                        className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 outline-none"
                       />
                     </div>
                     <div>
@@ -395,7 +395,7 @@ export default function CruiseDashboardGate() {
                         placeholder="name@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 transition-colors outline-none focus:border-purple-400/50"
+                        className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 outline-none"
                       />
                     </div>
                     <div>
@@ -414,7 +414,7 @@ export default function CruiseDashboardGate() {
                         onChange={(e) =>
                           setPhone(formatPhoneDisplay(e.target.value))
                         }
-                        className="w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 transition-colors outline-none focus:border-purple-400/50"
+                        className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 outline-none"
                       />
                     </div>
                     <div>
@@ -431,7 +431,7 @@ export default function CruiseDashboardGate() {
                         placeholder="Min 6 characters"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 transition-colors outline-none focus:border-purple-400/50"
+                        className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-4 py-3 outline-none"
                       />
                     </div>
 
@@ -442,7 +442,7 @@ export default function CruiseDashboardGate() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-[var(--color-accent)] py-3 shadow-[var(--color-accent)]/20 transition-colors hover:brightness-110 disabled:opacity-50"
+                      className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-[var(--color-accent)] py-3 shadow-[var(--color-accent)]/20 hover:brightness-110 disabled:opacity-50"
                     >
                       {submitting ? (
                         <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
@@ -455,7 +455,7 @@ export default function CruiseDashboardGate() {
                       <button
                         type="button"
                         onClick={() => router.replace("/cruise/demo")}
-                        className="r flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 py-3 transition-all hover:brightness-110"
+                        className="r flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 py-3 hover:brightness-110"
                       >
                         ⚡ Instant Demo Access →
                       </button>
@@ -468,10 +468,7 @@ export default function CruiseDashboardGate() {
         </div>
 
         <div className="mt-6 text-center">
-          <Link
-            href="/cruise"
-            className="text-white/40 transition-colors hover:text-white"
-          >
+          <Link href="/cruise" className="text-white/40 hover:text-white">
             ← Back to Cruise Information
           </Link>
         </div>

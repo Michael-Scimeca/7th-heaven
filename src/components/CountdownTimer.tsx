@@ -111,7 +111,7 @@ export default function CountdownTimer({
   return (
     <div className="flex items-center gap-3">
       {isHappening && (
-        <div className="flex animate-pulse items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/20 px-3 py-1 text-[10px] text-emerald-300 md:text-xs">
+        <div className="md: flex animate-pulse items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/20 px-3 py-1 text-[10px] text-emerald-300">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
@@ -131,7 +131,7 @@ export default function CountdownTimer({
               className={`flex flex-col items-center justify-center ${compact ? "min-w-[28px] px-1 py-0.5 sm:min-w-[34px]" : "min-w-0 px-1 sm:min-w-[52px] sm:px-0 md:min-w-[64px]"}`}
             >
               <span
-                className={`leading-none font-black tabular-nums transition-colors duration-1000 ${compact ? "text-xs sm:text-sm md:text-base" : "text-[clamp(18px,4.5vw,3.5rem)]"}`}
+                className={`leading-none font-black tabular-nums ${compact ? "sm:" : "text-[clamp(18px,4.5vw,3.5rem)]"}`}
                 style={{ color: numberColor }}
               >
                 {String(isNaN(u.value) || u.value < 0 ? 0 : u.value).padStart(
@@ -147,7 +147,7 @@ export default function CountdownTimer({
             </div>
             {i < 3 && (
               <span
-                className={`flex items-center justify-center self-start leading-none text-white/40 select-none ${compact ? "mt-0.5 h-3.5 text-xs sm:text-sm" : "h-[clamp(18px,4.5vw,3.5rem)] text-lg sm:text-2xl md:text-4xl"}`}
+                className={`flex items-center justify-center self-start leading-none text-white/40 select-none ${compact ? "sm: mt-0.5 h-3.5" : "h-[clamp(18px,4.5vw,3.5rem)] sm:text-2xl md:text-4xl"}`}
               >
                 :
               </span>

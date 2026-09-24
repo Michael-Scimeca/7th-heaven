@@ -71,7 +71,7 @@ export default function CookieConsentBanner() {
   return (
     <dialog
       open
-      className={`fixed bottom-4 left-1/2 z-[9999] m-0 w-[calc(100vw-2rem)] max-w-[640px] -translate-x-1/2 border-none p-0 text-inherit transition-colors duration-350 ease-out ${closing ? "pointer-events-none translate-y-4 scale-[0.98] opacity-0" : "translate-y-0 scale-100 opacity-100"}`}
+      className={`fixed bottom-4 left-1/2 z-[9999] m-0 w-[calc(100vw-2rem)] max-w-[640px] -translate-x-1/2 border-none p-0 text-inherit ${closing ? "pointer-events-none translate-y-4 scale-[0.98] opacity-0" : "translate-y-0 scale-100 opacity-100"}`}
       aria-label="Cookie consent"
     >
       <div className="relative overflow-hidden border border-white/10 bg-[#0e0e1a]/95 shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] backdrop-blur-xl">
@@ -97,12 +97,12 @@ export default function CookieConsentBanner() {
             </div>
             <div className="flex-1">
               <h2>Your Privacy</h2>
-              <p className=" ">
+              <p>
                 We use cookies to improve your experience. By using
                 7thHeavenBand.com you agree to our{" "}
                 <a
                   href="/privacy"
-                  className="text-[var(--color-accent)]/80 underline-offset-2 transition-colors"
+                  className="text-[var(--color-accent)]/80 underline-offset-2"
                   target="_blank"
                   rel="noopener"
                 >
@@ -111,7 +111,7 @@ export default function CookieConsentBanner() {
                 and{" "}
                 <a
                   href="/terms"
-                  className="text-[var(--color-accent)]/80 underline-offset-2 transition-colors"
+                  className="text-[var(--color-accent)]/80 underline-offset-2"
                   target="_blank"
                   rel="noopener"
                 >
@@ -128,7 +128,7 @@ export default function CookieConsentBanner() {
               {/* Essential — always on */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p className=" ">Essential Cookies</p>
+                  <p>Essential Cookies</p>
                   <p className="mt-0.5">
                     Required for the site to function. Cannot be disabled.
                   </p>
@@ -141,7 +141,7 @@ export default function CookieConsentBanner() {
               {/* Analytics */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p className=" ">Analytics</p>
+                  <p>Analytics</p>
                   <p className="mt-0.5">
                     Helps us understand how fans use the site (Google
                     Analytics).
@@ -157,7 +157,7 @@ export default function CookieConsentBanner() {
               {/* Marketing */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p className=" ">Marketing</p>
+                  <p>Marketing</p>
                   <p className="mt-0.5">
                     Personalised show recommendations and fan engagement.
                   </p>
@@ -176,7 +176,7 @@ export default function CookieConsentBanner() {
             <button
               id="cookie-accept-all"
               onClick={acceptAll}
-              className="min-w-[120px] flex-1 bg-[var(--color-accent)] px-5 py-2.5 transition-colors duration-200 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
+              className="min-w-[120px] flex-1 bg-[var(--color-accent)] px-5 py-2.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
             >
               Accept All
             </button>
@@ -185,14 +185,14 @@ export default function CookieConsentBanner() {
                 <button
                   id="cookie-reject-all"
                   onClick={rejectAll}
-                  className="min-w-[100px] flex-1 border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 transition-colors duration-200 hover:bg-white/[0.1] hover:text-white"
+                  className="min-w-[100px] flex-1 border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
                 >
                   Reject All
                 </button>
                 <button
                   id="cookie-customize"
                   onClick={() => setExpanded(true)}
-                  className="px-2 py-2.5 whitespace-nowrap text-white/30 underline-offset-2 transition-colors"
+                  className="px-2 py-2.5 whitespace-nowrap text-white/30 underline-offset-2"
                 >
                   Customize
                 </button>
@@ -201,7 +201,7 @@ export default function CookieConsentBanner() {
               <button
                 id="cookie-save-custom"
                 onClick={saveCustom}
-                className="min-w-[120px] flex-1 border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 text-white/70 transition-colors duration-200 hover:bg-white/[0.1] hover:text-white"
+                className="min-w-[120px] flex-1 border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
               >
                 Save Preferences
               </button>

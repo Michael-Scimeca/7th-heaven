@@ -467,10 +467,10 @@ export default function PagesPillDrawer() {
       {/* ── PURPLE FLOATING PILL BUTTON (Matching Screenshot) ── */}
       <button
         onClick={() => setIsOpen(true)}
-        className="group fixed bottom-6 left-6 z-[9999] flex cursor-pointer items-center gap-3 rounded-lg border-2 border-white/30 bg-[#8b3dff] px-8 py-4.5 text-base font-black shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] transition-[background-color,box-shadow,transform] duration-200 hover:bg-[#7b2cff] active:scale-95 md:text-lg"
+        className="group md: fixed bottom-6 left-6 z-[9999] flex cursor-pointer items-center gap-3 rounded-lg border-2 border-white/30 bg-[#8b3dff] px-8 py-4.5 text-base font-black shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] transition-[background-color,box-shadow,transform] hover:bg-[#7b2cff] active:scale-95"
         aria-label="Open Pages Directory"
       >
-        <Menu className="h-6 w-6 transition-transform group-hover:scale-110 md:h-7 md:w-7" />
+        <Menu className="h-6 w-6 group-hover:scale-110 md:h-7 md:w-7" />
         <span>PAGES</span>
         <span className="ml-1 rounded-lg bg-white/25 px-2.5 py-1">
           {ALL_SITE_ROUTES.length}
@@ -497,7 +497,7 @@ export default function PagesPillDrawer() {
                 <div>
                   <h2 className="flex items-center gap-2">
                     Pages Directory
-                    <span className="bg- purple-white/20 rounded-lg border border-purple-500/30 px-2.5 py-0.5 text-purple-300">
+                    <span className="bg- purple-white/20 rounded-lg border border-purple-500/30 px-2.5 py-0.5">
                       {ALL_SITE_ROUTES.length} Total Routes
                     </span>
                   </h2>
@@ -510,7 +510,7 @@ export default function PagesPillDrawer() {
 
               <button
                 onClick={() => setIsOpen(false)}
-                className="rounded-lg border border-white/10 bg-[#00000029] p-2.5 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                className="rounded-lg border border-white/10 bg-[#00000029] p-2.5 hover:bg-white/10 hover:text-white"
                 aria-label="Close Pages Modal"
               >
                 <X className="h-6 w-6" />
@@ -526,7 +526,7 @@ export default function PagesPillDrawer() {
                     <button
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`rounded-lg px-3 py-1.5 transition-colors ${activeCategory === cat ? "bg-[#8b3dff] shadow-purple-950/60" : "bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
+                      className={`rounded-lg px-3 py-1.5 ${activeCategory === cat ? "bg-[#8b3dff] shadow-purple-950/60" : "bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
                     >
                       {cat}
                     </button>
@@ -541,7 +541,7 @@ export default function PagesPillDrawer() {
                     placeholder="Search routes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full rounded-lg border border-white/10 bg-black/50 py-2 pr-4 pl-9 placeholder-white/40 focus:border-[#8b3dff] focus:outline-none"
+                    className="focus-ring w-full rounded-lg border border-white/10 bg-black/50 py-2 pr-4 pl-9 placeholder-white/40"
                   />
                 </div>
               </div>
@@ -562,21 +562,19 @@ export default function PagesPillDrawer() {
                       <div className="mb-2 flex items-center justify-between gap-2 rounded-lg">
                         <div className="flex items-center gap-2">
                           <IconComp className="h-4 w-4 text-purple-400" />
-                          <span className="text-[10px] text-purple-300">
-                            {item.category}
-                          </span>
+                          <span className="text-[10px]">{item.category}</span>
                         </div>
                         <span
-                          className={`rounded px-1.5 py-0.5 text-[12px] ${item.type === "Static" ? "border border-emerald-500/20 bg-emerald-500/10 text-emerald-400" : item.type === "SSG" ? "border border-white/20 bg-purple-500/10 text-purple-300" : item.type === "Dynamic" ? "border border-amber-500/20 bg-amber-500/10 text-amber-300" : "border border-rose-500/20 bg-rose-500/10 text-rose-400"}`}
+                          className={`rounded px-1.5 py-0.5 text-[12px] ${item.type === "Static" ? "border border-emerald-500/20 bg-emerald-500/10 text-emerald-400" : item.type === "SSG" ? "border border-white/20 bg-purple-500/10" : item.type === "Dynamic" ? "border border-amber-500/20 bg-amber-500/10 text-amber-300" : "border border-rose-500/20 bg-rose-500/10 text-rose-400"}`}
                         >
                           {item.type}
                         </span>
                       </div>
 
-                      <h3 className="transition-colors group-hover:text-purple-200">
+                      <h3 className="group-hover:text-purple-200">
                         {item.label}
                       </h3>
-                      <p className="truncate">{item.path}</p>
+                      <p>{item.path}</p>
                     </div>
 
                     <div className="mt-3 border-t border-white/5 pt-2.5">
@@ -585,7 +583,7 @@ export default function PagesPillDrawer() {
                           href={item.path}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-[11px] text-rose-400 transition-colors hover:text-rose-300"
+                          className="inline-flex items-center gap-1.5 text-rose-400 hover:text-rose-300"
                         >
                           Test Endpoint <ExternalLink className="h-3 w-3" />
                         </a>
@@ -593,7 +591,7 @@ export default function PagesPillDrawer() {
                         <TransitionLink
                           href={item.path}
                           onClick={() => setIsOpen(false)}
-                          className="inline-flex items-center gap-1.5 text-[11px] text-purple-400 transition-colors hover:text-purple-300"
+                          className="hover: inline-flex items-center gap-1.5 text-purple-400"
                         >
                           Open Page <ExternalLink className="h-3 w-3" />
                         </TransitionLink>

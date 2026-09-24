@@ -174,7 +174,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           if (!initialEmail && parsed.email) initialEmail = parsed.email;
           if (!initialPhone && parsed.phone) initialPhone = parsed.phone;
         }
-      } catch { }
+      } catch {}
     }
 
     return {
@@ -329,7 +329,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         "7th_heaven_saved_addresses_v1",
         JSON.stringify(updated),
       );
-    } catch { }
+    } catch {}
 
     setSelectedSavedAddressId(newAddr.id);
     setAddressNotification(`Saved "${label}" to your saved locations!`);
@@ -363,7 +363,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         "7th_heaven_saved_addresses_v1",
         JSON.stringify(updated),
       );
-    } catch { }
+    } catch {}
 
     if (selectedSavedAddressId === id) {
       setSelectedSavedAddressId("");
@@ -385,7 +385,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         const d = await r.json();
         setBlockedDates(d.blockedDates || []);
       }
-    } catch { }
+    } catch {}
   }, []);
 
   // Fetch blocked dates on mount
@@ -399,7 +399,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
       if (saved) {
         setHasSavedForm(true);
       }
-    } catch { }
+    } catch {}
   }, [loadAvailability]);
 
   // Auto-fill from planner dashboard or rebook — pull saved form data from localStorage first
@@ -452,7 +452,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             ]);
           }
         }
-      } catch { }
+      } catch {}
 
       // URL params override localStorage (for specific field overrides)
       if (typeof window !== "undefined") {
@@ -583,7 +583,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           setAddOns(parsed.addOns);
         }
       }
-    } catch { }
+    } catch {}
   };
 
   const handleSendPin = async () => {
@@ -744,8 +744,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
     try {
       const timestamps: number[] = JSON.parse(
         localStorage.getItem("7h_booking_timestamps_v1") ||
-        localStorage.getItem("7h_booking_timestamps") ||
-        "[]",
+          localStorage.getItem("7h_booking_timestamps") ||
+          "[]",
       );
       const oneHourAgo = Date.now() - 60 * 60 * 1000;
       const recent = timestamps.filter((t) => t > oneHourAgo);
@@ -754,7 +754,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           "Too many booking requests. Please wait before submitting another.",
         );
       }
-    } catch { }
+    } catch {}
 
     return errors;
   };
@@ -809,8 +809,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           try {
             const timestamps: number[] = JSON.parse(
               localStorage.getItem("7h_booking_timestamps_v1") ||
-              localStorage.getItem("7h_booking_timestamps") ||
-              "[]",
+                localStorage.getItem("7h_booking_timestamps") ||
+                "[]",
             );
             timestamps.push(Date.now());
             const oneHourAgo = Date.now() - 60 * 60 * 1000;
@@ -818,15 +818,15 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               "7h_booking_timestamps_v1",
               JSON.stringify(timestamps.filter((t) => t > oneHourAgo)),
             );
-          } catch { }
+          } catch {}
 
           // Persist phone number to user account if logged in
           if (isLoggedIn && member && formData.phone) {
             try {
               const accounts = JSON.parse(
                 localStorage.getItem("7h_accounts_v1") ||
-                localStorage.getItem("7h_accounts") ||
-                "{}",
+                  localStorage.getItem("7h_accounts") ||
+                  "{}",
               );
               if (accounts[member.email]) {
                 accounts[member.email].phone = formData.phone;
@@ -835,7 +835,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   JSON.stringify(accounts),
                 );
               }
-            } catch { }
+            } catch {}
           }
 
           // Stripe mode: redirect to Stripe Checkout
@@ -877,7 +877,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
     return (
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
         {/* Background Glows */}
-        <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.05] blur-[150px]" />
+        <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.05] blur-3xl" />
 
         <div className="relative z-10 w-full max-w-lg animate-[fade-in-up_0.6s_ease-out_both] rounded-[2rem] border border-white/10 bg-[var(--color-bg-surface)]/80 p-10 text-center backdrop-blur-xl">
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-[var(--color-accent)] bg-[var(--color-accent)]/20">
@@ -908,7 +908,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           <div className="flex w-full flex-col gap-3">
             <Link
               href="/book"
-              className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4 text-base shadow-[0_0_20px_rgba(255,10,61,0.3)] transition-colors hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
+              className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4 text-base shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
             >
               Book Another Show
             </Link>
@@ -927,7 +927,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           onChange={(e) => setAccountEmail(e.target.value)}
                           autoFocus
                           disabled={pinSent || pinLoading}
-                          className="flex-1 rounded-lg border border-white/10 px-4 py-2.5 text-lg transition-colors outline-none focus:border-[var(--color-accent)] disabled:opacity-50"
+                          className="focus-ring flex-1 rounded-lg border border-white/10 px-4 py-2.5 outline-none disabled:opacity-50"
                         />
                         <button
                           type="button"
@@ -939,7 +939,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
-                        <span className="text-lg">{accountEmail}</span>
+                        <span>{accountEmail}</span>
                         {!pinSent && (
                           <button
                             type="button"
@@ -947,7 +947,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               setEditingEmail(true);
                               setPinError("");
                             }}
-                            className="cursor-pointer text-white/30 transition-colors"
+                            className="cursor-pointer text-white/30"
                           >
                             Edit
                           </button>
@@ -965,7 +965,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           value={accountPassword}
                           onChange={(e) => setAccountPassword(e.target.value)}
                           disabled={pinLoading}
-                          className="placeholder: flex-1 border border-white/10 px-4 py-3 text-lg text-white/20 transition-colors outline-none focus:border-[var(--color-accent)] disabled:opacity-50"
+                          className="placeholder: focus-ring flex-1 border border-white/10 px-4 py-3 text-white/20 outline-none disabled:opacity-50"
                         />
                         <button
                           type="button"
@@ -976,7 +976,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             pinLoading
                           }
                           onClick={handleSendPin}
-                          className="flex min-w-[70px] shrink-0 cursor-pointer items-center justify-center bg-[var(--color-accent)] px-5 py-3 text-lg transition-colors hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
+                          className="flex min-w-[70px] shrink-0 cursor-pointer items-center justify-center bg-[var(--color-accent)] px-5 py-3 hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           {pinLoading ? (
                             <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
@@ -1001,13 +1001,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             setPinCode(e.target.value.replace(/\D/g, ""))
                           }
                           disabled={pinLoading}
-                          className="placeholder: flex-1 border border-white/10 px-4 py-3 text-center text-lg text-white/20 transition-colors outline-none focus:border-[var(--color-accent)] disabled:opacity-50"
+                          className="placeholder: focus-ring flex-1 border border-white/10 px-4 py-3 text-center text-white/20 outline-none disabled:opacity-50"
                         />
                         <button
                           type="button"
                           disabled={pinCode.length !== 6 || pinLoading}
                           onClick={handleVerifyPin}
-                          className="flex min-w-[140px] shrink-0 cursor-pointer items-center justify-center bg-purple-600 px-5 py-3 text-lg transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-40"
+                          className="flex min-w-[140px] shrink-0 cursor-pointer items-center justify-center bg-purple-600 px-5 py-3 hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           {pinLoading ? (
                             <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
@@ -1056,7 +1056,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       setPinError("");
                       setPinCode("");
                     }}
-                    className="mt-4 block w-full cursor-pointer text-center text-white/30 text-white/50 transition-colors hover:text-white"
+                    className="mt-4 block w-full cursor-pointer text-center text-white/30 text-white/50 hover:text-white"
                   >
                     Cancel
                   </button>
@@ -1064,9 +1064,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               ) : (
                 <div>
                   <div className="mb-1.5 flex items-center justify-center gap-2">
-                    <span className="text-lg text-white/40">
-                      {formData.email}
-                    </span>
+                    <span className="text-white/40">{formData.email}</span>
                   </div>
                   <button
                     type="button"
@@ -1074,7 +1072,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       setCreatingAccount(true);
                       setAccountEmail(accountEmail || formData.email);
                     }}
-                    className="inline-flex w-full cursor-pointer items-center justify-center border border-white/10 bg-white/[0.05] px-8 py-4 text-base transition-colors hover:border-[var(--color-accent)]/60 hover:bg-white/[0.1]"
+                    className="inline-flex w-full cursor-pointer items-center justify-center border border-white/10 bg-white/[0.05] px-8 py-4 text-base hover:border-[var(--color-accent)]/60 hover:bg-white/[0.1]"
                   >
                     Create Account
                   </button>
@@ -1082,7 +1080,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               ))}
             <Link
               href="/"
-              className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 text-base transition-colors hover:bg-white/[0.08]"
+              className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 text-base hover:bg-white/[0.08]"
             >
               Return to Homepage
             </Link>
@@ -1116,7 +1114,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               </svg>
             </div>
             <div>
-              <p className="text-purple-300">
+              <p>
                 {fromParam === "rebook"
                   ? "Rebooking previous event"
                   : "Profile details pre-loaded"}
@@ -1133,7 +1131,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         {hasSavedForm && !isFromPlanner && (
           <div className="relative z-10 flex animate-[fade-in-up_0.2s_ease-out_both] flex-col items-start justify-between gap-4 rounded-lg border border-purple-500/30 bg-purple-950/40 p-5 sm:flex-row sm:items-center">
             <div className="flex items-center gap-3">
-              <ClipboardList className="h-6 w-6 shrink-0 text-purple-300" />
+              <ClipboardList className="h-6 w-6 shrink-0" />
               <div>
                 <p>Re-fill with details from your last booking?</p>
                 <p className="mt-0.5">
@@ -1145,7 +1143,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             <button
               type="button"
               onClick={handleLoadLastForm}
-              className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-purple-600 px-5 py-2.5 transition-colors hover:bg-purple-500"
+              className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-purple-600 px-5 py-2.5 hover:bg-purple-500"
             >
               <Zap className="h-3.5 w-3.5" /> Populate
             </button>
@@ -1228,13 +1226,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     1st:{" "}
                     {bookingSlots.length > 0
                       ? bookingSlots
-                        .map((s) =>
-                          new Date(s.date + "T12:00:00").toLocaleDateString(
-                            undefined,
-                            { month: "short", day: "numeric" },
-                          ),
-                        )
-                        .join(", ")
+                          .map((s) =>
+                            new Date(s.date + "T12:00:00").toLocaleDateString(
+                              undefined,
+                              { month: "short", day: "numeric" },
+                            ),
+                          )
+                          .join(", ")
                       : "—"}
                   </span>
                   {altDate1 && (
@@ -1262,7 +1260,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           {/* Pricing hint per type */}
           {selectedType && (
             <div className="15 mb-6 rounded-lg border border-purple-500/30 px-5 py-3 text-base">
-              <span className="text-purple-300">Pricing Guide:</span>{" "}
+              <span>Pricing Guide:</span>{" "}
               {selectedType === "full_band" &&
                 "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
               {selectedType === "unplugged" &&
@@ -1322,7 +1320,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   return (
                     <div
                       key={slot.id}
-                      className="group relative rounded-lg border border-white/10 bg-[#00000029] p-6 transition-colors hover:border-purple-400/40"
+                      className="group relative rounded-lg border border-white/10 bg-[#00000029] p-6 hover:border-purple-400/40"
                     >
                       {/* Duplicate and Remove buttons */}
                       <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -1335,7 +1333,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             };
                             setBookingSlots([...bookingSlots, newSlot]);
                           }}
-                          className="flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-white/10 px-2.5 py-1 transition-colors hover:border-purple-400/30 hover:bg-cyan-500/20"
+                          className="flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-white/10 px-2.5 py-1 hover:border-purple-400/30 hover:bg-cyan-500/20"
                           title="Add another show on this date"
                         >
                           <Plus className="h-3 w-3" /> Add Another
@@ -1347,7 +1345,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               bookingSlots.filter((s) => s.id !== slot.id),
                             )
                           }
-                          className="flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-white/10 px-2.5 py-1 transition-colors hover:border-rose-500/30 hover:bg-rose-500/20 hover:text-rose-400"
+                          className="flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-white/10 px-2.5 py-1 hover:border-rose-500/30 hover:bg-rose-500/20 hover:text-rose-400"
                           title="Remove this show"
                         >
                           <X className="h-3 w-3" /> Remove
@@ -1399,7 +1397,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 );
                                 setBookingSlots(updated);
                               }}
-                              className=".5 placeholder: w-full rounded-lg border border-purple-400/40 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-[45px] outline-none focus:border-purple-400"
+                              className=".5 placeholder: focus-ring w-full rounded-lg border border-purple-400/40 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
                             />
                           )}
                         </div>
@@ -1496,20 +1494,20 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 const updated = bookingSlots.map((s) =>
                                   s.id === slot.id
                                     ? {
-                                      ...s,
-                                      useSeparateInfo: false,
-                                      contactName: "",
-                                      contactEmail: "",
-                                      contactPhone: "",
-                                      venueName: "",
-                                      venueCity: "",
-                                      venueState: "",
-                                    }
+                                        ...s,
+                                        useSeparateInfo: false,
+                                        contactName: "",
+                                        contactEmail: "",
+                                        contactPhone: "",
+                                        venueName: "",
+                                        venueCity: "",
+                                        venueState: "",
+                                      }
                                     : s,
                                 );
                                 setBookingSlots(updated);
                               }}
-                              className={`cursor-pointer rounded-lg py-2 text-center transition-colors ${!slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
+                              className={`cursor-pointer rounded-lg py-2 text-center ${!slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
                             >
                               Share Main Info
                             </button>
@@ -1519,36 +1517,36 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 const updated = bookingSlots.map((s) =>
                                   s.id === slot.id
                                     ? {
-                                      ...s,
-                                      useSeparateInfo: true,
-                                      contactName:
-                                        s.contactName || formData.name || "",
-                                      contactEmail:
-                                        s.contactEmail ||
-                                        formData.email ||
-                                        "",
-                                      contactPhone:
-                                        s.contactPhone ||
-                                        formData.phone ||
-                                        "",
-                                      venueName:
-                                        s.venueName ||
-                                        formData.venueName ||
-                                        "",
-                                      venueCity:
-                                        s.venueCity ||
-                                        formData.venueCity ||
-                                        "",
-                                      venueState:
-                                        s.venueState ||
-                                        formData.venueState ||
-                                        "",
-                                    }
+                                        ...s,
+                                        useSeparateInfo: true,
+                                        contactName:
+                                          s.contactName || formData.name || "",
+                                        contactEmail:
+                                          s.contactEmail ||
+                                          formData.email ||
+                                          "",
+                                        contactPhone:
+                                          s.contactPhone ||
+                                          formData.phone ||
+                                          "",
+                                        venueName:
+                                          s.venueName ||
+                                          formData.venueName ||
+                                          "",
+                                        venueCity:
+                                          s.venueCity ||
+                                          formData.venueCity ||
+                                          "",
+                                        venueState:
+                                          s.venueState ||
+                                          formData.venueState ||
+                                          "",
+                                      }
                                     : s,
                                 );
                                 setBookingSlots(updated);
                               }}
-                              className={`cursor-pointer rounded-lg py-2 text-center transition-colors ${slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
+                              className={`cursor-pointer rounded-lg py-2 text-center ${slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
                             >
                               Use Separate Info
                             </button>
@@ -1582,11 +1580,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 )}
                                 {(formData.venueCity ||
                                   formData.venueState) && (
-                                    <span className="mt-0.5 block text-white/40">
-                                      {formData.venueCity || "—"},{" "}
-                                      {formData.venueState || "—"}
-                                    </span>
-                                  )}
+                                  <span className="mt-0.5 block text-white/40">
+                                    {formData.venueCity || "—"},{" "}
+                                    {formData.venueState || "—"}
+                                  </span>
+                                )}
                               </span>
                             </div>
                             <p className="mt-2 flex items-center justify-end gap-1 border-t border-white/10 pt-1.5 text-right">
@@ -1608,14 +1606,14 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     const updated = bookingSlots.map((s) =>
                                       s.id === slot.id
                                         ? {
-                                          ...s,
-                                          contactName: formData.name,
-                                          contactEmail: formData.email,
-                                          contactPhone: formData.phone,
-                                          venueName: formData.venueName,
-                                          venueCity: formData.venueCity,
-                                          venueState: formData.venueState,
-                                        }
+                                            ...s,
+                                            contactName: formData.name,
+                                            contactEmail: formData.email,
+                                            contactPhone: formData.phone,
+                                            venueName: formData.venueName,
+                                            venueCity: formData.venueCity,
+                                            venueState: formData.venueState,
+                                          }
                                         : s,
                                     );
                                     setBookingSlots(updated);
@@ -1642,31 +1640,31 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                             (s) =>
                                               s.id === slot.id
                                                 ? {
-                                                  ...s,
-                                                  contactName:
-                                                    parsed.name ||
-                                                    s.contactName,
-                                                  contactEmail:
-                                                    parsed.email ||
-                                                    s.contactEmail,
-                                                  contactPhone:
-                                                    parsed.phone ||
-                                                    s.contactPhone,
-                                                  venueName:
-                                                    parsed.venueName ||
-                                                    s.venueName,
-                                                  venueCity:
-                                                    parsed.venueCity ||
-                                                    s.venueCity,
-                                                  venueState:
-                                                    parsed.venueState ||
-                                                    s.venueState,
-                                                }
+                                                    ...s,
+                                                    contactName:
+                                                      parsed.name ||
+                                                      s.contactName,
+                                                    contactEmail:
+                                                      parsed.email ||
+                                                      s.contactEmail,
+                                                    contactPhone:
+                                                      parsed.phone ||
+                                                      s.contactPhone,
+                                                    venueName:
+                                                      parsed.venueName ||
+                                                      s.venueName,
+                                                    venueCity:
+                                                      parsed.venueCity ||
+                                                      s.venueCity,
+                                                    venueState:
+                                                      parsed.venueState ||
+                                                      s.venueState,
+                                                  }
                                                 : s,
                                           );
                                           setBookingSlots(updated);
                                         }
-                                      } catch { }
+                                      } catch {}
                                     }}
                                     className="cursor-pointer text-purple-400 hover:text-white"
                                   >
@@ -1697,7 +1695,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-[45px] outline-none focus:border-purple-400"
+                                  className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
                                 />
                               </div>
                               <div>
@@ -1720,7 +1718,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-[45px] outline-none focus:border-purple-400"
+                                  className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
                                 />
                               </div>
                             </div>
@@ -1745,7 +1743,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   );
                                   setBookingSlots(updated);
                                 }}
-                                className="placeholder: w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-[45px] outline-none focus:border-purple-400"
+                                className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
                               />
                             </div>
 
@@ -1770,7 +1768,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-[45px] outline-none focus:border-purple-400"
+                                  className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
                                 />
                               </div>
                               <div>
@@ -1793,7 +1791,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-[45px] outline-none focus:border-purple-400"
+                                  className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
                                 />
                               </div>
                             </div>
@@ -1811,7 +1809,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               [slot.id]: !prev[slot.id],
                             }))
                           }
-                          className="flex w-full items-center justify-between text-left transition-colors hover:text-purple-400"
+                          className="flex w-full items-center justify-between text-left hover:text-purple-400"
                         >
                           <span className="flex items-center gap-1.5">
                             <Megaphone className="h-3.5 w-3.5" /> Tour Page
@@ -1991,9 +1989,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         }}
                         label="Unsure?"
                       />
-                      <span className="text-[11px] text-[#c27aff]">
-                        Unsure?
-                      </span>
+                      <span className="text-[#c27aff]">Unsure?</span>
                     </div>
                   }
                 />
@@ -2120,7 +2116,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         <button
                           type="button"
                           onClick={() => setShowMapPicker(true)}
-                          className="flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-purple-300 hover:text-white"
+                          className="hover: flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-white"
                         >
                           <MapPin className="h-3.5 w-3.5" /> Pick on Map
                         </button>
@@ -2138,10 +2134,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-purple-300 hover:text-purple-200 hover:underline"
+                          className="flex items-center gap-1 hover:text-purple-200 hover:underline"
                         >
-                          <Compass className="h-3.5 w-3.5 text-purple-300" />{" "}
-                          Search Google Maps ↗
+                          <Compass className="h-3.5 w-3.5" /> Search Google Maps
+                          ↗
                         </a>
                         <span className="text-white/20">•</span>
                         <button
@@ -2162,7 +2158,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         value={formData.parkingAddress}
                         onChange={handleChange}
                         placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
-                        className="placeholder: w-full rounded-lg border-0 bg-[#00000029] px-4 py-3 text-white/30 transition-colors focus:outline-none"
+                        className="placeholder: focus-ring w-full rounded-lg border-0 bg-[#00000029] px-4 py-3 text-white/30"
                       />
                     </div>
                   </div>
@@ -2179,7 +2175,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         onChange={handleChange}
                         rows={3}
                         placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
-                        className="placeholder: min-h-[90px] w-full resize-y rounded-lg border-0 bg-[#00000029] px-4 py-3 text-white/30 transition-colors focus:outline-none"
+                        className="placeholder: focus-ring min-h-[90px] w-full resize-y rounded-lg border-0 bg-[#00000029] px-4 py-3 text-white/30"
                       />
                     </div>
                   </div>
@@ -2325,7 +2321,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               : [...prev, option.id],
                           )
                         }
-                        className={`group flex w-full cursor-pointer items-start gap-3 rounded-lg border p-4 text-left transition-colors ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
+                        className={`group flex w-full cursor-pointer items-start gap-3 rounded-lg border p-4 text-left ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
                       >
                         <span className="mt-0.5 text-xl">{option.icon}</span>
                         <div className="min-w-0 flex-1">
@@ -2401,10 +2397,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   "Anything else you'd like to mention? Special requests, questions, or details for our band manager."}
               </p>
               <div className="input-glow-border rounded-lg">
-                <label
-                  htmlFor="details"
-                  className="sr-only   text-white/90"
-                >
+                <label htmlFor="details" className="sr-only text-white/90">
                   Notes and Questions for Band Manager
                 </label>
                 <textarea
@@ -2419,7 +2412,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     )?.body ||
                     "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
                   }
-                  className="placeholder: w-full resize-none rounded-lg border-0 bg-[#00000029] px-4 py-3 text-base text-white/40 transition focus:outline-none"
+                  className="placeholder: focus-ring w-full resize-none rounded-lg border-0 bg-[#00000029] px-4 py-3 text-base text-white/40"
                 />
               </div>
               {formData.details && (
@@ -2463,7 +2456,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
               <div className="mb-8 flex flex-col">
                 <div className="flex items-start justify-between">
-                  <span className="text-lg text-white/50">Date</span>
+                  <span className="text-white/50">Date</span>
                   <span className="text-right">
                     {bookingSlots.length === 1 ? (
                       new Date(
@@ -2482,7 +2475,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   </span>
                 </div>
                 <div className="flex items-start justify-between">
-                  <span className="text-lg text-white/50">Time</span>
+                  <span className="text-white/50">Time</span>
                   <span className="text-right">
                     {bookingSlots.length === 1 ? (
                       `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
@@ -2494,7 +2487,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   </span>
                 </div>
                 <div className="flex items-start justify-between">
-                  <span className="text-lg text-white/50">Format</span>
+                  <span className="text-white/50">Format</span>
                   <span className="text-right">
                     {selectedType ? (
                       eventTypes.find((t) => t.id === selectedType)?.label
@@ -2504,7 +2497,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   </span>
                 </div>
                 <div className="flex items-start justify-between border-t border-white/10 pt-4">
-                  <span className="text-lg text-white/50">Venue</span>
+                  <span className="text-white/50">Venue</span>
                   <span className="max-w-[150px] text-right break-words">
                     {formData.venueName ? (
                       formData.venueName
@@ -2520,14 +2513,14 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 </div>
                 {addOns.length > 0 && (
                   <div className="flex items-start justify-between border-t border-white/10 pt-4">
-                    <span className="text-lg text-white/50">Add-Ons</span>
+                    <span className="text-white/50">Add-Ons</span>
                     <div className="text-right">
                       <span>{addOns.length} selected</span>
                       <div className="flex max-w-[160px] flex-wrap justify-end gap-1">
                         {addOns.slice(0, 3).map((id) => (
                           <span
                             key={id}
-                            className="rounded bg-cyan-500/20 px-1.5 py-0.5 text-lg"
+                            className="rounded bg-cyan-500/20 px-1.5 py-0.5"
                           >
                             {id
                               .replace(/_/g, " ")
@@ -2535,7 +2528,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           </span>
                         ))}
                         {addOns.length > 3 && (
-                          <span className="text-lg text-white/40">
+                          <span className="text-white/40">
                             +{addOns.length - 3} more
                           </span>
                         )}
@@ -2550,7 +2543,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <div className="mb-6 rounded-xl border border-rose-500/30 bg-rose-500/10 p-4">
                   <div className="mb-2 flex items-center gap-2">
                     <span className="text-rose-400">⚠</span>
-                    <span className="text-lg text-rose-300">
+                    <span className="text-rose-300">
                       Please fix the following
                     </span>
                   </div>
@@ -2592,17 +2585,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               <p className="mt-4 text-center">
                 By submitting, you confirm you are 18 years of age or older and
                 agree to our{" "}
-                <Link
-                  href="/privacy"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/privacy" className="hover:text-white">
                   Privacy Policy
                 </Link>{" "}
                 and{" "}
-                <Link
-                  href="/terms"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/terms" className="hover:text-white">
                   Terms
                 </Link>
                 .
@@ -2710,7 +2697,7 @@ function BookingSlotMetadataSection({
               );
               setBookingSlots(updated);
             }}
-            className="placeholder: w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-[45px] outline-none focus:border-purple-400"
+            className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
           />
         </div>
         <div>
@@ -2731,7 +2718,7 @@ function BookingSlotMetadataSection({
               );
               setBookingSlots(updated);
             }}
-            className="placeholder: w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-[45px] outline-none focus:border-purple-400"
+            className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
           />
         </div>
       </div>
@@ -2778,7 +2765,7 @@ function MapPickerModal({
         type="button"
         aria-label="Close location picker backdrop"
         onClick={onClose}
-        className="fixed inset-0 h-full w-full cursor-default border-0 bg-black/80 backdrop-blur-[45px]"
+        className="fixed inset-0 h-full w-full cursor-default border-0 bg-black/80 backdrop-blur-2xl"
       />
       <div className="relative z-10 max-h-[90vh] w-full max-w-2xl space-y-5 overflow-hidden overflow-y-auto rounded-lg border border-purple-500/40 bg-[#0f0921] p-6">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
@@ -2792,7 +2779,7 @@ function MapPickerModal({
             aria-label="Close modal"
             type="button"
             onClick={onClose}
-            className="cursor-pointer p-1 text-white/50 transition-colors hover:text-white"
+            className="cursor-pointer p-1 text-white/50 hover:text-white"
           >
             <X className="h-5 w-5" />
           </button>
@@ -2817,7 +2804,7 @@ function MapPickerModal({
                 <button
                   type="button"
                   key={item.id}
-                  className="group flex w-full cursor-pointer items-start justify-between gap-2 rounded-lg border border-white/10 bg-[#00000029] p-3 text-left transition-colors hover:border-purple-400/50 hover:bg-white/10"
+                  className="group flex w-full cursor-pointer items-start justify-between gap-2 rounded-lg border border-white/10 bg-[#00000029] p-3 text-left hover:border-purple-400/50 hover:bg-white/10"
                   onClick={() => {
                     if (onSelectSaved) {
                       onSelectSaved(item);
@@ -2829,11 +2816,11 @@ function MapPickerModal({
                   }}
                 >
                   <div className="min-w-0 space-y-0.5">
-                    <div className="flex items-center gap-1.5 truncate">
+                    <div className="flex items-center gap-1.5">
                       <Building2 className="h-3.5 w-3.5 shrink-0 text-[#c27aff]" />
-                      <span className="truncate">{item.label}</span>
+                      <span>{item.label}</span>
                     </div>
-                    <div className="truncate text-[11px]">
+                    <div>
                       {item.parkingAddress}{" "}
                       {item.venueCity ? `, ${item.venueCity}` : ""}
                     </div>
@@ -2848,7 +2835,7 @@ function MapPickerModal({
                           e.stopPropagation();
                           onDeleteSavedAddress(item.id);
                         }}
-                        className="p-1 text-white/40 transition-colors hover:text-red-400"
+                        className="p-1 text-white/40 hover:text-red-400"
                         title="Delete saved address"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -2875,13 +2862,13 @@ function MapPickerModal({
               value={addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
               placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
-              className="flex-1 rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 focus:border-purple-400 focus:outline-none"
+              className="focus-ring flex-1 rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5"
             />
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-400/40 bg-purple-600/40 px-3.5 py-2.5 transition-colors hover:bg-purple-600/60"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-400/40 bg-purple-600/40 px-3.5 py-2.5 hover:bg-purple-600/60"
             >
               <Navigation className="h-3.5 w-3.5" /> Open Map
             </a>
@@ -2907,7 +2894,7 @@ function MapPickerModal({
               type="button"
               aria-label="Cancel location picker"
               onClick={onClose}
-              className="rounded-lg bg-[#00000029] px-4 py-2.5 transition-colors hover:bg-white/10 hover:text-white"
+              className="rounded-lg bg-[#00000029] px-4 py-2.5 hover:bg-white/10 hover:text-white"
             >
               Cancel
             </button>
@@ -2918,7 +2905,7 @@ function MapPickerModal({
                 onSave(addressInput);
                 onClose();
               }}
-              className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 px-5 py-2.5 transition-transform hover:from-purple-500 hover:to-cyan-400"
+              className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 px-5 py-2.5 hover:from-purple-500 hover:to-cyan-400"
             >
               <Check className="h-4 w-4" /> Save Location to Form
             </button>

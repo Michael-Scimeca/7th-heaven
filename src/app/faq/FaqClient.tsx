@@ -5,6 +5,7 @@ import SearchInput from "@/components/SearchInput";
 import Link from "next/link";
 import TransitionLink from "@/components/TransitionLink";
 import SeventhButton from "@/components/SeventhButton";
+import FaqChevronButton from "@/components/FaqChevronButton";
 
 interface FAQItem {
   id: string;
@@ -206,22 +207,6 @@ const UsersIcon = () => (
   </svg>
 );
 
-const ChevronRightIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="9 18 15 12 9 6" />
-  </svg>
-);
-
 const CATEGORIES = [
   {
     id: "all",
@@ -239,7 +224,7 @@ const CATEGORIES = [
     id: "merch",
     label: "Store & Merch",
     icon: StoreIcon,
-    color: "text-purple-300",
+    color: " ",
   },
   {
     id: "cruise",
@@ -325,7 +310,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
         <SearchInput
           value={searchQuery}
           onChange={setSearchQuery}
-          placeholder={sanityContent?.searchPlaceholder || "Search"}
+          placeholder="Search"
           containerClassName="w-full"
         />
       </div>
@@ -363,7 +348,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             return (
               <div
                 key={faq.id}
-                className="overflow-hidden border-b border-white/10 transition-colors duration-300"
+                className="overflow-hidden border-b border-white/10"
                 style={{
                   borderBottomColor: isExpanded
                     ? "rgba(192, 132, 252, 0.6)"
@@ -372,27 +357,20 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
               >
                 <button
                   onClick={() => toggleExpand(faq.id)}
-                  className="flex w-full cursor-pointer items-center justify-between gap-4 py-6 text-left focus:outline-none"
+                  aria-expanded={isExpanded}
+                  className="focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left"
                 >
-                  <span className="transition duration-200">
-                    {faq.question}
-                  </span>
-                  <div
-                    className={`transform rounded-lg bg-white/10 p-1.5 text-white/70 transition-transform duration-200 ${isExpanded ? "rotate-90 text-purple-400" : ""}`}
-                  >
-                    <ChevronRightIcon />
-                  </div>
+                  <span className="">{faq.question}</span>
+                  <FaqChevronButton isExpanded={isExpanded} />
                 </button>
 
                 {/* Expanded Answer with smooth grid-rows height transition */}
                 <div
-                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                  className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                 >
                   <div className="overflow-hidden">
                     <div className="pb-6">
-                      <p className="text-sm leading-relaxed md:text-base">
-                        {faq.answer}
-                      </p>
+                      <p>{faq.answer}</p>
                     </div>
                   </div>
                 </div>
@@ -419,7 +397,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
           <h4 className="mb-1">
             {sanityContent?.supportTitle || "Still need help?"}
           </h4>
-          <p className=" ">
+          <p>
             {sanityContent?.supportBody ||
               "Can't find the answer you are looking for? Reach out to our direct support."}
           </p>

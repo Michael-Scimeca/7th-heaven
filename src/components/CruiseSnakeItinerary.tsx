@@ -132,7 +132,7 @@ function CircleVideoNode({
       muted
       playsInline
       preload="auto"
-      className="pointer-events-none h-full w-full scale-125 rounded-lg object-cover transition-transform duration-500"
+      className="pointer-events-none h-full w-full scale-125 rounded-lg object-cover"
     >
       <track kind="captions" />
     </video>
@@ -853,19 +853,19 @@ export default function CruiseSnakeItinerary({
         createPortal(
           <div
             data-settings-panel
-            className="pointer-events-auto fixed top-16 right-4 z-[999999] max-h-[90vh] w-[820px] max-w-[94vw] overflow-y-auto rounded-lg border-2 border-purple-400/50 p-5 text-left text-white/40 opacity-100 shadow-[0_0_70px_rgba(6,182,212,0.35)] transition-opacity duration-300 ease-out"
+            className="pointer-events-auto fixed top-16 right-4 z-[999999] max-h-[90vh] w-[820px] max-w-[94vw] overflow-y-auto rounded-lg border-2 border-purple-400/50 p-5 text-left text-white/40 opacity-100 shadow-[0_0_70px_rgba(6,182,212,0.35)]"
           >
             <div className="sticky top-0 z-10 mb-6 flex items-center justify-between border-b border-white/10 pt-1 pb-3 text-white/60">
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚙️</span>
                 <div>
-                  <h3 className=" ">SVG Path, Speed & Boat Controls</h3>
+                  <h3>SVG Path, Speed & Boat Controls</h3>
                   <p>All real-time physics tuning parameters</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowSettings(false)}
-                className="cursor-pointer bg-white/10 px-3 py-1.5 transition-colors hover:bg-white/20 hover:text-white"
+                className="cursor-pointer bg-white/10 px-3 py-1.5 hover:bg-white/20 hover:text-white"
               >
                 ✕ Close
               </button>
@@ -1124,8 +1124,8 @@ export default function CruiseSnakeItinerary({
               {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
               <div className="col-span-1 mt-2 space-y-3 border border-purple-500/30 bg-cyan-950/40 p-4 md:col-span-2">
                 <div className="flex items-center gap-2 border-b border-purple-500/20 pb-2">
-                  <span className="text-lg">📍</span>
-                  <h3 className=" ">Port Circle & Corner Arrival Controls</h3>
+                  <span>📍</span>
+                  <h3>Port Circle & Corner Arrival Controls</h3>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -1143,7 +1143,7 @@ export default function CruiseSnakeItinerary({
                           onClick={() =>
                             setTuning({ ...tuning, nodeAction: act.id })
                           }
-                          className={`flex-1 rounded-lg px-2 py-1.5 transition-colors ${(tuning.nodeAction ?? "hide") === act.id ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-[#00000029] hover:bg-white/10"}`}
+                          className={`flex-1 rounded-lg px-2 py-1.5 ${(tuning.nodeAction ?? "hide") === act.id ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-[#00000029] hover:bg-white/10"}`}
                         >
                           {act.label}
                         </button>
@@ -1318,7 +1318,7 @@ export default function CruiseSnakeItinerary({
             </div>
 
             {/* Actions Bar */}
-            <div className="sticky bottom-0 z-10 mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4 pb-1 text-white/40 backdrop-blur-[45px]">
+            <div className="sticky bottom-0 z-10 mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4 pb-1 text-white/40 backdrop-blur-2xl">
               <button
                 onClick={handleResetTuning}
                 className="btn-secondary cursor-pointer rounded-lg px-4 py-2.5"
@@ -1327,14 +1327,10 @@ export default function CruiseSnakeItinerary({
               </button>
 
               <div className="flex items-center gap-3">
-                {saveToast && (
-                  <span className="transition-opacity duration-300 ease-out">
-                    ✓ Settings Saved!
-                  </span>
-                )}
+                {saveToast && <span className="">✓ Settings Saved!</span>}
                 <button
                   onClick={handleSaveTuning}
-                  className="cursor-pointer bg-cyan-500 px-6 py-2.5 shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-colors hover:bg-cyan-400"
+                  className="cursor-pointer bg-cyan-500 px-6 py-2.5 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:bg-cyan-400"
                 >
                   💾 Save Settings
                 </button>
@@ -1432,7 +1428,7 @@ export default function CruiseSnakeItinerary({
           const cardContent = (
             <div className="group">
               {dayImage && (
-                <div className="relative aspect-[21/9] w-full overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-colors duration-500">
+                <div className="relative aspect-[21/9] w-full overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.5)]">
                   <Image
                     width={200}
                     height={200}
@@ -1451,7 +1447,7 @@ export default function CruiseSnakeItinerary({
                     {day.theme}
                   </h3>
                   {day.location && (
-                    <span className="shrink-0 rounded-full border border-purple-500/30 bg-purple-500/20 px-2.5 py-1 text-[10px] text-purple-300 md:text-xs">
+                    <span className="md: shrink-0 rounded-full border border-purple-500/30 bg-purple-500/20 px-2.5 py-1 text-[10px]">
                       {day.location}
                     </span>
                   )}
@@ -1485,14 +1481,14 @@ export default function CruiseSnakeItinerary({
                     return (
                       <div
                         key={ev.id}
-                        className="relative border-l-2 border-purple-500/40 py-0.5 pl-3.5 transition-colors hover:border-cyan-400"
+                        className="relative border-l-2 border-purple-500/40 py-0.5 pl-3.5 hover:border-cyan-400"
                       >
                         {ev.time && (
-                          <div className="mb-1 inline-flex items-center rounded border border-cyan-500/30 bg-cyan-950/80 px-2 py-0.5 font-mono text-[11px] text-cyan-300">
+                          <div className="mb-1 inline-flex items-center rounded border border-cyan-500/30 bg-cyan-950/80 px-2 py-0.5 text-cyan-300">
                             {ev.time}
                           </div>
                         )}
-                        <div className="flex items-start gap-2 text-sm md:text-base">
+                        <div className="flex items-start gap-2">
                           <span className="mt-0.5 shrink-0">
                             {isGuitar && (
                               <Guitar className="h-4 w-4 text-purple-400" />
@@ -1504,13 +1500,13 @@ export default function CruiseSnakeItinerary({
                               <Palmtree className="h-4 w-4 text-emerald-400" />
                             )}
                             {!isGuitar && !isShip && !isIsland && (
-                              <Compass className="h-4 w-4 text-purple-300" />
+                              <Compass className="h-4 w-4" />
                             )}
                           </span>
                           <span>{cleanTitle}</span>
                         </div>
                         {ev.subtitle && (
-                          <div className="mt-0.5 pl-6 text-xs text-white/60">
+                          <div className="mt-0.5 pl-6 text-white/60">
                             {ev.subtitle}
                           </div>
                         )}
@@ -1684,7 +1680,7 @@ export default function CruiseSnakeItinerary({
                   backgroundColor: "#060614",
                   boxShadow: "none",
                 }}
-                className={`flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-4 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] backdrop-blur-[45px] transition-colors duration-300 ${isActive ? "scale-105 opacity-100" : "opacity-85"}`}
+                className={`flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-4 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] backdrop-blur-2xl ${isActive ? "scale-105 opacity-100" : "opacity-85"}`}
               >
                 {isSea ? (
                   <Waves className="inline-block h-3.5 w-3.5 shrink-0" />

@@ -87,7 +87,7 @@ const COLOR_SCHEMES = {
   purple: {
     border: "border-purple-400/60 hover:border-purple-300",
     bg: "bg-[#1d0d2a]/95",
-    text: "text-purple-300",
+    text: " ",
     badge: "bg-purple-500/25 text-purple-200 border-purple-500/40",
     glow: "shadow-[0_0_25px_rgba(168,85,247,0.3)]",
     lineColor: "#a855f7",
@@ -170,7 +170,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} shadow-2xlbackdrop-blur-[18px] w-72 cursor-pointer p-4 text-center transition duration-300`}
+      className={`relative rounded-lg border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} shadow-2xlbackdrop-blur-xl w-72 cursor-pointer p-4 text-center`}
     >
       <div className="mb-2 flex items-center justify-between gap-1 border-b border-white/10 pb-1.5">
         <span className="rounded-lg bg-black/40 px-2.5 py-0.5 text-[12px]">
@@ -201,7 +201,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`group relative rounded-lg border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 text-center backdrop-blur-xl transition-all duration-300 select-none`}
+      className={`group relative rounded-lg border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 text-center backdrop-blur-xl select-none`}
     >
       <Handle
         type="target"
@@ -222,10 +222,10 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
         >
           <IconComp className="h-4 w-4" />
         </div>
-        <h3 className="truncate">{data.label}</h3>
+        <h3>{data.label}</h3>
       </div>
 
-      <code className="/90 block truncate text-[10px]">{data.sub}</code>
+      <code className="/90 block text-[10px]">{data.sub}</code>
 
       <Handle
         type="source"
@@ -239,7 +239,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 // 3. Decision Branch Node (Gold Pill)
 function DecisionNode({ data }: NodeProps<Node<FlowNodeData>>) {
   return (
-    <div className="group relative w-48 cursor-pointer rounded-lg border border-amber-400/50 bg-[#2d1c07]/95 px-3 py-2 text-center shadow-[0_0_15px_rgba(245,158,11,0.25)] backdrop-blur-xl transition-all duration-300 select-none">
+    <div className="group relative w-48 cursor-pointer rounded-lg border border-amber-400/50 bg-[#2d1c07]/95 px-3 py-2 text-center shadow-[0_0_15px_rgba(245,158,11,0.25)] backdrop-blur-xl select-none">
       <Handle
         type="target"
         position={Position.Top}
@@ -248,7 +248,7 @@ function DecisionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
       <div className="flex items-center justify-center gap-1.5">
         <GitBranch className="h-3.5 w-3.5 shrink-0 text-amber-300" />
-        <span className="truncate text-amber-200">{data.label}</span>
+        <span className="text-amber-200">{data.label}</span>
       </div>
 
       <Handle
@@ -277,7 +277,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`group relative rounded-lg border ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl transition-all duration-300 select-none`}
+      className={`group relative rounded-lg border ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
     >
       <Handle
         type="target"
@@ -307,9 +307,9 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
             <span className={`h-1.5 w-1.5 rounded-lg ${scheme.dot}`} />
           </div>
 
-          <h4 className="truncate">{data.label}</h4>
+          <h4>{data.label}</h4>
 
-          <code className="mt-0.5 block truncate text-[10px]">{data.sub}</code>
+          <code className="mt-0.5 block text-[10px]">{data.sub}</code>
         </div>
       </div>
 
@@ -321,7 +321,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
             fill
             unoptimized
             sizes="256px"
-            className="object-cover object-top transition duration-300"
+            className="object-cover object-top"
           />
         </div>
       )}
@@ -347,7 +347,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`group relative rounded-lg border-2 border-dashed ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl transition-all duration-300 select-none`}
+      className={`group relative rounded-lg border-2 border-dashed ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
     >
       <Handle
         type="target"
@@ -368,15 +368,15 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
             <span className="h-1.5 w-1.5 rounded-lg bg-amber-400" />
           </div>
 
-          <h4 className="truncate">{data.label}</h4>
+          <h4>{data.label}</h4>
 
           {data.details?.emailSubject && (
-            <p className="mt-0.5 truncate text-amber-200/90">
+            <p className="mt-0.5 text-amber-200/90">
               &quot;{data.details.emailSubject}&quot;
             </p>
           )}
 
-          <code className="mt-0.5 block truncate text-[12px] text-white/40">
+          <code className="mt-0.5 block text-[12px] text-white/40">
             {data.sub}
           </code>
         </div>
@@ -1536,9 +1536,9 @@ export default function UserFlowMap() {
   );
 
   return (
-    <div className="relative h-[850px] w-full overflow-hidden rounded-lg border border-purple-500/30 bg-[#050505] backdrop-blur-[45px]">
+    <div className="relative h-[850px] w-full overflow-hidden rounded-lg border border-purple-500/30 bg-[#050505] backdrop-blur-2xl">
       {/* Header Info Bar */}
-      <div className="pointer-events-none absolute top-0 right-0 left-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/90 px-4 py-2.5 backdrop-blur-[45px] select-none">
+      <div className="pointer-events-none absolute top-0 right-0 left-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/90 px-4 py-2.5 backdrop-blur-2xl select-none">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 animate-pulse rounded-lg bg-pink-400" />
           <span>7th Heaven User Flow & Architecture Tree Map</span>
@@ -1564,7 +1564,7 @@ export default function UserFlowMap() {
         className="pt-10"
       >
         <Background color="#1e1b4b" gap={20} size={1} />
-        <Controls className="! ! ! overflow-hidden rounded-lg border-white/10 !bg-black/80" />
+        <Controls className="! overflow-hidden rounded-lg border-white/10 !bg-black/80" />
         <MiniMap
           style={{ height: 110, width: 160 }}
           nodeColor={(n) => {
@@ -1605,7 +1605,7 @@ export default function UserFlowMap() {
         <span className="flex items-center gap-1.5 text-[10px] text-amber-300">
           <span className="h-2 w-2 rounded-lg bg-amber-400" /> Cruise & PINs
         </span>
-        <span className="flex items-center gap-1.5 text-[10px] text-purple-300">
+        <span className="flex items-center gap-1.5 text-[10px]">
           <span className="h-2 w-2 rounded-lg bg-purple-400" /> Fan Club
         </span>
         <span className="flex items-center gap-1.5 text-[10px] text-orange-300">
@@ -1618,12 +1618,12 @@ export default function UserFlowMap() {
 
       {/* Slide-out Inspector Detail Drawer */}
       {selectedNode && (
-        <div className="shadow-2xlbackdrop-blur-[18px] animate-in slide-in-from-right-8 absolute top-14 right-4 bottom-4 z-30 flex w-96 flex-col justify-between overflow-y-auto rounded-lg border border-purple-500/40 bg-black/95 p-6 duration-200">
+        <div className="shadow-2xlbackdrop-blur-xl animate-in slide-in-from-right-8 absolute top-14 right-4 bottom-4 z-30 flex w-96 flex-col justify-between overflow-y-auto rounded-lg border border-purple-500/40 bg-black/95 p-6">
           <div className="space-y-5">
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
               <div>
-                <span className="bg- purple-white/20 r rounded px-2 py-0.5 text-[12px] text-purple-300">
+                <span className="bg- purple-white/20 r rounded px-2 py-0.5 text-[12px]">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
                 <h3>{selectedNode.data.label}</h3>
@@ -1631,7 +1631,7 @@ export default function UserFlowMap() {
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 transition hover:bg-white/20 hover:text-white"
+                className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 hover:text-white"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -1666,7 +1666,7 @@ export default function UserFlowMap() {
             {selectedNode.data.sub.startsWith("/") ? (
               <button
                 onClick={() => router.push(selectedNode.data.sub.split("?")[0])}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-purple-600 py-2.5 transition hover:bg-purple-500"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-purple-600 py-2.5 hover:bg-purple-500"
               >
                 <span>Visit Route ({selectedNode.data.sub.split("?")[0]})</span>
                 <ArrowRight className="h-4 w-4" />
@@ -1674,7 +1674,7 @@ export default function UserFlowMap() {
             ) : (
               <button
                 onClick={() => setSelectedNode(null)}
-                className="w-full rounded-lg bg-white/10 py-2.5 transition hover:bg-white/20"
+                className="w-full rounded-lg bg-white/10 py-2.5 hover:bg-white/20"
               >
                 Close Inspector
               </button>

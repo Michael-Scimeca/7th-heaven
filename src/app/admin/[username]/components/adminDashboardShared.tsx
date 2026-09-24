@@ -140,24 +140,22 @@ export const SidebarDateButton = React.memo(
       <button
         type="button"
         onClick={() => show.date && onClick(show.date)}
-        className={`group flex w-full cursor-pointer items-center gap-2 border-b border-white/10 px-2 py-1.5 text-left transition-colors duration-150 ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "}`}
+        className={`group flex w-full cursor-pointer items-center gap-2 border-b border-white/10 px-2 py-1.5 text-left ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "}`}
       >
         <div className="flex min-w-[32px] shrink-0 flex-col items-center">
           <span className="text-[9px] text-white/40">{show.dayLabel}</span>
           <span
-            className={`text-[11px] ${isSelected ? "text-purple-300" : isActiveWeek ? "text-white/70" : "text-white/50"}`}
+            className={` ${isSelected ? " " : isActiveWeek ? " " : "text-white/50"}`}
           >
             {show.dateLabel}
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <p
-            className={`truncate ${isSelected ? " " : isActiveWeek ? "/90" : "text-white/70"}`}
-          >
+          <p className={` ${isSelected ? " " : isActiveWeek ? "/90" : " "}`}>
             {show.venue || show.venue_name}
           </p>
           {show.city && (
-            <p className="truncate">
+            <p>
               {show.city}
               {show.state ? `, ${show.state}` : ""}
             </p>

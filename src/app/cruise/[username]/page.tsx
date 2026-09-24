@@ -314,10 +314,10 @@ function PassengersWidget() {
     <div className="group relative overflow-hidden p-2">
       <div className="relative z-10 mb-6 flex items-end justify-between">
         <div>
-          <h2 className="mb-1 text-xs">Community</h2>
+          <h2 className="mb-1">Community</h2>
           <div className="flex items-center gap-2">
             <span className="text-2xl">{totalCount}</span>
-            <span className="text-sm text-[var(--color-accent)] sm:text-base">
+            <span className="text-[var(--color-accent)] sm:text-base">
               Cruise Members Onboard
             </span>
           </div>
@@ -329,29 +329,25 @@ function PassengersWidget() {
         {topAvatars.map((p) => (
           <div
             key={`avatar-${p.id}`}
-            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-purple-400/30 bg-purple-900/40 text-sm sm:h-10 sm:w-10"
+            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-purple-400/30 bg-purple-900/40 sm:h-10 sm:w-10"
           >
             {p.initial}
           </div>
         ))}
         {extraAvatarsCount > 0 && (
-          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-purple-400/30 bg-purple-900/60 text-xs text-purple-300 shadow-sm sm:h-10 sm:w-10">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-purple-400/30 bg-purple-900/60 shadow-sm sm:h-10 sm:w-10">
             +{extraAvatarsCount}
           </div>
         )}
       </div>
 
       {/* Member Names Dot-Separated List */}
-      <div className="relative z-10 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm sm:text-base">
+      <div className="relative z-10 flex flex-wrap items-center gap-x-1.5 gap-y-1 sm:text-base">
         {passengers.map((p, idx) => (
           <div key={`passenger-${p.id}`} className="inline-flex items-center">
-            <span className=" ">
+            <span>
               {p.name}
-              {p.extra > 0 && (
-                <span className="ml-1 text-xs text-purple-300 sm:text-sm">
-                  +{p.extra}
-                </span>
-              )}
+              {p.extra > 0 && <span className="sm: ml-1">+{p.extra}</span>}
             </span>
             {idx < passengers.length - 1 && (
               <span className="mr-0.5 ml-1.5 text-white/30">·</span>
@@ -791,8 +787,8 @@ export default function CruiseDashboard() {
     return (
       <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-32 pb-20">
         {/* Subtle background elements */}
-        <div className="pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)]/5 blur-[100px]" />
-        <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-lg bg-cyan-500/5 blur-[100px]" />
+        <div className="pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)]/5 blur-3xl" />
+        <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-lg bg-cyan-500/5 blur-3xl" />
 
         <div className="relative z-10 w-full max-w-md animate-[fadeIn_0.3s_ease-out]">
           <div className="mb-8 text-center">
@@ -833,7 +829,7 @@ export default function CruiseDashboard() {
                       onChange={(e) =>
                         setPinInput(e.target.value.replace(/\D/g, ""))
                       }
-                      className="w-full border border-black/15 bg-white px-4 py-3 text-center text-lg transition-colors outline-none focus:border-purple-500"
+                      className="focus-ring w-full border border-black/15 bg-white px-4 py-3 text-center outline-none"
                     />
                   </div>
 
@@ -846,7 +842,7 @@ export default function CruiseDashboard() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 transition-colors hover:bg-purple-500 disabled:opacity-50"
+                    className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 hover:bg-purple-500 disabled:opacity-50"
                   >
                     {submitting ? (
                       <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
@@ -862,7 +858,7 @@ export default function CruiseDashboard() {
                         setVerifyingPin(false);
                         setAuthError("");
                       }}
-                      className="hover: cursor-pointer text-[var(--font-size-2xs)] text-black/40 transition-colors"
+                      className="hover: cursor-pointer text-[var(--font-size-2xs)] text-black/40"
                     >
                       ← Cancel and Back
                     </button>
@@ -884,7 +880,7 @@ export default function CruiseDashboard() {
                     setRegSuccess(false);
                     setAuthTab("login");
                   }}
-                  className="hover: w-full cursor-pointer border border-black/10 bg-gray-50 py-2.5 text-black/80 transition-colors hover:bg-gray-100"
+                  className="hover: w-full cursor-pointer border border-black/10 bg-gray-50 py-2.5 text-black/80 hover:bg-gray-100"
                 >
                   Go to Log In
                 </button>
@@ -898,7 +894,7 @@ export default function CruiseDashboard() {
                       setAuthTab("login");
                       setAuthError("");
                     }}
-                    className={`flex-1 cursor-pointer py-4 transition-colors ${authTab === "login" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"}`}
+                    className={`flex-1 cursor-pointer py-4 ${authTab === "login" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"}`}
                   >
                     Log In
                   </button>
@@ -907,7 +903,7 @@ export default function CruiseDashboard() {
                       setAuthTab("register");
                       setAuthError("");
                     }}
-                    className={`flex-1 cursor-pointer py-4 transition-colors ${authTab === "register" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"}`}
+                    className={`flex-1 cursor-pointer py-4 ${authTab === "register" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"}`}
                   >
                     Register
                   </button>
@@ -934,7 +930,7 @@ export default function CruiseDashboard() {
                           placeholder="name@example.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
                         />
                       </div>
                       <div>
@@ -951,7 +947,7 @@ export default function CruiseDashboard() {
                           placeholder="••••••••"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
                         />
                       </div>
 
@@ -962,7 +958,7 @@ export default function CruiseDashboard() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 transition-colors hover:bg-purple-500 disabled:opacity-50"
+                        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 hover:bg-purple-500 disabled:opacity-50"
                       >
                         {submitting ? (
                           <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
@@ -991,7 +987,7 @@ export default function CruiseDashboard() {
                           placeholder="John Doe"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
                         />
                       </div>
                       <div>
@@ -1008,7 +1004,7 @@ export default function CruiseDashboard() {
                           placeholder="name@example.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
                         />
                       </div>
                       <div>
@@ -1027,7 +1023,7 @@ export default function CruiseDashboard() {
                           onChange={(e) =>
                             setPhone(formatPhoneDisplay(e.target.value))
                           }
-                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
                         />
                       </div>
                       <div>
@@ -1044,7 +1040,7 @@ export default function CruiseDashboard() {
                           placeholder="Min 6 characters"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
                         />
                       </div>
 
@@ -1055,7 +1051,7 @@ export default function CruiseDashboard() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-[var(--color-accent)] py-3 transition-colors hover:brightness-110 disabled:opacity-50"
+                        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-[var(--color-accent)] py-3 hover:brightness-110 disabled:opacity-50"
                       >
                         {submitting ? (
                           <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
@@ -1071,10 +1067,7 @@ export default function CruiseDashboard() {
           </div>
 
           <div className="mt-6 text-center">
-            <Link
-              href="/cruise"
-              className="hover: text-black/40 transition-colors"
-            >
+            <Link href="/cruise" className="hover: text-black/40">
               ← Back to Cruise Information
             </Link>
           </div>
@@ -1121,7 +1114,7 @@ export default function CruiseDashboard() {
                         setGuidelinesContentInput(guidelines.content);
                         setIsEditingGuidelines(true);
                       }}
-                      className="ml-auto cursor-pointer rounded-lg border border-purple-500/30 px-3 py-1.5 transition-colors hover:text-white"
+                      className="ml-auto cursor-pointer rounded-lg border border-purple-500/30 px-3 py-1.5 hover:text-white"
                     >
                       ✏️ Edit Guidelines
                     </button>
@@ -1181,13 +1174,13 @@ export default function CruiseDashboard() {
                     <div className="flex justify-end gap-3">
                       <button
                         onClick={() => setIsEditingGuidelines(false)}
-                        className="cursor-pointer rounded-xl bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+                        className="cursor-pointer rounded-xl bg-white/10 px-4 py-2 hover:bg-white/20"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={handleSaveGuidelines}
-                        className="cursor-pointer rounded-lg bg-purple-600 px-5 py-2 shadow-purple-600/30 transition-colors hover:bg-purple-500"
+                        className="cursor-pointer rounded-lg bg-purple-600 px-5 py-2 shadow-purple-600/30 hover:bg-purple-500"
                       >
                         Save Guidelines
                       </button>
@@ -1195,7 +1188,7 @@ export default function CruiseDashboard() {
                   </div>
                 ) : (
                   <div
-                    className="[&_a]: [&_a]: [&_a]: [&_a]: [&_p]: [&_h1]: [&_h1]: [&_h2]: [&_h2]: [&_h3]: [&_h3]: [&_strong]: [&_span]: [&_li]: [&_div]: max-w-full min-w-0 space-y-4 overflow-hidden [overflow-wrap:break-word] break-words [hyphens:manual] md:text-base [&_a]:underline-offset-4 [&_p]:max-w-full"
+                    className="[&_a]: [&_p]: [&_h1]: [&_h2]: [&_h3]: [&_strong]: [&_span]: [&_li]: [&_div]: max-w-full min-w-0 space-y-4 overflow-hidden [overflow-wrap:break-word] break-words [hyphens:manual] [&_a]:underline-offset-4 [&_p]:max-w-full"
                     dangerouslySetInnerHTML={{
                       __html:
                         sanitizedGuidelinesContent ||

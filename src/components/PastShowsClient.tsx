@@ -172,19 +172,19 @@ export default function PastShowsClient({
       >
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl">{totalShowsCount}+</span>
-          <span className=" ">Concerts Cataloged</span>
+          <span>Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl">40+</span>
-          <span className=" ">Years of Live Rock</span>
+          <span>Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl">500+</span>
-          <span className=" ">Unique Venues</span>
+          <span>Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
           <span className="text-3xl sm:text-4xl">5+</span>
-          <span className=" ">Countries Played</span>
+          <span>Countries Played</span>
         </div>
       </section>
 
@@ -212,7 +212,7 @@ export default function PastShowsClient({
           </span>
           <button
             onClick={() => setSelectedYear("ALL")}
-            className={`color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === "ALL" || selectedYear === "All" ? "bg-[var(--color-accent)]" : "hover- border-0 bg-[#00000029] text-white/70"}`}
+            className={`color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === "ALL" || selectedYear === "All" ? "bg-[var(--color-accent)]" : "hover- border-0 bg-[#00000029]"}`}
           >
             {sanityContent?.allYearsLabel || "All Years"}
           </button>
@@ -223,16 +223,15 @@ export default function PastShowsClient({
                 setSelectedYear(y.year);
                 setOpenYears((prev) => ({ ...prev, [y.year]: true }));
               }}
-              className={`color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === y.year ? "bg-[var(--color-accent)]" : "hover- border-0 bg-[#00000029] text-white/70"}`}
+              className={`color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === y.year ? "bg-[var(--color-accent)]" : "hover- border-0 bg-[#00000029]"}`}
             >
               {y.year}
             </button>
           ))}
         </div>
 
-        <div className="my-6 text-sm text-white/60">
-          Showing <span className=" ">{displayedCount}</span> of{" "}
-          {totalShowsCount} shows
+        <div className="my-6 text-white/60">
+          Showing <span>{displayedCount}</span> of {totalShowsCount} shows
         </div>
       </nav>
 
@@ -281,7 +280,7 @@ export default function PastShowsClient({
                     <span className="rounded-lg bg-[var(--color-accent)] px-3 py-1">
                       {yGroup.year}
                     </span>
-                    <span className=" ">
+                    <span>
                       {yGroup.shows.length}{" "}
                       {yGroup.shows.length === 1 ? "Show" : "Shows"}
                     </span>

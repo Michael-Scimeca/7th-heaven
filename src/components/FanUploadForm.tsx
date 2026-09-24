@@ -286,7 +286,7 @@ export default function FanUploadForm() {
           </p>
           <button
             onClick={() => setUploadSuccess(false)}
-            className="cursor-pointer rounded border border-[var(--color-accent)] px-6 py-2 text-[var(--color-accent)] transition-colors hover:text-white"
+            className="cursor-pointer rounded border border-[var(--color-accent)] px-6 py-2 text-[var(--color-accent)] hover:text-white"
           >
             Upload Another
           </button>
@@ -327,7 +327,7 @@ export default function FanUploadForm() {
                   setDragOver(false);
                   handleFilesChange(e.dataTransfer.files);
                 }}
-                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg transition-all duration-200 ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"}`}
+                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"}`}
               >
                 {previews.length > 0 ? (
                   <div className="absolute inset-0 z-20 grid grid-cols-3 gap-3 overflow-y-auto bg-black/90 p-4 sm:grid-cols-4 md:grid-cols-5">
@@ -375,14 +375,14 @@ export default function FanUploadForm() {
                         }
                         fileRef.current?.click();
                       }}
-                      className="plus-button flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/10 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                      className="plus-button flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/10 text-white/50 hover:bg-white/10 hover:text-white"
                     >
                       <span className="text-2xl font-light">+</span>
                     </button>
                   </div>
                 ) : (
                   <>
-                    <div className="pointer-events-none absolute inset-2.5 rounded-lg border-2 border-dashed border-white/10 transition-colors group-hover:border-[var(--color-accent)]/50" />
+                    <div className="pointer-events-none absolute inset-2.5 rounded-lg border-2 border-dashed border-white/10 group-hover:border-[var(--color-accent)]/50" />
                     <div className="relative z-10 flex flex-col items-center p-6 text-center">
                       <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]">
                         <svg
@@ -400,12 +400,10 @@ export default function FanUploadForm() {
                           <line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
                       </div>
-                      <p className="mb-1 transition-colors group-hover:text-[var(--color-accent)]">
+                      <p className="mb-1 group-hover:text-[var(--color-accent)]">
                         Upload Hero Moment
                       </p>
-                      <p className=" ">
-                        Max file size: 10MB | HQ JPG/PNG/MP4/MOV
-                      </p>
+                      <p>Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
                     </div>
                   </>
                 )}

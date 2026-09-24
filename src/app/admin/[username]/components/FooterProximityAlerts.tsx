@@ -367,7 +367,7 @@ export default function FooterProximityAlerts() {
         {/* Stacked Rows: Maximum Distance Radius on Top, Notification Types Below */}
         <div className="relative z-10 mb-6 flex flex-col gap-6">
           <div>
-            <label className="mb-2 block flex items-center gap-1.5 text-[11px]">
+            <label className="mb-2 block flex items-center gap-1.5">
               <Sliders className="h-3.5 w-3.5" /> Maximum Distance Radius
             </label>
             <div className="inline-flex w-fit max-w-full flex-wrap gap-1.5">
@@ -388,7 +388,7 @@ export default function FooterProximityAlerts() {
           </div>
 
           <div>
-            <label className="mb-2 block flex items-center gap-1.5 text-[11px]">
+            <label className="mb-2 block flex items-center gap-1.5">
               <Music className="h-3.5 w-3.5" /> Which Types of Show
               Notifications?
             </label>
@@ -405,7 +405,7 @@ export default function FooterProximityAlerts() {
                       type="button"
                       onClick={() => toggleType(type.id)}
                       isActive={isSelected}
-                      className="inline-flex !w-auto items-center gap-1.5 px-2.5 py-2 text-xs"
+                      className="inline-flex !w-auto items-center gap-1.5 px-2.5 py-2"
                     >
                       <span>{type.label}</span>
                     </SeventhButton>
@@ -426,7 +426,7 @@ export default function FooterProximityAlerts() {
             checked={agreeTerms}
             onChange={setAgreeTerms}
           />
-          <span className=" ">
+          <span>
             I agree to the{" "}
             <Link
               href="/terms"
@@ -458,7 +458,7 @@ export default function FooterProximityAlerts() {
                 icon={false}
                 onClick={handleSavePrefs}
                 disabled={isBusy}
-                className="! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 !text-xs whitespace-nowrap transition-all disabled:opacity-60"
+                className="! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 whitespace-nowrap disabled:opacity-60"
               >
                 <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                   {status === "saving" ? (
@@ -479,7 +479,7 @@ export default function FooterProximityAlerts() {
               icon={false}
               onClick={handleEnableAlerts}
               disabled={isBusy || permission === "denied"}
-              className="shrink-0 cursor-pointer flex-nowrap whitespace-nowrap transition-all disabled:opacity-60"
+              className="shrink-0 cursor-pointer flex-nowrap whitespace-nowrap disabled:opacity-60"
             >
               <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                 {status === "saving" ? (
@@ -504,7 +504,7 @@ export default function FooterProximityAlerts() {
             </SeventhButton>
           )}
 
-          <p className="text-xs text-white/70">
+          <p>
             {permission === "granted"
               ? "Your notifications are enabled. Update filters above and save anytime."
               : "Click to enable instant browser & proximity alerts for nearby shows."}

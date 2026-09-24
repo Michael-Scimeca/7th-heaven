@@ -54,11 +54,11 @@ export function RaffleClaimModal({
 
   return (
     <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-      <div className="relative max-h-[90vh] w-full max-w-sm overflow-y-auto border border-purple-500/40 bg-gray-50/98 p-6 text-black backdrop-blur-xl transition-opacity duration-200 ease-out">
+      <div className="relative max-h-[90vh] w-full max-w-sm overflow-y-auto border border-purple-500/40 bg-gray-50/98 p-6 text-black backdrop-blur-xl">
         <button
           aria-label="Close"
           onClick={handleClose}
-          className="hover: absolute top-3 right-3 rounded-lg bg-gray-50 p-1 text-black/50 transition-colors hover:bg-gray-100"
+          className="hover: absolute top-3 right-3 rounded-lg bg-gray-50 p-1 text-black/50 hover:bg-gray-100"
         >
           <svg
             width="16"
@@ -105,7 +105,7 @@ export function RaffleClaimModal({
                   href={claimUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="mb-2 block w-full rounded-lg bg-[var(--color-purple-primary)] py-2.5 text-[var(--font-size-xs)] transition-colors hover:bg-[var(--color-purple-hover)]"
+                  className="mb-2 block w-full rounded-lg bg-[var(--color-purple-primary)] py-2.5 text-[var(--font-size-xs)] hover:bg-[var(--color-purple-hover)]"
                 >
                   Open Full Claim Page
                 </a>
@@ -121,7 +121,7 @@ export function RaffleClaimModal({
               </p>
               <button
                 onClick={() => setClaimMethod("shipping")}
-                className="flex w-full items-center gap-3 border border-black/10 bg-gray-50 p-3 text-left transition-colors hover:border-purple-500/30"
+                className="flex w-full items-center gap-3 border border-black/10 bg-gray-50 p-3 text-left hover:border-purple-500/30"
               >
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
                   <svg
@@ -145,7 +145,7 @@ export function RaffleClaimModal({
               </button>
               <button
                 onClick={() => setClaimMethod("merch_table")}
-                className="flex w-full items-center gap-3 border border-black/10 bg-gray-50 p-3 text-left transition-colors hover:border-purple-500/30"
+                className="flex w-full items-center gap-3 border border-black/10 bg-gray-50 p-3 text-left hover:border-purple-500/30"
               >
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/20">
                   <svg
@@ -198,13 +198,13 @@ export function RaffleClaimModal({
                 );
                 handleClose();
               }}
-              className="w-full bg-blue-500 py-3 transition-colors hover:bg-blue-400"
+              className="w-full bg-blue-500 py-3 hover:bg-blue-400"
             >
               Open Secure Checkout
             </button>
             <button
               onClick={() => setClaimMethod(null)}
-              className="mt-2 w-full py-2 text-black/30 transition-colors hover:text-black/60"
+              className="mt-2 w-full py-2 text-black/30 hover:text-black/60"
             >
               Back
             </button>
@@ -223,9 +223,7 @@ export function RaffleClaimModal({
                       key={`raffle-pin-confirm-${i}-${digit}`}
                       className="flex h-10 w-8 items-center justify-center rounded border border-purple-500/40 bg-gray-100"
                     >
-                      <span className="text-lg text-purple-300 tabular-nums">
-                        {digit}
-                      </span>
+                      <span className="tabular-nums">{digit}</span>
                     </div>
                   ))}
                 </div>
@@ -242,13 +240,13 @@ export function RaffleClaimModal({
             <button
               aria-label="Close"
               onClick={handleClose}
-              className="w-full bg-emerald-500 py-3 transition-colors hover:bg-emerald-400"
+              className="w-full bg-emerald-500 py-3 hover:bg-emerald-400"
             >
               Done
             </button>
             <button
               onClick={() => setClaimMethod(null)}
-              className="mt-2 w-full py-2 text-black/30 transition-colors hover:text-black/60"
+              className="mt-2 w-full py-2 text-black/30 hover:text-black/60"
             >
               Back
             </button>

@@ -396,7 +396,7 @@ export function RoleEmailDirectory({
           <button
             type="button"
             onClick={handleExportCSV}
-            className="flex cursor-pointer items-center gap-1.5 rounded-lg border-none bg-[#00000029] px-3.5 py-2 whitespace-nowrap transition-colors hover:bg-white/10"
+            className="flex cursor-pointer items-center gap-1.5 rounded-lg border-none bg-[#00000029] px-3.5 py-2 whitespace-nowrap hover:bg-white/10"
           >
             <span></span> Export CSV
           </button>
@@ -435,9 +435,9 @@ export function RoleEmailDirectory({
                 filteredUsers.map((user) => (
                   <div
                     key={user.id}
-                    className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 border-b border-white/10 bg-[#00000029] py-3 pr-4 pl-2 transition-colors"
+                    className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 border-b border-white/10 bg-[#00000029] py-3 pr-4 pl-2"
                   >
-                    <div className="flex items-center gap-2.5 truncate">
+                    <div className="flex items-center gap-2.5">
                       {(() => {
                         const avatarSrc = resolveMemberAvatar(
                           user.name,
@@ -454,24 +454,20 @@ export function RoleEmailDirectory({
                             }}
                           />
                         ) : (
-                          <div
-                            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-[10px]`}
-                          >
+                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-[10px]">
                             {getInitials(user.name)}
                           </div>
                         );
                       })()}
-                      <span className="truncate">{user.name}</span>
+                      <span>{user.name}</span>
                     </div>
-                    <div className="truncate select-all">{user.email}</div>
+                    <div className="select-all">{user.email}</div>
                     <div className="rouned-lg py-1">{user.role}</div>
-                    <div className="truncate text-white/50">
-                      {user.phone || "—"}
-                    </div>
+                    <div className="text-white/50">{user.phone || "—"}</div>
                     <div className="text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="! inline-flex items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1 transition-colors"
+                        className="! inline-flex items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1"
                       >
                         Email
                       </a>

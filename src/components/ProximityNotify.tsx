@@ -271,7 +271,7 @@ export default function ProximityNotify({
                 borderRadiusPx={48}
                 className="flex h-full max-h-[900px] w-full max-w-[340px] items-center justify-center sm:max-w-[380px] md:max-w-[420px] md:justify-end"
               >
-                <div className="relative flex aspect-[9/18] h-full max-h-[900px] w-full items-center justify-center overflow-hidden rounded-[44px] bg-black shadow-[0_20px_60px_rgba(0,0,0,0.8)] transition-opacity duration-300">
+                <div className="relative flex aspect-[9/18] h-full max-h-[900px] w-full items-center justify-center overflow-hidden rounded-[44px] bg-black shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
                   <video
                     ref={phoneVideoRef}
                     src={videoLoaded ? "/movie/notefication.mp4" : undefined}
@@ -424,7 +424,7 @@ export default function ProximityNotify({
                                 type="button"
                                 onClick={() => setRadius(opt.value)}
                                 isActive={active}
-                                className="!w-auto px-2.5 py-1.5 text-xs"
+                                className="!w-auto px-2.5 py-1.5"
                               >
                                 {opt.label}
                               </SeventhButton>
@@ -463,10 +463,10 @@ export default function ProximityNotify({
                               );
                             }}
                             isActive={isSelected}
-                            className="inline-flex !w-auto items-center gap-1 px-2.5 py-1.5 text-xs"
+                            className="inline-flex !w-auto items-center gap-1 px-2.5 py-1.5"
                           >
                             {type.iconType === "guitar" ? (
-                              <Guitar className="inline-block h-3.5 w-3.5 shrink-0 text-purple-300" />
+                              <Guitar className="inline-block h-3.5 w-3.5 shrink-0" />
                             ) : (
                               <span
                                 className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
@@ -525,7 +525,7 @@ export default function ProximityNotify({
                     type="submit"
                     icon={false}
                     disabled={status === "loading" || !agreeTerms}
-                    className="w-full cursor-pointer transition disabled:opacity-60"
+                    className="w-full cursor-pointer disabled:opacity-60"
                   >
                     {status === "loading"
                       ? "Activating Proximity Alerts..."

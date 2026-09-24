@@ -51,7 +51,7 @@ function CruiseShipExplorerSectionComponent({
         ].map((stat) => (
           <div key={stat.label} className="border-0 p-0 text-left">
             <dt className="block text-white/50">{stat.label}</dt>
-            <dd className="block text-lg font-bold text-white/90 md:text-xl">
+            <dd className="block font-bold text-white/90 md:text-xl">
               {stat.value}
             </dd>
           </div>
@@ -162,7 +162,7 @@ function CruiseShipExplorerSectionComponent({
         <div className="mb-6 flex flex-col justify-between gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center">
           <div>
             <h3>Dining Explorer Guide</h3>
-            <p className=" ">
+            <p>
               Discover included food spots and premium specialty restaurants.
             </p>
           </div>
@@ -190,184 +190,184 @@ function CruiseShipExplorerSectionComponent({
         >
           {(foodTypeTab === "included"
             ? [
-              {
-                name: "Windjammer Buffet",
-                img: "/images/cruise/ship/windjammer.jpg",
-                tag: "Buffet",
-              },
-              {
-                name: "Main Dining Room",
-                img: "/images/cruise/ship/star-aerial-sunset.jpg",
-                tag: "Main Dining",
-              },
-              {
-                name: "Park Cafe",
-                img: "/images/cruise/ship/central-park.jpg",
-                tag: "Deli & Bites",
-              },
-              {
-                name: "Pearl Cafe",
-                img: "/images/cruise/ship/central-park.jpg",
-                tag: "24/7 Snacks",
-              },
-              {
-                name: "Sorrento's Pizza",
-                img: "/images/cruise/ship/lime-and-coconut.jpg",
-                tag: "Fresh Pizza",
-              },
-              {
-                name: "Basecamp",
-                img: "/images/cruise/ship/hideaway-pool.jpg",
-                tag: "Casual Eats",
-              },
-              {
-                name: "Surfside Bites",
-                img: "/images/cruise/ship/cat6-waterpark.jpg",
-                tag: "Quick Service",
-              },
-              {
-                name: "Surfside Eatery",
-                img: "/images/cruise/ship/windjammer.jpg",
-                tag: "Family Buffet",
-              },
-              {
-                name: "El Loco Fresh",
-                img: "/images/cruise/ship/lime-and-coconut.jpg",
-                tag: "Mexican",
-              },
-              {
-                name: "Creme De La Crepe",
-                img: "/images/cruise/ship/central-park.jpg",
-                tag: "Creperie",
-              },
-              {
-                name: "Pig Out BBQ",
-                img: "/images/cruise/ship/lime-and-coconut.jpg",
-                tag: "BBQ Grill",
-              },
-              {
-                name: "Toast & Garden",
-                img: "/images/cruise/ship/central-park.jpg",
-                tag: "Breakfast",
-              },
-              {
-                name: "Mai Thai",
-                img: "/images/cruise/ship/hideaway-pool.jpg",
-                tag: "Asian Fusion",
-              },
-              {
-                name: "Feta Mediterranean",
-                img: "/images/cruise/ship/central-park.jpg",
-                tag: "Greek & Med",
-              },
-              {
-                name: "La Cocinita",
-                img: "/images/cruise/ship/lime-and-coconut.jpg",
-                tag: "Street Food",
-              },
-              {
-                name: "Sprinkles Ice Cream",
-                img: "/images/cruise/ship/cat6-waterpark.jpg",
-                tag: "Soft Serve",
-              },
-              {
-                name: "Coastal Kitchen (Suites)",
-                img: "/images/cruise/ship/family-townhouse.jpg",
-                tag: "Suite Dining",
-              },
-              {
-                name: "The Grove (Suites)",
-                img: "/images/cruise/ship/hideaway-pool.jpg",
-                tag: "Suite Buffet",
-              },
-              {
-                name: "Vitality Cafe",
-                img: "/images/cruise/ship/central-park.jpg",
-                tag: "Healthy Eats",
-              },
-              {
-                name: "Room Service (Breakfast)",
-                img: "/images/cruise/ship/windjammer.jpg",
-                tag: "In-Stateroom",
-              },
-            ]
+                {
+                  name: "Windjammer Buffet",
+                  img: "/images/cruise/ship/windjammer.jpg",
+                  tag: "Buffet",
+                },
+                {
+                  name: "Main Dining Room",
+                  img: "/images/cruise/ship/star-aerial-sunset.jpg",
+                  tag: "Main Dining",
+                },
+                {
+                  name: "Park Cafe",
+                  img: "/images/cruise/ship/central-park.jpg",
+                  tag: "Deli & Bites",
+                },
+                {
+                  name: "Pearl Cafe",
+                  img: "/images/cruise/ship/central-park.jpg",
+                  tag: "24/7 Snacks",
+                },
+                {
+                  name: "Sorrento's Pizza",
+                  img: "/images/cruise/ship/lime-and-coconut.jpg",
+                  tag: "Fresh Pizza",
+                },
+                {
+                  name: "Basecamp",
+                  img: "/images/cruise/ship/hideaway-pool.jpg",
+                  tag: "Casual Eats",
+                },
+                {
+                  name: "Surfside Bites",
+                  img: "/images/cruise/ship/cat6-waterpark.jpg",
+                  tag: "Quick Service",
+                },
+                {
+                  name: "Surfside Eatery",
+                  img: "/images/cruise/ship/windjammer.jpg",
+                  tag: "Family Buffet",
+                },
+                {
+                  name: "El Loco Fresh",
+                  img: "/images/cruise/ship/lime-and-coconut.jpg",
+                  tag: "Mexican",
+                },
+                {
+                  name: "Creme De La Crepe",
+                  img: "/images/cruise/ship/central-park.jpg",
+                  tag: "Creperie",
+                },
+                {
+                  name: "Pig Out BBQ",
+                  img: "/images/cruise/ship/lime-and-coconut.jpg",
+                  tag: "BBQ Grill",
+                },
+                {
+                  name: "Toast & Garden",
+                  img: "/images/cruise/ship/central-park.jpg",
+                  tag: "Breakfast",
+                },
+                {
+                  name: "Mai Thai",
+                  img: "/images/cruise/ship/hideaway-pool.jpg",
+                  tag: "Asian Fusion",
+                },
+                {
+                  name: "Feta Mediterranean",
+                  img: "/images/cruise/ship/central-park.jpg",
+                  tag: "Greek & Med",
+                },
+                {
+                  name: "La Cocinita",
+                  img: "/images/cruise/ship/lime-and-coconut.jpg",
+                  tag: "Street Food",
+                },
+                {
+                  name: "Sprinkles Ice Cream",
+                  img: "/images/cruise/ship/cat6-waterpark.jpg",
+                  tag: "Soft Serve",
+                },
+                {
+                  name: "Coastal Kitchen (Suites)",
+                  img: "/images/cruise/ship/family-townhouse.jpg",
+                  tag: "Suite Dining",
+                },
+                {
+                  name: "The Grove (Suites)",
+                  img: "/images/cruise/ship/hideaway-pool.jpg",
+                  tag: "Suite Buffet",
+                },
+                {
+                  name: "Vitality Cafe",
+                  img: "/images/cruise/ship/central-park.jpg",
+                  tag: "Healthy Eats",
+                },
+                {
+                  name: "Room Service (Breakfast)",
+                  img: "/images/cruise/ship/windjammer.jpg",
+                  tag: "In-Stateroom",
+                },
+              ]
             : [
-              {
-                name: "Chops Grille",
-                img: "/images/cruise/ship/chopsgrille.jpg",
-                tag: "Steakhouse",
-              },
-              {
-                name: "Izumi Hibachi",
-                img: "/images/cruise/ship/izumi-hibachi.jpg",
-                tag: "Teppanyaki",
-              },
-              {
-                name: "Izumi Sushi",
-                img: "/images/cruise/ship/izumi-hibachi.jpg",
-                tag: "Sushi Bar",
-              },
-              {
-                name: "Izumi in the Park",
-                img: "/images/cruise/ship/izumi-hibachi.jpg",
-                tag: "Walk-Up Asian",
-              },
-              {
-                name: "Hooked Seafood",
-                img: "/images/cruise/ship/windjammer.jpg",
-                tag: "Seafood",
-              },
-              {
-                name: "Giovanni's Italian Kitchen",
-                img: "/images/cruise/ship/central-park.jpg",
-                tag: "Trattoria",
-              },
-              {
-                name: "Playmakers Sports Bar",
-                img: "/images/cruise/ship/duelingpianos.jpg",
-                tag: "Pub & Arcade",
-              },
-              {
-                name: "Lincoln Park Supper Club",
-                img: "/images/cruise/ship/chopsgrille.jpg",
-                tag: "Fine Dining",
-              },
-              {
-                name: "Desserted Milkshake Bar",
-                img: "/images/cruise/ship/cat6-waterpark.jpg",
-                tag: "Over-the-Top Shakes",
-              },
-              {
-                name: "Pier 7",
-                img: "/images/cruise/ship/lime-and-coconut.jpg",
-                tag: "Beach Club",
-              },
-              {
-                name: "Celebration Table",
-                img: "/images/cruise/ship/chopsgrille.jpg",
-                tag: "VIP Dining",
-              },
-              {
-                name: "Starbucks Coffee",
-                img: "/images/cruise/ship/central-park.jpg",
-                tag: "Espresso Bar",
-              },
-              {
-                name: "Sugar Beach",
-                img: "/images/cruise/ship/cat6-waterpark.jpg",
-                tag: "Candy & Treats",
-              },
-              {
-                name: "Room Service (Lunch/Dinner)",
-                img: "/images/cruise/ship/chopsgrille.jpg",
-                tag: "24/7 In-Room",
-              },
-              {
-                name: "Trellis Bar Dining",
-                img: "/images/cruise/ship/central-park.jpg",
-                tag: "Outdoor Dining",
-              },
-            ]
+                {
+                  name: "Chops Grille",
+                  img: "/images/cruise/ship/chopsgrille.jpg",
+                  tag: "Steakhouse",
+                },
+                {
+                  name: "Izumi Hibachi",
+                  img: "/images/cruise/ship/izumi-hibachi.jpg",
+                  tag: "Teppanyaki",
+                },
+                {
+                  name: "Izumi Sushi",
+                  img: "/images/cruise/ship/izumi-hibachi.jpg",
+                  tag: "Sushi Bar",
+                },
+                {
+                  name: "Izumi in the Park",
+                  img: "/images/cruise/ship/izumi-hibachi.jpg",
+                  tag: "Walk-Up Asian",
+                },
+                {
+                  name: "Hooked Seafood",
+                  img: "/images/cruise/ship/windjammer.jpg",
+                  tag: "Seafood",
+                },
+                {
+                  name: "Giovanni's Italian Kitchen",
+                  img: "/images/cruise/ship/central-park.jpg",
+                  tag: "Trattoria",
+                },
+                {
+                  name: "Playmakers Sports Bar",
+                  img: "/images/cruise/ship/duelingpianos.jpg",
+                  tag: "Pub & Arcade",
+                },
+                {
+                  name: "Lincoln Park Supper Club",
+                  img: "/images/cruise/ship/chopsgrille.jpg",
+                  tag: "Fine Dining",
+                },
+                {
+                  name: "Desserted Milkshake Bar",
+                  img: "/images/cruise/ship/cat6-waterpark.jpg",
+                  tag: "Over-the-Top Shakes",
+                },
+                {
+                  name: "Pier 7",
+                  img: "/images/cruise/ship/lime-and-coconut.jpg",
+                  tag: "Beach Club",
+                },
+                {
+                  name: "Celebration Table",
+                  img: "/images/cruise/ship/chopsgrille.jpg",
+                  tag: "VIP Dining",
+                },
+                {
+                  name: "Starbucks Coffee",
+                  img: "/images/cruise/ship/central-park.jpg",
+                  tag: "Espresso Bar",
+                },
+                {
+                  name: "Sugar Beach",
+                  img: "/images/cruise/ship/cat6-waterpark.jpg",
+                  tag: "Candy & Treats",
+                },
+                {
+                  name: "Room Service (Lunch/Dinner)",
+                  img: "/images/cruise/ship/chopsgrille.jpg",
+                  tag: "24/7 In-Room",
+                },
+                {
+                  name: "Trellis Bar Dining",
+                  img: "/images/cruise/ship/central-park.jpg",
+                  tag: "Outdoor Dining",
+                },
+              ]
           ).map((food) => (
             <div
               key={food.name}
@@ -386,7 +386,7 @@ function CruiseShipExplorerSectionComponent({
                   label={food.tag}
                   className="mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md"
                 />
-                <p className=" ">{food.name}</p>
+                <p>{food.name}</p>
               </div>
             </div>
           ))}
@@ -398,7 +398,7 @@ function CruiseShipExplorerSectionComponent({
         <div className="mb-6 flex flex-col gap-4 border-b border-white/10 pb-6 text-left lg:flex-row lg:items-center lg:justify-between">
           <div className="w-full lg:w-auto">
             <h3>Bars & Entertainment Explorer</h3>
-            <p className=" ">
+            <p>
               Explore 20 onboard lounges, nightlife venues, and world-class
               attractions.
             </p>
@@ -411,7 +411,7 @@ function CruiseShipExplorerSectionComponent({
             >
               <span>Bars & Clubs</span>
               <span
-                className={`rounded-lg px-2 py-0.5 text-[10px] ${barTab === "bars" ? "bg-white/20" : "bg-white/10 text-purple-300"}`}
+                className={`rounded-lg px-2 py-0.5 text-[10px] ${barTab === "bars" ? "bg-white/20" : "bg-white/10"}`}
               >
                 20
               </span>
@@ -423,7 +423,7 @@ function CruiseShipExplorerSectionComponent({
             >
               <span>Entertainment</span>
               <span
-                className={`rounded-lg px-2 py-0.5 text-[10px] ${barTab === "entertainment" ? "bg-white/20" : "bg-white/10 text-purple-300"}`}
+                className={`rounded-lg px-2 py-0.5 text-[10px] ${barTab === "entertainment" ? "bg-white/20" : "bg-white/10"}`}
               >
                 20
               </span>
@@ -437,209 +437,209 @@ function CruiseShipExplorerSectionComponent({
         >
           {(barTab === "bars"
             ? [
-              {
-                name: "Lime & Coconut Bar",
-                img: "/images/cruise/ship/limecoconut.jpg",
-                tag: "Poolside",
-              },
-              {
-                name: "Rye & Beam",
-                img: "/images/cruise/ship/ryebeam.jpg",
-                tag: "Bourbon",
-              },
-              {
-                name: "Lemon Post Bar",
-                img: "/images/cruise/ship/lemonpost.jpg",
-                tag: "Outdoor",
-              },
-              {
-                name: "Swim & Tonic Pool Bar",
-                img: "/images/cruise/ship/swimtonic.jpg",
-                tag: "Swim-Up",
-              },
-              {
-                name: "The Hideaway Lounge",
-                img: "/images/cruise/ship/thehideaway.jpg",
-                tag: "Adults Only",
-              },
-              {
-                name: "Vue Bar",
-                img: "/images/cruise/ship/vuebar.jpg",
-                tag: "Ocean View",
-              },
-              {
-                name: "Overlook Bar & Pods",
-                img: "/images/cruise/ship/overlookbar.jpg",
-                tag: "AquaDome",
-              },
-              {
-                name: "Basecamp Bar",
-                img: "/images/cruise/ship/basecampbar.jpg",
-                tag: "Thrill Zone",
-              },
-              {
-                name: "Trellis Bar",
-                img: "/images/cruise/ship/trellisbar.jpg",
-                tag: "Central Park",
-              },
-              {
-                name: "Boleros Latin Bar",
-                img: "/images/cruise/ship/bolerosbar.jpg",
-                tag: "Latin Dance",
-              },
-              {
-                name: "Cantina Fresca",
-                img: "/images/cruise/ship/cantinafrescabar.jpg",
-                tag: "Mexican",
-              },
-              {
-                name: "Bubbles Champagne Bar",
-                img: "/images/cruise/ship/bubblesbar.jpg",
-                tag: "Champagne",
-              },
-              {
-                name: "Point & Feather Pub",
-                img: "/images/cruise/ship/pointfeather.jpg",
-                tag: "English Pub",
-              },
-              {
-                name: "Schooner Bar",
-                img: "/images/cruise/ship/schoonerbar.jpg",
-                tag: "Piano Lounge",
-              },
-              {
-                name: "1400 Lobby Bar",
-                img: "/images/cruise/ship/1400bar.jpg",
-                tag: "Atrium",
-              },
-              {
-                name: "Dueling Pianos Lounge",
-                img: "/images/cruise/ship/duelingpianosbar.jpg",
-                tag: "Live Music",
-              },
-              {
-                name: "Lou's Jazz & Blues",
-                img: "/images/cruise/ship/lousbar.jpg",
-                tag: "Jazz Club",
-              },
-              {
-                name: "Music Hall Lounge",
-                img: "/images/cruise/ship/musichallbar.jpg",
-                tag: "Rock Venue",
-              },
-              {
-                name: "Playmakers Lounge",
-                img: "/images/cruise/ship/playmakersbar.jpg",
-                tag: "Sports & Arcade",
-              },
-              {
-                name: "Casino Royale Bar",
-                img: "/images/cruise/ship/casinoroyalbar.jpg",
-                tag: "Casino Lounge",
-              },
-            ]
+                {
+                  name: "Lime & Coconut Bar",
+                  img: "/images/cruise/ship/limecoconut.jpg",
+                  tag: "Poolside",
+                },
+                {
+                  name: "Rye & Beam",
+                  img: "/images/cruise/ship/ryebeam.jpg",
+                  tag: "Bourbon",
+                },
+                {
+                  name: "Lemon Post Bar",
+                  img: "/images/cruise/ship/lemonpost.jpg",
+                  tag: "Outdoor",
+                },
+                {
+                  name: "Swim & Tonic Pool Bar",
+                  img: "/images/cruise/ship/swimtonic.jpg",
+                  tag: "Swim-Up",
+                },
+                {
+                  name: "The Hideaway Lounge",
+                  img: "/images/cruise/ship/thehideaway.jpg",
+                  tag: "Adults Only",
+                },
+                {
+                  name: "Vue Bar",
+                  img: "/images/cruise/ship/vuebar.jpg",
+                  tag: "Ocean View",
+                },
+                {
+                  name: "Overlook Bar & Pods",
+                  img: "/images/cruise/ship/overlookbar.jpg",
+                  tag: "AquaDome",
+                },
+                {
+                  name: "Basecamp Bar",
+                  img: "/images/cruise/ship/basecampbar.jpg",
+                  tag: "Thrill Zone",
+                },
+                {
+                  name: "Trellis Bar",
+                  img: "/images/cruise/ship/trellisbar.jpg",
+                  tag: "Central Park",
+                },
+                {
+                  name: "Boleros Latin Bar",
+                  img: "/images/cruise/ship/bolerosbar.jpg",
+                  tag: "Latin Dance",
+                },
+                {
+                  name: "Cantina Fresca",
+                  img: "/images/cruise/ship/cantinafrescabar.jpg",
+                  tag: "Mexican",
+                },
+                {
+                  name: "Bubbles Champagne Bar",
+                  img: "/images/cruise/ship/bubblesbar.jpg",
+                  tag: "Champagne",
+                },
+                {
+                  name: "Point & Feather Pub",
+                  img: "/images/cruise/ship/pointfeather.jpg",
+                  tag: "English Pub",
+                },
+                {
+                  name: "Schooner Bar",
+                  img: "/images/cruise/ship/schoonerbar.jpg",
+                  tag: "Piano Lounge",
+                },
+                {
+                  name: "1400 Lobby Bar",
+                  img: "/images/cruise/ship/1400bar.jpg",
+                  tag: "Atrium",
+                },
+                {
+                  name: "Dueling Pianos Lounge",
+                  img: "/images/cruise/ship/duelingpianosbar.jpg",
+                  tag: "Live Music",
+                },
+                {
+                  name: "Lou's Jazz & Blues",
+                  img: "/images/cruise/ship/lousbar.jpg",
+                  tag: "Jazz Club",
+                },
+                {
+                  name: "Music Hall Lounge",
+                  img: "/images/cruise/ship/musichallbar.jpg",
+                  tag: "Rock Venue",
+                },
+                {
+                  name: "Playmakers Lounge",
+                  img: "/images/cruise/ship/playmakersbar.jpg",
+                  tag: "Sports & Arcade",
+                },
+                {
+                  name: "Casino Royale Bar",
+                  img: "/images/cruise/ship/casinoroyalbar.jpg",
+                  tag: "Casino Lounge",
+                },
+              ]
             : [
-              {
-                name: "Back to the Future Musical",
-                img: "/images/cruise/ship/backtothefurure.jpg",
-                tag: "Broadway Show",
-              },
-              {
-                name: "Flowrider Surf Simulator",
-                img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_flowrider_2361_rt-crop-u35615.jpg",
-                tag: "Surf Simulator",
-              },
-              {
-                name: "Absolute Zero Ice Rink",
-                img: "/images/cruise/ship/superclub.jpg",
-                tag: "Ice Arena",
-              },
-              {
-                name: "Torque Racing Arena",
-                img: "/images/cruise/ship/torgue.jpg",
-                tag: "E-Karting",
-              },
-              {
-                name: "SOL Pool Zone",
-                img: "/images/cruise/ship/sol.jpg",
-                tag: "Top Deck Pool",
-              },
-              {
-                name: "Create! Art Studio",
-                img: "/images/cruise/ship/create.jpg",
-                tag: "Craft Studio",
-              },
-              {
-                name: "The Price is Right Game",
-                img: "/images/cruise/ship/thepriceisright.jpg",
-                tag: "Game Show",
-              },
-              {
-                name: "The Quest Adult Game",
-                img: "/images/cruise/ship/quest.jpg",
-                tag: "Adult Show",
-              },
-              {
-                name: "Comedy Live Theater",
-                img: "/images/cruise/ship/comedy.jpg",
-                tag: "Standup Comedy",
-              },
-              {
-                name: "Headliner Concert Stage",
-                img: "/images/cruise/ship/headliner.jpg",
-                tag: "Live Concerts",
-              },
-              {
-                name: "Spotlight Karaoke Box",
-                img: "/images/cruise/ship/karoke.jpg",
-                tag: "Karaoke",
-              },
-              {
-                name: "Music Hall Nightclub",
-                img: "/images/cruise/ship/lous.jpg",
-                tag: "Nightclub",
-              },
-              {
-                name: "Ultimate Family Townhouse",
-                img: "/images/cruise/ship/rci_ic_202401_cc_ahendel_ultimatefamilytownhouse_e43a2011_rt-crop-u36238.jpg",
-                tag: "3-Story Suite",
-              },
-              {
-                name: "Splashaway Bay & Cat 6",
-                img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_cat6waterpark_hurricanehunter_gopr0154_rt-crop-u35622.jpg",
-                tag: "Water Park",
-              },
-              {
-                name: "Adrenaline Peak Climb",
-                img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_adrenalinepeak_6050_rt-crop-u35524.jpg",
-                tag: "Rock Climbing",
-              },
-              {
-                name: "Adventure Ocean Kids Club",
-                img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_adventureocean_1407_rt-crop-u36294.jpg",
-                tag: "Youth Program",
-              },
-              {
-                name: "Central Park Gardens",
-                img: "/images/cruise/ship/central%20park2-crop-u36273.jpg",
-                tag: "Nature Park",
-              },
-              {
-                name: "Lost Dunes Mini Golf",
-                img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_lostdunes_6868_rt-crop-u35608.jpg",
-                tag: "Mini Golf",
-              },
-              {
-                name: "Surfside Carousel",
-                img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_surfsidecarousel_1851_rt-crop-u37671.jpg",
-                tag: "Carousel",
-              },
-              {
-                name: "Royal AquaDome Theater",
-                img: "/images/cruise/ship/aquadome.jpg",
-                tag: "Main Theater",
-              },
-            ]
+                {
+                  name: "Back to the Future Musical",
+                  img: "/images/cruise/ship/backtothefurure.jpg",
+                  tag: "Broadway Show",
+                },
+                {
+                  name: "Flowrider Surf Simulator",
+                  img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_flowrider_2361_rt-crop-u35615.jpg",
+                  tag: "Surf Simulator",
+                },
+                {
+                  name: "Absolute Zero Ice Rink",
+                  img: "/images/cruise/ship/superclub.jpg",
+                  tag: "Ice Arena",
+                },
+                {
+                  name: "Torque Racing Arena",
+                  img: "/images/cruise/ship/torgue.jpg",
+                  tag: "E-Karting",
+                },
+                {
+                  name: "SOL Pool Zone",
+                  img: "/images/cruise/ship/sol.jpg",
+                  tag: "Top Deck Pool",
+                },
+                {
+                  name: "Create! Art Studio",
+                  img: "/images/cruise/ship/create.jpg",
+                  tag: "Craft Studio",
+                },
+                {
+                  name: "The Price is Right Game",
+                  img: "/images/cruise/ship/thepriceisright.jpg",
+                  tag: "Game Show",
+                },
+                {
+                  name: "The Quest Adult Game",
+                  img: "/images/cruise/ship/quest.jpg",
+                  tag: "Adult Show",
+                },
+                {
+                  name: "Comedy Live Theater",
+                  img: "/images/cruise/ship/comedy.jpg",
+                  tag: "Standup Comedy",
+                },
+                {
+                  name: "Headliner Concert Stage",
+                  img: "/images/cruise/ship/headliner.jpg",
+                  tag: "Live Concerts",
+                },
+                {
+                  name: "Spotlight Karaoke Box",
+                  img: "/images/cruise/ship/karoke.jpg",
+                  tag: "Karaoke",
+                },
+                {
+                  name: "Music Hall Nightclub",
+                  img: "/images/cruise/ship/lous.jpg",
+                  tag: "Nightclub",
+                },
+                {
+                  name: "Ultimate Family Townhouse",
+                  img: "/images/cruise/ship/rci_ic_202401_cc_ahendel_ultimatefamilytownhouse_e43a2011_rt-crop-u36238.jpg",
+                  tag: "3-Story Suite",
+                },
+                {
+                  name: "Splashaway Bay & Cat 6",
+                  img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_cat6waterpark_hurricanehunter_gopr0154_rt-crop-u35622.jpg",
+                  tag: "Water Park",
+                },
+                {
+                  name: "Adrenaline Peak Climb",
+                  img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_adrenalinepeak_6050_rt-crop-u35524.jpg",
+                  tag: "Rock Climbing",
+                },
+                {
+                  name: "Adventure Ocean Kids Club",
+                  img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_adventureocean_1407_rt-crop-u36294.jpg",
+                  tag: "Youth Program",
+                },
+                {
+                  name: "Central Park Gardens",
+                  img: "/images/cruise/ship/central%20park2-crop-u36273.jpg",
+                  tag: "Nature Park",
+                },
+                {
+                  name: "Lost Dunes Mini Golf",
+                  img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_lostdunes_6868_rt-crop-u35608.jpg",
+                  tag: "Mini Golf",
+                },
+                {
+                  name: "Surfside Carousel",
+                  img: "/images/cruise/ship/rci_ic_202401_cc_nmorley_surfsidecarousel_1851_rt-crop-u37671.jpg",
+                  tag: "Carousel",
+                },
+                {
+                  name: "Royal AquaDome Theater",
+                  img: "/images/cruise/ship/aquadome.jpg",
+                  tag: "Main Theater",
+                },
+              ]
           ).map((item) => (
             <div
               key={item.name}
@@ -658,7 +658,7 @@ function CruiseShipExplorerSectionComponent({
                   label={item.tag}
                   className="mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md"
                 />
-                <p className=" ">{item.name}</p>
+                <p>{item.name}</p>
               </div>
             </div>
           ))}

@@ -117,8 +117,8 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
       className={`${outfit.className} relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020818] p-4`}
     >
       {/* Background Glow */}
-      <div className="pointer-events-none absolute top-1/3 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/10 blur-[120px]" />
-      <div className="pointer-events-none absolute top-2/3 left-1/3 h-[300px] w-[300px] rounded-full bg-indigo-600/10 blur-[100px]" />
+      <div className="pointer-events-none absolute top-1/3 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/10 blur-3xl" />
+      <div className="pointer-events-none absolute top-2/3 left-1/3 h-[300px] w-[300px] rounded-full bg-indigo-600/10 blur-3xl" />
 
       {/* Main Card */}
       <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.04] p-8 text-center backdrop-blur-xl">
@@ -132,11 +132,11 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
             sanityContent?.title ||
             "Verify Cruise Access"}
         </h1>
-        <p className="mb-6 text-sm text-white/60">
+        <p className="mb-6 text-white/60">
           {sanityContent?.heroSubheading || sanityContent?.subtitle || (
             <>
               Enter the 6-digit access code sent to <br />
-              <span className="text-purple-300">{email}</span>
+              <span>{email}</span>
             </>
           )}
         </p>
@@ -146,8 +146,8 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-500/20 text-2xl text-emerald-400">
               ✓
             </div>
-            <p className="text-lg text-emerald-300">Access Granted!</p>
-            <p className="text-xs text-white/50">
+            <p className="text-emerald-300">Access Granted!</p>
+            <p className="text-white/50">
               Redirecting to your cruise dashboard…
             </p>
           </div>
@@ -178,14 +178,14 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
                     onChange={(e) => handleDigit(idx, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(idx, e)}
                     onPaste={handlePaste}
-                    className="h-13 w-11 rounded-xl border border-white/15 bg-white/[0.06] text-center text-xl shadow-sm transition-all focus:border-purple-400 focus:bg-white/[0.1] focus:outline-none"
+                    className="focus-ring h-13 w-11 rounded-xl border border-white/15 bg-white/[0.06] text-center text-xl shadow-sm focus:bg-white/[0.1]"
                     aria-label={`Digit ${idx + 1}`}
                   />
                 ))}
               </div>
 
               {errorMsg && (
-                <p className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-2.5 text-xs text-rose-400">
+                <p className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-2.5 text-rose-400">
                   {errorMsg}
                 </p>
               )}
@@ -193,7 +193,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
               <button
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3.5 text-sm shadow-purple-500/20 transition-all hover:from-purple-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
+                className="w-full cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3.5 shadow-purple-500/20 hover:from-purple-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {sanityContent?.submitButtonText ||
                   (status === "submitting"
@@ -203,7 +203,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
             </form>
 
             {/* Resend */}
-            <div className="mt-5 flex flex-col items-center gap-1.5 border-t border-white/10 pt-4 text-xs">
+            <div className="mt-5 flex flex-col items-center gap-1.5 border-t border-white/10 pt-4">
               <p className="text-white/60">Didn&apos;t receive the code?</p>
               {resendStatus === "sent" ? (
                 <p className="text-emerald-400">
@@ -214,7 +214,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
                   type="button"
                   onClick={handleResend}
                   disabled={resendStatus === "sending"}
-                  className="cursor-pointer text-purple-300 transition-colors hover:text-white disabled:opacity-50"
+                  className="cursor-pointer hover:text-white disabled:opacity-50"
                 >
                   {resendStatus === "sending" ? "Sending…" : "Resend Code"}
                 </button>
@@ -222,11 +222,8 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
             </div>
 
             {/* Back link */}
-            <div className="mt-4 text-xs">
-              <Link
-                href="/cruise"
-                className="text-white/40 transition-colors hover:text-white"
-              >
+            <div className="mt-4">
+              <Link href="/cruise" className="text-white/40 hover:text-white">
                 ← Back to Cruise Page
               </Link>
             </div>

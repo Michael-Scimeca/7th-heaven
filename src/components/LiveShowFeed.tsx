@@ -235,7 +235,7 @@ export default function LiveShowFeed() {
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--font-size-2xs)]">
                   {selectedMedia.member_avatar}
                 </div>
-                <span className=" ">{selectedMedia.member_name}</span>
+                <span>{selectedMedia.member_name}</span>
                 <span className="text-white/30">
                   {timeAgo(selectedMedia.created_at)}
                 </span>
@@ -265,7 +265,7 @@ export default function LiveShowFeed() {
               <button
                 key={post.id}
                 onClick={() => setSelectedMedia(post)}
-                className={`group relative aspect-square cursor-pointer overflow-hidden border transition-colors duration-300 ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : isNew ? "border-red-500/50" : "border-white/10 border-white/[0.06]"}`}
+                className={`group relative aspect-square cursor-pointer overflow-hidden border ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : isNew ? "border-red-500/50" : "border-white/10 border-white/[0.06]"}`}
                 style={
                   isNew
                     ? {
@@ -282,7 +282,7 @@ export default function LiveShowFeed() {
                     unoptimized
                     src={thumbSrc}
                     alt="7th Heaven Media"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="h-full w-full object-cover group-hover:scale-110"
                   />
                 )}
                 {/* Video indicator */}
@@ -301,7 +301,7 @@ export default function LiveShowFeed() {
                 )}
                 {/* Type badge */}
                 <div className="absolute top-1 left-1">
-                  <span className="bg-black/60 px-1.5 py-0.5 text-[var(--font-size-2xs)] text-white/70">
+                  <span className="bg-black/60 px-1.5 py-0.5 text-[var(--font-size-2xs)]">
                     {isVideo ? "🎬" : "📸"} {timeAgo(post.created_at)}
                   </span>
                 </div>
@@ -324,19 +324,19 @@ export default function LiveShowFeed() {
             .map((post) => (
               <div
                 key={post.id}
-                className="flex items-start gap-3 border border-white/[0.06] bg-white/[0.02] p-3 transition-colors hover:bg-white/[0.04]"
+                className="flex items-start gap-3 border border-white/[0.06] bg-white/[0.02] p-3 hover:bg-white/[0.04]"
               >
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 text-[var(--font-size-2xs)]">
                   {post.member_avatar}
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-white/70">{post.member_name}</span>
+                    <span>{post.member_name}</span>
                     <span className="text-white/20">
                       {timeAgo(post.created_at)}
                     </span>
                   </div>
-                  <p className="truncate">{post.content}</p>
+                  <p>{post.content}</p>
                 </div>
                 <div className="flex shrink-0 items-center gap-1.5">
                   {Object.entries(post.reactions)

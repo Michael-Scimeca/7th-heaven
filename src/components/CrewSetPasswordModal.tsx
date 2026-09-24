@@ -99,8 +99,8 @@ export function CrewSetPasswordModal({
       <div
         style={{
           background: "var(--color-bg-glass)",
-          backdropFilter: "blur(32px) saturate(180%)",
-          WebkitBackdropFilter: "blur(32px) saturate(180%)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
           border: "1px solid var(--color-border-main)",
           borderRadius: "24px",
           padding: "36px 32px",

@@ -33,8 +33,8 @@ function SuccessContent() {
   return (
     <section className="site-container relative flex min-h-screen items-center justify-center overflow-hidden">
       {/* Background Glows */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-emerald-500 opacity-[0.04] blur-[150px]" />
-      <div className="pointer-events-none absolute top-1/3 right-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)] opacity-[0.03] blur-[120px]" />
+      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-emerald-500 opacity-[0.04] blur-3xl" />
+      <div className="pointer-events-none absolute top-1/3 right-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)] opacity-[0.03] blur-3xl" />
 
       <div className="relative z-10 w-full max-w-lg animate-[fade-in-up_0.6s_ease-out_both] text-center">
         {/* Success Card */}
@@ -62,9 +62,7 @@ function SuccessContent() {
           {bookingId && (
             <div className="mb-6 inline-block border border-white/10 bg-[var(--color-accent)]/10 px-4 py-2">
               <span className="block text-white/40">Booking ID</span>
-              <span className="text-lg text-[var(--color-accent)]">
-                {bookingId}
-              </span>
+              <span className="text-[var(--color-accent)]">{bookingId}</span>
             </div>
           )}
 
@@ -85,20 +83,20 @@ function SuccessContent() {
             {isLoggedIn && member?.role === "event_planner" && (
               <Link
                 href="/planner"
-                className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4 text-base shadow-[0_0_20px_rgba(255,10,61,0.3)] transition-colors hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
+                className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4 text-base shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
               >
                 View in My Dashboard →
               </Link>
             )}
             <Link
               href="/book"
-              className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.05] px-8 py-4 text-base transition-colors hover:bg-white/[0.1]"
+              className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.05] px-8 py-4 text-base hover:bg-white/[0.1]"
             >
               Book Another Show
             </Link>
             <Link
               href="/"
-              className="inline-flex w-full items-center justify-center bg-white/[0.03] px-8 py-3 text-base transition-colors hover:bg-white/[0.08]"
+              className="inline-flex w-full items-center justify-center bg-white/[0.03] px-8 py-3 text-base hover:bg-white/[0.08]"
             >
               Return to Homepage
             </Link>

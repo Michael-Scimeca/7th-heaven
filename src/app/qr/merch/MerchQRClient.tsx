@@ -320,7 +320,7 @@ export default function MerchQRClient({
       {/* ── Top QR Banner Header ── */}
       <div className="relative border-b border-white/10 bg-gradient-to-b from-cyan-950/40 via-[#090912] to-[#06060b] px-4 py-8">
         <div className="mx-auto max-w-4xl space-y-3 text-center">
-          <div className="text-purple-400text-xs inline-flex animate-pulse items-center gap-2 rounded-lg border border-purple-500/30 px-3.5 py-1.5">
+          <div className="inline-flex animate-pulse items-center gap-2 rounded-lg border border-purple-500/30 px-3.5 py-1.5 text-purple-400">
             <span className="h-2 w-2 rounded-lg bg-cyan-400"></span>
             Show Night QR Express Store
           </div>
@@ -360,13 +360,13 @@ export default function MerchQRClient({
             </div>
             <button
               onClick={() => setShowQRSignModal(true)}
-              className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 px-3 py-1.5 transition-colors hover:bg-cyan-500/20"
+              className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 px-3 py-1.5 hover:bg-cyan-500/20"
             >
               <span>🖨️</span> Printable Venue QR Sign
             </button>
             <button
               onClick={() => setShowShopifyGuide(!showShopifyGuide)}
-              className="hover:bg- purple-white/20 flex cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 text-purple-300 transition-colors"
+              className="hover:bg- purple-white/20 flex cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1.5"
             >
               <span>🔗</span> Shopify Integration Info
             </button>
@@ -396,7 +396,7 @@ export default function MerchQRClient({
               </button>
             </div>
 
-            <div className="space-y-4 text-white/70">
+            <div className="space-y-4">
               <p>
                 This QR Merch page is fully pre-wired to pull real-time
                 inventory, variants, prices, and images from your band's Shopify
@@ -504,7 +504,7 @@ export default function MerchQRClient({
                     setSwitchOrderTarget(activeOrder);
                     setShowSwitchToShippingModal(true);
                   }}
-                  className="bg- purple-white/20 flex cursor-pointer items-center gap-1.5 border border-purple-500/40 px-4 py-2.5 text-yellow-300 transition-colors hover:bg-yellow-500/30"
+                  className="bg- purple-white/20 flex cursor-pointer items-center gap-1.5 border border-purple-500/40 px-4 py-2.5 text-yellow-300 hover:bg-yellow-500/30"
                 >
                   <span>🏃</span> Left the show? Switch to Shipping
                 </button>
@@ -516,7 +516,7 @@ export default function MerchQRClient({
                 <span className="flex items-center gap-1 text-[var(--color-accent)]">
                   <span>✓</span> Shipping Address Saved
                 </span>
-                <p className="mt-0.5 max-w-[200px] truncate">
+                <p className="mt-0.5 max-w-[200px]">
                   {activeOrder.shippingAddress?.street},{" "}
                   {activeOrder.shippingAddress?.city}
                 </p>
@@ -533,7 +533,7 @@ export default function MerchQRClient({
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`shrink-0 cursor-pointer px-5 py-2.5 transition-colors duration-300 ${activeCategory === cat ? "scale-105 bg-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
+              className={`shrink-0 cursor-pointer px-5 py-2.5 ${activeCategory === cat ? "scale-105 bg-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
             >
               {cat === "All" && "🛒 All Merch"}
               {cat === "Apparel" && "👕 Apparel"}
@@ -550,7 +550,7 @@ export default function MerchQRClient({
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="group flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-colors duration-500 hover:border-purple-500/50"
+              className="group flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] shadow-[0_4px_25px_rgba(0,0,0,0.5)] hover:border-purple-500/50"
             >
               <div>
                 {/* Image */}
@@ -565,7 +565,7 @@ export default function MerchQRClient({
                   />
 
                   {/* Category Tag */}
-                  <span className="absolute top-3 left-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 backdrop-blur-[45px]">
+                  <span className="absolute top-3 left-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 backdrop-blur-2xl">
                     {product.category}
                   </span>
 
@@ -579,9 +579,7 @@ export default function MerchQRClient({
 
                 {/* Info */}
                 <div className="space-y-2 p-5">
-                  <h3 className="group- line-clamp-1 transition-colors">
-                    {product.title}
-                  </h3>
+                  <h3 className="group- line-clamp-1">{product.title}</h3>
                   <p className="line-clamp-2">{product.description}</p>
                 </div>
               </div>
@@ -595,7 +593,7 @@ export default function MerchQRClient({
 
                 <button
                   onClick={() => handleOpenCheckout(product)}
-                  className="cursor-pointer bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-colors hover:from-cyan-400 hover:to-blue-500 active:scale-95"
+                  className="cursor-pointer bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:from-cyan-400 hover:to-blue-500 active:scale-95"
                 >
                   Buy Now
                 </button>
@@ -607,7 +605,7 @@ export default function MerchQRClient({
 
       {/* ── CHECKOUT MODAL (Pick Up vs Ship Selection) ── */}
       {showCheckout && selectedProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
           <div className="max-h-[90vh] w-full max-w-lg space-y-6 overflow-y-auto rounded-lg border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] sm:p-8">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
@@ -627,7 +625,7 @@ export default function MerchQRClient({
               </div>
               <button
                 onClick={() => setShowCheckout(false)}
-                className="cursor-pointer p-1 text-lg text-white/40 hover:text-white"
+                className="cursor-pointer p-1 text-white/40 hover:text-white"
               >
                 ✕
               </button>
@@ -637,14 +635,14 @@ export default function MerchQRClient({
               {/* Size Selector if available */}
               {selectedProduct.sizes && selectedProduct.sizes.length > 0 && (
                 <div>
-                  <span className="mb-2 block text-white/70">Select Size</span>
+                  <span className="mb-2 block">Select Size</span>
                   <div className="flex flex-wrap gap-2">
                     {selectedProduct.sizes.map((size) => (
                       <button
                         key={size}
                         type="button"
                         onClick={() => setSelectedSize(size)}
-                        className={`h-10 w-12 cursor-pointer transition-colors ${selectedSize === size ? "border border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+                        className={`h-10 w-12 cursor-pointer ${selectedSize === size ? "border border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
                       >
                         {size}
                       </button>
@@ -655,15 +653,13 @@ export default function MerchQRClient({
 
               {/* Fulfillment Method Selector */}
               <div>
-                <span className="mb-2 block text-white/70">
-                  Fulfillment Option
-                </span>
+                <span className="mb-2 block">Fulfillment Option</span>
                 <div className="grid grid-cols-2 gap-3">
                   {/* Option 1: Merch Table Pickup */}
                   <button
                     type="button"
                     onClick={() => setFulfillmentMethod("pickup")}
-                    className={`cursor-pointer border p-4 text-left transition-colors ${fulfillmentMethod === "pickup" ? "border-purple-500 bg-cyan-500/15 shadow-[0_0_20px_rgba(6,182,212,0.2)]" : "border-white/10 bg-[#00000029] text-white/50 hover:bg-white/10"}`}
+                    className={`cursor-pointer border p-4 text-left ${fulfillmentMethod === "pickup" ? "border-purple-500 bg-cyan-500/15 shadow-[0_0_20px_rgba(6,182,212,0.2)]" : "border-white/10 bg-[#00000029] text-white/50 hover:bg-white/10"}`}
                   >
                     <span className="mb-1 block text-xl">🎪</span>
                     <span className="block">Merch Table Pickup</span>
@@ -676,13 +672,11 @@ export default function MerchQRClient({
                   <button
                     type="button"
                     onClick={() => setFulfillmentMethod("shipping")}
-                    className={`cursor-pointer border p-4 text-left transition-colors ${fulfillmentMethod === "shipping" ? "border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(255,10,61,0.2)]" : "border-white/10 bg-[#00000029] text-white/50 hover:bg-white/10"}`}
+                    className={`cursor-pointer border p-4 text-left ${fulfillmentMethod === "shipping" ? "border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(255,10,61,0.2)]" : "border-white/10 bg-[#00000029] text-white/50 hover:bg-white/10"}`}
                   >
                     <span className="mb-1 block text-xl">📦</span>
                     <span className="block">Ship to My Address</span>
-                    <span className="mt-0.5 block text-purple-300">
-                      Standard Carrier
-                    </span>
+                    <span className="mt-0.5 block">Standard Carrier</span>
                   </button>
                 </div>
               </div>
@@ -728,7 +722,7 @@ export default function MerchQRClient({
 
               {/* Shipping Address Inputs if Shipping selected */}
               {fulfillmentMethod === "shipping" && (
-                <div className="animate-in fade-in space-y-3 border-t border-white/10 pt-2 transition-opacity duration-300">
+                <div className="animate-in fade-in space-y-3 border-t border-white/10 pt-2">
                   <p className="r">Shipping Address</p>
                   <div>
                     <input
@@ -773,7 +767,7 @@ export default function MerchQRClient({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full cursor-pointer bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 py-4 shadow-[0_0_25px_rgba(6,182,212,0.4)] transition-colors hover:opacity-90"
+                className="w-full cursor-pointer bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 py-4 shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:opacity-90"
               >
                 {isSubmitting
                   ? "Processing Order..."
@@ -786,7 +780,7 @@ export default function MerchQRClient({
 
       {/* ── MISSED PICKUP TO SHIPPING CONVERSION MODAL ── */}
       {showSwitchToShippingModal && switchOrderTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
           <div className="w-full max-w-md space-y-5 rounded-lg border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_40px_rgba(234,179,8,0.25)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
@@ -850,7 +844,7 @@ export default function MerchQRClient({
 
               <button
                 type="submit"
-                className="mt-2 w-full cursor-pointer bg-purple-600 py-3.5 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors hover:bg-purple-500"
+                className="mt-2 w-full cursor-pointer bg-purple-600 py-3.5 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500"
               >
                 Confirm Delivery Address & Convert Order
               </button>
@@ -861,7 +855,7 @@ export default function MerchQRClient({
 
       {/* ── PRINTABLE QR VENUE SIGN MODAL ── */}
       {showQRSignModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/90 p-4 backdrop-blur-[45px]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/90 p-4 backdrop-blur-2xl">
           <div className="w-full max-w-md space-y-6 rounded-lg border border-purple-500/50 bg-[var(--color-bg-surface)] p-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <span>Venue Printable QR Sign</span>
@@ -896,7 +890,7 @@ export default function MerchQRClient({
             <div className="flex gap-3">
               <button
                 onClick={() => window.print()}
-                className="flex-1 cursor-pointer bg-cyan-500 py-3 shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-colors hover:bg-cyan-400"
+                className="flex-1 cursor-pointer bg-cyan-500 py-3 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:bg-cyan-400"
               >
                 🖨️ Print / Save Sign
               </button>

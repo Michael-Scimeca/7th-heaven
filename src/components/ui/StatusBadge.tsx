@@ -9,18 +9,13 @@ export interface StatusBadgeProps extends React.HTMLAttributes<HTMLSpanElement> 
 }
 
 const statusStyles: Record<NonNullable<StatusBadgeProps["status"]>, string> = {
-  success:
-    "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
-  warning:
-    "border-amber-500/30 bg-amber-500/10 text-amber-300",
-  error:
-    "border-rose-500/30 bg-rose-500/10 text-rose-300",
-  info:
-    "border-cyan-500/30 bg-cyan-500/10 text-cyan-300",
-  neutral:
-    "border-white/10 bg-white/5 text-white/70",
+  success: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
+  warning: "border-amber-500/30 bg-amber-500/10 text-amber-300",
+  error: "border-rose-500/30 bg-rose-500/10 text-rose-300",
+  info: "border-cyan-500/30 bg-cyan-500/10 text-cyan-300",
+  neutral: "border-white/10 bg-white/5  ",
   purple:
-    "border-purple-500/30 bg-purple-500/10 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.2)]",
+    "border-purple-500/30 bg-purple-500/10   shadow-[0_0_10px_rgba(168,85,247,0.2)]",
 };
 
 const dotColors: Record<NonNullable<StatusBadgeProps["status"]>, string> = {
@@ -33,8 +28,8 @@ const dotColors: Record<NonNullable<StatusBadgeProps["status"]>, string> = {
 };
 
 const sizeStyles: Record<NonNullable<StatusBadgeProps["size"]>, string> = {
-  sm: "px-2.5 py-0.5 text-xs  ",
-  md: "px-3 py-1 text-sm  ",
+  sm: "px-2.5 py-0.5    ",
+  md: "px-3 py-1    ",
 };
 
 export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(

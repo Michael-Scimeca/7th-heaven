@@ -305,7 +305,7 @@ export default function CrewFeed() {
               return (
                 <article
                   key={post.id}
-                  className={`relative pb-8 pl-16 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""}`}
+                  className={`relative pb-8 pl-16 ${isNew ? "animate-slide-in-feed" : ""}`}
                   id={`crew-feed-${post.id}`}
                   style={
                     isNew
@@ -318,7 +318,7 @@ export default function CrewFeed() {
                 >
                   {/* Timeline dot */}
                   <div
-                    className="absolute top-3 left-[18px] z-10 h-3 w-3 rounded-lg border-2 transition-colors duration-300"
+                    className="absolute top-3 left-[18px] z-10 h-3 w-3 rounded-lg border-2"
                     style={{
                       borderColor: config.color,
                       background: isNew
@@ -330,7 +330,7 @@ export default function CrewFeed() {
                   {/* New post glow */}
                   {isNew && (
                     <div
-                      className="pointer-events-none absolute -inset-2 opacity-20 transition-opacity duration-3000"
+                      className="pointer-events-none absolute -inset-2 opacity-20"
                       style={{
                         background: `radial-gradient(ellipse at left, ${config.color}40, transparent 70%)`,
                       }}
@@ -339,7 +339,7 @@ export default function CrewFeed() {
 
                   {/* Post Card */}
                   <div
-                    className={`border border-white/10 bg-white/[0.02] p-6 transition-colors duration-300 hover:bg-white/[0.04] ${isNew ? "border-white/10" : "border-white/[0.06]"}`}
+                    className={`border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.04] ${isNew ? "border-white/10" : "border-white/[0.06]"}`}
                   >
                     {/* Header: Avatar + Name + Time */}
                     <div className="mb-6 flex items-start justify-between">
@@ -356,9 +356,9 @@ export default function CrewFeed() {
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className=" ">{post.member_name}</span>
+                            <span>{post.member_name}</span>
                             {post.post_type === "announcement" && (
-                              <span className="border border-purple-500/30 bg-purple-600/20 px-2 py-0.5 text-[var(--font-size-2xs)] text-purple-300">
+                              <span className="border border-purple-500/30 bg-purple-600/20 px-2 py-0.5 text-[var(--font-size-2xs)]">
                                 Official
                               </span>
                             )}
@@ -410,7 +410,7 @@ export default function CrewFeed() {
                         {Object.entries(reactions).map(([emoji, count], ri) => (
                           <span
                             key={ri}
-                            className="flex cursor-pointer items-center gap-1 transition-colors"
+                            className="flex cursor-pointer items-center gap-1"
                           >
                             <span>{emoji}</span>
                             <span className="tabular-nums">

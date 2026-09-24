@@ -151,11 +151,11 @@ export function PageNav() {
     >
       {isOpen && (
         <div
-          className="pointer-events-auto absolute bottom-full left-0 mb-6 flex w-[320px] origin-bottom-left animate-[fade-in-up_0.2s_ease-out_both] flex-col overflow-hidden rounded-lg border-l border-white/10 bg-[#0a00653b] backdrop-blur-[18px] backdrop-blur-[45px] sm:w-[340px]"
+          className="pointer-events-auto absolute bottom-full left-0 mb-6 flex w-[320px] origin-bottom-left animate-[fade-in-up_0.2s_ease-out_both] flex-col overflow-hidden rounded-lg border-l border-white/10 bg-[#0a00653b] backdrop-blur-2xl backdrop-blur-xl sm:w-[340px]"
           style={{ maxHeight: "min(80vh, 600px)" }}
         >
           {/* Header — fixed, translucent blur */}
-          <div className="shrink-0 border-b border-white/10 bg-white/[0.04] py-4 backdrop-blur-[45px]">
+          <div className="shrink-0 border-b border-white/10 bg-white/[0.04] py-4 backdrop-blur-2xl">
             <h3 className="flex items-center gap-2">
               <svg
                 width="14"
@@ -173,7 +173,7 @@ export function PageNav() {
               </svg>
               Dev Navigator
             </h3>
-            <p className=" ">Jump to any page instantly</p>
+            <p>Jump to any page instantly</p>
           </div>
 
           {/* Scrollable list — grows to fill remaining height with visible custom scrollbar */}
@@ -216,7 +216,7 @@ export function PageNav() {
                           localStorage.setItem("7h_dev_bypass", "true");
                         }
                       }}
-                      className={`group flex items-center justify-between rounded-lg px-3 py-2 transition-colors ${isActive ? "bg-purple-600 shadow-purple-600/30" : "hover:bg-white/10 hover:text-white"}`}
+                      className={`group flex items-center justify-between rounded-lg px-3 py-2 ${isActive ? "bg-purple-600 shadow-purple-600/30" : "hover:bg-white/10 hover:text-white"}`}
                     >
                       <span>{page.label}</span>
                     </Link>
@@ -234,7 +234,7 @@ export function PageNav() {
           e.stopPropagation();
           setIsOpen((prev) => !prev);
         }}
-        className={`pointer-events-auto flex h-12 cursor-pointer items-center gap-2 rounded-lg px-6 transition-colors duration-300 select-none ${isOpen ? "bg-white shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200" : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:bg-[var(--color-accent-hover)]"}`}
+        className={`pointer-events-auto flex h-12 cursor-pointer items-center gap-2 rounded-lg px-6 select-none ${isOpen ? "bg-white shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200" : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:bg-[var(--color-accent-hover)]"}`}
         title="Page Navigator"
       >
         <svg
@@ -246,7 +246,7 @@ export function PageNav() {
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="transition-transform duration-300"
+          className=""
         >
           {isOpen ? (
             <path d="M18 6L6 18M6 6l12 12" />

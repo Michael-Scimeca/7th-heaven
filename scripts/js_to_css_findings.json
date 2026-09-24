@@ -1,0 +1,877 @@
+[
+  {
+    "type": "accordion-height",
+    "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+    "line": 4345,
+    "snippet": "top: adminChatContainerRef.current.scrollHeight,",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "nth-child",
+    "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+    "line": 14409,
+    "snippet": "className={`h-0 w-full border-b ${idx % 2 === 0 ? \"border-solid border-white/10\" : \"border-dashed border-white/10\"}`}",
+    "description": "JS index check (first/even/odd) used inside className string"
+  },
+  {
+    "type": "nth-child",
+    "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+    "line": 1952,
+    "snippet": "className={`h-0 w-full border-b ${idx % 2 === 0 ? \"border-solid border-white/10\" : \"border-dashed border-white/10\"}`}",
+    "description": "JS index check (first/even/odd) used inside className string"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/app/contact/ContactClient.tsx",
+    "line": 181,
+    "snippet": "onMouseEnter={() => setActivePhotoId(photoForThisCard)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+    "line": 116,
+    "snippet": "onMouseEnter={() =>",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+    "line": 221,
+    "snippet": "onMouseEnter={() =>",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+    "line": 391,
+    "snippet": "onMouseEnter={() =>",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "nth-child",
+    "file": "src/app/cruise/preview/page.tsx",
+    "line": 265,
+    "snippet": "className={`grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? \"bg-[var(--color-accent)]/10\" : i % 2 === 0 ? \"bg-white/[0.01]\" : \"\"}`}",
+    "description": "JS index check (first/even/odd) used inside className string"
+  },
+  {
+    "type": "aspect-ratio",
+    "file": "src/app/fan-photo-wall/FanPhotoWallClient.tsx",
+    "line": 528,
+    "snippet": "style={{ aspectRatio: \"1 / 1\" }}",
+    "description": "JS inline style used for aspect-ratio"
+  },
+  {
+    "type": "reduced-motion",
+    "file": "src/app/layout.tsx",
+    "line": 62,
+    "snippet": "\"try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !/Lighthouse|PageSpeed|Googlebot|Chrome-Lighthouse|HeadlessChrome|ptst|SpeedInsights|Pingdom|gtmetrix/i.test(navigator.userAgent)){document.documentElement.classList.add('is-preloading')}}catch(e){}\";",
+    "description": "JS media query check for prefers-reduced-motion"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/app/media/MediaClient.tsx",
+    "line": 600,
+    "snippet": "onMouseEnter={() => setHoveredVideoId(video.id)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/app/media/MediaClient.tsx",
+    "line": 601,
+    "snippet": "onMouseLeave={() => setHoveredVideoId(null)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "aspect-ratio",
+    "file": "src/app/preloaders/page.tsx",
+    "line": 41,
+    "snippet": "style={{ aspectRatio: \"16 / 11\" }}",
+    "description": "JS inline style used for aspect-ratio"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/app/style-guide/page.tsx",
+    "line": 246,
+    "snippet": "onMouseLeave={cancelHold}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/app/style-guide/page.tsx",
+    "line": 1654,
+    "snippet": "setLiveWinW(window.innerWidth);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/app/style-guide/page.tsx",
+    "line": 1655,
+    "snippet": "const handleResize = () => setLiveWinW(window.innerWidth);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/app/style-guide/page.tsx",
+    "line": 1656,
+    "snippet": "window.addEventListener(\"resize\", handleResize);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "reduced-motion",
+    "file": "src/app/work/studio-d/page.tsx",
+    "line": 19,
+    "snippet": "window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches",
+    "description": "JS media query check for prefers-reduced-motion"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 225,
+    "snippet": "const maxScroll = target.scrollHeight - target.clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 229,
+    "snippet": "Math.max(15, (target.clientHeight / target.scrollHeight) * 100),",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 244,
+    "snippet": "percentage * (container.scrollHeight - container.clientHeight);",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 260,
+    "snippet": "const scrollRatio = sidebarScrollRef.current.scrollHeight / trackHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 285,
+    "snippet": "const maxScroll = target.scrollHeight - target.clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 289,
+    "snippet": "Math.max(15, (target.clientHeight / target.scrollHeight) * 100),",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 302,
+    "snippet": "const maxScroll = el.scrollHeight - el.clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 306,
+    "snippet": "Math.max(15, (el.clientHeight / el.scrollHeight) * 100),",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 319,
+    "snippet": "const sMax = sEl.scrollHeight - sEl.clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 322,
+    "snippet": "Math.max(15, (sEl.clientHeight / sEl.scrollHeight) * 100),",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 330,
+    "snippet": "const tMax = tEl.scrollHeight - tEl.clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 333,
+    "snippet": "Math.max(15, (tEl.clientHeight / tEl.scrollHeight) * 100),",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 343,
+    "snippet": "window.addEventListener(\"resize\", updateMetrics);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 357,
+    "snippet": "percentage * (container.scrollHeight - container.clientHeight);",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/AudioPlayer.tsx",
+    "line": 374,
+    "snippet": "const scrollRatio = tracklistScrollRef.current.scrollHeight / trackHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/BioParallaxSlider.tsx",
+    "line": 976,
+    "snippet": "const vw = window.innerWidth;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/BioParallaxSlider.tsx",
+    "line": 1033,
+    "snippet": "window.addEventListener(\"resize\", handleResize);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/BioParallaxSlider.tsx",
+    "line": 1197,
+    "snippet": "typeof window !== \"undefined\" ? window.innerWidth : 1400;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CrewDashboard/index.tsx",
+    "line": 2355,
+    "snippet": "chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CrewHQ.tsx",
+    "line": 363,
+    "snippet": "feedRef.current.scrollTop = feedRef.current.scrollHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CruiseChat.tsx",
+    "line": 549,
+    "snippet": "top: chatContainerRef.current.scrollHeight,",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/CruiseHistoryTimeline.tsx",
+    "line": 454,
+    "snippet": "window.addEventListener(\"resize\", debouncedResize, { passive: true });",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "scroll-js",
+    "file": "src/components/CruiseHistoryTimeline.tsx",
+    "line": 551,
+    "snippet": "window.addEventListener(\"scroll\", onScroll, { passive: true });",
+    "description": "Window scroll listener used for sticky positioning or scroll effects"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/CruiseSnakeItinerary.tsx",
+    "line": 321,
+    "snippet": "window.addEventListener(\"resize\", callback);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/CruiseSnakeItinerary.tsx",
+    "line": 324,
+    "snippet": "() => window.innerWidth < 768,",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/CruiseSnakeItinerary.tsx",
+    "line": 560,
+    "snippet": "window.addEventListener(\"resize\", onResize, { passive: true });",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 84,
+    "snippet": "const { scrollHeight, clientHeight, scrollTop } = el;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 85,
+    "snippet": "const scrollable = scrollHeight > clientHeight + 2;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 93,
+    "snippet": "const ratio = availableHeight / Math.max(availableHeight, scrollHeight);",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 99,
+    "snippet": "const scrollRange = scrollHeight - clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "scroll-js",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 125,
+    "snippet": "el.addEventListener(\"scroll\", onScroll, { passive: true });",
+    "description": "Window scroll listener used for sticky positioning or scroll effects"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 180,
+    "snippet": "const { scrollHeight, clientHeight } = el;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 188,
+    "snippet": "const scrollRange = scrollHeight - clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 220,
+    "snippet": "const { scrollHeight, clientHeight } = el;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 222,
+    "snippet": "el.scrollTop = scrollRatio * (scrollHeight - clientHeight);",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 251,
+    "snippet": "onMouseEnter={() => setIsHovering(true)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/CustomScrollbar.tsx",
+    "line": 252,
+    "snippet": "onMouseLeave={() => setIsHovering(false)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/CustomVideoPlayer.tsx",
+    "line": 365,
+    "snippet": "onMouseEnter={() => setShowVolume(true)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/CustomVideoPlayer.tsx",
+    "line": 366,
+    "snippet": "onMouseLeave={() => setShowVolume(false)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/CustomYTPlayer.tsx",
+    "line": 508,
+    "snippet": "onMouseEnter={() => setShowVolume(true)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/CustomYTPlayer.tsx",
+    "line": 509,
+    "snippet": "onMouseLeave={() => setShowVolume(false)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/FakeLiveStream/index.tsx",
+    "line": 1125,
+    "snippet": "container.scrollHeight - container.scrollTop - container.clientHeight <",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/GooeyMessagesDropdown.tsx",
+    "line": 111,
+    "snippet": "const { scrollTop, scrollHeight, clientHeight } = listRef.current;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/GooeyMessagesDropdown.tsx",
+    "line": 112,
+    "snippet": "const maxScroll = scrollHeight - clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/GooeyMessagesDropdown.tsx",
+    "line": 115,
+    "snippet": "setThumbHeightRatio(clientHeight / scrollHeight);",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/Header.tsx",
+    "line": 248,
+    "snippet": "if (window.innerWidth >= 1024) {",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/Header.tsx",
+    "line": 253,
+    "snippet": "window.addEventListener(\"resize\", handleResize, { passive: true });",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/Header.tsx",
+    "line": 288,
+    "snippet": "(window.innerWidth < 1024 ||",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "scroll-js",
+    "file": "src/components/Header.tsx",
+    "line": 412,
+    "snippet": "window.addEventListener(\"scroll\", handler, { passive: true });",
+    "description": "Window scroll listener used for sticky positioning or scroll effects"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HeroLiveThumbs.tsx",
+    "line": 65,
+    "snippet": "if (window.innerWidth < 768) {",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HeroLiveThumbs.tsx",
+    "line": 66,
+    "snippet": "setScale(Math.max(0.45, (window.innerWidth - 100) / 600));",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HeroLiveThumbs.tsx",
+    "line": 73,
+    "snippet": "window.addEventListener(\"resize\", updateScale, { passive: true });",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "scroll-js",
+    "file": "src/components/HeroVideoPlayer.tsx",
+    "line": 158,
+    "snippet": "window.addEventListener(\"scroll\", prefetch, { passive: true, once: true });",
+    "description": "Window scroll listener used for sticky positioning or scroll effects"
+  },
+  {
+    "type": "scroll-js",
+    "file": "src/components/HeroVideoPlayer.tsx",
+    "line": 305,
+    "snippet": "window.addEventListener(\"scroll\", loadWidgets, { passive: true });",
+    "description": "Window scroll listener used for sticky positioning or scroll effects"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HeroVideoPlayer.tsx",
+    "line": 356,
+    "snippet": "if (window.innerWidth < 768) return;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HomeShaderGradient.tsx",
+    "line": 189,
+    "snippet": "(window.innerWidth < 1024 || window.matchMedia(\"(pointer: coarse)\").matches);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "reduced-motion",
+    "file": "src/components/HomeShaderGradient.tsx",
+    "line": 232,
+    "snippet": "window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches",
+    "description": "JS media query check for prefers-reduced-motion"
+  },
+  {
+    "type": "scroll-js",
+    "file": "src/components/HomeShaderGradient.tsx",
+    "line": 299,
+    "snippet": "window.addEventListener(\"scroll\", onScroll, { passive: true });",
+    "description": "Window scroll listener used for sticky positioning or scroll effects"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HomeShaderGradient.tsx",
+    "line": 328,
+    "snippet": "let cachedWinW = typeof window !== \"undefined\" ? window.innerWidth : 1920;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HomeShaderGradient.tsx",
+    "line": 332,
+    "snippet": "cachedWinW = window.innerWidth;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HomeShaderGradient.tsx",
+    "line": 337,
+    "snippet": "window.addEventListener(\"resize\", onResize, { passive: true });",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HomeShaderGradient.tsx",
+    "line": 375,
+    "snippet": "typeof window !== \"undefined\" && window.innerWidth < 768 ? 66 : 40;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/HomeVideoShowcase.tsx",
+    "line": 47,
+    "snippet": "onMouseEnter={() => setHovered(true)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/HomeVideoShowcase.tsx",
+    "line": 48,
+    "snippet": "onMouseLeave={() => setHovered(false)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HomeVideoShowcase.tsx",
+    "line": 723,
+    "snippet": "const handleResize = () => setWindowWidth(window.innerWidth);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/HomeVideoShowcase.tsx",
+    "line": 725,
+    "snippet": "window.addEventListener(\"resize\", handleResize);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/InlineYTPlayer.tsx",
+    "line": 342,
+    "snippet": "onMouseEnter={() => setShowVolume(true)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/InlineYTPlayer.tsx",
+    "line": 343,
+    "snippet": "onMouseLeave={() => setShowVolume(false)}",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/LoginModal.tsx",
+    "line": 992,
+    "snippet": "const maxScroll = el.scrollHeight - el.clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/LoginModal.tsx",
+    "line": 995,
+    "snippet": "setThumbRatio(Math.max(0.2, el.clientHeight / el.scrollHeight));",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "scroll-js",
+    "file": "src/components/LoginModal.tsx",
+    "line": 1007,
+    "snippet": "el.addEventListener(\"scroll\", handleScroll, { passive: true });",
+    "description": "Window scroll listener used for sticky positioning or scroll effects"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/LoginModal.tsx",
+    "line": 1008,
+    "snippet": "window.addEventListener(\"resize\", handleScroll);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/PageNav.tsx",
+    "line": 123,
+    "snippet": "const { scrollTop, scrollHeight, clientHeight } = el;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/PageNav.tsx",
+    "line": 125,
+    "snippet": "const atBottom = scrollTop + clientHeight >= scrollHeight - 1;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "reduced-motion",
+    "file": "src/components/PageTransition.tsx",
+    "line": 136,
+    "snippet": "window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches ||",
+    "description": "JS media query check for prefers-reduced-motion"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/PageTransition.tsx",
+    "line": 290,
+    "snippet": "canvas.width = window.innerWidth;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/PageTransition.tsx",
+    "line": 350,
+    "snippet": "window.addEventListener(\"resize\", resize);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/PageTransition.tsx",
+    "line": 812,
+    "snippet": "window.addEventListener(\"resize\", handleResize, { passive: true });",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/PixelFireplaceCanvas.tsx",
+    "line": 428,
+    "snippet": "mouseX = e.clientX / window.innerWidth;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/PixelFireplaceCanvas.tsx",
+    "line": 455,
+    "snippet": "const width = canvas.clientWidth || window.innerWidth;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/PixelFireplaceCanvas.tsx",
+    "line": 470,
+    "snippet": "window.addEventListener(\"resize\", resize, { passive: true });",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "scroll-js",
+    "file": "src/components/SlideupSection.tsx",
+    "line": 334,
+    "snippet": "document.addEventListener(\"scroll\", handler, { passive: true });",
+    "description": "Window scroll listener used for sticky positioning or scroll effects"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/SlideupSection.tsx",
+    "line": 335,
+    "snippet": "window.addEventListener(\"resize\", handler);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/SmoothScroll.tsx",
+    "line": 23,
+    "snippet": "(window.innerWidth < 1024 ||",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/StickyNotesOverlay.tsx",
+    "line": 205,
+    "snippet": "typeof window !== \"undefined\" ? window.innerWidth : 1200;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/StickyNotesOverlay.tsx",
+    "line": 480,
+    "snippet": "const vw = typeof window !== \"undefined\" ? window.innerWidth : 1200;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/StickyNotesOverlay.tsx",
+    "line": 517,
+    "snippet": "const vw = window.innerWidth;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "scroll-js",
+    "file": "src/components/StickyNotesOverlay.tsx",
+    "line": 531,
+    "snippet": "window.addEventListener(\"scroll\", updatePosition, { passive: true });",
+    "description": "Window scroll listener used for sticky positioning or scroll effects"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/StickyNotesOverlay.tsx",
+    "line": 532,
+    "snippet": "window.addEventListener(\"resize\", updatePosition, { passive: true });",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/TourList.tsx",
+    "line": 1313,
+    "snippet": "window.addEventListener(\"resize\", updateHeaderOffset, { passive: true });",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "reduced-motion",
+    "file": "src/components/TourList.tsx",
+    "line": 1511,
+    "snippet": "if (window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches) return;",
+    "description": "JS media query check for prefers-reduced-motion"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/TourMap.tsx",
+    "line": 388,
+    "snippet": "const w = window.innerWidth;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/TourMap.tsx",
+    "line": 664,
+    "snippet": "const screenW = typeof window !== \"undefined\" ? window.innerWidth : 1200;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/TourMap.tsx",
+    "line": 980,
+    "snippet": "const screenW = typeof window !== \"undefined\" ? window.innerWidth : 1200;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/TourMap.tsx",
+    "line": 1217,
+    "snippet": "const screenW = typeof window !== \"undefined\" ? window.innerWidth : 1200;",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/TourMap.tsx",
+    "line": 1772,
+    "snippet": "((device === \"mobile\" && window.innerWidth < 768) ||",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/TourMap.tsx",
+    "line": 1774,
+    "snippet": "window.innerWidth >= 768 &&",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/TourMap.tsx",
+    "line": 1775,
+    "snippet": "window.innerWidth < 1024) ||",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/TourMap.tsx",
+    "line": 1776,
+    "snippet": "(device === \"desktop\" && window.innerWidth >= 1024));",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/TransitionLink.tsx",
+    "line": 29,
+    "snippet": "onMouseEnter,",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/TransitionLink.tsx",
+    "line": 93,
+    "snippet": "onMouseEnter={(e) => {",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "hover-state",
+    "file": "src/components/TransitionLink.tsx",
+    "line": 94,
+    "snippet": "onMouseEnter?.(e);",
+    "description": "JS hover state (onMouseEnter/onMouseLeave) used for styling"
+  },
+  {
+    "type": "accordion-height",
+    "file": "src/components/VinylHeroPlayer.tsx",
+    "line": 473,
+    "snippet": "const maxScroll = target.scrollHeight - target.clientHeight;",
+    "description": "JS measuring scrollHeight / element height for collapsible expand animation"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/VinylHeroPlayer.tsx",
+    "line": 535,
+    "snippet": "if (window.innerWidth < 768) {",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/VinylHeroPlayer.tsx",
+    "line": 536,
+    "snippet": "setScale(Math.max(0.45, (window.innerWidth - 40) / 740));",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "responsive-js",
+    "file": "src/components/VinylHeroPlayer.tsx",
+    "line": 543,
+    "snippet": "window.addEventListener(\"resize\", update);",
+    "description": "window.innerWidth or resize listener used for responsive layout"
+  },
+  {
+    "type": "reduced-motion",
+    "file": "src/lib/useHeroParallax.ts",
+    "line": 154,
+    "snippet": "if (window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches) return;",
+    "description": "JS media query check for prefers-reduced-motion"
+  }
+]

@@ -10,8 +10,8 @@ import { useMember } from "@/context/MemberContext";
 
 const MODAL_GLASS_STYLE: React.CSSProperties = {
   background: "var(--color-bg-glass)",
-  backdropFilter: "blur(32px) saturate(180%)",
-  WebkitBackdropFilter: "blur(32px) saturate(180%)",
+  backdropFilter: "blur(24px)",
+  WebkitBackdropFilter: "blur(24px)",
   border: "1px solid var(--color-border-main)",
 };
 
@@ -267,13 +267,13 @@ export default function AdminGatewayPage() {
           pointerEvents: "none",
         }}
       />
-      <div className="pointer-events-none fixed inset-0 z-0 bg-black/55 backdrop-blur-[45px]" />
+      <div className="pointer-events-none fixed inset-0 z-0 bg-black/55 backdrop-blur-2xl" />
 
       <div className="relative z-10 w-full max-w-md">
         {/* ═══════════ STEP 1: Login Form ═══════════ */}
         {step === "login" && (
           <div
-            className="overflow-hidden rounded-lg shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
+            className="overflow-hidden rounded-lg shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
             <div className="p-8 sm:p-10">
@@ -304,23 +304,19 @@ export default function AdminGatewayPage() {
                 <div className="text-center">
                   <div className="mb-6 border border-purple-500/30 bg-purple-600/10 p-5">
                     <p className="mb-1">Access Denied</p>
-                    <p className=" ">
-                      You&apos;re logged in as{" "}
-                      <strong className=" ">{member?.name}</strong> (
+                    <p>
+                      You&apos;re logged in as <strong>{member?.name}</strong> (
                       {member?.role}). Admin privileges are required to access
                       this dashboard.
                     </p>
                   </div>
                   <div className="flex flex-col gap-3">
-                    <Link
-                      href="/fans"
-                      className="text-[0.65rem] transition-colors hover:text-purple-300"
-                    >
+                    <Link href="/fans" className="hover: text-[0.65rem]">
                       ← Back to Fan Dashboard
                     </Link>
                     <button
                       onClick={() => logout()}
-                      className="cursor-pointer text-[0.65rem] text-rose-400 transition-colors hover:text-rose-300"
+                      className="cursor-pointer text-[0.65rem] text-rose-400 hover:text-rose-300"
                     >
                       Sign Out & Switch Account
                     </button>
@@ -348,7 +344,7 @@ export default function AdminGatewayPage() {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="placeholder: w-full border border-white/10 bg-black/50 px-4 py-3 text-white/30 transition-colors outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
+                      className="placeholder: focus-ring w-full border border-white/10 bg-black/50 px-4 py-3 text-white/30 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
                       required
                     />
                   </div>
@@ -367,7 +363,7 @@ export default function AdminGatewayPage() {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="placeholder: w-full border border-white/10 bg-black/50 px-4 py-3 text-white/30 transition-colors outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
+                      className="placeholder: focus-ring w-full border border-white/10 bg-black/50 px-4 py-3 text-white/30 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
                       required
                     />
                   </div>
@@ -431,11 +427,11 @@ export default function AdminGatewayPage() {
             </div>
 
             <div
-              className="no-glow mb-6 rounded-lg px-4 py-7 transition-opacity duration-300 ease-out"
+              className="no-glow mb-6 rounded-lg px-4 py-7"
               style={{
                 background: "rgba(18, 10, 34, 0.85)",
-                backdropFilter: "blur(32px) saturate(180%)",
-                WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                backdropFilter: "blur(24px)",
+                WebkitBackdropFilter: "blur(24px)",
                 border: "1px solid rgba(168, 85, 247, 0.4)",
                 borderRadius: 24,
                 boxShadow:
@@ -476,7 +472,7 @@ export default function AdminGatewayPage() {
                         onBlur={() => setFocusedIndex(null)}
                         onChange={(e) => handleDigit(i, e.target.value)}
                         onKeyDown={(e) => handleKeyDown(i, e)}
-                        className={`h-full w-full rounded-lg border-2 bg-black/70 !p-0 text-center text-xl tabular-nums transition-[border-color,background-color,box-shadow,transform] duration-200 outline-none ${focusedIndex === i ? "relative z-10 scale-[1.08] border-purple-400 bg-purple-950/80 shadow-[0_0_25px_rgba(168,85,247,0.95)]" : digit ? "border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]" : "border-white/10 text-white/40 hover:border-white/40"}`}
+                        className={`h-full w-full rounded-lg border-2 bg-black/70 !p-0 text-center text-xl tabular-nums transition-[border-color,background-color,box-shadow,transform] outline-none ${focusedIndex === i ? "relative z-10 scale-[1.08] border-purple-400 bg-purple-950/80 shadow-[0_0_25px_rgba(168,85,247,0.95)]" : digit ? "border-purple-500/80 shadow-[0_0_14px_rgba(147,51,234,0.4)]" : "border-white/10 text-white/40 hover:border-white/40"}`}
                       />
                     </div>
                   );

@@ -29,7 +29,7 @@ export const TextAreaField = ({
           id={textareaId}
           {...props}
           required={required}
-          className="placeholder: min-h-[95px] w-full resize-y rounded-lg border-0 bg-[#00000029] px-4 py-3 text-lg text-white/30 transition-colors focus:outline-none"
+          className="placeholder: focus-ring min-h-[95px] w-full resize-y rounded-lg border-0 bg-[#00000029] px-4 py-3 text-white/30"
         />
       </div>
     </div>

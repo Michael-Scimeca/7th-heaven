@@ -121,7 +121,7 @@ export default function LogoTicker({
             item.src ? (
               <div
                 key={item.src + "-" + i}
-                className="flex shrink-0 transform-gpu items-center justify-center transition-all duration-150"
+                className="flex shrink-0 transform-gpu items-center justify-center"
                 style={{
                   height: "clamp(44px, 6vw, 96px)",
                   paddingLeft: "clamp(12px, 2.5vw, 44px)",
@@ -133,7 +133,7 @@ export default function LogoTicker({
                   alt={item.alt ?? ""}
                   width={0}
                   height={0}
-                  className={`w-auto max-w-none object-contain transition-[height,filter] duration-150 ${config.invert ? "hoy-ticker-logo" : ""}`}
+                  className={`w-auto max-w-none object-contain transition-[height,filter] ${config.invert ? "hoy-ticker-logo" : ""}`}
                   style={{
                     height: "clamp(24px, 4vw, 64px)",
                     width: "auto",

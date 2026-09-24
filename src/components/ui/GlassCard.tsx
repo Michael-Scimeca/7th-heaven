@@ -8,10 +8,8 @@ export interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const variantStyles: Record<NonNullable<GlassCardProps["variant"]>, string> = {
-  default:
-    "border border-white/10 bg-black/40 backdrop-blur-xl shadow-xl",
-  solid:
-    "border border-white/10 bg-[#0f0f13] backdrop-blur-md shadow-2xl",
+  default: "border border-white/10 bg-black/40 backdrop-blur-xl shadow-xl",
+  solid: "border border-white/10 bg-[#0f0f13] backdrop-blur-md shadow-2xl",
   interactive:
     "border border-white/10 bg-black/40 backdrop-blur-xl shadow-xl transition-all duration-300 hover:border-purple-500/40 hover:bg-black/60 hover:shadow-[0_0_25px_rgba(168,85,247,0.15)]",
   gradient:
@@ -27,13 +25,7 @@ const paddingStyles: Record<NonNullable<GlassCardProps["padding"]>, string> = {
 
 export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
   (
-    {
-      variant = "default",
-      padding = "md",
-      className,
-      children,
-      ...props
-    },
+    { variant = "default", padding = "md", className, children, ...props },
     ref,
   ) => {
     return (

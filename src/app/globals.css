@@ -19,6 +19,131 @@
   --radius-full: 9999px;
 }
 
+:root {
+  /* Motion Duration Tokens */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+
+  /* Easing Functions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Interactive Theme Color Tokens */
+  --color-focus-ring: rgba(192, 132, 252, 0.5);
+  --color-hover-border: rgba(192, 132, 252, 0.4);
+  --color-hover-bg: rgba(255, 255, 255, 0.08);
+  --color-hover-text: rgba(233, 213, 255, 1);
+}
+
+@layer components {
+
+  /* Interactive Keyboard Focus Indicator */
+  .focus-ring {
+    outline: none;
+    transition: box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .focus-ring:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-focus-ring);
+  }
+
+  /* Interactive Buttons */
+  .btn-interactive {
+    transition: transform var(--duration-fast) var(--ease-out),
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+
+  .btn-interactive:hover {
+    background-color: var(--color-hover-bg);
+  }
+
+  .btn-interactive:active {
+    transform: scale(0.97);
+  }
+
+  /* Compact Icon Buttons */
+  .icon-btn {
+    transition: transform var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+
+  .icon-btn:hover {
+    transform: scale(1.1);
+    color: var(--color-hover-text);
+  }
+
+  /* Text & Nav Links */
+  .text-link {
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .text-link:hover {
+    color: var(--color-hover-text);
+  }
+
+  .nav-link {
+    transition: color var(--duration-fast) var(--ease-out),
+      opacity var(--duration-fast) var(--ease-out);
+  }
+
+  .nav-link:hover {
+    color: var(--color-hover-text);
+  }
+
+  /* Card Hover Lift & Glow */
+  .card-hover {
+    transition: transform var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-hover-border);
+  }
+
+  .glass-card-hover {
+    transition: transform var(--duration-base) var(--ease-out),
+      background-color var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out);
+  }
+
+  .glass-card-hover:hover {
+    background-color: var(--color-hover-bg);
+    border-color: var(--color-hover-border);
+  }
+
+  /* Accordion Chevrons */
+  .accordion-chevron {
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  /* Modals, Backdrops & Drawers */
+  .modal-backdrop {
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+
+  .drawer-slide {
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+}
+
+/* Accessibility: Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @font-face {
   font-family: 'Tanker';
   src: url('/fonts/Tanker-Regular.woff2') format('woff2');
@@ -75,6 +200,10 @@ body {
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
 
+}
+
+address {
+  font-style: normal;
 }
 
 p,
@@ -407,6 +536,10 @@ time {
 /* Paragraph spacing in editorial contexts */
 p+p {
   margin-top: 1em;
+}
+
+.none-paragraph-container p+p {
+  margin-top: 0em;
 }
 
 /* ── Unified Base Text Link Styling ── */
@@ -926,11 +1059,9 @@ footer#footer {
   z-index: 10;
 }
 
-/* Sticky Tour Sort Bar — Transparent, 24px horizontal padding, z-index 100 (sits above header backdrop blur layer) */
+/* Sticky Tour Sort Bar — Transparent, 24px horizontal padding, z-index 100 */
 #tour-sort-bar {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.05s linear;
+  opacity: 1;
 }
 
 /* html.tour-sort-stuck #tour-sort-bar: no position override needed.
@@ -975,7 +1106,6 @@ header,
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
-  transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Sticky Tour Sort Bar — 100vw full-width glass backdrop-filter blur when stuck below header */
@@ -984,7 +1114,7 @@ header,
   z-index: 90 !important;
 }
 
-#tour-sort-bar::before {
+/* #tour-sort-bar::before {
   content: '';
   position: absolute;
   z-index: -1 !important;
@@ -999,11 +1129,11 @@ header,
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
-}
+} */
 
-#tour-sort-bar.is-stuck::before {
+/* #tour-sort-bar.is-stuck::before {
   opacity: 1;
-}
+} */
 
 /* =============================================
  7TH HEAVEN — Tailwind v4 Theme Configuration
@@ -2001,7 +2131,6 @@ html:not(.tour-sort-stuck):not(.media-category-stuck) #nav-inner-card {
 html.tour-sort-stuck #tour-sort-bar {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
-  transition: border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease !important;
 }
 
 .quill {
@@ -5035,7 +5164,7 @@ body.fake-livestream-active {
   color: #f87171 !important;
 }
 
-.hover-text-purple-300:hover {
+.hover- :hover {
   color: #d8b4fe !important;
 }
 
@@ -5410,7 +5539,7 @@ body.fake-livestream-active {
   box-shadow: 0 24px 60px #0000008c;
   background: linear-gradient(to left, #581ed0, #8b5cf6);
   background-size: 200% 100%;
-  font-weight: bold;
+  font-weight: 600 !important;
   color: white !important;
   ;
   /* 3. Position it on the right side initially */
@@ -5763,7 +5892,8 @@ button.cursor-pointer,
 }
 
 section,
-div,
-li {
-  border: 1px solid #fff;
+
+li,
+span {
+  /* border: 1px solid #fff; */
 }

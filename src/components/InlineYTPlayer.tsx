@@ -38,7 +38,6 @@ export default function InlineYTPlayer({
   const [isReady, setIsReady] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [buffered, setBuffered] = useState(0);
-  const [showVolume, setShowVolume] = useState(false);
   const [useFallbackIframe, setUseFallbackIframe] = useState(false);
 
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
@@ -209,7 +208,7 @@ export default function InlineYTPlayer({
               e.stopPropagation();
               onClose();
             }}
-            className="absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/70 transition-colors hover:bg-black/90"
+            className="absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/70 hover:bg-black/90"
             aria-label="Close video"
           >
             <svg
@@ -263,9 +262,7 @@ export default function InlineYTPlayer({
       {onClose && (
         <button
           onClick={handleClose}
-          className={`absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-black/50 transition-colors duration-300 hover:bg-black/80 ${
-            showControls ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-black/50 hover:bg-black/80 ${showControls ? "opacity-100" : "opacity-0"}`}
           aria-label="Close"
         >
           <svg
@@ -284,9 +281,7 @@ export default function InlineYTPlayer({
 
       {/* Controls overlay */}
       <div
-        className={`absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 to-transparent px-4 pt-8 pb-3 transition-opacity duration-300 ${
-          showControls ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 to-transparent px-4 pt-8 pb-3 ${showControls ? "opacity-100" : "opacity-0"}`}
         aria-label="Player controls container"
         onClick={(e) => e.stopPropagation()}
       >
@@ -294,7 +289,7 @@ export default function InlineYTPlayer({
         <button
           type="button"
           ref={progressRef as any}
-          className="group/progress relative mb-3 h-1 w-full cursor-pointer rounded-lg border-0 bg-white/10 p-0 text-left transition-colors outline-none hover:h-1.5"
+          className="group/progress relative mb-3 h-1 w-full cursor-pointer rounded-lg border-0 bg-white/10 p-0 text-left outline-none hover:h-1.5"
           aria-label="Seek progress bar"
           onClick={handleProgressClick}
         >
@@ -307,7 +302,7 @@ export default function InlineYTPlayer({
             style={{ width: `${progress}%` }}
           />
           <div
-            className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-0 shadow-[var(--color-accent)]/30 transition-opacity group-hover/progress:opacity-100"
+            className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-0 shadow-[var(--color-accent)]/30 group-hover/progress:opacity-100"
             style={{ left: `calc(${progress}% - 6px)` }}
           />
         </button>
@@ -319,7 +314,7 @@ export default function InlineYTPlayer({
             <SeventhButton
               onClick={togglePlay}
               icon={false}
-              className="flex h-8 w-8 cursor-pointer items-center justify-center !rounded-full border border-purple-300/40 !p-0 transition-all"
+              className="flex h-8 w-8 cursor-pointer items-center justify-center !rounded-full border border-purple-300/40 !p-0"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -341,14 +336,10 @@ export default function InlineYTPlayer({
             </SeventhButton>
 
             {/* Volume */}
-            <div
-              className="items-[#center] relative flex gap-1.5"
-              onMouseEnter={() => setShowVolume(true)}
-              onMouseLeave={() => setShowVolume(false)}
-            >
+            <div className="group relative flex items-center gap-1.5">
               <button
                 onClick={toggleMute}
-                className="cursor-pointer transition-colors hover:text-white"
+                className="cursor-pointer hover:text-white"
                 aria-label={isMuted ? "Unmute" : "Mute"}
               >
                 {isMuted || volume === 0 ? (
@@ -383,7 +374,7 @@ export default function InlineYTPlayer({
                 )}
               </button>
               <div
-                className={`flex items-center overflow-hidden transition-colors duration-200 ${showVolume ? "w-16 opacity-100" : "w-0 opacity-0"}`}
+                className="flex items-center overflow-hidden transition-[width,opacity] w-0 opacity-0 group-hover:w-16 group-hover:opacity-100 group-focus-within:w-16 group-focus-within:opacity-100"
               >
                 <input
                   type="range"
@@ -411,7 +402,7 @@ export default function InlineYTPlayer({
           {/* Fullscreen */}
           <button
             onClick={toggleFullscreen}
-            className="cursor-pointer transition-colors hover:text-white"
+            className="cursor-pointer hover:text-white"
             aria-label="Fullscreen"
           >
             <svg

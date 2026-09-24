@@ -79,19 +79,19 @@ export const GlassPlayButton = memo(
       <button
         type={type}
         disabled={disabled}
-        className={`seventh--btn group relative inline-flex h-15 w-15 cursor-pointer items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-[background-color,border-color,box-shadow,transform,opacity] duration-300 select-none active:scale-95 ${varStyles.bg} ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? "ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50" : ""} ${pulse ? "animate-pulse" : ""} ${disabled ? "pointer-events-none cursor-not-allowed opacity-40" : "hover:scale-105"} ${className}`}
+        className={`seventh--btn group relative inline-flex h-15 w-15 cursor-pointer items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-[background-color,border-color,box-shadow,transform,opacity] select-none active:scale-95 ${varStyles.bg} ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? "ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50" : ""} ${pulse ? "animate-pulse" : ""} ${disabled ? "pointer-events-none cursor-not-allowed opacity-40" : "hover:scale-105"} ${className}`}
         {...props}
       >
         {isPlaying ? (
           <Pause
-            className={`fill-white transition-transform group-hover:scale-110 ${sizeStyles.icon} ${iconClassName}`}
+            className={`fill-white group-hover:scale-110 ${sizeStyles.icon} ${iconClassName}`}
           />
         ) : (
           <Play
-            className={`ml-0.5 fill-white transition-transform group-hover:scale-110 ${sizeStyles.icon} ${iconClassName}`}
+            className={`ml-0.5 fill-white group-hover:scale-110 ${sizeStyles.icon} ${iconClassName}`}
           />
         )}
-        {children && <span className="ml-2 text-xs">{children}</span>}
+        {children && <span className="ml-2">{children}</span>}
       </button>
     );
   },

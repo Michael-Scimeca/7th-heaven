@@ -71,7 +71,7 @@ function NorthResultContent() {
   return (
     <div className="flex min-h-screen items-center justify-center px-6 pt-32 pb-24">
       <div className="w-full max-w-md">
-        <div className="bg-white/[0.04]backdrop-blur-[18px] rounded-lg border border-white/[0.12] p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04]backdrop-blur-xl rounded-lg border border-white/[0.12] p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           {loading && <p>Loading payment result…</p>}
 
           {!loading && (hadError || fetchError || !id) && (

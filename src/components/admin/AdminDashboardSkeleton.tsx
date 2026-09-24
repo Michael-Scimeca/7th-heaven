@@ -9,7 +9,7 @@ export function AdminDashboardSkeleton() {
       <div className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-white/10 bg-black/40 px-6 backdrop-blur-xl">
         <div className="flex items-center gap-4">
           <div className="h-8 w-8 animate-pulse rounded-lg bg-white/10" />
-          <div className="h-5 w-40 animate-pulse rounded-md bg-white/10" />
+          <div className="h-5 w-40 animate-pulse bg-white/10" />
         </div>
         <div className="flex items-center gap-3">
           <div className="h-8 w-24 animate-pulse rounded-lg bg-white/10" />
@@ -21,7 +21,7 @@ export function AdminDashboardSkeleton() {
       <div className="flex flex-col justify-between gap-4 border-b border-white/10 bg-gradient-to-r from-purple-950/20 via-black to-purple-950/20 px-6 py-6 md:flex-row md:items-center">
         <div className="space-y-2">
           <div className="h-8 w-64 animate-pulse rounded-lg bg-white/15" />
-          <div className="h-4 w-96 animate-pulse rounded-md bg-white/10" />
+          <div className="h-4 w-96 animate-pulse bg-white/10" />
         </div>
         <div className="flex items-center gap-3">
           <div className="h-10 w-32 animate-pulse rounded-xl bg-purple-600/30" />

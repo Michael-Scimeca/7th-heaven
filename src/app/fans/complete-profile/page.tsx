@@ -201,7 +201,7 @@ export default function CompleteProfilePage() {
                     }
                     placeholder="your_username"
                     maxLength={24}
-                    className="placeholder: w-full rounded-xl border border-white/10 bg-white/[0.03] py-2.5 pr-3 pl-8 text-white/20 transition-colors outline-none"
+                    className="placeholder: w-full rounded-xl border border-white/10 bg-white/[0.03] py-2.5 pr-3 pl-8 text-white/20 outline-none"
                     required
                   />
                 </div>
@@ -220,7 +220,7 @@ export default function CompleteProfilePage() {
                 {/* Proximity alerts */}
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
-                  className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-colors ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
+                  className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
                 >
                   <SquishyToggle
                     id="complete-profile-notifications"
@@ -253,7 +253,7 @@ export default function CompleteProfilePage() {
                           )
                         }
                         placeholder="e.g. 60601"
-                        className="placeholder: w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-white/20 transition-colors outline-none"
+                        className="placeholder: w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-white/20 outline-none"
                       />
                     </div>
                   </div>
@@ -262,7 +262,7 @@ export default function CompleteProfilePage() {
                 {/* Newsletter */}
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
-                  className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-colors ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
+                  className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
                 >
                   <SquishyToggle
                     id="complete-profile-newsletter"
@@ -295,7 +295,7 @@ export default function CompleteProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full cursor-pointer bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] transition-colors hover:brightness-110 disabled:opacity-50"
+                className="w-full cursor-pointer bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
@@ -304,15 +304,12 @@ export default function CompleteProfilePage() {
                 By continuing you confirm you are 13+ and agree to our{" "}
                 <Link
                   href="/privacy"
-                  className="text-white/40 transition-colors hover:text-white"
+                  className="text-white/40 hover:text-white"
                 >
                   Privacy
                 </Link>{" "}
                 &amp;{" "}
-                <Link
-                  href="/terms"
-                  className="text-white/40 transition-colors hover:text-white"
-                >
+                <Link href="/terms" className="text-white/40 hover:text-white">
                   Terms
                 </Link>
                 .

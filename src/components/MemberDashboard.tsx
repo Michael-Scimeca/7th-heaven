@@ -448,7 +448,7 @@ export default function MemberDashboard() {
               <div className="flex flex-col gap-4">
                 <button
                   onClick={() => openModal("signup")}
-                  className="w-full cursor-pointer rounded bg-[var(--color-accent)] py-4 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-colors hover:brightness-110"
+                  className="w-full cursor-pointer rounded bg-[var(--color-accent)] py-4 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:brightness-110"
                 >
                   Create Fan Account
                 </button>
@@ -465,13 +465,13 @@ export default function MemberDashboard() {
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <button
                     onClick={() => openModal("login")}
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded border border-white/10 bg-white/[0.02] py-4 transition-colors hover:border-[var(--color-accent)]"
+                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded border border-white/10 bg-white/[0.02] py-4 hover:border-[var(--color-accent)]"
                   >
                     Sign In As Fan
                   </button>
                   <button
                     onClick={() => openModal("login")}
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded border border-white/10 bg-emerald-500/5 py-4 transition-colors hover:border-emerald-500 hover:bg-emerald-500/10"
+                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded border border-white/10 bg-emerald-500/5 py-4 hover:border-emerald-500 hover:bg-emerald-500/10"
                   >
                     Crew Portal
                   </button>
@@ -518,11 +518,11 @@ export default function MemberDashboard() {
                   const cfg = {
                     fan: {
                       label: "FAN",
-                      cls: "text-purple-300 bg-purple-600/20 border-purple-500/35",
+                      cls: "  bg-purple-600/20 border-purple-500/35",
                     },
                     crew: {
                       label: "CREW",
-                      cls: "text-purple-300 bg-purple-600/20 border-purple-500/35",
+                      cls: "  bg-purple-600/20 border-purple-500/35",
                     },
                     admin: {
                       label: "ADMIN",
@@ -530,7 +530,7 @@ export default function MemberDashboard() {
                     },
                   }[role as "fan" | "crew" | "admin"] ?? {
                     label: "FAN",
-                    cls: "text-purple-300 bg-purple-600/20 border-purple-500/35",
+                    cls: "  bg-purple-600/20 border-purple-500/35",
                   };
                   return (
                     <span
@@ -548,7 +548,7 @@ export default function MemberDashboard() {
             {(member?.role === "crew" || member?.role === "admin") && (
               <Link
                 href="/crew"
-                className="inline-flex cursor-pointer items-center gap-1.5 border border-white/10 bg-emerald-500/10 px-4 py-2 transition-colors hover:border-emerald-500/40 hover:text-white"
+                className="inline-flex cursor-pointer items-center gap-1.5 border border-white/10 bg-emerald-500/10 px-4 py-2 hover:border-emerald-500/40 hover:text-white"
               >
                 <svg
                   width="12"
@@ -573,7 +573,7 @@ export default function MemberDashboard() {
         {/* Digital Tickets / Inbox moved to top */}
         <div className="group relative mb-10 overflow-hidden border border-white/10 bg-[url('/images/card-glow.jpg')] bg-cover bg-center p-6 shadow-[0_0_40px_rgba(255,10,61,0.15)]">
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
-          <div className="group-hover:blur-0 absolute top-0 right-0 translate-x-4 -translate-y-4 p-4 opacity-30 blur-[2px] transition-colors duration-500 group-hover:opacity-40">
+          <div className="group-hover:blur-0 absolute top-0 right-0 translate-x-4 -translate-y-4 p-4 opacity-30 blur-[2px] group-hover:opacity-40">
             <svg
               width="150"
               height="150"
@@ -622,7 +622,7 @@ export default function MemberDashboard() {
                     return (
                       <div
                         key={msg.id}
-                        className={`flex flex-col items-center justify-between gap-4 border bg-black/40 p-4 backdrop-blur-[45px] sm:flex-row ${msg.color === "yellow" ? "border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]" : "border-white/10"}`}
+                        className={`flex flex-col items-center justify-between gap-4 border bg-black/40 p-4 backdrop-blur-2xl sm:flex-row ${msg.color === "yellow" ? "border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]" : "border-white/10"}`}
                       >
                         <div className="flex w-full items-center gap-4">
                           <div
@@ -664,7 +664,7 @@ export default function MemberDashboard() {
                                 </p>
                                 <button
                                   onClick={() => executeClaimFlash(msg.id)}
-                                  className="w-full rounded bg-red-600 py-2 shadow-[0_0_15px_rgba(220,38,38,0.5)] transition-colors hover:bg-red-500"
+                                  className="w-full rounded bg-red-600 py-2 shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:bg-red-500"
                                 >
                                   CLICK TO FLASH & CLAIM
                                 </button>
@@ -678,7 +678,7 @@ export default function MemberDashboard() {
                             ) : (
                               <button
                                 onClick={() => setClaimConfirmId(msg.id)}
-                                className="cursor-pointer border border-yellow-400/50 bg-yellow-400/10 px-6 py-3 text-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.2)] transition-colors hover:bg-yellow-400/20"
+                                className="cursor-pointer border border-yellow-400/50 bg-yellow-400/10 px-6 py-3 text-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:bg-yellow-400/20"
                               >
                                 Redeem Prize
                               </button>
@@ -718,7 +718,7 @@ export default function MemberDashboard() {
               {myPhotos.map((photo: any) => (
                 <div
                   key={photo.id}
-                  className={`group relative overflow-hidden border bg-black/40 backdrop-blur-[45px] transition-colors ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]" : photo.approved ? "border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]" : "border-white/10"}`}
+                  className={`group relative overflow-hidden border bg-black/40 backdrop-blur-2xl ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]" : photo.approved ? "border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]" : "border-white/10"}`}
                 >
                   <div className="relative aspect-[4/3] overflow-hidden bg-[#00000029]">
                     <Image
@@ -768,7 +768,7 @@ export default function MemberDashboard() {
 
                     <div className="mt-2 flex items-center justify-between border-t border-white/10 pt-2 text-[0.65rem] text-white/30">
                       {photo.venue && (
-                        <span className="flex items-center gap-1 truncate">
+                        <span className="flex items-center gap-1">
                           <MapPin className="text-purple-400shrink-0 h-3 w-3" />{" "}
                           {photo.venue}
                         </span>
@@ -879,7 +879,7 @@ export default function MemberDashboard() {
                   },
                 ],
                 status: "Shipped",
-                statusColor: "text-purple-300",
+                statusColor: " ",
               },
               {
                 id: "7H-2026-0228",
@@ -945,8 +945,8 @@ export default function MemberDashboard() {
                               className="h-12 w-12 border border-white/10 object-cover"
                             />
                             <div>
-                              <p className=" ">{item.name}</p>
-                              <p className=" ">{item.type}</p>
+                              <p>{item.name}</p>
+                              <p>{item.type}</p>
                             </div>
                           </div>
                           <span className="text-white/50">{item.price}</span>

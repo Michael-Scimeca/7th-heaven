@@ -57,7 +57,7 @@ export function GradientToggle({
       htmlFor={toggleId}
       className={`group inline-flex cursor-pointer items-center gap-3 select-none ${disabled ? "cursor-not-allowed opacity-50" : ""} ${className}`}
     >
-      <div className="squishy-toggle relative inline-block h-[28px] w-[50px] shrink-0 overflow-hidden rounded-lg border border-white/25 bg-black/50 p-[3px] shadow-inner transition-all duration-300">
+      <div className="squishy-toggle relative inline-block h-[28px] w-[50px] shrink-0 overflow-hidden rounded-lg border border-white/25 bg-black/50 p-[3px] shadow-inner">
         <input
           id={toggleId}
           type="checkbox"
@@ -68,11 +68,11 @@ export function GradientToggle({
         />
 
         {/* Off background */}
-        <div className="pointer-events-none absolute inset-0 rounded-lg bg-white/10 transition-opacity duration-300" />
+        <div className="pointer-events-none absolute inset-0 rounded-lg bg-white/10" />
 
         {/* On background (gradient) */}
         <div
-          className={`pointer-events-none absolute inset-0 rounded-lg border border-[#8c0eaf] bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-300 ${checked ? "opacity-100" : "opacity-0"}`}
+          className={`pointer-events-none absolute inset-0 rounded-lg border border-[#8c0eaf] bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] shadow-[0_0_15px_rgba(140,14,175,0.6)] ${checked ? "opacity-100" : "opacity-0"}`}
         />
 
         {/* Gooey Squishy Thumb */}
@@ -84,7 +84,7 @@ export function GradientToggle({
 
       {label && (
         <span
-          className={`text-left transition-colors ${checked ? " " : "group-hover:text-white"}`}
+          className={`text-left ${checked ? " " : "group-hover:text-white"}`}
         >
           {label}
         </span>

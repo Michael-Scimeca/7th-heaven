@@ -266,13 +266,13 @@ export default function CruiseHeroMaskEditor() {
               <button
                 onClick={handleReset}
                 title="Reset to Defaults"
-                className="rounded-lg bg-[#00000029] p-1.5 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+                className="rounded-lg bg-[#00000029] p-1.5 text-gray-400 hover:bg-white/10 hover:text-white"
               >
                 <RotateCcw className="h-4 w-4" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="rounded-lg bg-[#00000029] p-1.5 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+                className="rounded-lg bg-[#00000029] p-1.5 text-gray-400 hover:bg-white/10 hover:text-white"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -290,13 +290,11 @@ export default function CruiseHeroMaskEditor() {
             {/* 📍 1. OFFICIAL ITINERARY & CRUISING HISTORY SECTION MASK & BG */}
             <div className="space-y-3 rounded-lg border border-purple-500/30 bg-purple-950/30 p-3.5">
               <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-purple-300">
+                <span className="flex items-center gap-1.5">
                   <MapPin className="h-3.5 w-3.5 text-purple-400" /> OFFICIAL
                   ITINERARY & CRUISING HISTORY
                 </span>
-                <span className="text-[10px] text-purple-300/70">
-                  #itinerary & .history
-                </span>
+                <span className="/70 text-[10px]">#itinerary & .history</span>
               </div>
 
               {/* Itinerary Top Fade Start */}
@@ -305,9 +303,7 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-gray-300">
                     Itinerary Top Mask Start
                   </span>
-                  <span className="text-purple-300">
-                    {settings.itinTopFadeStart}%
-                  </span>
+                  <span>{settings.itinTopFadeStart}%</span>
                 </div>
                 <input
                   type="range"
@@ -325,9 +321,7 @@ export default function CruiseHeroMaskEditor() {
               <div>
                 <div className="mb-1 flex justify-between">
                   <span className="text-gray-300">Itinerary Top Mask End</span>
-                  <span className="text-purple-300">
-                    {settings.itinTopFadeEnd}%
-                  </span>
+                  <span>{settings.itinTopFadeEnd}%</span>
                 </div>
                 <input
                   type="range"
@@ -347,9 +341,7 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-gray-300">
                     Itinerary Bottom Mask Start
                   </span>
-                  <span className="text-purple-300">
-                    {settings.itinBottomFadeStart}%
-                  </span>
+                  <span>{settings.itinBottomFadeStart}%</span>
                 </div>
                 <input
                   type="range"
@@ -369,9 +361,7 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-gray-300">
                     Itinerary Bottom Mask End
                   </span>
-                  <span className="text-purple-300">
-                    {settings.itinBottomFadeEnd}%
-                  </span>
+                  <span>{settings.itinBottomFadeEnd}%</span>
                 </div>
                 <input
                   type="range"
@@ -391,9 +381,7 @@ export default function CruiseHeroMaskEditor() {
                   <span className="text-gray-300">
                     Itinerary Dark BG Opacity
                   </span>
-                  <span className="text-purple-300">
-                    {settings.itinBgOpacity}%
-                  </span>
+                  <span>{settings.itinBgOpacity}%</span>
                 </div>
                 <input
                   type="range"
@@ -411,7 +399,7 @@ export default function CruiseHeroMaskEditor() {
               <div>
                 <div className="mb-1 flex justify-between">
                   <span className="text-gray-300">Itinerary Backdrop Blur</span>
-                  <span className="text-purple-300">{settings.itinBlur}px</span>
+                  <span>{settings.itinBlur}px</span>
                 </div>
                 <input
                   type="range"
@@ -432,9 +420,7 @@ export default function CruiseHeroMaskEditor() {
                 <span className="flex items-center gap-1.5">
                   <Layers className="h-3.5 w-3.5" /> CRUISING HISTORY CONTAINER
                 </span>
-                <span className="text-[10px] text-white/70">
-                  .history-timeline
-                </span>
+                <span className="text-[10px]">.history-timeline</span>
               </div>
 
               {/* History Top Fade Start */}
@@ -859,7 +845,7 @@ export default function CruiseHeroMaskEditor() {
             </button>
             <button
               onClick={copyCSS}
-              className="flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-2 transition-colors hover:bg-white/20"
+              className="flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-2 hover:bg-white/20"
             >
               {copied ? (
                 <Check className="h-3.5 w-3.5 text-green-400" />

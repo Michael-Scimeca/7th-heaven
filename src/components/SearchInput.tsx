@@ -22,7 +22,7 @@ export interface SearchInputProps {
 export function SearchInput({
   value,
   onChange,
-  placeholder = "Search...",
+  placeholder = "Search",
   className = "",
   containerClassName = "",
   id,
@@ -62,7 +62,7 @@ export function SearchInput({
         placeholder={placeholder}
         autoFocus={autoFocus}
         glow={true}
-        inputClassName={`form-input no-bg-icon w-full   border-none outline-none py-2.5 !pl-11 !pr-8   placeholder: text-white/40 rounded-lg transition-colors ${className}`}
+        inputClassName={`form-input no-bg-icon w-full   border-none outline-none py-2.5 !pl-11 !pr-8   placeholder: text-white/40 rounded-lg  ${className}`}
       />
       <div className="pointer-events-none !absolute top-1/2 left-3 z-20 flex -translate-y-1/2 items-center justify-center text-white/50">
         <Search className="h-4 w-4" />

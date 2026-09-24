@@ -229,7 +229,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://maps.googleapis.com" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=tanker@400&f[]=switzer@variable,variable-italic&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=tanker@400&f[]=switzer@variable,variable- &display=swap"
         />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *

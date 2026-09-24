@@ -55,7 +55,7 @@ export function AdminAuthGate({
               onChange={(e) => setAdminLoginEmail(e.target.value)}
               placeholder="admin@7thheaven.com"
               autoComplete="email"
-              className="w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30 transition-colors outline-none focus:border-purple-500"
+              className="focus-ring w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30 outline-none"
               required
             />
           </div>
@@ -73,7 +73,7 @@ export function AdminAuthGate({
               onChange={(e) => setAdminLoginPassword(e.target.value)}
               placeholder="••••••••"
               autoComplete="current-password"
-              className="w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30 transition-colors outline-none focus:border-purple-500"
+              className="focus-ring w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30 outline-none"
               required
             />
           </div>
@@ -97,14 +97,14 @@ export function AdminAuthGate({
           <button
             type="button"
             onClick={() => router.push("/")}
-            className="cursor-pointer border-none p-0 text-white/40 transition-colors hover:text-white"
+            className="cursor-pointer border-none p-0 text-white/40 hover:text-white"
           >
             ← Back to Home
           </button>
           <button
             type="button"
             onClick={() => openModal("login")}
-            className="cursor-pointer border-none p-0 text-purple-400 transition-colors hover:text-purple-300"
+            className="hover: cursor-pointer border-none p-0 text-purple-400"
           >
             Switch Account
           </button>

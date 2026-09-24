@@ -102,14 +102,14 @@ function RoomModalFooterButtons({
       <button
         type="button"
         onClick={onCancel}
-        className="cursor-pointer rounded-xl bg-white/10 px-5 py-2.5 text-sm transition-colors hover:bg-white/15"
+        className="cursor-pointer rounded-xl bg-white/10 px-5 py-2.5 hover:bg-white/15"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={isSaving}
-        className="flex cursor-pointer items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 text-sm shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-[background-color,box-shadow] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+        className="flex cursor-pointer items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-[background-color,box-shadow] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
       >
         {isSaving ? (
           <>
@@ -139,14 +139,14 @@ function ModalInputField({
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs text-purple-200/80">{label}</label>
+      <label className="mb-1.5 block text-purple-200/80">{label}</label>
       <input
         type="text"
         required={required}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+        className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
       />
     </div>
   );
@@ -190,7 +190,7 @@ function CruiseCabinsPricingSectionComponent({
   const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
 
   const mounted = React.useSyncExternalStore(
-    () => () => { },
+    () => () => {},
     () => true,
     () => false,
   );
@@ -514,7 +514,7 @@ function CruiseCabinsPricingSectionComponent({
                 <strong>Call Us:</strong>{" "}
                 <a
                   href={`tel:${(sanityContent?.cruiseInfo?.bookingPhone || "877-683-9753").replace(/[^0-9]/g, "")}`}
-                  className="transition-colors hover:underline"
+                  className="hover:underline"
                 >
                   {sanityContent?.cruiseInfo?.bookingPhone ||
                     "(877) 683-9753 - opt 5"}
@@ -532,7 +532,7 @@ function CruiseCabinsPricingSectionComponent({
                 {activePriceYear === 2027
                   ? sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026"
                   : sanityContent?.cruiseInfo?.finalPayment2028 ||
-                  "Oct 1, 2027"}
+                    "Oct 1, 2027"}
                 .
               </p>
             </div>
@@ -614,7 +614,7 @@ function CruiseCabinsPricingSectionComponent({
         {/* Pricing Cards Grid */}
         <div className="py-section-fluid space-y-16">
           <div className="relative p-0 text-left">
-            <div className="mb-8 flex flex-col items-start justify-between gap-4  md:flex-row md:items-center">
+            <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div>
                 <h3>Limited Group Rate Cabins ({activePriceYear})</h3>
               </div>
@@ -634,156 +634,156 @@ function CruiseCabinsPricingSectionComponent({
                 ([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]
                   .length > 0
                   ? [
-                    ...(sanityContent?.cruiseInfo?.cabins || []),
-                    ...addedCabins,
-                  ].flatMap((c: any) =>
-                    String(c.year) === String(activePriceYear)
-                      ? [
-                        {
-                          code: c.code,
-                          title: c.title,
-                          price: c.price,
-                          status: c.status,
-                          badge: c.badge,
-                          image:
-                            c.imagePath ||
-                            c.image ||
-                            "/images/cruise/q2_interior_plus.jpg",
-                          inclusions: c.inclusions,
-                          selectValue:
-                            c.selectValue ||
-                            `group_${(c.code || "room").toLowerCase()}`,
-                        },
-                      ]
-                      : [],
-                  )
+                      ...(sanityContent?.cruiseInfo?.cabins || []),
+                      ...addedCabins,
+                    ].flatMap((c: any) =>
+                      String(c.year) === String(activePriceYear)
+                        ? [
+                            {
+                              code: c.code,
+                              title: c.title,
+                              price: c.price,
+                              status: c.status,
+                              badge: c.badge,
+                              image:
+                                c.imagePath ||
+                                c.image ||
+                                "/images/cruise/q2_interior_plus.jpg",
+                              inclusions: c.inclusions,
+                              selectValue:
+                                c.selectValue ||
+                                `group_${(c.code || "room").toLowerCase()}`,
+                            },
+                          ]
+                        : [],
+                    )
                   : null) ||
                 (activePriceYear === 2027
                   ? [
-                    {
-                      code: "Q2",
-                      title: "Interior Plus",
-                      price: "$1,683.27",
-                      status: "soldout",
-                      badge: "Group Rate Sold Out - Book Prevailing",
-                      image: "/images/cruise/q2_interior_plus.jpg",
-                      selectValue: "group_n5",
-                    },
-                    {
-                      code: "N5",
-                      title: "Ocean View",
-                      price: "$1,883.27",
-                      status: "warning",
-                      badge: "1 Cabin Left!",
-                      image: "/images/cruise/n5.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_n5",
-                    },
-                    {
-                      code: "IF",
-                      title: "Infinite Central Park",
-                      price: "$2,033.27",
-                      status: "warning",
-                      badge: "2 Cabins Left!",
-                      image: "/images/cruise/if.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_if",
-                    },
-                    {
-                      code: "D4",
-                      title: "Ocean View Balcony",
-                      price: "$2,433.27",
-                      status: "info",
-                      badge: "10 Available",
-                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_d4",
-                    },
-                    {
-                      code: "D2",
-                      title: "Ocean View Balcony",
-                      price: "$2,483.27",
-                      status: "info",
-                      badge: "11 Available",
-                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_d2",
-                    },
-                    {
-                      code: "I1",
-                      title: "Infinite Ocean View Balcony",
-                      price: "$2,583.27",
-                      status: "warning",
-                      badge: "5 Cabins Left!",
-                      image:
-                        "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_i1",
-                    },
-                  ]
+                      {
+                        code: "Q2",
+                        title: "Interior Plus",
+                        price: "$1,683.27",
+                        status: "soldout",
+                        badge: "Group Rate Sold Out - Book Prevailing",
+                        image: "/images/cruise/q2_interior_plus.jpg",
+                        selectValue: "group_n5",
+                      },
+                      {
+                        code: "N5",
+                        title: "Ocean View",
+                        price: "$1,883.27",
+                        status: "warning",
+                        badge: "1 Cabin Left!",
+                        image: "/images/cruise/n5.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_n5",
+                      },
+                      {
+                        code: "IF",
+                        title: "Infinite Central Park",
+                        price: "$2,033.27",
+                        status: "warning",
+                        badge: "2 Cabins Left!",
+                        image: "/images/cruise/if.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_if",
+                      },
+                      {
+                        code: "D4",
+                        title: "Ocean View Balcony",
+                        price: "$2,433.27",
+                        status: "info",
+                        badge: "10 Available",
+                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_d4",
+                      },
+                      {
+                        code: "D2",
+                        title: "Ocean View Balcony",
+                        price: "$2,483.27",
+                        status: "info",
+                        badge: "11 Available",
+                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_d2",
+                      },
+                      {
+                        code: "I1",
+                        title: "Infinite Ocean View Balcony",
+                        price: "$2,583.27",
+                        status: "warning",
+                        badge: "5 Cabins Left!",
+                        image:
+                          "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_i1",
+                      },
+                    ]
                   : [
-                    {
-                      code: "Q2",
-                      title: "Interior Plus",
-                      price: "$1,832.98",
-                      status: "info",
-                      badge: "Available",
-                      image: "/images/cruise/q2_interior_plus.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_n5",
-                    },
-                    {
-                      code: "IF",
-                      title: "Infinite Central Park",
-                      price: "$2,032.98",
-                      status: "info",
-                      badge: "Available",
-                      image: "/images/cruise/if.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_if",
-                    },
-                    {
-                      code: "N5",
-                      title: "Ocean View",
-                      price: "$2,162.98",
-                      status: "info",
-                      badge: "Available",
-                      image: "/images/cruise/n5.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_n5",
-                    },
-                    {
-                      code: "D4",
-                      title: "Ocean View Balcony",
-                      price: "$2,472.98",
-                      status: "info",
-                      badge: "Available",
-                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_d4",
-                    },
-                    {
-                      code: "D2",
-                      title: "Ocean View Balcony",
-                      price: "$2,492.98",
-                      status: "info",
-                      badge: "Available",
-                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_d2",
-                    },
-                    {
-                      code: "I1",
-                      title: "Infinite Ocean View Balcony",
-                      price: "$2,522.98",
-                      status: "info",
-                      badge: "Available",
-                      image:
-                        "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
-                      inclusions: "Gratuities Included",
-                      selectValue: "group_i1",
-                    },
-                  ])
+                      {
+                        code: "Q2",
+                        title: "Interior Plus",
+                        price: "$1,832.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/q2_interior_plus.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_n5",
+                      },
+                      {
+                        code: "IF",
+                        title: "Infinite Central Park",
+                        price: "$2,032.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/if.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_if",
+                      },
+                      {
+                        code: "N5",
+                        title: "Ocean View",
+                        price: "$2,162.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/n5.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_n5",
+                      },
+                      {
+                        code: "D4",
+                        title: "Ocean View Balcony",
+                        price: "$2,472.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_d4",
+                      },
+                      {
+                        code: "D2",
+                        title: "Ocean View Balcony",
+                        price: "$2,492.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_d2",
+                      },
+                      {
+                        code: "I1",
+                        title: "Infinite Ocean View Balcony",
+                        price: "$2,522.98",
+                        status: "info",
+                        badge: "Available",
+                        image:
+                          "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_i1",
+                      },
+                    ])
               ).map((room: any, idx: number) => (
                 <div
                   key={(room.code || room.selectValue) + idx}
@@ -852,13 +852,13 @@ function CruiseCabinsPricingSectionComponent({
         <div>
           <div className="mb-6 border-b border-white/10 text-center">
             <div className="mb-3 flex flex-wrap items-center justify-center gap-3">
-              <span className="st inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1 text-xs text-purple-300">
+              <span className="st inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1">
                 Official Booking Form
               </span>
               <button
                 type="button"
                 onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
-                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-rose-500/40 bg-rose-600/30 px-4 py-1.5 text-xs text-rose-200 transition-colors hover:bg-rose-600/50"
+                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-rose-500/40 bg-rose-600/30 px-4 py-1.5 text-rose-200 hover:bg-rose-600/50"
               >
                 💳{" "}
                 {isPaymentDropdownOpen
@@ -867,7 +867,7 @@ function CruiseCabinsPricingSectionComponent({
               </button>
             </div>
             <h2>RESERVE YOUR CRUISE STATEROOM</h2>
-            <p className="mx-auto mt-2 max-w-xl text-sm text-white/70 sm:text-base">
+            <p className="mx-auto mt-2 max-w-xl sm:text-base">
               Every booking requires a $500 deposit per room ($250 per person).
               Complete the form below to lock in your cabin rate.
             </p>
@@ -888,23 +888,23 @@ function CruiseCabinsPricingSectionComponent({
                 <CheckCircle2 className="h-8 w-8 text-emerald-400" />
               </div>
               <h3 className="text-2xl">Reservation Submitted!</h3>
-              <p className="mx-auto max-w-md text-sm leading-relaxed">
+              <p className="mx-auto max-w-md">
                 Thank you,{" "}
                 <strong className="text-emerald-400">{formData.name}</strong>!
                 Your cruise booking request for cabin{" "}
-                <strong className="text-purple-300">
+                <strong>
                   {formData.cabinPreference || "selected stateroom"}
                 </strong>{" "}
                 has been received by NTD Vacations concierge.
               </p>
-              <p className="text-xs text-white/50">
+              <p className="text-white/50">
                 A confirmation email has been dispatched to {formData.email}.
               </p>
             </div>
           ) : (
             <form onSubmit={handleSignup} className="space-y-3 text-left">
               {formError && (
-                <div className="flex items-center gap-3 rounded-xl border border-red-500/50 bg-red-900/40 p-4 text-sm text-red-200">
+                <div className="flex items-center gap-3 rounded-xl border border-red-500/50 bg-red-900/40 p-4 text-red-200">
                   <AlertTriangle className="h-5 w-5 shrink-0 text-red-400" />
                   <span>{formError}</span>
                 </div>
@@ -912,10 +912,7 @@ function CruiseCabinsPricingSectionComponent({
 
               {/* ROOM CATEGORY SELECTION */}
               <div>
-                <label
-                  htmlFor="cabinPreference"
-                  className="mb-2 block text-purple-300"
-                >
+                <label htmlFor="cabinPreference" className="mb-2 block">
                   Room Category / Cabin Preference *
                 </label>
                 <div className="input-glow-border rounded-xl">
@@ -931,10 +928,10 @@ function CruiseCabinsPricingSectionComponent({
                       }))
                     }
                     placeholder="e.g. Ocean View Balcony (D4) or Suite"
-                    className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-3 text-base focus:outline-none"
+                    className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-3 text-base"
                   />
                 </div>
-                <p className="mt-1.5 text-[11px] text-white/50">
+                <p className="mt-1.5 text-white/50">
                   EVERY BOOKING NEEDS $500 DEPOSIT PER ROOM (OR $250 PER PERSON)
                 </p>
               </div>
@@ -942,10 +939,8 @@ function CruiseCabinsPricingSectionComponent({
               {/* GUEST 1 DETAILS & PAYMENT */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between border-b border-white/10">
-                  <h3 className="text-lg">
-                    GUEST 1 (PRIMARY RESERVATION HOLDER)
-                  </h3>
-                  <span className="text-xs text-purple-400">Primary Guest</span>
+                  <h3>GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
+                  <span className="text-purple-400">Primary Guest</span>
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -963,7 +958,7 @@ function CruiseCabinsPricingSectionComponent({
                           }))
                         }
                         placeholder="First &amp; Last Name (as on Passport/ID)"
-                        className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
+                        className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
                       />
                     </div>
                   </div>
@@ -981,7 +976,7 @@ function CruiseCabinsPricingSectionComponent({
                           }))
                         }
                         placeholder="your@email.com"
-                        className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
+                        className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
                       />
                     </div>
                   </div>
@@ -1002,7 +997,7 @@ function CruiseCabinsPricingSectionComponent({
                           }))
                         }
                         placeholder="(555) 000-0000"
-                        className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
+                        className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
                       />
                     </div>
                   </div>
@@ -1019,7 +1014,7 @@ function CruiseCabinsPricingSectionComponent({
                           }))
                         }
                         placeholder="Royal Caribbean Loyalty #"
-                        className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
+                        className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
                       />
                     </div>
                   </div>
@@ -1060,8 +1055,8 @@ function CruiseCabinsPricingSectionComponent({
               <div>
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
                   <div>
-                    <h3 className="text-lg">GUEST 2 (IF NEEDED)</h3>
-                    <p className="mt-0.5 text-[11px]">
+                    <h3>GUEST 2 (IF NEEDED)</h3>
+                    <p className="mt-0.5">
                       YOU DO NOT NEED TO FILL OUT GUEST 2 CREDIT CARD INFO IF
                       YOU ARE A COUPLE GOING TOGETHER ON ONE CREDIT CARD
                     </p>
@@ -1069,7 +1064,7 @@ function CruiseCabinsPricingSectionComponent({
                   <button
                     type="button"
                     onClick={() => toggleGuestActive(0, !guests[0]?.active)}
-                    className={`cursor-pointer rounded-full border px-4 py-1.5 text-xs transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600" : "border-white/20 bg-white/10 text-white/70 hover:text-white"}`}
+                    className={`cursor-pointer rounded-full border px-4 py-1.5 transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600" : "border-white/20 bg-white/10 hover:text-white"}`}
                   >
                     {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
                   </button>
@@ -1088,7 +1083,7 @@ function CruiseCabinsPricingSectionComponent({
                               updateGuest(0, "name", e.target.value)
                             }
                             placeholder="Guest 2 First &amp; Last Name"
-                            className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
+                            className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
                           />
                         </div>
                       </div>
@@ -1102,7 +1097,7 @@ function CruiseCabinsPricingSectionComponent({
                               updateGuest(0, "email", e.target.value)
                             }
                             placeholder="guest2@email.com"
-                            className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
+                            className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
                           />
                         </div>
                       </div>
@@ -1123,7 +1118,7 @@ function CruiseCabinsPricingSectionComponent({
                               )
                             }
                             placeholder="(555) 000-0000"
-                            className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
+                            className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
                           />
                         </div>
                       </div>
@@ -1139,7 +1134,7 @@ function CruiseCabinsPricingSectionComponent({
                               updateGuest(0, "crownAnchor", e.target.value)
                             }
                             placeholder="Loyalty #"
-                            className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
+                            className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
                           />
                         </div>
                       </div>
@@ -1157,7 +1152,6 @@ function CruiseCabinsPricingSectionComponent({
                             { value: "3XL", label: "3X-Large (3XL)" },
                           ]}
                           chevronColor="#f43f5e"
-                          className=""
                         />
                       </div>
                     </div>
@@ -1179,7 +1173,7 @@ function CruiseCabinsPricingSectionComponent({
                         />
                         <label
                           htmlFor="splitPayment"
-                          className="cursor-pointer text-xs text-purple-200"
+                          className="cursor-pointer text-purple-200"
                         >
                           Split deposit onto 2 separate credit cards?
                         </label>
@@ -1198,7 +1192,7 @@ function CruiseCabinsPricingSectionComponent({
 
               {/* EXTRA / OPTIONS & NOTES */}
               <div className="space-y-3">
-                <h3 className="border-b border-white/10 pb-3 text-lg">
+                <h3 className="border-b border-white/10 pb-3">
                   EXTRA &amp; SPECIAL REQUESTS
                 </h3>
 
@@ -1221,7 +1215,6 @@ function CruiseCabinsPricingSectionComponent({
                         },
                       ]}
                       chevronColor="#f43f5e"
-                      className=""
                     />
                   </div>
 
@@ -1247,7 +1240,7 @@ function CruiseCabinsPricingSectionComponent({
                       ]}
                       chevronColor="#f43f5e"
                     />
-                    <p className="mt-1 text-[11px] text-white/50">
+                    <p className="mt-1 text-white/50">
                       GROUP RATE ROOMS MUST HAVE THIS
                     </p>
                   </div>
@@ -1294,10 +1287,10 @@ function CruiseCabinsPricingSectionComponent({
       >
         <div className="mx-auto mb-6 max-w-2xl">
           <h2>Official Cruise Concierge &amp; Booking Team</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-white/70 sm:text-base">
+          <p className="mx-auto mt-3 max-w-2xl sm:text-base">
             Have questions about your booking, cabin options, group travel, or
-            excursions? Our dedicated 7th Heaven Cruise concierge team is here to
-            assist you every step of the way.
+            excursions? Our dedicated 7th Heaven Cruise concierge team is here
+            to assist you every step of the way.
           </p>
         </div>
         <div className="grid grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-3">
@@ -1338,10 +1331,10 @@ function CruiseCabinsPricingSectionComponent({
 
             const photoSrc =
               nameStr.toLowerCase().includes("mary") ||
-                nameStr.toLowerCase().includes("grivas")
+              nameStr.toLowerCase().includes("grivas")
                 ? "/images/contact/Mary-contact.png"
                 : nameStr.toLowerCase().includes("alan") ||
-                  nameStr.toLowerCase().includes("mcrae")
+                    nameStr.toLowerCase().includes("mcrae")
                   ? "/images/contact/Alan-contact.png"
                   : "/images/contact/Dickie-contact.png";
 
@@ -1377,13 +1370,13 @@ function CruiseCabinsPricingSectionComponent({
                 <h4>{nameStr}</h4>
                 <div className="mt-2 flex w-full flex-col items-center gap-1">
                   <SectionBadge label={roleStr} isActive />
-                  {descStr && <p className="mt-0.5 text-white/70">{descStr}</p>}
+                  {descStr && <p className="mt-0.5">{descStr}</p>}
                 </div>
                 <div className="mt-3 flex w-full flex-col items-center gap-1.5">
                   {phoneStr && (
                     <a
                       href={`tel:${phoneStr.replace(/[^0-9]/g, "")}`}
-                      className="! transition-colors hover:text-white"
+                      className="! hover:text-white"
                     >
                       <span>{phoneStr}</span>
                     </a>
@@ -1412,7 +1405,7 @@ function CruiseCabinsPricingSectionComponent({
           <h2>
             Featured <span className="accent-gradient-text">Artists</span>
           </h2>
-          <p className="mt-2.5 text-sm leading-relaxed text-white/70 sm:text-base">
+          <p className="mt-2.5 sm:text-base">
             Get ready for non-stop live music! Join 7th Heaven along with an
             extraordinary lineup of world-class performers and special guest
             bands across multiple stages throughout the voyage.
@@ -1458,7 +1451,7 @@ function CruiseCabinsPricingSectionComponent({
                     <SectionBadge label={band.role} />
                   </div>
                 )}
-                <p className="mt-2 line-clamp-2 text-white/70">{band.desc}</p>
+                <p className="mt-2 line-clamp-2">{band.desc}</p>
               </div>
             </div>
           ))}
@@ -1474,7 +1467,7 @@ function CruiseCabinsPricingSectionComponent({
               <button
                 type="button"
                 onClick={() => setIsAddRoomModalOpen(false)}
-                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
                 aria-label="Close modal"
               >
                 <X className="h-5 w-5" />
@@ -1486,7 +1479,7 @@ function CruiseCabinsPricingSectionComponent({
                 </div>
                 <div>
                   <h3 className="text-xl">Add Stateroom to Sanity CMS</h3>
-                  <p className="text-xs text-purple-300/70">
+                  <p className="/70">
                     Create and publish a stateroom rate card directly to Sanity
                     CMS.
                   </p>
@@ -1494,14 +1487,14 @@ function CruiseCabinsPricingSectionComponent({
               </div>
 
               {roomError && (
-                <div className="mb-6 flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-sm text-red-200">
+                <div className="mb-6 flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-red-200">
                   <AlertTriangle className="h-4 w-4 shrink-0 text-red-400" />
                   <span>{roomError}</span>
                 </div>
               )}
 
               {roomSuccess && (
-                <div className="mb-6 flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-900/40 p-3 text-sm text-emerald-200">
+                <div className="mb-6 flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-900/40 p-3 text-emerald-200">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
                   <span>Stateroom saved successfully to Sanity!</span>
                 </div>
@@ -1510,7 +1503,7 @@ function CruiseCabinsPricingSectionComponent({
               <form onSubmit={handleSaveRoom} className="space-y-4">
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                    <label className="mb-1.5 block text-purple-200/80">
                       Stateroom Title *
                     </label>
                     <input
@@ -1524,12 +1517,12 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="e.g. Ocean View Balcony"
-                      className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
+                      className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                    <label className="mb-1.5 block text-purple-200/80">
                       Category Code *
                     </label>
                     <input
@@ -1543,14 +1536,14 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="e.g. D4, N5, IF, GS"
-                      className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                      className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                    <label className="mb-1.5 block text-purple-200/80">
                       Cruise Year *
                     </label>
                     <select
@@ -1561,7 +1554,7 @@ function CruiseCabinsPricingSectionComponent({
                           year: e.target.value,
                         }))
                       }
-                      className="w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5 text-sm focus:border-purple-500 focus:outline-none"
+                      className="focus-ring w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5"
                     >
                       <option value="2027">2027 (Star of the Seas)</option>
                       <option value="2028">2028 (Legend of the Seas)</option>
@@ -1590,7 +1583,7 @@ function CruiseCabinsPricingSectionComponent({
                   />
 
                   <div>
-                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                    <label className="mb-1.5 block text-purple-200/80">
                       Badge Status Color
                     </label>
                     <select
@@ -1601,7 +1594,7 @@ function CruiseCabinsPricingSectionComponent({
                           status: e.target.value,
                         }))
                       }
-                      className="w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5 text-sm focus:border-purple-500 focus:outline-none"
+                      className="focus-ring w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5"
                     >
                       <option value="info">Info / Cyan (Available)</option>
                       <option value="warning">

@@ -104,7 +104,7 @@ export default function HeroUpcomingShows({
           </div>
           <Link
             href="/tour"
-            className="flex items-center gap-0.5 text-white/30 transition-colors hover:text-white"
+            className="flex items-center gap-0.5 text-white/30 hover:text-white"
           >
             All
             <svg
@@ -172,7 +172,7 @@ export default function HeroUpcomingShows({
         </div>
         <Link
           href="/tour"
-          className="flex items-center gap-0.5 text-white/30 transition-colors hover:text-white"
+          className="flex items-center gap-0.5 text-white/30 hover:text-white"
         >
           All
           <svg
@@ -230,13 +230,8 @@ export default function HeroUpcomingShows({
           </div>
 
           {/* Middle block: Venue & details (clickable link to tour page) */}
-          <Link
-            href="/tour"
-            className="group/venue block transition-opacity hover:opacity-85"
-          >
-            <h2 className="mb-1 truncate transition-colors group-hover/venue:text-purple-300">
-              {nextShow.venue}
-            </h2>
+          <Link href="/tour" className="group/venue block hover:opacity-85">
+            <h2 className="group-hover/venue: mb-1">{nextShow.venue}</h2>
             <div className="flex flex-wrap items-center gap-1 text-white/50">
               <span>
                 {nextShow.day}, {nextShow.date}
@@ -244,7 +239,7 @@ export default function HeroUpcomingShows({
               {nextShow.city && (
                 <>
                   <span className="text-white/20">·</span>
-                  <span className="truncate">
+                  <span>
                     {nextShow.city}
                     {nextShow.state ? `, ${nextShow.state}` : ""}
                   </span>
@@ -313,7 +308,7 @@ export default function HeroUpcomingShows({
                     activeCalDropdownId === "upnext" ? null : "upnext",
                   )
                 }
-                className="btn-outline btn-outline-hover flex cursor-pointer items-center gap-1 border-[var(--color-accent)]/20 px-2 py-1 text-[var(--font-size-5xs)] text-white/70"
+                className="btn-outline btn-outline-hover flex cursor-pointer items-center gap-1 border-[var(--color-accent)]/20 px-2 py-1 text-[var(--font-size-5xs)]"
                 id="hero-upnext-calendar-btn"
               >
                 <Calendar className="h-3 w-3" /> Calendar
@@ -325,7 +320,7 @@ export default function HeroUpcomingShows({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setActiveCalDropdownId(null)}
-                    className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                    className="flex w-full items-center gap-2 px-3 py-1.5 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                   >
                     Google Cal
                   </a>
@@ -333,7 +328,7 @@ export default function HeroUpcomingShows({
                     href={getICSFileUrl(nextShow)}
                     download={`${nextShow.venue.replace(/\s+/g, "_")}_show.ics`}
                     onClick={() => setActiveCalDropdownId(null)}
-                    className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                    className="flex w-full items-center gap-2 px-3 py-1.5 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                   >
                     iCal / Apple
                   </a>
@@ -341,7 +336,7 @@ export default function HeroUpcomingShows({
                     href={getICSFileUrl(nextShow)}
                     download={`${nextShow.venue.replace(/\s+/g, "_")}_show.ics`}
                     onClick={() => setActiveCalDropdownId(null)}
-                    className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                    className="flex w-full items-center gap-2 px-3 py-1.5 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                   >
                     Outlook
                   </a>
@@ -369,9 +364,9 @@ export default function HeroUpcomingShows({
               </span>
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate">{show.venue}</p>
+              <p>{show.venue}</p>
               {(show.city || show.state) && (
-                <p className="mt-0.5 flex items-center gap-1 truncate">
+                <p className="mt-0.5 flex items-center gap-1">
                   <MapPin className="h-2.5 w-2.5 shrink-0 text-purple-400" />
                   {show.city
                     ? `${show.city}${show.state ? `, ${show.state}` : ""}`

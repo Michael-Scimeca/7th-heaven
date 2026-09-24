@@ -41,7 +41,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               key={opt.id}
               type="button"
               onClick={() => setActiveLayout(opt.id)}
-              className={`cursor-pointer border px-3 py-1.5 transition-colors ${activeLayout === opt.id ? "border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : "border-white/10 bg-[#00000029] text-white/70 hover:bg-white/10 hover:text-white"}`}
+              className={`cursor-pointer border px-3 py-1.5 ${activeLayout === opt.id ? "border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
             >
               {opt.name}
             </button>
@@ -120,7 +120,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <p className="mb-6">{featured.content}</p>
                 <button
                   type="button"
-                  className="cursor-pointer bg-purple-600 px-5 py-2.5 shadow-purple-600/30 transition-colors hover:bg-purple-500"
+                  className="cursor-pointer bg-purple-600 px-5 py-2.5 shadow-purple-600/30 hover:bg-purple-500"
                 >
                   Read Full Story →
                 </button>

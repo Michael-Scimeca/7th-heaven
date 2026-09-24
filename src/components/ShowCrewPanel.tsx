@@ -218,7 +218,7 @@ export default function ShowCrewPanel({
       <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.02] px-5 py-3">
         <div className="flex items-center gap-3">
           <div>
-            <span className=" ">Show Crew — {bookingId}</span>
+            <span>Show Crew — {bookingId}</span>
             <span className="ml-2 text-white/30">
               {eventDate} · {venueName}
             </span>
@@ -244,7 +244,7 @@ export default function ShowCrewPanel({
             <button
               key={tab.id}
               onClick={() => setActiveSection(tab.id)}
-              className={`flex flex-1 cursor-pointer items-center justify-center gap-1.5 px-4 py-2.5 transition-colors ${activeSection === tab.id ? "border-b-2 border-[var(--color-accent)] bg-[var(--color-accent)]/5" : "text-white/50 hover:bg-white/[0.02] hover:text-white"}`}
+              className={`flex flex-1 cursor-pointer items-center justify-center gap-1.5 px-4 py-2.5 ${activeSection === tab.id ? "border-b-2 border-[var(--color-accent)] bg-[var(--color-accent)]/5" : "text-white/50 hover:bg-white/[0.02] hover:text-white"}`}
             >
               <TabIcon className="h-3.5 w-3.5" />
               {tab.label}
@@ -268,7 +268,7 @@ export default function ShowCrewPanel({
                 <p className="mb-3">No crew assigned yet</p>
                 <button
                   onClick={() => setAddingCrew(true)}
-                  className="cursor-pointer text-[var(--color-accent)] transition-colors"
+                  className="cursor-pointer text-[var(--color-accent)]"
                 >
                   + Add First Crew Member
                 </button>
@@ -280,7 +280,7 @@ export default function ShowCrewPanel({
                     ({ c, i }) => (
                       <div
                         key={c.name || i}
-                        className={`flex items-center gap-3 rounded-lg border px-3 py-2 transition-colors ${c.confirmed ? "border-emerald-500/15 bg-emerald-500/5" : "border-white/5 bg-white/[0.01]"}`}
+                        className={`flex items-center gap-3 rounded-lg border px-3 py-2 ${c.confirmed ? "border-emerald-500/15 bg-emerald-500/5" : "border-white/5 bg-white/[0.01]"}`}
                       >
                         <button
                           onClick={() => toggleConfirm(i)}
@@ -295,7 +295,7 @@ export default function ShowCrewPanel({
                         </button>
                         <div className="min-w-0 flex-1">
                           <span
-                            className={`${c.confirmed ? "text-white/70" : "text-white/40"}`}
+                            className={`${c.confirmed ? " " : "text-white/40"}`}
                           >
                             {c.name}
                           </span>
@@ -307,7 +307,7 @@ export default function ShowCrewPanel({
                         </span>
                         <button
                           onClick={() => removeCrew(i)}
-                          className="shrink-0 cursor-pointer text-white/10 transition-colors hover:text-rose-400"
+                          className="shrink-0 cursor-pointer text-white/10 hover:text-rose-400"
                         >
                           <X className="h-3.5 w-3.5" />
                         </button>
@@ -332,7 +332,7 @@ export default function ShowCrewPanel({
                         onKeyDown={(e) => e.key === "Enter" && addCrew()}
                         autoFocus
                         placeholder="Crew member name"
-                        className="placeholder: /15 w-full rounded-lg border border-white/10 px-3 py-2 outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: /15 focus-ring w-full rounded-lg border border-white/10 px-3 py-2 outline-none"
                       />
                     </div>
                     <div>
@@ -346,7 +346,7 @@ export default function ShowCrewPanel({
                         id="show-crew-new-role"
                         value={newRole}
                         onChange={(e) => setNewRole(e.target.value)}
-                        className="rounded-lg border border-white/10 px-3 py-2 [color-scheme:dark] outline-none focus:border-[var(--color-accent)]"
+                        className="focus-ring rounded-lg border border-white/10 px-3 py-2 [color-scheme:dark] outline-none"
                       >
                         {CREW_ROLES.map((r) => (
                           <option key={r} value={r}>
@@ -357,7 +357,7 @@ export default function ShowCrewPanel({
                     </div>
                     <button
                       onClick={addCrew}
-                      className="shrink-0 cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-2 transition-colors hover:bg-[var(--color-accent)]"
+                      className="shrink-0 cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-2 hover:bg-[var(--color-accent)]"
                     >
                       Add
                     </button>
@@ -371,7 +371,7 @@ export default function ShowCrewPanel({
                 ) : (
                   <button
                     onClick={() => setAddingCrew(true)}
-                    className="cursor-pointer text-[var(--color-accent)]/60 transition-colors"
+                    className="cursor-pointer text-[var(--color-accent)]/60"
                   >
                     + Add Crew
                   </button>
@@ -406,7 +406,7 @@ export default function ShowCrewPanel({
                     value={event.time}
                     onChange={(e) => updateTimeline(i, e.target.value)}
                     placeholder="e.g. 3:00 PM"
-                    className="placeholder: flex-1 border-b border-white/10 px-1 py-1 text-white/10 transition-colors outline-none focus:border-[var(--color-accent)]/50"
+                    className="placeholder: focus-ring flex-1 border-b border-white/10 px-1 py-1 text-white/10 outline-none"
                   />
                 </div>
               ),
@@ -421,7 +421,7 @@ export default function ShowCrewPanel({
             <div className="mb-3 flex items-center gap-3">
               <div className="h-1.5 flex-1 overflow-hidden rounded-lg bg-[#00000029]">
                 <div
-                  className={`h-full rounded-lg transition-colors ${gearPct === 100 ? "bg-emerald-500" : gearPct >= 50 ? "bg-purple-600" : "bg-rose-500"}`}
+                  className={`h-full rounded-lg ${gearPct === 100 ? "bg-emerald-500" : gearPct >= 50 ? "bg-purple-600" : "bg-rose-500"}`}
                   style={{ width: `${gearPct}%` }}
                 />
               </div>
@@ -436,7 +436,7 @@ export default function ShowCrewPanel({
                 ({ item, i }) => (
                   <div
                     key={item.name}
-                    className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 transition-colors ${item.loaded ? "border-emerald-500/10 bg-emerald-500/5" : "border-white/5 bg-white/[0.01]"}`}
+                    className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 ${item.loaded ? "border-emerald-500/10 bg-emerald-500/5" : "border-white/5 bg-white/[0.01]"}`}
                   >
                     <button
                       onClick={() => toggleGear(i)}
@@ -449,13 +449,13 @@ export default function ShowCrewPanel({
                       )}
                     </button>
                     <span
-                      className={`flex-1 truncate ${item.loaded ? "text-white/50 line-through" : " "}`}
+                      className={`flex-1 ${item.loaded ? "text-white/50 line-through" : " "}`}
                     >
                       {item.name}
                     </span>
                     <button
                       onClick={() => removeGear(i)}
-                      className="shrink-0 cursor-pointer text-[var(--font-size-2xs)] text-white/10 transition-colors hover:text-rose-400"
+                      className="shrink-0 cursor-pointer text-[var(--font-size-2xs)] text-white/10 hover:text-rose-400"
                     >
                       <X className="h-3.5 w-3.5" />
                     </button>
@@ -472,7 +472,7 @@ export default function ShowCrewPanel({
                     onKeyDown={(e) => e.key === "Enter" && addGearItem()}
                     autoFocus
                     placeholder="Gear item name"
-                    className="placeholder: /15 flex-1 rounded-lg border border-white/10 px-3 py-1.5 outline-none focus:border-[var(--color-accent)]"
+                    className="placeholder: /15 focus-ring flex-1 rounded-lg border border-white/10 px-3 py-1.5 outline-none"
                   />
                   <button
                     onClick={addGearItem}
@@ -490,7 +490,7 @@ export default function ShowCrewPanel({
               ) : (
                 <button
                   onClick={() => setAddingGear(true)}
-                  className="cursor-pointer text-[var(--color-accent)]/60 transition-colors"
+                  className="cursor-pointer text-[var(--color-accent)]/60"
                 >
                   + Add Gear
                 </button>
@@ -508,12 +508,12 @@ export default function ShowCrewPanel({
                 onChange={(e) => setNewNote(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
-                className="placeholder: /15 flex-1 rounded-lg border border-white/10 px-3 py-2 outline-none focus:border-[var(--color-accent)]"
+                className="placeholder: /15 focus-ring flex-1 rounded-lg border border-white/10 px-3 py-2 outline-none"
               />
               <button
                 onClick={addNote}
                 disabled={!newNote.trim()}
-                className="shrink-0 cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-2 transition-colors hover:bg-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-30"
+                className="shrink-0 cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-2 hover:bg-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-30"
               >
                 Post
               </button>

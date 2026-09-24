@@ -51,27 +51,12 @@ export default function HeroLiveThumbs() {
   const [isOpen, setIsOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
 
-  const [scale, setScale] = useState(1);
-
   useEffect(() => {
     const saved = localStorage.getItem("hero_live_thumbs_open");
     if (saved === "false") {
       setIsOpen(false);
     }
     setMounted(true);
-
-    const updateScale = () => {
-      if (typeof window !== "undefined") {
-        if (window.innerWidth < 768) {
-          setScale(Math.max(0.45, (window.innerWidth - 100) / 600));
-        } else {
-          setScale(1);
-        }
-      }
-    };
-    updateScale();
-    window.addEventListener("resize", updateScale, { passive: true });
-    return () => window.removeEventListener("resize", updateScale);
   }, []);
 
   const handleClose = () => {
@@ -122,7 +107,7 @@ export default function HeroLiveThumbs() {
     return (
       <button
         onClick={handleOpen}
-        className="group flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[var(--color-bg-surface)]/80 px-3 py-1.5 backdrop-blur-[45px] select-none"
+        className="group flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[var(--color-bg-surface)]/80 px-3 py-1.5 backdrop-blur-2xl select-none"
       >
         <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
@@ -138,24 +123,8 @@ export default function HeroLiveThumbs() {
 
   if (loading) {
     return (
-      <div
-        className="relative flex items-end justify-start"
-        style={{
-          width:
-            scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
-          height:
-            scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
-        }}
-      >
-        <div
-          className="absolute bottom-0 left-0 flex animate-pulse items-end gap-3 select-none"
-          style={{
-            width: `${unscaledWidth}px`,
-            height: `${unscaledHeight}px`,
-            transform: scale < 1 ? `scale(${scale})` : undefined,
-            transformOrigin: "bottom left",
-          }}
-        >
+      <div className="relative flex max-w-[452px] items-end justify-start">
+        <div className="flex animate-pulse items-end gap-3 select-none">
           {[...Array(2)].map((_, i) => (
             <div
               key={i}
@@ -171,23 +140,8 @@ export default function HeroLiveThumbs() {
   return null;
 
   return (
-    <div
-      className="relative flex items-end justify-start"
-      style={{
-        width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
-        height:
-          scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
-      }}
-    >
-      <div
-        className="absolute bottom-0 left-0 animate-[fade-in-up_0.6s_var(--ease-out-expo)_1.1s_both] select-none"
-        style={{
-          width: `${unscaledWidth}px`,
-          height: `${unscaledHeight}px`,
-          transform: scale < 1 ? `scale(${scale})` : undefined,
-          transformOrigin: "bottom left",
-        }}
-      >
+    <div className="relative flex max-w-[452px] items-end justify-start">
+      <div className="animate-[fade-in-up_0.6s_var(--ease-out-expo)_1.1s_both] select-none">
         {/* ── LIVE NOW header ── */}
         <div className="relative mb-3 flex w-full items-center justify-between px-1">
           <div className="flex items-center gap-2 pr-7">
@@ -201,7 +155,7 @@ export default function HeroLiveThumbs() {
             {mediaPosts.length > 2 && (
               <Link
                 href="/live"
-                className="ml-2 flex cursor-pointer items-center gap-0.5 whitespace-nowrap text-red-500 transition-colors hover:text-red-400 hover:text-white"
+                className="ml-2 flex cursor-pointer items-center gap-0.5 whitespace-nowrap text-red-500 hover:text-red-400 hover:text-white"
               >
                 + {mediaPosts.length - 2} More →
               </Link>
@@ -209,7 +163,7 @@ export default function HeroLiveThumbs() {
           </div>
           <button
             onClick={handleClose}
-            className="flex min-h-[48px] min-w-[48px] shrink-0 cursor-pointer items-center justify-center rounded p-2.5 text-white/40 transition-colors duration-200 hover:bg-white/10 hover:text-white"
+            className="flex min-h-[48px] min-w-[48px] shrink-0 cursor-pointer items-center justify-center rounded p-2.5 text-white/40 hover:bg-white/10 hover:text-white"
             aria-label="Hide Live Streams"
           >
             <svg
@@ -244,7 +198,7 @@ export default function HeroLiveThumbs() {
               <Link
                 key={post.id}
                 href="/live"
-                className="group flex h-[250px] w-[220px] shrink-0 flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] shadow-[0_8px_30px_rgba(0,0,0,0.8)] transition-colors duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)]"
+                className="group flex h-[250px] w-[220px] shrink-0 flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)]"
               >
                 {/* Thumbnail */}
                 <div className="relative h-[195px] w-full overflow-hidden bg-zinc-950">
@@ -293,13 +247,13 @@ export default function HeroLiveThumbs() {
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-emerald-400 opacity-60" />
                       <span className="relative inline-flex h-2.5 w-2.5 rounded-lg bg-emerald-500" />
                     </span>
-                    <span className="truncate text-[var(--font-size-2xs)]">
+                    <span className="text-[var(--font-size-2xs)]">
                       {crewName}
                     </span>
                   </div>
 
                   {/* Watch now cta */}
-                  <span className="shrink-0 text-red-400 transition-colors group-hover:text-red-300">
+                  <span className="shrink-0 text-red-400 group-hover:text-red-300">
                     WATCH →
                   </span>
                 </div>

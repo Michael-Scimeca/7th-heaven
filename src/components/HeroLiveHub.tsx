@@ -200,10 +200,10 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 <Link
                   key={room.name}
                   href={`/live/${room.name}`}
-                  className="group flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 transition-colors hover:border-[var(--color-accent)]/50 hover:bg-white/15"
+                  className="group flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 hover:border-[var(--color-accent)]/50 hover:bg-white/15"
                 >
                   <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-red-500" />
-                  <span className="max-w-[120px] truncate text-white/70 group-hover:text-white">
+                  <span className="max-w-[120px] group-hover:text-white">
                     {room.title?.split(" — ")[0] || room.name}
                   </span>
                 </Link>
@@ -242,7 +242,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                     <div className="flex h-6 w-6 items-center justify-center rounded-lg border border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--font-size-2xs)]">
                       {selectedMedia.member_avatar}
                     </div>
-                    <span className=" ">{selectedMedia.member_name}</span>
+                    <span>{selectedMedia.member_name}</span>
                     <span className="text-white/30">
                       {timeAgo(selectedMedia.created_at)}
                     </span>
@@ -258,7 +258,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
 
             {/* Real-time Live Overlay */}
             {activeLiveRooms.length > 0 && (
-              <div className="overlay-center-hover z-20 bg-black/60 backdrop-blur-[2px]">
+              <div className="overlay-center-hover z-20 bg-black/60 backdrop-blur">
                 <div className="p-8 text-center">
                   <div className="mb-6 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-1 shadow-red-600/20">
                     <span className="h-2 w-2 animate-pulse rounded-lg bg-white" />
@@ -289,7 +289,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                   <button
                     key={post.id}
                     onClick={() => setSelectedMedia(post)}
-                    className={`group relative aspect-square cursor-pointer overflow-hidden border transition-colors duration-300 ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/10 border-white/[0.06]"}`}
+                    className={`group relative aspect-square cursor-pointer overflow-hidden border ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/10 border-white/[0.06]"}`}
                   >
                     {thumbSrc && (
                       <Image
@@ -315,7 +315,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                       </div>
                     )}
                     <div className="absolute top-1 left-1">
-                      <span className="bg-black/60 px-1 py-0.5 text-[var(--font-size-2xs)] text-white/70">
+                      <span className="bg-black/60 px-1 py-0.5 text-[var(--font-size-2xs)]">
                         {timeAgo(post.created_at)}
                       </span>
                     </div>
@@ -334,7 +334,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
               href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-[var(--color-accent)] py-2.5 text-center transition-colors hover:bg-[var(--color-accent)]/80"
+              className="flex-1 bg-[var(--color-accent)] py-2.5 text-center hover:bg-[var(--color-accent)]/80"
             >
               Buy CD
             </a>
@@ -342,7 +342,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
               href="https://open.spotify.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-[var(--color-accent)] py-2.5 text-center transition-colors hover:bg-[var(--color-accent)]/80"
+              className="flex-1 bg-[var(--color-accent)] py-2.5 text-center hover:bg-[var(--color-accent)]/80"
             >
               Spotify
             </a>
@@ -350,7 +350,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
               href="https://music.apple.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-[var(--color-accent)] py-2.5 text-center transition-colors hover:bg-[var(--color-accent)]/80"
+              className="flex-1 bg-[var(--color-accent)] py-2.5 text-center hover:bg-[var(--color-accent)]/80"
             >
               Apple Music
             </a>

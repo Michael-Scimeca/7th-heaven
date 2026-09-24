@@ -23,13 +23,13 @@ export function CruiseLivePreview({
     return (
       <div className="min-h-[220px] rounded-lg border border-white/10 bg-black/60 p-5 shadow-inner">
         <div className="mb-6 flex items-center gap-3 border-b border-white/10 pb-3">
-          <div className="bg- purple-white/20 flex h-11 w-11 items-center justify-center rounded-lg border border-purple-500/40 text-purple-300">
+          <div className="bg- purple-white/20 flex h-11 w-11 items-center justify-center rounded-lg border border-purple-500/40">
             7H
           </div>
           <div>
             <div className="flex items-center gap-2">
               7th Heaven Official
-              <span className="bg- purple-white/20 rounded px-1.5 py-0.5 text-[12px] text-purple-300">
+              <span className="bg- purple-white/20 rounded px-1.5 py-0.5 text-[12px]">
                 Admin Post
               </span>
             </div>
@@ -54,12 +54,10 @@ export function CruiseLivePreview({
   return (
     <div className="min-h-[300px] overflow-hidden rounded-lg border border-white/10 bg-[#0f0a1c]">
       <div className="flex items-center justify-between border-b border-white/10 bg-[#180e2b] px-4 py-2.5">
-        <span className="text-[11px] text-purple-300">
-          📧 Email Dispatch Mockup
-        </span>
+        <span>📧 Email Dispatch Mockup</span>
         <span className="text-[10px] text-white/50">To: All Cruise Guests</span>
       </div>
-      <div className="border-b border-white/10 bg-[#140b24] p-4 text-[11px] text-purple-200">
+      <div className="border-b border-white/10 bg-[#140b24] p-4 text-purple-200">
         <strong>Subject:</strong>{" "}
         {cruiseBlastSubject || "7th Heaven Cruise Update"}
       </div>

@@ -76,22 +76,21 @@ function PaymentTestContent() {
         <div className="mb-8 text-left">
           <Link
             href="/"
-            className="text-purple-400hover: flex items-center gap-2 transition-colors"
+            className="text-purple-400hover: flex items-center gap-2"
           >
             ← Back to Home
           </Link>
         </div>
 
-        <div className="bg-white/[0.04]backdrop-blur-[18px] rounded-lg border border-white/[0.12] p-8 text-left shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04]backdrop-blur-xl rounded-lg border border-white/[0.12] p-8 text-left shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
             <span className="mb-1 inline-block">Stripe Test Mode</span>
             <h1>Payment Test Page</h1>
             <p>
               Runs a real Stripe Checkout session in test mode. Card details are
               entered on Stripe&apos;s hosted page and never touch this server.
-              Use test card{" "}
-              <span className="text-white/70">4242 4242 4242 4242</span>, any
-              future expiry, any CVC.
+              Use test card <span>4242 4242 4242 4242</span>, any future expiry,
+              any CVC.
             </p>
           </div>
 
@@ -128,7 +127,7 @@ function PaymentTestContent() {
                 required
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3 focus:border-[var(--color-accent)] focus:outline-none"
+                className="focus-ring w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3"
               />
             </div>
 
@@ -141,14 +140,14 @@ function PaymentTestContent() {
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3 focus:border-[var(--color-accent)] focus:outline-none"
+                className="focus-ring w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-[var(--color-accent)] py-3.5 transition-colors hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
+              className="w-full rounded-lg bg-[var(--color-accent)] py-3.5 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
             >
               {loading
                 ? "Redirecting to Stripe…"

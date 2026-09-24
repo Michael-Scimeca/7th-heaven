@@ -148,7 +148,7 @@ export default function ProfilePhotoUploader({
           )}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate">{member?.name || "Official Profile Photo"}</p>
+          <p>{member?.name || "Official Profile Photo"}</p>
           <p>
             {isAvatarUrl
               ? "Photo active for scheduling & site"
@@ -268,7 +268,7 @@ export default function ProfilePhotoUploader({
                 onChange={(e) => setUrlInput(e.target.value)}
                 placeholder="https://example.com/my-photo.jpg"
                 required
-                className="flex-1 rounded-lg border border-black/15 bg-white px-3 py-2 outline-none placeholder:text-black/40 focus:border-[var(--color-accent)]"
+                className="focus-ring flex-1 rounded-lg border border-black/15 bg-white px-3 py-2 outline-none placeholder:text-black/40"
               />
               <button
                 type="submit"

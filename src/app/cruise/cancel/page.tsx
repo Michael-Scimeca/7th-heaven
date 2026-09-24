@@ -47,7 +47,7 @@ function CancelContent() {
         </p>
         <Link
           href="/cruise"
-          className="text-[var(--color-accent)] transition-colors hover:text-white"
+          className="text-[var(--color-accent)] hover:text-white"
         >
           ← Back to Cruise Page
         </Link>
@@ -71,7 +71,7 @@ function CancelContent() {
           </p>
           <Link
             href="/cruise"
-            className="inline-block bg-[var(--color-accent)] px-8 py-3 transition-colors hover:bg-[var(--color-accent)]/80"
+            className="inline-block bg-[var(--color-accent)] px-8 py-3 hover:bg-[var(--color-accent)]/80"
           >
             Back to Cruise Page
           </Link>
@@ -85,7 +85,7 @@ function CancelContent() {
           </p>
           <Link
             href="/cruise"
-            className="text-[var(--color-accent)] transition-colors hover:text-white"
+            className="text-[var(--color-accent)] hover:text-white"
           >
             ← Back to Cruise Page
           </Link>
@@ -102,16 +102,13 @@ function CancelContent() {
             <button
               onClick={handleCancel}
               disabled={status === "cancelling"}
-              className="cursor-pointer bg-rose-500 px-8 py-3 transition-colors hover:bg-rose-400 disabled:opacity-70"
+              className="cursor-pointer bg-rose-500 px-8 py-3 hover:bg-rose-400 disabled:opacity-70"
             >
               {status === "cancelling"
                 ? "Cancelling..."
                 : "Yes, Cancel My Signup"}
             </button>
-            <Link
-              href="/cruise"
-              className="text-white/30 transition-colors hover:text-white"
-            >
+            <Link href="/cruise" className="text-white/30 hover:text-white">
               Never mind, keep me on the list
             </Link>
           </div>

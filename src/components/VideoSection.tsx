@@ -69,15 +69,15 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
               height={360}
               src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
               alt={video.title}
-              className="absolute inset-0 z-[1] h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+              className="absolute inset-0 z-[1] h-full w-full object-cover group-hover/thumb:scale-105"
               loading="lazy"
               onError={(e) => {
                 e.currentTarget.src = "/images/video-placeholder.jpg";
               }}
             />
             {/* YouTube-style hover overlay */}
-            <div className="absolute inset-0 z-[2] flex items-center justify-center transition-colors duration-300 group-hover/thumb:bg-black/40">
-              <div className="flex h-12 w-12 scale-75 items-center justify-center rounded-lg bg-[var(--color-accent)] opacity-0 transition-colors duration-300 group-hover/thumb:scale-100 group-hover/thumb:opacity-100">
+            <div className="absolute inset-0 z-[2] flex items-center justify-center group-hover/thumb:bg-black/40">
+              <div className="flex h-12 w-12 scale-75 items-center justify-center rounded-lg bg-[var(--color-accent)] opacity-0 group-hover/thumb:scale-100 group-hover/thumb:opacity-100">
                 <svg
                   width="16"
                   height="18"
@@ -98,7 +98,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
         )}
       </div>
       <div className="mt-3">
-        <h3 className="mb-1 line-clamp-2 transition-colors group-hover:text-[var(--color-accent)]">
+        <h3 className="mb-1 line-clamp-2 group-hover:text-[var(--color-accent)]">
           {video.title}
         </h3>
         <div className="flex flex-col gap-0.5">
@@ -211,16 +211,16 @@ export default function VideoSection() {
                         height={720}
                         src={`https://img.youtube.com/vi/${latest.id}/hqdefault.jpg`}
                         alt={latest.title}
-                        className="absolute inset-0 z-[1] h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+                        className="absolute inset-0 z-[1] h-full w-full object-cover group-hover/thumb:scale-105"
                         priority
                         onError={(e) => {
                           e.currentTarget.src = "/images/video-placeholder.jpg";
                         }}
                       />
-                      <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/30 transition-colors duration-300 group-hover/thumb:bg-black/50">
+                      <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/30 group-hover/thumb:bg-black/50">
                         <SeventhButton
                           icon={false}
-                          className="flex h-16 w-16 items-center justify-center !rounded-full border border-purple-300/40 !p-0 transition-transform duration-300 group-hover/thumb:scale-110"
+                          className="flex h-16 w-16 items-center justify-center !rounded-full border border-purple-300/40 !p-0 group-hover/thumb:scale-110"
                         >
                           <svg
                             width="22"
@@ -242,7 +242,7 @@ export default function VideoSection() {
                   )}
                 </div>
                 <div className="mt-4">
-                  <h3 className="mb-2 transition-colors group-hover:text-[var(--color-accent)]">
+                  <h3 className="mb-2 group-hover:text-[var(--color-accent)]">
                     {latest.title}
                   </h3>
                   <div className="flex items-center gap-3">
@@ -285,7 +285,7 @@ export default function VideoSection() {
 
       {/* Sticky category nav — Pill Tabs */}
       <div
-        className={`sticky top-[72px] z-30 mb-8 transition-colors duration-300 ${navStuck ? "border-b border-white/10 backdrop-blur-lg" : ""}`}
+        className={`sticky top-[72px] z-30 mb-8 ${navStuck ? "border-b border-white/10 backdrop-blur-lg" : ""}`}
         style={
           navStuck ? { backgroundColor: "rgba(10, 10, 15, 0.95)" } : undefined
         }
@@ -307,7 +307,7 @@ export default function VideoSection() {
                     setPendingFilter(null);
                   }, 250);
                 }}
-                className={`cursor-pointer rounded-lg px-6 py-2 whitespace-nowrap transition-colors duration-200 ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black" : "bg-white/[0.05] hover:bg-white/10 hover:text-white"}`}
+                className={`cursor-pointer rounded-lg px-6 py-2 whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black" : "bg-white/[0.05] hover:bg-white/10 hover:text-white"}`}
               >
                 {cat.category}
               </button>
@@ -319,7 +319,7 @@ export default function VideoSection() {
       {/* Video Grid */}
       <div ref={gridRef} className="scroll-mt-[140px] px-8">
         <div
-          className={`grid grid-cols-1 gap-6 gap-y-10 transition-colors duration-300 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 ${gridVisible ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+          className={`grid grid-cols-1 gap-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 ${gridVisible ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
         >
           {filteredVideos.slice(0, visibleCount).map((video, idx) => (
             <div
@@ -346,7 +346,7 @@ export default function VideoSection() {
                       height={360}
                       src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
                       alt={video.title}
-                      className="absolute inset-0 z-[1] h-full w-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
+                      className="absolute inset-0 z-[1] h-full w-full object-cover group-hover/thumb:scale-105"
                       loading="lazy"
                       onLoad={(e) => {
                         const img = e.currentTarget;
@@ -358,10 +358,10 @@ export default function VideoSection() {
                         e.currentTarget.src = "/images/video-placeholder.jpg";
                       }}
                     />
-                    <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/10 transition-colors duration-300 group-hover/thumb:bg-black/30">
+                    <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/10 group-hover/thumb:bg-black/30">
                       <SeventhButton
                         icon={false}
-                        className="flex h-12 w-12 scale-75 items-center justify-center !rounded-full border border-purple-300/40 !p-0 opacity-0 transition-all duration-300 group-hover/thumb:scale-100 group-hover/thumb:opacity-100"
+                        className="flex h-12 w-12 scale-75 items-center justify-center !rounded-full border border-purple-300/40 !p-0 opacity-0 group-hover/thumb:scale-100 group-hover/thumb:opacity-100"
                       >
                         <svg
                           width="16"
@@ -390,11 +390,9 @@ export default function VideoSection() {
                   7H
                 </div>
                 <div className="flex flex-1 flex-col overflow-hidden">
-                  <h3 className="group- mb-1 line-clamp-2 transition-colors">
-                    {video.title}
-                  </h3>
+                  <h3 className="group- mb-1 line-clamp-2">{video.title}</h3>
                   <div className="flex flex-col">
-                    <span className="cursor-pointer text-white/40 transition-colors hover:text-white">
+                    <span className="cursor-pointer text-white/40 hover:text-white">
                       7th Heaven Official
                     </span>
                     <div className="flex items-center gap-1.5 text-white/40">
@@ -415,7 +413,7 @@ export default function VideoSection() {
             <button
               aria-label="Previous"
               onClick={() => setVisibleCount((prev) => prev + 15)}
-              className="inline-flex items-center gap-2 bg-[var(--color-accent)] px-8 py-3 transition-colors hover:bg-[var(--color-accent)]/80"
+              className="inline-flex items-center gap-2 bg-[var(--color-accent)] px-8 py-3 hover:bg-[var(--color-accent)]/80"
             >
               Load More{" "}
               <span className="font-normal text-white/50">

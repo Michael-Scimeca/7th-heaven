@@ -1,0 +1,1763 @@
+{
+  "emptySafeCount": 9,
+  "emptyRecentlyRemovedCount": 52,
+  "extraSpacesCount": 2060,
+  "duplicateClassesCount": 118,
+  "emptySafe": [
+    {
+      "file": "src/app/admin/[username]/components/FooterProximityAlerts.tsx",
+      "line": 507,
+      "current": "<p className=\"   \">"
+    },
+    {
+      "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
+      "line": 1160,
+      "current": "className=\"\""
+    },
+    {
+      "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
+      "line": 1224,
+      "current": "className=\"\""
+    },
+    {
+      "file": "src/components/PageTransition.tsx",
+      "line": 1160,
+      "current": "<p className=\"   \">Master Path & Sync</p>"
+    },
+    {
+      "file": "src/components/PageTransition.tsx",
+      "line": 1199,
+      "current": "<span className=\"   \">"
+    },
+    {
+      "file": "src/components/PageTransition.tsx",
+      "line": 1216,
+      "current": "className=\"   \""
+    },
+    {
+      "file": "src/components/PageTransition.tsx",
+      "line": 1390,
+      "current": "className=\"   \""
+    },
+    {
+      "file": "src/components/PageTransition.tsx",
+      "line": 1431,
+      "current": "className=\"   \""
+    },
+    {
+      "file": "src/components/PageTransition.tsx",
+      "line": 1538,
+      "current": "className=\"   \""
+    }
+  ],
+  "emptyRecentlyRemoved": [
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5931,
+      "current": "<span className=\"   \"></span>",
+      "oldClasses": "py-6 pl-0"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6815,
+      "current": "<p className=\"   \">",
+      "oldClasses": "col-span-2"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 12275,
+      "current": "<p className=\"   \">{s.name}</p>",
+      "oldClasses": "grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 items-center bg-black/20 hover:bg-white/[0.03] px-4 py-3 border-b mb-0 group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-purple-500/40 bg-cyan-500/10' : ' border-white/10 hover:border-purple-500/20'}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 12281,
+      "current": "<p className=\"       \">",
+      "oldClasses": "grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 items-center bg-black/20 hover:bg-white/[0.03] px-4 py-3 border-b mb-0 group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-purple-500/40 bg-cyan-500/10' : ' border-white/10 hover:border-purple-500/20'}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 17069,
+      "current": "<p className=\"   \">",
+      "oldClasses": "space-y-2"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+      "line": 4627,
+      "current": "<p className=\"   \">",
+      "oldClasses": "text-white/50 block"
+    },
+    {
+      "file": "src/app/admin/[username]/components/CruiseLivePreview.tsx",
+      "line": 57,
+      "current": "<span className=\"   \">",
+      "oldClasses": "bg-[#0f0a1c] rounded-lg overflow-hidden border border-white/10 min-h-[300px]"
+    },
+    {
+      "file": "src/app/book/BookClient.tsx",
+      "line": 2836,
+      "current": "<div className=\"   \">",
+      "oldClasses": "text-[11px] truncate"
+    },
+    {
+      "file": "src/app/contact/ContactClient.tsx",
+      "line": 186,
+      "current": "<div className=\"\">",
+      "oldClasses": "border-b border-white/10 cursor-pointer"
+    },
+    {
+      "file": "src/app/contact/ContactClient.tsx",
+      "line": 187,
+      "current": "<h3 className=\" \">",
+      "oldClasses": "group-hover:text-purple-300 transition-colors"
+    },
+    {
+      "file": "src/app/fan-photo-wall/FanPhotoWallClient.tsx",
+      "line": 541,
+      "current": "<p className=\"   \">{photo.name}</p>",
+      "oldClasses": "flex flex-col items-end gap-0.5 shrink-0"
+    },
+    {
+      "file": "src/app/faq/FaqClient.tsx",
+      "line": 376,
+      "current": "<p className=\"     \">",
+      "oldClasses": "w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
+    },
+    {
+      "file": "src/app/features/components/FeatureCardUI.tsx",
+      "line": 82,
+      "current": "<h3 className=\"\" style={{ fontStyle: \" \" }}>",
+      "oldClasses": "text-white uppercase"
+    },
+    {
+      "file": "src/app/features/page.tsx",
+      "line": 208,
+      "current": "<h2 className=\"\" style={{ fontStyle: \" \" }}>",
+      "oldClasses": "uppercase text-white"
+    },
+    {
+      "file": "src/app/features/page.tsx",
+      "line": 234,
+      "current": "<h2 className=\"\" style={{ fontStyle: \" \" }}>",
+      "oldClasses": "uppercase text-white"
+    },
+    {
+      "file": "src/app/features/page.tsx",
+      "line": 282,
+      "current": "<h2 className=\"\" style={{ fontStyle: \" \" }}>",
+      "oldClasses": "uppercase text-white"
+    },
+    {
+      "file": "src/app/features/page.tsx",
+      "line": 300,
+      "current": "<div className=\"\" style={{ color: t.color }}>",
+      "oldClasses": "text-base"
+    },
+    {
+      "file": "src/app/firecanvas/page.tsx",
+      "line": 48,
+      "current": "<span className=\"   \">{label}</span>",
+      "oldClasses": "flex justify-between mb-1"
+    },
+    {
+      "file": "src/app/live/LiveHubClient.tsx",
+      "line": 316,
+      "current": "<span className=\"\" style={{ color: \"#f87171\" }}>",
+      "oldClasses": "max-w-[1440px] mx-auto mb-12 overflow-hidden"
+    },
+    {
+      "file": "src/app/payment-test/page.tsx",
+      "line": 368,
+      "current": "<p className=\"     \">",
+      "oldClasses": "text-white/70 text-xs leading-relaxed"
+    },
+    {
+      "file": "src/app/payment-test/page.tsx",
+      "line": 390,
+      "current": "<p className=\"     \">",
+      "oldClasses": "text-white/70 text-xs leading-relaxed"
+    },
+    {
+      "file": "src/app/payment-test/page.tsx",
+      "line": 409,
+      "current": "<p className=\"     \">",
+      "oldClasses": "text-white/70 text-xs leading-relaxed"
+    },
+    {
+      "file": "src/app/payment-test/page.tsx",
+      "line": 426,
+      "current": "<p className=\"     \">",
+      "oldClasses": "text-white/70 text-xs leading-relaxed"
+    },
+    {
+      "file": "src/app/preloaders/page.tsx",
+      "line": 45,
+      "current": "<span className=\"   \">7th Heaven Studio</span>",
+      "oldClasses": "text-[11px]    text-white/70"
+    },
+    {
+      "file": "src/app/rock-and-roll-kids/RockNRollKidsClient.tsx",
+      "line": 641,
+      "current": "<p className=\"   \">{char.desc}</p>",
+      "oldClasses": "mb-1"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 665,
+      "current": "<label className=\"   \">Button Text</label>",
+      "oldClasses": "text-xs   text-purple-300"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 677,
+      "current": "<label className=\"   \">Size Variant</label>",
+      "oldClasses": "text-xs   text-purple-300"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 694,
+      "current": "<label className=\"   \">Button Icon</label>",
+      "oldClasses": "text-xs   text-purple-300"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 712,
+      "current": "<label className=\"   \">Pill Badge Dot</label>",
+      "oldClasses": "text-xs   text-purple-300"
+    },
+    {
+      "file": "src/components/AccomplishmentsLayouts.tsx",
+      "line": 153,
+      "current": "<span className=\"   \">👑</span>",
+      "oldClasses": "p-7 rounded-lg bg-gradient-to-b from-amber-950/30 via-black to-amber-950/10 border border-purple-500/30 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:border-purple-400 hover:shadow-[0_20px_45px_rgba(147, 51, 234,0.25)] transition-colors group ${i === 2 || i === 5 ? \"md:col-span-2\" : \"\"}"
+    },
+    {
+      "file": "src/components/BioParallaxSlider.tsx",
+      "line": 2351,
+      "current": "className=\"\"",
+      "oldClasses": "absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
+    },
+    {
+      "file": "src/components/BioParallaxSlider.tsx",
+      "line": 2405,
+      "current": "className=\"\"",
+      "oldClasses": "text-white"
+    },
+    {
+      "file": "src/components/BioParallaxSlider.tsx",
+      "line": 2429,
+      "current": "className=\"\"",
+      "oldClasses": "absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-2.5 rounded-lg transition-opacity duration-300"
+    },
+    {
+      "file": "src/components/BioParallaxSlider.tsx",
+      "line": 2484,
+      "current": "className=\"\"",
+      "oldClasses": "absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/10 px-4 py-3 transition-opacity duration-300"
+    },
+    {
+      "file": "src/components/CrewDashboard/index.tsx",
+      "line": 3758,
+      "current": "className=\"\"",
+      "oldClasses": "flex-1 min-w-0"
+    },
+    {
+      "file": "src/components/CrewDashboard/index.tsx",
+      "line": 3906,
+      "current": "<p className=\"   \">",
+      "oldClasses": "p-4 bg-white/[0.03] border border-white/10 flex flex-col justify-between"
+    },
+    {
+      "file": "src/components/CrewDashboard/index.tsx",
+      "line": 3929,
+      "current": "<p className=\"   \">Flash Drop Sales</p>",
+      "oldClasses": "uppercase text-xs text-white/70"
+    },
+    {
+      "file": "src/components/CrewDashboard/index.tsx",
+      "line": 3950,
+      "current": "<p className=\"   \">Raffle Claims</p>",
+      "oldClasses": "uppercase text-xs text-white/70"
+    },
+    {
+      "file": "src/components/FakeLiveStream/index.tsx",
+      "line": 3543,
+      "current": "<span className=\"\" style={{ color: \"#4ade80\" }}>",
+      "oldClasses": "flex items-center gap-2 mb-3"
+    },
+    {
+      "file": "src/components/FakeLiveStream/index.tsx",
+      "line": 3701,
+      "current": "className=\"\"",
+      "oldClasses": "mt-1"
+    },
+    {
+      "file": "src/components/FooterProximityAlerts.tsx",
+      "line": 523,
+      "current": "<p className=\"   \">",
+      "oldClasses": "text-xs text-white/70"
+    },
+    {
+      "file": "src/components/MemberFactSheetDrawer.tsx",
+      "line": 254,
+      "current": "<h3 className=\"   \">THE CONTRADICTION</h3>",
+      "oldClasses": "text-[11px] font-mono"
+    },
+    {
+      "file": "src/components/MemberFactSheetDrawer.tsx",
+      "line": 290,
+      "current": "<h3 className=\"   \">THE SETLIST</h3>",
+      "oldClasses": "text-[11px] font-mono"
+    },
+    {
+      "file": "src/components/MemberFactSheetDrawer.tsx",
+      "line": 350,
+      "current": "<p className=\"   \">{member.fav7hSong}</p>",
+      "oldClasses": "block text-purple-400 mb-1"
+    },
+    {
+      "file": "src/components/MemberFactSheetDrawer.tsx",
+      "line": 441,
+      "current": "<h3 className=\"   \">OFF STAGE</h3>",
+      "oldClasses": "text-[11px] font-mono"
+    },
+    {
+      "file": "src/components/MemberHeaderBadge.tsx",
+      "line": 103,
+      "current": "{email && <p className=\"   \">{email}</p>}",
+      "oldClasses": "text-white/70 text-sm"
+    },
+    {
+      "file": "src/components/PageTransition.tsx",
+      "line": 1236,
+      "current": "<span className=\"   \">",
+      "oldClasses": "w-full accent-purple-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+    },
+    {
+      "file": "src/components/PageTransition.tsx",
+      "line": 1286,
+      "current": "<label htmlFor=\"exit-ease-select\" className=\"   \">",
+      "oldClasses": "bg-black text-white"
+    },
+    {
+      "file": "src/components/RoleBadge.tsx",
+      "line": 144,
+      "current": "<span className=\"\" style={{ fontSize: size * 0.33 }}>",
+      "oldClasses": "relative ${className}"
+    },
+    {
+      "file": "src/components/TourMap.tsx",
+      "line": 1828,
+      "current": "<span className=\"     \">",
+      "oldClasses": "space-y-1"
+    },
+    {
+      "file": "src/components/TourMap.tsx",
+      "line": 1856,
+      "current": "<span className=\"     \">",
+      "oldClasses": "space-y-1"
+    },
+    {
+      "file": "src/components/TourMap.tsx",
+      "line": 1933,
+      "current": "<span className=\"   \">SHOW TYPES</span>",
+      "oldClasses": "flex items-center justify-between pb-3 border-b border-white/10"
+    }
+  ],
+  "extraSpaces": [
+    {
+      "file": "src/app/admin/[username]/components/AdminAuthGate.tsx",
+      "line": 58,
+      "value": "w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30  outline-none focus:border-purple-500",
+      "lineContent": "className=\"w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30  outline-none focus:border-purple-500\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminAuthGate.tsx",
+      "line": 76,
+      "value": "w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30  outline-none focus:border-purple-500",
+      "lineContent": "className=\"w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30  outline-none focus:border-purple-500\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminAuthGate.tsx",
+      "line": 100,
+      "value": "cursor-pointer border-none p-0 text-white/40  hover:text-white",
+      "lineContent": "className=\"cursor-pointer border-none p-0 text-white/40  hover:text-white\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminAuthGate.tsx",
+      "line": 107,
+      "value": "cursor-pointer border-none p-0 text-purple-400  hover: ",
+      "lineContent": "className=\"cursor-pointer border-none p-0 text-purple-400  hover: \""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 111,
+      "value": "block  ",
+      "lineContent": "<span className=\"block  \">OpenShifts</span>"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 112,
+      "value": "text-[10px]  ",
+      "lineContent": "<span className=\"text-[10px]  \">Positions</span>"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 132,
+      "value": "mb-2  ",
+      "lineContent": "<div className=\"mb-2  \">Role: {role || \"Crew Member\"}</div>"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 158,
+      "value": "hover:text-whitebg-black-80 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50   backdrop-blur-sm",
+      "lineContent": "className=\"hover:text-whitebg-black-80 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50   backdrop-blur-sm\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 179,
+      "value": "hover:text-whitebg-red-600 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50   backdrop-blur-sm",
+      "lineContent": "className=\"hover:text-whitebg-red-600 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50   backdrop-blur-sm\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 599,
+      "value": "group flex w-full cursor-pointer items-center gap-2 !rounded-none border-b border-white/10 px-2 py-1.5 text-left  duration-150 ${isSelected ? \"!rounded-none bg-[#00000029]\" : isActiveWeek ? \"bg-[#00000029]\" : \" \"}",
+      "lineContent": "className={`group flex w-full cursor-pointer items-center gap-2 !rounded-none border-b border-white/10 px-2 py-1.5 text-left  duration-150 ${isSelected ? \"!rounded-none bg-[#00000029]\" : isActiveWeek ? \"bg-[#00000029]\" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 604,
+      "value": "  ${isSelected ? \" \" : isActiveWeek ? \" \" : \"text-white/50\"}",
+      "lineContent": "className={`  ${isSelected ? \" \" : isActiveWeek ? \" \" : \"text-white/50\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 611,
+      "value": "  ${isSelected ? \" \" : isActiveWeek ? \"/90\" : \" \"}",
+      "lineContent": "className={`  ${isSelected ? \" \" : isActiveWeek ? \"/90\" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 616,
+      "value": "m-0  ",
+      "lineContent": "<p className=\"m-0  \">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 707,
+      "value": "  pr-2",
+      "lineContent": "<div className=\"  pr-2\">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 708,
+      "value": "block  ",
+      "lineContent": "<span className=\"block  \">Edit Roles</span>"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 709,
+      "value": "block   text-[10px]  ",
+      "lineContent": "<span className=\"block   text-[10px]  \">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 804,
+      "value": "cursor-pointer border-none text-[10px] text-rose-400  hover:text-rose-300",
+      "lineContent": "className=\"cursor-pointer border-none text-[10px] text-rose-400  hover:text-rose-300\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 816,
+      "value": "placeholder: w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-white/40 shadow-inner  focus:border-purple-400 focus:bg-white/15 focus:outline-none",
+      "lineContent": "className=\"placeholder: w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-white/40 shadow-inner  focus:border-purple-400 focus:bg-white/15 focus:outline-none\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5152,
+      "value": "flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5  select-none",
+      "lineContent": "className=\"flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5  select-none\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5185,
+      "value": "relative shrink-0 cursor-pointer overflow-hidden rounded-lg border px-4 py-1.5 text-[0.9rem]  duration-300 ${bannerActive ? \"border-purple-500 bg-purple-600\" : \"border-white/10 bg-[#00000029] text-white/50 hover:border-white/20\"} disabled:opacity-50",
+      "lineContent": "className={`relative shrink-0 cursor-pointer overflow-hidden rounded-lg border px-4 py-1.5 text-[0.9rem]  duration-300 ${bannerActive ? \"border-purple-500 bg-purple-600\" : \"border-white/10 bg-[#00000029] text-white/50 hover:border-white/20\"} disabled:opacity-50`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5262,
+      "value": "cursor-pointer rounded-lg border border-[var(--color-accent)]/50 bg-[var(--color-accent)] px-6 py-2.5 shadow-[0_4px_15px_rgba(255,10,61,0.3)]  hover:-translate-y-0.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] active:translate-y-0 disabled:opacity-50",
+      "lineContent": "className=\"cursor-pointer rounded-lg border border-[var(--color-accent)]/50 bg-[var(--color-accent)] px-6 py-2.5 shadow-[0_4px_15px_rgba(255,10,61,0.3)]  hover:-translate-y-0.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] active:translate-y-0 disabled:opacity-50\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5320,
+      "value": "r  ",
+      "lineContent": "<span className=\"r  \">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5475,
+      "value": "block text-2xl  ",
+      "lineContent": "<span className=\"block text-2xl  \">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5478,
+      "value": "mt-1 block text-[0.55rem]  ",
+      "lineContent": "<span className=\"mt-1 block text-[0.55rem]  \">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5571,
+      "value": "block  ",
+      "lineContent": "<span className=\"block  \"></span>"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5577,
+      "value": "block  ",
+      "lineContent": "<span className=\"block  \"></span>"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5583,
+      "value": "block  ",
+      "lineContent": "<span className=\"block  \"></span>"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5664,
+      "value": "p-3  ",
+      "lineContent": "<td className=\"p-3  \">38%</td>"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5690,
+      "value": "p-3  ",
+      "lineContent": "<td className=\"p-3  \">45%</td>"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5790,
+      "value": "pr- flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0  select-none hover:bg-white/[0.02]",
+      "lineContent": "className=\"pr- flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0  select-none hover:bg-white/[0.02]\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5825,
+      "value": "cursor-pointer px-4 py-2   whitespace-nowrap",
+      "lineContent": "className=\"cursor-pointer px-4 py-2   whitespace-nowrap\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5832,
+      "value": "cursor-pointer px-4 py-2   whitespace-nowrap",
+      "lineContent": "className=\"cursor-pointer px-4 py-2   whitespace-nowrap\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5878,
+      "value": "rounded border border-white/10 bg-[#00000029] px-3 py-1.5 text-[0.9rem] text-white/40  hover:bg-white/10 hover:text-white",
+      "lineContent": "className=\"rounded border border-white/10 bg-[#00000029] px-3 py-1.5 text-[0.9rem] text-white/40  hover:bg-white/10 hover:text-white\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6018,
+      "value": "border-b border-white/10  hover:bg-white/[0.02]",
+      "lineContent": "className=\"border-b border-white/10  hover:bg-white/[0.02]\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6029,
+      "value": "max-w-[200px]  ",
+      "lineContent": "<span className=\"max-w-[200px]  \">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6038,
+      "value": "group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5  hover:bg-white/15",
+      "lineContent": "className=\"group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5  hover:bg-white/15\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6168,
+      "value": "border-b border-white/10  hover:bg-white/[0.02]",
+      "lineContent": "className=\"border-b border-white/10  hover:bg-white/[0.02]\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6173,
+      "value": "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? \"border border-purple-500/30 bg-white/20  \" : i === 1 ? \"border border-gray-400/30 bg-gray-400/20 text-gray-300\" : i === 2 ? \"border border-orange-700/30 bg-orange-700/20 text-orange-400\" : \"border border-white/10 bg-[#00000029] text-white/30\"}",
+      "lineContent": "className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? \"border border-purple-500/30 bg-white/20  \" : i === 1 ? \"border border-gray-400/30 bg-gray-400/20 text-gray-300\" : i === 2 ? \"border border-orange-700/30 bg-orange-700/20 text-orange-400\" : \"border border-white/10 bg-[#00000029] text-white/30\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6177,
+      "value": "max-w-[180px]  ",
+      "lineContent": "<span className=\"max-w-[180px]  \">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6243,
+      "value": "h-full rounded-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48]  duration-500",
+      "lineContent": "className=\"h-full rounded-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48]  duration-500\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6303,
+      "value": "border-b border-white/10  hover:bg-white/[0.02]",
+      "lineContent": "className=\"border-b border-white/10  hover:bg-white/[0.02]\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6321,
+      "value": "max-w-[120px]  ",
+      "lineContent": "<div className=\"max-w-[120px]  \">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6339,
+      "value": "inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === \"PAID\" ? \"border border-emerald-500/30 bg-emerald-500/15\" : order.financialStatus === \"REFUNDED\" || order.financialStatus === \"PARTIALLY_REFUNDED\" ? \"border border-rose-500/30 bg-rose-500/15 text-rose-400\" : \"border border-purple-500/30 bg-purple-500/15  \"}",
+      "lineContent": "className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === \"PAID\" ? \"border border-emerald-500/30 bg-emerald-500/15\" : order.financialStatus === \"REFUNDED\" || order.financialStatus === \"PARTIALLY_REFUNDED\" ? \"border border-rose-500/30 bg-rose-500/15 text-rose-400\" : \"border border-purple-500/30 bg-purple-500/15  \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6405,
+      "value": "border-b border-white/10  hover:bg-white/[0.02]",
+      "lineContent": "className=\"border-b border-white/10  hover:bg-white/[0.02]\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6416,
+      "value": "max-w-[200px]  ",
+      "lineContent": "<span className=\"max-w-[200px]  \">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6425,
+      "value": "group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5  hover:bg-white/15",
+      "lineContent": "className=\"group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5  hover:bg-white/15\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6474,
+      "value": "border border-white/10 bg-black/30 p-5  hover:border-purple-500/40",
+      "lineContent": "<div className=\"border border-white/10 bg-black/30 p-5  hover:border-purple-500/40\">"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6557,
+      "value": "border-b border-white/10  hover:bg-white/[0.02]",
+      "lineContent": "className=\"border-b border-white/10  hover:bg-white/[0.02]\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6582,
+      "value": "mt-0.5 max-w-[150px]   text-[0.55rem] text-white/30",
+      "lineContent": "className=\"mt-0.5 max-w-[150px]   text-[0.55rem] text-white/30\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6614,
+      "value": "inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === \"Flash Drop\" ? \"border border-pink-500/30 bg-pink-500/15 text-pink-400\" : order.source === \"Raffle\" ? \"border border-purple-500/30 bg-purple-500/15  \" : \"border border-blue-500/30 bg-blue-500/15 text-blue-400\"}",
+      "lineContent": "className={`inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === \"Flash Drop\" ? \"border border-pink-500/30 bg-pink-500/15 text-pink-400\" : order.source === \"Raffle\" ? \"border border-purple-500/30 bg-purple-500/15  \" : \"border border-blue-500/30 bg-blue-500/15 text-blue-400\"}`}"
+    }
+  ],
+  "duplicateClasses": [
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 604,
+      "duplicates": [
+        "\""
+      ],
+      "value": "  ${isSelected ? \" \" : isActiveWeek ? \" \" : \"text-white/50\"}",
+      "lineContent": "className={`  ${isSelected ? \" \" : isActiveWeek ? \" \" : \"text-white/50\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 611,
+      "duplicates": [
+        "\""
+      ],
+      "value": "  ${isSelected ? \" \" : isActiveWeek ? \"/90\" : \" \"}",
+      "lineContent": "className={`  ${isSelected ? \" \" : isActiveWeek ? \"/90\" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 5237,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "flex animate-[slideIn_0.3s_ease-out] items-center gap-2 px-4 py-2.5 text-[0.9rem] backdrop-blur-[45px] ${bannerSaveStatus === \"saved\" ? \"border border-white/10 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]\" : \"border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]\"}",
+      "lineContent": "className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 px-4 py-2.5 text-[0.9rem] backdrop-blur-[45px] ${bannerSaveStatus === \"saved\" ? \"border border-white/10 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]\" : \"border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6067,
+      "duplicates": [
+        "\""
+      ],
+      "value": "${p.inventory <= 0 ? \"text-rose-400\" : p.inventory < 5 ? \" \" : \"text-emerald-400\"}",
+      "lineContent": "className={`${p.inventory <= 0 ? \"text-rose-400\" : p.inventory < 5 ? \" \" : \"text-emerald-400\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6173,
+      "duplicates": [
+        "===",
+        "\"border",
+        "i"
+      ],
+      "value": "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? \"border border-purple-500/30 bg-white/20  \" : i === 1 ? \"border border-gray-400/30 bg-gray-400/20 text-gray-300\" : i === 2 ? \"border border-orange-700/30 bg-orange-700/20 text-orange-400\" : \"border border-white/10 bg-[#00000029] text-white/30\"}",
+      "lineContent": "className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? \"border border-purple-500/30 bg-white/20  \" : i === 1 ? \"border border-gray-400/30 bg-gray-400/20 text-gray-300\" : i === 2 ? \"border border-orange-700/30 bg-orange-700/20 text-orange-400\" : \"border border-white/10 bg-[#00000029] text-white/30\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6339,
+      "duplicates": [
+        "===",
+        "order.financialStatus",
+        "\"border"
+      ],
+      "value": "inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === \"PAID\" ? \"border border-emerald-500/30 bg-emerald-500/15\" : order.financialStatus === \"REFUNDED\" || order.financialStatus === \"PARTIALLY_REFUNDED\" ? \"border border-rose-500/30 bg-rose-500/15 text-rose-400\" : \"border border-purple-500/30 bg-purple-500/15  \"}",
+      "lineContent": "className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === \"PAID\" ? \"border border-emerald-500/30 bg-emerald-500/15\" : order.financialStatus === \"REFUNDED\" || order.financialStatus === \"PARTIALLY_REFUNDED\" ? \"border border-rose-500/30 bg-rose-500/15 text-rose-400\" : \"border border-purple-500/30 bg-purple-500/15  \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6347,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.fulfillmentStatus === \"FULFILLED\" ? \"border border-blue-500/30 bg-blue-500/15 text-blue-400\" : \"border border-white/10 bg-[#00000029] text-white/30\"}",
+      "lineContent": "className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.fulfillmentStatus === \"FULFILLED\" ? \"border border-blue-500/30 bg-blue-500/15 text-blue-400\" : \"border border-white/10 bg-[#00000029] text-white/30\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6454,
+      "duplicates": [
+        "\""
+      ],
+      "value": "${p.inventory <= 0 ? \"text-rose-400\" : p.inventory < 5 ? \" \" : \"text-emerald-400\"}",
+      "lineContent": "className={`${p.inventory <= 0 ? \"text-rose-400\" : p.inventory < 5 ? \" \" : \"text-emerald-400\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6614,
+      "duplicates": [
+        "===",
+        "\"border"
+      ],
+      "value": "inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === \"Flash Drop\" ? \"border border-pink-500/30 bg-pink-500/15 text-pink-400\" : order.source === \"Raffle\" ? \"border border-purple-500/30 bg-purple-500/15  \" : \"border border-blue-500/30 bg-blue-500/15 text-blue-400\"}",
+      "lineContent": "className={`inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === \"Flash Drop\" ? \"border border-pink-500/30 bg-pink-500/15 text-pink-400\" : order.source === \"Raffle\" ? \"border border-purple-500/30 bg-purple-500/15  \" : \"border border-blue-500/30 bg-blue-500/15 text-blue-400\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6622,
+      "duplicates": [
+        "===",
+        "order.status",
+        "\"border"
+      ],
+      "value": "inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.status === \"Shipped\" || order.status === \"Claimed\" ? \"border border-emerald-500/30 bg-emerald-500/15\" : order.status === \"Ready for Pickup\" ? \"border border-purple-500/30 bg-purple-500/15  \" : \"border border-white/10 bg-[#00000029] text-white/40\"}",
+      "lineContent": "className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.status === \"Shipped\" || order.status === \"Claimed\" ? \"border border-emerald-500/30 bg-emerald-500/15\" : order.status === \"Ready for Pickup\" ? \"border border-purple-500/30 bg-purple-500/15  \" : \"border border-white/10 bg-[#00000029] text-white/40\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 6890,
+      "duplicates": [
+        "||"
+      ],
+      "value": "mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-1 text-[0.55rem] transition-[background-color,border-color,color,transform] active:scale-95 ${b.loadInTime?.includes(\"Unsure\") || b.load_in_time?.includes(\"Unsure\") || !b.loadInTime ? \"animate-pulse border border-amber-500/40 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30\" : \"border border-purple-500/30 bg-cyan-500/15 hover:bg-cyan-500/25\"}",
+      "lineContent": "className={`mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-1 text-[0.55rem] transition-[background-color,border-color,color,transform] active:scale-95 ${b.loadInTime?.includes(\"Unsure\") || b.load_in_time?.includes(\"Unsure\") || !b.loadInTime ? \"animate-pulse border border-amber-500/40 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30\" : \"border border-purple-500/30 bg-cyan-500/15 hover:bg-cyan-500/25\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 8972,
+      "duplicates": [
+        "\""
+      ],
+      "value": "relative flex min-h-[38px] items-center justify-between gap-2.5 px-2.5 py-2  duration-200 ${isChecked ? \" \" : \"\"}",
+      "lineContent": "className={`relative flex min-h-[38px] items-center justify-between gap-2.5 px-2.5 py-2  duration-200 ${isChecked ? \" \" : \"\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 10230,
+      "duplicates": [
+        "\""
+      ],
+      "value": "flex min-h-[48px] cursor-pointer items-center justify-between gap-2.5 !rounded-none border-b border-white/10 !bg-[#00000029] !px-2  duration-200 select-none ${isChecked ? \" \" : \"hover:bg-white/[0.04]\"}",
+      "lineContent": "className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-2.5 !rounded-none border-b border-white/10 !bg-[#00000029] !px-2  duration-200 select-none ${isChecked ? \" \" : \"hover:bg-white/[0.04]\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 11005,
+      "duplicates": [
+        "===",
+        "\""
+      ],
+      "value": "rounded py-0.5 text-[0.9rem] ${user.role === \"crew\" || user.role === \"admin\" ? \" \" : \" \"}",
+      "lineContent": "className={`rounded py-0.5 text-[0.9rem] ${user.role === \"crew\" || user.role === \"admin\" ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 11013,
+      "duplicates": [
+        "==="
+      ],
+      "value": "h-2 w-2 rounded-full ${user.status === \"streaming\" ? \"animate-pulse bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]\" : user.status === \"watching\" ? \"bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]\" : \"bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]\"}",
+      "lineContent": "className={`h-2 w-2 rounded-full ${user.status === \"streaming\" ? \"animate-pulse bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]\" : user.status === \"watching\" ? \"bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]\" : \"bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 13470,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? \"min-h-[100px]\" : \"min-h-[48px]\"} ${shift.isDraft ? \"wiw-striped\" : \"\"} ${activeLockingEditor ? \"animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80\" : \"\"}",
+      "lineContent": "className={`wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? \"min-h-[100px]\" : \"min-h-[48px]\"} ${shift.isDraft ? \"wiw-striped\" : \"\"} ${activeLockingEditor ? \"animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 13871,
+      "duplicates": [
+        "===",
+        "day.dateStr",
+        "\""
+      ],
+      "value": "group wiw-sticky-header relative min-w-[130px] flex-1 cursor-pointer border-r border-b border-[var(--border-color)] p-2  duration-200 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? \" \" : isNextShow ? \"border-x border-white/10  \" : \" \"}",
+      "lineContent": "className={`group wiw-sticky-header relative min-w-[130px] flex-1 cursor-pointer border-r border-b border-[var(--border-color)] p-2  duration-200 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? \" \" : isNextShow ? \"border-x border-white/10  \" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 13917,
+      "duplicates": [
+        "\""
+      ],
+      "value": "cursor-pointer rounded border-none p-0.5  ${scheduleSortByDate === day.dateStr ? \"bg-white/20  \" : \" \"}",
+      "lineContent": "className={`cursor-pointer rounded border-none p-0.5  ${scheduleSortByDate === day.dateStr ? \"bg-white/20  \" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 13970,
+      "duplicates": [
+        "\"border-x",
+        "bg-purple-500/10\""
+      ],
+      "value": "min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \" \"}",
+      "lineContent": "className={`min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 14239,
+      "duplicates": [
+        "\"border-x",
+        "bg-purple-500/10\""
+      ],
+      "value": "group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \"bg-[var(--card-bg)]\"}",
+      "lineContent": "className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \"bg-[var(--card-bg)]\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 14812,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? \"border border-pink-500/40 bg-pink-500/20 text-pink-400\" : \"border border-emerald-500/40 bg-emerald-500/20\"}",
+      "lineContent": "className={`rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? \"border border-pink-500/40 bg-pink-500/20 text-pink-400\" : \"border border-emerald-500/40 bg-emerald-500/20\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 15998,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] duration-200 ${assignment.active ? \"border border-purple-500/40 shadow-purple-900/20\" : \"border border-transparent\"}",
+      "lineContent": "className={`rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] duration-200 ${assignment.active ? \"border border-purple-500/40 shadow-purple-900/20\" : \"border border-transparent\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
+      "line": 18273,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "flex items-center gap-2 px-4 py-2.5 text-[0.9rem] animate-[slideIn_0.3s_ease-out]${cruiseSaveStatus === \"saved\" ? \"border border-[var(--color-accent)]/30 bg-emerald-500/10\" : \"border border-rose-500/20 bg-rose-500/10 text-rose-400\"}",
+      "lineContent": "className={`flex items-center gap-2 px-4 py-2.5 text-[0.9rem] animate-[slideIn_0.3s_ease-out]${cruiseSaveStatus === \"saved\" ? \"border border-[var(--color-accent)]/30 bg-emerald-500/10\" : \"border border-rose-500/20 bg-rose-500/10 text-rose-400\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+      "line": 850,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? \"min-h-[100px]\" : \"min-h-[48px]\"} ${shift.isDraft ? \"wiw-striped\" : \"\"} ${activeLockingEditor ? \"animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80\" : \"\"}",
+      "lineContent": "className={`wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? \"min-h-[100px]\" : \"min-h-[48px]\"} ${shift.isDraft ? \"wiw-striped\" : \"\"} ${activeLockingEditor ? \"animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+      "line": 1342,
+      "duplicates": [
+        "===",
+        "day.dateStr"
+      ],
+      "value": "group wiw-sticky-header relative w-36 shrink-0 cursor-pointer border-r border-b border-[var(--border-color)] p-2  duration-200 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? \"bg- purple-white/20   shadow-[inset_0_-3px_0_#9333ea]\" : isNextShow ? \"border-x border-purple-500/30 bg-purple-500/10   shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]\" : \" \"}",
+      "lineContent": "className={`group wiw-sticky-header relative w-36 shrink-0 cursor-pointer border-r border-b border-[var(--border-color)] p-2  duration-200 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? \"bg- purple-white/20   shadow-[inset_0_-3px_0_#9333ea]\" : isNextShow ? \"border-x border-purple-500/30 bg-purple-500/10   shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]\" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+      "line": 1441,
+      "duplicates": [
+        "\"border-x",
+        "bg-purple-500/10\""
+      ],
+      "value": "relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \" \"}",
+      "lineContent": "className={`relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+      "line": 1727,
+      "duplicates": [
+        "\"border-x",
+        "bg-purple-500/10\""
+      ],
+      "value": "group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \"bg-[var(--card-bg)]\"}",
+      "lineContent": "className={`group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \"bg-[var(--card-bg)]\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+      "line": 2300,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? \"border border-pink-500/40 bg-pink-500/20 text-pink-400\" : \"border border-emerald-500/40 bg-emerald-500/20\"}",
+      "lineContent": "className={`rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? \"border border-pink-500/40 bg-pink-500/20 text-pink-400\" : \"border border-emerald-500/40 bg-emerald-500/20\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",
+      "line": 3516,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "rounded-lg p-3.5 transition-all duration-200 ${assignment.active ? \"border border-purple-500/40 shadow-purple-900/20\" : \"border border-transparent\"}",
+      "lineContent": "className={`rounded-lg p-3.5 transition-all duration-200 ${assignment.active ? \"border border-purple-500/40 shadow-purple-900/20\" : \"border border-transparent\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/FooterProximityAlerts.tsx",
+      "line": 461,
+      "duplicates": [
+        "!"
+      ],
+      "value": "! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 !  whitespace-nowrap transition-all disabled:opacity-60",
+      "lineContent": "className=\"! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 !  whitespace-nowrap transition-all disabled:opacity-60\""
+    },
+    {
+      "file": "src/app/admin/[username]/components/adminDashboardShared.tsx",
+      "line": 148,
+      "duplicates": [
+        "\""
+      ],
+      "value": "  ${isSelected ? \" \" : isActiveWeek ? \" \" : \"text-white/50\"}",
+      "lineContent": "className={`  ${isSelected ? \" \" : isActiveWeek ? \" \" : \"text-white/50\"}`}"
+    },
+    {
+      "file": "src/app/admin/[username]/components/adminDashboardShared.tsx",
+      "line": 155,
+      "duplicates": [
+        "\""
+      ],
+      "value": "  ${isSelected ? \" \" : isActiveWeek ? \"/90\" : \" \"}",
+      "lineContent": "className={`  ${isSelected ? \" \" : isActiveWeek ? \"/90\" : \" \"}`}"
+    },
+    {
+      "file": "src/app/admin/emails/page.tsx",
+      "line": 110,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "group w-full cursor-pointer p-4 text-left  ${activeId === t.id ? \"border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10\" : \"border border-transparent\"}",
+      "lineContent": "className={`group w-full cursor-pointer p-4 text-left  ${activeId === t.id ? \"border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10\" : \"border border-transparent\"}`}"
+    },
+    {
+      "file": "src/app/admin/emails/page.tsx",
+      "line": 114,
+      "duplicates": [
+        "\""
+      ],
+      "value": "${activeId === t.id ? \" \" : \"  group-hover:text-white\"}",
+      "lineContent": "className={`${activeId === t.id ? \" \" : \"  group-hover:text-white\"}`}"
+    },
+    {
+      "file": "src/app/admin/emails/page.tsx",
+      "line": 119,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "rounded-lg px-2 py-0.5 ${t.status === \"live\" ? \"border border-[var(--color-accent)]/30 bg-emerald-500/10\" : \"border border-white/20 bg-purple-600/10  \"}",
+      "lineContent": "className={`rounded-lg px-2 py-0.5 ${t.status === \"live\" ? \"border border-[var(--color-accent)]/30 bg-emerald-500/10\" : \"border border-white/20 bg-purple-600/10  \"}`}"
+    },
+    {
+      "file": "src/app/admin/emails/page.tsx",
+      "line": 188,
+      "duplicates": [
+        "\"border-b"
+      ],
+      "value": "animate-[fade-in_0.3s_ease-out] px-6 py-2 text-center ${sendResult.success ? \"border-b border-[var(--color-accent)]/30 bg-emerald-500/10\" : \"border-b border-red-500/20 bg-red-500/10 text-red-400\"}",
+      "lineContent": "className={`animate-[fade-in_0.3s_ease-out] px-6 py-2 text-center ${sendResult.success ? \"border-b border-[var(--color-accent)]/30 bg-emerald-500/10\" : \"border-b border-red-500/20 bg-red-500/10 text-red-400\"}`}"
+    },
+    {
+      "file": "src/app/admin/legal/page.tsx",
+      "line": 622,
+      "duplicates": [
+        "\""
+      ],
+      "value": " ${isChecked ? \" \" : \"text-rose-200\"}",
+      "lineContent": "className={` ${isChecked ? \" \" : \"text-rose-200\"}`}"
+    },
+    {
+      "file": "src/app/admin/shop-inventory/page.tsx",
+      "line": 338,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "rounded-lg px-3 py-1.5  ${product.active ? \"border border-emerald-500/30 bg-emerald-500/20 text-emerald-300\" : \"border border-white/10 bg-[#00000029] text-white/40\"}",
+      "lineContent": "className={`rounded-lg px-3 py-1.5  ${product.active ? \"border border-emerald-500/30 bg-emerald-500/20 text-emerald-300\" : \"border border-white/10 bg-[#00000029] text-white/40\"}`}"
+    },
+    {
+      "file": "src/app/book/BookClient.tsx",
+      "line": 2334,
+      "duplicates": [
+        "\""
+      ],
+      "value": "block text-base ${isActive ? \" \" : \" \"}",
+      "lineContent": "className={`block text-base ${isActive ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/app/book/components/MiniDatePicker.tsx",
+      "line": 70,
+      "duplicates": [
+        "\""
+      ],
+      "value": "group flex w-full cursor-pointer items-center justify-between rounded-lg border border-white/10 px-2.5 py-2.5 text-left ring-0 backdrop-blur-[45px]  outline-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none ${value ? \" \" : \" \"}",
+      "lineContent": "className={`group flex w-full cursor-pointer items-center justify-between rounded-lg border border-white/10 px-2.5 py-2.5 text-left ring-0 backdrop-blur-[45px]  outline-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none ${value ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/app/book/components/MiniDatePicker.tsx",
+      "line": 74,
+      "duplicates": [
+        "\""
+      ],
+      "value": "transition-[color,opacity] duration-200 ${value ? \" \" : \"/45 group-hover:text-white group-hover:opacity-100\"}",
+      "lineContent": "className={`transition-[color,opacity] duration-200 ${value ? \" \" : \"/45 group-hover:text-white group-hover:opacity-100\"}`}"
+    },
+    {
+      "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+      "line": 276,
+      "duplicates": [
+        "\"border-white/10",
+        "bg-[#00000029]"
+      ],
+      "value": "flex w-full cursor-pointer items-center gap-4 rounded-2xl border p-4 text-left  ${activeSpotlightPort === idx ? \"border-white/10 bg-[#00000029] backdrop-blur-[16px]\" : \"border-white/10 bg-[#00000029] backdrop-blur-[16px]\"}",
+      "lineContent": "className={`flex w-full cursor-pointer items-center gap-4 rounded-2xl border p-4 text-left  ${activeSpotlightPort === idx ? \"border-white/10 bg-[#00000029] backdrop-blur-[16px]\" : \"border-white/10 bg-[#00000029] backdrop-blur-[16px]\"}`}"
+    },
+    {
+      "file": "src/app/cruise/components/CruisePortsCatalogSection.tsx",
+      "line": 292,
+      "duplicates": [
+        "\""
+      ],
+      "value": "  ${activeSpotlightPort === idx ? \" \" : \" \"}",
+      "lineContent": "className={`  ${activeSpotlightPort === idx ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/app/cruise/preview/page.tsx",
+      "line": 115,
+      "duplicates": [
+        "i"
+      ],
+      "value": "flex h-8 w-8 items-center justify-center rounded-lg  ${step === i ? \"bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]\" : step > i ? \"bg-[var(--color-accent)]/30\" : \"border border-white/10 bg-[#00000029] text-white/30\"}",
+      "lineContent": "className={`flex h-8 w-8 items-center justify-center rounded-lg  ${step === i ? \"bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]\" : step > i ? \"bg-[var(--color-accent)]/30\" : \"border border-white/10 bg-[#00000029] text-white/30\"}`}"
+    },
+    {
+      "file": "src/app/cruise/preview/page.tsx",
+      "line": 120,
+      "duplicates": [
+        "\""
+      ],
+      "value": "text-[var(--font-size-2xs)] ${step === i ? \" \" : \"text-white/20\"}",
+      "lineContent": "className={`text-[var(--font-size-2xs)] ${step === i ? \" \" : \"text-white/20\"}`}"
+    },
+    {
+      "file": "src/app/cruise/preview/page.tsx",
+      "line": 265,
+      "duplicates": [
+        "===",
+        "0"
+      ],
+      "value": "grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? \"bg-[var(--color-accent)]/10\" : i % 2 === 0 ? \"bg-white/[0.01]\" : \"\"}",
+      "lineContent": "className={`grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? \"bg-[var(--color-accent)]/10\" : i % 2 === 0 ? \"bg-white/[0.01]\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/features/components/FeatureCardUI.tsx",
+      "line": 117,
+      "duplicates": [
+        "\"bg-gradient-to-r"
+      ],
+      "value": "h-px w-full ${isPurple ? \"bg-gradient-to-r from-[#851DEF]/70 via-[#c084fc]/40 to-transparent\" : \"bg-gradient-to-r from-white/10 to-transparent\"}",
+      "lineContent": "className={`h-px w-full ${isPurple ? \"bg-gradient-to-r from-[#851DEF]/70 via-[#c084fc]/40 to-transparent\" : \"bg-gradient-to-r from-white/10 to-transparent\"}`}"
+    },
+    {
+      "file": "src/app/planner/PlannerClient.tsx",
+      "line": 383,
+      "duplicates": [
+        "\""
+      ],
+      "value": " ${step.active ? \" \" : \"text-white/40\"}",
+      "lineContent": "className={` ${step.active ? \" \" : \"text-white/40\"}`}"
+    },
+    {
+      "file": "src/app/planner/PlannerClient.tsx",
+      "line": 555,
+      "duplicates": [
+        "\""
+      ],
+      "value": " ${item.done ? \" \" : \"text-white/40\"}",
+      "lineContent": "className={` ${item.done ? \" \" : \"text-white/40\"}`}"
+    },
+    {
+      "file": "src/app/qr/merch/MerchQRClient.tsx",
+      "line": 647,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "h-10 w-12 cursor-pointer  ${selectedSize === size ? \"border border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]\" : \"border border-white/10 bg-[#00000029] hover:text-white\"}",
+      "lineContent": "className={`h-10 w-12 cursor-pointer  ${selectedSize === size ? \"border border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]\" : \"border border-white/10 bg-[#00000029] hover:text-white\"}`}"
+    },
+    {
+      "file": "src/app/sitemap/VisualSitemapClient.tsx",
+      "line": 2362,
+      "duplicates": [
+        "!"
+      ],
+      "value": "! ! ! overflow-hidden rounded-lg border-white/10 !bg-black/90 !shadow-2xl",
+      "lineContent": "<Controls className=\"! ! ! overflow-hidden rounded-lg border-white/10 !bg-black/90 !shadow-2xl\" />"
+    },
+    {
+      "file": "src/app/sitemap/VisualSitemapClient.tsx",
+      "line": 2367,
+      "duplicates": [
+        "!"
+      ],
+      "value": "! ! rounded-lg border-white/10 !bg-black/90 !shadow-2xl",
+      "lineContent": "className=\"! ! rounded-lg border-white/10 !bg-black/90 !shadow-2xl\""
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 967,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "btn-pill-glass cursor-pointer ${isActiveState ? \"active\" : \"\"} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"}",
+      "lineContent": "className={`btn-pill-glass cursor-pointer ${isActiveState ? \"active\" : \"\"} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 1080,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition ${sizePaddingClass} ${sanitySyncing ? \"bg-purple-800 opacity-90\" : \"\"} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"}",
+      "lineContent": "className={`btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition ${sizePaddingClass} ${sanitySyncing ? \"bg-purple-800 opacity-90\" : \"\"} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 1130,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "cursor-pointer rounded-full border border-blue-500/60 bg-blue-950/40 px-3.5 py-1.5   text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.3)] transition hover:bg-blue-600 hover:text-white ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"} ${isActiveState ? \"scale-95 border-blue-400 bg-blue-600 shadow-[0_0_18px_rgba(59,130,246,0.7)]\" : \"\"}",
+      "lineContent": "className={`cursor-pointer rounded-full border border-blue-500/60 bg-blue-950/40 px-3.5 py-1.5   text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.3)] transition hover:bg-blue-600 hover:text-white ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"} ${isActiveState ? \"scale-95 border-blue-400 bg-blue-600 shadow-[0_0_18px_rgba(59,130,246,0.7)]\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 1137,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "cursor-pointer rounded-full border border-red-500/60 bg-red-950/40 px-3.5 py-1.5   text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.3)] transition hover:bg-red-600 hover:text-white ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"} ${isActiveState ? \"scale-95 border-red-400 bg-red-600 shadow-[0_0_18px_rgba(239,68,68,0.7)]\" : \"\"}",
+      "lineContent": "className={`cursor-pointer rounded-full border border-red-500/60 bg-red-950/40 px-3.5 py-1.5   text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.3)] transition hover:bg-red-600 hover:text-white ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"} ${isActiveState ? \"scale-95 border-red-400 bg-red-600 shadow-[0_0_18px_rgba(239,68,68,0.7)]\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 1176,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition ${sizePaddingClass} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-50\" : \"\"} ${isActiveState ? \"scale-[0.98] ring-4 ring-purple-400/50\" : \"\"}",
+      "lineContent": "className={`btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition ${sizePaddingClass} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-50\" : \"\"} ${isActiveState ? \"scale-[0.98] ring-4 ring-purple-400/50\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 1214,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.4)] transition hover:bg-cyan-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] ${sizePaddingClass} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"} ${isActiveState ? \"scale-95 ring-2 ring-cyan-200\" : \"\"}",
+      "lineContent": "className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.4)] transition hover:bg-cyan-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] ${sizePaddingClass} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"} ${isActiveState ? \"scale-95 ring-2 ring-cyan-200\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 1254,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/10 transition hover:bg-white/20 ${sizePaddingClass} ${isDisabled ? \"pointer-events-none cursor-not-allowed bg-[#00000029] opacity-30\" : \"\"} ${isActiveState ? \"scale-95 bg-white/30 ring-2 ring-white/30\" : \"\"}",
+      "lineContent": "className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/10 transition hover:bg-white/20 ${sizePaddingClass} ${isDisabled ? \"pointer-events-none cursor-not-allowed bg-[#00000029] opacity-30\" : \"\"} ${isActiveState ? \"scale-95 bg-white/30 ring-2 ring-white/30\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 1292,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-red-500/40 bg-red-500/20 text-red-300 transition hover:bg-red-500/30 ${sizePaddingClass} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"} ${isActiveState ? \"scale-95 border-red-400 bg-red-600 shadow-[0_0_20px_rgba(239,68,68,0.5)]\" : \"\"}",
+      "lineContent": "className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-red-500/40 bg-red-500/20 text-red-300 transition hover:bg-red-500/30 ${sizePaddingClass} ${isDisabled ? \"pointer-events-none cursor-not-allowed opacity-30\" : \"\"} ${isActiveState ? \"scale-95 border-red-400 bg-red-600 shadow-[0_0_20px_rgba(239,68,68,0.5)]\" : \"\"}`}"
+    },
+    {
+      "file": "src/app/style-guide/page.tsx",
+      "line": 6353,
+      "duplicates": [
+        "\"bg-purple-600"
+      ],
+      "value": "mt-4 flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border-0 px-4 py-2.5 ${isYo ? \"bg-purple-600 hover:bg-purple-500\" : \"bg-purple-600 hover:bg-purple-500\"}",
+      "lineContent": "className={`mt-4 flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border-0 px-4 py-2.5 ${isYo ? \"bg-purple-600 hover:bg-purple-500\" : \"bg-purple-600 hover:bg-purple-500\"}`}"
+    },
+    {
+      "file": "src/components/AccomplishmentsLayouts.tsx",
+      "line": 127,
+      "duplicates": [
+        "==="
+      ],
+      "value": "group relative overflow-hidden rounded-lg border border-purple-500/30 p-7 backdrop-blur-xl  hover:border-purple-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] ${i === 0 || i === 3 ? \"md:col-span-2\" : \"\"}",
+      "lineContent": "className={`group relative overflow-hidden rounded-lg border border-purple-500/30 p-7 backdrop-blur-xl  hover:border-purple-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] ${i === 0 || i === 3 ? \"md:col-span-2\" : \"\"}`}"
+    },
+    {
+      "file": "src/components/AccomplishmentsLayouts.tsx",
+      "line": 149,
+      "duplicates": [
+        "==="
+      ],
+      "value": "hover:shadow-[0_20px_45px_rgba(147, 51, 234,0.25)] group rounded-lg border border-purple-500/30 bg-gradient-to-b from-amber-950/30 via-black to-amber-950/10 p-7 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl  hover:border-purple-400 ${i === 2 || i === 5 ? \"md:col-span-2\" : \"\"}",
+      "lineContent": "className={`hover:shadow-[0_20px_45px_rgba(147, 51, 234,0.25)] group rounded-lg border border-purple-500/30 bg-gradient-to-b from-amber-950/30 via-black to-amber-950/10 p-7 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl  hover:border-purple-400 ${i === 2 || i === 5 ? \"md:col-span-2\" : \"\"}`}"
+    },
+    {
+      "file": "src/components/AccomplishmentsLayouts.tsx",
+      "line": 273,
+      "duplicates": [
+        "==="
+      ],
+      "value": "border-white/10backdrop-blur-[18px] group rounded-lg border bg-[#00000029] p-7  hover:border-[var(--color-accent)]/20 ${i === 0 ? \"flex flex-col justify-between md:col-span-2 md:row-span-2\" : i === 3 ? \"md:col-span-2\" : \"\"}",
+      "lineContent": "className={`border-white/10backdrop-blur-[18px] group rounded-lg border bg-[#00000029] p-7  hover:border-[var(--color-accent)]/20 ${i === 0 ? \"flex flex-col justify-between md:col-span-2 md:row-span-2\" : i === 3 ? \"md:col-span-2\" : \"\"}`}"
+    },
+    {
+      "file": "src/components/AudioPlayer.tsx",
+      "line": 798,
+      "duplicates": [
+        "border-0"
+      ],
+      "value": "group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left  select-none ${isActive ? \"cursor-default border-0 bg-[var(--color-accent)]/15\" : \"cursor-pointer border-0\"}",
+      "lineContent": "className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left  select-none ${isActive ? \"cursor-default border-0 bg-[var(--color-accent)]/15\" : \"cursor-pointer border-0\"}`}"
+    },
+    {
+      "file": "src/components/AudioPlayer.tsx",
+      "line": 841,
+      "duplicates": [
+        "border-0"
+      ],
+      "value": "group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left  select-none ${isActive ? \"cursor-default border-0 bg-[var(--color-accent)]/15\" : \"cursor-pointer border-0\"}",
+      "lineContent": "className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left  select-none ${isActive ? \"cursor-default border-0 bg-[var(--color-accent)]/15\" : \"cursor-pointer border-0\"}`}"
+    },
+    {
+      "file": "src/components/Badge.tsx",
+      "line": 48,
+      "duplicates": [
+        "||"
+      ],
+      "value": "inline-flex items-center justify-center rounded-full transition-[background-color,border-color,color,transform] duration-200 select-none ${onClick ? \"cursor-pointer active:scale-95\" : \"\"} ${VARIANT_CLASSES[variant] || VARIANT_CLASSES.purple} ${SIZE_CLASSES[size] || SIZE_CLASSES.md} ${className}",
+      "lineContent": "className={`inline-flex items-center justify-center rounded-full transition-[background-color,border-color,color,transform] duration-200 select-none ${onClick ? \"cursor-pointer active:scale-95\" : \"\"} ${VARIANT_CLASSES[variant] || VARIANT_CLASSES.purple} ${SIZE_CLASSES[size] || SIZE_CLASSES.md} ${className}`}"
+    },
+    {
+      "file": "src/components/CalendarPicker.tsx",
+      "line": 312,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "relative flex h-12 w-full items-center justify-center rounded-lg text-base  ${isPastDate || isBlocked ? \"cursor-not-allowed opacity-25\" : \"cursor-pointer\"} ${isBlocked ? \"border border-rose-500/30 bg-rose-500/20 text-rose-400 line-through\" : isSelected ? \"scale-105 border-2 border-purple-400 bg-purple-600 shadow-purple-600/40\" : \"border border-white/10 bg-[#00000029] hover:border-purple-400/60 hover:bg-white/10\"}",
+      "lineContent": "className={`relative flex h-12 w-full items-center justify-center rounded-lg text-base  ${isPastDate || isBlocked ? \"cursor-not-allowed opacity-25\" : \"cursor-pointer\"} ${isBlocked ? \"border border-rose-500/30 bg-rose-500/20 text-rose-400 line-through\" : isSelected ? \"scale-105 border-2 border-purple-400 bg-purple-600 shadow-purple-600/40\" : \"border border-white/10 bg-[#00000029] hover:border-purple-400/60 hover:bg-white/10\"}`}"
+    },
+    {
+      "file": "src/components/CalendarPicker.tsx",
+      "line": 504,
+      "duplicates": [
+        "\""
+      ],
+      "value": "block     sm:text-base ${isSelected ? \" \" : \" \"}",
+      "lineContent": "className={`block     sm:text-base ${isSelected ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/components/CountdownTimer.tsx",
+      "line": 131,
+      "duplicates": [
+        "px-1"
+      ],
+      "value": "flex flex-col items-center justify-center ${compact ? \"min-w-[28px] px-1 py-0.5 sm:min-w-[34px]\" : \"min-w-0 px-1 sm:min-w-[52px] sm:px-0 md:min-w-[64px]\"}",
+      "lineContent": "className={`flex flex-col items-center justify-center ${compact ? \"min-w-[28px] px-1 py-0.5 sm:min-w-[34px]\" : \"min-w-0 px-1 sm:min-w-[52px] sm:px-0 md:min-w-[64px]\"}`}"
+    },
+    {
+      "file": "src/components/CountdownTimer.tsx",
+      "line": 134,
+      "duplicates": [
+        "\""
+      ],
+      "value": "leading-none font-black tabular-nums  duration-1000 ${compact ? \"  sm:   \" : \"text-[clamp(18px,4.5vw,3.5rem)]\"}",
+      "lineContent": "className={`leading-none font-black tabular-nums  duration-1000 ${compact ? \"  sm:   \" : \"text-[clamp(18px,4.5vw,3.5rem)]\"}`}"
+    },
+    {
+      "file": "src/components/CrewDashboard/index.tsx",
+      "line": 4332,
+      "duplicates": [
+        "!==",
+        "raffleStatus"
+      ],
+      "value": "sm: relative flex flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.04] p-3.5 sm:rounded-none sm:border-0 sm:p-0 ${idx !== activeQueueIndex && raffleStatus !== \"idle\" && raffleStatus !== \"complete\" ? \"pointer-events-none opacity-30\" : \"\"}",
+      "lineContent": "className={`sm: relative flex flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.04] p-3.5 sm:rounded-none sm:border-0 sm:p-0 ${idx !== activeQueueIndex && raffleStatus !== \"idle\" && raffleStatus !== \"complete\" ? \"pointer-events-none opacity-30\" : \"\"}`}"
+    },
+    {
+      "file": "src/components/CrewDashboard/index.tsx",
+      "line": 4466,
+      "duplicates": [
+        "===",
+        "||",
+        "raffleStatus"
+      ],
+      "value": "flex h-11 flex-1 shrink-0 items-center justify-center rounded-lg border px-4    sm:h-[42px] sm:flex-initial sm:text-[var(--font-size-2xs)] ${raffleStatus === \"idle\" || raffleStatus === \"complete\" ? \"border-purple-500 hover:bg-purple-600/10\" : idx === activeQueueIndex && (raffleStatus === \"open\" || raffleStatus === \"drawing\") ? \"border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]\" : \"border-white/10 text-white/30 opacity-30\"}",
+      "lineContent": "className={`flex h-11 flex-1 shrink-0 items-center justify-center rounded-lg border px-4    sm:h-[42px] sm:flex-initial sm:text-[var(--font-size-2xs)] ${raffleStatus === \"idle\" || raffleStatus === \"complete\" ? \"border-purple-500 hover:bg-purple-600/10\" : idx === activeQueueIndex && (raffleStatus === \"open\" || raffleStatus === \"drawing\") ? \"border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]\" : \"border-white/10 text-white/30 opacity-30\"}`}"
+    },
+    {
+      "file": "src/components/CrewDashboard/index.tsx",
+      "line": 4721,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "flex items-center justify-between pt-3 pb-3  ${song.isPlaying ? \"\" : \"\"} ${idx < setlist.length - 1 ? \"border-b border-white/10\" : \"\"}",
+      "lineContent": "className={`flex items-center justify-between pt-3 pb-3  ${song.isPlaying ? \"\" : \"\"} ${idx < setlist.length - 1 ? \"border-b border-white/10\" : \"\"}`}"
+    },
+    {
+      "file": "src/components/CrewDashboard/index.tsx",
+      "line": 5311,
+      "duplicates": [
+        "\""
+      ],
+      "value": "text-[8px] ${userShift ? \" \" : \"text-white/50\"}",
+      "lineContent": "className={`text-[8px] ${userShift ? \" \" : \"text-white/50\"}`}"
+    },
+    {
+      "file": "src/components/CrewDashboard/index.tsx",
+      "line": 5915,
+      "duplicates": [
+        "==="
+      ],
+      "value": "mb-1 ${toast.type === \"success\" ? \"text-emerald-400\" : toast.type === \"error\" ? \"text-rose-400\" : \"text-[var(--color-accent)]\"}",
+      "lineContent": "className={`mb-1 ${toast.type === \"success\" ? \"text-emerald-400\" : toast.type === \"error\" ? \"text-rose-400\" : \"text-[var(--color-accent)]\"}`}"
+    },
+    {
+      "file": "src/components/CrewHQ.tsx",
+      "line": 867,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "group flex items-start gap-3 border-b border-white/[0.03] px-5 py-3  hover:bg-white/[0.015] ${isFlagged ? \"bg-yellow-500/[0.04]\" : \"\"} ${isBanned ? \"opacity-30\" : \"\"}",
+      "lineContent": "className={`group flex items-start gap-3 border-b border-white/[0.03] px-5 py-3  hover:bg-white/[0.015] ${isFlagged ? \"bg-yellow-500/[0.04]\" : \"\"} ${isBanned ? \"opacity-30\" : \"\"}`}"
+    },
+    {
+      "file": "src/components/CrewHQ.tsx",
+      "line": 1169,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "cursor-pointer rounded-lg px-4 py-1.5  ${notesSaved ? \"border border-emerald-500/25 bg-emerald-500/15\" : \"border border-white/[0.08] bg-[#00000029] text-white/40 hover:text-white\"}",
+      "lineContent": "className={`cursor-pointer rounded-lg px-4 py-1.5  ${notesSaved ? \"border border-emerald-500/25 bg-emerald-500/15\" : \"border border-white/[0.08] bg-[#00000029] text-white/40 hover:text-white\"}`}"
+    },
+    {
+      "file": "src/components/CruiseChat.tsx",
+      "line": 50,
+      "duplicates": [
+        "\""
+      ],
+      "value": "mx-0.5 px-0.5 ${isAdminTag ? \" \" : \" \"}",
+      "lineContent": "className={`mx-0.5 px-0.5 ${isAdminTag ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/components/CruiseHistoryTimeline.tsx",
+      "line": 876,
+      "duplicates": [
+        "\""
+      ],
+      "value": " ${isReached ? \" \" : \"text-white/40\"}",
+      "lineContent": "className={` ${isReached ? \" \" : \"text-white/40\"}`}"
+    },
+    {
+      "file": "src/components/CruiseHistoryTimeline.tsx",
+      "line": 942,
+      "duplicates": [
+        "\"border",
+        "border-white/10"
+      ],
+      "value": "rounded-lg  ${isReached ? \"border border-white/10 bg-cyan-500/20\" : \"border border-white/10 bg-[#00000029] text-white/40\"}",
+      "lineContent": "className={`rounded-lg  ${isReached ? \"border border-white/10 bg-cyan-500/20\" : \"border border-white/10 bg-[#00000029] text-white/40\"}`}"
+    },
+    {
+      "file": "src/components/CruiseHistoryTimeline.tsx",
+      "line": 953,
+      "duplicates": [
+        "\""
+      ],
+      "value": " ${isReached ? \" \" : \" \"}",
+      "lineContent": "className={` ${isReached ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/components/CruiseWidgets.tsx",
+      "line": 119,
+      "duplicates": [
+        "border-white/10"
+      ],
+      "value": "relative w-full overflow-hidden border text-left  ${voted === opt.id ? \"border-emerald-500 bg-emerald-500/10\" : voted !== null ? \"cursor-default border-white/10 bg-[#00000029]\" : \"cursor-pointer border-white/10 bg-[#00000029] bg-black/40 hover:border-emerald-500/40\"}",
+      "lineContent": "className={`relative w-full overflow-hidden border text-left  ${voted === opt.id ? \"border-emerald-500 bg-emerald-500/10\" : voted !== null ? \"cursor-default border-white/10 bg-[#00000029]\" : \"cursor-pointer border-white/10 bg-[#00000029] bg-black/40 hover:border-emerald-500/40\"}`}"
+    },
+    {
+      "file": "src/components/CruiseWidgets.tsx",
+      "line": 972,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "flex-1 cursor-pointer rounded-lg py-1.5  ${tab === \"saved\" ? \"border border-purple-500/20\" : \"border border-transparent text-white/40\"}",
+      "lineContent": "className={`flex-1 cursor-pointer rounded-lg py-1.5  ${tab === \"saved\" ? \"border border-purple-500/20\" : \"border border-transparent text-white/40\"}`}"
+    },
+    {
+      "file": "src/components/CruiseWidgets.tsx",
+      "line": 982,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "flex-1 cursor-pointer rounded-lg py-1.5  ${tab === \"new\" ? \"border border-purple-500/20\" : \"border border-transparent text-white/40\"}",
+      "lineContent": "className={`flex-1 cursor-pointer rounded-lg py-1.5  ${tab === \"new\" ? \"border border-purple-500/20\" : \"border border-transparent text-white/40\"}`}"
+    },
+    {
+      "file": "src/components/FakeLiveStream/index.tsx",
+      "line": 2193,
+      "duplicates": [
+        "\""
+      ],
+      "value": "${isMine ? \" \" : \"text-black\"}",
+      "lineContent": "className={`${isMine ? \" \" : \"text-black\"}`}"
+    },
+    {
+      "file": "src/components/FakeLiveStream/index.tsx",
+      "line": 3939,
+      "duplicates": [
+        "\""
+      ],
+      "value": "inline-flex items-center gap-1.5  ${activeSidebarTab === \"chat\" ? \" \" : \"text-white/40   hover:text-white\"}",
+      "lineContent": "className={`inline-flex items-center gap-1.5  ${activeSidebarTab === \"chat\" ? \" \" : \"text-white/40   hover:text-white\"}`}"
+    },
+    {
+      "file": "src/components/FakeLiveStream/index.tsx",
+      "line": 3946,
+      "duplicates": [
+        "\""
+      ],
+      "value": "inline-flex items-center gap-1.5  ${activeSidebarTab === \"setlist\" ? \" \" : \"text-white/40   hover:text-white\"}",
+      "lineContent": "className={`inline-flex items-center gap-1.5  ${activeSidebarTab === \"setlist\" ? \" \" : \"text-white/40   hover:text-white\"}`}"
+    },
+    {
+      "file": "src/components/FakeLiveStream/index.tsx",
+      "line": 4029,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "text-3xs rounded px-2 py-1  ${setlistSort === \"likes\" ? \"border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20\" : \"border border-transparent text-white/30\"}",
+      "lineContent": "className={`text-3xs rounded px-2 py-1  ${setlistSort === \"likes\" ? \"border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20\" : \"border border-transparent text-white/30\"}`}"
+    },
+    {
+      "file": "src/components/FakeLiveStream/index.tsx",
+      "line": 4065,
+      "duplicates": [
+        "\""
+      ],
+      "value": "  ${song.isPlaying ? \" \" : \"/90\"}",
+      "lineContent": "className={`  ${song.isPlaying ? \" \" : \"/90\"}`}"
+    },
+    {
+      "file": "src/components/FeaturedTrack.tsx",
+      "line": 698,
+      "duplicates": [
+        "\""
+      ],
+      "value": "  ${isActive ? \" \" : \"\"}",
+      "lineContent": "<span className={`  ${isActive ? \" \" : \"\"}`}>"
+    },
+    {
+      "file": "src/components/FooterProximityAlerts.tsx",
+      "line": 477,
+      "duplicates": [
+        "!"
+      ],
+      "value": "! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 !  whitespace-nowrap transition-all disabled:opacity-60",
+      "lineContent": "className=\"! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 !  whitespace-nowrap transition-all disabled:opacity-60\""
+    },
+    {
+      "file": "src/components/GlassPlayButton.tsx",
+      "line": 82,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "seventh--btn group relative inline-flex h-15 w-15 cursor-pointer items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-[background-color,border-color,box-shadow,transform,opacity] duration-300 select-none active:scale-95 ${varStyles.bg} ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? \"ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50\" : \"\"} ${pulse ? \"animate-pulse\" : \"\"} ${disabled ? \"pointer-events-none cursor-not-allowed opacity-40\" : \"hover:scale-105\"} ${className}",
+      "lineContent": "className={`seventh--btn group relative inline-flex h-15 w-15 cursor-pointer items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-[background-color,border-color,box-shadow,transform,opacity] duration-300 select-none active:scale-95 ${varStyles.bg} ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? \"ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50\" : \"\"} ${pulse ? \"animate-pulse\" : \"\"} ${disabled ? \"pointer-events-none cursor-not-allowed opacity-40\" : \"hover:scale-105\"} ${className}`}"
+    },
+    {
+      "file": "src/components/GooeyMessagesDropdown.tsx",
+      "line": 164,
+      "duplicates": [
+        "justify-between",
+        "\"px-4",
+        "border-white/10"
+      ],
+      "value": "relative z-50 min-h-[46px] border border-[#ffffff1a] border-white/10 bg-[#00000029] shadow-[0_24px_60px_#0000008c] backdrop-blur-xl ${fullWidth ? \"w-full justify-between text-left\" : \"min-w-fit justify-between text-left\"} ${noPadding ? \"p-0\" : fullWidth ? \"px-4 py-0\" : \"px-4 py-0\"} rounded-lg ${open ? \"rounded-t-lg rounded-b-none bg-[#8d73d71c]\" : \"/90 border-white/10 bg-[#8d73d71c] hover:bg-[#8d73d71c]\"} ${noBorder ? \"!border-none\" : \"\"} flex cursor-pointer items-center gap-3 shadow-[0_3px_9px_#0000008c] transition-[background-color,border-color,transform,box-shadow] duration-300 disabled:cursor-not-allowed disabled:opacity-50",
+      "lineContent": "className={`relative z-50 min-h-[46px] border border-[#ffffff1a] border-white/10 bg-[#00000029] shadow-[0_24px_60px_#0000008c] backdrop-blur-xl ${fullWidth ? \"w-full justify-between text-left\" : \"min-w-fit justify-between text-left\"} ${noPadding ? \"p-0\" : fullWidth ? \"px-4 py-0\" : \"px-4 py-0\"} rounded-lg ${open ? \"rounded-t-lg rounded-b-none bg-[#8d73d71c]\" : \"/90 border-white/10 bg-[#8d73d71c] hover:bg-[#8d73d71c]\"} ${noBorder ? \"!border-none\" : \"\"} flex cursor-pointer items-center gap-3 shadow-[0_3px_9px_#0000008c] transition-[background-color,border-color,transform,box-shadow] duration-300 disabled:cursor-not-allowed disabled:opacity-50`}"
+    },
+    {
+      "file": "src/components/GradientToggle.tsx",
+      "line": 87,
+      "duplicates": [
+        "\""
+      ],
+      "value": "text-left  ${checked ? \" \" : \"group-hover:text-white\"}",
+      "lineContent": "className={`text-left  ${checked ? \" \" : \"group-hover:text-white\"}`}"
+    },
+    {
+      "file": "src/components/Header.tsx",
+      "line": 978,
+      "duplicates": [
+        "===",
+        "studioHref"
+      ],
+      "value": "inline-flex w-fit max-w-full items-start self-start text-[clamp(2.375rem,10vw,6.25rem)] leading-[1.02]  duration-300 sm:text-5xl lg:text-6xl xl:text-7xl ${link.href === studioHref ? \"decoration-[#c084fc] decoration-4 underline-offset-8\" : \"\"} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith(\"/studio\")) ? \"active cursor-default !text-[#c084fc]\" : \"! cursor-pointer hover:!text-[#c084fc]\"}",
+      "lineContent": "className={`inline-flex w-fit max-w-full items-start self-start text-[clamp(2.375rem,10vw,6.25rem)] leading-[1.02]  duration-300 sm:text-5xl lg:text-6xl xl:text-7xl ${link.href === studioHref ? \"decoration-[#c084fc] decoration-4 underline-offset-8\" : \"\"} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith(\"/studio\")) ? \"active cursor-default !text-[#c084fc]\" : \"! cursor-pointer hover:!text-[#c084fc]\"}`}"
+    },
+    {
+      "file": "src/components/HomeMerch.tsx",
+      "line": 256,
+      "duplicates": [
+        "\"grid-cols-2"
+      ],
+      "value": "grid gap-4 ${displayProducts.length <= 3 ? \"grid-cols-2 md:grid-cols-3\" : \"grid-cols-2 md:grid-cols-3 lg:grid-cols-5\"}",
+      "lineContent": "className={`grid gap-4 ${displayProducts.length <= 3 ? \"grid-cols-2 md:grid-cols-3\" : \"grid-cols-2 md:grid-cols-3 lg:grid-cols-5\"}`}"
+    },
+    {
+      "file": "src/components/HomeVideoShowcase.tsx",
+      "line": 793,
+      "duplicates": [
+        "\"flex"
+      ],
+      "value": "w-full cursor-grab overflow-hidden select-none active:cursor-grabbing ${smooothyVertical ? \"flex h-[750px] flex-col\" : \"flex flex-nowrap\"}",
+      "lineContent": "className={`w-full cursor-grab overflow-hidden select-none active:cursor-grabbing ${smooothyVertical ? \"flex h-[750px] flex-col\" : \"flex flex-nowrap\"}`}"
+    },
+    {
+      "file": "src/components/LoginModal.tsx",
+      "line": 1063,
+      "duplicates": [
+        "\""
+      ],
+      "value": "relative z-10 cursor-pointer rounded-lg px-4 py-2.5 text-center  ${modalMode === \"login\" ? \" \" : \"hover:text-white\"}",
+      "lineContent": "className={`relative z-10 cursor-pointer rounded-lg px-4 py-2.5 text-center  ${modalMode === \"login\" ? \" \" : \"hover:text-white\"}`}"
+    },
+    {
+      "file": "src/components/LoginModal.tsx",
+      "line": 1074,
+      "duplicates": [
+        "\""
+      ],
+      "value": "relative z-10 cursor-pointer rounded-lg px-4 py-2.5 text-center  ${modalMode === \"signup\" ? \" \" : \"hover:text-white\"}",
+      "lineContent": "className={`relative z-10 cursor-pointer rounded-lg px-4 py-2.5 text-center  ${modalMode === \"signup\" ? \" \" : \"hover:text-white\"}`}"
+    },
+    {
+      "file": "src/components/LoginModal.tsx",
+      "line": 1116,
+      "duplicates": [
+        "==="
+      ],
+      "value": "cursor-pointer rounded-lg px-1.5 py-1.5 text-center text-[10px] transition-all ${loginRole === role.id || (role.id === \"admin\" && adminMode) ? \"border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]\" : \"/90 bg-[#00000029] text-white/50 hover:text-white\"}",
+      "lineContent": "className={`cursor-pointer rounded-lg px-1.5 py-1.5 text-center text-[10px] transition-all ${loginRole === role.id || (role.id === \"admin\" && adminMode) ? \"border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]\" : \"/90 bg-[#00000029] text-white/50 hover:text-white\"}`}"
+    },
+    {
+      "file": "src/components/LoginModal.tsx",
+      "line": 1398,
+      "duplicates": [
+        "\""
+      ],
+      "value": "cursor-pointer ${isAgeConfirmed ? \" \" : \" \"}",
+      "lineContent": "className={`cursor-pointer ${isAgeConfirmed ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/components/LoginModal.tsx",
+      "line": 1931,
+      "duplicates": [
+        "\""
+      ],
+      "value": "cursor-pointer text-left ${wantNotifications ? \" \" : \" \"}",
+      "lineContent": "className={`cursor-pointer text-left ${wantNotifications ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/components/LoginModal.tsx",
+      "line": 1945,
+      "duplicates": [
+        "\""
+      ],
+      "value": "cursor-pointer text-left ${wantNewsletter ? \" \" : \" \"}",
+      "lineContent": "className={`cursor-pointer text-left ${wantNewsletter ? \" \" : \" \"}`}"
+    },
+    {
+      "file": "src/components/MemberDashboard.tsx",
+      "line": 629,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === \"yellow\" ? \"border border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500\" : \"border border-white/10 bg-[#00000029]\"}",
+      "lineContent": "className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === \"yellow\" ? \"border border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500\" : \"border border-white/10 bg-[#00000029]\"}`}"
+    },
+    {
+      "file": "src/components/PagesPillDrawer.tsx",
+      "line": 570,
+      "duplicates": [
+        "===",
+        "\"border",
+        "item.type"
+      ],
+      "value": "rounded px-1.5 py-0.5 text-[12px] ${item.type === \"Static\" ? \"border border-emerald-500/20 bg-emerald-500/10 text-emerald-400\" : item.type === \"SSG\" ? \"border border-white/20 bg-purple-500/10  \" : item.type === \"Dynamic\" ? \"border border-amber-500/20 bg-amber-500/10 text-amber-300\" : \"border border-rose-500/20 bg-rose-500/10 text-rose-400\"}",
+      "lineContent": "className={`rounded px-1.5 py-0.5 text-[12px] ${item.type === \"Static\" ? \"border border-emerald-500/20 bg-emerald-500/10 text-emerald-400\" : item.type === \"SSG\" ? \"border border-white/20 bg-purple-500/10  \" : item.type === \"Dynamic\" ? \"border border-amber-500/20 bg-amber-500/10 text-amber-300\" : \"border border-rose-500/20 bg-rose-500/10 text-rose-400\"}`}"
+    },
+    {
+      "file": "src/components/PastShowsClient.tsx",
+      "line": 215,
+      "duplicates": [
+        "==="
+      ],
+      "value": "color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === \"ALL\" || selectedYear === \"All\" ? \"bg-[var(--color-accent)]\" : \"hover- border-0 bg-[#00000029]  \"}",
+      "lineContent": "className={`color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === \"ALL\" || selectedYear === \"All\" ? \"bg-[var(--color-accent)]\" : \"hover- border-0 bg-[#00000029]  \"}`}"
+    },
+    {
+      "file": "src/components/PickAwardsSection.tsx",
+      "line": 215,
+      "duplicates": [
+        "border-black/10"
+      ],
+      "value": "relative border p-3 text-center  ${pick.owned > 0 ? (selectedPick === pick.id ? \"scale-105 border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]\" : \"cursor-pointer border-black/10 bg-gray-50 hover:border-black/25\") : \"cursor-default border-black/10 bg-gray-100/50 opacity-40 grayscale\"}",
+      "lineContent": "className={`relative border p-3 text-center  ${pick.owned > 0 ? (selectedPick === pick.id ? \"scale-105 border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]\" : \"cursor-pointer border-black/10 bg-gray-50 hover:border-black/25\") : \"cursor-default border-black/10 bg-gray-100/50 opacity-40 grayscale\"}`}"
+    },
+    {
+      "file": "src/components/ProfilePhotoUploader.tsx",
+      "line": 291,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "mt-3 flex items-center justify-between rounded-lg px-4 py-2 ${message.type === \"success\" ? \"border border-emerald-200 bg-emerald-50 text-emerald-800\" : \"border border-rose-200 bg-rose-50 text-rose-800\"}",
+      "lineContent": "className={`mt-3 flex items-center justify-between rounded-lg px-4 py-2 ${message.type === \"success\" ? \"border border-emerald-200 bg-emerald-50 text-emerald-800\" : \"border border-rose-200 bg-rose-50 text-rose-800\"}`}"
+    },
+    {
+      "file": "src/components/ShowCrewPanel.tsx",
+      "line": 298,
+      "duplicates": [
+        "\""
+      ],
+      "value": "${c.confirmed ? \" \" : \"text-white/40\"}",
+      "lineContent": "className={`${c.confirmed ? \" \" : \"text-white/40\"}`}"
+    },
+    {
+      "file": "src/components/ShowCrewPanel.tsx",
+      "line": 304,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "shrink-0 rounded px-2 py-0.5 text-[var(--font-size-2xs)] ${c.confirmed ? \"border border-[var(--color-accent)]/30 bg-emerald-500/15\" : \"border border-[var(--color-accent)]/15 bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60\"}",
+      "lineContent": "className={`shrink-0 rounded px-2 py-0.5 text-[var(--font-size-2xs)] ${c.confirmed ? \"border border-[var(--color-accent)]/30 bg-emerald-500/15\" : \"border border-[var(--color-accent)]/15 bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60\"}`}"
+    },
+    {
+      "file": "src/components/StickyNotesOverlay.tsx",
+      "line": 635,
+      "duplicates": [
+        "\"border"
+      ],
+      "value": "shrink-0 rounded-lg px-2 py-0.5 text-[12px] whitespace-nowrap ${note.status === \"submitted\" ? \"border border-emerald-500/40 bg-emerald-500/20 text-emerald-300\" : \"border border-amber-500/40 bg-amber-500/20 text-amber-300\"}",
+      "lineContent": "className={`shrink-0 rounded-lg px-2 py-0.5 text-[12px] whitespace-nowrap ${note.status === \"submitted\" ? \"border border-emerald-500/40 bg-emerald-500/20 text-emerald-300\" : \"border border-amber-500/40 bg-amber-500/20 text-amber-300\"}`}"
+    },
+    {
+      "file": "src/components/TourList.tsx",
+      "line": 1794,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "tour-row-item relative hidden lg:grid ${gridClass} items-center gap-8 py-3.5 text-[22px] ${isHighlighted ? \"\" : \" \"} ${!show.city ? \"opacity-50\" : \"\"} ${isPast && !isHighlighted ? \"opacity-65\" : \"\"}",
+      "lineContent": "className={`tour-row-item relative hidden lg:grid ${gridClass} items-center gap-8 py-3.5 text-[22px] ${isHighlighted ? \"\" : \" \"} ${!show.city ? \"opacity-50\" : \"\"} ${isPast && !isHighlighted ? \"opacity-65\" : \"\"}`}"
+    },
+    {
+      "file": "src/components/TourList.tsx",
+      "line": 2048,
+      "duplicates": [
+        "\"\"}"
+      ],
+      "value": "tour-row-item relative mb-3 flex flex-col gap-1 transition-all lg:hidden ${isHighlighted ? \"animate-pulse ring-2 ring-purple-500/80\" : isUpNext ? \"border-purple-500/40\" : \"\"} ${!show.city ? \"opacity-50\" : \"\"} ${isPast && !isHighlighted ? \"opacity-65\" : \"\"}",
+      "lineContent": "className={`tour-row-item relative mb-3 flex flex-col gap-1 transition-all lg:hidden ${isHighlighted ? \"animate-pulse ring-2 ring-purple-500/80\" : isUpNext ? \"border-purple-500/40\" : \"\"} ${!show.city ? \"opacity-50\" : \"\"} ${isPast && !isHighlighted ? \"opacity-65\" : \"\"}`}"
+    },
+    {
+      "file": "src/components/TourMap.tsx",
+      "line": 1503,
+      "duplicates": [
+        "!"
+      ],
+      "value": "! flex !  sm:!  md:!  lg:hidden",
+      "lineContent": "className=\"! flex !  sm:!  md:!  lg:hidden\""
+    },
+    {
+      "file": "src/components/UserFlowMap.tsx",
+      "line": 1567,
+      "duplicates": [
+        "!"
+      ],
+      "value": "! ! ! overflow-hidden rounded-lg border-white/10 !bg-black/80",
+      "lineContent": "<Controls className=\"! ! ! overflow-hidden rounded-lg border-white/10 !bg-black/80\" />"
+    },
+    {
+      "file": "src/components/admin/ReferralProgramPanel.tsx",
+      "line": 458,
+      "duplicates": [
+        "===",
+        "i",
+        "\"border-white/10"
+      ],
+      "value": "flex items-center justify-between border p-3 ${i === 0 ? \"border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]\" : i === 1 ? \"border-white/10 bg-white/[0.02]\" : i === 2 ? \"border-white/10 bg-white/[0.015]\" : \"border-white/10 bg-white/[0.01]\"}",
+      "lineContent": "className={`flex items-center justify-between border p-3 ${i === 0 ? \"border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]\" : i === 1 ? \"border-white/10 bg-white/[0.02]\" : i === 2 ? \"border-white/10 bg-white/[0.015]\" : \"border-white/10 bg-white/[0.01]\"}`}"
+    },
+    {
+      "file": "src/components/admin/ReferralProgramPanel.tsx",
+      "line": 463,
+      "duplicates": [
+        "===",
+        "\"border",
+        "i"
+      ],
+      "value": "flex h-8 w-8 shrink-0 items-center justify-center text-[var(--font-size-sm)] ${i === 0 ? \"border border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]\" : i === 1 ? \"border border-white/10 bg-white/10\" : i === 2 ? \"border border-white/5 bg-[#00000029] text-white/40\" : \"text-white/20\"}",
+      "lineContent": "className={`flex h-8 w-8 shrink-0 items-center justify-center text-[var(--font-size-sm)] ${i === 0 ? \"border border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]\" : i === 1 ? \"border border-white/10 bg-white/10\" : i === 2 ? \"border border-white/5 bg-[#00000029] text-white/40\" : \"text-white/20\"}`}"
+    }
+  ]
+}

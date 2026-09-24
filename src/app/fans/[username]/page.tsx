@@ -562,7 +562,7 @@ export default function FanAccountPage({
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (
           <aside className="mb-8 flex items-start gap-3 border border-purple-500/30 bg-purple-600/10 px-5 py-3">
-            <span className="shrink-0 text-purple-300">⚠ DEMO MODE</span>
+            <span className="shrink-0">⚠ DEMO MODE</span>
             <p className="text-purple-200/60">
               This is a preview of the Fan Dashboard with simulated data. Fans
               will need to create a free account to access their personal
@@ -597,13 +597,13 @@ export default function FanAccountPage({
             <div className="inline-flex items-center rounded-lg border border-white/10 bg-[#00000029] p-1 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
               <button
                 onClick={() => setDashboardView("fan")}
-                className={`cursor-pointer rounded-lg px-6 py-2 transition-colors ${dashboardView === "fan" ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : "text-white/40 hover:text-white"}`}
+                className={`cursor-pointer rounded-lg px-6 py-2 ${dashboardView === "fan" ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : "text-white/40 hover:text-white"}`}
               >
                 Fan Dashboard
               </button>
               <button
                 onClick={() => setDashboardView("cruise")}
-                className={`cursor-pointer rounded-lg px-6 py-2 transition-colors ${dashboardView === "cruise" ? "bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-white/40"}`}
+                className={`cursor-pointer rounded-lg px-6 py-2 ${dashboardView === "cruise" ? "bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-white/40"}`}
               >
                 Cruise Hub
               </button>
@@ -635,7 +635,7 @@ export default function FanAccountPage({
             {/* Captain's Log */}
             {cruiseAnnouncement && (
               <div className="relative mb-8 overflow-hidden border border-purple-500/30 bg-gradient-to-br from-cyan-50 to-[#0a0a0f]">
-                <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-lg blur-[80px]" />
+                <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-lg blur-3xl" />
                 <div className="absolute top-0 bottom-0 left-0 w-1 bg-cyan-500" />
                 <div className="relative z-10 p-6 md:p-8">
                   <div className="mb-5 flex items-center gap-3">
@@ -645,7 +645,7 @@ export default function FanAccountPage({
                     </span>
                   </div>
                   <div
-                    className="[&_a]: [&_a]: [&_strong]: [&_strong]: space-y-4 text-black/80 [&_ol]:ml-5 [&_ol]:list-decimal [&_ul]:ml-5 [&_ul]:list-disc"
+                    className="[&_a]: [&_strong]: space-y-4 text-black/80 [&_ol]:ml-5 [&_ol]:list-decimal [&_ul]:ml-5 [&_ul]:list-disc"
                     dangerouslySetInnerHTML={{
                       __html: sanitizeHtml(cruiseAnnouncement),
                     }}
@@ -675,7 +675,7 @@ export default function FanAccountPage({
                       {cruiseItinerary.map((day) => (
                         <div
                           key={day.id}
-                          className="group relative overflow-hidden rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-6 transition-colors duration-300"
+                          className="group relative overflow-hidden rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-6"
                           style={
                             {
                               "--tw-border-opacity": "0.4",
@@ -684,7 +684,7 @@ export default function FanAccountPage({
                           }
                         >
                           <div
-                            className="pointer-events-none absolute top-0 right-0 h-48 w-48 translate-x-1/2 -translate-y-1/2 rounded-lg opacity-10 blur-[50px] transition-colors duration-500 group-hover:opacity-20"
+                            className="pointer-events-none absolute top-0 right-0 h-48 w-48 translate-x-1/2 -translate-y-1/2 rounded-lg opacity-10 blur-3xl group-hover:opacity-20"
                             style={{ backgroundColor: day.colorTheme }}
                           />
                           <div className="relative z-10">
@@ -736,7 +736,7 @@ export default function FanAccountPage({
                 <div className="sticky top-32 flex flex-col gap-6">
                   {/* Passengers Widget */}
                   <div className="group relative overflow-hidden rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-6">
-                    <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)]/10 blur-[40px] transition-colors duration-500 group-hover:bg-[var(--color-accent)]/20" />
+                    <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)]/10 blur-3xl group-hover:bg-[var(--color-accent)]/20" />
                     <div className="relative z-10 mb-5 flex items-end justify-between">
                       <div>
                         <h2 className="mb-1 text-white/40">Community</h2>
@@ -754,7 +754,7 @@ export default function FanAccountPage({
                           (initials, i) => {
                             const colors = [
                               "bg-rose-500/20 text-rose-300",
-                              "bg- purple-white/20 text-purple-300",
+                              "bg- purple-white/20  ",
                               "bg-cyan-500/20   ",
                               "bg-amber-500/20 text-amber-300",
                               "bg-emerald-500/20 text-emerald-300",
@@ -763,7 +763,7 @@ export default function FanAccountPage({
                             return (
                               <div
                                 key={`fan-avatar-${i}-${initials}`}
-                                className={`h-11 w-11 rounded-lg border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex cursor-pointer items-center justify-center overflow-hidden transition-transform hover:-translate-y-1`}
+                                className={`h-11 w-11 rounded-lg border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex cursor-pointer items-center justify-center overflow-hidden hover:-translate-y-1`}
                                 style={{ zIndex: 10 - i }}
                               >
                                 <span>{initials}</span>
@@ -803,7 +803,7 @@ export default function FanAccountPage({
                       href={`/live/${feed.room}`}
                       className="group relative block overflow-hidden"
                     >
-                      <div className="flex items-center justify-between border border-red-500/40 bg-red-950/40 px-6 py-4 transition-colors hover:border-red-500/60">
+                      <div className="flex items-center justify-between border border-red-500/40 bg-red-950/40 px-6 py-4 hover:border-red-500/60">
                         <div className="flex items-center gap-4">
                           <span className="relative flex h-4 w-4">
                             <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
@@ -822,7 +822,7 @@ export default function FanAccountPage({
                             </p>
                           </div>
                         </div>
-                        <span className="rounded-lg bg-red-500 px-4 py-2 shadow-[0_0_15px_rgba(239,68,68,0.4)] transition-colors group-hover:bg-red-400">
+                        <span className="rounded-lg bg-red-500 px-4 py-2 shadow-[0_0_15px_rgba(239,68,68,0.4)] group-hover:bg-red-400">
                           Watch Now{" "}
                         </span>
                       </div>
@@ -831,20 +831,20 @@ export default function FanAccountPage({
                 </div>
               ) : (
                 <Link href="/live" className="group block">
-                  <div className="flex flex-col items-start justify-between gap-4 rounded-lg border border-white/10 bg-[#00000029] px-4 py-4 transition-colors hover:border-white/20 sm:flex-row sm:items-center">
+                  <div className="flex flex-col items-start justify-between gap-4 rounded-lg border border-white/10 bg-[#00000029] px-4 py-4 hover:border-white/20 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-4">
                       <span className="relative flex h-4 w-4 shrink-0">
                         <span className="relative inline-flex h-4 w-4 rounded-lg bg-white/30" />
                       </span>
                       <div>
                         <p>Backstage is Quiet</p>
-                        <p className="mt-0.5 text-sm sm:text-base">
+                        <p className="mt-0.5 sm:text-base">
                           No crew feeds are live right now — check back during
                           the next show
                         </p>
                       </div>
                     </div>
-                    <span className="w-full shrink-0 rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-center whitespace-nowrap text-white/70 transition-colors group-hover:bg-white/20 group-hover:text-white sm:w-auto">
+                    <span className="w-full shrink-0 rounded-lg border border-white/10 bg-white/10 px-4 py-2 text-center whitespace-nowrap group-hover:bg-white/20 group-hover:text-white sm:w-auto">
                       Live Hub
                     </span>
                   </div>
@@ -884,7 +884,7 @@ export default function FanAccountPage({
                         key={i}
                         className={`border-2 bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] ${isClaimed ? "border-white/10 opacity-60" : "border-yellow-500/30"} group relative overflow-hidden p-6`}
                       >
-                        <div className="absolute top-0 right-0 p-8 opacity-5 transition-opacity group-hover:opacity-10"></div>
+                        <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10"></div>
                         <div className="relative z-10 flex items-start justify-between">
                           <div>
                             {isClaimed ? (
@@ -941,7 +941,7 @@ export default function FanAccountPage({
                               : "Show this at the merch table"}
                           </p>
                           <button
-                            className={`${isClaimed ? "text-emerald-400" : "text-yellow-500"} transition-colors hover:text-white`}
+                            className={`${isClaimed ? "text-emerald-400" : "text-yellow-500"} hover:text-white`}
                           >
                             {isClaimed ? "Completed ✓" : "Full Details "}
                           </button>
@@ -975,7 +975,7 @@ export default function FanAccountPage({
                                 <h3 className="mb-1 text-xl sm:text-2xl md:text-3xl">
                                   {nextShow.venue}
                                 </h3>
-                                <p className=" ">
+                                <p>
                                   {nextShow.city
                                     ? `${nextShow.city}${nextShow.state ? `, ${nextShow.state}` : ""} · `
                                     : nextShow.state
@@ -1024,7 +1024,7 @@ export default function FanAccountPage({
                                       <span className="flex min-w-[1.4em] items-center justify-center text-center text-4xl tracking-tight tabular-nums sm:text-5xl md:text-6xl lg:text-7xl">
                                         {String(u.v).padStart(2, "0")}
                                       </span>
-                                      <span className="st mt-2 text-white/60 sm:text-lg md:text-xl">
+                                      <span className="st sm: mt-2 text-white/60 md:text-xl">
                                         {u.l}
                                       </span>
                                     </div>
@@ -1037,12 +1037,12 @@ export default function FanAccountPage({
                       })()
                     ) : (
                       <div>
-                        <p className="sm:text-lg">
+                        <p className="sm:">
                           Check back soon — new dates drop regularly
                         </p>
                         <Link
                           href="/#tour"
-                          className="mt-3 text-base transition-colors hover:text-white sm:text-lg"
+                          className="sm: mt-3 text-base hover:text-white"
                         >
                           View Tour Page
                         </Link>
@@ -1062,7 +1062,7 @@ export default function FanAccountPage({
               <div className="mb-6 flex items-center justify-between">
                 <Link
                   href="/#tour"
-                  className="text-lg text-white/50 transition-colors hover:text-[var(--color-accent)] sm:text-xl md:text-2xl"
+                  className="text-white/50 hover:text-[var(--color-accent)] sm:text-xl md:text-2xl"
                 >
                   All Dates
                 </Link>
@@ -1078,7 +1078,7 @@ export default function FanAccountPage({
                       className="group flex items-start gap-5 border-b border-white/10 pb-6 pb-8 last:border-b-0 sm:gap-7 sm:pb-8 md:gap-9 md:border-b-0 md:pb-6"
                     >
                       <div className="flex shrink-0 flex-col items-center justify-center rounded-3xl border border-white/15 bg-[#00000029] px-6 py-3">
-                        <span className="st mb-1 text-base font-black text-purple-300 sm:text-lg md:text-xl lg:text-2xl">
+                        <span className="st sm: mb-1 text-base font-black md:text-xl lg:text-2xl">
                           {show.date
                             ? new Date(
                                 show.date + "T12:00:00Z",
@@ -1095,7 +1095,7 @@ export default function FanAccountPage({
                         </span>
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="mb-1 truncate font-black">{show.venue}</p>
+                        <p className="mb-1 font-black">{show.venue}</p>
                         {(show.city || show.state) && (
                           <p className="sm: .5">
                             {show.city
@@ -1106,23 +1106,23 @@ export default function FanAccountPage({
                         {(show.doorsTime || show.playTime || show.time) && (
                           <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5">
                             {show.doorsTime && (
-                              <span className="text-lg text-white/50 sm:text-xl md:text-2xl lg:text-3xl">
+                              <span className="text-white/50 sm:text-xl md:text-2xl lg:text-3xl">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
                             {show.playTime && (
-                              <span className="text-lg text-rose-400 sm:text-xl md:text-2xl lg:text-3xl">
+                              <span className="text-rose-400 sm:text-xl md:text-2xl lg:text-3xl">
                                 Show: {show.playTime}
                               </span>
                             )}
                             {show.time && (show.doorsTime || show.playTime) ? (
-                              <span className="text-lg text-white/50 sm:text-xl md:text-2xl lg:text-3xl">
+                              <span className="text-white/50 sm:text-xl md:text-2xl lg:text-3xl">
                                 Event: {show.time}
                               </span>
                             ) : show.time &&
                               !show.doorsTime &&
                               !show.playTime ? (
-                              <span className="/90 text-lg sm:text-xl md:text-2xl lg:text-3xl">
+                              <span className="/90 sm:text-xl md:text-2xl lg:text-3xl">
                                 {show.time}
                               </span>
                             ) : null}
@@ -1145,7 +1145,7 @@ export default function FanAccountPage({
                                       href={mapsHref}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="! inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-[#00000029] px-2.5 py-1 text-xs shadow-sm backdrop-blur-[16px] transition-all hover:bg-white/15 hover:text-white"
+                                      className="! inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-[#00000029] px-2.5 py-1 shadow-sm backdrop-blur-xl hover:bg-white/15 hover:text-white"
                                     >
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -1167,7 +1167,7 @@ export default function FanAccountPage({
                               {(show.directionsLink || show.notes) &&
                                 (() => {
                                   const btnClass =
-                                    "inline-flex items-center gap-1.5 text-xs     !  bg-[#00000029] border border-white/15 backdrop-blur-[16px] px-2.5 py-1 rounded-lg hover:bg-white/15 hover:text-white transition-all shadow-sm";
+                                    "inline-flex items-center gap-1.5       !  bg-[#00000029] border border-white/15 backdrop-blur-xl px-2.5 py-1 rounded-lg hover:bg-white/15 hover:text-white transition-all shadow-sm";
                                   if (show.directionsLink && !show.notes) {
                                     return (
                                       <a
@@ -1198,14 +1198,14 @@ export default function FanAccountPage({
                                         {parkingNoteOpenIdx === i && (
                                           <div className="absolute bottom-full left-0 z-50 mb-2 w-64 rounded-lg border border-white/10 bg-[#111] p-3 shadow-[0_8px_24px_rgba(0,0,0,0.7)]">
                                             <div className="mb-1.5 flex items-center justify-between">
-                                              <span className="text-xs text-white/40">
+                                              <span className="text-white/40">
                                                 Parking Info
                                               </span>
                                               <button
                                                 onClick={() =>
                                                   setParkingNoteOpenIdx(null)
                                                 }
-                                                className="text-white/30 transition-colors hover:text-white"
+                                                className="text-white/30 hover:text-white"
                                               >
                                                 <svg
                                                   xmlns="http://www.w3.org/2000/svg"
@@ -1219,7 +1219,7 @@ export default function FanAccountPage({
                                                 </svg>
                                               </button>
                                             </div>
-                                            <p className="text-sm whitespace-pre-wrap">
+                                            <p className="whitespace-pre-wrap">
                                               {show.notes}
                                             </p>
                                           </div>
@@ -1247,7 +1247,7 @@ export default function FanAccountPage({
                                                 : i,
                                             )
                                           }
-                                          className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-white/15 bg-[#00000029] text-white/60 shadow-sm transition-all hover:bg-white/15 hover:text-white"
+                                          className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-white/15 bg-[#00000029] text-white/60 shadow-sm hover:bg-white/15 hover:text-white"
                                           title="Parking notes"
                                         >
                                           <svg
@@ -1265,14 +1265,14 @@ export default function FanAccountPage({
                                         {parkingNoteOpenIdx === i && (
                                           <div className="absolute bottom-full left-0 z-50 mb-2 w-64 rounded-lg border border-white/10 bg-[#111] p-3 shadow-[0_8px_24px_rgba(0,0,0,0.7)]">
                                             <div className="mb-1.5 flex items-center justify-between">
-                                              <span className="text-xs text-white/40">
+                                              <span className="text-white/40">
                                                 Parking Info
                                               </span>
                                               <button
                                                 onClick={() =>
                                                   setParkingNoteOpenIdx(null)
                                                 }
-                                                className="text-white/30 transition-colors hover:text-white"
+                                                className="text-white/30 hover:text-white"
                                               >
                                                 <svg
                                                   xmlns="http://www.w3.org/2000/svg"
@@ -1286,7 +1286,7 @@ export default function FanAccountPage({
                                                 </svg>
                                               </button>
                                             </div>
-                                            <p className="text-sm whitespace-pre-wrap">
+                                            <p className="whitespace-pre-wrap">
                                               {show.notes}
                                             </p>
                                           </div>
@@ -1298,7 +1298,7 @@ export default function FanAccountPage({
                             </div>
                           )}
                         {show.isSoldOut && (
-                          <span className="mt-2.5 inline-block rounded-lg border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-xs text-red-400">
+                          <span className="mt-2.5 inline-block rounded-lg border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-red-400">
                             Sold Out
                           </span>
                         )}
@@ -1341,11 +1341,11 @@ export default function FanAccountPage({
                     {subscribedShows.map((sub: any) => (
                       <div
                         key={sub.id}
-                        className="justify-betweenr group flex items-center gap-4 rounded-lg border border-white/10 bg-[#00000029] p-4 transition-colors hover:border-purple-500/30"
+                        className="justify-betweenr group flex items-center gap-4 rounded-lg border border-white/10 bg-[#00000029] p-4 hover:border-purple-500/30"
                       >
                         <div className="flex min-w-0 items-center gap-4">
                           <div className="min-w-0">
-                            <p className="truncate">{sub.venueName}</p>
+                            <p>{sub.venueName}</p>
                             <p>
                               {sub.showDate ? sub.showDate : "Upcoming Date"}
                               {sub.city ? ` · ${sub.city}, ${sub.state}` : ""}
@@ -1354,7 +1354,7 @@ export default function FanAccountPage({
                         </div>
                         <button
                           onClick={() => handleUnsubscribeShow(sub.showId)}
-                          className="hover: cursor-pointer rounded-lg border border-rose-500/20 bg-rose-500/10 px-3 py-1.5 text-[var(--font-size-2xs)] text-rose-400 transition-colors hover:bg-rose-600"
+                          className="hover: cursor-pointer rounded-lg border border-rose-500/20 bg-rose-500/10 px-3 py-1.5 text-[var(--font-size-2xs)] text-rose-400 hover:bg-rose-600"
                         >
                           Cancel Alert
                         </button>
@@ -1367,10 +1367,7 @@ export default function FanAccountPage({
                     <p>
                       Click the bell icon on the tour page to get date alerts.
                     </p>
-                    <Link
-                      href="/#tour"
-                      className="mt-3 transition-colors hover:text-white"
-                    >
+                    <Link href="/#tour" className="mt-3 hover:text-white">
                       Find Shows
                     </Link>
                   </div>
@@ -1380,7 +1377,7 @@ export default function FanAccountPage({
 
             {!isCruiser && isCruiseBannerActive && (
               <Link href="/cruise" className="group mb-10 block">
-                <div className="relative overflow-hidden border border-purple-500/20 p-6 transition-colors hover:border-purple-500/40 md:p-8">
+                <div className="relative overflow-hidden border border-purple-500/20 p-6 hover:border-purple-500/40 md:p-8">
                   <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                     <div className="flex items-start gap-4">
                       <div>
@@ -1397,7 +1394,7 @@ export default function FanAccountPage({
                         </p>
                       </div>
                     </div>
-                    <span className="shrink-0 bg-cyan-500 px-6 py-3 text-[#0a0a0f] shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-colors group-hover:bg-cyan-400">
+                    <span className="shrink-0 bg-cyan-500 px-6 py-3 text-[#0a0a0f] shadow-[0_0_20px_rgba(6,182,212,0.3)] group-hover:bg-cyan-400">
                       Learn More
                     </span>
                   </div>
@@ -1439,7 +1436,7 @@ export default function FanAccountPage({
                           setLiveAlertStatus("idle");
                           setLiveAlertPhone("");
                         }}
-                        className="ml-auto cursor-pointer text-white/40 transition-colors hover:text-red-400"
+                        className="ml-auto cursor-pointer text-white/40 hover:text-red-400"
                       >
                         Unsubscribe
                       </button>
@@ -1554,18 +1551,16 @@ export default function FanAccountPage({
                                     </p>
                                   </div>
                                 </div>
-                                <p className="mt-auto truncate text-black/30">
+                                <p className="mt-auto text-black/30">
                                   {photo.venue || "Live Event"}
                                 </p>
                               </div>
                             ) : (
                               /* Hover overlay for approved/pending */
-                              <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/20 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                <p className="truncate">
-                                  {photo.venue || "Live Event"}
-                                </p>
+                              <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/20 to-transparent p-3 opacity-0 group-hover:opacity-100">
+                                <p>{photo.venue || "Live Event"}</p>
                                 <p
-                                  className={`mt-0.5 ${photo.approved ? "text-emerald-400" : "text-purple-300"}`}
+                                  className={`mt-0.5 ${photo.approved ? "text-emerald-400" : " "}`}
                                 >
                                   {photo.approved
                                     ? "Live on wall"
@@ -1617,7 +1612,7 @@ export default function FanAccountPage({
                     {inboxMessages.map((msg) => (
                       <div
                         key={msg.id || msg.title}
-                        className={`group -mx-3 cursor-pointer border border-transparent border-white/10 bg-[#00000029] p-3 transition-colors ${msg.isNew ? "bg-white/[0.02]" : "opacity-60"}`}
+                        className={`group -mx-3 cursor-pointer border border-transparent border-white/10 bg-[#00000029] p-3 ${msg.isNew ? "bg-white/[0.02]" : "opacity-60"}`}
                       >
                         <div className="flex items-start gap-3">
                           <div
@@ -1627,7 +1622,7 @@ export default function FanAccountPage({
                           </div>
                           <div>
                             <p
-                              className={`transition-colors ${msg.color === "yellow" ? "group-hover:text-yellow-400" : "group-hover:text-blue-400"}`}
+                              className={` ${msg.color === "yellow" ? "group-hover:text-yellow-400" : "group-hover:text-blue-400"}`}
                             >
                               {msg.title}
                             </p>
@@ -1677,10 +1672,7 @@ export default function FanAccountPage({
                   <span className="flex items-center gap-2 text-fuchsia-400">
                     🛍️ Quick Shop
                   </span>
-                  <Link
-                    href="/merch"
-                    className="text-white/40 transition-colors"
-                  >
+                  <Link href="/merch" className="text-white/40">
                     Full Store
                   </Link>
                 </div>
@@ -1688,7 +1680,7 @@ export default function FanAccountPage({
                   {merch.map((item: any) => (
                     <article
                       key={item.id}
-                      className="group overflow-hidden border border-white/10 bg-[#00000029] transition-colors hover:border-fuchsia-500/30"
+                      className="group overflow-hidden border border-white/10 bg-[#00000029] hover:border-fuchsia-500/30"
                     >
                       {item.image && (
                         <div className="aspect-square overflow-hidden bg-black/40">
@@ -1703,14 +1695,14 @@ export default function FanAccountPage({
                         </div>
                       )}
                       <div className="p-4">
-                        <p className="truncate">{item.title}</p>
+                        <p>{item.title}</p>
                         <div className="mt-2 flex items-center justify-between">
-                          <span className="text-lg text-fuchsia-400">
+                          <span className="text-fuchsia-400">
                             ${parseFloat(item.price).toFixed(0)}
                           </span>
                           <Link
                             href={`/merch`}
-                            className="hover: rounded border border-white/10 bg-white/10 px-3 py-1.5 text-white/70 transition-colors hover:border-fuchsia-500 hover:bg-fuchsia-500"
+                            className="hover: rounded border border-white/10 bg-white/10 px-3 py-1.5 hover:border-fuchsia-500 hover:bg-fuchsia-500"
                           >
                             Buy Now
                           </Link>

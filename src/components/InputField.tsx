@@ -96,7 +96,7 @@ export const InputField = forwardRef<
             />
           )}
         </div>
-        {error && <span className="text-xs text-rose-400">{error}</span>}
+        {error && <span className="text-rose-400">{error}</span>}
       </div>
     );
   },

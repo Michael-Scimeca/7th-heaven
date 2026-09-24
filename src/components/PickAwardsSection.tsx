@@ -51,7 +51,7 @@ const RARITY_COLORS: Record<string, string> = {
   Common: " text-white/40",
   Uncommon: "text-green-400",
   Rare: "text-blue-400",
-  Epic: "text-purple-300",
+  Epic: " ",
   Legendary: "text-pink-400",
 };
 
@@ -212,7 +212,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                     ? setSelectedPick(selectedPick === pick.id ? null : pick.id)
                     : null
                 }
-                className={`relative border p-3 text-center transition-colors ${pick.owned > 0 ? (selectedPick === pick.id ? "scale-105 border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "cursor-pointer border-black/10 bg-gray-50 hover:border-black/25") : "cursor-default border-black/10 bg-gray-100/50 opacity-40 grayscale"}`}
+                className={`relative border p-3 text-center ${pick.owned > 0 ? (selectedPick === pick.id ? "scale-105 border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "cursor-pointer border-black/10 bg-gray-50 hover:border-black/25") : "cursor-default border-black/10 bg-gray-100/50 opacity-40 grayscale"}`}
               >
                 <div className="relative mx-auto mb-2 h-16 w-16">
                   <Image
@@ -229,7 +229,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                     </span>
                   )}
                 </div>
-                <p className="truncate text-black/80">{pick.name}</p>
+                <p className="text-black/80">{pick.name}</p>
                 <p className={` ${RARITY_COLORS[pick.rarity]}`}>
                   {pick.rarity}
                 </p>
@@ -344,7 +344,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 {lotteries.map((lottery: any) => (
                   <div
                     key={lottery.id}
-                    className={`rounded-lg border p-4 transition-colors ${lottery.isEntered ? "border-emerald-500/30 bg-emerald-500/5" : lottery.isEligible ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50" : "border-black/10 bg-gray-50"}`}
+                    className={`rounded-lg border p-4 ${lottery.isEntered ? "border-emerald-500/30 bg-emerald-500/5" : lottery.isEligible ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50" : "border-black/10 bg-gray-50"}`}
                   >
                     <div className="mb-2 flex items-center justify-between">
                       <div>
@@ -360,7 +360,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                           <button
                             onClick={() => handleEnterLottery(lottery.id)}
                             disabled={enteringLottery === lottery.id}
-                            className="cursor-pointer rounded-lg border border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] px-4 py-2 text-[var(--color-purple-light)] text-[var(--font-size-xs)] shadow-[0_0_10px_var(--color-purple-glow)] transition-colors hover:bg-[var(--color-purple-glow)] disabled:opacity-50"
+                            className="cursor-pointer rounded-lg border border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] px-4 py-2 text-[var(--color-purple-light)] text-[var(--font-size-xs)] shadow-[0_0_10px_var(--color-purple-glow)] hover:bg-[var(--color-purple-glow)] disabled:opacity-50"
                           >
                             {enteringLottery === lottery.id
                               ? "Entering..."
@@ -387,7 +387,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                         </div>
                         <div className="h-1.5 w-full overflow-hidden rounded-lg bg-black/10">
                           <div
-                            className={`h-full rounded-lg transition-colors ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
+                            className={`h-full rounded-lg ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
                             style={{
                               width: `${Math.min(100, lottery.progress)}%`,
                             }}

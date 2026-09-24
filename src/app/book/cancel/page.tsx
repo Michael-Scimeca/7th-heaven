@@ -54,7 +54,7 @@ function CancelContent() {
           </p>
           <Link
             href="/"
-            className="inline-flex items-center justify-center border border-white/10 bg-white/[0.05] px-8 py-3 transition-colors hover:bg-white/[0.1]"
+            className="inline-flex items-center justify-center border border-white/10 bg-white/[0.05] px-8 py-3 hover:bg-white/[0.1]"
           >
             Return to Homepage
           </Link>
@@ -82,13 +82,13 @@ function CancelContent() {
             <div className="flex flex-col gap-3">
               <button
                 onClick={handleCancel}
-                className="w-full cursor-pointer bg-rose-600 px-8 py-4 shadow-[0_0_20px_rgba(225,29,72,0.2)] transition-colors hover:bg-rose-500 hover:shadow-[0_0_30px_rgba(225,29,72,0.4)]"
+                className="w-full cursor-pointer bg-rose-600 px-8 py-4 shadow-[0_0_20px_rgba(225,29,72,0.2)] hover:bg-rose-500 hover:shadow-[0_0_30px_rgba(225,29,72,0.4)]"
               >
                 Yes, Cancel My Booking
               </button>
               <Link
                 href="/"
-                className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 transition-colors hover:bg-white/[0.08]"
+                className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
               >
                 Never Mind — Go Back
               </Link>
@@ -134,13 +134,13 @@ function CancelContent() {
             <div className="flex flex-col gap-3">
               <Link
                 href="/book"
-                className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4 shadow-[0_0_20px_rgba(255,10,61,0.3)] transition-colors hover:bg-[var(--color-accent)]/80"
+                className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/80"
               >
                 Book a New Show
               </Link>
               <Link
                 href="/"
-                className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 transition-colors hover:bg-white/[0.08]"
+                className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
               >
                 Return to Homepage
               </Link>
@@ -158,13 +158,13 @@ function CancelContent() {
             <div className="flex flex-col gap-3">
               <button
                 onClick={() => setStatus("confirm")}
-                className="w-full cursor-pointer border border-white/10 bg-white/[0.05] px-8 py-4 transition-colors hover:bg-white/[0.1]"
+                className="w-full cursor-pointer border border-white/10 bg-white/[0.05] px-8 py-4 hover:bg-white/[0.1]"
               >
                 Try Again
               </button>
               <Link
                 href="/"
-                className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 transition-colors hover:bg-white/[0.08]"
+                className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
               >
                 Return to Homepage
               </Link>

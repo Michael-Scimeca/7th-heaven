@@ -1656,7 +1656,7 @@ export function FakeLiveStream({
           <div className="flex min-w-0 items-center gap-3">
             <Link
               href="/live"
-              className="flex items-center gap-1.5 transition-colors hover:text-white"
+              className="flex items-center gap-1.5 hover:text-white"
               style={{
                 color: "rgba(255,255,255,0.85)",
               }}
@@ -1681,13 +1681,13 @@ export function FakeLiveStream({
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-white/20 bg-gradient-to-br from-purple-500/30 to-purple-800/20">
                   {activeFeedCrew.avatar}
                 </div>
-                <span className="absolute -right-1 -bottom-1 rounded-full border border-purple-500/50 bg-purple-600/50 px-1.5 py-0.5 text-[9px] text-purple-300">
+                <span className="absolute -right-1 -bottom-1 rounded-full border border-purple-500/50 bg-purple-600/50 px-1.5 py-0.5 text-[9px]">
                   Crew
                 </span>
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="/95 truncate">
+                  <span className="/95">
                     {activeFeedCrew.name} — {activeFeedCrew.cameraLabel}
                   </span>
                 </div>
@@ -1727,7 +1727,7 @@ export function FakeLiveStream({
                     setNotifyingFans(false);
                   }
                 }}
-                className="!px-3 !py-1.5 text-xs"
+                className="!px-3 !py-1.5"
                 title="Broadcast push alert to all subscribed fans"
               >
                 <span className="flex items-center gap-1.5">
@@ -1743,7 +1743,7 @@ export function FakeLiveStream({
 
             <Link
               href={`/live/${activeFeedId === "mike" ? "michael" : activeFeedId}`}
-              className="flex items-center gap-2 text-purple-300 no-underline transition-colors hover:text-white"
+              className="flex items-center gap-2 no-underline hover:text-white"
             >
               <div className="relative shrink-0">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-gradient-to-br from-purple-500/30 to-purple-800/20">
@@ -1875,7 +1875,7 @@ export function FakeLiveStream({
 
                 <button
                   onClick={() => setReactionsVisible((v) => !v)}
-                  className="hidden items-center rounded-lg px-2.5 py-1 transition-colors sm:flex"
+                  className="hidden items-center rounded-lg px-2.5 py-1 sm:flex"
                   style={{
                     background: "rgba(0,0,0,0.6)",
                     backdropFilter: "blur(8px)",
@@ -1909,7 +1909,7 @@ export function FakeLiveStream({
                 const activeSong = setlist.find((s) => s.isPlaying);
                 if (!activeSong) return null;
                 return (
-                  <div className="absolute bottom-3 left-3 z-30 flex max-w-[calc(100%-2rem)] items-center gap-2 transition-opacity duration-300 ease-out">
+                  <div className="absolute bottom-3 left-3 z-30 flex max-w-[calc(100%-2rem)] items-center gap-2">
                     <div
                       className="flex items-center gap-2 border border-white/10 px-3 py-1.5 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       style={{
@@ -1923,7 +1923,7 @@ export function FakeLiveStream({
                       <span className="shrink-0 text-[var(--color-accent)]">
                         Now Playing:
                       </span>
-                      <span className="truncate">{activeSong.title}</span>
+                      <span>{activeSong.title}</span>
                       <Music className="h-3.5 w-3.5 shrink-0" />
                     </div>
                   </div>
@@ -1944,12 +1944,12 @@ export function FakeLiveStream({
                         member!.name.toLowerCase().trim(),
                     );
                   return (
-                    <div className="absolute top-20 left-4 z-40 w-[calc(100%-2rem)] transition-opacity duration-500 ease-out sm:right-4 sm:left-auto sm:w-full sm:max-w-xs">
+                    <div className="absolute top-20 left-4 z-40 w-[calc(100%-2rem)] sm:right-4 sm:left-auto sm:w-full sm:max-w-xs">
                       <div className="pointer-events-auto relative flex flex-col overflow-hidden border-2 border-yellow-500/50 bg-gray-50/95 px-4 py-5 shadow-[0_0_40px_rgba(234,179,8,0.3)] backdrop-blur-xl">
                         <button
                           aria-label="Close live raffle widget"
                           onClick={() => setRaffleWidgetClosed(true)}
-                          className="hover: absolute top-3 right-3 z-10 flex h-6 w-6 items-center justify-center rounded-lg bg-gray-50 text-black/40 transition-colors hover:bg-white/15"
+                          className="hover: absolute top-3 right-3 z-10 flex h-6 w-6 items-center justify-center rounded-lg bg-gray-50 text-black/40 hover:bg-white/15"
                         >
                           <svg
                             width="10"
@@ -1966,10 +1966,10 @@ export function FakeLiveStream({
 
                         {raffleState.status === "open" && (
                           <>
-                            <div className="mb-6 flex items-center gap-2 pr-6 text-purple-300">
+                            <div className="mb-6 flex items-center gap-2 pr-6">
                               <Ticket className="h-5 w-5 animate-pulse text-yellow-400" />
                               <span>Live Raffle</span>
-                              <span className="bg- purple-white/20 ml-auto animate-pulse rounded border border-purple-500/30 px-2.5 py-1 text-purple-300">
+                              <span className="bg- purple-white/20 ml-auto animate-pulse rounded border border-purple-500/30 px-2.5 py-1">
                                 OPEN
                               </span>
                             </div>
@@ -1988,7 +1988,7 @@ export function FakeLiveStream({
                               </div>
                               <div className="h-1.5 w-full overflow-hidden rounded-lg bg-gray-100">
                                 <div
-                                  className="h-full rounded-lg bg-yellow-400 transition-colors duration-500"
+                                  className="h-full rounded-lg bg-yellow-400"
                                   style={{
                                     width: `${Math.min(100, ((Array.isArray(raffleState.entrants) ? raffleState.entrants.length : raffleState.entrants || 0) / (raffleState.minEntrants || 1)) * 100)}%`,
                                   }}
@@ -2047,20 +2047,18 @@ export function FakeLiveStream({
                                     }),
                                   );
                                   try {
-                                    supabase
-                                      .channel("live_events")
-                                      .send({
-                                        type: "broadcast",
-                                        event: "raffle_enter",
-                                        payload: {
-                                          fanName,
-                                          email:
-                                            member?.email ||
-                                            "fan@7thheavenband.com",
-                                          fanId: member?.id || "unknown",
-                                          crewId: memberId,
-                                        },
-                                      });
+                                    supabase.channel("live_events").send({
+                                      type: "broadcast",
+                                      event: "raffle_enter",
+                                      payload: {
+                                        fanName,
+                                        email:
+                                          member?.email ||
+                                          "fan@7thheavenband.com",
+                                        fanId: member?.id || "unknown",
+                                        crewId: memberId,
+                                      },
+                                    });
                                   } catch {}
                                   fetch("/api/email", {
                                     method: "POST",
@@ -2101,7 +2099,7 @@ export function FakeLiveStream({
                                     );
                                   } catch {}
                                 }}
-                                className="w-full bg-[var(--color-purple-primary)] py-3 shadow-[0_0_15px_var(--color-purple-glow)] transition-colors hover:bg-[var(--color-purple-hover)]"
+                                className="w-full bg-[var(--color-purple-primary)] py-3 shadow-[0_0_15px_var(--color-purple-glow)] hover:bg-[var(--color-purple-hover)]"
                               >
                                 Enter Raffle
                               </button>
@@ -2139,9 +2137,7 @@ export function FakeLiveStream({
                             </p>
                             {hasEnteredRaffle && (
                               <div className="border border-white/20 bg-purple-500/10 px-4 py-2">
-                                <p className="text-purple-300">
-                                  ✓ You're in the drawing!
-                                </p>
+                                <p>✓ You're in the drawing!</p>
                               </div>
                             )}
                           </div>
@@ -2150,15 +2146,13 @@ export function FakeLiveStream({
                         {raffleState.status === "drawing" && (
                           <div className="flex flex-col items-center justify-center py-8 text-center">
                             <Ticket className="mb-6 h-11 w-11 animate-spin text-yellow-400" />
-                            <p className="animate-pulse text-purple-300">
-                              Drawing Winner...
-                            </p>
+                            <p className="animate-pulse">Drawing Winner...</p>
                           </div>
                         )}
 
                         {raffleState.status === "complete" && (
                           <div className="py-2">
-                            <div className="mb-6 flex items-center gap-2 pr-6 text-purple-300">
+                            <div className="mb-6 flex items-center gap-2 pr-6">
                               <Trophy className="h-5 w-5 text-yellow-400" />
                               <span>Raffle Winner</span>
                             </div>
@@ -2190,7 +2184,7 @@ export function FakeLiveStream({
                                       className={`px-4 py-3 text-center ${isMine ? "bg-purple-500/10" : ""}`}
                                     >
                                       <p
-                                        className={`${isMine ? "text-purple-300" : "text-black"}`}
+                                        className={`${isMine ? " " : "text-black"}`}
                                       >
                                         {w}
                                       </p>
@@ -2199,7 +2193,7 @@ export function FakeLiveStream({
                                           onClick={() =>
                                             setShowClaimModal(true)
                                           }
-                                          className="mt-2 w-full rounded-lg bg-purple-600 py-2 transition-colors hover:bg-purple-500"
+                                          className="mt-2 w-full rounded-lg bg-purple-600 py-2 hover:bg-purple-500"
                                         >
                                           Claim Reward
                                         </button>
@@ -2212,9 +2206,7 @@ export function FakeLiveStream({
 
                             <div className="mt-4 border border-black/10 bg-gray-50 p-3 text-center">
                               <p className="text-black/70">
-                                <span className="mb-1 block text-purple-300">
-                                  How to Claim
-                                </span>
+                                <span className="mb-1 block">How to Claim</span>
                                 Winners: Check your{" "}
                                 <strong className="text-black">Email</strong> or
                                 your{" "}
@@ -2235,7 +2227,7 @@ export function FakeLiveStream({
                                   </p>
                                   <div className="inline-flex items-center gap-2 rounded border border-black/10 bg-gray-100 px-3 py-1.5 shadow-inner">
                                     <span className="animate-pulse">⏳</span>
-                                    <span className="text-lg text-emerald-500">
+                                    <span className="text-emerald-500">
                                       {Math.floor(nextRaffleCountdown / 60)}:
                                       {(nextRaffleCountdown % 60)
                                         .toString()
@@ -2310,9 +2302,7 @@ export function FakeLiveStream({
                               {activeMerchDrop.product.badge}
                             </span>
                           </div>
-                          <p className="truncate">
-                            {activeMerchDrop.product.name}
-                          </p>
+                          <p>{activeMerchDrop.product.name}</p>
                           <p style={{ color: activeMerchDrop.product.color }}>
                             Only {activeMerchDrop.product.stock} left ·
                             shop.7thheavenband.com
@@ -2367,7 +2357,7 @@ export function FakeLiveStream({
                               background: activeMerchDrop.product.color,
                               boxShadow: `0 0 15px ${activeMerchDrop.product.color}88`,
                             }}
-                            className="shrink-0 cursor-pointer border-none px-3.5 py-1.5 transition-colors active:scale-95"
+                            className="shrink-0 cursor-pointer border-none px-3.5 py-1.5 active:scale-95"
                           >
                             BUY NOW
                           </button>
@@ -2379,7 +2369,7 @@ export function FakeLiveStream({
                         style={{ background: "rgba(255,255,255,0.08)" }}
                       >
                         <div
-                          className="h-full rounded-lg transition-colors"
+                          className="h-full rounded-lg"
                           style={{
                             width: `${(1 - pct) * 100}%`,
                             background: activeMerchDrop.product.color,
@@ -2443,7 +2433,7 @@ export function FakeLiveStream({
                   </div>
                   <button
                     onClick={() => setSpotlight(null)}
-                    className="shrink-0 text-black/30 transition-colors hover:text-black/70"
+                    className="shrink-0 text-black/30 hover:text-black/70"
                   >
                     ✕
                   </button>
@@ -2546,7 +2536,7 @@ export function FakeLiveStream({
                     <button
                       key={tab}
                       onClick={() => setAdminTab(tab as typeof adminTab)}
-                      className="flex-1 rounded-lg py-1.5 transition-colors"
+                      className="flex-1 rounded-lg py-1.5"
                       style={{
                         background:
                           adminTab === tab
@@ -2662,7 +2652,7 @@ export function FakeLiveStream({
                           return (
                             <div
                               key={msg.id}
-                              className="group mb-2 flex items-start gap-2.5 px-3 py-2 shadow-2xs transition-colors"
+                              className="group mb-2 flex items-start gap-2.5 px-3 py-2 shadow-2xs"
                               style={{
                                 background: isFlagged
                                   ? "rgba(239,68,68,0.1)"
@@ -2763,7 +2753,6 @@ export function FakeLiveStream({
                                       }}
                                     >
                                       <p
-                                        className=" "
                                         style={{
                                           color: "rgba(255,255,255,0.75)",
                                         }}
@@ -2774,14 +2763,14 @@ export function FakeLiveStream({
                                   </div>
                                   {/* Quick-action buttons on hover */}
                                   {msg.account && !isBanned && (
-                                    <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+                                    <div className="flex shrink-0 items-center gap-0.5 opacity-0 group-hover:opacity-100">
                                       <button
                                         onClick={() =>
                                           msg.account &&
                                           handleSpotlight(msg.account, msg.text)
                                         }
                                         title="Spotlight"
-                                        className="flex h-6 w-6 items-center justify-center rounded transition-colors hover:bg-[var(--color-accent)]/20"
+                                        className="flex h-6 w-6 items-center justify-center rounded hover:bg-[var(--color-accent)]/20"
                                       >
                                         📌
                                       </button>
@@ -2792,7 +2781,7 @@ export function FakeLiveStream({
                                             handleMute(msg.account)
                                           }
                                           title="Mute"
-                                          className="flex h-6 w-6 items-center justify-center rounded transition-colors hover:bg-gray-500/20"
+                                          className="flex h-6 w-6 items-center justify-center rounded hover:bg-gray-500/20"
                                         >
                                           🔇
                                         </button>
@@ -2802,7 +2791,7 @@ export function FakeLiveStream({
                                           msg.account && handleBan(msg.account)
                                         }
                                         title="Ban"
-                                        className="flex h-6 w-6 items-center justify-center rounded transition-colors hover:bg-red-500/20"
+                                        className="flex h-6 w-6 items-center justify-center rounded hover:bg-red-500/20"
                                       >
                                         🚫
                                       </button>
@@ -2862,7 +2851,7 @@ export function FakeLiveStream({
                                 </span>
                               )}
                             </div>
-                            <p className="text-black/70 italic">
+                            <p className="text-black/70">
                               &ldquo;{msg.text}&rdquo;
                             </p>
                             <span
@@ -2883,7 +2872,7 @@ export function FakeLiveStream({
                                   onClick={() =>
                                     msg.account && handleWarn(msg.account)
                                   }
-                                  className="flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                                  className="flex items-center gap-1 rounded-lg px-2.5 py-1"
                                   style={{
                                     background: "rgba(192, 132, 252,0.15)",
                                     border: "1px solid rgba(192, 132, 252,0.3)",
@@ -2898,7 +2887,7 @@ export function FakeLiveStream({
                                 onClick={() =>
                                   msg.account && handleMute(msg.account)
                                 }
-                                className="flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                                className="flex items-center gap-1 rounded-lg px-2.5 py-1"
                                 style={{
                                   background: "rgba(156,163,175,0.1)",
                                   border: "1px solid rgba(156,163,175,0.2)",
@@ -2913,7 +2902,7 @@ export function FakeLiveStream({
                                 onClick={() =>
                                   msg.account && handleKick(msg.account)
                                 }
-                                className="flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                                className="flex items-center gap-1 rounded-lg px-2.5 py-1"
                                 style={{
                                   background: "rgba(249,115,22,0.12)",
                                   border: "1px solid rgba(249,115,22,0.25)",
@@ -2930,7 +2919,7 @@ export function FakeLiveStream({
                                     msg.account &&
                                     handleBan(msg.account, reason)
                                   }
-                                  className="flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                                  className="flex items-center gap-1 rounded-lg px-2.5 py-1"
                                   style={{
                                     background: "rgba(239,68,68,0.15)",
                                     border: "1px solid rgba(239,68,68,0.35)",
@@ -2942,7 +2931,7 @@ export function FakeLiveStream({
                               )}
                             <button
                               onClick={() => handleDismissFlag(msg.id)}
-                              className="ml-auto flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                              className="ml-auto flex items-center gap-1 rounded-lg px-2.5 py-1"
                               style={{
                                 background: "rgba(255,255,255,0.04)",
                                 border: "1px solid rgba(255,255,255,0.1)",
@@ -3073,7 +3062,7 @@ export function FakeLiveStream({
                                   <button
                                     onClick={() => handleWarn(acc)}
                                     title="Warn"
-                                    className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg hover:scale-110"
                                     style={{
                                       background: "rgba(192, 132, 252,0.1)",
                                     }}
@@ -3085,7 +3074,7 @@ export function FakeLiveStream({
                                   <button
                                     onClick={() => handleMute(acc)}
                                     title="Mute"
-                                    className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg hover:scale-110"
                                     style={{
                                       background: "rgba(156,163,175,0.08)",
                                     }}
@@ -3096,7 +3085,7 @@ export function FakeLiveStream({
                                 <button
                                   onClick={() => handleKick(acc)}
                                   title="Kick"
-                                  className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                  className="flex h-7 w-7 items-center justify-center rounded-lg hover:scale-110"
                                   style={{ background: "rgba(249,115,22,0.1)" }}
                                 >
                                   👢
@@ -3104,7 +3093,7 @@ export function FakeLiveStream({
                                 <button
                                   onClick={() => handleBan(acc)}
                                   title="Ban"
-                                  className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                  className="flex h-7 w-7 items-center justify-center rounded-lg hover:scale-110"
                                   style={{ background: "rgba(239,68,68,0.12)" }}
                                 >
                                   🚫
@@ -3115,7 +3104,7 @@ export function FakeLiveStream({
                                       handleSpotlight(acc, lastMsg.text)
                                     }
                                     title="Spotlight"
-                                    className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg hover:scale-110"
                                     style={{
                                       background: "rgba(255,10,61,0.12)",
                                     }}
@@ -3328,14 +3317,14 @@ export function FakeLiveStream({
                             handleAddCustomWord(newCustomWord);
                             setNewCustomWord("");
                           }}
-                          className="shrink-0 cursor-pointer rounded-lg border border-[#ec4899]/30 bg-[var(--color-accent-pink)]/20 px-4 py-1.5 text-[var(--color-accent-pink)] transition-colors hover:border-[#ec4899]/50 hover:bg-[var(--color-accent-pink)]/30"
+                          className="shrink-0 cursor-pointer rounded-lg border border-[#ec4899]/30 bg-[var(--color-accent-pink)]/20 px-4 py-1.5 text-[var(--color-accent-pink)] hover:border-[#ec4899]/50 hover:bg-[var(--color-accent-pink)]/30"
                         >
                           Add
                         </button>
                       </div>
 
                       {customWords.length === 0 ? (
-                        <p className="py-2 text-center text-black/25 italic">
+                        <p className="py-2 text-center text-black/25">
                           No custom keywords added yet.
                         </p>
                       ) : (
@@ -3349,7 +3338,7 @@ export function FakeLiveStream({
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="hover: flex h-4 w-4 items-center justify-center rounded-lg text-black/30 transition-colors hover:bg-gray-100"
+                                className="hover: flex h-4 w-4 items-center justify-center rounded-lg text-black/30 hover:bg-gray-100"
                               >
                                 &times;
                               </button>
@@ -3540,7 +3529,7 @@ export function FakeLiveStream({
                             className="h-2 w-2 animate-pulse rounded-lg"
                             style={{ background: "#4ade80" }}
                           />
-                          <span className="" style={{ color: "#4ade80" }}>
+                          <span style={{ color: "#4ade80" }}>
                             Drop Live Now
                           </span>
                         </div>
@@ -3600,7 +3589,7 @@ export function FakeLiveStream({
                           style={{ background: "rgba(255,255,255,0.08)" }}
                         >
                           <div
-                            className="h-full rounded-lg transition-colors duration-1000"
+                            className="h-full rounded-lg"
                             style={{
                               width: `${activeMerchDrop.totalTime > 0 ? ((activeMerchDrop.totalTime - merchTimeLeft) / activeMerchDrop.totalTime) * 100 : 0}%`,
                               background: `linear-gradient(90deg, ${activeMerchDrop.product.color}, ${activeMerchDrop.product.color}88)`,
@@ -3620,7 +3609,7 @@ export function FakeLiveStream({
                               activeMerchDrop.product.name,
                             );
                           }}
-                          className="w-full py-2 transition-colors hover:scale-[1.02]"
+                          className="w-full py-2 hover:scale-[1.02]"
                           style={{
                             background: "rgba(239,68,68,0.12)",
                             border: "1px solid rgba(239,68,68,0.25)",
@@ -3665,7 +3654,7 @@ export function FakeLiveStream({
                               onClick={() =>
                                 setMerchSelectedProduct(product.id)
                               }
-                              className="p-3 text-left transition-colors hover:scale-[1.02]"
+                              className="p-3 text-left hover:scale-[1.02]"
                               style={{
                                 background: isSelected
                                   ? `${product.color}18`
@@ -3698,7 +3687,6 @@ export function FakeLiveStream({
                                 </span>
                               </div>
                               <p
-                                className=""
                                 style={{
                                   color: "rgba(255,255,255,0.25)",
                                   fontSize: 10,
@@ -3725,7 +3713,7 @@ export function FakeLiveStream({
                           <button
                             key={d.seconds}
                             onClick={() => setMerchSelectedDuration(d.seconds)}
-                            className="rounded-lg px-3 py-1.5 transition-colors"
+                            className="rounded-lg px-3 py-1.5"
                             style={{
                               background:
                                 merchSelectedDuration === d.seconds
@@ -3757,7 +3745,7 @@ export function FakeLiveStream({
                           )
                         }
                         disabled={merchTimerActive}
-                        className="w-full py-3 transition-colors hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
+                        className="w-full py-3 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
                         style={{
                           background:
                             "linear-gradient(135deg, rgba(192, 132, 252,0.25), rgba(249,115,22,0.2))",
@@ -3771,7 +3759,7 @@ export function FakeLiveStream({
                       <button
                         onClick={() => handleMerchDrop(merchSelectedProduct, 0)}
                         disabled={merchTimerActive}
-                        className="w-full py-2.5 transition-colors hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
+                        className="w-full py-2.5 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
                         style={{
                           background: "rgba(255,10,61,0.12)",
                           border: "1px solid rgba(255,10,61,0.3)",
@@ -3887,7 +3875,7 @@ export function FakeLiveStream({
                         ]);
                         setAdminTab("flagged");
                       }}
-                      className="rounded-lg px-2.5 py-1.5 transition-colors"
+                      className="rounded-lg px-2.5 py-1.5"
                       style={{
                         background: "rgba(239,68,68,0.1)",
                         border: "1px solid rgba(239,68,68,0.2)",
@@ -3905,7 +3893,7 @@ export function FakeLiveStream({
                 >
                   <button
                     onClick={() => setAdminTab("merch")}
-                    className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-1.5 transition-colors"
+                    className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-1.5"
                     style={{
                       background: "rgba(192, 132, 252,0.08)",
                       border: "1px solid rgba(192, 132, 252,0.2)",
@@ -3936,14 +3924,14 @@ export function FakeLiveStream({
                   <div className="flex gap-4">
                     <button
                       onClick={() => setActiveSidebarTab("chat")}
-                      className={`inline-flex items-center gap-1.5 transition-colors ${activeSidebarTab === "chat" ? " " : "text-white/40 text-white/70 hover:text-white"}`}
+                      className={`inline-flex items-center gap-1.5 ${activeSidebarTab === "chat" ? " " : "text-white/40 hover:text-white"}`}
                     >
                       <MessageSquare className="h-3.5 w-3.5 text-purple-400" />{" "}
                       Chat
                     </button>
                     <button
                       onClick={() => setActiveSidebarTab("setlist")}
-                      className={`inline-flex items-center gap-1.5 transition-colors ${activeSidebarTab === "setlist" ? " " : "text-white/40 text-white/70 hover:text-white"}`}
+                      className={`inline-flex items-center gap-1.5 ${activeSidebarTab === "setlist" ? " " : "text-white/40 hover:text-white"}`}
                     >
                       <Music className="h-3.5 w-3.5 text-purple-400" /> Setlist
                     </button>
@@ -3968,13 +3956,13 @@ export function FakeLiveStream({
               {!isSignedInUser ? (
                 /* ─────────────── GUEST LOCKED CHAT PANEL ─────────────── */
                 <div className="flex flex-1 flex-col items-center justify-center space-y-6 bg-[#07040d]/50 p-6 pb-1 text-center backdrop-blur-xl">
-                  <div className="flex h-16 w-16 animate-pulse items-center justify-center rounded-full border border-purple-500/40 bg-gradient-to-tr from-purple-600/30 to-pink-600/30 text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+                  <div className="flex h-16 w-16 animate-pulse items-center justify-center rounded-full border border-purple-500/40 bg-gradient-to-tr from-purple-600/30 to-pink-600/30 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
                     <MessageSquare className="h-8 w-8" />
                   </div>
 
                   <div className="max-w-xs space-y-2">
                     <h3>Join the Live Chat</h3>
-                    <p className=" ">
+                    <p>
                       Sign in or register as a 7th Heaven fan, crew member, or
                       admin to participate in live stream chat and setlist
                       voting!
@@ -3990,7 +3978,7 @@ export function FakeLiveStream({
                           }),
                         );
                       }}
-                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/25 bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] py-3 shadow-[0_0_25px_rgba(217,70,239,0.5)] transition-all duration-300 hover:scale-[1.02] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] active:scale-[0.98]"
+                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/25 bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] py-3 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:scale-[1.02] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] active:scale-[0.98]"
                     >
                       Sign Up as a Fan
                     </SeventhButton>
@@ -4004,7 +3992,7 @@ export function FakeLiveStream({
                           }),
                         );
                       }}
-                      className="w-full cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 transition-all hover:bg-white/10 hover:text-white"
+                      className="w-full cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10 hover:text-white"
                     >
                       Sign In to Account
                     </button>
@@ -4020,13 +4008,13 @@ export function FakeLiveStream({
                     <div className="flex gap-1.5">
                       <button
                         onClick={() => setSetlistSort("order")}
-                        className={`text-3xs rounded px-2 py-1 transition-colors ${setlistSort === "order" ? "bg-white/10" : "text-white/30"}`}
+                        className={`text-3xs rounded px-2 py-1 ${setlistSort === "order" ? "bg-white/10" : "text-white/30"}`}
                       >
                         Setlist Order
                       </button>
                       <button
                         onClick={() => setSetlistSort("likes")}
-                        className={`text-3xs rounded px-2 py-1 transition-colors ${setlistSort === "likes" ? "border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20" : "border border-transparent text-white/30"}`}
+                        className={`text-3xs rounded px-2 py-1 ${setlistSort === "likes" ? "border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20" : "border border-transparent text-white/30"}`}
                       >
                         Most Liked
                       </button>
@@ -4054,20 +4042,18 @@ export function FakeLiveStream({
                         return (
                           <div
                             key={song.id}
-                            className={`flex items-center justify-between gap-3 p-3 transition-colors ${song.isPlaying ? "bg-purple-950/40 shadow-[0_0_15px_rgba(192,132,252,0.15)]" : "hover:bg-white/[0.03]"}`}
+                            className={`flex items-center justify-between gap-3 p-3 ${song.isPlaying ? "bg-purple-950/40 shadow-[0_0_15px_rgba(192,132,252,0.15)]" : "hover:bg-white/[0.03]"}`}
                             style={{
                               borderBottom:
                                 "1px solid rgba(255, 255, 255, 0.12)",
                             }}
                           >
                             <div className="min-w-0 flex-1">
-                              <p
-                                className={`truncate ${song.isPlaying ? "text-purple-300" : "/90"}`}
-                              >
+                              <p className={` ${song.isPlaying ? " " : "/90"}`}>
                                 {song.title}
                               </p>
                               {song.isPlaying && (
-                                <span className="mt-0.5 inline-block animate-pulse text-purple-300">
+                                <span className="mt-0.5 inline-block animate-pulse">
                                   Now Playing
                                 </span>
                               )}
@@ -4080,7 +4066,7 @@ export function FakeLiveStream({
                               <button
                                 onClick={() => likeSong(song.id)}
                                 disabled={hasLiked}
-                                className={`flex h-7 w-7 items-center justify-center rounded-lg transition-colors ${hasLiked ? "cursor-not-allowed bg-red-500/10 text-red-500" : "border border-white/10 bg-white/10 text-white/70 hover:border-white/25 hover:text-white active:scale-95"}`}
+                                className={`flex h-7 w-7 items-center justify-center rounded-lg ${hasLiked ? "cursor-not-allowed bg-red-500/10 text-red-500" : "border border-white/10 bg-white/10 hover:border-white/25 hover:text-white active:scale-95"}`}
                                 title={
                                   hasLiked ? "Already Liked!" : "Like this song"
                                 }
@@ -4413,7 +4399,7 @@ export function FakeLiveStream({
             return (
               <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
                 <div
-                  className="relative max-h-[90vh] w-full max-w-sm overflow-y-auto border bg-white/98 p-6 text-left backdrop-blur-xl transition-opacity duration-200 ease-out"
+                  className="relative max-h-[90vh] w-full max-w-sm overflow-y-auto border bg-white/98 p-6 text-left backdrop-blur-xl"
                   style={{
                     borderColor: `${activeMerchDrop.product.color}55`,
                     boxShadow: `0 0 40px ${activeMerchDrop.product.color}15`,
@@ -4422,7 +4408,7 @@ export function FakeLiveStream({
                   {/* Close Button */}
                   <button
                     onClick={() => setShowCheckoutModal(false)}
-                    className="hover: absolute top-3 right-3 cursor-pointer rounded-lg border-none bg-gray-50 p-1 text-black/50 transition-colors hover:bg-gray-100"
+                    className="hover: absolute top-3 right-3 cursor-pointer rounded-lg border-none bg-gray-50 p-1 text-black/50 hover:bg-gray-100"
                   >
                     <svg
                       width="16"
@@ -4511,7 +4497,7 @@ export function FakeLiveStream({
                               onClick={() =>
                                 setCheckoutDeliveryMethod("merch_table")
                               }
-                              className={`flex cursor-pointer flex-col items-center justify-center gap-1 border px-3 py-2.5 transition-colors ${checkoutDeliveryMethod === "merch_table" ? "border-white bg-white" : "border-black/10 text-black/60 hover:border-black/15"}`}
+                              className={`flex cursor-pointer flex-col items-center justify-center gap-1 border px-3 py-2.5 ${checkoutDeliveryMethod === "merch_table" ? "border-white bg-white" : "border-black/10 text-black/60 hover:border-black/15"}`}
                             >
                               <span className="flex items-center gap-1">
                                 <ShoppingBag className="h-3.5 w-3.5 text-purple-600" />{" "}
@@ -4526,7 +4512,7 @@ export function FakeLiveStream({
                               onClick={() =>
                                 setCheckoutDeliveryMethod("shipping")
                               }
-                              className={`flex cursor-pointer flex-col items-center justify-center gap-1 border px-3 py-2.5 transition-colors ${checkoutDeliveryMethod === "shipping" ? "border-white bg-white" : "border-black/10 text-black/60 hover:border-black/15"}`}
+                              className={`flex cursor-pointer flex-col items-center justify-center gap-1 border px-3 py-2.5 ${checkoutDeliveryMethod === "shipping" ? "border-white bg-white" : "border-black/10 text-black/60 hover:border-black/15"}`}
                             >
                               <span className="flex items-center gap-1">
                                 <Package className="h-3.5 w-3.5 text-purple-600" />{" "}
@@ -4576,7 +4562,7 @@ export function FakeLiveStream({
                                     onClick={() =>
                                       setCheckoutSelectedSize(size)
                                     }
-                                    className={`cursor-pointer rounded-lg border px-3 py-1.5 transition-colors ${checkoutSelectedSize === size ? "border-white bg-white" : "border-black/10 text-black/60 hover:border-black/15"}`}
+                                    className={`cursor-pointer rounded-lg border px-3 py-1.5 ${checkoutSelectedSize === size ? "border-white bg-white" : "border-black/10 text-black/60 hover:border-black/15"}`}
                                   >
                                     {size}
                                   </button>
@@ -4622,7 +4608,7 @@ export function FakeLiveStream({
                                     onClick={() =>
                                       setCheckoutSelectedColor(c.name)
                                     }
-                                    className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-2.5 py-1.5 transition-colors ${checkoutSelectedColor === c.name ? "border-white bg-gray-100" : "border-black/10 text-black/50 hover:border-black/15"}`}
+                                    className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-2.5 py-1.5 ${checkoutSelectedColor === c.name ? "border-white bg-gray-100" : "border-black/10 text-black/50 hover:border-black/15"}`}
                                   >
                                     <span
                                       className="h-3.5 w-3.5 shrink-0 rounded-lg border"
@@ -4661,7 +4647,7 @@ export function FakeLiveStream({
                               }))
                             }
                             placeholder="John Doe"
-                            className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                            className="focus-ring w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20"
                           />
                         </div>
                         <div>
@@ -4683,7 +4669,7 @@ export function FakeLiveStream({
                               }))
                             }
                             placeholder="john@example.com"
-                            className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                            className="focus-ring w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20"
                           />
                         </div>
 
@@ -4708,7 +4694,7 @@ export function FakeLiveStream({
                                   }))
                                 }
                                 placeholder="123 Main St"
-                                className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                                className="focus-ring w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20"
                               />
                             </div>
                             <div className="grid grid-cols-2 gap-2">
@@ -4731,7 +4717,7 @@ export function FakeLiveStream({
                                     }))
                                   }
                                   placeholder="Chicago"
-                                  className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                                  className="focus-ring w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20"
                                 />
                               </div>
                               <div>
@@ -4753,7 +4739,7 @@ export function FakeLiveStream({
                                     }))
                                   }
                                   placeholder="60601"
-                                  className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                                  className="focus-ring w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20"
                                 />
                               </div>
                             </div>
@@ -4779,7 +4765,7 @@ export function FakeLiveStream({
                               }))
                             }
                             placeholder="4242 4242 4242 4242"
-                            className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                            className="focus-ring w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20"
                           />
                         </div>
                       </div>
@@ -4790,7 +4776,7 @@ export function FakeLiveStream({
                           background: activeMerchDrop.product.color,
                           boxShadow: `0 0 15px ${activeMerchDrop.product.color}44`,
                         }}
-                        className="mt-2 w-full cursor-pointer border-none py-3 transition-colors hover:scale-[1.02] active:scale-[0.98]"
+                        className="mt-2 w-full cursor-pointer border-none py-3 hover:scale-[1.02] active:scale-[0.98]"
                       >
                         Authorize Payment
                       </button>
@@ -4923,7 +4909,7 @@ export function FakeLiveStream({
                                   {shippingDetails.name}
                                 </span>
                               </p>
-                              <p className="truncate text-black/90">
+                              <p className="text-black/90">
                                 Product:{" "}
                                 <span className="font-normal text-black/60">
                                   {activeMerchDrop.product.name}
@@ -4977,7 +4963,7 @@ export function FakeLiveStream({
                                 </span>
                               </p>
                               {checkoutDeliveryMethod === "shipping" && (
-                                <p className="truncate text-black/90">
+                                <p className="text-black/90">
                                   Ship To:{" "}
                                   <span className="font-normal text-black/60">
                                     {shippingDetails.address},{" "}
@@ -5012,7 +4998,7 @@ export function FakeLiveStream({
                             style={{
                               background: activeMerchDrop.product.color,
                             }}
-                            className="w-full cursor-pointer border-none py-3 transition-colors hover:scale-[1.02] active:scale-[0.98]"
+                            className="w-full cursor-pointer border-none py-3 hover:scale-[1.02] active:scale-[0.98]"
                           >
                             Return to Stream
                           </button>

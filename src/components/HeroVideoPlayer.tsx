@@ -592,7 +592,7 @@ export default function HeroVideoPlayer({
               loop
               playsInline
               preload="auto"
-              className={`absolute inset-0 z-10 h-full w-full scale-[1.38] object-cover transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading ? "translate-y-[30px] opacity-0" : "translate-y-0 opacity-90"}`}
+              className={`absolute inset-0 z-10 h-full w-full scale-[1.38] object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] opacity-0" : "translate-y-0 opacity-90"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
               }}
@@ -638,7 +638,7 @@ export default function HeroVideoPlayer({
               muted
               loop
               playsInline
-              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading ? "translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter" : "blur-0 translate-y-0 scale-[1.43] opacity-100 filter"}`}
+              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter" : "blur-0 translate-y-0 scale-[1.43] opacity-100 filter"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
               }}
@@ -652,7 +652,7 @@ export default function HeroVideoPlayer({
           role="button"
           tabIndex={0}
           aria-label="Play video audio and music player"
-          className="absolute inset-0 z-[1] h-full min-h-[48px] w-full min-w-[48px] cursor-pointer transition-all duration-700 ease-in-out"
+          className="absolute inset-0 z-[1] h-full min-h-[48px] w-full min-w-[48px] cursor-pointer ease-in-out"
           onClick={handleHeroClick}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -675,7 +675,7 @@ export default function HeroVideoPlayer({
             {!isCustomizerOpen ? (
               <button
                 onClick={() => setIsCustomizerOpen(true)}
-                className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-[45px] transition-colors hover:bg-black/85 active:scale-95"
+                className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95"
                 title="Open Video Tint Customizer"
               >
                 <svg
@@ -687,7 +687,7 @@ export default function HeroVideoPlayer({
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="group- transition-colors duration-300 group-hover:rotate-45"
+                  className="group- group-hover:rotate-45"
                 >
                   <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
                   <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
@@ -715,7 +715,7 @@ export default function HeroVideoPlayer({
                   </div>
                   <button
                     onClick={() => setIsCustomizerOpen(false)}
-                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg text-white/50 hover:bg-white/10 hover:text-white"
                   >
                     <svg
                       width="14"
@@ -739,7 +739,7 @@ export default function HeroVideoPlayer({
                       <button
                         key={preset.color}
                         onClick={() => updateColor(preset.color)}
-                        className={`relative flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg border transition-colors hover:scale-115`}
+                        className="relative flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg border hover:scale-115"
                         style={{
                           backgroundColor: preset.color,
                           borderColor:
@@ -756,7 +756,7 @@ export default function HeroVideoPlayer({
                     ))}
                     {/* Custom Color Selector */}
                     <div
-                      className="relative flex h-6 w-6 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-[var(--color-accent)]/80 transition-transform hover:scale-115"
+                      className="relative flex h-6 w-6 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-[var(--color-accent)]/80 hover:scale-115"
                       title="Custom Color"
                     >
                       <input
@@ -815,7 +815,7 @@ export default function HeroVideoPlayer({
                       <button
                         key={mode}
                         onClick={() => updateBlend(mode)}
-                        className={`cursor-pointer rounded border px-1 py-1 transition-colors ${mixBlendMode === mode ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"}`}
+                        className={`cursor-pointer rounded border px-1 py-1 ${mixBlendMode === mode ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"}`}
                       >
                         {mode}
                       </button>
@@ -839,7 +839,7 @@ export default function HeroVideoPlayer({
                 {/* Copy CSS Button */}
                 <button
                   onClick={copyCSS}
-                  className="shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] flex w-full cursor-pointer items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-600 py-2 text-[var(--font-size-2xs)] transition-colors hover:from-amber-600 hover:to-orange-700 active:scale-97"
+                  className="shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] flex w-full cursor-pointer items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-600 py-2 text-[var(--font-size-2xs)] hover:from-amber-600 hover:to-orange-700 active:scale-97"
                 >
                   {copied ? (
                     <>
@@ -909,7 +909,7 @@ export default function HeroVideoPlayer({
               <h1>{sanityContent?.heroHeading || "7TH HEAVEN"}</h1>
 
               {/* Hero Subheading */}
-              <p className="/90 text-sm leading-relaxed drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] sm:text-base md:text-lg lg:text-xl">
+              <p className="/90 md: drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] sm:text-base lg:text-xl">
                 {sanityContent?.heroSubheading ||
                   "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
               </p>

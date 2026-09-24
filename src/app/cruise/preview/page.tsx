@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 const INPUT =
-  "w-full bg-white/[0.03] border  border-white/10  rounded-lg px-3 py-2.5 text-sm   placeholder: text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors";
+  "w-full bg-white/[0.03] border  border-white/10  rounded-lg px-3 py-2.5     placeholder: text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors";
 const COLORS = [
   "#851DEF",
   "#3b82f6",
@@ -39,7 +39,7 @@ function VersionA() {
               key={`guest-tab-${i}-${guest.name}`}
               type="button"
               onClick={() => setActiveTab(i)}
-              className={`flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2 transition-colors ${activeTab === i ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.4)]" : "border border-white/10 bg-white/[0.04] text-white/40"}`}
+              className={`flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2 ${activeTab === i ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.4)]" : "border border-white/10 bg-white/[0.04] text-white/40"}`}
             >
               <span
                 className="flex h-5 w-5 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
@@ -112,7 +112,7 @@ function VersionB() {
                 onClick={() => setStep(i)}
               >
                 <div
-                  className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${step === i ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : step > i ? "bg-[var(--color-accent)]/30" : "border border-white/10 bg-[#00000029] text-white/30"}`}
+                  className={`flex h-8 w-8 items-center justify-center rounded-lg ${step === i ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : step > i ? "bg-[var(--color-accent)]/30" : "border border-white/10 bg-[#00000029] text-white/30"}`}
                 >
                   {step > i ? "✓" : i + 1}
                 </div>
@@ -160,7 +160,7 @@ function VersionB() {
           <button
             type="button"
             onClick={() => setStep((s) => s - 1)}
-            className="flex-1 cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 text-white/50 transition-colors"
+            className="flex-1 cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 text-white/50"
           >
             ← Back
           </button>
@@ -168,7 +168,7 @@ function VersionB() {
         <button
           type="button"
           onClick={() => setStep((s) => Math.min(s + 1, 2))}
-          className="flex-1 cursor-pointer rounded-lg bg-[var(--color-accent)] py-2.5 transition-colors hover:bg-[var(--color-accent)]/80"
+          className="flex-1 cursor-pointer rounded-lg bg-[var(--color-accent)] py-2.5 hover:bg-[var(--color-accent)]/80"
         >
           {step === 2 ? "Submit" : "Next →"}
         </button>
@@ -192,7 +192,7 @@ function VersionC() {
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div
           key={i}
-          className={`space-y-2.5 border p-4 ${i === 0 ? "border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5" : "border-white/5 bg-white/[0.02]"}`}
+          className="space-y-2.5 border p-4 border-white/5 bg-white/[0.02] first:border-[var(--color-accent)]/30 first:bg-[var(--color-accent)]/5"
         >
           <div className="mb-1 flex items-center gap-2">
             <span
@@ -230,7 +230,7 @@ function VersionC() {
       ))}
       <button
         type="button"
-        className="flex cursor-pointer items-center justify-center gap-2 border border-dashed border-white/10 p-4 text-white/20 text-white/40 transition-colors hover:text-white"
+        className="flex cursor-pointer items-center justify-center gap-2 border border-dashed border-white/10 p-4 text-white/20 text-white/40 hover:text-white"
       >
         <span className="text-xl">+</span>
         <span>Add Guest</span>
@@ -249,7 +249,7 @@ function VersionD() {
   const update = (idx: number, f: string, v: string) =>
     setGuests((prev) => prev.map((g, i) => (i === idx ? { ...g, [f]: v } : g)));
   const SMALL =
-    "   border-0 border-b  border-white/10  rounded-none px-2 py-2 text-sm   placeholder: /15 focus:border-[var(--color-accent)] focus:outline-none transition-colors w-full";
+    "   border-0 border-b  border-white/10  rounded-none px-2 py-2     placeholder: /15 focus:border-[var(--color-accent)] focus:outline-none  w-full";
 
   return (
     <div className="overflow-hidden border border-white/10">
@@ -262,7 +262,7 @@ function VersionD() {
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div
           key={i}
-          className={`grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? "bg-[var(--color-accent)]/10" : i % 2 === 0 ? "bg-white/[0.01]" : ""}`}
+          className="grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 first:bg-[var(--color-accent)]/10 even:bg-white/[0.01]"
         >
           <span
             className="flex h-6 w-6 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
@@ -295,7 +295,7 @@ function VersionD() {
       ))}
       <button
         type="button"
-        className="w-full cursor-pointer py-2.5 text-[var(--color-accent)]/60 transition-colors hover:bg-white/[0.02]"
+        className="w-full cursor-pointer py-2.5 text-[var(--color-accent)]/60 hover:bg-white/[0.02]"
       >
         + Add Guest
       </button>
@@ -321,7 +321,7 @@ function VersionE() {
           <button
             type="button"
             onClick={() => setOpen(open === i ? -1 : i)}
-            className={`flex w-full cursor-pointer items-center gap-3 px-4 py-3 transition-colors ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"}`}
+            className={`flex w-full cursor-pointer items-center gap-3 px-4 py-3 ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"}`}
           >
             <span
               className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
@@ -340,7 +340,7 @@ function VersionE() {
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
-              className={`text-white/30 transition-transform ${open === i ? "rotate-90 text-purple-400" : ""}`}
+              className={`text-white/30 ${open === i ? "rotate-90 text-purple-400" : ""}`}
             >
               <polyline points="9 18 15 12 9 6" />
             </svg>
@@ -374,7 +374,7 @@ function VersionE() {
       ))}
       <button
         type="button"
-        className="w-full cursor-pointer border border-dashed border-white/10 py-3 text-white/20 transition-colors"
+        className="w-full cursor-pointer border border-dashed border-white/10 py-3 text-white/20"
       >
         + Add a Guest
       </button>
@@ -431,7 +431,7 @@ function VersionF() {
             <button
               type="button"
               onClick={() => remove(i)}
-              className="mt-2 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/20 transition-colors hover:bg-red-500/20 hover:text-red-400"
+              className="mt-2 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/20 hover:bg-red-500/20 hover:text-red-400"
             >
               ✕
             </button>
@@ -441,7 +441,7 @@ function VersionF() {
       <button
         type="button"
         onClick={() => setGuests((g) => [...g, emptyGuest()])}
-        className="cursor-pointer text-[var(--color-accent)]/60 transition-colors"
+        className="cursor-pointer text-[var(--color-accent)]/60"
       >
         + Add another guest
       </button>
@@ -497,7 +497,7 @@ export default function CruisePreviewPage() {
     <div className="min-h-screen pt-28 pb-20">
       <div className="site-container">
         <div className="mb-12 text-center">
-          <h1 className="text-4xl italic">
+          <h1 className="text-4xl">
             Guest Form <span className="accent-gradient-text">Variants</span>
           </h1>
           <p className="mt-2">6 different UI approaches — pick your favorite</p>

@@ -160,7 +160,7 @@ export function Footer() {
         )}
 
         {/* Endorsements */}
-        <div className="py-6 text-left">
+        <div className="pb-6 text-left">
           <p className="mb-2">Official Gear Endorsements</p>
           <div className="flex flex-wrap items-center justify-start gap-x-4 gap-y-4 sm:gap-x-6 sm:gap-y-6">
             {endorsements.map((brand) => (
@@ -226,7 +226,7 @@ export function Footer() {
             href="https://michaelscimeca.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="! transition-colors hover:text-white"
+            className="! hover:text-white"
           >
             Hey Mom Look I Built This Thing
           </a>

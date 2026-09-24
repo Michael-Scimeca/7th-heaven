@@ -67,11 +67,11 @@ export function MiniDatePicker({
         type="button"
         onClick={() => setShowCal(!showCal)}
 
-        className={`group flex w-full cursor-pointer items-center justify-between rounded-lg border border-white/10 px-2.5 py-2.5 text-left ring-0 backdrop-blur-[45px] transition-colors outline-none focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none ${value ? " " : " "}`}
+        className={`group focus-ring flex w-full cursor-pointer items-center justify-between rounded-lg border border-white/10 px-2.5 py-2.5 text-left ring-0 backdrop-blur-2xl outline-none focus-visible:ring-0 focus-visible:outline-none ${value ? " " : " "}`}
         style={{ background: "transparent", border: "1px solid #ffffff1a" }}
       >
         <span
-          className={`transition-[color,opacity] duration-200 ${value ? " " : "/45 group-hover:text-white group-hover:opacity-100"}`}
+          className={`transition-[color,opacity] ${value ? " " : "/45 group-hover:text-white group-hover:opacity-100"}`}
         >
           {value
             ? new Date(value + "T12:00:00Z").toLocaleDateString("en-US", {
@@ -92,7 +92,7 @@ export function MiniDatePicker({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="opacity-50 transition-opacity duration-200 group-hover:opacity-100"
+          className="opacity-50 group-hover:opacity-100"
         >
           <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
           <line x1="16" y1="2" x2="16" y2="6" />
@@ -107,7 +107,7 @@ export function MiniDatePicker({
               type="button"
               disabled={isPrevDisabled}
               onClick={() => setCalMonth(new Date(year, month - 1, 1))}
-              className={`p-1 transition-colors ${isPrevDisabled ? "cursor-not-allowed text-white/20" : "cursor-pointer hover:text-white"}`}
+              className={`p-1 ${isPrevDisabled ? "cursor-not-allowed text-white/20" : "cursor-pointer hover:text-white"}`}
             >
               <svg
                 width="14"
@@ -123,7 +123,7 @@ export function MiniDatePicker({
             <button
               type="button"
               onClick={() => setShowMonthGrid(!showMonthGrid)}
-              className="cursor-pointer transition-colors hover:text-[#c27aff]"
+              className="cursor-pointer hover:text-[#c27aff]"
             >
               {calMonth.toLocaleString("default", {
                 month: "long",
@@ -180,7 +180,7 @@ export function MiniDatePicker({
                         setCalMonth(new Date(year, i, 1));
                         setShowMonthGrid(false);
                       }}
-                      className={`rounded-lg py-2 text-base transition-colors ${isPast ? "cursor-not-allowed text-white/20" : isCur ? "bg-[#a855f7] shadow-purple-600/30" : "cursor-pointer text-white/70 hover:bg-white/10"}`}
+                      className={`rounded-lg py-2 text-base ${isPast ? "cursor-not-allowed text-white/20" : isCur ? "bg-[#a855f7] shadow-purple-600/30" : "cursor-pointer hover:bg-white/10"}`}
                     >
                       {m}
                     </button>
@@ -194,7 +194,7 @@ export function MiniDatePicker({
                 {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
                   <div
                     key={`day-${i}-${d}`}
-                    className="text-center text-lg text-white/40"
+                    className="text-center text-white/40"
                   >
                     {d}
                   </div>
@@ -221,7 +221,7 @@ export function MiniDatePicker({
                         onChange(ds);
                         setShowCal(false);
                       }}
-                      className={`flex h-10 w-full items-center justify-center rounded-lg transition-colors ${isPast ? "cursor-not-allowed text-white/20" : isSel ? "bg-[#a855f7] shadow-purple-600/40" : "cursor-pointer bg-[#00000029] hover:bg-white/15"}`}
+                      className={`flex h-10 w-full items-center justify-center rounded-lg ${isPast ? "cursor-not-allowed text-white/20" : isSel ? "bg-[#a855f7] shadow-purple-600/40" : "cursor-pointer bg-[#00000029] hover:bg-white/15"}`}
                     >
                       {i + 1}
                     </button>

@@ -81,7 +81,7 @@ export default function TextColorTestPage() {
                 key={preset.name}
                 className="flex flex-col gap-2 rounded-lg border border-white/10 p-6"
               >
-                <p className=" ">
+                <p>
                   <AuroraText colors={preset.colors} speed={preset.speed}>
                     {text}
                   </AuroraText>
@@ -109,7 +109,7 @@ export default function TextColorTestPage() {
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="rounded border border-white/10 bg-[#00000029] px-3 py-2 outline-none focus:border-white/40"
+                className="focus-ring rounded border border-white/10 bg-[#00000029] px-3 py-2 outline-none"
               />
             </label>
 

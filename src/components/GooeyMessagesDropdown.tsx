@@ -84,10 +84,10 @@ export default function GooeyMessagesDropdown({
   let normalizedCustomers: GooeyCustomer[] =
     options && options.length > 0
       ? options.map((opt) =>
-          typeof opt === "string"
-            ? { id: opt, name: opt }
-            : { id: opt.value, name: opt.label },
-        )
+        typeof opt === "string"
+          ? { id: opt, name: opt }
+          : { id: opt.value, name: opt.label },
+      )
       : customers;
 
   const hasAllOption = normalizedCustomers.some(
@@ -147,7 +147,7 @@ export default function GooeyMessagesDropdown({
   return (
     <div
       ref={wrapRef}
-      className={`relative ${fullWidth ? "block w-full" : "inline-block"} ${open ? "z-[99999]" : "z-10"} [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
+      className={`relative ${fullWidth ? "block w-full" : "inline-block"} ${open ? "z-[99999]" : "z-10"} ${className}`}
     >
       {/* Hidden SVG Gooey Filter Definition */}
 
@@ -161,7 +161,7 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`relative z-50 min-h-[46px] border border-[#ffffff1a] border-white/10 bg-[#00000029] shadow-[0_24px_60px_#0000008c] backdrop-blur-xl ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"} ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"} rounded-lg ${open ? "rounded-t-lg rounded-b-none bg-[#8d73d71c]" : "/90 border-white/10 bg-[#8d73d71c] hover:bg-[#8d73d71c]"} ${noBorder ? "!border-none" : ""} flex cursor-pointer items-center gap-3 shadow-[0_3px_9px_#0000008c] transition-[background-color,border-color,transform,box-shadow] duration-300 disabled:cursor-not-allowed disabled:opacity-50`}
+        className={`relative z-50 min-h-[46px] border border-[#ffffff1a] border-white/10 bg-[#00000029] shadow-[0_24px_60px_#0000008c] backdrop-blur-xl ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"} ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"} rounded-lg ${open ? "rounded-t-lg rounded-b-none bg-[#8d73d71c]" : "/90 border-white/10 bg-[#8d73d71c] hover:bg-[#8d73d71c]"} ${noBorder ? "!border-none" : ""} flex cursor-pointer items-center gap-3 shadow-[0_3px_9px_#0000008c] transition-[background-color,border-color,transform,box-shadow] disabled:cursor-not-allowed disabled:opacity-50`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -183,7 +183,7 @@ export default function GooeyMessagesDropdown({
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`shrink-0 transition-transform duration-300 ease-out ${open ? "rotate-90" : "rotate-0"}`}
+          className={`shrink-0 ${open ? "rotate-90" : "rotate-0"}`}
           aria-hidden="true"
         >
           <path d="M4 2l4 4-4 4" />
@@ -193,12 +193,12 @@ export default function GooeyMessagesDropdown({
       {/* Gooey Options Menu Panel (Crisp Foreground Layer) */}
       {open && (
         <div
-          className="animate-in fade-in zoom-in-95 slide-in-from-top-2 absolute top-full !left-0 z-[99999] w-max max-w-md min-w-full origin-top overflow-hidden rounded-lg rounded-t-none rounded-b-lg border border-t-0 border-white/10 bg-[#00000029] shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-[18px] transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+          className="animate-in fade-in zoom-in-95 slide-in-from-top-2 absolute top-full !left-0 z-[99999] w-max max-w-md min-w-full origin-top overflow-hidden rounded-lg rounded-t-none rounded-b-lg border border-t-0 border-white/10 bg-[#00000029] shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-xl transition-[opacity,transform] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
           role="listbox"
         >
           {(title || badge) && (
             <div className="mb-1 flex items-center justify-between border-b border-white/10 px-3 py-1.5">
-              {title && <span className="text-purple-300">{title}</span>}
+              {title && <span>{title}</span>}
               {badge && (
                 <span className="text-[10px] text-white/50">{badge}</span>
               )}
@@ -221,7 +221,7 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`!m-0 flex w-full cursor-pointer items-center justify-between !rounded-none px-4 py-2 text-left transition-[background-color,color] duration-150 ${isSelected ? "bg-gradient-to-l from-purple-700 to-purple-900" : "from-purple-900 to-purple-500/90 hover:bg-gradient-to-l hover:text-white"}`}
+                    className={`!m-0 flex w-full cursor-pointer items-center justify-between !rounded-none px-4 py-2 text-left transition-[background-color,color] ${isSelected ? "bg-gradient-to-l from-purple-700 to-purple-900" : "from-purple-900 to-purple-500/90 hover:bg-gradient-to-l hover:text-white"}`}
                     onClick={() => {
                       setSelectedIdState(c.id);
                       onSelect?.(c);
@@ -240,16 +240,15 @@ export default function GooeyMessagesDropdown({
             {/* Permanent Custom React DOM Scrollbar Indicator */}
             <div className="pointer-events-none absolute top-1 right-0 bottom-1 z-30 w-1.5 rounded-lg bg-white/10">
               <div
-                className="w-full rounded-lg bg-purple-600 transition-[height,margin-top] duration-75"
+                className="w-full rounded-lg bg-purple-600 transition-[height,margin-top]"
                 style={{
                   height: `${Math.max(20, Math.min(100, thumbHeightRatio * 100))}%`,
-                  marginTop: `${
-                    scrollProgress *
+                  marginTop: `${scrollProgress *
                     (100 -
                       Math.max(20, Math.min(100, thumbHeightRatio * 100))) *
                     0.01 *
                     (listRef.current ? listRef.current.clientHeight - 8 : 150)
-                  }px`,
+                    }px`,
                 }}
               />
             </div>

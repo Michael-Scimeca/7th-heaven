@@ -263,7 +263,7 @@ export default function CruiseVideoGallery() {
             <div
               key={vid.id}
               onClick={() => setActiveVideo(vid)}
-              className="group flex w-full cursor-pointer flex-col justify-between overflow-hidden text-left transition-colors duration-500"
+              className="group flex w-full cursor-pointer flex-col justify-between overflow-hidden text-left"
             >
               {/* Poster Thumbnail */}
               <div className="relative aspect-video overflow-hidden bg-black/90">
@@ -290,7 +290,7 @@ export default function CruiseVideoGallery() {
               {/* Title & Info */}
               <div className="flex flex-1 flex-col space-y-3 pt-6">
                 <div>
-                  <h3 className="group- transition-colors">{vid.title}</h3>
+                  <h3 className="group-">{vid.title}</h3>
                   {vid.description && (
                     <p className="mt-2 line-clamp-2">{vid.description}</p>
                   )}
@@ -311,14 +311,14 @@ export default function CruiseVideoGallery() {
               backdropFilter: "blur(45px)",
               WebkitBackdropFilter: "blur(45px)",
             }}
-            className="animate-in fade-in fixed inset-0 z-[999999] flex items-center justify-center bg-black/60 p-4 backdrop-blur-[45px] transition-opacity duration-300 md:p-8"
+            className="animate-in fade-in fixed inset-0 z-[999999] flex items-center justify-center bg-black/60 p-4 backdrop-blur-2xl md:p-8"
           >
             {/* Floating Top-Right Close Button for immediate screen dismiss */}
             <button
               type="button"
               aria-label="Close video modal"
               onClick={() => setActiveVideo(null)}
-              className="group absolute top-4 right-4 z-[9999999] flex cursor-pointer items-center justify-center !rounded-full border border-white/10 bg-white/15 p-3 transition-[background-color,border-color,transform] duration-200 sm:top-6 sm:right-6"
+              className="group absolute top-4 right-4 z-[9999999] flex cursor-pointer items-center justify-center !rounded-full border border-white/10 bg-white/15 p-3 transition-[background-color,border-color,transform] sm:top-6 sm:right-6"
             >
               <X className="h-6 w-6" />
             </button>
@@ -332,7 +332,7 @@ export default function CruiseVideoGallery() {
                   <span className="mb-1 block text-purple-400">
                     {activeVideo.category}
                   </span>
-                  <h3 className="truncate">{activeVideo.title}</h3>
+                  <h3>{activeVideo.title}</h3>
                 </div>
               </div>
 

@@ -60,7 +60,7 @@ import { VENUE_LINKS } from "@/lib/venue-links";
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
   return (
     <div
-      className={`h-[1px] w-full transition-colors duration-300 ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent" : "bg-white/10"}`}
+      className={`h-[1px] w-full ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent" : "bg-white/10"}`}
       aria-hidden="true"
     />
   );
@@ -764,7 +764,7 @@ export default function TourList({
       (member as any)?.isAdmin === true),
   );
   const todayStartTimestamp = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => {
       const now = new Date();
       return new Date(
@@ -845,7 +845,7 @@ export default function TourList({
   }, []);
 
   // Dynamically load Google Fonts when selected
-  useEffect(() => {}, [tourFontFamily]);
+  useEffect(() => { }, [tourFontFamily]);
   const [notifyPrefs, setNotifyPrefs] = useState({
     proximity: true,
     thisShow: true,
@@ -923,22 +923,22 @@ export default function TourList({
       );
       setFormIsOutdoor(
         currentTags.includes("outdoor") ||
-          lowerNotes.includes("outdoor") ||
-          lowerNotes.includes("beer garden"),
+        lowerNotes.includes("outdoor") ||
+        lowerNotes.includes("beer garden"),
       );
       setFormIsCasino(
         currentTags.includes("casino") || lowerNotes.includes("casino"),
       );
       setFormIsSpecialEvent(
         currentTags.includes("special") ||
-          currentTags.includes("gala") ||
-          currentTags.includes("fundraiser") ||
-          currentTags.includes("cruise") ||
-          currentTags.includes("tv") ||
-          lowerNotes.includes("gala") ||
-          lowerNotes.includes("fundraiser") ||
-          lowerNotes.includes("cruise") ||
-          lowerNotes.includes("tv"),
+        currentTags.includes("gala") ||
+        currentTags.includes("fundraiser") ||
+        currentTags.includes("cruise") ||
+        currentTags.includes("tv") ||
+        lowerNotes.includes("gala") ||
+        lowerNotes.includes("fundraiser") ||
+        lowerNotes.includes("cruise") ||
+        lowerNotes.includes("tv"),
       );
     } else {
       setFormVenue("");
@@ -1324,6 +1324,7 @@ export default function TourList({
     sortBar.style.pointerEvents = "auto";
 
     let observer: IntersectionObserver | null = null;
+    const targetOffset = 165;
 
     if (typeof IntersectionObserver !== "undefined") {
       observer = new IntersectionObserver(
@@ -1332,7 +1333,7 @@ export default function TourList({
           const isStuck =
             !entry.isIntersecting &&
             entry.boundingClientRect.top <
-              (entry.rootBounds?.top ?? mobileHeaderOffset);
+            (entry.rootBounds?.top ?? targetOffset);
           if (isStuckRef.current !== isStuck) {
             isStuckRef.current = isStuck;
             sortBar.classList.toggle("is-stuck", isStuck);
@@ -1345,7 +1346,7 @@ export default function TourList({
         },
         {
           threshold: 0,
-          rootMargin: `-${mobileHeaderOffset}px 0px 0px 0px`,
+          rootMargin: "-165px 0px 0px 0px",
         },
       );
 
@@ -1501,7 +1502,7 @@ export default function TourList({
   const eventSchema = generateTourEventSchema(displayShows);
 
   const gridClass =
-    "grid-cols-1 lg:grid-cols-[60px_165px_2.5fr_1.4fr_1fr_130px_minmax(120px,1fr)]";
+    "grid-cols-1 lg:grid-cols-[35px_145px_3.1fr_1.5fr_1fr_110px_minmax(50px,1fr)]";
 
   const headerParallaxRef = useRef<HTMLDivElement | null>(null);
   const mapParallaxRef = useRef<HTMLDivElement | null>(null);
@@ -1588,7 +1589,7 @@ export default function TourList({
             className="pointer-events-none z-30 mx-auto py-5 text-center"
           >
             <h2 className="mb-3">Upcoming Tour Dates</h2>
-            <p className="text-sm leading-relaxed text-white/70 sm:text-base md:text-lg">
+            <p className="md: sm:text-base">
               Catch 7th Heaven live on stage! Explore all upcoming show dates,
               venues, directions, and sync concerts directly to your calendar.
             </p>
@@ -1623,7 +1624,7 @@ export default function TourList({
               {hasActiveFilters && (
                 <button
                   onClick={clearAll}
-                  className="whitespace-nowrap] cursor-pointer rounded-lg border border-[var(--color-accent)re] px-2.5 py-1 text-[0.9rem] transition-colors duration-200 hover:border-[rgba(255,10,61,0.6)] hover:text-white"
+                  className="whitespace-nowrap] cursor-pointer rounded-lg border border-[var(--color-accent)re] px-2.5 py-1 text-[0.9rem] hover:border-[rgba(255,10,61,0.6)] hover:text-white"
                 >
                   Clear
                 </button>
@@ -1641,11 +1642,12 @@ export default function TourList({
               pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none",
               top: `${mobileHeaderOffset}px`,
             }}
-            className="relative sticky z-[40] flex w-full flex-col gap-6 border-0 transition-opacity duration-300 ease-out [&.is-stuck_.sort-bar-bg]:opacity-100"
+            className="relative sticky z-[40] flex w-full flex-col sm:gap-0 md:gap-4 gap-6 border-0 [&.is-stuck_.sort-bar-bg]:opacity-100 sm:mb-6 mb-3"
           >
             <div
-              className="sort-bar-bg pointer-events-none absolute -top-3 right-1/2 -bottom-3 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen bg-black/20 opacity-0 backdrop-blur-[24px] transition-opacity duration-300 ease-out"
+              className="sort-bar-bg pointer-events-none absolute -top-5 right-1/2 -bottom-1 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen opacity-0 transition-opacity duration-300 ease-out backdrop-blur-[24px]"
               style={{
+                height: "calc(100% + 100px)",
                 WebkitBackdropFilter: "blur(24px)",
                 backdropFilter: "blur(24px)",
                 maskImage:
@@ -1656,7 +1658,7 @@ export default function TourList({
             />
 
             {/* Search Bar ON TOP (Sticks cleanly above table header on scroll for desktop & mobile) */}
-            <div className="input-glow-border mb-3 w-full max-w-[300px] shrink-0">
+            <div className="input-glow-border my-3 w-full max-w-[300px] shrink-0">
               <div className="relative flex w-full items-center">
                 <Search className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-white/50" />
                 <input
@@ -1665,7 +1667,7 @@ export default function TourList({
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="no-bg-icon placeholder: w-full rounded-lg border-0 py-2 pr-5 text-white/50 transition-all focus:outline-none"
+                  className="no-bg-icon placeholder: focus-ring w-full rounded-lg border-0 py-2 pr-5 text-white/50"
                   id="tour-search"
                 />
                 {searchQuery && (
@@ -1690,8 +1692,9 @@ export default function TourList({
               </span>
 
               {/* Column 2: MONTH Filter */}
-              <div className="relative flex shrink-0 items-center">
+              <div className="relative flex w-full shrink-0 items-center">
                 <GooeyMessagesDropdown
+                  fullWidth
                   placeholder="MONTH"
                   defaultSelectedId={
                     activeMonth !== "All" ? activeMonth : undefined
@@ -1707,8 +1710,9 @@ export default function TourList({
               </span>
 
               {/* Column 4: CITY Filter */}
-              <div className="relative flex shrink-0 items-center">
+              <div className="relative flex w-full shrink-0 items-center">
                 <GooeyMessagesDropdown
+                  fullWidth
                   placeholder="CITY"
                   defaultSelectedId={
                     activeCity !== "All" ? activeCity : undefined
@@ -1727,8 +1731,8 @@ export default function TourList({
               </span>
 
               {/* Column 6: MAP/CAL */}
-              <span className="hidden text-center text-[clamp(16px,1.4vw,22px)] lg:inline-block">
-                Map/Cal
+              <span className="hidden text-left text-[clamp(16px,1.4vw,22px)] lg:inline-block">
+                Map/Parking
               </span>
 
               {/* Column 7: WEBSITE */}
@@ -1766,8 +1770,8 @@ export default function TourList({
             ).map(({ show, i }) => {
               const isUpNext = upNext
                 ? show.date === upNext.date &&
-                  show.venue === upNext.venue &&
-                  show.time === upNext.time
+                show.venue === upNext.venue &&
+                show.time === upNext.time
                 : false;
               const rowId = `tour-${show.venue}-${show.date}-${show.time || ""}`
                 .replace(/\s+/g, "-")
@@ -1776,7 +1780,7 @@ export default function TourList({
               const isPast =
                 todayStartTimestamp > 0 &&
                 parseShowDate(show.date, show.startDate).getTime() <
-                  todayStartTimestamp;
+                todayStartTimestamp;
               const isPrivate =
                 show.isPrivate ||
                 show.venue?.toLowerCase() === "private event" ||
@@ -1787,7 +1791,7 @@ export default function TourList({
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
                 <div
                   key={`tour_row_${i}_${show.id || rowId}`}
-                  className="group overflow-visible"
+                  className="group overflow-visible sm:pb-6 pb-0"
                 >
                   {/* Desktop Row Layout */}
                   <div
@@ -1803,7 +1807,7 @@ export default function TourList({
                     <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">
                       {show.venue}
                     </span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">
+                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap text-left">
                       {show.city
                         ? `${show.city}${show.state ? `, ${show.state}` : ""}`
                         : ""}
@@ -1826,7 +1830,7 @@ export default function TourList({
                                 </span>
                               )}
                               {time && (doorsTime || playTime) && (
-                                <span className="whitespace-nowrap text-white/70">
+                                <span className="whitespace-nowrap">
                                   Event: {time}
                                 </span>
                               )}
@@ -1839,7 +1843,7 @@ export default function TourList({
                           );
                         }
                         return (
-                          <span className="text-[clamp(13px,1.1vw,18px)] whitespace-nowrap text-white/40 italic">
+                          <span className="text-[clamp(13px,1.1vw,18px)] whitespace-nowrap text-white/40">
                             TBA
                           </span>
                         );
@@ -1862,14 +1866,14 @@ export default function TourList({
                                   ? "Mute notifications for this show"
                                   : "Notify me about this show"
                               }
-                              className={`flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-lg border transition-colors duration-300 ${subscribedShowIdsSet.has(show._id) ? "border-[var(--color-accent)] bg-[var(--color-accent)] hover:bg-[var(--color-accent)]" : "border-black/15 bg-gray-100 hover:bg-gray-200"}`}
+                              className={`flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center ${subscribedShowIdsSet.has(show._id) ? "  hover:bg-[var(--color-accent)]" : ""}`}
                             >
                               {subscribingId === show._id ? (
-                                <span className="h-3.5 w-3.5 animate-spin rounded-lg border-2 border-current border-t-transparent" />
+                                <span className="h-5 w-5 animate-spin rounded-lg border-2 border-current border-t-transparent" />
                               ) : subscribedShowIdsSet.has(show._id) ? (
-                                <Bell className="h-3.5 w-3.5" />
+                                <Bell className="h-5 w-5" />
                               ) : (
-                                <Bell className="h-3.5 w-3.5" />
+                                <Bell className="h-5 w-5" />
                               )}
                             </button>
                           )}
@@ -1883,7 +1887,7 @@ export default function TourList({
                                 return (
                                   <span
                                     title="No Directions Link"
-                                    className="pointer-events-none flex cursor-not-allowed items-center justify-center p-1 text-white/20 opacity-20 select-none"
+                                    className="pointer-events-none flex cursor-not-allowed items-center justify-center p-1 text-white/20 opacity-70 select-none"
                                   >
                                     <LocationPinIcon className="h-5.5 w-5.5 shrink-0" />
                                   </span>
@@ -1901,7 +1905,7 @@ export default function TourList({
                                   rel="noopener noreferrer"
                                   title="Get Directions"
                                   style={{ color: cfg.color }}
-                                  className="flex items-center justify-center p-1 opacity-100 transition-opacity hover:opacity-75"
+                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75"
                                 >
                                   <LocationPinIcon className="h-5.5 w-5.5 shrink-0" />
                                 </a>
@@ -1920,7 +1924,7 @@ export default function TourList({
                                 return (
                                   <span
                                     title="No Parking Link"
-                                    className="pointer-events-none flex cursor-not-allowed items-center justify-center p-1 text-white/20 opacity-20 select-none"
+                                    className="pointer-events-none flex cursor-not-allowed items-center justify-center p-1 text-white/20 opacity-50 select-none"
                                   >
                                     <CarIcon className="h-5.5 w-5.5 shrink-0 text-white/20" />
                                   </span>
@@ -1940,7 +1944,7 @@ export default function TourList({
                                       : "Parking Directions"
                                   }
                                   style={{ color: cfg.color }}
-                                  className="seventh--btn flex items-center justify-center p-1 opacity-100 transition-opacity hover:opacity-75"
+                                  className="seventh--btn flex items-center justify-center p-1 opacity-100 hover:opacity-75"
                                 >
                                   <CarIcon className="h-5.5 w-5.5 shrink-0" />
                                 </a>
@@ -1955,18 +1959,18 @@ export default function TourList({
                                 )
                               }
                               title="Add to Calendar"
-                              className="flex cursor-pointer items-center justify-center border-none p-1 transition-colors hover:text-white"
+                              className="flex cursor-pointer items-center justify-center border-none p-1 hover:text-white"
                             >
                               <CalendarDays className="h-5.5 w-5.5" />
                             </button>
                             {activeCalDropdownId === rowId && (
-                              <div className="absolute right-0 z-50 mt-2 min-w-[165px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-[45px]">
+                              <div className="absolute right-0 z-50 mt-2 min-w-[165px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
                                 <a
                                   href={getGoogleCalendarUrl(show)}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   Google Cal
                                 </a>
@@ -1974,7 +1978,7 @@ export default function TourList({
                                   href={getICSFileUrl(show)}
                                   download={`${show.venue.replace(/\s+/g, "_")}_show.ics`}
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   iCal / Apple
                                 </a>
@@ -1982,7 +1986,7 @@ export default function TourList({
                                   href={getICSFileUrl(show)}
                                   download={`${show.venue.replace(/\s+/g, "_")}_show.ics`}
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   Outlook
                                 </a>
@@ -1993,7 +1997,7 @@ export default function TourList({
                                       .getElementById("proximity-notify")
                                       ?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex w-full cursor-pointer items-center gap-2 border-t border-white/10 px-4 py-2 pt-2 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="flex w-full cursor-pointer items-center gap-2 border-t border-white/10 px-4 py-2 pt-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   <MessageSquare className="h-3.5 w-3.5 shrink-0 text-purple-400" />{" "}
                                   SMS / Text Alerts
@@ -2018,7 +2022,7 @@ export default function TourList({
                               ? "Official Venue Website"
                               : "Search Venue Info"
                           }
-                          className="a-btn inline-flex cursor-pointer items-center justify-center whitespace-nowrap transition-all hover:opacity-80"
+                          className="a-btn inline-flex cursor-pointer items-center justify-center whitespace-nowrap hover:opacity-80"
                           style={{ fontSize: websiteBtnFontSize }}
                         >
                           Website
@@ -2028,13 +2032,13 @@ export default function TourList({
                         <div className="ml-1 flex shrink-0 items-center gap-1">
                           <button
                             onClick={() => handleEditClick(show)}
-                            className="cursor-pointer rounded border border-blue-500/20 bg-blue-600/10 px-2 py-1 text-[0.65rem] text-blue-400 transition-colors hover:bg-blue-600 hover:text-white"
+                            className="cursor-pointer rounded border border-blue-500/20 bg-blue-600/10 px-2 py-1 text-[0.65rem] text-blue-400 hover:bg-blue-600 hover:text-white"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteShow(show._id)}
-                            className="cursor-pointer rounded border border-rose-500/20 bg-rose-600/10 px-2 py-1 text-[0.65rem] text-rose-400 transition-colors hover:bg-rose-600 hover:text-white"
+                            className="cursor-pointer rounded border border-rose-500/20 bg-rose-600/10 px-2 py-1 text-[0.65rem] text-rose-400 hover:bg-rose-600 hover:text-white"
                           >
                             Del
                           </button>
@@ -2045,7 +2049,7 @@ export default function TourList({
 
                   {/* Mobile/Tablet Card Layout — Stacked Venue-First */}
                   <div
-                    className={`tour-row-item relative mb-3 flex flex-col gap-1 transition-all lg:hidden ${isHighlighted ? "animate-pulse ring-2 ring-purple-500/80" : isUpNext ? "border-purple-500/40" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative sm:mb-6 mb-0 flex flex-col gap-1 lg:hidden ${isHighlighted ? "animate-pulse ring-2 ring-purple-500/80" : isUpNext ? "border-purple-500/40" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
                     {/* 1. Venue & City (FIRST) */}
@@ -2053,7 +2057,7 @@ export default function TourList({
                       <h4 className="font-black">{show.venue}</h4>
 
                       {(show.city || show.state) && (
-                        <p className="flex items-center gap-1.5 truncate text-white/70">
+                        <p className="flex items-center gap-1.5">
                           <MapPin className="h-3.5 w-3.5 shrink-0 text-purple-400" />
                           <span>
                             {show.city
@@ -2066,9 +2070,7 @@ export default function TourList({
 
                     {/* 2. Date & Time Pill Strip (SECOND / BELOW VENUE) */}
                     <div className="flex flex-wrap items-center gap-2 text-purple-200">
-                      <span className="font-mono font-black text-purple-300">
-                        {show.day}
-                      </span>
+                      <span className="font-black">{show.day}</span>
                       <span className="text-white/40">•</span>
                       <span className="font-black">{show.date}</span>
                       {(() => {
@@ -2092,9 +2094,7 @@ export default function TourList({
                     {/* 3. Tags Row */}
                     {!isPrivate && (
                       <div className="flex flex-wrap items-center gap-2 pb-2">
-                        {show.info && (
-                          <span className="text-white/70">{show.info}</span>
-                        )}
+                        {show.info && <span>{show.info}</span>}
                         {(show.allAges === true ||
                           (show.info &&
                             (show.info.toLowerCase().includes("all age") ||
@@ -2102,8 +2102,8 @@ export default function TourList({
                           (show.tags &&
                             (show.tags.includes("all ages") ||
                               show.tags.includes("all-ages")))) && (
-                          <span className="text-purple-300">All Ages</span>
-                        )}
+                            <span>All Ages</span>
+                          )}
                         {getShowTags(show).map((tag) => {
                           if (tag === "All Ages" || tag === "21+") return null;
                           return (
@@ -2152,7 +2152,7 @@ export default function TourList({
                               icon={
                                 <LocationPinIcon className="h-3.5 w-3.5 shrink-0" />
                               }
-                              className=" "
+
                               title="Get Directions"
                             >
                               Map
@@ -2194,7 +2194,7 @@ export default function TourList({
                               }
                               className="btn-action-purple flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2"
                             >
-                              <CarIcon className="h-3.5 w-3.5 shrink-0 text-purple-300" />
+                              <CarIcon className="h-3.5 w-3.5 shrink-0" />
                               <span>Park</span>
                             </a>
                           );
@@ -2236,13 +2236,13 @@ export default function TourList({
                               <CalendarDays className="h-4 w-4" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
-                              <div className="absolute right-0 z-50 mt-2 min-w-[165px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-[45px]">
+                              <div className="absolute right-0 z-50 mt-2 min-w-[165px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
                                 <a
                                   href={getGoogleCalendarUrl(show)}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   Google Cal
                                 </a>
@@ -2250,7 +2250,7 @@ export default function TourList({
                                   href={getICSFileUrl(show)}
                                   download={`${show.venue.replace(/\s+/g, "_")}_show.ics`}
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   iCal / Apple
                                 </a>
@@ -2258,7 +2258,7 @@ export default function TourList({
                                   href={getICSFileUrl(show)}
                                   download={`${show.venue.replace(/\s+/g, "_")}_show.ics`}
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   Outlook
                                 </a>
@@ -2269,7 +2269,7 @@ export default function TourList({
                                       .getElementById("proximity-notify")
                                       ?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex w-full cursor-pointer items-center gap-2 border-t border-white/10 px-4 py-2 pt-2 text-left text-xs transition-colors hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="flex w-full cursor-pointer items-center gap-2 border-t border-white/10 px-4 py-2 pt-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   <MessageSquare className="h-3.5 w-3.5 shrink-0 text-purple-400" />{" "}
                                   SMS / Text Alerts
@@ -2286,13 +2286,13 @@ export default function TourList({
                       <div className="mt-3 flex shrink-0 items-center gap-1.5">
                         <button
                           onClick={() => handleEditClick(show)}
-                          className="h-9 cursor-pointer rounded border border-blue-500/20 bg-blue-600/10 px-2 text-blue-400 transition-colors hover:bg-blue-600 hover:text-white"
+                          className="h-9 cursor-pointer rounded border border-blue-500/20 bg-blue-600/10 px-2 text-blue-400 hover:bg-blue-600 hover:text-white"
                         >
                           <Edit className="mr-1 inline h-3.5 w-3.5" /> Edit
                         </button>
                         <button
                           onClick={() => handleDeleteShow(show._id)}
-                          className="h-9 cursor-pointer rounded border border-rose-500/20 bg-rose-600/10 px-2 text-rose-400 transition-colors hover:bg-rose-600 hover:text-white"
+                          className="h-9 cursor-pointer rounded border border-rose-500/20 bg-rose-600/10 px-2 text-rose-400 hover:bg-rose-600 hover:text-white"
                         >
                           <X className="mr-1 inline h-3.5 w-3.5" /> Delete
                         </button>
@@ -2310,7 +2310,7 @@ export default function TourList({
               <p>No shows match your filters.</p>
               <button
                 onClick={clearAll}
-                className="mt-4 cursor-pointer transition-colors hover:text-white"
+                className="mt-4 cursor-pointer hover:text-white"
               >
                 Clear all filters
               </button>
@@ -2343,7 +2343,7 @@ export default function TourList({
                   </h3>
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="cursor-pointer p-2 text-white/50 transition-colors hover:text-white"
+                    className="cursor-pointer p-2 text-white/50 hover:text-white"
                   >
                     ✕ Close
                   </button>
@@ -2371,7 +2371,7 @@ export default function TourList({
                         value={formVenue}
                         onChange={(e) => setFormVenue(e.target.value)}
                         placeholder="e.g. Station 34"
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                     <div>
@@ -2387,7 +2387,7 @@ export default function TourList({
                         required
                         value={formDate}
                         onChange={(e) => setFormDate(e.target.value)}
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                   </div>
@@ -2407,7 +2407,7 @@ export default function TourList({
                         value={formCity}
                         onChange={(e) => setFormCity(e.target.value)}
                         placeholder="e.g. Mt. Prospect"
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                     <div>
@@ -2424,7 +2424,7 @@ export default function TourList({
                         value={formState}
                         onChange={(e) => setFormState(e.target.value)}
                         placeholder="e.g. IL"
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                   </div>
@@ -2443,7 +2443,7 @@ export default function TourList({
                         value={formTime}
                         onChange={(e) => setFormTime(e.target.value)}
                         placeholder="e.g. 8:00pm"
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                     <div>
@@ -2459,7 +2459,7 @@ export default function TourList({
                         value={formDoorsTime}
                         onChange={(e) => setFormDoorsTime(e.target.value)}
                         placeholder="e.g. 7:00pm"
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                     <div>
@@ -2475,7 +2475,7 @@ export default function TourList({
                         value={formPlayTime}
                         onChange={(e) => setFormPlayTime(e.target.value)}
                         placeholder="e.g. 8:30pm"
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                     <div>
@@ -2491,7 +2491,7 @@ export default function TourList({
                         value={formCover}
                         onChange={(e) => setFormCover(e.target.value)}
                         placeholder="e.g. Free, $10"
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                   </div>
@@ -2510,7 +2510,7 @@ export default function TourList({
                         value={formTicketLink}
                         onChange={(e) => setFormTicketLink(e.target.value)}
                         placeholder="https://..."
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                     <div>
@@ -2529,7 +2529,7 @@ export default function TourList({
                           setFormMapUrl(e.target.value);
                         }}
                         placeholder="https://maps.google.com/..."
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                   </div>
@@ -2548,7 +2548,7 @@ export default function TourList({
                         value={formParkingUrl}
                         onChange={(e) => setFormParkingUrl(e.target.value)}
                         placeholder="https://maps.google.com/..."
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                     <div>
@@ -2564,7 +2564,7 @@ export default function TourList({
                         value={formParkingInfo}
                         onChange={(e) => setFormParkingInfo(e.target.value)}
                         placeholder="e.g. Free lot behind building"
-                        className="placeholder: w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                       />
                     </div>
                   </div>
@@ -2583,7 +2583,7 @@ export default function TourList({
                       value={formNotes}
                       onChange={(e) => setFormNotes(e.target.value)}
                       placeholder="e.g. Unplugged Acoustic Show"
-                      className="placeholder: w-full resize-none border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 transition-colors outline-none focus:border-[var(--color-accent)]"
+                      className="placeholder: focus-ring w-full resize-none border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
                     />
                   </div>
 
@@ -2657,14 +2657,14 @@ export default function TourList({
                     <button
                       type="button"
                       onClick={() => setIsModalOpen(false)}
-                      className="flex-1 cursor-pointer bg-[#00000029] py-3 transition-colors hover:bg-white/10"
+                      className="flex-1 cursor-pointer bg-[#00000029] py-3 hover:bg-white/10"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="flex-1 cursor-pointer bg-[var(--color-accent)] py-3 transition-colors hover:bg-emerald-500 disabled:opacity-50"
+                      className="flex-1 cursor-pointer bg-[var(--color-accent)] py-3 hover:bg-emerald-500 disabled:opacity-50"
                     >
                       {submitting ? "Saving..." : "Save Show"}
                     </button>
@@ -2711,7 +2711,7 @@ export default function TourList({
                   </div>
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
                   >
                     <svg
                       width="12"
@@ -2729,7 +2729,7 @@ export default function TourList({
 
                 {/* Show info */}
                 <div className="mb-6 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2.5">
-                  <p className=" ">
+                  <p>
                     {notifyPopupShow.venue} — {notifyPopupShow.city},{" "}
                     {notifyPopupShow.state}
                   </p>
@@ -2750,13 +2750,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, thisShow: !p.thisShow }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 transition-colors ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-lg transition-colors ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-lg ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white transition-colors ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2775,13 +2775,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, proximity: !p.proximity }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 transition-colors ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-lg transition-colors ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-lg ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white transition-colors ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2803,13 +2803,13 @@ export default function TourList({
                         newsletter: !p.newsletter,
                       }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 transition-colors ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-lg transition-colors ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-lg ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white transition-colors ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2823,21 +2823,18 @@ export default function TourList({
 
                 {/* Sending to email */}
                 {member?.email ? (
-                  <p className="mt-3 text-center text-xs text-white/60">
-                    Notifications will be sent to{" "}
-                    <span className=" ">{member.email}</span>
+                  <p className="mt-3 text-center text-white/60">
+                    Notifications will be sent to <span>{member.email}</span>
                   </p>
                 ) : (
                   <div className="mt-3">
-                    <label className="mb-1 block text-xs text-white/70">
-                      Your Email Address
-                    </label>
+                    <label className="mb-1 block">Your Email Address</label>
                     <input
                       type="email"
                       placeholder="fan@example.com"
                       value={notifyEmail}
                       onChange={(e) => setNotifyEmail(e.target.value)}
-                      className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm focus:border-[var(--color-accent)] focus:outline-none"
+                      className="focus-ring w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2"
                     />
                   </div>
                 )}
@@ -2846,7 +2843,7 @@ export default function TourList({
                 <div className="mt-4 flex gap-2">
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex-1 cursor-pointer rounded-lg bg-[#00000029] py-2.5 transition-colors hover:bg-white/10"
+                    className="flex-1 cursor-pointer rounded-lg bg-[#00000029] py-2.5 hover:bg-white/10"
                   >
                     Cancel
                   </button>
@@ -2858,7 +2855,7 @@ export default function TourList({
                         !notifyPrefs.proximity &&
                         !notifyPrefs.newsletter)
                     }
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-[var(--color-accent)] py-2.5 shadow-[0_0_15px_rgba(255,10,61,0.3)] transition-colors hover:brightness-110 disabled:opacity-40"
+                    className="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-[var(--color-accent)] py-2.5 shadow-[0_0_15px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-40"
                   >
                     {subscribingId ? (
                       "Saving..."
@@ -2886,7 +2883,7 @@ export default function TourList({
               <h3 className="r">Font Tester</h3>
               <button
                 onClick={() => setIsFontCustomizerOpen(false)}
-                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
               >
                 ✕
               </button>
@@ -3277,7 +3274,7 @@ export default function TourList({
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
-                className="animate-all cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 transition-colors hover:bg-white/10"
+                className="animate-all cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10"
               >
                 {copied ? "Copied! ✓" : "Copy CSS"}
               </button>
@@ -3290,7 +3287,7 @@ export default function TourList({
                   localStorage.setItem("7h_tour_row_height", tourRowHeight);
                   setIsFontCustomizerOpen(false);
                 }}
-                className="cursor-pointer rounded-lg bg-[var(--color-accent)] py-2.5 transition-colors hover:bg-[rgba(255,10,61,0.9)]"
+                className="cursor-pointer rounded-lg bg-[var(--color-accent)] py-2.5 hover:bg-[rgba(255,10,61,0.9)]"
               >
                 Apply & Save
               </button>

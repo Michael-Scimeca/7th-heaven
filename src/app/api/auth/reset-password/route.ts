@@ -76,7 +76,9 @@ export async function POST(req: Request) {
         } catch {}
       }
       return NextResponse.json(
-        { error: "Unable to reset password. Please verify your email and code." },
+        {
+          error: "Unable to reset password. Please verify your email and code.",
+        },
         { status: 400 },
       );
     }

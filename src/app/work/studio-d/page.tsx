@@ -96,7 +96,7 @@ export default function StudioDPage() {
             >
               Studio D
             </ExoTextReveal>
-            <p className="sm:text-lg">Urban and Landscape Design</p>
+            <p className="sm:">Urban and Landscape Design</p>
           </div>
 
           <div className="pt-4 md:pt-0">
@@ -104,10 +104,10 @@ export default function StudioDPage() {
               href="https://7thheavenband.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 border-b border-white/60 pb-0.5 text-sm transition-colors hover:border-purple-300 hover:text-purple-300 sm:text-base"
+              className="group hover: inline-flex items-center gap-2 border-b border-white/60 pb-0.5 hover:border-purple-300 sm:text-base"
             >
               <span>Visit website</span>
-              <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <ExternalLink className="h-4 w-4 group-hover:translate-x-1" />
             </a>
           </div>
         </div>
@@ -117,12 +117,12 @@ export default function StudioDPage() {
       <section className="site-container space-y-16 py-24">
         <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-12">
           <div className="space-y-4 md:col-span-4">
-            <span className="text-xs text-purple-400">Project Overview</span>
+            <span className="text-purple-400">Project Overview</span>
             <h2 className="text-3xl sm:text-4xl">
               Landscape Architecture & Design Universe
             </h2>
           </div>
-          <div className="space-y-6 text-lg md:col-span-8">
+          <div className="space-y-6 md:col-span-8">
             <p>
               Studio D is a visionary design concept bringing harmony between
               urban architecture and natural landscapes. Our work integrates
@@ -141,12 +141,12 @@ export default function StudioDPage() {
         <div className="border-t border-white/10 pt-16 text-center">
           <TransitionLink
             href="/rock-and-roll-kids"
-            className="group relative block transform-gpu overflow-hidden rounded-2xl border border-purple-500/20 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 p-10 transition-all hover:scale-[1.01] hover:border-purple-400/50 sm:p-16"
+            className="group relative block transform-gpu overflow-hidden rounded-2xl border border-purple-500/20 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 p-10 hover:scale-[1.01] hover:border-purple-400/50 sm:p-16"
           >
-            <span className="mb-3 block text-xs">Next Project</span>
-            <h3 className="flex items-center justify-center gap-4 text-4xl font-black transition-colors group-hover:text-purple-200 sm:text-6xl">
+            <span className="mb-3 block">Next Project</span>
+            <h3 className="flex items-center justify-center gap-4 text-4xl font-black group-hover:text-purple-200 sm:text-6xl">
               Rock &apos;N&apos; Roll Kids{" "}
-              <span className="text-purple-400 transition-transform duration-300 group-hover:translate-x-3">
+              <span className="text-purple-400 group-hover:translate-x-3">
                 →
               </span>
             </h3>

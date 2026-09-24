@@ -338,7 +338,7 @@ export function cruiseConfirmation(b: {
   }
 
   return `<!DOCTYPE html><html><head><meta charset="utf-8" /><meta name="color-scheme" content="dark only"><meta name="supported-color-schemes" content="dark only"></head>
-<body style="margin:0;padding:0;background-color:#0a0a0f;background:#0a0a0f;color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;"><div style="max-width:560px;margin:0 auto;padding:40px 24px;"><div style="text-align:center;margin-bottom:32px;"><h1 style="margin:0;color:#fff;font-size:28px;font-weight:900;font-style:italic;letter-spacing:-0.5px;">You're on the List!</h1><p style="margin:8px 0 0;color:rgba(255,255,255,0.4);font-size:14px;">7th Heaven Cruise — Interest Confirmed</p>
+<body style="margin:0;padding:0;background-color:#0a0a0f;background:#0a0a0f;color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;"><div style="max-width:560px;margin:0 auto;padding:40px 24px;"><div style="text-align:center;margin-bottom:32px;"><h1 style="margin:0;color:#fff;font-size:28px;font-weight:900;font-style: ;letter-spacing:-0.5px;">You're on the List!</h1><p style="margin:8px 0 0;color:rgba(255,255,255,0.4);font-size:14px;">7th Heaven Cruise — Interest Confirmed</p>
 </div>
     <div style="background-color:#111118;background:#111118;border:1px solid rgba(138,28,252,0.3);border-radius:16px;padding:32px;margin-bottom:24px;"><p style="margin:0 0 16px;color:#fff;font-size:16px;">Hey <strong>${b.name}</strong>,</p>
       <p style="margin:0 0 16px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">Thanks for signing up for the <strong style="color:#fff;">7th Heaven Caribbean Cruise</strong>!
@@ -1397,7 +1397,7 @@ export function crewSmsDispatchedAlert(b: {
 </div>
 
       <div style="background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:20px;margin-bottom:20px;"><p style="margin:0 0 10px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#a855f7;font-weight:800;">SMS Message Text</p>
-        <div style="font-size:14px;color:rgba(255,255,255,0.75);font-style:italic;line-height:1.6;">"${sanitize(b.message)}"
+        <div style="font-size:14px;color:rgba(255,255,255,0.75);font-style: ;line-height:1.6;">"${sanitize(b.message)}"
 </div>
 </div>
 
@@ -1464,7 +1464,7 @@ export function crewSmsAlertReceived(b: {
 </p>
 
       <div style="background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:20px;margin-bottom:20px;"><p style="margin:0 0 10px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#a855f7;font-weight:800;">Alert Message</p>
-        <div style="font-size:14px;color:rgba(255,255,255,0.85);font-style:italic;line-height:1.6;">"${sanitize(b.message)}"
+        <div style="font-size:14px;color:rgba(255,255,255,0.85);font-style: ;line-height:1.6;">"${sanitize(b.message)}"
 </div>
 </div>
 

@@ -6,7 +6,7 @@ import React from "react";
 
 const COLORS = {
   blue: "border-blue-500/30 bg-blue-500/5 text-blue-300",
-  purple: "border-purple-500/30 bg-purple-500/5 text-purple-300",
+  purple: "border-purple-500/30 bg-purple-500/5  ",
   red: "border-red-500/30 bg-red-500/5 text-red-300",
   amber: "border-purple-500/30 bg-purple-600/5 text-purple-200",
   cyan: "border-purple-500/30 bg-cyan-500/5   ",
@@ -39,7 +39,7 @@ function Node({
 }) {
   return (
     <div
-      className={`flex w-full flex-col items-center justify-center border text-center transition-colors ${COLORS[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}
+      className={`flex w-full flex-col items-center justify-center border text-center ${COLORS[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}
     >
       <div className="flex items-center gap-1.5">
         <span className={`h-1.5 w-1.5 shrink-0 rounded-lg ${DOTS[color]}`} />
@@ -319,7 +319,7 @@ export default function EmailMapPage() {
 
             {/* Integration Points */}
             <div className="relative my-16 border-t border-white/[0.06]">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] px-4 text-white/20 italic">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] px-4 text-white/20">
                 External Services
               </span>
             </div>

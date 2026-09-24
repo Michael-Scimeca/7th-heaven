@@ -106,7 +106,7 @@ function buildConfirmationEmail(
   <div style="max-width:560px;margin:0 auto;padding:40px 24px;">
     <!-- Header -->
     <div style="text-align:center;margin-bottom:32px;">
-      <h1 style="margin:0;color:#fff;font-size:28px;font-weight:900;font-style:italic;letter-spacing:-0.5px;">
+      <h1 style="margin:0;color:#fff;font-size:28px;font-weight:900;font-style: ;letter-spacing:-0.5px;">
         🚢 You're on the List!
       </h1>
       <p style="margin:8px 0 0;color:rgba(255,255,255,0.4);font-size:14px;">

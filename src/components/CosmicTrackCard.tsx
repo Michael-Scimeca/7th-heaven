@@ -111,23 +111,13 @@ export const CosmicTrackCard = React.forwardRef<
         <div className="gob-gradient" aria-hidden="true" />
         <span className="!block !w-full !min-w-0 !p-4 text-left sm:!p-5">
           <div className="mb-2 flex items-center justify-between gap-2">
-            {tag ? (
-              <span className="truncate text-[11px] text-purple-300/90">
-                {tag}
-              </span>
-            ) : (
-              <span />
-            )}
-            <span className="ml-auto flex shrink-0 items-center gap-1.5 text-xs">
+            {tag ? <span className="/90">{tag}</span> : <span />}
+            <span className="ml-auto flex shrink-0 items-center gap-1.5">
               <Play className="/90 h-3 w-3 fill-current" /> Play
             </span>
           </div>
-          <h4 className="truncate sm:text-lg">{title}</h4>
-          {subtitle && (
-            <p className="/65 mt-1 truncate text-xs font-normal sm:text-sm">
-              {subtitle}
-            </p>
-          )}
+          <h4 className="sm:">{title}</h4>
+          {subtitle && <p className="/65 sm: mt-1 font-normal">{subtitle}</p>}
         </span>
       </button>
     );

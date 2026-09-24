@@ -89,15 +89,15 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
   const selectedShow = shows.find((s) => s._id === selectedShowId);
 
   return (
-    <div className="relative overflow-hidden border border-white/[0.06] bg-[var(--color-bg-surface)] transition-colors duration-300">
+    <div className="relative overflow-hidden border border-white/[0.06] bg-[var(--color-bg-surface)]">
       {/* Accent glow */}
-      <div className="pointer-events-none absolute top-0 left-0 h-32 w-64 bg-[var(--color-accent)]/10 blur-[60px]" />
+      <div className="pointer-events-none absolute top-0 left-0 h-32 w-64 bg-[var(--color-accent)]/10 blur-3xl" />
 
       {/* Accordion Toggle Header */}
       <button
         type="button"
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="group relative flex w-full cursor-pointer items-center justify-between border-0 p-6 text-left transition-colors select-none hover:bg-white/[0.02]"
+        className="group relative flex w-full cursor-pointer items-center justify-between border-0 p-6 text-left select-none hover:bg-white/[0.02]"
       >
         <div>
           <p>Show Promotions</p>
@@ -118,7 +118,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
             {isCollapsed ? "Expand" : "Collapse"}
           </span>
           <div
-            className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 transition-transform duration-300 ${!isCollapsed ? "rotate-180" : ""}`}
+            className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 ${!isCollapsed ? "rotate-180" : ""}`}
           ></div>
         </div>
       </button>
@@ -137,7 +137,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
               id="invite-challenge-show-select"
               value={selectedShowId}
               onChange={(e) => setSelectedShowId(e.target.value)}
-              className="w-full border border-white/10 bg-white/[0.04] px-4 py-3 focus:border-[var(--color-accent)]/50 focus:outline-none"
+              className="focus-ring w-full border border-white/10 bg-white/[0.04] px-4 py-3"
             >
               <option value="">— Pick a show —</option>
               {shows.map((s) => (
@@ -197,7 +197,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                                 threshold: parseInt(e.target.value) || 20,
                               }))
                             }
-                            className="w-24 border border-white/10 bg-white/[0.04] px-4 py-3 focus:border-[var(--color-accent)]/50 focus:outline-none"
+                            className="focus-ring w-24 border border-white/10 bg-white/[0.04] px-4 py-3"
                           />
                           <span className="text-white/30">
                             fans invited to unlock reward
@@ -224,7 +224,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                             }))
                           }
                           placeholder="e.g. Free Band Tee, Signed Poster, Backstage Pass"
-                          className="placeholder: w-full border border-white/10 bg-white/[0.04] px-4 py-3 text-white/20 focus:border-[var(--color-accent)]/50 focus:outline-none"
+                          className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.04] px-4 py-3 text-white/20"
                         />
                       </div>
 
@@ -248,7 +248,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           }
                           rows={2}
                           placeholder="e.g. Claim at the merch table, night of show"
-                          className="placeholder: w-full resize-none border border-white/10 bg-white/[0.04] px-4 py-3 text-white/20 focus:border-[var(--color-accent)]/50 focus:outline-none"
+                          className="placeholder: focus-ring w-full resize-none border border-white/10 bg-white/[0.04] px-4 py-3 text-white/20"
                         />
                       </div>
 
@@ -283,7 +283,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   <button
                     onClick={save}
                     disabled={saving || !challenge.reward_name}
-                    className={`w-full py-3.5 transition-colors ${saved ? "bg-[var(--color-accent)]" : "bg-[var(--color-accent)] hover:brightness-110 disabled:opacity-40"}`}
+                    className={`w-full py-3.5 ${saved ? "bg-[var(--color-accent)]" : "bg-[var(--color-accent)] hover:brightness-110 disabled:opacity-40"}`}
                   >
                     {saved
                       ? " Challenge Saved"

@@ -130,13 +130,13 @@ export default function CruiseHeroSection({
 
         {/* Cruise Ship Names Subtitle & Payment Action */}
         <div className="mt-4 flex flex-wrap items-center justify-start gap-3 sm:mt-4">
-          <span className="btn-pill-glass flex items-center gap-2.5 backdrop-blur-[45px]">
+          <span className="btn-pill-glass flex items-center gap-2.5 backdrop-blur-2xl">
             {ship1Title}{" "}
             <span className="rounded-full border border-purple-400/40 bg-purple-600/40 px-2.5 py-1 text-purple-200">
               {ship1Year}
             </span>
           </span>
-          <span className="btn-pill-glass flex items-center gap-2.5 backdrop-blur-[45px]">
+          <span className="btn-pill-glass flex items-center gap-2.5 backdrop-blur-2xl">
             {ship2Title}{" "}
             <span className="rounded-full border border-purple-400/40 bg-purple-600/40 px-2.5 py-1 text-purple-200">
               {ship2Year}
@@ -149,7 +149,7 @@ export default function CruiseHeroSection({
               const el = document.getElementById("signup");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
-            className="btn-pill-glass flex cursor-pointer items-center gap-2 border border-rose-500/40 bg-rose-900/40 text-rose-200 backdrop-blur-[45px] transition-[background-color,color,border-color] hover:bg-rose-800/60 hover:text-white"
+            className="btn-pill-glass flex cursor-pointer items-center gap-2 border border-rose-500/40 bg-rose-900/40 text-rose-200 backdrop-blur-2xl transition-[background-color,color,border-color] hover:bg-rose-800/60 hover:text-white"
           >
             <span>💳 MAKE A PAYMENT - GROUP ID: 3325680</span>
           </button>

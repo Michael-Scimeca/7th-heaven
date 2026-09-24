@@ -313,9 +313,7 @@ export default function LiveHubClient({
               >
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
-              <span className="" style={{ color: "#f87171" }}>
-                Moderation Dashboard
-              </span>
+              <span style={{ color: "#f87171" }}>Moderation Dashboard</span>
               <span
                 className="rounded-lg px-2 py-0.5"
                 style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}
@@ -363,7 +361,7 @@ export default function LiveHubClient({
               <button
                 key={tab}
                 onClick={() => setAdminTab(tab)}
-                className="rounded-t-lg px-4 py-2 transition-colors"
+                className="rounded-t-lg px-4 py-2"
                 style={{
                   background:
                     adminTab === tab ? "rgba(255,10,61,0.15)" : "transparent",
@@ -451,7 +449,7 @@ export default function LiveHubClient({
                       <div className="mt-3 flex gap-1.5">
                         <Link
                           href={`/live/${room.name.replace(/^live_/, "")}`}
-                          className="flex-1 rounded-lg py-1.5 text-center transition-colors"
+                          className="flex-1 rounded-lg py-1.5 text-center"
                           style={{
                             background: `rgba(${parseInt(room.color.slice(1, 3), 16)},${parseInt(room.color.slice(3, 5), 16)},${parseInt(room.color.slice(5, 7), 16)},0.15)`,
                             color: room.color,
@@ -469,7 +467,7 @@ export default function LiveHubClient({
                             );
                             addLog("🛑 Ended stream", room.title);
                           }}
-                          className="cursor-pointer rounded-lg px-3 py-1.5 transition-colors"
+                          className="cursor-pointer rounded-lg px-3 py-1.5"
                           style={{
                             background: "rgba(239,68,68,0.1)",
                             border: "1px solid rgba(239,68,68,0.2)",
@@ -515,12 +513,7 @@ export default function LiveHubClient({
                         </div>
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-1.5">
-                            <span
-                              className="truncate"
-                              style={{ color: fan.color }}
-                            >
-                              {fan.name}
-                            </span>
+                            <span style={{ color: fan.color }}>{fan.name}</span>
                             {isBanned && (
                               <span
                                 className="rounded-lg px-1.5"
@@ -783,7 +776,7 @@ export default function LiveHubClient({
 
                 {/* LIVE badge */}
                 <div className="absolute top-4 left-4 z-10">
-                  <SectionBadge className="gap-1.5 backdrop-blur-[10px]">
+                  <SectionBadge className="gap-1.5 backdrop-blur">
                     <span className="h-2 w-2 animate-pulse rounded-full bg-white" />
                     <span>Live Now</span>
                   </SectionBadge>
@@ -847,7 +840,7 @@ export default function LiveHubClient({
             </Link>
 
             {/* Card meta */}
-            <div className="relative flex items-center justify-between bg-black/40 p-6 backdrop-blur-[45px]">
+            <div className="relative flex items-center justify-between bg-black/40 p-6 backdrop-blur-2xl">
               {/* Avatar badge */}
               <div
                 className="pointer-events-none absolute -top-5 right-6 z-10 flex h-11 w-11 items-center justify-center rounded-full ring-4 ring-white/20 select-none"
@@ -857,10 +850,8 @@ export default function LiveHubClient({
               </div>
 
               <div className="min-w-0 flex-1 pr-2">
-                <h3 className="mb-1 truncate text-base font-bold md:text-lg">
-                  {room.title}
-                </h3>
-                <p className="text-xs text-white/60 md:text-sm">
+                <h3 className="md: mb-1 text-base font-bold">{room.title}</h3>
+                <p className="md: text-white/60">
                   LiveKit Stream · Started {getElapsed(room.creationTime)}
                 </p>
               </div>
@@ -871,7 +862,7 @@ export default function LiveHubClient({
                 onClick={(e) =>
                   handleCopyLink(e, room.name.replace(/^live_/, ""))
                 }
-                className={`z-20 ml-2 shrink-0 cursor-pointer rounded-lg border px-3 py-2 text-xs whitespace-nowrap transition-all md:ml-4 md:px-4 ${copiedSlug === room.name.replace(/^live_/, "") ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]" : "border-white/10 bg-white/10 hover:bg-white/20 active:scale-95"}`}
+                className={`z-20 ml-2 shrink-0 cursor-pointer rounded-lg border px-3 py-2 whitespace-nowrap md:ml-4 md:px-4 ${copiedSlug === room.name.replace(/^live_/, "") ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]" : "border-white/10 bg-white/10 hover:bg-white/20 active:scale-95"}`}
               >
                 {copiedSlug === room.name.replace(/^live_/, "")
                   ? "✓ Copied!"

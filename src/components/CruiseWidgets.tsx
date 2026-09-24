@@ -116,12 +116,12 @@ export function DailyPoll() {
               key={opt.id}
               onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
-              className={`relative w-full overflow-hidden border text-left transition-colors ${voted === opt.id ? "border-emerald-500 bg-emerald-500/10" : voted !== null ? "cursor-default border-white/10 bg-[#00000029]" : "cursor-pointer border-white/10 bg-[#00000029] bg-black/40 hover:border-emerald-500/40"}`}
+              className={`relative w-full overflow-hidden border text-left ${voted === opt.id ? "border-emerald-500 bg-emerald-500/10" : voted !== null ? "cursor-default border-white/10 bg-[#00000029]" : "cursor-pointer border-white/10 bg-[#00000029] bg-black/40 hover:border-emerald-500/40"}`}
             >
               {/* Progress bar background (only shows after voting) */}
               {voted !== null && (
                 <div
-                  className={`absolute top-0 bottom-0 left-0 transition-colors duration-1000 ease-out ${isWinner ? "bg-emerald-500/20" : "bg-[#00000029]"}`}
+                  className={`absolute top-0 bottom-0 left-0 ${isWinner ? "bg-emerald-500/20" : "bg-[#00000029]"}`}
                   style={{ width: `${percent}%` }}
                 />
               )}
@@ -170,14 +170,14 @@ export function OriginStats() {
         {ORIGIN_STATS.map((stat, i) => (
           <div key={stat.location}>
             <div className="mb-1.5 flex justify-between">
-              <span className="text-white/70">{stat.location}</span>
+              <span>{stat.location}</span>
               <span className="text-[var(--color-accent)]">
                 {stat.count} fans
               </span>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-lg border border-white/5">
               <div
-                className="h-full rounded-lg bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 opacity-80 transition-colors delay-100 duration-1000 group-hover:opacity-100"
+                className="h-full rounded-lg bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 opacity-80 group-hover:opacity-100"
                 style={{ width: `${(stat.count / maxCount) * 100}%` }}
               />
             </div>
@@ -206,7 +206,7 @@ export function PhotoWall() {
           <h2 className="mb-1">Fan Pre-Cruise Photo Wall</h2>
           <p>Share your prep and packing photos!</p>
         </div>
-        <button className="rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 transition-colors hover:bg-white/10">
+        <button className="rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:bg-white/10">
           + Upload
         </button>
       </div>
@@ -217,7 +217,7 @@ export function PhotoWall() {
             key={i}
             className="group relative aspect-square cursor-pointer overflow-hidden border border-white/10 bg-[#00000029]"
           >
-            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-colors group-hover:opacity-100">
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur group-hover:opacity-100">
               <span className="text-2xl">📸</span>
             </div>
             <div
@@ -610,7 +610,7 @@ export function BookingManager({ email }: { email?: string }) {
                   id="cruise-reg-cabin-pref"
                   value={regCabinPref}
                   onChange={(e) => setRegCabinPref(e.target.value)}
-                  className="w-full cursor-pointer rounded-lg border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 transition-colors outline-none"
+                  className="w-full cursor-pointer rounded-lg border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 outline-none"
                 >
                   <option value="group_n5">Ocean View</option>
                   <option value="group_if">Infinite Central Park</option>
@@ -690,7 +690,7 @@ export function BookingManager({ email }: { email?: string }) {
             ) > 0 && (
               <button
                 onClick={() => setIsPayModalOpen(true)}
-                className="cursor-pointer rounded bg-rose-500 px-2.5 py-1 shadow transition-colors hover:bg-rose-400"
+                className="cursor-pointer rounded bg-rose-500 px-2.5 py-1 shadow hover:bg-rose-400"
               >
                 💳 Pay Balance
               </button>
@@ -705,7 +705,7 @@ export function BookingManager({ email }: { email?: string }) {
           <div className="space-y-1.5">
             {booking.guests.map((g: any, i: number) => (
               <div key={i} className="flex items-center justify-between">
-                <span className=" ">{g.name || `Guest ${i + 2}`}</span>
+                <span>{g.name || `Guest ${i + 2}`}</span>
                 <span className="text-white/40">
                   {g.type === "child"
                     ? `Child ${g.age ? `(Age ${g.age})` : ""}`
@@ -910,12 +910,12 @@ function PaymentModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <button
         type="button"
-        className="absolute inset-0 border-0 bg-black/70 backdrop-blur-sm transition-colors"
+        className="absolute inset-0 border-0 bg-black/70 backdrop-blur-sm"
         aria-label="Close modal background"
         onClick={processing || success ? undefined : onClose}
       />
 
-      <div className="relative w-full max-w-md overflow-hidden border border-purple-500/20 bg-[var(--color-bg-surface)] text-left shadow-[0_0_50px_rgba(6,182,212,0.15)] transition-colors duration-300">
+      <div className="relative w-full max-w-md overflow-hidden border border-purple-500/20 bg-[var(--color-bg-surface)] text-left shadow-[0_0_50px_rgba(6,182,212,0.15)]">
         {success ? (
           <div className="space-y-4 p-8 text-center">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
@@ -930,7 +930,7 @@ function PaymentModal({
             <button
               aria-label="Close"
               onClick={onClose}
-              className="w-full cursor-pointer bg-emerald-500 py-2.5 shadow-emerald-500/15 transition-colors hover:bg-emerald-400"
+              className="w-full cursor-pointer bg-emerald-500 py-2.5 shadow-emerald-500/15 hover:bg-emerald-400"
             >
               Close
             </button>
@@ -943,7 +943,7 @@ function PaymentModal({
                 <p className="mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
-                <span className="text-lg text-rose-400">{balanceDue}</span>
+                <span className="text-rose-400">{balanceDue}</span>
               </div>
             </div>
 
@@ -969,7 +969,7 @@ function PaymentModal({
                       setTab("saved");
                       setError("");
                     }}
-                    className={`flex-1 cursor-pointer rounded-lg py-1.5 transition-colors ${tab === "saved" ? "border border-purple-500/20" : "border border-transparent text-white/40"}`}
+                    className={`flex-1 cursor-pointer rounded-lg py-1.5 ${tab === "saved" ? "border border-purple-500/20" : "border border-transparent text-white/40"}`}
                   >
                     Use Saved Card
                   </button>
@@ -979,7 +979,7 @@ function PaymentModal({
                       setTab("new");
                       setError("");
                     }}
-                    className={`flex-1 cursor-pointer rounded-lg py-1.5 transition-colors ${tab === "new" ? "border border-purple-500/20" : "border border-transparent text-white/40"}`}
+                    className={`flex-1 cursor-pointer rounded-lg py-1.5 ${tab === "new" ? "border border-purple-500/20" : "border border-transparent text-white/40"}`}
                   >
                     Use New Card
                   </button>
@@ -989,7 +989,7 @@ function PaymentModal({
                   <div className="space-y-3 border border-white/10 p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="text-lg">💳</span>
+                        <span>💳</span>
                         <div>
                           <strong className="block">Visa ending in 4242</strong>
                           <span className="r text-white/40">
@@ -1017,7 +1017,7 @@ function PaymentModal({
                         placeholder="John Doe"
                         value={cardName}
                         onChange={(e) => setCardName(e.target.value)}
-                        className="w-full border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 transition-colors outline-none focus:border-purple-400/50"
+                        className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 outline-none"
                       />
                     </div>
                     <div>
@@ -1036,7 +1036,7 @@ function PaymentModal({
                           onChange={(e) =>
                             handleCardNumberChange(e.target.value)
                           }
-                          className="w-full border border-white/10 bg-[var(--color-bg-card)] py-2 pr-3 pl-9 transition-colors outline-none focus:border-purple-400/50"
+                          className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] py-2 pr-3 pl-9 outline-none"
                         />
                         <span className="absolute top-2.5 left-3 text-white/40">
                           💳
@@ -1057,7 +1057,7 @@ function PaymentModal({
                           placeholder="MM/YY"
                           value={cardExpiry}
                           onChange={(e) => handleExpiryChange(e.target.value)}
-                          className="w-full border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 transition-colors outline-none focus:border-purple-400/50"
+                          className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 outline-none"
                         />
                       </div>
                       <div>
@@ -1073,7 +1073,7 @@ function PaymentModal({
                           placeholder="123"
                           value={cardCVC}
                           onChange={(e) => handleCVCChange(e.target.value)}
-                          className="w-full border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 transition-colors outline-none focus:border-purple-400/50"
+                          className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 outline-none"
                         />
                       </div>
                     </div>
@@ -1085,7 +1085,7 @@ function PaymentModal({
                     aria-label="Close"
                     type="button"
                     onClick={onClose}
-                    className="flex-1 cursor-pointer bg-[#00000029] py-2.5 transition-colors hover:bg-white/10"
+                    className="flex-1 cursor-pointer bg-[#00000029] py-2.5 hover:bg-white/10"
                   >
                     Cancel
                   </button>
@@ -1152,15 +1152,13 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/item flex w-full items-center justify-between rounded-lg border border-white/10 bg-[#00000029] p-3.5 text-left transition-colors hover:border-purple-500/40 hover:bg-white/10"
+            className="group/item flex w-full items-center justify-between rounded-lg border border-white/10 bg-[#00000029] p-3.5 text-left hover:border-purple-500/40 hover:bg-white/10"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || "🔗"}</span>
-              <span className="group-hover/item: transition-colors">
-                {link.title}
-              </span>
+              <span className="group-hover/item:">{link.title}</span>
             </div>
-            <span className="-translate-x-2 text-[var(--color-accent)] opacity-0 transition-opacity duration-300 group-hover/item:translate-x-0 group-hover/item:opacity-100">
+            <span className="-translate-x-2 text-[var(--color-accent)] opacity-0 group-hover/item:translate-x-0 group-hover/item:opacity-100">
               →
             </span>
           </a>
@@ -1215,7 +1213,7 @@ export function SongRequestLeaderboard() {
             </div>
             <button
               onClick={() => handleVote(song.id)}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] text-white/40 transition-colors hover:border-[var(--color-border-purple)] hover:bg-[var(--color-purple-glow)] hover:text-[var(--color-purple-light)]"
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] text-white/40 hover:border-[var(--color-border-purple)] hover:bg-[var(--color-purple-glow)] hover:text-[var(--color-purple-light)]"
             >
               ▲
             </button>
@@ -1254,7 +1252,7 @@ export function CaptainsLog() {
       <div className="flex items-center gap-4 border border-white/5 bg-black/40 p-4">
         <button
           onClick={() => setIsPlaying(!isPlaying)}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[var(--color-accent)] transition-colors hover:bg-[#851de7]"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[var(--color-accent)] hover:bg-[#851de7]"
         >
           {isPlaying ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -1276,7 +1274,7 @@ export function CaptainsLog() {
 
         <div className="min-w-0 flex-1">
           <div className="mb-2 flex items-end justify-between">
-            <span className="truncate">Rehearsal Update!</span>
+            <span>Rehearsal Update!</span>
             <span className="text-[var(--color-accent)]/80">0:42</span>
           </div>
           <div className="h-1.5 w-full cursor-pointer overflow-hidden rounded-lg bg-white/10">
@@ -1310,7 +1308,7 @@ export function ExcursionTeasers() {
         {EXCURSIONS.map((ex, i) => (
           <div
             key={ex.title}
-            className="flex items-center justify-between border border-purple-500/10 bg-cyan-900/10 p-3 transition-colors hover:border-purple-500/30"
+            className="flex items-center justify-between border border-purple-500/10 bg-cyan-900/10 p-3 hover:border-purple-500/30"
           >
             <div>
               <div>{ex.title}</div>

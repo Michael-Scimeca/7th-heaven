@@ -279,7 +279,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
               <Mic className="h-8 w-8" />
             </div>
             <p>{remoteParticipants[0]?.name || "Crew"} is Live</p>
-            <p className=" ">Camera is warming up or in audio-only mode</p>
+            <p>Camera is warming up or in audio-only mode</p>
           </div>
         </div>
       );
@@ -289,9 +289,9 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
       <div className="flex h-full items-center justify-center">
         <div className="text-center">
           <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-lg border-2 border-[var(--color-accent)] border-t-transparent" />
-          <p className=" ">Connecting to stream...</p>
+          <p>Connecting to stream...</p>
           <p className="opacity-40">Room ID: {room}</p>
-          <p className=" ">Crew members will appear when they go live</p>
+          <p>Crew members will appear when they go live</p>
         </div>
       </div>
     );

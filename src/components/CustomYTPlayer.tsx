@@ -58,7 +58,6 @@ export default function CustomYTPlayer({
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [buffered, setBuffered] = useState(0);
-  const [showVolume, setShowVolume] = useState(false);
 
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -272,7 +271,7 @@ export default function CustomYTPlayer({
         backdropFilter: "blur(45px)",
         WebkitBackdropFilter: "blur(45px)",
       }}
-      className="fixed inset-0 z-[9999] m-0 flex h-full w-full max-w-none items-center justify-center border-none bg-black/70 p-0 text-inherit backdrop-blur-[45px]"
+      className="fixed inset-0 z-[9999] m-0 flex h-full w-full max-w-none items-center justify-center border-none bg-black/70 p-0 text-inherit backdrop-blur-2xl"
     >
       <button
         type="button"
@@ -318,7 +317,7 @@ export default function CustomYTPlayer({
 
           {/* Center Play/Pause Indicator */}
           <div
-            className={`pointer-events-none absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-300 ${showControls && !isPlaying ? "opacity-100" : "opacity-0"}`}
+            className={`pointer-events-none absolute inset-0 z-10 flex items-center justify-center ${showControls && !isPlaying ? "opacity-100" : "opacity-0"}`}
           >
             <SeventhButton
               icon={false}
@@ -338,17 +337,17 @@ export default function CustomYTPlayer({
 
           {/* Top Gradient */}
           <div
-            className={`pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/70 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+            className={`pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/70 to-transparent ${showControls ? "opacity-100" : "opacity-0"}`}
           />
 
           {/* Top Bar — Title & Close */}
           <div
-            className={`absolute inset-x-0 top-0 z-20 flex items-center justify-between px-5 py-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+            className={`absolute inset-x-0 top-0 z-20 flex items-center justify-between px-5 py-4 ${showControls ? "opacity-100" : "opacity-0"}`}
           >
             <div className="flex min-w-0 items-center gap-3">
               <div className="h-6 w-1 shrink-0 rounded-lg bg-[var(--color-accent)]" />
               <div className="min-w-0">
-                <h3 className="truncate">{title}</h3>
+                <h3>{title}</h3>
                 <p>7th Heaven • {year}</p>
               </div>
             </div>
@@ -358,7 +357,7 @@ export default function CustomYTPlayer({
                 e.stopPropagation();
                 onClose();
               }}
-              className="ml-4 flex shrink-0 cursor-pointer items-center gap-1.5 text-white/50 transition-colors hover:text-white"
+              className="ml-4 flex shrink-0 cursor-pointer items-center gap-1.5 text-white/50 hover:text-white"
             >
               <span className="hidden sm:inline">ESC</span>
               <svg
@@ -379,12 +378,12 @@ export default function CustomYTPlayer({
 
           {/* Bottom Gradient */}
           <div
-            className={`pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+            className={`pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-black/80 to-transparent ${showControls ? "opacity-100" : "opacity-0"}`}
           />
 
           {/* Bottom Controls */}
           <div
-            className={`absolute inset-x-0 bottom-0 z-20 px-5 pb-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+            className={`absolute inset-x-0 bottom-0 z-20 px-5 pb-4 ${showControls ? "opacity-100" : "opacity-0"}`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Progress Bar */}
@@ -396,7 +395,7 @@ export default function CustomYTPlayer({
               aria-valuemin={0}
               aria-valuemax={Math.round(duration)}
               tabIndex={0}
-              className="group/progress relative mb-6 h-1 w-full cursor-pointer bg-white/10 transition-colors hover:h-1.5"
+              className="group/progress relative mb-6 h-1 w-full cursor-pointer bg-white/10 hover:h-1.5"
               onClick={handleProgressClick}
               onKeyDown={(e) => {
                 if (e.key === "ArrowRight") {
@@ -428,7 +427,7 @@ export default function CustomYTPlayer({
               />
               {/* Scrubber */}
               <div
-                className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-0 shadow-[var(--color-accent)]/30 transition-opacity group-hover/progress:opacity-100"
+                className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-0 shadow-[var(--color-accent)]/30 group-hover/progress:opacity-100"
                 style={{ left: `calc(${progress}% - 6px)` }}
               />
             </div>
@@ -440,7 +439,7 @@ export default function CustomYTPlayer({
                 {hasPrev && (
                   <button
                     onClick={() => onPrev?.()}
-                    className="cursor-pointer transition-colors hover:text-white"
+                    className="cursor-pointer hover:text-white"
                     aria-label="Previous"
                   >
                     <svg
@@ -458,7 +457,7 @@ export default function CustomYTPlayer({
                 <SeventhButton
                   onClick={togglePlay}
                   icon={false}
-                  className="! flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-purple-300/40 !p-0 transition-all"
+                  className="! flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-purple-300/40 !p-0"
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? (
@@ -488,7 +487,7 @@ export default function CustomYTPlayer({
                 {hasNext && (
                   <button
                     onClick={() => onNext?.()}
-                    className="cursor-pointer transition-colors hover:text-white"
+                    className="cursor-pointer hover:text-white"
                     aria-label="Next"
                   >
                     <svg
@@ -503,14 +502,10 @@ export default function CustomYTPlayer({
                 )}
 
                 {/* Volume */}
-                <div
-                  className="relative flex items-center gap-2"
-                  onMouseEnter={() => setShowVolume(true)}
-                  onMouseLeave={() => setShowVolume(false)}
-                >
+                <div className="group relative flex items-center gap-2">
                   <button
                     onClick={toggleMute}
-                    className="cursor-pointer transition-colors hover:text-white"
+                    className="cursor-pointer hover:text-white"
                     aria-label={isMuted ? "Unmute" : "Mute"}
                   >
                     {isMuted || volume === 0 ? (
@@ -559,7 +554,7 @@ export default function CustomYTPlayer({
                     )}
                   </button>
                   <div
-                    className={`flex items-center overflow-hidden transition-colors duration-200 ${showVolume ? "w-20 opacity-100" : "w-0 opacity-0"}`}
+                    className="flex items-center overflow-hidden transition-[width,opacity] w-0 opacity-0 group-hover:w-20 group-hover:opacity-100 group-focus-within:w-20 group-focus-within:opacity-100"
                   >
                     <input
                       type="range"
@@ -591,7 +586,7 @@ export default function CustomYTPlayer({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Watch on YouTube"
-                  className="hidden items-center gap-1.5 text-white/40 transition-colors hover:text-white sm:flex"
+                  className="hidden items-center gap-1.5 text-white/40 hover:text-white sm:flex"
                 >
                   <svg
                     width="16"
@@ -612,7 +607,7 @@ export default function CustomYTPlayer({
                 {/* Fullscreen */}
                 <button
                   onClick={toggleFullscreen}
-                  className="cursor-pointer transition-colors hover:text-white"
+                  className="cursor-pointer hover:text-white"
                   aria-label="Fullscreen"
                 >
                   {isFullscreen ? (

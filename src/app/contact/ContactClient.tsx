@@ -133,7 +133,7 @@ export default function ContactClient({
   return (
     <main
       id="contact-page"
-      className="site-container page-container relative flex min-h-[calc(100vh-100px)] flex-col overflow-hidden pb-0"
+      className="site-container page-container relative flex min-h-[calc(100vh-100px)] flex-col overflow-hidden"
     >
       {/* Hero Header */}
       <header className="relative z-10 mb-[clamp(1rem,2.5vh,2.5rem)] max-w-5xl text-start">
@@ -161,7 +161,7 @@ export default function ContactClient({
           className="flex h-full min-h-full w-full max-w-full flex-1 flex-col text-left md:col-span-5 md:max-w-md lg:col-span-4"
         >
           {/* Contact Cards List (1 Column Stacked, Distributed to fill section height) */}
-          <ul className="flex h-full w-full flex-1 flex-col justify-between pb-6">
+          <ul className="flex h-full w-full flex-1 flex-col">
             {contacts.map((contact) => {
               const photoForThisCard = getPhotoForCategory(contact);
               const isCardActive = activePhotoId === photoForThisCard;
@@ -173,38 +173,31 @@ export default function ContactClient({
                     (contact.category || "") +
                     (contact.name || "")
                   }
-                  className="border-b border-white/10"
+                  className="mb-6 border-b border-white/10"
                 >
                   <article className="flex flex-col">
                     <button
                       type="button"
                       onMouseEnter={() => setActivePhotoId(photoForThisCard)}
                       onClick={() => setActivePhotoId(photoForThisCard)}
-                      className="group w-full cursor-pointer rounded text-left focus:ring-1 focus:ring-purple-400 focus:outline-none"
+                      className="group focus-ring w-full cursor-pointer rounded text-left"
                     >
                       {/* Name & Title / Note */}
-                      <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                        <h3 className="transition-colors group-hover:text-purple-300">
-                          {contact.name || "7th Heaven Representative"}
-                        </h3>
+                      <div>
+                        <h3>{contact.name || "7th Heaven Representative"}</h3>
                       </div>
 
                       {/* Category Pill */}
-                      <div className="mb-[clamp(0.2rem,0.6vh,0.5rem)]">
-                        <SectionBadge
-                          label={contact.category || "General Contact"}
-                          isActive={isCardActive}
-                        />
-                      </div>
+                      <div className="mb-2">{contact.category}</div>
                     </button>
 
                     {/* Contact Info: Email Top, Phone Directly Underneath */}
-                    <address className="flex flex-col items-start pb-2 not-italic">
+                    <address className="mb-3 flex flex-col items-start">
                       {/* Email */}
                       {contact.email && (
                         <a
                           href={`mailto:${contact.email}`}
-                          className="a-btn group/link inline-flex w-fit items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] whitespace-nowrap transition-colors hover:text-purple-300"
+                          className="a-btn group/link hover: inline-flex w-fit items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] whitespace-nowrap"
                         >
                           <span className="whitespace-nowrap decoration-white/20 underline-offset-4 group-hover/link:decoration-purple-300">
                             {contact.email}
@@ -216,7 +209,7 @@ export default function ContactClient({
                       {contact.phone && (
                         <a
                           href={`tel:${contact.phone.replace(/-/g, "")}`}
-                          className="group/link inline-flex w-fit items-center gap-2 text-[clamp(0.9rem,1.5vh,1.25rem)] whitespace-nowrap transition-colors duration-150 hover:text-[var(--color-accent)]"
+                          className="group/link inline-flex w-fit items-center gap-2 whitespace-nowrap hover:text-[var(--color-accent)]"
                         >
                           <span className="whitespace-nowrap">
                             {contact.phone}
@@ -247,11 +240,7 @@ export default function ContactClient({
             return (
               <div
                 key={photo.id}
-                className={`absolute inset-0 flex items-end justify-end transition-opacity duration-300 ease-out ${
-                  isActive
-                    ? "pointer-events-auto z-10 opacity-100"
-                    : "pointer-events-none z-0 opacity-0"
-                }`}
+                className={`absolute inset-0 flex items-end justify-end ${isActive ? "pointer-events-auto z-10 opacity-100" : "pointer-events-none z-0 opacity-0"}`}
               >
                 <picture className="pointer-events-none flex h-full w-full items-end justify-end">
                   <source media="(max-width: 768px)" srcSet={photo.mobile} />

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronRight } from "lucide-react";
 import LazyMount from "@/components/LazyMount";
+import FaqChevronButton from "@/components/FaqChevronButton";
 import { FAQS_EXTENDED } from "../cruiseData";
 
 interface CruiseFaqSectionProps {
@@ -16,9 +16,9 @@ export default function CruiseFaqSection({
 
   const faqList = sanityContent?.faqs?.length
     ? sanityContent.faqs.map((item: any) => ({
-      q: item.question,
-      a: item.answer,
-    }))
+        q: item.question,
+        a: item.answer,
+      }))
     : FAQS_EXTENDED;
 
   const sectionTitle =
@@ -49,7 +49,7 @@ export default function CruiseFaqSection({
           <h2 className="text-2xl font-bold tracking-wider text-white uppercase sm:text-3xl">
             {sectionTitle}
           </h2>
-          <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
+          <p className="mx-auto mt-2 max-w-2xl text-white/80 sm:text-base">
             {sectionSubtitle}
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function CruiseFaqSection({
             return (
               <li
                 key={faq.q}
-                className="overflow-hidden transition-colors duration-300"
+                className="overflow-hidden"
                 style={{
                   borderBottomColor: isExpanded
                     ? "rgba(192, 132, 252, 0.6)"
@@ -73,24 +73,14 @@ export default function CruiseFaqSection({
                   aria-expanded={isExpanded}
                   aria-controls={`faq-answer-${i}`}
                   onClick={() => toggleFaq(i)}
-                  className="group flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none sm:py-6"
+                  className="group focus-ring flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left sm:py-6"
                 >
                   <span
-                    className={`text-base font-semibold transition-colors duration-200 sm:text-lg ${
-                      isExpanded
-                        ? "text-purple-300"
-                        : "text-white group-hover:text-purple-200"
-                    }`}
+                    className={`sm: text-base font-semibold ${isExpanded ? " " : "text-white group-hover:text-purple-200"}`}
                   >
                     {faq.q}
                   </span>
-                  <div
-                    className={`shrink-0 transform rounded-lg border border-white/20 bg-white/10 p-1.5 text-white/70 transition-transform duration-200 ${
-                      isExpanded ? "rotate-90 border-purple-500/60 text-purple-400" : ""
-                    }`}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </div>
+                  <FaqChevronButton isExpanded={isExpanded} />
                 </button>
 
                 {/* Expanded Answer with smooth height transition */}
@@ -98,17 +88,11 @@ export default function CruiseFaqSection({
                   id={`faq-answer-${i}`}
                   role="region"
                   aria-label={faq.q}
-                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
-                    isExpanded
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0"
-                  }`}
+                  className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                 >
                   <div className="overflow-hidden">
                     <div className="px-6 pb-6 text-left">
-                      <p className="text-sm leading-relaxed text-white/80 sm:text-base">
-                        {faq.a}
-                      </p>
+                      <p className="text-white/80 sm:text-base">{faq.a}</p>
                     </div>
                   </div>
                 </div>

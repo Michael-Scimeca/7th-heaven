@@ -46,16 +46,14 @@ function renderUnsubscribeHtml(
 
 async function performUnsubscribe(cleanEmail: string) {
   // 1. Update database
-  await supabase
-    .from("newsletter_subscribers")
-    .upsert(
-      {
-        email: cleanEmail,
-        subscribed: false,
-        unsubscribed_at: new Date().toISOString(),
-      },
-      { onConflict: "email" },
-    );
+  await supabase.from("newsletter_subscribers").upsert(
+    {
+      email: cleanEmail,
+      subscribed: false,
+      unsubscribed_at: new Date().toISOString(),
+    },
+    { onConflict: "email" },
+  );
 
   // 2. Dispatch Unsubscribe Confirmation Email
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";

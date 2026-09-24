@@ -89,7 +89,7 @@ async function ShowPageContent({
 function ShowPageFallback() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
-      <div className="animate-pulse text-sm text-white/50">Loading show…</div>
+      <div className="animate-pulse text-white/50">Loading show…</div>
     </div>
   );
 }

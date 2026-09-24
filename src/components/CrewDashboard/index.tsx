@@ -86,7 +86,7 @@ function TimeOffItemRow({
   return (
     <div
       key={req.id}
-      className="flex flex-col justify-between gap-4 border border-white/10 bg-[#00000029] p-4 transition-colors md:flex-row md:items-center"
+      className="flex flex-col justify-between gap-4 border border-white/10 bg-[#00000029] p-4 md:flex-row md:items-center"
     >
       <div className="flex items-center gap-4">
         <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border border-white/10 bg-purple-600/10 text-center">
@@ -102,7 +102,7 @@ function TimeOffItemRow({
             {FULL_DATE_FORMATTER.format(reqDate)}
           </span>
           <span className="mt-0.5 block text-white/50">
-            Reason: <span className=" ">“{req.reason}”</span>
+            Reason: <span>“{req.reason}”</span>
           </span>
           {req.declineReason && (
             <span className="block text-rose-400/80">
@@ -121,7 +121,7 @@ function TimeOffItemRow({
             <button
               type="button"
               onClick={() => onRemove(req.id)}
-              className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 transition-colors hover:bg-red-500 hover:text-white"
+              className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 hover:bg-red-500 hover:text-white"
             >
               Cancel
             </button>
@@ -131,7 +131,7 @@ function TimeOffItemRow({
             ✓ Approved
           </span>
         ) : (
-          <span className="r rounded border border-purple-500/30 bg-purple-600/10 px-2 py-0.5 text-purple-300">
+          <span className="r rounded border border-purple-500/30 bg-purple-600/10 px-2 py-0.5">
             ✗ Denied
           </span>
         )}
@@ -152,7 +152,7 @@ function AvailabilityItemRow({
   return (
     <div
       key={item.id}
-      className="flex items-center justify-between gap-3 border border-white/10 bg-[#00000029] p-3 transition-colors"
+      className="flex items-center justify-between gap-3 border border-white/10 bg-[#00000029] p-3"
     >
       <div className="flex items-center gap-3">
         <div
@@ -186,7 +186,7 @@ function AvailabilityItemRow({
       <button
         type="button"
         onClick={() => onRemove(item.id)}
-        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded border-none bg-white/10 text-white/40 transition-colors hover:bg-red-500 hover:text-white"
+        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded border-none bg-white/10 text-white/40 hover:bg-red-500 hover:text-white"
         title="Remove Block"
       >
         ✕
@@ -231,7 +231,7 @@ function AvailabilityCardForm({
               required
               value={availDate}
               onChange={(e) => setAvailDate(e.target.value)}
-              className="w-full rounded-lg border border-white/10 px-3 py-2 transition-colors outline-none focus:border-purple-500/50"
+              className="focus-ring w-full rounded-lg border border-white/10 px-3 py-2 outline-none"
             />
           </div>
           <div>
@@ -248,7 +248,7 @@ function AvailabilityCardForm({
               ]}
               onChange={(val) => setAvailType(val as any)}
               wrapperClassName="w-full"
-              className="border-white/10 !px-3 !py-2 !text-sm"
+              className="! border-white/10 !px-3 !py-2"
               chevronColor="#c084fc"
             />
           </div>
@@ -282,7 +282,7 @@ function AvailabilityCardForm({
                 ]}
                 onChange={(val) => setAvailNote(val)}
                 wrapperClassName="w-full"
-                className="border-white/10 !px-3 !py-2 !text-sm"
+                className="! border-white/10 !px-3 !py-2"
                 chevronColor="#c084fc"
               />
             </div>
@@ -352,7 +352,7 @@ function TimeOffCardForm({
               required
               value={timeOffDate}
               onChange={(e) => setTimeOffDate(e.target.value)}
-              className="w-full rounded-lg border border-white/10 px-3 py-2 transition-colors outline-none focus:border-purple-500/50"
+              className="focus-ring w-full rounded-lg border border-white/10 px-3 py-2 outline-none"
             />
           </div>
           <div className="flex items-end gap-3 sm:col-span-2">
@@ -387,7 +387,7 @@ function TimeOffCardForm({
                 ]}
                 onChange={(val) => setTimeOffReason(val)}
                 wrapperClassName="w-full"
-                className="border-white/10 !px-3 !py-2 !text-sm"
+                className="! border-white/10 !px-3 !py-2"
                 chevronColor="#c084fc"
               />
             </div>
@@ -3356,7 +3356,7 @@ export function CrewDashboard({
         <section
           id="broadcast-center"
           aria-label="Live Broadcast & Feed Center"
-          className="transition-colors duration-300"
+          className=""
         >
           {/* Accordion Toggle Header */}
           <button
@@ -3364,7 +3364,7 @@ export function CrewDashboard({
             onClick={() =>
               setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)
             }
-            className="group flex w-full cursor-pointer items-center justify-between !rounded-none border-b border-white/10 text-left transition-colors select-none"
+            className="group flex w-full cursor-pointer items-center justify-between !rounded-none border-b border-white/10 text-left select-none"
           >
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center">
@@ -3396,7 +3396,7 @@ export function CrewDashboard({
                   : "Collapse Feed Box"}
               </span>
               <div
-                className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 transition-transform duration-300 ${isBroadcastPanelCollapsed ? "rotate-180" : ""}`}
+                className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 ${isBroadcastPanelCollapsed ? "rotate-180" : ""}`}
               >
                 <ChevronDown className="h-4 w-4" />
               </div>
@@ -3421,7 +3421,7 @@ export function CrewDashboard({
                       if (val) requestTransition(val);
                     }}
                     wrapperClassName="w-auto min-w-[200px]"
-                    className="border-white/10 bg-[#00000029] !px-3.5 !py-2 !text-sm backdrop-blur-[16px]"
+                    className="! border-white/10 bg-[#00000029] !px-3.5 !py-2 backdrop-blur-xl"
                     chevronColor="#c084fc"
                   />
                 </div>
@@ -3429,7 +3429,7 @@ export function CrewDashboard({
                 <Link
                   href={`/live/${defaultMemberId || memberSlug}`}
                   target="_blank"
-                  className="flex items-center justify-center gap-2 self-start rounded-lg border border-white/10 bg-[#00000029] px-3.5 py-1.5 backdrop-blur-[16px] hover:text-white sm:self-auto"
+                  className="flex items-center justify-center gap-2 self-start rounded-lg border border-white/10 bg-[#00000029] px-3.5 py-1.5 backdrop-blur-xl hover:text-white sm:self-auto"
                 >
                   <span>See Fan Feed Page</span>
                   <svg
@@ -3462,7 +3462,7 @@ export function CrewDashboard({
 
               {/* Callout Link - Only visible when stream is LIVE */}
               {isLive && (
-                <div className="flex flex-col items-center justify-between border border-emerald-500/30 bg-gradient-to-r from-emerald-900/40 to-transparent p-4 shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-opacity duration-500 ease-out sm:flex-row">
+                <div className="flex flex-col items-center justify-between border border-emerald-500/30 bg-gradient-to-r from-emerald-900/40 to-transparent p-4 shadow-[0_0_20px_rgba(16,185,129,0.15)] sm:flex-row">
                   <div className="mb-6 text-center sm:mb-0 sm:text-left">
                     <p className="mb-1.5 flex flex-col items-center gap-1.5 sm:flex-row">
                       <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-emerald-400 shadow-[0_0_8px_#34d399]" />
@@ -3476,7 +3476,7 @@ export function CrewDashboard({
                     <Link
                       href={`/live/${defaultMemberId || memberSlug}`}
                       target="_blank"
-                      className="flex-1 rounded border border-white/10 bg-white/10 px-4 py-2 text-center text-emerald-300 transition-colors hover:border-emerald-500/50 hover:bg-white/20 hover:text-white sm:flex-none sm:py-1.5"
+                      className="flex-1 rounded border border-white/10 bg-white/10 px-4 py-2 text-center text-emerald-300 hover:border-emerald-500/50 hover:bg-white/20 hover:text-white sm:flex-none sm:py-1.5"
                     >
                       Open <span className="ml-0.5">→</span>
                     </Link>
@@ -3486,7 +3486,7 @@ export function CrewDashboard({
                           `http://localhost:3000/live/${defaultMemberId || memberSlug}`,
                         )
                       }
-                      className="flex-1 cursor-pointer rounded bg-emerald-500 px-4 py-2 text-[#05110d] shadow-[0_0_10px_rgba(16,185,129,0.4)] transition-colors hover:bg-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] sm:flex-none sm:py-1.5"
+                      className="flex-1 cursor-pointer rounded bg-emerald-500 px-4 py-2 text-[#05110d] shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:bg-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] sm:flex-none sm:py-1.5"
                     >
                       Copy Link
                     </button>
@@ -3546,18 +3546,16 @@ export function CrewDashboard({
                           />
                         </svg>
                       </div>
-                      <h3 className="mb-1 text-sm sm:text-base">
-                        Camera Standby
-                      </h3>
-                      <p className="mb-6 max-w-[250px] text-center text-xs text-white/60 sm:text-sm">
-                        Click <span className=" ">GO LIVE</span> below to start
-                        your camera and begin broadcasting.
+                      <h3 className="mb-1 sm:text-base">Camera Standby</h3>
+                      <p className="sm: mb-6 max-w-[250px] text-center text-white/60">
+                        Click <span>GO LIVE</span> below to start your camera
+                        and begin broadcasting.
                       </p>
                       <SeventhButton
                         onClick={attemptEndStream}
                         disabled={toggling}
                         icon={false}
-                        className="z-20 flex cursor-pointer items-center gap-2.5 px-8 py-3 text-xs disabled:opacity-50 sm:px-10 sm:py-3.5 sm:text-sm"
+                        className="sm: z-20 flex cursor-pointer items-center gap-2.5 px-8 py-3 disabled:opacity-50 sm:px-10 sm:py-3.5"
                       >
                         <span
                           className="shrink-0 animate-pulse shadow-[0_0_12px_#ffffff]"
@@ -3599,10 +3597,10 @@ export function CrewDashboard({
                         <span>Live</span>
                       </div>
                       <div className="/90 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/60 px-3 py-1 backdrop-blur">
-                        <span className=" ">{viewerCount} Viewers</span>
+                        <span>{viewerCount} Viewers</span>
                       </div>
                       <div className="/90 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/60 px-3 py-1 backdrop-blur">
-                        <span className=" ">{formatTime(elapsed)}</span>
+                        <span>{formatTime(elapsed)}</span>
                       </div>
                     </div>
                   )}
@@ -3613,7 +3611,7 @@ export function CrewDashboard({
                       <button
                         onClick={attemptEndStream}
                         disabled={toggling}
-                        className="hover: pointer-events-auto shrink-0 rounded-lg border border-red-500/50 bg-red-900/80 px-8 py-3 text-red-500 transition-colors hover:bg-red-600 disabled:opacity-50"
+                        className="hover: pointer-events-auto shrink-0 rounded-lg border border-red-500/50 bg-red-900/80 px-8 py-3 text-red-500 hover:bg-red-600 disabled:opacity-50"
                       >
                         {toggling ? "..." : "● End Stream"}
                       </button>
@@ -3656,7 +3654,7 @@ export function CrewDashboard({
                           setActivePinned(null);
                           localStorage.setItem("7h_global_pinned", "null");
                         }}
-                        className="absolute top-3 right-3 text-black/30 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-400"
+                        className="absolute top-3 right-3 text-black/30 opacity-0 group-hover:opacity-100 hover:text-red-400"
                         title="Unpin Message"
                       >
                         ×
@@ -3684,10 +3682,8 @@ export function CrewDashboard({
                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                           />
                         </svg>
-                        <p className="r text-[11px] text-white/40">
-                          No Messages Yet
-                        </p>
-                        <p className="mt-0.5 text-[11px]">
+                        <p className="r text-white/40">No Messages Yet</p>
+                        <p className="mt-0.5">
                           Stream chat messages will appear here
                         </p>
                       </div>
@@ -3755,7 +3751,6 @@ export function CrewDashboard({
                           <div className="min-w-0 flex-1">
                             <div className="flex flex-wrap items-center gap-1.5">
                               <p
-                                className=""
                                 style={{
                                   color:
                                     p.account?.color ||
@@ -3771,7 +3766,7 @@ export function CrewDashboard({
                                 </span>
                               )}
                               {isUserWarned && (
-                                <span className="rounded border border-purple-500/30 bg-purple-600/10 px-1 py-0.5 text-[var(--font-size-2xs)] text-purple-300">
+                                <span className="rounded border border-purple-500/30 bg-purple-600/10 px-1 py-0.5 text-[var(--font-size-2xs)]">
                                   WARNED
                                 </span>
                               )}
@@ -3797,13 +3792,13 @@ export function CrewDashboard({
                           {/* Moderation Actions */}
                           {p.account?.role !== "crew" &&
                             p.account?.role !== "admin" && (
-                              <div className="absolute top-2 right-2 z-20 flex gap-1 rounded-lg border border-black/10 bg-white/95 p-1 opacity-0 transition-opacity group-hover:opacity-100">
+                              <div className="absolute top-2 right-2 z-20 flex gap-1 rounded-lg border border-black/10 bg-white/95 p-1 opacity-0 group-hover:opacity-100">
                                 <button
                                   onClick={() => handleWarn(username)}
                                   title={
                                     isUserWarned ? "Unwarn User" : "Warn User"
                                   }
-                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded transition-colors hover:bg-purple-600/15"
+                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded hover:bg-purple-600/15"
                                 >
                                   ⚠️
                                 </button>
@@ -3812,21 +3807,21 @@ export function CrewDashboard({
                                   title={
                                     isUserBanned ? "Unban User" : "Ban User"
                                   }
-                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 transition-colors hover:bg-red-500/15"
+                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 hover:bg-red-500/15"
                                 >
                                   🚫
                                 </button>
                                 <button
                                   onClick={() => handleDeleteMsg(p.id)}
                                   title="Delete Message"
-                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-black/40 transition-colors hover:bg-gray-100"
+                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-black/40 hover:bg-gray-100"
                                 >
                                   🗑
                                 </button>
                                 <button
                                   onClick={() => handleKick(username)}
                                   title="Remove Fan Completely"
-                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 transition-colors hover:bg-red-500/20"
+                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 hover:bg-red-500/20"
                                 >
                                   🚪
                                 </button>
@@ -3848,13 +3843,13 @@ export function CrewDashboard({
                           e.key === "Enter" && handleGlobalPinBox()
                         }
                         placeholder="Pin a message to all fans..."
-                        className="w-full !rounded-none !border-0 bg-emerald-500/[0.08] px-4 py-3.5 pr-24 transition-colors outline-none placeholder:text-emerald-400/50"
+                        className="w-full !rounded-none !border-0 bg-emerald-500/[0.08] px-4 py-3.5 pr-24 outline-none placeholder:text-emerald-400/50"
                       />
                       <div className="absolute top-1.5 right-1.5 bottom-1.5 z-10 flex items-center">
                         <button
                           onClick={handleGlobalPinBox}
                           disabled={!globalPinText.trim()}
-                          className="disabled: h-full rounded-lg bg-emerald-500 px-3 transition-colors hover:bg-emerald-400 disabled:bg-white/10 disabled:opacity-50"
+                          className="disabled: h-full rounded-lg bg-emerald-500 px-3 hover:bg-emerald-400 disabled:bg-white/10 disabled:opacity-50"
                         >
                           PIN
                         </button>
@@ -3884,16 +3879,14 @@ export function CrewDashboard({
                 <div className="mb-6 flex items-center justify-between border-b border-white/10">
                   <div className="flex items-center gap-3">
                     <div>
-                      <h3 className="text-lg">
-                        Live Stream Performance & Chat Analytics
-                      </h3>
+                      <h3>Live Stream Performance & Chat Analytics</h3>
                       <p className="mt-0.5">
                         Real-time Sales and Engagement Metrics
                       </p>
                     </div>
                   </div>
                   {isLive && (
-                    <span className="flex animate-pulse items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs">
+                    <span className="flex animate-pulse items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1">
                       ● Live Tracking
                     </span>
                   )}
@@ -3903,9 +3896,7 @@ export function CrewDashboard({
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {/* store sales card */}
                     <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
-                      <p className="text-xs text-white/70">
-                        Store Sales Revenue
-                      </p>
+                      <p>Store Sales Revenue</p>
                       <p className="mt-2 text-2xl">
                         $
                         {orders
@@ -3918,7 +3909,7 @@ export function CrewDashboard({
                           )
                           .toFixed(2)}
                       </p>
-                      <p className="mt-2 text-[10px] text-purple-300">
+                      <p className="mt-2 text-[10px]">
                         {orders.filter((o) => o.source === "Store").length}{" "}
                         purchases
                       </p>
@@ -3926,7 +3917,7 @@ export function CrewDashboard({
 
                     {/* flash drop sales card */}
                     <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
-                      <p className="text-xs text-white/70">Flash Drop Sales</p>
+                      <p>Flash Drop Sales</p>
                       <p className="mt-2 text-2xl">
                         $
                         {orders
@@ -3939,7 +3930,7 @@ export function CrewDashboard({
                           )
                           .toFixed(2)}
                       </p>
-                      <p className="mt-2 text-[10px] text-purple-300">
+                      <p className="mt-2 text-[10px]">
                         {orders.filter((o) => o.source === "Flash Drop").length}{" "}
                         purchases during live drops
                       </p>
@@ -3947,23 +3938,20 @@ export function CrewDashboard({
 
                     {/* raffle claims card */}
                     <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
-                      <p className="text-xs text-white/70">Raffle Claims</p>
+                      <p>Raffle Claims</p>
                       <p className="mt-2 text-2xl">
                         {orders.filter((o) => o.source === "Raffle").length}
                       </p>
-                      <p className="mt-2 text-[10px] text-purple-300">
-                        prizes claimed by fans
-                      </p>
+                      <p className="mt-2 text-[10px]">prizes claimed by fans</p>
                     </div>
 
                     {/* viewers card */}
                     <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
-                      <p className="flex items-center gap-1.5 text-xs text-white/70">
-                        <Users className="inline h-3.5 w-3.5 text-white/70" />{" "}
-                        Live Viewers
+                      <p className="flex items-center gap-1.5">
+                        <Users className="inline h-3.5 w-3.5" /> Live Viewers
                       </p>
                       <p className="mt-2 text-2xl">{viewerCount}</p>
-                      <p className="mt-2 text-[10px] text-purple-300">
+                      <p className="mt-2 text-[10px]">
                         {isLive ? "Watching live right now" : "Offline"}
                       </p>
                     </div>
@@ -4010,7 +3998,7 @@ export function CrewDashboard({
                           </p>
                           <div className="mt-3 h-1.5 w-full overflow-hidden rounded-lg bg-[#00000029]">
                             <div
-                              className="h-full bg-gradient-to-r from-purple-600 to-violet-600 transition-colors duration-1000"
+                              className="h-full bg-gradient-to-r from-purple-600 to-violet-600"
                               style={{
                                 width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%`,
                               }}
@@ -4039,9 +4027,7 @@ export function CrewDashboard({
                                 }}
                               />
                               <div className="min-w-0 flex-1">
-                                <p className="truncate" title={p.title}>
-                                  {p.title}
-                                </p>
+                                <p title={p.title}>{p.title}</p>
                                 <p className="mt-0.5">
                                   Shopify: {p.stock} left · Orig: $
                                   {p.shopifyPrice}
@@ -4059,7 +4045,7 @@ export function CrewDashboard({
                           <button
                             type="button"
                             onClick={cancelFlashDrop}
-                            className="flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/30 bg-red-500/10 py-3 text-red-400 transition-colors hover:bg-red-500/20 hover:text-red-300"
+                            className="flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/30 bg-red-500/10 py-3 text-red-400 hover:bg-red-500/20 hover:text-red-300"
                           >
                             Cancel Flash Drop
                           </button>
@@ -4076,7 +4062,7 @@ export function CrewDashboard({
                               href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "7th-heaven-7012.myshopify.com").replace(/"/g, "").split(".")[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="! flex items-center gap-1 rounded rounded-lg border border-white/10 bg-[#00000029] px-2 py-0.5 backdrop-blur-[16px]"
+                              className="! flex items-center gap-1 rounded rounded-lg border border-white/10 bg-[#00000029] px-2 py-0.5 backdrop-blur-xl"
                               title="Go to Shopify Products Admin"
                             >
                               Shopify Admin ↗
@@ -4110,7 +4096,7 @@ export function CrewDashboard({
                               if (val) addProductToDrop(val);
                             }}
                             wrapperClassName="w-full"
-                            className="border-white/10 bg-[#00000029] !px-3.5 !py-3 !text-sm backdrop-blur-[16px]"
+                            className="! border-white/10 bg-[#00000029] !px-3.5 !py-3 backdrop-blur-xl"
                             chevronColor="#c084fc"
                           />
                         </div>
@@ -4142,7 +4128,7 @@ export function CrewDashboard({
                                   }}
                                 />
                                 <div className="min-w-0 flex-1">
-                                  <p className="truncate pr-2" title={p.title}>
+                                  <p className="pr-2" title={p.title}>
                                     {p.title}
                                   </p>
                                   <p className="mt-0.5">
@@ -4171,7 +4157,7 @@ export function CrewDashboard({
                                   </div>
                                   <button
                                     onClick={() => removeProductFromDrop(p.id)}
-                                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border-none bg-red-500/10 text-red-400 transition-colors hover:bg-red-500/20"
+                                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border-none bg-red-500/10 text-red-400 hover:bg-red-500/20"
                                     title="Remove from drop"
                                   >
                                     ✕
@@ -4196,12 +4182,10 @@ export function CrewDashboard({
                                   selectEl.focus();
                                 }
                               }}
-                              className="flex h-[36px] w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] p-2 text-center shadow-sm transition-all hover:border-purple-400/60"
+                              className="flex h-[36px] w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] p-2 text-center shadow-sm hover:border-purple-400/60"
                               title="Click to select products from the dropdown above"
                             >
-                              <span className="text-purple-300">
-                                {selectedProducts.length}
-                              </span>
+                              <span>{selectedProducts.length}</span>
                               <span className="text-[10px]">
                                 {selectedProducts.length === 1
                                   ? "Selected"
@@ -4217,7 +4201,7 @@ export function CrewDashboard({
                                   key={d}
                                   isActive={dropDurationStr === d}
                                   onClick={() => setDropDurationStr(d)}
-                                  className="!w-full !py-2 text-sm"
+                                  className="!w-full !py-2"
                                 >
                                   {d}
                                 </SeventhButton>
@@ -4235,7 +4219,7 @@ export function CrewDashboard({
                           />
                           <label
                             htmlFor="global-drop-toggle"
-                            className="cursor-pointer transition-colors select-none hover:text-white"
+                            className="cursor-pointer select-none hover:text-white"
                           >
                             Drop on ALL live streams (Global)
                           </label>
@@ -4268,16 +4252,14 @@ export function CrewDashboard({
                               }),
                             );
                             try {
-                              supabase
-                                .channel("live_events")
-                                .send({
-                                  type: "broadcast",
-                                  event: "flash_drop",
-                                  payload: testPayload,
-                                });
+                              supabase.channel("live_events").send({
+                                type: "broadcast",
+                                event: "flash_drop",
+                                payload: testPayload,
+                              });
                             } catch {}
                           }}
-                          className="mt-2 w-full rounded-lg border border-red-500/20 bg-red-500/10 py-2 text-red-400 transition-colors hover:bg-red-500/20"
+                          className="mt-2 w-full rounded-lg border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20"
                         >
                           [TESTING] Simulate Sold Out Merch Drop
                         </button>
@@ -4311,7 +4293,7 @@ export function CrewDashboard({
                       <button
                         type="button"
                         onClick={cancelRaffle}
-                        className="rounded-lg border border-red-500/20 bg-red-500/10 px-6 py-2.5 text-red-400 transition-colors hover:bg-red-500/20"
+                        className="rounded-lg border border-red-500/20 bg-red-500/10 px-6 py-2.5 text-red-400 hover:bg-red-500/20"
                       >
                         {raffleStatus === "complete"
                           ? "Clear Results"
@@ -4342,7 +4324,7 @@ export function CrewDashboard({
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-2">
                               {/* Input 1: Prize Name */}
                               <div className="no-glow flex w-full flex-col gap-1.5 sm:flex-1">
-                                <span className="text-xs sm:text-base">
+                                <span className="sm:text-base">
                                   <span className="inline sm:hidden">
                                     1. Prize Name
                                   </span>
@@ -4378,7 +4360,7 @@ export function CrewDashboard({
                               <div className="grid grid-cols-2 gap-2 sm:flex sm:items-end">
                                 {/* Input 2: Entries Needed */}
                                 <div className="no-glow relative flex w-full flex-col gap-1.5 sm:w-28">
-                                  <span className="text-xs whitespace-nowrap sm:text-base">
+                                  <span className="whitespace-nowrap sm:text-base">
                                     <span className="inline sm:hidden">
                                       2. Entries
                                     </span>
@@ -4405,13 +4387,13 @@ export function CrewDashboard({
                                           parseInt(e.target.value) || 1,
                                         )
                                       }
-                                      className="form-input text-center text-purple-300"
+                                      className="form-input text-center"
                                     />
                                   </div>
                                   {/* Floating counter during active raffle */}
                                   {idx === activeQueueIndex &&
                                     raffleStatus !== "idle" && (
-                                      <div className="absolute -top-5 right-0 z-10 w-auto rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-right text-xs whitespace-nowrap">
+                                      <div className="absolute -top-5 right-0 z-10 w-auto rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-right whitespace-nowrap">
                                         {raffleEntrants.length} / {item.min}{" "}
                                         Entries
                                       </div>
@@ -4420,7 +4402,7 @@ export function CrewDashboard({
 
                                 {/* Input 3: Prize Qty */}
                                 <div className="no-glow flex w-full flex-col gap-1.5 sm:w-20">
-                                  <span className="text-xs whitespace-nowrap sm:text-base">
+                                  <span className="whitespace-nowrap sm:text-base">
                                     <span className="inline sm:hidden">
                                       3. Qty
                                     </span>
@@ -4447,7 +4429,7 @@ export function CrewDashboard({
                                           parseInt(e.target.value) || 1,
                                         )
                                       }
-                                      className="w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2.5 text-center transition-colors outline-none sm:py-2"
+                                      className="w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2.5 text-center outline-none sm:py-2"
                                     />
                                   </div>
                                 </div>
@@ -4463,7 +4445,7 @@ export function CrewDashboard({
                                     raffleStatus !== "idle" &&
                                     raffleStatus !== "complete"
                                   }
-                                  className={`flex h-11 flex-1 shrink-0 items-center justify-center rounded-lg border px-4 text-xs transition-colors sm:h-[42px] sm:flex-initial sm:text-[var(--font-size-2xs)] ${raffleStatus === "idle" || raffleStatus === "complete" ? "border-purple-500 hover:bg-purple-600/10" : idx === activeQueueIndex && (raffleStatus === "open" || raffleStatus === "drawing") ? "border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]" : "border-white/10 text-white/30 opacity-30"}`}
+                                  className={`flex h-11 flex-1 shrink-0 items-center justify-center rounded-lg border px-4 sm:h-[42px] sm:flex-initial sm:text-[var(--font-size-2xs)] ${raffleStatus === "idle" || raffleStatus === "complete" ? "border-purple-500 hover:bg-purple-600/10" : idx === activeQueueIndex && (raffleStatus === "open" || raffleStatus === "drawing") ? "border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]" : "border-white/10 text-white/30 opacity-30"}`}
                                 >
                                   {idx === activeQueueIndex &&
                                   (raffleStatus === "open" ||
@@ -4480,7 +4462,7 @@ export function CrewDashboard({
                                     raffleStatus !== "idle" ||
                                     raffleQueue.length === 1
                                   }
-                                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-red-500/20 text-red-500/70 transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-500 disabled:opacity-0 sm:h-[42px]"
+                                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-red-500/20 text-red-500/70 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-500 disabled:opacity-0 sm:h-[42px]"
                                 >
                                   ✕
                                 </button>
@@ -4496,7 +4478,7 @@ export function CrewDashboard({
                             raffleStatus !== "idle" &&
                             raffleStatus !== "complete"
                           }
-                          className="w-full rounded-lg border border-dashed border-white/10 bg-[#00000029] py-2.5 transition-colors hover:border-white/50 hover:text-white disabled:opacity-30"
+                          className="w-full rounded-lg border border-dashed border-white/10 bg-[#00000029] py-2.5 hover:border-white/50 hover:text-white disabled:opacity-30"
                         >
                           + Add Another Raffle To Queue
                         </button>
@@ -4517,14 +4499,14 @@ export function CrewDashboard({
                             <button
                               type="button"
                               onClick={addFakeEntry}
-                              className="flex-1 rounded-lg border border-white/10 bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+                              className="flex-1 rounded-lg border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
                             >
                               + Fake Entry
                             </button>
                             <button
                               type="button"
                               onClick={addLotsOfFakeEntries}
-                              className="flex-1 rounded-lg border border-white/10 bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+                              className="flex-1 rounded-lg border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
                             >
                               + Multi Fake
                             </button>
@@ -4532,7 +4514,7 @@ export function CrewDashboard({
                           <button
                             type="button"
                             onClick={rigWinForMe}
-                            className="w-full rounded-lg border border-[#10b981]/30 bg-emerald-500/10 py-2 transition-colors hover:bg-[#10b981]/25"
+                            className="w-full rounded-lg border border-[#10b981]/30 bg-emerald-500/10 py-2 hover:bg-[#10b981]/25"
                           >
                             🧪 TEST: Rig Win for Me
                           </button>
@@ -4567,7 +4549,7 @@ export function CrewDashboard({
                             {drawnWinners.map((w, i) => (
                               <div
                                 key={w.id}
-                                className="flex items-center justify-between rounded-lg border border-purple-500/30 bg-purple-600/10 px-3 py-1.5 text-purple-300"
+                                className="flex items-center justify-between rounded-lg border border-purple-500/30 bg-purple-600/10 px-3 py-1.5"
                               >
                                 <span>{w.name}</span>
                                 <span className="text-purple-200">
@@ -4655,7 +4637,7 @@ export function CrewDashboard({
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="flex h-5 w-5 items-center justify-center rounded-lg transition-colors hover:bg-white/20 hover:text-white"
+                                className="flex h-5 w-5 items-center justify-center rounded-lg hover:bg-white/20 hover:text-white"
                               >
                                 &times;
                               </button>
@@ -4693,7 +4675,7 @@ export function CrewDashboard({
               <button
                 type="button"
                 onClick={() => resetSetlistLikes()}
-                className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-[var(--font-size-2xs)] transition-colors hover:bg-white/10 hover:text-white"
+                className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-[var(--font-size-2xs)] hover:bg-white/10 hover:text-white"
               >
                 Reset Likes
               </button>
@@ -4701,7 +4683,7 @@ export function CrewDashboard({
                 type="button"
                 aria-label="Toggle setlist"
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-                className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 transition-transform duration-300 ${isSetlistCollapsed ? "rotate-180" : ""}`}
+                className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 ${isSetlistCollapsed ? "rotate-180" : ""}`}
               >
                 <ChevronDown className="h-4 w-4" />
               </button>
@@ -4718,12 +4700,12 @@ export function CrewDashboard({
                 {setlist.map((song, idx) => (
                   <div
                     key={song.id}
-                    className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying ? "" : ""} ${idx < setlist.length - 1 ? "border-b border-white/10" : ""}`}
+                    className={`flex items-center justify-between pt-3 pb-3 ${song.isPlaying ? "" : ""} ${idx < setlist.length - 1 ? "border-b border-white/10" : ""}`}
                   >
                     <div className="flex min-w-0 items-center gap-2">
                       <div className="min-w-0">
                         <p
-                          className={`truncate ${song.isPlaying ? "text-[var(--color-accent)]" : " "}`}
+                          className={` ${song.isPlaying ? "text-[var(--color-accent)]" : " "}`}
                         >
                           {song.title}
                         </p>
@@ -4737,7 +4719,7 @@ export function CrewDashboard({
                     <div className="flex shrink-0 items-center gap-1.5">
                       <button
                         onClick={() => deleteSongFromSetlist(song.id)}
-                        className="text-3xs flex h-6 w-6 items-center justify-center rounded-lg border border-red-500/20 text-red-400 transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300"
+                        className="text-3xs flex h-6 w-6 items-center justify-center rounded-lg border border-red-500/20 text-red-400 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300"
                         title="Delete Song"
                       >
                         <X className="h-3.5 w-3.5" />
@@ -4750,7 +4732,7 @@ export function CrewDashboard({
               {/* Add Song form */}
               <div className="pt-3">
                 {isBulkImport ? (
-                  <div className="max-w-[300px] space-y-2 transition-opacity duration-250 ease-out">
+                  <div className="max-w-[300px] space-y-2">
                     <textarea
                       aria-label="Paste a list of songs"
                       placeholder="Paste a list of songs (one per line, or separated by commas)..."
@@ -4765,7 +4747,7 @@ export function CrewDashboard({
                           setIsBulkImport(false);
                           setNewSongTitle("");
                         }}
-                        className="text-3xs text-white/40 transition-colors"
+                        className="text-3xs text-white/40"
                       >
                         Cancel
                       </button>
@@ -4791,7 +4773,7 @@ export function CrewDashboard({
                         onKeyDown={(e) =>
                           e.key === "Enter" && addSongToSetlist(newSongTitle)
                         }
-                        className="placeholder: flex-1 rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 transition-colors outline-none focus:border-[var(--color-accent)]"
+                        className="placeholder: focus-ring flex-1 rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 outline-none"
                       />
                       <SeventhButton
                         type="button"
@@ -4809,7 +4791,7 @@ export function CrewDashboard({
                           setIsBulkImport(true);
                           setNewSongTitle("");
                         }}
-                        className="text-3xs flex cursor-pointer items-center gap-1.5 border-none transition-colors hover:brightness-125"
+                        className="text-3xs flex cursor-pointer items-center gap-1.5 border-none hover:brightness-125"
                       >
                         <FileText className="inline h-3.5 w-3.5" /> Bulk Import
                         / Paste List
@@ -4859,7 +4841,7 @@ export function CrewDashboard({
                         setEmailMessage(`Hi Admin,\n\n[Your message here]`);
                         setIsEmailModalOpen(true);
                       }}
-                      className="flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 backdrop-blur-[16px] transition-colors"
+                      className="flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 backdrop-blur-xl"
                     >
                       Contact Admins
                     </button>
@@ -4877,7 +4859,7 @@ export function CrewDashboard({
                       onClick={() =>
                         setIsScheduleCollapsed(!isScheduleCollapsed)
                       }
-                      className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 transition-transform duration-300 ${isScheduleCollapsed ? "rotate-180" : ""}`}
+                      className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 ${isScheduleCollapsed ? "rotate-180" : ""}`}
                     >
                       <ChevronDown className="h-4 w-4" />
                     </button>
@@ -4947,7 +4929,7 @@ export function CrewDashboard({
                         <button
                           type="button"
                           onClick={() => setActiveScheduleTab("my_schedule")}
-                          className="flex cursor-pointer items-center justify-center rounded-lg border-none py-2 transition-colors hover:text-white"
+                          className="flex cursor-pointer items-center justify-center rounded-lg border-none py-2 hover:text-white"
                         >
                           My Shift Schedule ({activeShifts.length})
                         </button>
@@ -4966,7 +4948,7 @@ export function CrewDashboard({
                         <button
                           type="button"
                           onClick={() => setActiveScheduleTab("tour_events")}
-                          className="flex cursor-pointer items-center justify-center rounded-lg border-none py-2 transition-colors hover:text-white"
+                          className="flex cursor-pointer items-center justify-center rounded-lg border-none py-2 hover:text-white"
                         >
                           Band Tour Events ({tourDates.length})
                         </button>
@@ -5001,7 +4983,7 @@ export function CrewDashboard({
                             return (
                               <div
                                 key={shift.id}
-                                className="flex flex-col justify-between gap-3 px-2 py-3.5 transition-colors hover:bg-white/[0.02] md:flex-row md:items-center"
+                                className="flex flex-col justify-between gap-3 px-2 py-3.5 hover:bg-white/[0.02] md:flex-row md:items-center"
                                 style={{
                                   borderBottom:
                                     "1px solid rgba(255, 255, 255, 0.08)",
@@ -5013,7 +4995,7 @@ export function CrewDashboard({
                                     className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border text-center ${shift.approvalStatus === "pending" ? "border-yellow-500/30 bg-yellow-500/10" : "border-white/20 bg-purple-600/10"}`}
                                   >
                                     <span
-                                      className={`text-[8px] ${shift.approvalStatus === "pending" ? "text-yellow-400" : "text-purple-300"}`}
+                                      className={`text-[8px] ${shift.approvalStatus === "pending" ? "text-yellow-400" : " "}`}
                                     >
                                       {month}
                                     </span>
@@ -5023,7 +5005,7 @@ export function CrewDashboard({
                                     <span className="text-[10px] text-white/40">
                                       {weekday}
                                     </span>
-                                    <span className="mt-0.5 text-[10px] text-purple-300">
+                                    <span className="mt-0.5 text-[10px]">
                                       Call: {shift.time}
                                     </span>
                                   </div>
@@ -5048,10 +5030,10 @@ export function CrewDashboard({
                                                 matchingVenue,
                                               )
                                             }
-                                            className="flex cursor-pointer items-center gap-1 border-none p-0 text-purple-300 transition-colors hover:text-purple-200 hover:underline"
+                                            className="flex cursor-pointer items-center gap-1 border-none p-0 hover:text-purple-200 hover:underline"
                                             title="Click to view venue load-in, parking & WiFi details"
                                           >
-                                            <MapPin className="inline h-3.5 w-3.5 shrink-0 text-purple-300" />{" "}
+                                            <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
                                             {shift.location}{" "}
                                             <span className="text-[12px] text-[var(--color-accent)]/80">
                                               ℹ️
@@ -5093,7 +5075,7 @@ export function CrewDashboard({
                                       onClick={() =>
                                         setActiveDiscussionDate(shift.date)
                                       }
-                                      className="cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] text-purple-300 transition-colors select-none hover:bg-purple-600 hover:text-white"
+                                      className="cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-600 hover:text-white"
                                       title="View show lineup acts and discuss details with crew"
                                     >
                                       💬 Lineup & Discuss
@@ -5128,7 +5110,7 @@ I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${s
 [Your message here]`);
                                               setIsEmailModalOpen(true);
                                             }}
-                                            className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] transition-colors hover:bg-white/20"
+                                            className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] hover:bg-white/20"
                                           >
                                             ✉️ Email Admin
                                           </button>
@@ -5137,7 +5119,7 @@ I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${s
                                             onClick={() =>
                                               setRequestingCoverageShift(shift)
                                             }
-                                            className="cursor-pointer rounded border-none bg-[var(--color-accent)] px-2 py-0.5 text-[12px] transition-colors hover:bg-[var(--color-accent)]"
+                                            className="cursor-pointer rounded border-none bg-[var(--color-accent)] px-2 py-0.5 text-[12px] hover:bg-[var(--color-accent)]"
                                           >
                                             🙋 Swap
                                           </button>
@@ -5157,7 +5139,7 @@ I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${s
                                             "approved",
                                           )
                                         }
-                                        className="cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] transition-colors hover:bg-emerald-400"
+                                        className="cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] hover:bg-emerald-400"
                                       >
                                         Confirm
                                       </button>
@@ -5176,7 +5158,7 @@ Reason for decline: ${shift.declineReason || ""}
 [Your message here]`);
                                           setIsEmailModalOpen(true);
                                         }}
-                                        className="cursor-pointer rounded border-none bg-purple-600 px-2 py-0.5 text-[12px] transition-colors hover:bg-purple-500"
+                                        className="cursor-pointer rounded border-none bg-purple-600 px-2 py-0.5 text-[12px] hover:bg-purple-500"
                                       >
                                         ✉️ Email
                                       </button>
@@ -5195,7 +5177,7 @@ Reason for decline: ${shift.declineReason || ""}
                                               "approved",
                                             )
                                           }
-                                          className="cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] transition-colors hover:bg-emerald-400"
+                                          className="cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] hover:bg-emerald-400"
                                         >
                                           Confirm
                                         </button>
@@ -5206,7 +5188,7 @@ Reason for decline: ${shift.declineReason || ""}
                                               shift.id;
                                             setIsDeclineModalOpen(true);
                                           }}
-                                          className="cursor-pointer rounded border border-rose-500/30 bg-rose-600/20 px-2 py-0.5 text-[12px] text-rose-200 transition-colors hover:bg-rose-600 hover:text-white"
+                                          className="cursor-pointer rounded border border-rose-500/30 bg-rose-600/20 px-2 py-0.5 text-[12px] text-rose-200 hover:bg-rose-600 hover:text-white"
                                         >
                                           Decline
                                         </button>
@@ -5223,7 +5205,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 [Your message here]`);
                                             setIsEmailModalOpen(true);
                                           }}
-                                          className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] transition-colors hover:bg-white/20"
+                                          className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] hover:bg-white/20"
                                         >
                                           ✉️ Email
                                         </button>
@@ -5296,7 +5278,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           return (
                             <div
                               key={show.date + "_" + show.venue}
-                              className="flex flex-col justify-between gap-2.5 px-2 py-3.5 transition-colors hover:bg-white/[0.02] md:flex-row md:items-center"
+                              className="flex flex-col justify-between gap-2.5 px-2 py-3.5 hover:bg-white/[0.02] md:flex-row md:items-center"
                               style={{
                                 borderBottom:
                                   "1px solid rgba(255, 255, 255, 0.08)",
@@ -5308,7 +5290,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                   className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border text-center ${userShift ? "border-purple-500/30 bg-purple-600/10" : "border-white/10 bg-[#00000029]"}`}
                                 >
                                   <span
-                                    className={`text-[8px] ${userShift ? "text-purple-300" : "text-white/50"}`}
+                                    className={`text-[8px] ${userShift ? " " : "text-white/50"}`}
                                   >
                                     {month}
                                   </span>
@@ -5336,7 +5318,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       )}
                                     </>
                                   ) : (
-                                    <span className="mt-0.5 text-[10px] text-purple-300">
+                                    <span className="mt-0.5 text-[10px]">
                                       {show.time || "TBA"}
                                     </span>
                                   )}
@@ -5352,10 +5334,10 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       onClick={() =>
                                         setSelectedVenuePopup(matchingVenue)
                                       }
-                                      className="flex cursor-pointer items-center gap-1 border-none p-0 text-purple-300 transition-colors hover:text-purple-200 hover:underline"
+                                      className="flex cursor-pointer items-center gap-1 border-none p-0 hover:text-purple-200 hover:underline"
                                       title="Click to view venue specs"
                                     >
-                                      <MapPin className="inline h-3.5 w-3.5 shrink-0 text-purple-300" />{" "}
+                                      <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
                                       {show.venue}{" "}
                                       <span className="text-[12px] text-[var(--color-accent)]/80">
                                         ℹ️
@@ -5363,7 +5345,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     </button>
                                   ) : (
                                     <span className="/90 flex items-center gap-1">
-                                      <MapPin className="inline h-3.5 w-3.5 shrink-0 text-purple-300" />{" "}
+                                      <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
                                       {show.venue}
                                     </span>
                                   )}
@@ -5376,14 +5358,14 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     onClick={() =>
                                       setActiveDiscussionDate(show.date)
                                     }
-                                    className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] text-purple-300 transition-colors select-none hover:bg-purple-600 hover:text-white"
+                                    className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-600 hover:text-white"
                                   >
-                                    <MessageSquare className="inline h-3 w-3 text-purple-300" />{" "}
+                                    <MessageSquare className="inline h-3 w-3" />{" "}
                                     Lineup & Discuss
                                   </button>
                                 </div>
                                 {show.notes && (
-                                  <p className="mt-0.5 max-w-md truncate">
+                                  <p className="mt-0.5 max-w-md">
                                     “{show.notes}”
                                   </p>
                                 )}
@@ -5420,7 +5402,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                             🟢 Available
                                           </span>
                                         ) : (
-                                          <span className="rounded-lg border border-purple-500/25 bg-purple-600/10 px-1.5 py-0.5 text-[12px] text-purple-300">
+                                          <span className="rounded-lg border border-purple-500/25 bg-purple-600/10 px-1.5 py-0.5 text-[12px]">
                                             🔴 Unavailable
                                           </span>
                                         )}
@@ -5431,7 +5413,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                               userAvail.id,
                                             )
                                           }
-                                          className="cursor-pointer rounded border-none bg-white/10 px-1 py-0.5 text-[10px] text-white/50 transition-colors hover:bg-rose-500 hover:text-white"
+                                          className="cursor-pointer rounded border-none bg-white/10 px-1 py-0.5 text-[10px] text-white/50 hover:bg-rose-500 hover:text-white"
                                           title="Clear Availability"
                                         >
                                           ✕
@@ -5503,7 +5485,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                               );
                                             }
                                           }}
-                                          className="hover: cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] text-white/70 transition-colors hover:border-emerald-500/40 hover:bg-emerald-500"
+                                          className="hover: cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] hover:border-emerald-500/40 hover:bg-emerald-500"
                                         >
                                           🟢 Available
                                         </button>
@@ -5571,7 +5553,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                               );
                                             }
                                           }}
-                                          className="cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] text-white/70 transition-colors hover:border-purple-500/40 hover:bg-purple-600 hover:text-white"
+                                          className="cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] hover:border-purple-500/40 hover:bg-purple-600 hover:text-white"
                                         >
                                           🔴 Unavailable
                                         </button>
@@ -5630,7 +5612,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       return (
                         <div
                           key={shift.id}
-                          className="flex flex-col justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 transition-colors hover:border-[var(--color-accent)]/40 md:flex-row md:items-center"
+                          className="flex flex-col justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 hover:border-[var(--color-accent)]/40 md:flex-row md:items-center"
                         >
                           {/* Date & Time */}
                           <div className="flex min-w-[180px] shrink-0 items-center gap-3">
@@ -5665,7 +5647,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       onClick={() =>
                                         setSelectedVenuePopup(matchingVenue)
                                       }
-                                      className="flex cursor-pointer items-center gap-0.5 border-none p-0 text-purple-300 transition-colors hover:text-purple-200 hover:underline"
+                                      className="flex cursor-pointer items-center gap-0.5 border-none p-0 hover:text-purple-200 hover:underline"
                                       title="Click to view venue load-in, parking & WiFi details"
                                     >
                                       📍 {shift.location}{" "}
@@ -5686,7 +5668,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                 onClick={() =>
                                   setActiveDiscussionDate(shift.date)
                                 }
-                                className="cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-purple-300 transition-colors select-none hover:bg-purple-600 hover:text-white"
+                                className="cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 select-none hover:bg-purple-600 hover:text-white"
                                 title="View show lineup acts and discuss details with crew"
                               >
                                 💬 Lineup & Discuss
@@ -5702,7 +5684,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             <button
                               type="button"
                               onClick={() => handleAcceptCoverage(shift.id)}
-                              className="flex cursor-pointer items-center gap-1 rounded-lg border-none bg-[var(--color-accent)] px-3 py-1.5 transition-colors hover:bg-[var(--color-accent)]"
+                              className="flex cursor-pointer items-center gap-1 rounded-lg border-none bg-[var(--color-accent)] px-3 py-1.5 hover:bg-[var(--color-accent)]"
                             >
                               🙋 Accept Shift
                             </button>
@@ -5719,7 +5701,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
         {/* End Stream Modal */}
         {showEndModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px] transition-opacity duration-200 ease-out">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
             <div className="relative w-full max-w-md overflow-hidden border border-black/10 bg-white p-8">
               {isSavingReplay && (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
@@ -5757,13 +5739,13 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <div className="relative z-10 flex flex-col gap-3">
                 <button
                   onClick={confirmEndDiscard}
-                  className="w-full rounded-lg bg-red-500 py-4 shadow-[0_0_20px_rgba(239,68,68,0.3)] transition-colors hover:bg-red-400"
+                  className="w-full rounded-lg bg-red-500 py-4 shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:bg-red-400"
                 >
                   End Broadcast
                 </button>
                 <button
                   onClick={() => setShowEndModal(false)}
-                  className="hover: mt-2 w-full py-2 text-black/40 transition-colors"
+                  className="hover: mt-2 w-full py-2 text-black/40"
                 >
                   Cancel, Keep Streaming
                 </button>
@@ -5789,7 +5771,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 value={declineReason}
                 onChange={(e) => setDeclineReason(e.target.value)}
                 placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
-                className="min-h-[100px] w-full resize-none border border-black/10 bg-black/40 p-3 placeholder-white/30 transition-colors outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-rose-500/30"
+                className="focus-ring min-h-[100px] w-full resize-none border border-black/10 bg-black/40 p-3 placeholder-white/30 outline-none"
               />
               <div className="flex items-center justify-end gap-2.5 pt-2">
                 <button
@@ -5799,7 +5781,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     decliningShiftIdRef.current = null;
                     setDeclineReason("");
                   }}
-                  className="hover: rounded-lg border border-black/10 px-4 py-2 text-black/70 transition-colors hover:bg-gray-100"
+                  className="hover: rounded-lg border border-black/10 px-4 py-2 text-black/70 hover:bg-gray-100"
                 >
                   Cancel
                 </button>
@@ -5818,7 +5800,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     decliningShiftIdRef.current = null;
                     setDeclineReason("");
                   }}
-                  className="cursor-pointer rounded-lg border-none bg-rose-600 px-4 py-2 transition-colors hover:bg-rose-500 disabled:cursor-not-allowed disabled:bg-rose-600/30 disabled:text-black/30"
+                  className="cursor-pointer rounded-lg border-none bg-rose-600 px-4 py-2 hover:bg-rose-500 disabled:cursor-not-allowed disabled:bg-rose-600/30 disabled:text-black/30"
                 >
                   Submit Decline
                 </button>
@@ -5858,7 +5840,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
                   placeholder="Subject of your message..."
-                  className="w-full border border-black/10 bg-black/40 px-3.5 py-2 placeholder-white/30 transition-colors outline-none focus:border-purple-500/50"
+                  className="focus-ring w-full border border-black/10 bg-black/40 px-3.5 py-2 placeholder-white/30 outline-none"
                 />
               </div>
 
@@ -5874,7 +5856,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   value={emailMessage}
                   onChange={(e) => setEmailMessage(e.target.value)}
                   placeholder="Type your message to the administrators here..."
-                  className="min-h-[120px] w-full resize-none border border-black/10 bg-black/40 p-3 placeholder-white/30 transition-colors outline-none focus:border-purple-500/50"
+                  className="focus-ring min-h-[120px] w-full resize-none border border-black/10 bg-black/40 p-3 placeholder-white/30 outline-none"
                 />
               </div>
             </div>
@@ -5887,7 +5869,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setEmailSubject("");
                   setEmailMessage("");
                 }}
-                className="hover: rounded-lg border border-black/10 px-4 py-2 text-black/70 transition-colors hover:bg-gray-100"
+                className="hover: rounded-lg border border-black/10 px-4 py-2 text-black/70 hover:bg-gray-100"
               >
                 Cancel
               </button>
@@ -5897,7 +5879,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   isSendingEmail || !emailSubject.trim() || !emailMessage.trim()
                 }
                 onClick={handleSendEmailToAdmins}
-                className="cursor-pointer rounded-lg border-none bg-purple-600 px-4 py-2 transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-600/30 disabled:text-black/30"
+                className="cursor-pointer rounded-lg border-none bg-purple-600 px-4 py-2 hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-600/30 disabled:text-black/30"
               >
                 {isSendingEmail ? "Sending..." : "Send Message"}
               </button>
@@ -5908,7 +5890,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
       {/* 🔔 Premium Toast Notification */}
       {toast.visible && (
-        <div className="gap-3text-black fixed right-6 bottom-6 z-[10000] flex w-full max-w-sm animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] border border-black/10 bg-white/95 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-[45px]">
+        <div className="gap-3text-black fixed right-6 bottom-6 z-[10000] flex w-full max-w-sm animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] border border-black/10 bg-white/95 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-2xl">
           <div className="flex-1 text-left">
             {toast.title && (
               <h4
@@ -5932,7 +5914,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
       {/* ─── VENUE DETAILS POPUP MODAL ─── */}
       {selectedVenuePopup && (
-        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
           <div className="relative flex w-full max-w-md flex-col border border-black/10 bg-white p-6">
             {/* Header */}
             <div className="mb-6 flex items-center justify-between border-b border-black/10 pb-4">
@@ -5940,14 +5922,14 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <span className="text-xl">🏛️</span>
                 <div>
                   <h3 className="text-black">{selectedVenuePopup.name}</h3>
-                  <p className=".5 text-purple-300">Venue Specifications</p>
+                  <p className=".5">Venue Specifications</p>
                 </div>
               </div>
               <button
                 type="button"
                 aria-label="Close venue details"
                 onClick={() => setSelectedVenuePopup(null)}
-                className="hover: cursor-pointer border-none text-black/40 transition-colors"
+                className="hover: cursor-pointer border-none text-black/40"
               >
                 ✕
               </button>
@@ -5962,7 +5944,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   href={`https://maps.google.com/?q=${encodeURIComponent(selectedVenuePopup.address)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-purple-300 hover:text-white"
+                  className="inline-block hover:text-white"
                 >
                   {selectedVenuePopup.address}
                 </a>
@@ -5972,9 +5954,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               {selectedVenuePopup.wifiPassword && (
                 <div className="flex items-center justify-between gap-3 border border-white/10 bg-purple-950/15 p-3">
                   <div className="min-w-0">
-                    <span className="block text-purple-300/70">
-                      📶 Backstage Wi-Fi
-                    </span>
+                    <span className="/70 block">📶 Backstage Wi-Fi</span>
                     <span className="select-all">
                       {selectedVenuePopup.wifiPassword}
                     </span>
@@ -5991,7 +5971,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                         "COPIED",
                       );
                     }}
-                    className="cursor-pointer rounded border-none bg-purple-600 px-2.5 py-1 transition-colors hover:bg-purple-500"
+                    className="cursor-pointer rounded border-none bg-purple-600 px-2.5 py-1 hover:bg-purple-500"
                   >
                     Copy
                   </button>
@@ -6009,7 +5989,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <div className="border border-black/10 bg-white/[0.02] p-3">
                   <span className="mb-1 block text-black/40">👤 Contact</span>
                   <span
-                    className="block truncate"
+                    className="block"
                     title={selectedVenuePopup.contactPerson}
                   >
                     {selectedVenuePopup.contactPerson.split(" (")[0]}
@@ -6017,7 +5997,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   {selectedVenuePopup.contactPhone && (
                     <a
                       href={`tel:${selectedVenuePopup.contactPhone.replace(/[^0-9]/g, "")}`}
-                      className="mt-0.5 block text-purple-300 hover:text-white"
+                      className="mt-0.5 block hover:text-white"
                     >
                       {selectedVenuePopup.contactPhone}
                     </a>
@@ -6049,7 +6029,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <button
                 type="button"
                 onClick={() => setSelectedVenuePopup(null)}
-                className="cursor-pointer rounded-lg border border-black/10 bg-gray-50 px-4 py-2 transition-colors hover:bg-gray-100"
+                className="cursor-pointer rounded-lg border border-black/10 bg-gray-50 px-4 py-2 hover:bg-gray-100"
               >
                 Dismiss Details
               </button>
@@ -6060,7 +6040,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
       {/* ─── GIG DISCUSS & LINEUP MODAL FOR CREW ─── */}
       {activeDiscussionDate && (
-        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-[45px]">
+        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-2xl">
           <div className="relative flex max-h-[90vh] w-full max-w-lg flex-col border border-black/10 bg-white p-6">
             {/* Header */}
             <div className="mb-6 flex shrink-0 items-center justify-between border-b border-black/10 pb-4">
@@ -6068,7 +6048,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <span className="text-xl">🎸</span>
                 <div>
                   <h3 className="text-black">Show Lineup & Gig Discuss</h3>
-                  <p className=".5 text-purple-300">
+                  <p className=".5">
                     {new Date(
                       activeDiscussionDate + "T12:00:00",
                     ).toLocaleDateString("en-US", {
@@ -6084,7 +6064,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 type="button"
                 aria-label="Close lineup specs"
                 onClick={() => setActiveDiscussionDate(null)}
-                className="hover: cursor-pointer border-none text-black/40 transition-colors"
+                className="hover: cursor-pointer border-none text-black/40"
               >
                 ✕
               </button>
@@ -6124,13 +6104,13 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                         <div key={act.id} className="space-y-1.5">
                           <div className="flex items-center justify-between border border-black/10 bg-black/30 p-3">
                             <span className="text-black">{act.actName}</span>
-                            <span className="text-purple-300">
+                            <span>
                               ⏱️ {act.startTime} - {act.endTime}
                             </span>
                           </div>
                           {changeover && (
                             <div className="text-center">
-                              <span className="inline-block rounded-lg border border-purple-500/25 bg-purple-600/10 px-2.5 py-0.5 text-[8.5px] text-purple-300">
+                              <span className="inline-block rounded-lg border border-purple-500/25 bg-purple-600/10 px-2.5 py-0.5 text-[8.5px]">
                                 🔄 {changeover}
                               </span>
                             </div>
@@ -6201,7 +6181,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                           : c.id,
                                       )
                                     }
-                                    className="hover: cursor-pointer border-none text-purple-300"
+                                    className="hover: cursor-pointer border-none"
                                   >
                                     {replyingToCommentId === c.id
                                       ? "Cancel Reply"
@@ -6221,7 +6201,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     onChange={(e) =>
                                       setReplyText(e.target.value)
                                     }
-                                    className="flex-1 rounded border border-black/10 bg-[#f0f2f5] px-2 py-1 outline-none focus:border-purple-500/50"
+                                    className="focus-ring flex-1 rounded border border-black/10 bg-[#f0f2f5] px-2 py-1 outline-none"
                                   />
                                   <button
                                     type="button"
@@ -6262,7 +6242,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                   </div>
                                   <div className="min-w-0 flex-1">
                                     <div className="flex items-center justify-between">
-                                      <span className="text-[11px] text-black/70">
+                                      <span className="text-black/70">
                                         {r.authorName}
                                       </span>
                                       <span className="text-[var(--font-size-5xs)] text-black/25">
@@ -6298,7 +6278,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           placeholder="Post a gig note..."
                           value={newCommentText}
                           onChange={(e) => setNewCommentText(e.target.value)}
-                          className="flex-1 rounded-lg border border-black/10 bg-[#f0f2f5] px-3 py-2 outline-none focus:border-purple-500/50"
+                          className="focus-ring flex-1 rounded-lg border border-black/10 bg-[#f0f2f5] px-3 py-2 outline-none"
                         />
                         <button
                           type="button"
@@ -6333,7 +6313,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <button
                 type="button"
                 onClick={() => setActiveDiscussionDate(null)}
-                className="cursor-pointer rounded-lg border border-black/10 bg-gray-50 px-4 py-2 transition-colors hover:bg-gray-100"
+                className="cursor-pointer rounded-lg border border-black/10 bg-gray-50 px-4 py-2 hover:bg-gray-100"
               >
                 Close Specs
               </button>
@@ -6344,7 +6324,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
       {/* ─── REQUEST COVERAGE / SWAP MODAL FOR CREW ─── */}
       {requestingCoverageShift && (
-        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-[45px]">
+        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-2xl">
           <div className="relative flex w-full max-w-md flex-col border border-black/10 bg-white p-6">
             {/* Header */}
             <div className="mb-6 flex shrink-0 items-center justify-between border-b border-black/10 pb-4">
@@ -6365,7 +6345,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId("");
                 }}
-                className="hover: cursor-pointer border-none text-black/40 transition-colors"
+                className="hover: cursor-pointer border-none text-black/40"
               >
                 ✕
               </button>
@@ -6384,14 +6364,14 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId("")}
-                  className={`cursor-pointer rounded border-none py-2 transition-colors ${!swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"}`}
+                  className={`cursor-pointer rounded border-none py-2 ${!swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"}`}
                 >
                   General Coverage
                 </button>
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId("openshifts")} // default target to enable dropdown
-                  className={`cursor-pointer rounded border-none py-2 transition-colors ${swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"}`}
+                  className={`cursor-pointer rounded border-none py-2 ${swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"}`}
                 >
                   Propose Direct Swap
                 </button>
@@ -6438,7 +6418,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       .map((m) => ({ value: m.id, label: m.name }))}
                     onChange={(val) => setSwapTargetColleagueId(val)}
                     wrapperClassName="w-full"
-                    className="border-black/10 bg-white !px-3 !py-2 !text-sm"
+                    className="! border-black/10 bg-white !px-3 !py-2"
                     chevronColor="#000000"
                   />
                 </div>
@@ -6453,7 +6433,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId("");
                 }}
-                className="cursor-pointer rounded-lg border border-black/10 bg-gray-50 px-4 py-2 transition-colors hover:bg-gray-100"
+                className="cursor-pointer rounded-lg border border-black/10 bg-gray-50 px-4 py-2 hover:bg-gray-100"
               >
                 Cancel
               </button>
@@ -6471,7 +6451,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId("");
                 }}
-                className="cursor-pointer rounded-lg border-none bg-[var(--color-accent)] px-4 py-2 transition-colors hover:bg-[var(--color-accent)]"
+                className="cursor-pointer rounded-lg border-none bg-[var(--color-accent)] px-4 py-2 hover:bg-[var(--color-accent)]"
               >
                 Submit Request
               </button>

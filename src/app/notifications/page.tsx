@@ -177,7 +177,7 @@ export default function NotificationsPage() {
         <h1 className="mb-6 text-4xl sm:text-5xl">
           Get Notified <span className="text-purple-600">Instantly</span>
         </h1>
-        <p className=" ">
+        <p>
           7th Heaven can push an alert straight to your phone the moment we post
           one &mdash; new shows, ticket drops, cruise news, whatever the group
           needs. It doesn&apos;t use text messages or carrier fees; it rides on{" "}
@@ -185,14 +185,14 @@ export default function NotificationsPage() {
             href="https://ntfy.sh"
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-white"
+            className="hover:text-white"
           >
             ntfy
           </a>
           , a free, open push network, so there&apos;s no cost to you and none
           to us. Prefer old-fashioned alerts? Check out our live stream alerts
           on{" "}
-          <Link href="/live" className="transition-colors hover:text-white">
+          <Link href="/live" className="hover:text-white">
             the live page
           </Link>{" "}
           too.
@@ -209,7 +209,7 @@ export default function NotificationsPage() {
               aria-label={`Show ${tab.label} alerts`}
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`cursor-pointer rounded-lg border px-5 py-2.5 transition duration-200 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] text-white/70 hover:border-white/30 hover:text-white"}`}
+              className={`cursor-pointer rounded-lg border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"}`}
             >
               {tab.label}
             </button>
@@ -227,10 +227,7 @@ export default function NotificationsPage() {
             <p>
               This alert channel hasn&apos;t been configured on the server yet.
               Check back soon, or reach out on the{" "}
-              <Link
-                href="/contact"
-                className="transition-colors hover:text-white"
-              >
+              <Link href="/contact" className="hover:text-white">
                 Contact
               </Link>{" "}
               page.
@@ -304,7 +301,7 @@ export default function NotificationsPage() {
                       href={browserUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="transition-colors hover:text-white"
+                      className="hover:text-white"
                     >
                       Or subscribe in your browser instead
                     </a>
@@ -328,7 +325,7 @@ export default function NotificationsPage() {
               <button
                 type="button"
                 onClick={handleCopy}
-                className="inline-flex cursor-pointer items-center gap-1.5 pt-1 text-[11px] transition-colors"
+                className="inline-flex cursor-pointer items-center gap-1.5 pt-1"
               >
                 {copied ? <CheckIcon /> : <CopyIcon />}
                 {copied ? "Copied channel name" : "Copy channel name manually"}

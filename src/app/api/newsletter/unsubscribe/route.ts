@@ -75,16 +75,14 @@ export async function POST(request: Request) {
 
     const cleanEmail = email.toLowerCase().trim();
 
-    await supabase
-      .from("newsletter_subscribers")
-      .upsert(
-        {
-          email: cleanEmail,
-          subscribed: false,
-          unsubscribed_at: new Date().toISOString(),
-        },
-        { onConflict: "email" },
-      );
+    await supabase.from("newsletter_subscribers").upsert(
+      {
+        email: cleanEmail,
+        subscribed: false,
+        unsubscribed_at: new Date().toISOString(),
+      },
+      { onConflict: "email" },
+    );
 
     try {
       await supabase

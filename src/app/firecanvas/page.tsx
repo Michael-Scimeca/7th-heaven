@@ -45,10 +45,8 @@ function Slider({
   return (
     <div>
       <div className="mb-1 flex justify-between">
-        <span className="text-sm text-white/70">{label}</span>
-        <span className="font-mono text-sm text-amber-400">
-          {format ? format(value) : value}
-        </span>
+        <span>{label}</span>
+        <span className="text-amber-400">{format ? format(value) : value}</span>
       </div>
       <input
         type="range"
@@ -75,7 +73,7 @@ function ColorField({
 }) {
   return (
     <div>
-      <label className="mb-1 block text-[11px] text-white/50">{label}</label>
+      <label className="mb-1 block text-white/50">{label}</label>
       <div className="flex items-center gap-2">
         <input
           type="color"
@@ -87,7 +85,7 @@ function ColorField({
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full rounded border border-white/15 bg-black/50 px-2 py-1 font-mono text-[11px] focus:border-amber-400 focus:outline-none"
+          className="focus-ring w-full rounded border border-white/15 bg-black/50 px-2 py-1"
         />
       </div>
     </div>
@@ -182,7 +180,7 @@ export default function FireCanvasTunerPage() {
           colorCoreHex={colorCoreHex}
           colorSparkHex={colorSparkHex}
         />
-        <div className="pointer-events-none absolute top-4 left-4 text-xs text-white/40">
+        <div className="pointer-events-none absolute top-4 left-4 text-white/40">
           Fire Canvas Tuner
         </div>
       </div>
@@ -190,31 +188,29 @@ export default function FireCanvasTunerPage() {
       {/* Controls */}
       <div className="mx-auto max-w-3xl space-y-8 px-4 py-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg">Pixel Fireplace — Live Tuner</h1>
+          <h1>Pixel Fireplace — Live Tuner</h1>
           <div className="flex gap-2">
             <button
               type="button"
               onClick={resetAll}
-              className="rounded-md border border-white/15 px-3 py-1.5 text-sm text-white/70 hover:bg-white/5"
+              className="border border-white/15 px-3 py-1.5 hover:bg-white/5"
             >
               Reset
             </button>
             <button
               type="button"
               onClick={copyProps}
-              className="rounded-md bg-amber-500 px-3 py-1.5 text-sm whitespace-nowrap hover:bg-amber-400"
+              className="bg-amber-500 px-3 py-1.5 whitespace-nowrap hover:bg-amber-400"
             >
               {copied ? "Copied!" : "Copy JSX props"}
             </button>
           </div>
         </div>
 
-        <p className="text-sm text-white/50">
+        <p className="text-white/50">
           Tune the effect here, then hit &ldquo;Copy JSX props&rdquo; and paste
-          the block onto the{" "}
-          <code className="text-white/70">&lt;PixelFireplaceCanvas /&gt;</code>{" "}
-          instance in{" "}
-          <code className="text-white/70">BioParallaxSlider.tsx</code>.
+          the block onto the <code>&lt;PixelFireplaceCanvas /&gt;</code>{" "}
+          instance in <code>BioParallaxSlider.tsx</code>.
         </p>
 
         <div className="grid gap-6 sm:grid-cols-2">
@@ -266,7 +262,7 @@ export default function FireCanvasTunerPage() {
         </div>
 
         <div>
-          <div className="mb-2 text-sm text-white/70">Palette Theme</div>
+          <div className="mb-2">Palette Theme</div>
           <div className="flex flex-wrap gap-2">
             {PALETTE_THEMES.map((theme) => (
               <button
@@ -276,7 +272,7 @@ export default function FireCanvasTunerPage() {
                   setPaletteTheme(theme.id);
                   setUseCustomColors(false);
                 }}
-                className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
+                className={`rounded-full border px-3 py-1.5 ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
               >
                 {theme.label}
               </button>
@@ -284,7 +280,7 @@ export default function FireCanvasTunerPage() {
             <button
               type="button"
               onClick={() => setUseCustomColors(true)}
-              className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${useCustomColors ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
+              className={`rounded-full border px-3 py-1.5 ${useCustomColors ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
             >
               Custom Colors
             </button>
