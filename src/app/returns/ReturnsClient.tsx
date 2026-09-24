@@ -27,8 +27,8 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
 
       <div className="prose-legal flex flex-col gap-10 text-base">
         {sanityContent?.sections &&
-        Array.isArray(sanityContent.sections) &&
-        sanityContent.sections.length > 0 ? (
+          Array.isArray(sanityContent.sections) &&
+          sanityContent.sections.length > 0 ? (
           sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
@@ -159,7 +159,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 please reach out to us:
               </p>
               <address className="space-y-1 not-italic">
-                <p className="font-semibold">7th Heaven Support</p>
+                <p className=" ">7th Heaven Support</p>
                 <p>
                   Email:{" "}
                   <a href="mailto:info@7thheavenband.com" className="a-btn">

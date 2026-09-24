@@ -190,7 +190,7 @@ function CruiseCabinsPricingSectionComponent({
   const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
 
   const mounted = React.useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false,
   );
@@ -532,7 +532,7 @@ function CruiseCabinsPricingSectionComponent({
                 {activePriceYear === 2027
                   ? sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026"
                   : sanityContent?.cruiseInfo?.finalPayment2028 ||
-                    "Oct 1, 2027"}
+                  "Oct 1, 2027"}
                 .
               </p>
             </div>
@@ -614,7 +614,7 @@ function CruiseCabinsPricingSectionComponent({
         {/* Pricing Cards Grid */}
         <div className="py-section-fluid space-y-16">
           <div className="relative p-0 text-left">
-            <div className="mb-8 flex flex-col items-start justify-between gap-4 pb-2 md:flex-row md:items-center">
+            <div className="mb-8 flex flex-col items-start justify-between gap-4  md:flex-row md:items-center">
               <div>
                 <h3>Limited Group Rate Cabins ({activePriceYear})</h3>
               </div>
@@ -634,156 +634,156 @@ function CruiseCabinsPricingSectionComponent({
                 ([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]
                   .length > 0
                   ? [
-                      ...(sanityContent?.cruiseInfo?.cabins || []),
-                      ...addedCabins,
-                    ].flatMap((c: any) =>
-                      String(c.year) === String(activePriceYear)
-                        ? [
-                            {
-                              code: c.code,
-                              title: c.title,
-                              price: c.price,
-                              status: c.status,
-                              badge: c.badge,
-                              image:
-                                c.imagePath ||
-                                c.image ||
-                                "/images/cruise/q2_interior_plus.jpg",
-                              inclusions: c.inclusions,
-                              selectValue:
-                                c.selectValue ||
-                                `group_${(c.code || "room").toLowerCase()}`,
-                            },
-                          ]
-                        : [],
-                    )
+                    ...(sanityContent?.cruiseInfo?.cabins || []),
+                    ...addedCabins,
+                  ].flatMap((c: any) =>
+                    String(c.year) === String(activePriceYear)
+                      ? [
+                        {
+                          code: c.code,
+                          title: c.title,
+                          price: c.price,
+                          status: c.status,
+                          badge: c.badge,
+                          image:
+                            c.imagePath ||
+                            c.image ||
+                            "/images/cruise/q2_interior_plus.jpg",
+                          inclusions: c.inclusions,
+                          selectValue:
+                            c.selectValue ||
+                            `group_${(c.code || "room").toLowerCase()}`,
+                        },
+                      ]
+                      : [],
+                  )
                   : null) ||
                 (activePriceYear === 2027
                   ? [
-                      {
-                        code: "Q2",
-                        title: "Interior Plus",
-                        price: "$1,683.27",
-                        status: "soldout",
-                        badge: "Group Rate Sold Out - Book Prevailing",
-                        image: "/images/cruise/q2_interior_plus.jpg",
-                        selectValue: "group_n5",
-                      },
-                      {
-                        code: "N5",
-                        title: "Ocean View",
-                        price: "$1,883.27",
-                        status: "warning",
-                        badge: "1 Cabin Left!",
-                        image: "/images/cruise/n5.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_n5",
-                      },
-                      {
-                        code: "IF",
-                        title: "Infinite Central Park",
-                        price: "$2,033.27",
-                        status: "warning",
-                        badge: "2 Cabins Left!",
-                        image: "/images/cruise/if.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_if",
-                      },
-                      {
-                        code: "D4",
-                        title: "Ocean View Balcony",
-                        price: "$2,433.27",
-                        status: "info",
-                        badge: "10 Available",
-                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_d4",
-                      },
-                      {
-                        code: "D2",
-                        title: "Ocean View Balcony",
-                        price: "$2,483.27",
-                        status: "info",
-                        badge: "11 Available",
-                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_d2",
-                      },
-                      {
-                        code: "I1",
-                        title: "Infinite Ocean View Balcony",
-                        price: "$2,583.27",
-                        status: "warning",
-                        badge: "5 Cabins Left!",
-                        image:
-                          "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_i1",
-                      },
-                    ]
+                    {
+                      code: "Q2",
+                      title: "Interior Plus",
+                      price: "$1,683.27",
+                      status: "soldout",
+                      badge: "Group Rate Sold Out - Book Prevailing",
+                      image: "/images/cruise/q2_interior_plus.jpg",
+                      selectValue: "group_n5",
+                    },
+                    {
+                      code: "N5",
+                      title: "Ocean View",
+                      price: "$1,883.27",
+                      status: "warning",
+                      badge: "1 Cabin Left!",
+                      image: "/images/cruise/n5.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_n5",
+                    },
+                    {
+                      code: "IF",
+                      title: "Infinite Central Park",
+                      price: "$2,033.27",
+                      status: "warning",
+                      badge: "2 Cabins Left!",
+                      image: "/images/cruise/if.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_if",
+                    },
+                    {
+                      code: "D4",
+                      title: "Ocean View Balcony",
+                      price: "$2,433.27",
+                      status: "info",
+                      badge: "10 Available",
+                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_d4",
+                    },
+                    {
+                      code: "D2",
+                      title: "Ocean View Balcony",
+                      price: "$2,483.27",
+                      status: "info",
+                      badge: "11 Available",
+                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_d2",
+                    },
+                    {
+                      code: "I1",
+                      title: "Infinite Ocean View Balcony",
+                      price: "$2,583.27",
+                      status: "warning",
+                      badge: "5 Cabins Left!",
+                      image:
+                        "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_i1",
+                    },
+                  ]
                   : [
-                      {
-                        code: "Q2",
-                        title: "Interior Plus",
-                        price: "$1,832.98",
-                        status: "info",
-                        badge: "Available",
-                        image: "/images/cruise/q2_interior_plus.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_n5",
-                      },
-                      {
-                        code: "IF",
-                        title: "Infinite Central Park",
-                        price: "$2,032.98",
-                        status: "info",
-                        badge: "Available",
-                        image: "/images/cruise/if.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_if",
-                      },
-                      {
-                        code: "N5",
-                        title: "Ocean View",
-                        price: "$2,162.98",
-                        status: "info",
-                        badge: "Available",
-                        image: "/images/cruise/n5.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_n5",
-                      },
-                      {
-                        code: "D4",
-                        title: "Ocean View Balcony",
-                        price: "$2,472.98",
-                        status: "info",
-                        badge: "Available",
-                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_d4",
-                      },
-                      {
-                        code: "D2",
-                        title: "Ocean View Balcony",
-                        price: "$2,492.98",
-                        status: "info",
-                        badge: "Available",
-                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_d2",
-                      },
-                      {
-                        code: "I1",
-                        title: "Infinite Ocean View Balcony",
-                        price: "$2,522.98",
-                        status: "info",
-                        badge: "Available",
-                        image:
-                          "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
-                        inclusions: "Gratuities Included",
-                        selectValue: "group_i1",
-                      },
-                    ])
+                    {
+                      code: "Q2",
+                      title: "Interior Plus",
+                      price: "$1,832.98",
+                      status: "info",
+                      badge: "Available",
+                      image: "/images/cruise/q2_interior_plus.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_n5",
+                    },
+                    {
+                      code: "IF",
+                      title: "Infinite Central Park",
+                      price: "$2,032.98",
+                      status: "info",
+                      badge: "Available",
+                      image: "/images/cruise/if.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_if",
+                    },
+                    {
+                      code: "N5",
+                      title: "Ocean View",
+                      price: "$2,162.98",
+                      status: "info",
+                      badge: "Available",
+                      image: "/images/cruise/n5.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_n5",
+                    },
+                    {
+                      code: "D4",
+                      title: "Ocean View Balcony",
+                      price: "$2,472.98",
+                      status: "info",
+                      badge: "Available",
+                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_d4",
+                    },
+                    {
+                      code: "D2",
+                      title: "Ocean View Balcony",
+                      price: "$2,492.98",
+                      status: "info",
+                      badge: "Available",
+                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_d2",
+                    },
+                    {
+                      code: "I1",
+                      title: "Infinite Ocean View Balcony",
+                      price: "$2,522.98",
+                      status: "info",
+                      badge: "Available",
+                      image:
+                        "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
+                      inclusions: "Gratuities Included",
+                      selectValue: "group_i1",
+                    },
+                  ])
               ).map((room: any, idx: number) => (
                 <div
                   key={(room.code || room.selectValue) + idx}
@@ -850,7 +850,7 @@ function CruiseCabinsPricingSectionComponent({
         <div id="payment-portal" />
 
         <div>
-          <div className="mb-8 border-b border-white/10 pb-6 text-center">
+          <div className="mb-6 border-b border-white/10 text-center">
             <div className="mb-3 flex flex-wrap items-center justify-center gap-3">
               <span className="st inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1 text-xs text-purple-300">
                 Official Booking Form
@@ -873,7 +873,7 @@ function CruiseCabinsPricingSectionComponent({
             </p>
           </div>
 
-          {PaymentPortalDropdownPanel && (
+          {PaymentPortalDropdownPanel && isPaymentDropdownOpen && (
             <div className="mb-8">
               <PaymentPortalDropdownPanel
                 isOpen={isPaymentDropdownOpen}
@@ -902,7 +902,7 @@ function CruiseCabinsPricingSectionComponent({
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSignup} className="space-y-8 text-left">
+            <form onSubmit={handleSignup} className="space-y-3 text-left">
               {formError && (
                 <div className="flex items-center gap-3 rounded-xl border border-red-500/50 bg-red-900/40 p-4 text-sm text-red-200">
                   <AlertTriangle className="h-5 w-5 shrink-0 text-red-400" />
@@ -940,8 +940,8 @@ function CruiseCabinsPricingSectionComponent({
               </div>
 
               {/* GUEST 1 DETAILS & PAYMENT */}
-              <div className="space-y-5">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between border-b border-white/10">
                   <h3 className="text-lg">
                     GUEST 1 (PRIMARY RESERVATION HOLDER)
                   </h3>
@@ -1048,7 +1048,7 @@ function CruiseCabinsPricingSectionComponent({
                 </div>
 
                 {/* GUEST 1 PAYMENT CARD */}
-                <div className="pt-3">
+                <div>
                   <CruiseCard1Section
                     formData={formData}
                     setFormData={setFormData}
@@ -1057,7 +1057,7 @@ function CruiseCabinsPricingSectionComponent({
               </div>
 
               {/* GUEST 2 DETAILS (OPTIONAL / TOGGLEABLE) */}
-              <div className="space-y-5">
+              <div>
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
                   <div>
                     <h3 className="text-lg">GUEST 2 (IF NEEDED)</h3>
@@ -1197,7 +1197,7 @@ function CruiseCabinsPricingSectionComponent({
               </div>
 
               {/* EXTRA / OPTIONS & NOTES */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <h3 className="border-b border-white/10 pb-3 text-lg">
                   EXTRA &amp; SPECIAL REQUESTS
                 </h3>
@@ -1292,13 +1292,15 @@ function CruiseCabinsPricingSectionComponent({
         minHeight="400px"
         rootMargin="300px 0px"
       >
-        <h2>Official Cruise Concierge &amp; Booking Team</h2>
-        <p className="mx-auto mt-3 max-w-2xl text-sm text-white/70 sm:text-base">
-          Have questions about your booking, cabin options, group travel, or
-          excursions? Our dedicated 7th Heaven Cruise concierge team is here to
-          assist you every step of the way.
-        </p>
-        <div className="grid grid-cols-1 gap-10 pt-6 text-center sm:grid-cols-2 sm:gap-8 md:pt-12 lg:grid-cols-3 lg:gap-6">
+        <div className="mx-auto mb-6 max-w-2xl">
+          <h2>Official Cruise Concierge &amp; Booking Team</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-white/70 sm:text-base">
+            Have questions about your booking, cabin options, group travel, or
+            excursions? Our dedicated 7th Heaven Cruise concierge team is here to
+            assist you every step of the way.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-3">
           {(
             (sanityContent?.founders?.length
               ? sanityContent.founders
@@ -1336,10 +1338,10 @@ function CruiseCabinsPricingSectionComponent({
 
             const photoSrc =
               nameStr.toLowerCase().includes("mary") ||
-              nameStr.toLowerCase().includes("grivas")
+                nameStr.toLowerCase().includes("grivas")
                 ? "/images/contact/Mary-contact.png"
                 : nameStr.toLowerCase().includes("alan") ||
-                    nameStr.toLowerCase().includes("mcrae")
+                  nameStr.toLowerCase().includes("mcrae")
                   ? "/images/contact/Alan-contact.png"
                   : "/images/contact/Dickie-contact.png";
 
@@ -1406,8 +1408,8 @@ function CruiseCabinsPricingSectionComponent({
         minHeight="500px"
         rootMargin="300px 0px"
       >
-        <div className="mb-10 w-full max-w-3xl text-left">
-          <h2 className="mt-2">
+        <div className="mb-6 w-full max-w-3xl text-left">
+          <h2>
             Featured <span className="accent-gradient-text">Artists</span>
           </h2>
           <p className="mt-2.5 text-sm leading-relaxed text-white/70 sm:text-base">
@@ -1417,7 +1419,7 @@ function CruiseCabinsPricingSectionComponent({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {BANDS_DATA.map((band) => (
             <div
               key={band.name}

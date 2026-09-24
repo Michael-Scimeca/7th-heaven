@@ -214,7 +214,7 @@ export default function CruiseVideoGallery() {
       style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}
     >
       {/* Header */}
-      <div className="mx-auto mb-9 max-w-3xl text-center">
+      <div className="mx-auto mb-6 max-w-3xl text-center">
         <h2 className="md:text-6xl">
           Explore <span className="accent-gradient-text">Ship Videos</span>
         </h2>
@@ -225,7 +225,7 @@ export default function CruiseVideoGallery() {
 
         {/* Category Filters */}
         {categories.length > 1 && (
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
             {categories.map((cat) => (
               <SeventhButton
                 key={cat}

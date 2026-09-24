@@ -174,7 +174,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           if (!initialEmail && parsed.email) initialEmail = parsed.email;
           if (!initialPhone && parsed.phone) initialPhone = parsed.phone;
         }
-      } catch {}
+      } catch { }
     }
 
     return {
@@ -329,7 +329,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         "7th_heaven_saved_addresses_v1",
         JSON.stringify(updated),
       );
-    } catch {}
+    } catch { }
 
     setSelectedSavedAddressId(newAddr.id);
     setAddressNotification(`Saved "${label}" to your saved locations!`);
@@ -363,7 +363,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         "7th_heaven_saved_addresses_v1",
         JSON.stringify(updated),
       );
-    } catch {}
+    } catch { }
 
     if (selectedSavedAddressId === id) {
       setSelectedSavedAddressId("");
@@ -385,7 +385,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         const d = await r.json();
         setBlockedDates(d.blockedDates || []);
       }
-    } catch {}
+    } catch { }
   }, []);
 
   // Fetch blocked dates on mount
@@ -399,7 +399,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
       if (saved) {
         setHasSavedForm(true);
       }
-    } catch {}
+    } catch { }
   }, [loadAvailability]);
 
   // Auto-fill from planner dashboard or rebook — pull saved form data from localStorage first
@@ -452,7 +452,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             ]);
           }
         }
-      } catch {}
+      } catch { }
 
       // URL params override localStorage (for specific field overrides)
       if (typeof window !== "undefined") {
@@ -583,7 +583,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           setAddOns(parsed.addOns);
         }
       }
-    } catch {}
+    } catch { }
   };
 
   const handleSendPin = async () => {
@@ -744,8 +744,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
     try {
       const timestamps: number[] = JSON.parse(
         localStorage.getItem("7h_booking_timestamps_v1") ||
-          localStorage.getItem("7h_booking_timestamps") ||
-          "[]",
+        localStorage.getItem("7h_booking_timestamps") ||
+        "[]",
       );
       const oneHourAgo = Date.now() - 60 * 60 * 1000;
       const recent = timestamps.filter((t) => t > oneHourAgo);
@@ -754,7 +754,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           "Too many booking requests. Please wait before submitting another.",
         );
       }
-    } catch {}
+    } catch { }
 
     return errors;
   };
@@ -809,8 +809,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           try {
             const timestamps: number[] = JSON.parse(
               localStorage.getItem("7h_booking_timestamps_v1") ||
-                localStorage.getItem("7h_booking_timestamps") ||
-                "[]",
+              localStorage.getItem("7h_booking_timestamps") ||
+              "[]",
             );
             timestamps.push(Date.now());
             const oneHourAgo = Date.now() - 60 * 60 * 1000;
@@ -818,15 +818,15 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               "7h_booking_timestamps_v1",
               JSON.stringify(timestamps.filter((t) => t > oneHourAgo)),
             );
-          } catch {}
+          } catch { }
 
           // Persist phone number to user account if logged in
           if (isLoggedIn && member && formData.phone) {
             try {
               const accounts = JSON.parse(
                 localStorage.getItem("7h_accounts_v1") ||
-                  localStorage.getItem("7h_accounts") ||
-                  "{}",
+                localStorage.getItem("7h_accounts") ||
+                "{}",
               );
               if (accounts[member.email]) {
                 accounts[member.email].phone = formData.phone;
@@ -835,7 +835,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   JSON.stringify(accounts),
                 );
               }
-            } catch {}
+            } catch { }
           }
 
           // Stripe mode: redirect to Stripe Checkout
@@ -1228,13 +1228,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     1st:{" "}
                     {bookingSlots.length > 0
                       ? bookingSlots
-                          .map((s) =>
-                            new Date(s.date + "T12:00:00").toLocaleDateString(
-                              undefined,
-                              { month: "short", day: "numeric" },
-                            ),
-                          )
-                          .join(", ")
+                        .map((s) =>
+                          new Date(s.date + "T12:00:00").toLocaleDateString(
+                            undefined,
+                            { month: "short", day: "numeric" },
+                          ),
+                        )
+                        .join(", ")
                       : "—"}
                   </span>
                   {altDate1 && (
@@ -1496,15 +1496,15 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 const updated = bookingSlots.map((s) =>
                                   s.id === slot.id
                                     ? {
-                                        ...s,
-                                        useSeparateInfo: false,
-                                        contactName: "",
-                                        contactEmail: "",
-                                        contactPhone: "",
-                                        venueName: "",
-                                        venueCity: "",
-                                        venueState: "",
-                                      }
+                                      ...s,
+                                      useSeparateInfo: false,
+                                      contactName: "",
+                                      contactEmail: "",
+                                      contactPhone: "",
+                                      venueName: "",
+                                      venueCity: "",
+                                      venueState: "",
+                                    }
                                     : s,
                                 );
                                 setBookingSlots(updated);
@@ -1519,31 +1519,31 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 const updated = bookingSlots.map((s) =>
                                   s.id === slot.id
                                     ? {
-                                        ...s,
-                                        useSeparateInfo: true,
-                                        contactName:
-                                          s.contactName || formData.name || "",
-                                        contactEmail:
-                                          s.contactEmail ||
-                                          formData.email ||
-                                          "",
-                                        contactPhone:
-                                          s.contactPhone ||
-                                          formData.phone ||
-                                          "",
-                                        venueName:
-                                          s.venueName ||
-                                          formData.venueName ||
-                                          "",
-                                        venueCity:
-                                          s.venueCity ||
-                                          formData.venueCity ||
-                                          "",
-                                        venueState:
-                                          s.venueState ||
-                                          formData.venueState ||
-                                          "",
-                                      }
+                                      ...s,
+                                      useSeparateInfo: true,
+                                      contactName:
+                                        s.contactName || formData.name || "",
+                                      contactEmail:
+                                        s.contactEmail ||
+                                        formData.email ||
+                                        "",
+                                      contactPhone:
+                                        s.contactPhone ||
+                                        formData.phone ||
+                                        "",
+                                      venueName:
+                                        s.venueName ||
+                                        formData.venueName ||
+                                        "",
+                                      venueCity:
+                                        s.venueCity ||
+                                        formData.venueCity ||
+                                        "",
+                                      venueState:
+                                        s.venueState ||
+                                        formData.venueState ||
+                                        "",
+                                    }
                                     : s,
                                 );
                                 setBookingSlots(updated);
@@ -1582,11 +1582,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 )}
                                 {(formData.venueCity ||
                                   formData.venueState) && (
-                                  <span className="mt-0.5 block text-white/40">
-                                    {formData.venueCity || "—"},{" "}
-                                    {formData.venueState || "—"}
-                                  </span>
-                                )}
+                                    <span className="mt-0.5 block text-white/40">
+                                      {formData.venueCity || "—"},{" "}
+                                      {formData.venueState || "—"}
+                                    </span>
+                                  )}
                               </span>
                             </div>
                             <p className="mt-2 flex items-center justify-end gap-1 border-t border-white/10 pt-1.5 text-right">
@@ -1608,14 +1608,14 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     const updated = bookingSlots.map((s) =>
                                       s.id === slot.id
                                         ? {
-                                            ...s,
-                                            contactName: formData.name,
-                                            contactEmail: formData.email,
-                                            contactPhone: formData.phone,
-                                            venueName: formData.venueName,
-                                            venueCity: formData.venueCity,
-                                            venueState: formData.venueState,
-                                          }
+                                          ...s,
+                                          contactName: formData.name,
+                                          contactEmail: formData.email,
+                                          contactPhone: formData.phone,
+                                          venueName: formData.venueName,
+                                          venueCity: formData.venueCity,
+                                          venueState: formData.venueState,
+                                        }
                                         : s,
                                     );
                                     setBookingSlots(updated);
@@ -1642,31 +1642,31 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                             (s) =>
                                               s.id === slot.id
                                                 ? {
-                                                    ...s,
-                                                    contactName:
-                                                      parsed.name ||
-                                                      s.contactName,
-                                                    contactEmail:
-                                                      parsed.email ||
-                                                      s.contactEmail,
-                                                    contactPhone:
-                                                      parsed.phone ||
-                                                      s.contactPhone,
-                                                    venueName:
-                                                      parsed.venueName ||
-                                                      s.venueName,
-                                                    venueCity:
-                                                      parsed.venueCity ||
-                                                      s.venueCity,
-                                                    venueState:
-                                                      parsed.venueState ||
-                                                      s.venueState,
-                                                  }
+                                                  ...s,
+                                                  contactName:
+                                                    parsed.name ||
+                                                    s.contactName,
+                                                  contactEmail:
+                                                    parsed.email ||
+                                                    s.contactEmail,
+                                                  contactPhone:
+                                                    parsed.phone ||
+                                                    s.contactPhone,
+                                                  venueName:
+                                                    parsed.venueName ||
+                                                    s.venueName,
+                                                  venueCity:
+                                                    parsed.venueCity ||
+                                                    s.venueCity,
+                                                  venueState:
+                                                    parsed.venueState ||
+                                                    s.venueState,
+                                                }
                                                 : s,
                                           );
                                           setBookingSlots(updated);
                                         }
-                                      } catch {}
+                                      } catch { }
                                     }}
                                     className="cursor-pointer text-purple-400 hover:text-white"
                                   >
@@ -2403,7 +2403,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               <div className="input-glow-border rounded-lg">
                 <label
                   htmlFor="details"
-                  className="sr-only font-semibold text-white/90"
+                  className="sr-only   text-white/90"
                 >
                   Notes and Questions for Band Manager
                 </label>

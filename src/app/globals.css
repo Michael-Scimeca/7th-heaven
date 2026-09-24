@@ -85,6 +85,7 @@ h3,
 h4,
 h5,
 h6,
+li,
 a[href^="tel:"],
 a[href*="tel:"] {
   text-shadow: 3px 5px 6px rgba(0, 0, 0, 0.5);
@@ -397,9 +398,10 @@ p {
   font-weight: 600;
 }
 
+li,
 span,
 time {
-  font-weight: bold;
+  font-weight: 600
 }
 
 /* Paragraph spacing in editorial contexts */
@@ -5354,7 +5356,6 @@ body.fake-livestream-active {
 
 /* CruiseSnakeItinerary */
 .snake-itinerary-root {
-  padding-top: 60px;
   padding-bottom: 60px;
   box-sizing: border-box;
   background: transparent;
@@ -5762,6 +5763,7 @@ button.cursor-pointer,
 }
 
 section,
-div {
+div,
+li {
   border: 1px solid #fff;
 }

@@ -33,8 +33,8 @@ const dotColors: Record<NonNullable<StatusBadgeProps["status"]>, string> = {
 };
 
 const sizeStyles: Record<NonNullable<StatusBadgeProps["size"]>, string> = {
-  sm: "px-2.5 py-0.5 text-xs font-semibold",
-  md: "px-3 py-1 text-sm font-semibold",
+  sm: "px-2.5 py-0.5 text-xs  ",
+  md: "px-3 py-1 text-sm  ",
 };
 
 export const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(

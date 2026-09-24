@@ -67,7 +67,7 @@ export default function CruiseClient({
       if (saved) {
         setHeroMaskSettings((prev) => ({ ...prev, ...JSON.parse(saved) }));
       }
-    } catch {}
+    } catch { }
   }, []);
 
   useEffect(() => {
@@ -141,7 +141,7 @@ export default function CruiseClient({
         const parsed = JSON.parse(saved);
         setFormData((prev) => ({ ...prev, ...parsed }));
       }
-    } catch {}
+    } catch { }
   }, []);
 
   useEffect(() => {
@@ -174,7 +174,7 @@ export default function CruiseClient({
             howHeard: formData.howHeard,
           }),
         );
-      } catch {}
+      } catch { }
     }, 500);
     return () => clearTimeout(timer);
   }, [formData]);
@@ -273,7 +273,7 @@ export default function CruiseClient({
         setTotalGuests(data.totalGuests);
         setJoinedFans(data.joinedFans);
       }
-    } catch {}
+    } catch { }
   }, []);
 
   useEffect(() => {
@@ -478,7 +478,7 @@ function CruiseCard1Section({
     <div className="border-b border-white/10 py-4">
       <span className="block">Card 1 - Deposit Details</span>
       <div className="booking-grid grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="booking-cell pt-4 pb-4">
+        <div className="booking-cell pt-4">
           <label
             htmlFor="cruise-card-name-1"
             className="booking-label mb-1.5 block"
@@ -499,7 +499,7 @@ function CruiseCard1Section({
             />
           </div>
         </div>
-        <div className="booking-cell pt-4 pb-4">
+        <div className=" booking-cell pt-4 ">
           <label
             htmlFor="cruise-card-number-1"
             className="booking-label mb-1.5 block"
@@ -520,7 +520,7 @@ function CruiseCard1Section({
             />
           </div>
         </div>
-        <div className="booking-cell pt-4 pb-4">
+        <div className=" booking-cell pt-4 ">
           <div className="grid grid-cols-3 gap-6">
             <div>
               <label
@@ -587,7 +587,7 @@ function CruiseCard1Section({
             </div>
           </div>
         </div>
-        <div className="booking-cell pt-4 pb-4">
+        <div className=" booking-cell pt-4 ">
           <label
             htmlFor="cruise-card-amount-1"
             className="booking-label mb-1.5 block"
@@ -823,7 +823,7 @@ function CruiseNotesAndSignatureSection({
       </div>
 
       <div className="booking-grid mt-2 grid grid-cols-1 items-start gap-6 border-0 md:grid-cols-2">
-        <div className="booking-cell flex flex-col justify-start border-0 px-0 py-3">
+        <div className="booking-cell flex flex-col justify-start border-0 px-0 py\t-3">
           <label
             htmlFor="cruise-e-signature"
             className="booking-label mb-1.5 block"
@@ -842,7 +842,7 @@ function CruiseNotesAndSignatureSection({
             />
           </div>
         </div>
-        <div className="booking-cell flex flex-col justify-start border-0 px-0 py-3">
+        <div className="booking-cell flex flex-col justify-start border-0 px-0 pt-3">
           <span className="booking-label mb-1.5 block">Date Signed</span>
           <div className="input-glow-border rounded-xl">
             <input

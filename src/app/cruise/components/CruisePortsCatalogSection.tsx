@@ -48,7 +48,7 @@ export default function CruisePortsCatalogSection({
       style={{ contentVisibility: "auto", containIntrinsicSize: "700px" }}
     >
       <div>
-        <div className="mb-10 max-w-3xl text-center md:text-left">
+        <div className="mb-6 max-w-3xl text-center md:text-left">
           <h2>{sectionTitle}</h2>
           <p className="mt-2.5 text-sm leading-relaxed text-white/70 sm:text-base">
             Discover tropical paradises, pristine beaches, and breathtaking
@@ -84,16 +84,16 @@ export default function CruisePortsCatalogSection({
                         />
                       </div>
                     </div>
-                    <div className="flex flex-1 flex-col justify-between pt-4">
+                    <div className="flex flex-1 flex-col pt-6">
                       <div>
-                        <h4 className="mb-2 transition-colors group-hover:text-purple-300">
+                        <h4 className="mb-6 transition-colors group-hover:text-purple-300">
                           {port.name}
                         </h4>
                         <p>{port.desc}</p>
 
                         {/* Port Highlights */}
                         {port.highlights && (
-                          <div className="mt-3 flex flex-wrap gap-1.5">
+                          <div className="mt-6 flex flex-wrap gap-1.5">
                             {port.highlights.map((h: string) => (
                               <span
                                 key={h}
@@ -108,7 +108,7 @@ export default function CruisePortsCatalogSection({
 
                       {/* Gallery Thumbnail Strip */}
                       {port.gallery && port.gallery.length > 1 && (
-                        <div className="mt-4 flex flex-wrap gap-2 py-1">
+                        <div className="mt-6 flex flex-wrap gap-2">
                           {port.gallery.map((gImg: string, gIdx: number) => {
                             const isActive = currentImg === gImg;
                             return (
@@ -160,22 +160,22 @@ export default function CruisePortsCatalogSection({
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0c0c14] via-black/30 to-transparent" />
                 {(spotlightHoveredImage ||
                   PORTS_DATA[activeSpotlightPort].image) && (
-                  <Image
-                    key={
-                      spotlightHoveredImage ||
-                      PORTS_DATA[activeSpotlightPort].image
-                    }
-                    width={800}
-                    height={500}
-                    unoptimized
-                    src={
-                      spotlightHoveredImage ||
-                      PORTS_DATA[activeSpotlightPort].image
-                    }
-                    alt={PORTS_DATA[activeSpotlightPort].name}
-                    className="animate-fadeIn h-full w-full scale-105 object-cover transition-all duration-500"
-                  />
-                )}
+                    <Image
+                      key={
+                        spotlightHoveredImage ||
+                        PORTS_DATA[activeSpotlightPort].image
+                      }
+                      width={800}
+                      height={500}
+                      unoptimized
+                      src={
+                        spotlightHoveredImage ||
+                        PORTS_DATA[activeSpotlightPort].image
+                      }
+                      alt={PORTS_DATA[activeSpotlightPort].name}
+                      className="animate-fadeIn h-full w-full scale-105 object-cover transition-all duration-500"
+                    />
+                  )}
                 <div className="absolute top-6 left-6 z-20">
                   <SectionBadge
                     label={`PORT CALL #${activeSpotlightPort + 1}`}
@@ -385,7 +385,7 @@ export default function CruisePortsCatalogSection({
 
                       {/* Gallery Thumbnails */}
                       {port.gallery && port.gallery.length > 1 && (
-                        <div className="mt-4 flex flex-wrap gap-2 py-1">
+                        <div className="mt-6 flex flex-wrap gap-2">
                           {port.gallery.map((gImg, gIdx) => {
                             const isActive = currentImg === gImg;
                             return (

@@ -16,7 +16,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { StatsGl, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 import { suppressBlobTextureErrors } from "@/lib/suppressBlobTextureErrors";
 import { SectionBadge } from "./SectionBadge";
@@ -145,7 +145,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           if (parsed.lineColor === "#06b6d4") parsed.lineColor = "#780aed";
           return { ...DEFAULT_HISTORY_TUNING, ...parsed };
         }
-      } catch {}
+      } catch { }
     }
     return DEFAULT_HISTORY_TUNING;
   });
@@ -163,7 +163,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       localStorage.setItem("7h_history_tuning_v6", JSON.stringify(tuning));
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch {}
+    } catch { }
   };
 
   const handleResetTuning = () => {
@@ -172,7 +172,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       localStorage.removeItem("7h_history_tuning");
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch {}
+    } catch { }
   };
 
   // Reverse history so timeline starts at 1998 (Inaugural Voyage) and proceeds chronologically to 2028
@@ -574,7 +574,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       if (saved) {
         setMaskSettings((prev) => ({ ...prev, ...JSON.parse(saved) }));
       }
-    } catch {}
+    } catch { }
 
     const handleUpdate = (e: Event) => {
       const customEvent = e as CustomEvent;
@@ -602,7 +602,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       <div className="pointer-events-none absolute inset-0 z-0" />
 
       {/* Section Header — Inside Container Box */}
-      <div className="relative z-20 mx-auto mb-16 max-w-4xl px-[25px] text-center md:px-[32px]">
+      <div className="relative z-20 mx-auto mb-6 max-w-4xl px-[25px] text-center md:px-[32px]">
         <span className="text-purple-400block mb-1">
           25+ Years Legacy Pathway
         </span>
@@ -629,7 +629,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (0px FULL BLEED EDGE-TO-EDGE) ── */}
       <div
         ref={desktopContainerRef}
-        className="site-container relative mx-auto hidden w-full max-w-7xl overflow-clip px-4 pt-8 sm:px-6 md:block lg:px-8"
+        className="site-container relative mx-auto    overflow-clip md:block "
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div
@@ -815,9 +815,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     const paddedItems =
                       rowItems.length < chunkSize
                         ? [
-                            ...rowItems,
-                            ...Array(chunkSize - rowItems.length).fill(null),
-                          ]
+                          ...rowItems,
+                          ...Array(chunkSize - rowItems.length).fill(null),
+                        ]
                         : rowItems;
 
                     return paddedItems.map((hist, itemIndex) => {
@@ -841,10 +841,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         ? false
                         : is2026
                           ? currentShipLength > 0 &&
-                            shipMaxTravelLength > 0 &&
-                            currentShipLength >= shipMaxTravelLength - 10
+                          shipMaxTravelLength > 0 &&
+                          currentShipLength >= shipMaxTravelLength - 10
                           : currentShipLength > 0 &&
-                            currentShipLength >= badgePathLen - 80;
+                          currentShipLength >= badgePathLen - 80;
 
                       const flexAlignClass = isEvenRow
                         ? itemIndex === 0
@@ -893,9 +893,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     const paddedItems =
                       rowItems.length < chunkSize
                         ? [
-                            ...rowItems,
-                            ...Array(chunkSize - rowItems.length).fill(null),
-                          ]
+                          ...rowItems,
+                          ...Array(chunkSize - rowItems.length).fill(null),
+                        ]
                         : rowItems;
 
                     return paddedItems.map((hist, itemIndex) => {
@@ -922,10 +922,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           ? false
                           : is2026
                             ? currentShipLength > 0 &&
-                              shipMaxTravelLength > 0 &&
-                              currentShipLength >= shipMaxTravelLength - 10
+                            shipMaxTravelLength > 0 &&
+                            currentShipLength >= shipMaxTravelLength - 10
                             : currentShipLength > 0 &&
-                              currentShipLength >= badgePathLen - 80);
+                            currentShipLength >= badgePathLen - 80);
 
                       return (
                         <div
@@ -988,7 +988,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               const isReached =
                 idx === 0 ||
                 mobileProgress >=
-                  Math.max(0, idx / chronologicalHistory.length - 0.03);
+                Math.max(0, idx / chronologicalHistory.length - 0.03);
               const nextHist = chronologicalHistory[idx + 1];
               const isLastHistoricalNode = hist.year === "2026";
               const isFutureItem = hist.year === "2027" || hist.year === "2028";

@@ -27,8 +27,8 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
 
       <div className="prose-legal flex flex-col gap-10 text-base">
         {sanityContent?.sections &&
-        Array.isArray(sanityContent.sections) &&
-        sanityContent.sections.length > 0 ? (
+          Array.isArray(sanityContent.sections) &&
+          sanityContent.sections.length > 0 ? (
           sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
@@ -85,14 +85,14 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
               </p>
               <dl className="flex flex-col gap-3">
                 <div>
-                  <dt className="mb-1 font-semibold">Account Information</dt>
+                  <dt className="mb-1  ">Account Information</dt>
                   <dd>
                     Name, email address, and password when you create a member
                     account.
                   </dd>
                 </div>
                 <div>
-                  <dt className="mb-1 font-semibold">SMS Alert Information</dt>
+                  <dt className="mb-1  ">SMS Alert Information</dt>
                   <dd>
                     Name, zip code, and phone number when you subscribe to show
                     alerts. We also record your consent timestamp and IP address
@@ -100,7 +100,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                   </dd>
                 </div>
                 <div>
-                  <dt className="mb-1 font-semibold">Location Data</dt>
+                  <dt className="mb-1  ">Location Data</dt>
                   <dd>
                     Approximate geolocation (latitude/longitude) only when you
                     explicitly enable the &quot;Nearby Shows&quot; feature. This
@@ -109,7 +109,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                   </dd>
                 </div>
                 <div>
-                  <dt className="mb-1 font-semibold">Usage Data</dt>
+                  <dt className="mb-1  ">Usage Data</dt>
                   <dd>
                     Browser type, pages visited, and interaction patterns
                     collected automatically through standard web analytics.

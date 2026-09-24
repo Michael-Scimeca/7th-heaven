@@ -307,7 +307,7 @@ export default function PaymentTestShopPage() {
             </div>
           )}
 
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-6 flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => setShowCreditGuide(!showCreditGuide)}

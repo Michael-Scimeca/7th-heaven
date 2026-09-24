@@ -28,8 +28,8 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
 
       <div className="prose-legal flex flex-col gap-10 text-base">
         {sanityContent?.sections &&
-        Array.isArray(sanityContent.sections) &&
-        sanityContent.sections.length > 0 ? (
+          Array.isArray(sanityContent.sections) &&
+          sanityContent.sections.length > 0 ? (
           sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
@@ -139,7 +139,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
 
               <dl className="space-y-4">
                 <div>
-                  <dt className="mb-1 font-semibold">
+                  <dt className="mb-1  ">
                     4.1 Consent & Subscription
                   </dt>
                   <dd>
@@ -155,7 +155,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 </div>
 
                 <div>
-                  <dt className="mb-1 font-semibold">
+                  <dt className="mb-1  ">
                     4.2 Location & Zip Code Data
                   </dt>
                   <dd>
@@ -167,7 +167,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 </div>
 
                 <div>
-                  <dt className="mb-1 font-semibold">
+                  <dt className="mb-1  ">
                     4.3 Web Push & Browser Permissions
                   </dt>
                   <dd>
@@ -180,7 +180,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 </div>
 
                 <div>
-                  <dt className="mb-1 font-semibold">
+                  <dt className="mb-1  ">
                     4.4 Message & Alert Frequency
                   </dt>
                   <dd>
@@ -191,7 +191,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 </div>
 
                 <div>
-                  <dt className="mb-1 font-semibold">
+                  <dt className="mb-1  ">
                     4.5 Unsubscribing & Managing Preferences
                   </dt>
                   <dd>
