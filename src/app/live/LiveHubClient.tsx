@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import { SectionBadge } from "@/components/SectionBadge";
+import SeventhButton from "@/components/SeventhButton";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -192,7 +193,7 @@ export default function LiveHubClient({
         textarea.select();
         try {
           document.execCommand("copy");
-        } catch {}
+        } catch { }
         document.body.removeChild(textarea);
       });
     } else {
@@ -205,7 +206,7 @@ export default function LiveHubClient({
       textarea.select();
       try {
         document.execCommand("copy");
-      } catch {}
+      } catch { }
       document.body.removeChild(textarea);
     }
 
@@ -247,7 +248,7 @@ export default function LiveHubClient({
         const d = await r.json();
         if (d.value === "off") setLiveAlertsEnabled(false);
       }
-    } catch {}
+    } catch { }
   }, []);
 
   useEffect(() => {
@@ -840,7 +841,7 @@ export default function LiveHubClient({
             </Link>
 
             {/* Card meta */}
-            <div className="relative flex items-center justify-between bg-black/40 p-6 backdrop-blur-2xl">
+            <div className="relative flex items-center justify-between p-6 ">
               {/* Avatar badge */}
               <div
                 className="pointer-events-none absolute -top-5 right-6 z-10 flex h-11 w-11 items-center justify-center rounded-full ring-4 ring-white/20 select-none"
@@ -856,18 +857,18 @@ export default function LiveHubClient({
                 </p>
               </div>
 
-              <button
-                type="button"
+              <SeventhButton
                 aria-label="Copy stream link"
                 onClick={(e) =>
                   handleCopyLink(e, room.name.replace(/^live_/, ""))
                 }
-                className={`z-20 ml-2 shrink-0 cursor-pointer rounded-lg border px-3 py-2 whitespace-nowrap md:ml-4 md:px-4 ${copiedSlug === room.name.replace(/^live_/, "") ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]" : "border-white/10 bg-white/10 hover:bg-white/20 active:scale-95"}`}
+                isActive={copiedSlug === room.name.replace(/^live_/, "")}
+                className="z-20 ml-2 shrink-0 whitespace-nowrap md:ml-4"
               >
                 {copiedSlug === room.name.replace(/^live_/, "")
                   ? "✓ Copied!"
                   : "Copy Link"}
-              </button>
+              </SeventhButton>
             </div>
           </article>
         ))}
