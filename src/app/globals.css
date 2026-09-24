@@ -5536,6 +5536,7 @@ body.fake-livestream-active {
   line-height: 24px;
   padding: 1.5px;
   z-index: 1;
+  font-size: 13px;
   box-shadow: 0 24px 60px #0000008c;
   background: linear-gradient(to left, #581ed0, #8b5cf6);
   background-size: 200% 100%;

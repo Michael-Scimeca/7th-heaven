@@ -130,7 +130,7 @@ export default function FooterProximityAlerts() {
         if (prefs.radius) setRadius(prefs.radius);
         if (prefs.selectedTypes?.length) setSelectedTypes(prefs.selectedTypes);
       }
-    } catch {}
+    } catch { }
   }, []);
 
   const toggleType = (id: string) => {
@@ -458,7 +458,7 @@ export default function FooterProximityAlerts() {
                 icon={false}
                 onClick={handleSavePrefs}
                 disabled={isBusy}
-                className="! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 whitespace-nowrap disabled:opacity-60"
+                className="! shrink-0 cursor-pointer flex-nowrap rounded-lg  whitespace-nowrap disabled:opacity-60"
               >
                 <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                   {status === "saving" ? (

@@ -98,7 +98,7 @@ const SLIDES: {
         label: "Cruise Stage",
         badge: "Live at Sea",
         gradient: "linear-gradient(160deg,#4a7fae,#8a3d2d)",
-        video: "/movie/cruise.mp4",
+        video: "/movie/cruise-desktop.mp4",
       },
       {
         label: "At Sea Crowd",
