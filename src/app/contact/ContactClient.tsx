@@ -2,9 +2,7 @@
 /* eslint-disable react-doctor/nextjs-no-img-element */
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Mail, Phone, Sparkles } from "lucide-react";
-import { SectionBadge } from "@/components/SectionBadge";
+import { Mail, Phone } from "lucide-react";
 import { useMember } from "@/context/MemberContext";
 import AddCmsButton from "@/components/AddCmsButton";
 
@@ -23,6 +21,8 @@ interface ContactPhoto {
   mobile: string;
   alt: string;
   scaleClass: string;
+  name: string;
+  role: string;
 }
 
 const ALL_PHOTOS: ContactPhoto[] = [
@@ -32,6 +32,8 @@ const ALL_PHOTOS: ContactPhoto[] = [
     mobile: "/images/contact/Dickie-contact-mobile.webp",
     alt: "Dickie - Booking & Management",
     scaleClass: "scale-100",
+    name: "Dickie",
+    role: "Booking & Management",
   },
   {
     id: "lenny",
@@ -39,6 +41,8 @@ const ALL_PHOTOS: ContactPhoto[] = [
     mobile: "/images/contact/Lenny-contact-mobile.webp",
     alt: "Lenny Rago - Press & Media",
     scaleClass: "scale-100",
+    name: "Lenny Rago",
+    role: "Press & Media",
   },
   {
     id: "jeff",
@@ -46,6 +50,8 @@ const ALL_PHOTOS: ContactPhoto[] = [
     mobile: "/images/contact/Jeff-contact-mobile.webp",
     alt: "Jeff Dobbs - Technical & Production",
     scaleClass: "scale-100",
+    name: "Jeff Dobbs",
+    role: "Technical & Production",
   },
   {
     id: "alan",
@@ -53,6 +59,8 @@ const ALL_PHOTOS: ContactPhoto[] = [
     mobile: "/images/contact/Alan-contact-mobile.webp",
     alt: "Alan McRae - Advance Non-Technical",
     scaleClass: "scale-100",
+    name: "Alan McRae",
+    role: "Advance Non-Technical",
   },
   {
     id: "mary",
@@ -60,8 +68,18 @@ const ALL_PHOTOS: ContactPhoto[] = [
     mobile: "/images/contact/Mary-contact-mobile.webp",
     alt: "Mary Grivas - 7th Heaven Cruise & Vacations",
     scaleClass: "scale-100",
+    name: "Mary Grivas",
+    role: "Cruise & Vacations",
   },
 ];
+
+const PHOTO_MAP: Record<string, ContactPhoto> = {
+  dickie: ALL_PHOTOS[0],
+  lenny: ALL_PHOTOS[1],
+  jeff: ALL_PHOTOS[2],
+  alan: ALL_PHOTOS[3],
+  mary: ALL_PHOTOS[4],
+};
 
 const DEFAULT_PHOTO_ID = "dickie";
 
@@ -107,7 +125,7 @@ function getPhotoForCategory(contact: ContactItem): string {
 export default function ContactClient({
   contacts,
   title = "CONTACT",
-  subtitle = "Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.",
+  subtitle = "Get in touch with the 7th Heaven team. Select a department below to view representative details.",
 }: {
   contacts: ContactItem[];
   title?: string;
@@ -133,14 +151,14 @@ export default function ContactClient({
   return (
     <main
       id="contact-page"
-      className="site-container page-container relative flex min-h-[calc(100vh-100px)] flex-col overflow-hidden"
+      className="site-container page-container relative flex min-h-screen flex-col pb-16"
     >
       {/* Hero Header */}
-      <header className="relative z-10 mb-[clamp(1rem,2.5vh,2.5rem)] max-w-5xl text-start">
+      <header className="relative z-10 mb-8 max-w-5xl text-start">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <h1>{title}</h1>
-            <p className="mt-3 max-w-2xl">{subtitle}</p>
+            <p className="mt-3 max-w-2xl text-white/70">{subtitle}</p>
           </div>
           {isAdmin && (
             <AddCmsButton
@@ -154,85 +172,96 @@ export default function ContactClient({
         </div>
       </header>
 
-      <div className="relative z-10 grid min-h-[700px] flex-1 grid-cols-1 items-stretch gap-6 md:grid-cols-12">
-        {/* Left Column: Contact Cards (Full Width on Mobile, Smaller on Tablet md:col-span-5) */}
+      {/* ── TWO-COLUMN MAIN GRID (Mobile, Tablet, Desktop) ── */}
+      <div className="relative z-10 grid grid-cols-1 items-stretch gap-6 md:grid-cols-12">
+        {/* Left Column: Contact Cards Directory */}
         <section
           aria-label="Contact Directory"
-          className="flex h-full min-h-full w-full max-w-full flex-1 flex-col text-left md:col-span-5 md:max-w-md lg:col-span-4"
+          className="flex flex-col text-left md:col-span-6 lg:col-span-5"
         >
-          {/* Contact Cards List (1 Column Stacked, Distributed to fill section height) */}
-          <ul className="flex h-full w-full flex-1 flex-col">
+          <ul className="flex flex-col space-y-4">
             {contacts.map((contact) => {
-              const photoForThisCard = getPhotoForCategory(contact);
-              const isCardActive = activePhotoId === photoForThisCard;
+              const photoKey = getPhotoForCategory(contact);
+              const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
+              const isCardActive = activePhotoId === photoKey;
+              const cardKey =
+                (contact.email || "") +
+                (contact.category || "") +
+                (contact.name || "");
 
               return (
-                <li
-                  key={
-                    (contact.email || "") +
-                    (contact.category || "") +
-                    (contact.name || "")
-                  }
-                  className="mb-6 border-b border-white/10"
-                >
-                  <article className="flex flex-col">
-                    <button
-                      type="button"
-                      onMouseEnter={() => setActivePhotoId(photoForThisCard)}
-                      onClick={() => setActivePhotoId(photoForThisCard)}
-                      className="group focus-ring w-full cursor-pointer rounded text-left"
-                    >
-                      {/* Name & Title / Note */}
-                      <div>
-                        <h3>{contact.name || "7th Heaven Representative"}</h3>
+                <li key={cardKey}>
+                  <button
+                    type="button"
+                    onMouseEnter={() => setActivePhotoId(photoKey)}
+                    onClick={() => setActivePhotoId(photoKey)}
+                    className={`w-full text-left transition-all duration-300 cursor-pointer ${isCardActive
+                      ? ""
+                      : ""
+                      }`}
+                  >
+                    {/* Internal 2-Column Card Header: Photo Thumbnail Frame on Left, Badge & Title on Right */}
+                    <div className="flex items-start gap-4">
+                      <div className="min-w-0 flex-1">
+                        <span className="inline-block rounded-full border border-purple-400/20 bg-purple-500/20 px-3 py-0.5 text-[10px] font-bold tracking-wide text-purple-300 uppercase">
+                          {contact.category}
+                        </span>
+                        <h3 className="mt-1.5 text-lg sm:text-xl font-extrabold text-white leading-tight uppercase tracking-tight">
+                          {contact.name || photo.name || "7th Heaven Representative"}
+                        </h3>
+                        {contact.company && (
+                          <p className="mt-0.5 text-xs font-medium text-purple-200/60">
+                            {contact.company}
+                          </p>
+                        )}
                       </div>
+                    </div>
 
-                      {/* Category Pill */}
-                      <div className="mb-2">{contact.category}</div>
-                    </button>
+                    {contact.note && (
+                      <p className="mt-3 text-xs italic text-white/60">
+                        {contact.note}
+                      </p>
+                    )}
 
-                    {/* Contact Info: Email Top, Phone Directly Underneath */}
-                    <address className="mb-3 flex flex-col items-start">
-                      {/* Email */}
+                    {/* Action Links: Email & Phone */}
+                    <address className="not-italic flex flex-col sm:flex-row gap-2 mt-4 pt-3 border-t border-white/10">
                       {contact.email && (
                         <a
                           href={`mailto:${contact.email}`}
-                          className="a-btn group/link hover: inline-flex w-fit items-center gap-2 text-[clamp(0.75rem,1.1vh,0.875rem)] whitespace-nowrap"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-purple-500/30 bg-purple-500/10 px-3 py-2 text-xs font-semibold text-purple-200 transition-all hover:border-purple-400 hover:bg-purple-500/20 hover:text-white"
                         >
-                          <span className="whitespace-nowrap decoration-white/20 underline-offset-4 group-hover/link:decoration-purple-300">
-                            {contact.email}
-                          </span>
+                          <Mail className="h-3.5 w-3.5 text-purple-400" />
+                          <span className="truncate">{contact.email}</span>
                         </a>
                       )}
-
-                      {/* Phone Number Directly Below Email */}
                       {contact.phone && (
                         <a
-                          href={`tel:${contact.phone.replace(/-/g, "")}`}
-                          className="group/link inline-flex w-fit items-center gap-2 whitespace-nowrap hover:text-[var(--color-accent)]"
+                          href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/80 transition-all hover:border-white/30 hover:bg-white/10 hover:text-white"
                         >
-                          <span className="whitespace-nowrap">
-                            {contact.phone}
-                          </span>
+                          <Phone className="h-3.5 w-3.5 text-emerald-400" />
+                          <span>{contact.phone}</span>
                         </a>
                       )}
                     </address>
-                  </article>
+                  </button>
                 </li>
               );
             })}
           </ul>
         </section>
 
-        {/* Right Column: Preloaded Contact Photos Stage Attached to Container */}
+        {/* Right Column: Preloaded Representative Photo Stage for Tablet & Desktop */}
         <aside
           aria-label="Contact Representative Media Stage"
-          className="pointer-events-none relative hidden min-h-[450px] items-end justify-end self-stretch md:col-span-7 md:flex lg:col-span-8"
+          className="pointer-events-none relative hidden min-h-[450px] items-end justify-end self-stretch md:col-span-6 md:flex lg:col-span-7"
           style={{
             WebkitMaskImage:
-              "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
+              "linear-gradient(to bottom, black 0%, black 85%, transparent 100%)",
             maskImage:
-              "linear-gradient(to bottom, black 0%, black 80%, transparent 100%)",
+              "linear-gradient(to bottom, black 0%, black 85%, transparent 100%)",
           }}
         >
           {ALL_PHOTOS.map((photo) => {
@@ -240,12 +269,14 @@ export default function ContactClient({
             return (
               <div
                 key={photo.id}
-                className={`absolute inset-0 flex items-end justify-end ${isActive ? "pointer-events-auto z-10 opacity-100" : "pointer-events-none z-0 opacity-0"}`}
+                className={`absolute inset-0 flex items-end justify-end transition-opacity duration-300 ease-out ${isActive
+                  ? "pointer-events-auto z-10 opacity-100"
+                  : "pointer-events-none z-0 opacity-0"
+                  }`}
               >
                 <picture className="pointer-events-none flex h-full w-full items-end justify-end">
                   <source media="(max-width: 768px)" srcSet={photo.mobile} />
                   <source media="(min-width: 769px)" srcSet={photo.desktop} />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={photo.desktop}
                     alt={photo.alt}
@@ -260,6 +291,7 @@ export default function ContactClient({
           })}
         </aside>
       </div>
-    </main>
+    </main >
   );
 }
+
