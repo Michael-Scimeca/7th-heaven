@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import SeventhButton from "@/components/SeventhButton";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
+import GlassCard from "@/components/ui/GlassCard";
 
 type Group = "fans" | "crew" | "cruise";
 
@@ -110,7 +111,7 @@ export default function PushAlertsCard({
 
   return (
     <>
-      <div className={`relative overflow-hidden ${className}`}>
+      <GlassCard className={`relative overflow-hidden ${className}`}>
         <div className="relative z-10">
           <div className="mb-2 flex items-center gap-3">
             <div>
@@ -147,7 +148,7 @@ export default function PushAlertsCard({
             </div>
           )}
         </div>
-      </div>
+      </GlassCard>
 
       <PushSubscribeModal
         isOpen={showModal}
